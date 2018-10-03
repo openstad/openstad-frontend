@@ -20,7 +20,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
-    "mongodb": "^3.1.4",
+    "mongodb": "^2.2.33",
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1"
   }

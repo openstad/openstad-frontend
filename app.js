@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-  const host = thisHost === 'openstad.dev.baboom.nl' ? 'localhost' : thisHost.replace(/\./g, '');
+  const host = thisHost === 'default.openstad.baboom.nl' ? 'localhost' : thisHost.replace(/\./g, '');
 
   console.log('---> host', host)
 
@@ -68,7 +68,7 @@ function run(id, config, callback) {
           port: process.env.PORT
         },
         'apostrophe-assets' : {
-            minify: true,
+            minify: false,
         },
 
         settings: {
