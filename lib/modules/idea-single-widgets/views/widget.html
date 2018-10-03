@@ -1,0 +1,68 @@
+<link rel="stylesheet" type="text/css" media="all"   href="https://api.openstadsdeel.nl/examples/css/page.css"/>
+
+			<script src="https://api.openstadsdeel.nl/widget/site/2/idea?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<idea-widget afterRenderCallback="afterRenderCallback" afterAttributeChangedCallback="afterAttributeChangedCallback" data-css="https://api.openstadsdeel.nl/examples/css/idea.css">loading idea...</idea-widget>
+
+
+      <script src="https://api.openstadsdeel.nl/widget/widget/site/2/argument/new?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script src="https://api.openstadsdeel.nl/widget/widget/site/2/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<arguments-container>
+				<arguments-for-container>
+					<h3>Argumenten voor</h3>
+					<argument-form-widget id="argument-for-form" data-sentiment="for" data-css="https://api.openstadsdeel.nl/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="for" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-for-container>
+				<arguments-against-container>
+					<h3>Argumenten tegen</h3>
+					<argument-form-widget id="argument-against-form" data-sentiment="against" data-css="https://api.openstadsdeel.nl/examples/css/argument-form.css">loading form...</argument-form-widget>
+					<arguments-widget sentiment="against" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
+				</arguments-against-container>
+			</arguments>
+
+			<script src="https://api.openstadsdeel.nl/examples/elements/number-button.js"></script>
+			<script>
+
+			 function afterRenderCallback(widget) {
+			   initNumberButton(widget.shadowRoot.querySelector('idea-votes-for-button'));
+				 initNumberButton(widget.shadowRoot.querySelector('idea-votes-against-button'));
+			 }
+
+			 function afterAttributeChangedCallback(widget, name, oldValue, newValue) {
+
+				 var numberButton;
+				 if (name == 'data-votes-yes') {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-for-button').querySelector('number-button-widget');
+				 } else {
+					 numberButton = widget.shadowRoot.querySelector('idea-votes-against-button').querySelector('number-button-widget');
+				 }
+				 if (numberButton) {
+					 numberButton.setAttribute('data-value', newValue);
+				 }
+
+			 }
+
+			 function initNumberButton(element) {
+
+				 var value = parseInt(element.getAttribute('data-value'));
+
+				 var widget = element.querySelector('number-button-widget');
+				 if (!widget) {
+					 var numberButton = document.createElement('number-button-widget');
+					 console.log('numberButton')
+					 var parent = element.parentNode
+					 console.log(2, element)
+					 element.appendChild(numberButton);
+					 console.log(3)
+					 numberButton.setAttribute('data-value', value);
+					 console.log(1, numberButton)
+				 }
+
+			 }
+
+			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+			 document.querySelector('idea-widget').setAttribute('data-id', id);
+			 document.querySelector('#argument-for-form').setAttribute('data-idea-id', id);
+			 document.querySelector('#argument-against-form').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="for"]').setAttribute('data-idea-id', id);
+			 document.querySelector('arguments-widget[sentiment="against"]').setAttribute('data-idea-id', id);
+			</script>

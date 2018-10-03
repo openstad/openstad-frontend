@@ -1,0 +1,32 @@
+<link rel="stylesheet" type="text/css" media="all"   href="https://api.openstadsdeel.nl/examples/css/page.css"/>
+
+			<script src="https://api.openstadsdeel.nl/widget/site/2/idea/new?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<!-- de volgende regels zijn widgets die worden gebruikt in de andere widget. laden vanuit daar werkt niet; uitzoeken dus. -->
+			<script src="https://api.openstadsdeel.nl/widget/html-editor?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script src="https://api.openstadsdeel.nl/widget/image-container?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+			<script src="https://api.openstadsdeel.nl/widget/openstad-map?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
+
+			<edit-idea-widget data-css="https://api.openstadsdeel.nl/examples/css/edit-idea.css">
+				Loading form...
+				<span slot="title-image"><h4></h4></span>
+				<span slot="title-header"><h4>Titel van je idee</h4></span>
+				<span slot="title-summary"><h4>Samenvatting</h4></span>
+				<span slot="title-description">
+					<h4>Beschrijving</h4>
+					Gebruik de ruimte hieronder om je voorstel uit te leggen. Een paar tips:
+					<ul>
+						<li>Beschrijft hoe je op het idee bent gekomen.</li>
+						<li>Is het idee een oplossing voor een probleem? Zo ja, welk probleem?</li>
+						<li>Waarom moet de stadsdeelcommissie jouw voorstel bespreken?</li>
+						<li>Draag argumenten aan om je buurtgenoten te overtuigen op jouw plan te stemmen.</li>
+						<li>Gebruik minimaal 140 tekens.</li>
+					</ul>
+
+				</span>
+				<span slot="title-location"><h4>Locatie</h4></span>
+			</edit-idea-widget>
+			<script>
+			 let id = window.location.href.replace(/^.*[?&]id=(\d+).*$/, '$1');
+			 if (id.match(/^\d+$/))
+				 document.querySelector('edit-idea-widget').setAttribute('data-id', id);
+			</script>

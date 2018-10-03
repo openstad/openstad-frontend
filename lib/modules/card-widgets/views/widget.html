@@ -1,0 +1,21 @@
+
+  <div class="uk-card uk-card-default">
+      <div class="uk-card-media-top">
+          <img src="{{apos.attachments.url(data.widget.cardImage)}}" alt="">
+
+      </div>
+      <div class="uk-card-body">
+          <h3 class="uk-card-title">
+            {{data.widget.cardTitle}}
+          </h3>
+          <p>
+            {{data.widget.cardDescription}}
+          </p>
+
+          {% if data.widget.cardLink %}
+          <a href="#vote" class="uk-button uk-button-primary">
+            {{ data.widget.cardLink }}
+          </a>
+          {% endif %}
+      </div>
+  </div>

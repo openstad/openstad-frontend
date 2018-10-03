@@ -1,0 +1,20 @@
+<div class="agenda">
+{% for item in data.widget.items %}
+  <div class="box-grey {{'agenda-period' if item.period else 'agenda-day' }}">
+
+    <!-- <h3 class="margin-top-0 margin-bottom-xs h3">
+      {% if item.endDate %}
+        {{item.startDate | date('D MMMM')}} t/m {{item.endDate | date('D MMMM Y')}}
+      {% else %}
+        {{item.startDate | date('D MMMM Y')}}
+      {% endif %}
+    </h3>
+    !-->
+
+    <div> {{item.description | safe}} </div>
+    {% if item.actionText %}
+    <a href="{{item.actionURL}}" class="block caret-link">{{item.actionText}}</a>
+    {% endif %}
+  </div>
+{% endfor %}
+</div>

@@ -1,0 +1,18 @@
+<div class="section"
+  {% if data.widget.backgroundColor %}
+  style="background: {{data.widget.backgroundColor}}"
+  {% endif %}
+>
+  <div class="container">
+  {{ apos.area(data.widget, 'areaMain', {
+      widgets: {
+        'one-column': {},
+        'two-column': {},
+        'two-third-column': {},
+        'three-column': {},
+        'four-column': {},
+        'spacer': {}
+      }
+  }) }}
+  </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "name": "test-project",
+  "version": "2.0.0",
+  "description": "Minimal Apostrophe Boilerplate",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "P'unk Avenue",
+  "license": "MIT",
+  "dependencies": {
+    "apostrophe": "^2.47.0",
+    "apostrophe-blog": "^2.1.2",
+    "bluebird": "^3.5.2",
+    "boring": "^0.1.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "lodash": "^4.17.11",
+    "mongodb": "^3.1.4",
+    "request-promise": "^4.2.2",
+    "shell-quote": "^1.6.1"
+  }
+}
