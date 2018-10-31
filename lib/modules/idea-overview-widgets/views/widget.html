@@ -1,4 +1,36 @@
-<script src="https://api.openstadsdeel.nl/widget/site/{{data.widget.siteId}}/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
-<ideas-widget href="/idee?id=[[id]]">
-    loading idea...
-</ideas-widget>
+<script
+  src="https://api.openstadsdeel.nl/widget/site/{{data.widget.siteId}}/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"
+></script>
+<div class="variants">
+  <ideas-widget
+    href="#idee/[[id]]"
+    afterRenderCallback="afterRenderCallbackIdea"
+    class="ideas-overview"
+    data-css="/css/idea-list.css"
+  >
+      loading idea...
+  </ideas-widget>
+</div>
+
+<!-- Gridder navigation -->
+<ul class="gridder">
+     <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
+    <li class="gridder-list" data-griddercontent="/idea?id=10&layout=none">
+        <img src="http://placehold.it/600x400" />
+    </li>
+    <li class="gridder-list" data-griddercontent="/idea?id=12&layout=none">
+        <img src="http://placehold.it/600x400" />
+    </li>
+    <li class="gridder-list" data-griddercontent="/idea?id=17&layout=none">
+        <img src="http://placehold.it/600x400" />
+    </li>
+    <!-- You can also load html/ajax pages by replacing the #ID with a URL -->
+    <li class="gridder-list" data-griddercontent="/idea?id=18&layout=none">
+        <img src="http://placehold.it/600x400" />
+    </li>
+</ul>
+
+<!-- Gridder content -->
+<div id="content1" class="gridder-content"> Content goes here... </div>
+<div id="content2" class="gridder-content"> Content goes here... </div>
+<div id="content3" class="gridder-content"> Content goes here... </div>

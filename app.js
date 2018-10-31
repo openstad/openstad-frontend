@@ -15,18 +15,26 @@ const dbExists = require('./services/mongo').dbExists;
 var aposServer = {};
 app.use(express.static('public'));
 
+function getSampleSite() {
+  const keys = _.keys(aposServer);
+  if (!keys.length) {
+    return null;
+  }
+  // Find the first one that isn't a status string like "pending"
+  return _.find(aposServer, apos => (typeof apos) === 'object');
+}
+
 app.use(function(req, res, next) {
   const runner = Promise.promisify(run);
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-  const host = thisHost === 'default.openstad.baboom.nl' ? 'localhost' : thisHost.replace(/\./g, '');
+  const host = thisHost === 'localhost:3000' ? 'localhost' : thisHost.replace(/\./g, '');
 
-  console.log('---> host', host)
 
   dbExists(host)
     .then((exists) => {
-      if (exists) {
+      if (exists || thisHost === 'localhost:3000')  {
         if (!aposServer[host]) {
           runner(host, {}).then(function(apos) {
             aposServer[host] = apos;
@@ -69,6 +77,40 @@ function run(id, config, callback) {
         },
         'apostrophe-assets' : {
             minify: false,
+            scripts: [
+            { name: 'jquery-gridder' },
+            { name: 'gridder-implementation'}
+          ],
+          stylesheets: [
+            { name: 'gridder'},
+            { name: 'idea-list'},
+
+          ],
+        },
+        'apostrophe-multisite-fake-listener': {
+          construct: function(self, options) {
+            // Don't really listen for connections. We'll run as middleware
+            self.apos.listen = function() {
+              if (self.apos.options.afterListen) {
+                return self.apos.options.afterListen(null);
+              }
+            }
+          }
+        },
+
+        'apostrophe-multisite-patch-assets': {
+          construct: function(self, options) {
+            // At least one site has already started up, which means
+            // assets have already been attended to. Steal its
+            // asset generation identifier so they don't fight.
+            // We're not too late because apostrophe-assets doesn't
+            // use this information until afterInit
+            const sample = getSampleSite();
+            if (!sample) {
+              return;
+            }
+            self.apos.assets.generation = sample.assets.generation;
+          }
         },
 
         settings: {
@@ -96,6 +138,8 @@ function run(id, config, callback) {
               'idea-overview' : {},
               'idea-single' : {},
               'idea-form' : {},
+              'arguments' : {},
+              'arguments-form' : {},
           }
         },
 
@@ -141,6 +185,8 @@ function run(id, config, callback) {
         'idea-overview-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
+        'arguments-widgets': {},
+        'arguments-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
       }
     }, config)
