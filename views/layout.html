@@ -22,7 +22,7 @@
 
 {% endblock %}
 {% block beforeMain %}
-    {% if not data.query.layout === 'none' %}
+    {% if not (data.query.layout === 'none') %}
     <div id="page">
         <div class="container">
           <div class="row">
@@ -76,7 +76,7 @@
 
 
 {% block afterMain %}
-{% if not data.query.layout === 'none' %}
+{% if not (data.query.layout === 'none') %}
 
 <footer>
 			<div class="container">

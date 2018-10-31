@@ -83,7 +83,7 @@ function run(id, config, callback) {
           ],
           stylesheets: [
             { name: 'gridder'},
-            { name: 'idea-list'},
+            { name: 'idea-list'}
 
           ],
         },
