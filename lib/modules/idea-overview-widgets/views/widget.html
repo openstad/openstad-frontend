@@ -1,32 +1,74 @@
 <script
   src="https://api.openstadsdeel.nl/widget/site/{{data.widget.siteId}}/ideas?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"
 ></script>
-<div class="variants">
+<div id="variant" class="variants">
   <ideas-widget
-    href="#idee/[[id]]"
-    afterRenderCallback="afterRenderCallbackIdea"
+    href="/idea?id=[[id]]"
+    afterRenderCallback="afterRenderCallbackIdea2"
     class="ideas-overview"
-    data-css="/css/idea-list.css"
+    dataaaa-css="/css/idea-list.css"
+    data-css="/css/gridder.css"
   >
       loading idea...
   </ideas-widget>
 </div>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/jquery-gridder.js"></script>
+
+<script>
+//alert('444');
+function afterRenderCallbackIdea2(widget) {
+  var ideaList = widget.shadowRoot.querySelector('ideas-list');
+  var $widget = $(widget.shadowRoot);
+  var $ideaList = $(ideaList);
+  var $ideaItems = $ideaList.find('idea');
+
+  $ideaList.addClass('gridder');
+
+  $ideaItems.each(function() {
+    var url = $(this).find('a').attr('href') + '&layout=none';
+    var $this = $(this);
+    $this.on('click', function (ev) { ev.preventDefault(); });
+    $this.attr('data-griddercontent', url);
+    $this.addClass('gridder-list');
+  });
+
+  //setTimeout(function () {
+  $ideaList.gridderExpander({
+    scroll: false,
+    scrollOffset: 30,
+    scrollTo: "panel",                  // panel or listitem
+    animationSpeed: 400,
+    animationEasing: "easeInOutExpo",
+    showNav: true,                      // Show Navigation
+    nextText: "<span></span>", // Next button text
+    prevText: "<span></span>", // Previous button text
+    closeText: "", // Close button text                // Close button text
+    onStart: function(){ },
+    onContent: function(){ },
+    onClosed: function(){ }
+  });
+  //}, 1000);
+}
+</script>
+
 <!-- Gridder navigation -->
 <ul class="gridder">
      <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     <li class="gridder-list" data-griddercontent="/idea?id=10&layout=none">
-        <img src="http://placehold.it/600x400" />
+        <img src="https://zorggoedvooronzestad.amsterdam.nl/image/1541001828199-20181030%20Eberhard%20van%20der%20Laan%205%20obama_image.png?thumb" />
     </li>
     <li class="gridder-list" data-griddercontent="/idea?id=12&layout=none">
-        <img src="http://placehold.it/600x400" />
+      <img src="https://zorggoedvooronzestad.amsterdam.nl/image/1541001828199-20181030%20Eberhard%20van%20der%20Laan%205%20obama_image.png?thumb" />
     </li>
     <li class="gridder-list" data-griddercontent="/idea?id=17&layout=none">
-        <img src="http://placehold.it/600x400" />
+      <img src="https://zorggoedvooronzestad.amsterdam.nl/image/1540452856668-ontwerp.jpg?thumb" />
     </li>
     <!-- You can also load html/ajax pages by replacing the #ID with a URL -->
     <li class="gridder-list" data-griddercontent="/idea?id=18&layout=none">
-        <img src="http://placehold.it/600x400" />
+      <img src="https://zorggoedvooronzestad.amsterdam.nl/image/1541001828199-20181030%20Eberhard%20van%20der%20Laan%205%20obama_image.png?thumb" />
     </li>
 </ul>
 

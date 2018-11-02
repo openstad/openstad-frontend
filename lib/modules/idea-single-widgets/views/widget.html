@@ -8,6 +8,12 @@
 			<script>
 
 			 function afterRenderCallback(widget) {
+				 var $widget = $(widget.shadowRoot);
+				 var ideaButton = widget.shadowRoot.querySelector('idea-votes-for-button');
+				 var $ideaButton = $(ideaButton);
+				 var ideaControls = widget.shadowRoot.querySelector('idea-controls');
+				 var $ideaControls = $('idea-controls');
+
 			   initNumberButton(widget.shadowRoot.querySelector('idea-votes-for-button'));
 				 initNumberButton(widget.shadowRoot.querySelector('idea-votes-against-button'));
 			 }
