@@ -1,4 +1,5 @@
 @import "utils/reset.less";
+@import "vendor/bootstrap/bootstrap";
 
 // Delete the boilerplate CSS below when you are ready to dive in and customize your sites:
 body { background-color: @apos-light; }
@@ -30,4 +31,18 @@ body { background-color: @apos-light; }
 
   strong { font-weight: bold; }
   em { font-style: italic; }
+}
+
+body {
+  margin: 0 auto;
+  max-width: 1440px;
+}
+
+.container {
+  max-width: 940px;
+
+  @media screen and (max-width: @screen-sm) {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 }

@@ -79,12 +79,12 @@ function run(id, config, callback) {
             minify: false,
             scripts: [
             { name: 'jquery-gridder' },
-            { name: 'gridder-implementation'}
+            { name: 'gridder-implementation' }
           ],
           stylesheets: [
-            { name: 'gridder'},
-            { name: 'idea-list'}
-
+            { name: 'gridder' },
+            { name: 'idea-list' },
+            { name: 'main' }
           ],
         },
         'apostrophe-multisite-fake-listener': {
