@@ -1,0 +1,8 @@
+{% from 'number-plate.njk' import numberPlate %}
+
+<a href="{{data.widget.url}}" class="margin-bottom-xs scroll-link block no-decoration">
+	<span class="box-blue block">
+		{{numberPlate(data.widget.staticCount)}}
+    {{data.widget.label}}
+	</span>
+</a>

@@ -1,3 +1,23 @@
+{% if data.widget.mode === 'h1' %}
 <h1>
   {{data.widget.title}}
 </h1>
+{% endif %}
+
+{% if data.widget.mode === 'h2' %}
+<h2>
+  {{data.widget.title}}
+</h2>
+{% endif %}
+
+{% if data.widget.mode === 'h3' %}
+<h3>
+  {{data.widget.title}}
+</h3>
+{% endif %}
+
+{% if data.widget.mode === 'h4' %}
+<h4>
+  {{data.widget.title}}
+</h4>
+{% endif %}

@@ -1,31 +1,51 @@
-#banner {
-    margin: 0 0 35px;
-    height: 100%;
-    height: 345px;
-    position: relative;
 
-    .image {
-      background-image: url(/img/placeholders/idea.jpg);
-      background-position: center;
-      background-size: cover;
-      bottom: 0px;
-      left: 0px;
-      position: absolute;
-      right: 0px;
-      top: 0px;
-    }
-
-    .overlay-title {
-      z-index: 11;
-      background: #004699;
-      color: white;
-      width: 80%;
-      padding: 16px 20px;
-      left: 25px;
-      bottom: 25px;
-      position: absolute;
-      line-height: 1.3;
-      margin: 0;
-      font-size: 24px;
-    }
+.agenda-period,
+.agenda-day {
+  padding: 10px 20px 20px 50px;
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 16px;
+  background: #f3f3f3;
+}
+.agenda-period ul,
+.agenda-day ul {
+  padding: 0px 15px;
+}
+.agenda-period h3,
+.agenda-day h3 {
+  margin: 10px 0;
+}
+.agenda-period::before,
+.agenda-day::before {
+  content: '';
+  width: 10px;
+  background: #323333;
+  left: 15px;
+  top: -10px;
+  bottom: 0;
+  position: absolute;
+}
+.agenda-period:first-child::before,
+.agenda-day:first-child::before {
+  top: 0;
+}
+.agenda-period::after,
+.agenda-day::after {
+  top: 50%;
+  position: absolute;
+  content: '';
+  background-repeat: no-repeat;
+  transform: translateY(-50%);
+}
+.agenda-period::after {
+  background-image: url('https://javabrug.amsterdam.nl/img/stemtool/period.svg');
+  width: 22px;
+  height: 52px;
+  left: 10px;
+}
+.agenda-day::after {
+  background-image: url('https://javabrug.amsterdam.nl/img/stemtool/round-empty.svg');
+  width: 30px;
+  height: 30px;
+  left: 5px;
 }

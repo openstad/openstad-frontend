@@ -1,0 +1,56 @@
+.input-field {
+  background: white;
+  border: 1px solid #b2b2b2;
+  line-height: 46px;
+  height: 46px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.select {
+
+}
+
+.textarea {
+
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after{
+  background-image: url(/img/stemtool/caret.svg);
+  content: '';
+  background-size: 100%;
+  width: 11px;
+  height: 16px;
+  position: absolute;
+  background-repeat: no-repeat;
+  top: 18px;
+  right: 10px;
+}
+
+.select-wrapper {
+  select {
+    background: transparent;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 10px 32px 10px 10px;
+    outline: 2px solid black;
+    font-size: 16px;
+    display: inline-block;
+    border: none;
+    background: white;
+  }
+
+  margin: 0 7px;
+  display: inline-block;
+
+  select::-ms-expand {
+    display: none;
+  }
+}

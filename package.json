@@ -14,7 +14,7 @@
   "author": "P'unk Avenue",
   "license": "MIT",
   "dependencies": {
-    "apostrophe": "^2.47.0",
+    "apostrophe": "2.75.1",
     "apostrophe-blog": "^2.1.2",
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",

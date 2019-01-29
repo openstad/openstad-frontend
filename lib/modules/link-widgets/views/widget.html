@@ -1,2 +1,6 @@
-<h4><a href="{{ data.widget.url }}">{{ data.widget.label }}</a></h4>
-
+<a href="{{ data.widget.url }}" class="box-grey-img scroll-link margin-bottom-sm">
+  {% if data.widget.icon %}
+	<img src="{{data.widget.icon}}" />
+  {% endif %}
+  {{ data.widget.label }}
+</a>

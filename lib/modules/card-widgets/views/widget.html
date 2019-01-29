@@ -1,21 +1,25 @@
+<div class="concept-card concept-card-1 clearfix">
+	<a href="#variant-modal-{{data.widget.cardNumber}}" class="concept-card-image" style="background-image: url('{{apos.attachments.url(data.widget.cardImage)}}');">
 
-  <div class="uk-card uk-card-default">
-      <div class="uk-card-media-top">
-          <img src="{{apos.attachments.url(data.widget.cardImage)}}" alt="">
+		<div class="concept-card-number concept-card-number-{{data.widget.cardNumber}}">
+      {{data.widget.cardNumber}}
+		</div>
 
-      </div>
-      <div class="uk-card-body">
-          <h3 class="uk-card-title">
-            {{data.widget.cardTitle}}
-          </h3>
-          <p>
-            {{data.widget.cardDescription}}
-          </p>
-
-          {% if data.widget.cardLink %}
-          <a href="#vote" class="uk-button uk-button-primary">
-            {{ data.widget.cardLink }}
-          </a>
-          {% endif %}
-      </div>
-  </div>
+		<div class="concept-card-title">
+      {{data.widget.cardTitle}}
+		</div>
+	</a>
+	<div class="concept-action-links">
+		<div class="concept-card-title-xs">
+      {{data.widget.cardTitle}}
+		</div>
+		<div>
+			<a href="#variant-modal-{{data.widget.cardNumber}}" class="concept-card-link caret-link">
+				Lees meer
+			</a>
+			<a href="#arguments" onclick="argumentsLinkClick('A')" class="concept-card-link caret-link scroll-link">
+				Lees reacties
+			</a>
+		</div>
+	</div>
+</div>

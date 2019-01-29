@@ -1,0 +1,134 @@
+.concept-card-image {
+	background-size: cover;
+	padding-bottom: 88%;
+	position: relative;
+	display: block;
+
+
+  @media screen and (max-width: @screen-sm) {
+		width: 30%;
+		height: 122px;
+		padding: 0;
+		float: left;
+
+		.concept-card-title {
+			display: none;
+		}
+	}
+}
+
+.concept-action-links {
+	.concept-card-title-xs {
+		display: none;
+	}
+
+  @media screen and (max-width: @screen-sm) {
+		.concept-card-title-xs {
+			display: block;
+			background: white;
+			font-size: 15px;
+			color: #000;
+			padding: 16px 20px 12px;
+			border-bottom: 3px solid black;
+		}
+
+		width: 70%;
+    padding: 0;
+    float: left;
+		border-right: 1px solid #d4d4d4;
+		border-bottom: 1px solid #d4d4d4;
+    border-radius: 0 0 1px 0;
+	}
+}
+
+.concept-card-number {
+	background: white;
+	border-bottom: 4px solid black;
+	border-right: 4px solid black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 45px;
+	height: 45px;
+	line-height: 45px;
+  font-size: 30px;
+
+	box-sizing: border-box;
+	text-align: center;
+	color: black;
+	font-weight: 800;
+}
+
+.concept-card-number-1, .concept-card-1 .concept-card-title-xs {
+	border-color: #d3e15a;
+}
+
+.concept-card-number-2, .concept-card-2 .concept-card-title-xs {
+	border-color: #ff9101;
+}
+
+.concept-card-number-3, .concept-card-3 .concept-card-title-xs {
+	border-color: #a00078;
+}
+
+.concept-card-number-4, .concept-card-4 .concept-card-title-xs {
+	border-color: #004599;
+}
+
+.concept-card-number-5, .concept-card-5 .concept-card-title-xs {
+	border-color: #019ce6;
+}
+
+.concept-card-number-6, .concept-card-6 .concept-card-title-xs {
+	border-color: #00a03c;
+}
+
+.concept-card-title {
+	width: 85%;
+  bottom: 14px;
+  background: rgb(0, 69, 152);
+  color: white;
+  font-size: 15px;
+  position: absolute;
+  padding: 10px 1px 10px 8px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.concept-card-link, .concept-card-link:active, .concept-card-link:visited {
+	width: 100%;
+  display: block;
+  color: #000;
+  background: white;
+  padding: 6px 10px 3px 30px;
+  font-size: 16px;
+  font-weight: 700;
+
+	&.caret-link&::before {
+		left: 11px;
+		top: 10px;
+	}
+
+	&:hover {
+		color: red;
+		text-decoration: underline;
+	}
+
+	&:first-child {
+		border-bottom: 1px solid #eee;
+	}
+
+	img {
+		width: 12px;
+		height: 12px;
+		padding-right: 5px;
+	}
+
+  @media screen and (max-width: @screen-sm) {
+		background: transparent;
+
+		&:first-child {
+			border-bottom: 1px solid #d4d4d4
+		 }
+	}
+}

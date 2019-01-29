@@ -1,10 +1,405 @@
-<!--
-<script src="https://api.openstadsdeel.nl/widget/widget/site/2/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
-<arguments-widget sentiment="for" data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
-!-->
+<div class="row">
+  <div class="col-xs-12">
+  			<div class="box-grey" style="margin-bottom: 20px;">
+      	<div class="aa-col-container " style="display: flex;   justify-content: space-between;">
+      		<div class="aa-col-4 hidden-xs">
+      			<h3 id="tab-text"> Laat reacties zien van: </h3>
+      		</div>
+      		<div class="visible-lg">
+      			<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
+      				Alles
+      			</a>
+      		</div>
 
-<script src="https://api.openstadsdeel.nl/widget//site/1/arguments?access_token=VRIth7Tv1j1tEyQ7Z8TnhSaqnmDXFenXoYCxrjxKMO9QwZYgLEiRfM1IU48zfMCxJEcNBm88HIzznomBhYgC3IRVFs9XguP3vi40"></script>
 
-<arguments-container>
-  <arguments-widget data-css="/examples/css/argument.css">loading arguments...</arguments-widget>
-</arguments-container>
+      			<div class="aa-col-2 visible-lg">
+      				<a id="filter-arguments-option-A" href="#" class="tab-button argument-filter-tab" data-variant="A">
+      					Het conceptontwerp
+
+      				</a>
+      			</div>
+
+      			<div class="aa-col-2 visible-lg">
+      				<a id="filter-arguments-option-B" href="#" class="tab-button argument-filter-tab" data-variant="B">
+      					Meer autoparkeerplekken
+      				</a>
+      			</div>
+
+      			<div class="aa-col-2 visible-lg">
+      				<a id="filter-arguments-option-C" href="#" class="tab-button argument-filter-tab" data-variant="C">
+      					Meer fietsparkeerplekken
+      				</a>
+      			</div>
+
+      			<div class="aa-col-2 visible-lg">
+      				<a id="filter-arguments-option-D" href="#" class="tab-button argument-filter-tab" data-variant="D">
+      					Meer bomen
+      				</a>
+      			</div>
+
+
+      		<div id="filter-arguments-select-wrapper" class="select-wrapper stretch hidden-lg">
+      			<select id="filter-arguments-select" class="stretch">
+      				<option value="all">
+      					Laat reacties zien van:
+      				</option>
+      				<option value="all">
+      					 Alles
+      				</option>
+      					<option value="A">
+      							A. Het conceptontwerp
+      					</option>
+      					<option value="B">
+      							B. Meer autoparkeerplekken
+      					</option>
+
+      					<option value="C">
+      							C. Meer fietsparkeerplekken
+      					</option>
+
+      					<option value="D">
+      							D. Meer bomen
+      					</option>
+
+      			</select>
+      		</div>
+      	</div>
+      </div>
+  </div>
+</div>
+
+{% set arguments      = [{label: 'A', description: 'Wij graag in de omgeving van onze woning parkeren, iedereen die wil en ervioorbetaalt'}] %}
+{% set variantNames   = config.variantNames %}
+{% set isFor          = propName == 'argumentsFor' %}
+
+{% for arg in arguments %}
+
+
+  <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
+    <div class="user ">
+      <strong>{{arg.user.nickName}}</strong>
+
+      | {{arg.createdAt | date('LLL')}}
+
+      {% if mayEdit %}
+        <form class="action" method="GET" action="/arg/{{arg.id}}/edit">
+          <input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
+        </form>
+      {% endif %}
+      {% if mayDelete %}
+        <form class="action delete" method="POST" action="/arg/{{arg.id}}/delete">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" name="_csrf" value="{{csrfToken}}">
+          <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
+        </form>
+      {% endif %}
+    </div>
+    <div class="margin-hor-s">
+      <b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
+    </div>
+
+    <p>{{arg.description | urlize | nl2br | safe}}</p>
+
+    {% if mayVote %}
+      <form class="action vote" method="POST" action="/arg/{{arg.id}}/vote">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+          Mee eens (<span>{{arg.yes}}</span>)
+        </button>
+      </form>
+    {% else %}
+      <form class="action vote">
+        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+          Mee eens (<span>{{arg.yes}}</span>)
+        </button>
+      </form>
+    {% endif %}
+
+    {% if maySeeReplyForm %}
+      <a href="/arg/{{arg.id}}/reply"
+         class="reply" {{'data-disabled' if not mayReply}}
+      >Reageren</a>
+    {% endif %}
+  </div>
+
+  {% for reaction in arg.reactions %}
+    {% set mayEdit   = user.can('arg:edit', idea, reaction) %}
+    {% set mayDelete = user.can('arg:delete', idea, reaction) %}
+
+    <div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
+      <div class="user {{'admin' if reaction.user.isAdmin()}}">
+        <strong>{{reaction.user.firstName}} {{reaction.user.lastName}}</strong> | {{reaction.createdAt | date('LLL')}}
+
+        {% if mayEdit %}
+          <form class="action" method="GET" action="/arg/{{reaction.id}}/edit">
+            <input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
+          </form>
+        {% endif %}
+        {% if mayDelete %}
+          <form class="action delete" method="POST" action="/arg/{{reaction.id}}/delete">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
+          </form>
+        {% endif %}
+      </div>
+
+      <p>{{reaction.description | urlize | safe}}</p>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="noArguments">
+  {% if mayAddArg %}
+    Heb je een goed argument {{'voor' if isFor else 'tegen'}}?
+    Laat je stem horen!
+  {% else %}
+    Nog geen argumenten {{'voor' if isFor else 'tegen'}}.
+  {% endif %}
+  </div>
+{% endfor %}
+
+<div class="noArguments no-arguments" style="display: none;">
+    Heb je een goed argument {{'voor' if isFor else 'tegen'}}? Laat je stem horen!
+</div>
+
+{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
+<form method="POST" action="/arg/reply" class="tpl newReaction">
+  {#<div {% if (user.firstName > 0 ) %} style="display: none;" {% endif %}>
+  <input
+    type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"
+    />
+  </div>#}
+
+  <textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
+
+  <div class="charsLeft">
+    <div class="min">Nog minimaal <span>140</span> tekens.</div>
+    <div class="max"><span>360</span> tekens resterend.</div>
+  </div>
+
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+  <input type="hidden" name="parentId" value="">
+  <input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
+  <input type="submit" value="Verzenden">
+</form>
+
+<script>
+// For each argument
+// -----------------
+// Delete confirmation for arguments.
+$('{{cssQuery}} form.delete').forEach(function( form ) {
+  form.addEventListener('submit', function( event ) {
+    var msg = 'Let op! Je staat op het punt je argument te verwijderen. '+
+              'Dit kan niet ongedaan gemaakt worden.\n\n'+
+              'Weet je het zeker?';
+    if( !confirm(msg) ) {
+      event.preventDefault();
+    }
+  });
+});
+// Make argument vote buttons dynamic.
+$('{{cssQuery}} form.vote').forEach(function( form ) {
+  var countBox = form.querySelector('button span');
+  var button   = countBox.parentNode;
+
+  if( button.disabled ) {
+    return;
+  }
+
+  form.addEventListener('submit', function( event ) {
+    var method = form.method;
+    var url    = form.action;
+    var timer  = window.setTimeout(function() {button.disabled = true}, 500);
+
+    send(method, url, {
+      opinion: 'yes'
+    })
+    .then(function( data ) {
+      var hasUserVoted   = data.argument.hasUserVoted;
+      var voteCount      = data.argument.yes;
+      countBox.innerHTML = voteCount;
+      button.className   = button.className.replace(/ ?voted|$/, hasUserVoted ? ' voted' : '');
+      button.disabled    = false;
+      window.clearTimeout(timer);
+    })
+    .catch(function( error ) {
+      window.clearTimeout(timer);
+      if( error.status == 403 ) {
+        document.location.href = url;
+      } else {
+        alert(error.message);
+      }
+    });
+
+    event.preventDefault();
+  });
+});
+// Prepare 'reply' buttons to show a reaction form when it's clicked.
+$('{{cssQuery}}').forEach(function( argList ) {
+  // Pull out general reply form for use as a template.
+  var tpl = argList.querySelector('.newReaction');
+  tpl.parentNode.removeChild(tpl);
+  // Remove `tpl` class as it hides the element.
+  tpl.className = tpl.className.replace(/\s*tpl\s*/, '');
+
+  // Render reply buttons.
+  $(argList, '.argument').forEach(function( arg ) {
+    var replyButtons = $(arg, 'a.reply');
+    replyButtons.forEach(function( replyButton ) {
+      replyButton.href = '';
+      replyButton.addEventListener('click', function( event ) {
+        event.preventDefault();
+        if( !replyButton.hasAttribute('data-disabled') ) {
+          openReplyForm(tpl, arg);
+        } else {
+          alert('Je moet ingelogd zijn om te kunnen reageren');
+        }
+      });
+    });
+  });
+});
+
+
+function hasClass( target, className ) {
+   return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+}
+
+
+// Helper functions
+// ----------------
+
+function openReplyForm( tpl, arg ) {
+  var argList = arg.parentNode;
+  var nextArg = arg.nextElementSibling;
+
+  while(nextArg && !hasClass(nextArg, 'argument')) {
+    nextArg = nextArg.nextElementSibling;
+  };
+
+
+  var form;
+  if( !arg.$replyForm ) {
+    form = tpl.cloneNode(true);
+    renderReplyForm(form, arg.getAttribute('data-id'));
+    arg.$replyForm = form;
+    argList.insertBefore(form, nextArg);
+  } else {
+    form = arg.$replyForm;
+  }
+
+  // Blur & focus behavior.
+  var desc = form.querySelector('textarea');
+  var name = form.querySelector('input[name="nickName"]');
+  desc.addEventListener('blur', blur);
+  name.addEventListener('blur', blur);
+  // Focus on relevant field.
+  !name.value ? name.focus() : desc.focus();
+
+  function blur( event ) {
+    if( event.relatedTarget == desc || event.relatedTarget == name ) {
+      return;
+    }
+
+    // Close reply form
+    if( !desc.value.length ) {
+      form.parentNode.removeChild(form);
+      arg.$replyForm = null;
+    }
+  }
+}
+
+function renderReplyForm( form, parentArgId ) {
+  var desc     = form.querySelector('textarea');
+  var pidField = form.querySelector('input[name="parentId"]');
+  var last     = 0;
+  var resize   = function() {
+    // Throttle...
+    var now = Date.now();
+    if( now - last < 100 ) return;
+    last = now;
+
+    desc.style.height = 'auto';
+    desc.style.height = (desc.scrollHeight - 10) + 'px';
+  };
+
+  pidField.value = Number(parentArgId);
+  renderForm(form);
+
+  desc.addEventListener('input', resize);
+  window.addEventListener('resize', resize);
+}
+
+function renderForm( form ) {
+  var minLen = 30;
+  var maxLen = 500;
+
+  var textarea  = form.querySelector('textarea');
+  var charsLeft = form.querySelector('div.charsLeft');
+  var button    = form.querySelector('input[type="submit"]');
+
+  if( !charsLeft ) {
+    return;
+  }
+
+  var msg = {
+    min: charsLeft.querySelector('div.min'),
+    max: charsLeft.querySelector('div.max')
+  };
+  var span = {
+    min: msg.min.querySelector('span'),
+    max: msg.max.querySelector('span')
+  };
+
+  validate();
+
+  textarea.addEventListener('focus', function( event ) {
+    charsLeft.className += ' visible touched ';
+  });
+  textarea.addEventListener('blur', function( event ) {
+    charsLeft.className = charsLeft.className.replace(' visible', '');
+  });
+  textarea.addEventListener('keydown', function( event ) {
+    // Prevent input when maximum is reached.
+    if( textarea.value.length == maxLen ) {
+      switch( event.key.toLowerCase() ) {
+        case 'delete'    : case 'backspace':
+        case 'arrowdown' : case 'arrowup':
+        case 'arrowleft' : case 'arrowright':
+          return;
+        default:
+          event.preventDefault();
+      }
+    }
+  });
+  textarea.addEventListener('keyup', function() {
+    if( textarea.value.length > maxLen ) {
+      textarea.value = textarea.value.substr(0, maxLen);
+    }
+    validate();
+  });
+
+  function validate() {
+    updateCharsLeft();
+    updateButton();
+  }
+  function updateCharsLeft() {
+    var len     = textarea.value.length;
+    var enable  = len < minLen ? 'min' : 'max';
+    var disable = enable == 'max' ? 'min' : 'max';
+    var chars   = len < minLen ? minLen - len : maxLen - len;
+
+    msg[enable].className  = enable+' visible';
+    msg[disable].className = disable;
+    span[enable].innerHTML = chars;
+  }
+
+  function updateButton() {
+    var len = textarea.value.length;
+    var isValid = len >= minLen && len <= maxLen;
+    if (button){
+      button.disabled = !isValid;
+    }
+  }
+
+}
+</script>
