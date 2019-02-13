@@ -168,6 +168,7 @@ function run(id, config, callback) {
             },
           ]
         },
+        
         //    'three-column-widgets': {},
         'one-column-widgets': {},
         'two-column-widgets': {},
