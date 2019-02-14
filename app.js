@@ -118,7 +118,10 @@ function run(id, config, callback) {
           alias: 'settings',
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
+              'agenda' : {},
               'apostrophe-images': {},
+              'arguments' : {},
+              'arguments-form' : {},
               'apostrophe-rich-text': {
                 toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink' ],
                 styles: [
@@ -127,20 +130,18 @@ function run(id, config, callback) {
                   { name: 'Paragraph', element: 'p' }
                 ]
               },
-              'card' : {},
-              'speech-bubble' : {},
               'button' : {},
+              'card' : {},
               'counter' : {},
-              'spacer' : {},
-              'title' : {},
-              'main-image' : {},
-              'list' : {},
-              'agenda' : {},
               'idea-overview' : {},
+              'link': {},
               'idea-single' : {},
               'idea-form' : {},
-              'arguments' : {},
-              'arguments-form' : {},
+              'list' : {},
+              'main-image' : {},
+              'speech-bubble' : {},
+              'spacer' : {},
+              'title' : {},
           }
         },
 
@@ -188,6 +189,7 @@ function run(id, config, callback) {
         'idea-overview-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
+        'link-widgets': {},
         'counter-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
