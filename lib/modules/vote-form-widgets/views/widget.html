@@ -1,0 +1,10 @@
+{% set options = [{title: 'Meer fietsen', order: 'A'},{title: 'Meer bomen', order: 'A'}] %}
+<div class="box-grey">
+	<h3> {{data.widget.title}} </h3>
+	<p>  {{data.widget.into}} </p>
+	{% for field in data.widget.formFields %}
+	  <div>
+			<input type="field" />
+		</div>
+	{% endfor %}
+</div>

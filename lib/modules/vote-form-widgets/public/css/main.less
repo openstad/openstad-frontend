@@ -1,0 +1,208 @@
+.box-grey {
+    padding: 15px 15px;
+    background: #f3f3f3;
+}
+
+.speech-balloon {
+  background: #f3f3f3;
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.speech-balloon:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 10px solid transparent;
+	border-right-color: #f3f3f3;
+	border-left: 0;
+	margin-top: -10px;
+	margin-left: -10px;
+}
+
+.arguments-cta-box, #postcode-form {
+  max-width: 510px;
+  margin: 40px 0;
+  color: black;
+  font-weight: bold;
+
+  .name-label {
+    color: #434343;
+    font-weight: 500;
+
+    strong {
+      color: #434343;
+    }
+  }
+
+  .box-grey {
+    padding: 20px;
+
+    @media screen and (max-width: @screen-sm) {
+      padding: 12px;
+    }
+  }
+
+  .speech-balloon {
+    margin-left: 10px;
+
+    @media screen and (max-width: @screen-sm) {
+      padding: 15px 8px;
+    }
+  }
+
+  .speech-balloon h3 {
+    text-align: center;
+    font-size: 17px;
+
+    @media screen and (max-width: @screen-sm) {
+      font-size: 15px;
+      line-height: 1.2;
+    }
+  }
+
+  .arguments-icon {
+    width: 68px;
+    margin-top: 15px;
+
+    @media screen and (max-width: @screen-sm) {
+      max-width: 100%;
+      margin-top: 10px;
+    }
+
+    @media only screen and (max-width: 395px){
+      margin-top: 25px;
+    }
+  }
+
+  .input-field {
+    max-width: 200px;
+    border: 1px solid black;
+  }
+
+  .input-field.stretch {
+    max-width: none;
+  }
+
+  .textarea {
+    width: 100%;
+    font-size: 22px;
+    padding: 8px 15px;
+    height: 50px;
+    max-width: 100%;
+    transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
+    border: 1px solid #B6B7BA;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #B6B7BA;
+    cursor: pointer;
+    display: block;
+    font-family: inherit;
+    font-size: 1.5em;
+    font-weight: bold;
+    height: 55px;
+    margin-bottom: 5px;
+    outline: none;
+    padding: 10px;
+    position: relative;
+
+    &:not([data-disabled]):focus {
+      color: #000;
+      cursor: auto;
+      font-size: 0.875rem;
+      font-weight: normal;
+      height: 100px;
+    }
+
+    @media screen and (max-width: @screen-sm) {
+      font-size: 18px;
+
+      &:not([data-disabled]):focus {
+        font-size: 14px;
+      }
+    }
+  }
+
+
+  .select-wrapper {
+    @media screen and (max-width: @screen-sm) {
+      max-width: 89px;
+      margin: 0 2px;
+    }
+
+    &::after {
+      @media screen and (max-width: @screen-sm) {
+        right: 7px;
+      }
+    }
+
+    select {
+     max-width: 210px;
+
+       @media screen and (max-width: @screen-sm) {
+         padding: 10px 18px 10px 8px;
+         max-width: 89px;
+
+       }
+     }
+  }
+
+  .charsLeft {
+    color: #9A9A9A;
+    float: none;
+    font-size: 0.7rem;
+    display: none;
+    font-weight: 400;
+
+    &.touched {
+      display: block;
+    }
+
+    .min, .max {
+      display: none;
+    }
+    .min {
+      color: #EC0000;
+    }
+    .max {
+      color: #ABDE8D;
+    }
+    .visible {
+      display: block;
+    }
+  }
+
+  .label-error {
+    display: none;
+    color: red;
+    font-size: 14px;
+		font-weight: normal;
+  }
+
+  .error {
+    border-left: 3px solid red;
+    padding-left: 20px;
+
+    .label-error {
+      display: block;
+    }
+  }
+
+  .success {
+    border-left: 3px solid green;
+    padding-left: 20px;
+
+    input[type="text"] {
+      border-color: green;
+    }
+
+  }
+
+  :disabled {
+    opacity: 0.4;
+  }
+}
