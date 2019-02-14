@@ -168,7 +168,8 @@ function run(id, config, callback) {
             },
           ]
         },
-        
+        'apostrophe-global': {},
+
         //    'three-column-widgets': {},
         'one-column-widgets': {},
         'two-column-widgets': {},

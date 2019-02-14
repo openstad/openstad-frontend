@@ -95,6 +95,18 @@
   font-weight: bold;
 }
 
+.caret-link::before, .caret-link:active::before, .caret-link:visited::before {
+    background-image: url(../img/black-arrow.svg);
+    content: '';
+    background-size: 100%;
+    width: 11px;
+    height: 16px;
+    left: 0;
+    position: absolute;
+    background-repeat: no-repeat;
+    top: 4px;
+}
+
 .concept-card-link, .concept-card-link:active, .concept-card-link:visited {
 	width: 100%;
   display: block;
@@ -103,6 +115,7 @@
   padding: 6px 10px 3px 30px;
   font-size: 16px;
   font-weight: 700;
+	position: relative;
 
 	&.caret-link&::before {
 		left: 11px;

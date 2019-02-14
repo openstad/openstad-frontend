@@ -63,7 +63,7 @@
   </div>
 </div>
 
-{% set arguments      = [{label: 'A', description: 'Wij graag in de omgeving van onze woning parkeren, iedereen die wil en ervioorbetaalt'}] %}
+{% set arguments      = [{yes: 10, label: 'A', description: 'Wij graag in de omgeving van onze woning parkeren, iedereen die wil en ervioorbetaalt', nickName: 'Michael J.', createdAt: '2019-01-23 13:10:55'}] %}
 {% set variantNames   = config.variantNames %}
 {% set isFor          = propName == 'argumentsFor' %}
 
@@ -72,10 +72,7 @@
 
   <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
     <div class="user ">
-      <strong>{{arg.user.nickName}}</strong>
-
-      | {{arg.createdAt | date('LLL')}}
-
+      <strong>{{arg.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
       {% if mayEdit %}
         <form class="action" method="GET" action="/arg/{{arg.id}}/edit">
           <input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
@@ -89,7 +86,7 @@
         </form>
       {% endif %}
     </div>
-    <div class="margin-hor-s">
+    <div class="comment-pre-sentence">
       <b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
     </div>
 
