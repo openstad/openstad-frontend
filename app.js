@@ -142,7 +142,7 @@ function run(id, config, callback) {
               'speech-bubble' : {},
               'spacer' : {},
               'title' : {},
-              'vote-form' : {},
+              'user-form' : {},
           }
         },
 
@@ -194,7 +194,7 @@ function run(id, config, callback) {
         'counter-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
-        'vote-form-widgets': {},
+        'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
       }
     }, config)
