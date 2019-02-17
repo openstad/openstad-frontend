@@ -29,19 +29,21 @@ app.use(function(req, res, next) {
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-  const host = thisHost === 'localhost:3000' ? 'localhost' : thisHost.replace(/\./g, '');
+  const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
+
+  console.log('thisHost', thisHost);
 
 
-  dbExists(host)
+  dbExists(hostKey)
     .then((exists) => {
-      if (exists || thisHost === 'localhost:3000')  {
-        if (!aposServer[host]) {
-          runner(host, {}).then(function(apos) {
-            aposServer[host] = apos;
-            aposServer[host].app(req, res);
+      if (exists || thisHost === process.env.DEFAULT_HOST)  {
+        if (!aposServer[hostKey]) {
+          runner(hostKey, {}).then(function(apos) {
+            aposServer[hostKey] = apos;
+            aposServer[hostKey].app(req, res);
           });
         } else {
-          aposServer[host].app(req, res);
+          aposServer[hostKey].app(req, res);
         }
       } else {
         res.status(404).json({ error: 'Not found page or website' });
