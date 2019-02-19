@@ -1,3 +1,5 @@
+<!--
+
 <div class="row">
   <div class="col-xs-12">
   			<div class="box-grey" style="margin-bottom: 20px;">
@@ -62,7 +64,7 @@
       </div>
   </div>
 </div>
-
+!-->
 
 {% set variantNames   = config.variantNames %}
 {% set isFor          = propName == 'argumentsFor' %}
@@ -86,9 +88,11 @@
         </form>
       {% endif %}
     </div>
+    <!--
     <div class="comment-pre-sentence">
       <b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
     </div>
+    !-->
 
     <p>{{arg.description | urlize | nlbr | safe}}</p>
 

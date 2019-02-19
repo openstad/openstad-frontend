@@ -40,8 +40,8 @@
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
           <div class="navbar-menu toggle-menu">
-            <nav class="navbar navbar-expand-lg navbar-light " style="margin-top: -9px; margin-left: -22px;">
-              <ul class="nav navbar-nav navbar-left">
+            <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
+              <ul class="nav navbar-left">
                 <li class="nav-item">
                   <a href="{{ data.home._url }}" class="nav-link">{{ data.home.title }}</a>
                 </li>
@@ -53,6 +53,16 @@
                   </li>
                 {% endfor %}
               </ul>
+
+        			<nav id="subMenu" class="" role="navigation">
+        				<div>
+        						{% if data.loggedIn %}
+        							<a href="/oauth/logout" class="account">Uitloggen</a>
+        						{% else %}
+        						   <a href="/oauth/login" class="account">Aanmelden / inloggen</a>
+        						{% endif %}
+        				</div>
+        			</nav>
             </nav>
           </div>
         </div>

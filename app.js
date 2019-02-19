@@ -87,6 +87,7 @@ function run(id, config, callback) {
             { name: 'main' }
           ],
         },
+        'auth': {},
         'apostrophe-multisite-fake-listener': {
           construct: function(self, options) {
             // Don't really listen for connections. We'll run as middleware
@@ -130,7 +131,6 @@ function run(id, config, callback) {
                   { name: 'Paragraph', element: 'p' }
                 ]
               },
-              'button' : {},
               'card' : {},
               'counter' : {},
               'idea-overview' : {},
