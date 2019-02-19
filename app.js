@@ -31,8 +31,6 @@ app.use(function(req, res, next) {
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
-  console.log('thisHost', thisHost);
-
 
   dbExists(hostKey)
     .then((exists) => {
