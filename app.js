@@ -117,6 +117,9 @@ function run(id, config, callback) {
         settings: {
           // So we can write `apos.settings` in a template
           alias: 'settings',
+          apiUrl: process.env.API,
+          appUrl: process.env.APP_URL,
+          googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
               'agenda' : {},

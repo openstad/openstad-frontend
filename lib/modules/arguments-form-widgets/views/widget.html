@@ -29,13 +29,14 @@
 						{% endfor %}
 					</select>
 				</span>
-
 				omdat...
 			</div>
 			<br />
 			<textarea
-			class="textarea margin-hor-s block argument-textarea"
-			name="description"
+				class="textarea margin-hor-s block argument-textarea"
+				name="description"
+				minlength="30"
+				maxlength="500"
 			></textarea>
 
 			<div class="charsLeft margin-bottom-s">
@@ -46,23 +47,20 @@
 			<div class="row">
 				<div class="col-xs-7">
 					{% if user.nickName %}
-						<span class="name-label"> <strong> Naam: </strong> {{user.nickName}} </span>
+						<span class="name-label">
+							<strong> Naam: </strong>
+							{{user.nickName}}
+						</span>
 					{% else %}
-
-						<div class="form-field-container validate-text-required  ">
+						<div class="form-field-container validate-text-required">
 							Naam: <br />
-
 							<div class="label-error margin-hor-xs">
 								Je hebt geen naam opgegeven.
 							</div>
-
 							<input type="text" name="nickName" class="input-field stretch">
 						</div>
 					{% endif %}
 					&nbsp;
-
-
-
 				</div>
 			</div>
 			<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />

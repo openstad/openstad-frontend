@@ -70,8 +70,6 @@
 {% set isFor          = propName == 'argumentsFor' %}
 
 {% for arg in data.arguments %}
-
-
   <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
     <div class="user ">
       <strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
