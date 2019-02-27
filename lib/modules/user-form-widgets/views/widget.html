@@ -7,9 +7,9 @@
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>
-	<form method="POST" action="">
+	<form method="POST" action="/modules/user-form-widgets/submit">
 	{% for field in data.widget.formFields %}
-		{% include 'field-'+field.inputType+'.html' %}	
+		{% include 'field-'+field.inputType+'.html' %}
 	{% endfor %}
 	<button type="submit" class="default btn btn-primary">
 		Verstuur

@@ -4,7 +4,8 @@
   <input
     id="locationField"
     type="hidden"
-    name="location_" {% if (idea) and (idea.info) and (idea.info.lat) %}
+    name="field[location]" 
+    {% if (idea) and (idea.info) and (idea.info.lat) %}
     value='{"type":"Point","coordinates":[{{idea.info.lat}}, {{idea.info.long}}]}'
     {% endif %}
   />
@@ -13,7 +14,7 @@
 </div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
-<script src="{{apos.settings.getOption('appUrl')}}/js/lib/openstad-map.js"></script>
+<script src="{{apos.settings.getOption('appUrl')}}/js/openstad-map.js"></script>
 
 <script>
   		 var editorInputElement = document.getElementById('locationField');

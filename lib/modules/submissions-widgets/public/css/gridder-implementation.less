@@ -1,0 +1,603 @@
+@landscape    : ~'only screen and (max-width: 1000px)';
+@portrait     : ~'only screen and (max-width: 868px)';
+@phone        : ~'only screen and (max-width: 700px)';
+@retina       : ~'only screen and (-webkit-min-device-pixel-ratio: 2),
+                  only screen and (   min--moz-device-pixel-ratio: 2),
+                  only screen and (     -o-min-device-pixel-ratio: 2/1),
+                  only screen and (        min-device-pixel-ratio: 2),
+                  only screen and (                min-resolution: 192dpi),
+                  only screen and (                min-resolution: 2dppx)';
+
+@primary100   : ~'only screen and (max-width: 700px)';
+
+// Normal grid is 25% of total `#content` width.
+// This translates to 33.33% in `#primary` (which is itself 75%)
+// and 100% in `#secondary` (which is 25%).
+@grid50       : @landscape;
+@grid100      : @phone;
+
+@navBarHeight : 46px;
+
+// For columns, sctions, and tiles.
+@hMargin      : 20px;
+@vMargin      : 20px;
+
+@light-grey2: #f6f7f7;
+@amsterdam-lightgrey: #e8e8e8;
+@amsterdam-grey: #bebebe;
+@amsterdam-navyblue: #164995;
+@amsterdam-navyblue-hover: #003066;
+@amsterdam-skyblue: #2b9ad6;
+@amsterdam-lightgreen: #bdd131;
+@amsterdam-red: #ea1d25;
+
+body {
+.gridder {
+
+	margin: 0;
+	padding: 0;
+
+	.gridder-list {
+		display: inline-block;
+		position: relative;
+		width: calc(25% - 20px);
+		margin-right: 20px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		background-color: @light-grey2;
+		cursor: pointer;
+
+		@media @phone {
+			width: 100%;
+		}
+
+		.info {
+
+			padding: 10px;
+
+			h3 {
+				margin: 0;
+				font-size: 16px;
+				height: 20px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+		}
+
+	}
+
+}
+
+.gridder-content {
+	display: none;
+}
+
+.gridder-show {
+
+	float: left;
+	position: relative;
+	display: block;
+	margin: 20px 0 40px 0;
+	padding: 40px 0;
+	width: calc(100% - 20px);
+	background-color: @light-grey2;
+
+	@media @phone {
+		width: calc(100%);
+		padding-top: 90px;
+
+		h3 {
+			margin: 0 0 15px 0;
+		}
+	}
+
+
+	.thisIdeaId {
+		display: none;
+	}
+
+	.image-and-vote-button-container {
+
+		float: left;
+		width: 320px;
+
+		@media @phone {
+			float: none;
+			position: relative;
+			left: -15px;
+			width: calc(100% + 30px);
+		}
+
+
+		.image-mask {
+			position: relative;
+			width: 320px;
+			height: 380px;
+			overflow: hidden;
+
+			@media @phone {
+				width: 100%;
+				padding-top: calc(100% * 380/320);
+			}
+
+			.image-container {
+				position: absolute;
+				top: 0;
+				left: -30px;
+				width: 380px;
+				height: 380px;
+
+				@media @phone {
+					left: calc((100% - 100% * 380/320) / 2);
+					width: calc(100% * 380/320);
+					height: auto;
+				}
+			}
+
+			.image {
+				width: 380px;
+				height: 380px;
+				@media @phone {
+					width: 100%;
+					height: auto;
+				}
+			}
+
+		}
+
+		.vote-button-container {
+
+			display: none;
+			width: 320px;
+			height: 44px;
+			margin: 30px auto 0 auto;
+			cursor: pointer;
+
+			&.hasVoted {
+				width: 224px;
+				&.gt1000 {
+					width: 253px;
+				}
+
+				&.gt10000 {
+					width: 282px;
+				}
+
+				cursor: initial;
+			}
+
+			&.active {
+				display: block;
+			}
+
+			@media @phone {
+				position: relative;
+				margin-top: 20px;
+				margin-bottom: 40px;
+				width: 300px;
+				z-index: 100;
+			}
+
+			.vote-button {
+
+				float: left;
+				position: relative;
+				width: 219px;
+				height: 43px;
+				z-index: 1000;
+
+				&:before {
+					box-sizing: border-box;
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					padding: 11px;
+					font-size: 16px;
+					font-weight: 600;
+					line-height: 21px;
+					text-align: center;
+					background-color: @amsterdam-navyblue;
+					color: white;
+					content: 'Stem op dit ontwerp';
+
+				}
+
+				@media @phone {
+					width: 199px;
+				}
+
+			}
+
+			&.gt1000 {
+				.vote-button {
+					width: 190px;
+					@media @phone {
+						width: 171px;
+					}
+					&:before {
+						@media @phone {
+							content: 'Kies dit ontwerp';
+						}
+					}
+				}
+			}
+
+			&.gt10000 {
+				.vote-button {
+					width: 161px;
+					@media @phone {
+						width: 142px;
+					}
+					&:before {
+						content: 'Kies dit ontwerp';
+						@media @phone {
+							content: 'Kies ontwerp';
+						}
+					}
+				}
+			}
+
+			&.hasVoted {
+				.vote-button {
+					width: 130px;
+					cursor: initial;
+
+					&:before {
+						padding: 9px 11px 13px 11px;
+						font-size: 20px;
+						color: black;
+						background-color: @light-grey2;
+						border: 2px solid @amsterdam-navyblue;
+						border-left: none;
+						content: 'stemmen';
+					}
+				}
+
+				&.gt1000 {
+					&.hasVoted {
+						.vote-button {
+							&:before {
+								@media @phone {
+									content: 'stemmen';
+								}
+							}
+						}
+					}
+				}
+
+				&.gt10000 {
+					.vote-button {
+						&:before {
+							content: 'stemmen';
+							@media @phone {
+								content: 'stemmen';
+							}
+						}
+					}
+				}
+
+			}
+
+			.no-of-votes-hasvoted {
+				float: left;
+			}
+
+		}
+
+	}
+
+	.content {
+		float: left;
+		margin-left: 70px;
+		margin-right: 20px;
+		max-width: calc(100% - 410px);
+
+		@media @phone {
+			float: none;
+			margin: 0;
+			max-width: 100%;
+		}
+
+		h3 {
+			margin: 0 0 15px 0;
+			font-size: 22px;
+		}
+
+		.summary {
+			font-weight: 600;
+			overflow: hidden;
+			margin-bottom: 25px;
+		}
+
+		.description {
+			overflow: hidden;
+			margin-bottom: 25px;
+			font-size: 14px;
+		}
+
+		.share-spacer {
+			height: 30px;
+		}
+
+		.share-buttons {
+
+      position: absolute;
+			height: 30px;
+      bottom: 40px;
+			z-index: 1000;
+
+			.text {
+				display: block;
+				float: left;
+				height: 30px;
+				margin: 0;
+				padding: 0;
+				margin-right: 15px;
+				font-weight: 600;
+				line-height: 30px;
+			}
+
+			ul {
+				display: block;
+				float: left;
+				margin: 0;
+				padding: 0;
+				height: 30px;
+				list-style-type: none;
+
+				li {
+					display: inline;
+					height: 30px;
+					width: 30px;
+					margin: 0;
+					padding: 0;
+
+					a {
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 30px 30px;
+						display: block;
+						float: left;
+						font-size: 0;
+						line-height: 0;
+						margin: 0 3px 0 0;
+						height: 30px;
+						width: 30px;
+
+						&.facebook {
+							background-image: url('/img/share-facebook.svg');
+							&:hover {
+								background-image: url('/img/share-facebook-hover.svg');
+							}
+						}
+						&.twitter {
+							background-image: url('/img/share-twitter.svg');
+							&:hover {
+								background-image: url('/img/share-twitter-hover.svg');
+							}
+						}
+						&.email {
+							background-image: url('/img/share-email.svg');
+							&:hover {
+								background-image: url('/img/share-email-hover.svg');
+							}
+						}
+
+					}
+				}
+			}
+
+		}
+
+	}
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background-color: @light-grey2;
+		content: '';
+	}
+
+	&:after {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		width: 100%;
+		height: 100%;
+		background-color: @light-grey2;
+		content: '';
+	}
+
+}
+
+.gridder-navigation {
+
+	.gridder-nav {
+		position: absolute;
+		display: block;
+		top: 260px;
+		width: 50px;
+		height: 50px;
+		padding: 0;
+		border: none;
+		outline: 0;
+		box-shadow: none;
+		cursor: pointer !important;
+		z-index: 1;
+
+		@media @phone {
+			width: 15px;
+			height: 15px;
+		}
+
+		span {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			height: 23px;
+			margin: auto;
+			width: 14px;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		&.prev {
+			left: -132px;
+			background-image: url(/img/prev-button-round.svg);
+			z-index: 100002;
+
+			@media @phone {
+				top: 32px;
+				left: 15px;
+				width: 7px;
+				height: 12px;
+				background-size: 7px 12px;
+				background-image: url(/img/pijltje-links.svg);
+			}
+
+		}
+
+		&.next {
+			right: -132px;
+			background-image: url(/img/next-button-round.svg);
+			z-index: 100002;
+
+			@media @phone {
+				top: 32px;
+				left: 62px;
+				width: 7px;
+				height: 12px;
+				background-size: 7px 12px;
+			background-image: url(/img/pijltje-rechts.svg);
+			}
+
+		}
+
+	}
+
+	.gridder-close {
+		position: absolute;
+		top: 40px;
+		right: -115px;
+		width: 20px;
+		height: 20px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(/img/close-button-grey-on-transparent.svg);
+		cursor: pointer;
+		z-index: 20;
+
+		@media @phone {
+			top: 15px;
+			right: 0;
+			width: 44px;
+			height: 44px;
+			background-image: url(/img/close-button-red.svg);
+			right: 0;
+		}
+
+	}
+
+}
+
+.gridder-content {
+	display: none;
+}
+
+.gridder {
+	.selectedItem:after {
+		position: absolute;
+		content: ' ';
+		display: block;
+		top: calc(100% + 17px);
+		width: 0;
+		left: (50% - 14px);
+		margin-bottom: -4px;
+		border-bottom: 28px solid @light-grey2;
+		border-left: 28px solid transparent;
+		border-right: 28px solid transparent;
+	}
+}
+
+.gridder .overlay { position: absolute; left: 10%; top: 10%; color: #FFF; line-height: 130%; text-align: left; }
+
+.gridder.hasSelectedItem .gridder-list:not(.selectedItem) { opacity: 1; }
+
+.gridder-mouse-over {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+
+	.background {
+		position: absolute;
+		opacity: .4;
+		background-color: black;
+		width: 100%;
+		height: 100%;
+	}
+
+	.button-more-info, .button-vote {
+		position: relative;
+		height: 44px;
+		margin: 0 auto;
+		padding: 11px 20px;
+		font-size: 16px;
+		font-weight: 600;
+		font-style: normal;
+		line-height: 22px;
+		text-align: center;
+		color: white;
+	}
+
+
+	.button-more-info {
+		top: 61px;
+		width: 176px;
+		color: @amsterdam-navyblue;
+		border: 1px solid @amsterdam-navyblue;
+		background-color: white;
+
+		&.centered {
+			top: 88px;
+		}
+
+		&:hover {
+			padding: 10px 19px;
+			border: 2px solid @amsterdam-navyblue;
+		}
+
+	}
+
+	.button-vote {
+		top: 75px;
+		width: 193px;
+		color: white;
+		background-color: @amsterdam-navyblue;
+
+
+		&.hasVoted {
+			display: none;
+		}
+
+		&:hover {
+			background-color: @amsterdam-navyblue-hover;
+		}
+
+	}
+
+}
+}

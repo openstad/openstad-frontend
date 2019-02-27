@@ -1,11 +1,12 @@
 <div class="form-group">
   <h3>{{field.title}}</h3>
-  <input
-    type="{{field.inputType}}"
-    name="{{field.inputKey}}"
+  <textarea
+    rows="8"
+    name="data[{{field.inputKey}}]"
     class="input-field stretch"
 {#		{{field.inputAttributes.split(' ')}}
     class="{{field.inputClasses.split(' ')}}"
   #}
-  />
+  >
+  </textarea>
 </div>

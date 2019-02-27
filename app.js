@@ -1,16 +1,17 @@
 require('dotenv').config();
 
-var path = require('path');
-var express = require('express');
-const apostrophe = require('apostrophe');
-const app = express();
-const _ = require('lodash');
-const mongo = require('mongodb');
-const fs = require('fs');
-const argv = require('boring')();
-const quote = require('shell-quote').quote;
-const Promise = require('bluebird');
-const dbExists = require('./services/mongo').dbExists;
+const path          = require('path');
+const express       = require('express');
+const apostrophe    = require('apostrophe');
+const app           = express();
+const _             = require('lodash');
+const mongo         = require('mongodb');
+const fs            = require('fs');
+const argv          = require('boring')();
+const quote         = require('shell-quote').quote;
+const Promise       = require('bluebird');
+const dbExists      = require('./services/mongo').dbExists;
+const openstadMap   = require('./config/map').default;
 
 var aposServer = {};
 app.use(express.static('public'));
@@ -77,15 +78,10 @@ function run(id, config, callback) {
         },
         'apostrophe-assets' : {
             minify: false,
-            scripts: [
-            { name: 'jquery-gridder' },
-            { name: 'gridder-implementation' }
-          ],
-          stylesheets: [
-            { name: 'gridder' },
-            { name: 'idea-list' },
-            { name: 'main' }
-          ],
+            scripts: [],
+            stylesheets: [
+              { name: 'main' }
+            ],
         },
         'auth': {},
         'apostrophe-multisite-fake-listener': {
@@ -119,6 +115,7 @@ function run(id, config, callback) {
           alias: 'settings',
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
+          openStadMap: openstadMap,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
@@ -146,6 +143,7 @@ function run(id, config, callback) {
               'spacer' : {},
               'title' : {},
               'user-form' : {},
+              'submissions' : {},
           }
         },
 
@@ -199,6 +197,7 @@ function run(id, config, callback) {
         'arguments-form-widgets': {},
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
+        'submissions-widgets': {}
       }
     }, config)
   );
