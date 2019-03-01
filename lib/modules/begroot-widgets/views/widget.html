@@ -1,0 +1,11 @@
+{% if data.widget.phase === 'submitting' %}
+{% include 'phase-submitting/index.html' %}
+{% endif %}
+
+{% if data.widget.phase === 'voting' %}
+{% include 'phase-voting/index.html' %}
+{% endif %}
+
+{% if data.widget.phase === 'finished' %}
+{% include 'phase-finished/index.html' %}
+{% endif %}

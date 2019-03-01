@@ -1,0 +1,110 @@
+<link rel="stylesheet" type="text/css" media="all"   href="/css/widgets/ideas.css"/>
+<link rel="stylesheet" type="text/css" media="all"   href="/css/widgets/ideas-gridder.css"/>
+
+<template id="idea-template">
+	<li class="gridder-list idea">
+		<!-- 
+				 onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
+				 onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
+				 onclick="{{href}}" -->
+
+		<div class="idea-images"></div>
+		<div class="idea-title"></div>
+		<div class="idea-summary"></div>
+		<div class="idea-budget"></div>
+		<div class="idea-extra"></div>
+		<div class="idea-counters"></div>
+		<div class="gridder-content">
+			<div class="thisIdeaId">{{idea.id}}</div>
+			<h3 class="idea-content-title"></h3>
+		</div>
+	</li>
+</template>
+
+<ul class="ideas gridder" onclick="this.handleClick(event)">
+	<slot name="title"><h2>Ideeën</h2></slot>
+	<div class="ideas-list">
+	</div>
+</ul>
+<script src="/js/ideas-lister.js"></script>
+
+<!--
+
+		 <div class="image-container" style="position: relative;">
+		 <div class="image">
+		 <img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
+		 <div class="image-upload"></div>
+		 <img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/>
+		 </div>
+		 <div class="gridder-mouse-over">
+		 <div class="background">
+		 </div>
+		 <div class="button-more-info{% if userHasVoted %} centered{% endif %}">
+		 Bekijk dit ontwerp
+		 </div>
+		 {% if not userHasVoted %}
+		 <div class="button-vote">
+		 Stem op dit ontwerp
+		 </div>
+		 {% endif %}
+		 </div>
+		 </div>
+		 <div class="info">
+		 <h3>{{idea.title}}</h3>
+		 {{idea.yes}} {{ 'stem' if idea.yes == 1 else 'stemmen'}}
+		 </div>
+		 <script>
+		 {% if (idea.posterImage) and (idea.posterImage.extraData) %}
+		 imageUrl[{{idea.id}}] = "{{idea.posterImageUrl}}";
+		 imageData[{{idea.id}}] = {{idea.posterImage.extraData | dump | safe}};
+		 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+		 {% endif %}
+		 </script>
+
+		 {% for idea in runningIdeas %}
+		 <div id="ideaContent{{idea.id}}" class="gridder-content">
+		 <div class="thisIdeaId">{{idea.id}}</div>
+		 <h3 class="phone">{{idea.title}}</h3>
+		 <div class="image-and-vote-button-container">
+		 <div class="image-mask">
+		 <div class="image-container">
+		 <div class="image">
+		 <img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>
+		 <div class="image-upload"></div>
+		 <img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground" style="cursor: url('/img/vergrootglas.png'), pointer;" onclick="showLightbox({{idea.id}})" onmouseover="if (!isPhone) document.getElementById('mask-{{idea.id}}').style.display = 'block'"/>
+		 <div id="mask-{{idea.id}}" style="position: absolute; width: 100%; height: 100%; background-color: black; opacity: 0.4; z-index: 30; display: none; cursor: url('/img/vergrootglas.png'), pointer;" onmouseout="document.getElementById('mask-{{idea.id}}').style.display = 'none'" onclick="showLightbox({{idea.id}})"></div>
+		 </div>
+		 </div>
+		 </div>
+		 <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
+		 {% set id = 'no-of-votes-hasvoted-' + idea.id %}
+		 {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+		 <div class="vote-button"></div>
+		 </div>
+		 <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" onclick="selectIdea({{idea.id}})">
+		 {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
+		 {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
+		 <div class="vote-button"></div>
+		 </div>
+		 </div>
+		 <div class="content">
+		 <h3 class="desktop">{{idea.title}}</h3>
+		 <div class="summary">{{idea.summary}}</div>
+		 <div class="description">{{idea.description | safe | nl2br}}</div>
+		 {% if isAdmin %}
+		 <div class="description"><a href="/plan/{{idea.id}}">Bewerk dit plan</a></div>
+		 {% endif %}
+		 <div class="share-spacer"></div>
+		 <div class="share-buttons">
+		 <div class="text">Deel dit ontwerp:</div>
+		 <ul class="share">
+		 <li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{fullHost}}/stemmen?showIdea={{idea.id}}">Facebook</a></li>
+		 <li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{fullHost}}/stemmen?showIdea={{idea.id}}">Twitter</a></li>
+		 <li><a class="email"    target="_blank" href="mailto:?subject={{'Zorg goed voor onze stad ontwerp: '+idea.title | urlencode}}&body={{fullHost | urlencode}}/stemmen?showIdea={{idea.id}}">Email</a></li>
+		 </ul>
+		 </div>
+		 </div>
+		 </div>
+		 {% endfor %}
+
+-->

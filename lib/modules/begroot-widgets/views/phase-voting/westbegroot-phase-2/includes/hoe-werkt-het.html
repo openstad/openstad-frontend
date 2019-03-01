@@ -1,0 +1,68 @@
+{% macro showBlock(openOrClosed) %}
+<div id="howDoesItWork" class="{{openOrClosed}}">
+	<a id="howDoesItWorkButton" href="javascript: (function() { document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">Hoe werkt het? <img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+	<div class="pageContent">
+		<div class="steps">
+			<div class="step">
+				<img src="/img/westbegroot/step-1.svg" />
+				<br />
+				<div class="step-header">1. Vind jouw stemcode in de West Begroot envelop</div>
+				<p>
+					{% if config.budgeting.isActive %}
+					Alle bewoners van West van 18 jaar en ouder ontvangen in de week voorafgaand aan 16 januari 2019 een persoonlijke stemcode via de post. Op de buitenkant van de envelop staat duidelijk dat daar jouw stemcode voor West Begroot in zit.
+					{% else %}
+					Alle bewoners van West van 18 jaar en ouder ontvingen rond 16 januari 2019 een persoonlijke stemcode via de post. Op de buitenkant van de envelop stond duidelijk dat daar jouw stemcode voor West Begroot in zat.
+					{% endif %}
+				</p>
+			</div>
+			<div class="step">
+				<img src="/img/westbegroot/step-2.svg" />
+				<br />
+				<div class="step-header">2. Bekijk welke plannen jij het beste vindt voor jouw buurt</div>
+				<p>
+					{% if config.budgeting.isActive %}
+					Op deze website kun je bekijken welke 30 plannen geselecteerd zijn voor de stemfase van West Begroot. Je kunt meer lezen over de plannen en ze met elkaar vergelijken.
+					{% else %}
+					Op deze website kun je bekijken welke 30 plannen geselecteerd waren voor de stemfase van West Begroot. Je kunt meer lezen over de plannen en ze met elkaar vergelijken.
+					{% endif %}
+					<ul class="links-list">
+						<li><a href="/plannen">Bekijk de geselecteerde plannen</a></li>
+					</ul>
+				</p>
+			</div>
+			<div class="step">
+				<img src="/img/westbegroot/step-3.svg" />
+				<br />
+				<div class="step-header">3. Verdeel € 300.000 over jouw favoriete plannen</div>
+				<p>
+					{% if config.budgeting.isActive %}
+					Van 16 januari t/m 13 februari 2019 kun je plannen selecteren voor een totaal bedrag van €300.000 op de pagina ‘Stemmen’. Je hebt je persoonlijke stemcode nodig om je keuzes te kunnen versturen.
+					{% else %}
+					Van 16 januari t/m 13 februari 2019 kon je plannen selecteren voor een totaal bedrag van €300.000. Met een persoonlijke stemcode konden de keuzes worden verstuurd.
+					{% endif %}
+					{% if config.budgeting.isActive %}
+					<ul class="links-list">
+						<li><a href="/stemmen">Ga naar stemmen</a></li>
+					</ul>
+					{% endif %}
+				</p>
+			</div>
+			<div class="step">
+				<img src="/img/westbegroot/step-4.svg" />
+				<br />
+				<div class="step-header">4. De meest populaire plannen worden uitgevoerd</div>
+				<p>
+					{% if config.budgeting.isActive %}
+					De plannen die het vaakst zijn gekozen door bewoners van West en die binnen het budget passen worden uitgevoerd. Op 15 februari 2019 wordt bekend gemaakt welke plannen uitgevoerd worden.
+					{% else %}
+					De plannen die het vaakst zijn gekozen door bewoners van West en die binnen het budget passen worden uitgevoerd. Op 16 februari 2019 wordt bekend gemaakt welke plannen uitgevoerd worden.
+					<ul class="links-list">
+						<li><a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf">Download de uitslag</a></li>
+					</ul>
+					{% endif %}
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endmacro %}

@@ -1,0 +1,46 @@
+{% extends 'base.njk' %}
+{% set activeMenu = 'budget' %}
+
+{% set pageTitle    = 'Jouw begroting' %}
+{% set contentClass = 'ideasList' %}
+
+{% block content %}
+
+	{# TODO: it should not be necessary to load parent objects here  #}
+	<script src="/budgeting/site/{{siteId}}/openstad-widget"></script>
+	<script src="/budgeting/site/{{siteId}}/ideas-widget"></script>
+	<script src="/budgeting/site/{{siteId}}/ideas-gridder-widget"></script>
+	<script src="/budgeting/site/{{siteId}}/budgeting-widget"></script>
+
+	<div class="pageContent {{contentClass}}">
+		{% if accessToken %}
+			<a href="/dev/logout">Logout</a><br>
+			<a href="/dev/delete-user-budget-vote">Verwijder mijn stem</a><br>
+		{% else %}
+			<a href="/oauth/login?redirect_uri=/begroten">Login</a><br>
+		{% endif %}
+	</div>
+
+	<div class="pageContent {{contentClass}}">
+
+		<budgeting-widget id="temp">
+			<ideas-gridder-widget slot="ideas" id="budget-ideas" data-onclick="document.querySelector('budgeting-widget').addIdeaToBudget([[id]]);">
+				loading ideas...
+				<span slot="title"><h2>Plannen</h2></span>				
+			</ideas-gridder-widget>
+		</budgeting-widget>
+
+	</div>
+
+	<script>
+	 // document.querySelector('#budget-ideas').setAttribute('afterRenderCallback', 'document.querySelector(\'budgeting-widget\').updateBudgetView');
+	</script>
+
+{% endblock %}
+
+{% block scripts %}
+	<!-- wegens makkelijker intwikkelen voor nu in een eigen js -->
+	<script src="/js/budget.js"></script>
+{% endblock %}
+
+

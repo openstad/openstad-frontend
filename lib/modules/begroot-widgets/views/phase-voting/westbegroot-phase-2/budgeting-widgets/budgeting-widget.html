@@ -1,0 +1,44 @@
+<link rel="stylesheet" type="text/css" media="all"   href="/css/widgets/budgeting.css"/>
+
+<template id="budget-view-idea">
+	<idea onclick="document.querySelector('budgeting-widget').removeIdeaFromBudget([[id]])">
+		<idea-image></idea-image>
+	</idea>
+</template>
+
+
+<div class="budgeting">
+
+	<div id="budgetView"></div>
+	<div id="budgetTotal"></div>
+	<a href="javascript: void document.querySelector('budgeting-widget').sendBudget()">Verstuur deze begroting</a><br><br>
+
+	<!-- todo: defaultem naar de standaard widget? -->
+	<slot name="ideas"></slot>
+
+	<div id="info-popup">
+		<!-- todo: override met slots -->
+		<div class="content">
+			<div class="closeButton"><a href="javascript: void document.querySelector('budgeting-widget').hideInfoPopup()">&#10005;</a></div>
+			<div id="you-must-login-first">
+				Je gaat nu je begroting insturen.<br/><br/>
+				Je kunt hem daarna niet meer wijzigen.<br/><br/>
+				Voor je je begroting kunt insturen moet je <a href="/oauth/login?redirect_uri=/begroten?returnFromLogin=true">INLOGGEN</a> met je unieke code.<br/><br/>
+			</div>
+			<div id="you-are-about-to-vote">
+				Je gaat nu je begroting insturen.<br/><br/>
+				Je kunt hem daarna niet meer wijzigen.<br/><br/>
+				Weet je het zeker, druk dan op <a href="javascript: void document.querySelector('budgeting-widget').sendBudget(true)">VERSTUUR</a>.
+			</div>
+			<div id="error">
+				error
+			</div>
+			<div id="success">
+				Je begroting is opgeslagen; je hebt gestemd.<br/><br/>
+				<a href="/begroten">Sluit dit venster</a>
+			</div>
+		</div>
+	</div>
+	
+</div>
+

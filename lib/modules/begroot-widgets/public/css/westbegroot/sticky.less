@@ -1,0 +1,101 @@
+.sticky-bar {
+	-webkit-transition: all 400ms; /* Safari */
+	transition: all 400ms;
+
+	.pageContent {
+		padding-bottom: 0;
+
+		@media @xs {
+			padding: 0;
+		}
+	}
+
+	.sticky-expand, .sticky-contract {
+		display: none;
+	}
+
+	&.sticky {
+		background-color: @light-grey2;
+		box-shadow: 0 6px 8px 4px rgba(0, 0, 0, 0.5);
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100003;
+		width: 100%;
+
+		&.closed {
+	    #steps-bar, #steps-content, #button-bar {
+	      display: none !important;
+	    }
+
+			.sticky-expand {
+				display: block;
+				color: #00479d;
+				margin: 10px 0;
+
+				@media @xs {
+					margin: 0;
+				}
+
+			}
+
+			.sticky-contract {
+				display: none;
+			}
+	  }
+
+
+		&.open {
+			.sticky-expand {
+				display: none;
+			}
+
+			.sticky-contract {
+				display: block;
+				margin: 10px 0;
+
+			}
+		}
+	}
+}
+
+.expand-bar {
+	@media @xs {
+		background: #e8e8e8;
+		text-align: center;
+		padding: 8px;
+
+
+
+		.align-right {
+			text-align: center !important;
+		}
+
+		a {
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.budget-col {
+	@media @xs {
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 25px;
+		font-size: 13px;
+
+		* > {
+			float: left;
+
+			&:first-child {
+				margin-right: 5px;
+			}
+		}
+
+		.available-budget-amount, .current-budget-amount {
+			margin-left: 10px;
+		}
+	}
+}

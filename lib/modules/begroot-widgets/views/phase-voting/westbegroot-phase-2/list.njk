@@ -1,0 +1,139 @@
+{% extends 'ideas.njk' %}
+{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/numberplatebutton.njk' as numberPlateButton %}
+{% import 'includes/howdoesitwork.njk' as howdoesitwork %}
+{% import 'includes/ideas-lister.njk' as ideasList %}
+{% import 'includes/vote-creator.njk' as voteCreator %}
+
+{% set pageTitle    = 'Ingestuurde ontwerpen' %}
+{% set contentClass = 'ideasList' %}
+
+{% block contentFullWidth %}
+
+	{{ voteCreator.showVoteCreator(openOrClosed, runningIdeas, user, userHasVoted) }}
+	<script>
+	 csrfToken = '{{csrfToken}}';
+	</script>
+
+	<div class="pageContent {{contentClass}}">
+
+		{% include 'includes/end-date-bar' %}
+
+		<div id="ideas" class="primary">
+			<div class="align-right">
+				<h4> Ingestuurde ontwerpen ({{runningIdeas.length}}) </h4>
+				<select id="selectSort" class="default-select">
+					<option value="random">Sorteer</option>
+					<option {{'selected' if sort == 'ranking'}} value="ranking">Meeste stemmen</option>
+					<option {{'selected' if sort == 'rankinginverse'}} value="rankinginverse">Minste stemmen</option>
+				</select>
+			</div>
+
+			{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+
+	 // Sorting dropdown
+	 // ----------------
+	 (function() {
+		 var select = document.querySelector('#selectSort');
+		 select.addEventListener('change', function() {
+			 // Replace current `sort=x` with new choice.
+				 var pathName = location.pathname;
+			 var search   = location.search.replace(/sort=[a-z_]*/i, '') || '?';
+			 if (search.match(/[^?&]$/)) {
+				 search += '&';
+			 }
+			 location.href = pathName + search + 'sort=' + select.value + '#ideas';
+		 });
+	 })();
+	</script>
+	<script>
+
+	 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
+
+	 var stepNo       = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
+	 var ideaId		    = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
+	 var zipCode	    = '{{user.zipCode}}'     || openstadGetCookie('zipCode')	    || '';
+	 var email		    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
+	 var hasVoted     = {{userHasVoted}}       || openstadGetCookie('hasVoted')     || '';
+	 var hasConfirmed = {{userHasConfirmed}}   || openstadGetCookie('hasConfirmed') || '';
+
+
+	 var match = window.location.hash.match(/showidea-(\d+)/);
+	 var showIdeaId = match ? match[1] : undefined;
+	 showIdeaId
+
+	 // tmp
+	 // var match = window.location.search.match(/stepNo=(\d+)/);
+	 // if (match) {
+	 //  	 currentStep = parseInt( match[1] );
+	 //  	 hideStep(steps[0]);
+	 //  	 showStep(steps[currentStep])
+	 // }
+
+	 // var match = window.location.search.match(/zipCode=([a-zA-Z0-9]{6})/);
+	 // if (match) {
+	 //  	 zipCode = match[1];
+	 // }
+	 document.querySelector('input[name=zipCode]').value = zipCode;
+
+	 // var match = window.location.search.match(/email=([^&]+)/);
+	 // if (match) {
+	 //  	 email = match[1];
+	 // }
+	 document.querySelector('input[name=email]').value = email;
+
+	 // var match = window.location.search.match(/ideaId=(\d+)/);
+	 // if (match) {
+	 //  	 ideaId = match[1];
+	 // }
+	 // document.querySelector('input[name=ideaId]').value = ideaId;
+
+	 var match = window.location.hash.match(/closed/);
+	 if (match) {
+		 hideVoteCreator();
+		 console.log('doClose')
+	 } else {
+
+		 if (hasConfirmed) {
+			 setHasConfirmed();
+		 } else {
+			 if (hasVoted) {
+				 setHasVoted();
+			 }
+		 }
+
+		 var match = window.location.hash.match(/vote-creator-anchor/);
+		 if (match) {
+			 showVoteCreator();
+		 }
+
+		 if (ideaId) {
+			 showVoteCreator()
+			 selectIdea(ideaId, true);
+		 }
+
+		 setNextButton();
+
+	 }
+
+	 window.onload = function(){
+		 var match = window.location.search.match(/showIdea=(\d+)/);
+		 if (match) {
+			 showIdeaId = match[1];
+		 };
+		 if (showIdeaId) {
+			 document.querySelector('#idea-' + showIdeaId).click()
+		 }
+	 }
+
+	</script>
+
+{% endblock %}

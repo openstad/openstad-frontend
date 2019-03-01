@@ -1,0 +1,107 @@
+.tab-selector {
+
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	width: calc(100% - 20px);
+	margin-top: 30px;
+	padding: 5px 10px 5px 10px;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 44px;
+  background-color: #f3f3f3;
+
+	@media @phone {
+		width: 100%;
+	}
+
+	ul {
+		display: flex;
+		flex-flow: row wrap;
+		flex-grow: 1;
+		margin: 0;
+		padding: 0;
+		white-space: nowrap;
+
+		@media @phone {
+			width: 100%;
+		}
+
+		li {
+			flex-grow: 1;
+			list-style: none;
+
+			a, a:hover, a:visited {
+				display: block;
+				height: 44px;
+				margin: 5px 4px 5px 4px;
+				padding: 0 15px;
+				border: solid 1px #434343;
+				outline: none;
+				font-weight: 600;
+				text-decoration: none;
+				text-align: center;
+				color:black;
+				background-color: #FFF;
+
+				&.active {
+					border: solid 1px #000000;
+					background-color: #ea1d25;
+					color:white;
+				}
+
+			}
+
+		}
+
+	}
+
+	.default-select {
+		flex-grow: 1;
+		margin: 5px 15px;
+		font-weight: 400;
+
+		@media @phone {
+			flex: 1 100%;
+			margin: 5px;
+		}
+
+	}
+
+	.divider {
+		width: 4px;
+		height: 44px;
+		margin: 5px 0px 5px 9px;
+		background-color: #FFF;
+
+		@media @phone {
+			width: 100%;
+			height: 4px;
+			margin: 5px;
+		}
+				
+	}
+
+	.no-button {
+		flex-grow: 1;
+		margin: 5px;
+		text-align: center;
+		text-decoration: underline;
+		color: #00539e;
+
+		&:hover, &:visited {
+			text-decoration: underline;
+			color: #00539e;
+		}
+
+		&.inactive {
+			opacity: 0.2;
+		}
+
+		@media @phone {
+			line-height: 25px;
+		}
+
+	}
+
+}

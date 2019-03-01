@@ -1,0 +1,84 @@
+body {
+  background-color: white;
+}
+#page {
+  max-width: none;
+  padding: 0;
+  font-size: 1.2em;
+}
+#page nav {
+  display: none;
+}
+#page header img {
+  left: 0px;
+}
+#page header #amsterdam {
+  left: 32px;
+}
+#page header #mainMenu,
+#page header #quick {
+  display: none;
+}
+#page footer {
+  display: none;
+}
+#page #mapcontainer {
+  page-break-inside: avoid;
+}
+#page .controls h4 {
+  font-size: 16px;
+  margin: 2px 0;
+}
+#page .controls .share {
+  display: none;
+}
+.pageContent.idea > .primary {
+  float: none;
+  padding-right: 0;
+  width: 100%;
+}
+.pageContent.idea > .primary h1 {
+  font-size: 1.6em;
+}
+.pageContent.idea > .secondary {
+  display: none;
+}
+#arguments form.newArgument {
+  display: none;
+}
+#arguments .delete,
+#arguments .edit,
+#arguments .reply {
+  display: none;
+}
+#arguments div.argList {
+  float: none;
+  padding: 0 !important;
+  width: 100%;
+}
+#arguments div.argList.for:before,
+#arguments div.argList.against:before {
+  font-weight: bold;
+}
+#arguments div.argList div.argument,
+#arguments div.argList div.reaction {
+  page-break-inside: avoid;
+}
+#arguments div.argList div.argument button.notvoted,
+#arguments div.argList div.reaction button.notvoted {
+  font-size: 0.8em;
+}
+#arguments div.argList div.argument button.voted,
+#arguments div.argList div.reaction button.voted {
+  font-size: 0.8em;
+}
+#arguments div.argList div.argument .user form,
+#arguments div.argList div.reaction .user form,
+#arguments div.argList div.argument .reply,
+#arguments div.argList div.reaction .reply {
+  display: none;
+}
+#arguments div.argList div.argument .hamburger,
+#arguments div.argList div.reaction .hamburger {
+  display: none;
+}

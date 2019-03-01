@@ -1,0 +1,502 @@
+#content.newArticle,
+#content.newIdea {
+	input[type="text"],
+	input[type="date"],
+	textarea {
+		border: 1px solid #C0C0C0;
+		border-radius: 4px;
+		box-sizing: border-box;
+		font: inherit;
+		padding: 0.4em 0.6em;
+		width: 100%;
+	}
+	input[type="submit"] {
+		float: right;
+	}
+	
+	#modBreak {
+		border: 3px solid #FFE115;
+		margin: 35px 0px;
+		padding: 10px 20px;
+		position: relative;
+		
+		&::before,
+		&::after {
+			border-left: 30px solid #FFE115;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-right: 0;
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: -3px;
+			bottom: -32px;
+		}
+		&::after {
+			border-left: 30px solid #FFF;
+			bottom: -24px;
+			left: 0;
+		}
+		
+		b {
+			color: #164995;
+		}
+		p {
+			margin: 0.5em 0 0;
+		}
+	}
+	
+	#howDoesItWork {
+		background-color: #F6F6F6;
+		border: 1px solid #164995;
+		border-radius: 4px;
+		display: block;
+		margin-bottom: 20px;
+		overflow: hidden;
+		
+		h2 {
+			background-color: #164995;
+			color: #FFF;
+			font-size: 20px;
+			font-weight: 300;
+			line-height: 30px;
+			margin: 0;
+			text-align: center;
+
+			@media @primary100 {
+				padding: 0;
+			}
+
+		}
+
+		>div {
+			box-sizing: border-box;
+			float: left;
+			padding: 20px 10px;
+			position: relative;
+			width: 33.33%;
+			
+			@media @primary100 {
+				float: none;
+				padding: 10px;
+				width: 100%;
+			}
+			
+			&:before {
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				content: '';
+				display: inline-block;
+				height: 117px;
+				width: 100%;
+				
+				@media @primary100 {
+					position: absolute;
+					height: 40px;
+					left: 10px;
+					top: 42px;
+					width: 40px;
+				}
+			}
+			&[data-step="1"]:before {
+				background-image: url('/img/instructions_idea.svg');
+			}
+			&[data-step="2"]:before {
+				background-image: url('/img/instructions_campaign.svg');
+			}
+			&[data-step="3"]:before {
+				background-image: url('/img/instructions_agenda.svg');
+			}
+			
+			h1 {
+				text-align: center;
+				
+				@media @primary100 {
+					margin-left: 50px;
+					text-align: left;
+				}
+			}
+		}
+	}
+	
+	#posterImageUpload {
+		button {
+			display: none;
+		}
+		
+		&.dz-clickable {
+			background-color: #f6f7f7;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			border: 1px solid #C0C0C0;
+			box-sizing: border-box;
+			cursor: pointer;
+			display: table;
+			height: 345px;
+			margin-bottom: 15px;
+			position: relative;
+			width: 100%;
+			
+			@media @phone {
+				height: 250px;
+			}
+
+			&::before {
+				position: absolute;
+				top: 45%;
+				width: 70%;
+				margin-left: 15%;
+				font-size: 12px;
+				font-weight: bold;
+				text-align: center;
+				color: #164995;
+				content: 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.';
+				
+				@media @phone {
+					margin-top: 20px;
+					margin-left: 10%;
+					width: 80%;
+				}
+
+			}
+
+			&[style]:before {
+				content: '';
+			}
+
+			&::after {
+				position: absolute;
+				top: 35%;
+				width: 100%;
+				height: auto;
+				display: block;
+				padding: 0;
+				font-size: 14px;
+				font-weight: bold;
+				text-align: center;
+				vertical-align: middle;
+				content: 'Klik hier om een afbeelding te uploaden.';
+			}
+
+			&[style]:after {
+				color: #FFF;
+				text-shadow: 0 0 4px #000;
+			}
+			
+			// Upload progress bar
+			// -------------------
+			.progress {
+				background-color: #FFF;
+				display: none;
+				left: 50%;
+				margin-left: -100px;
+				margin-top: 2em;
+				max-width: 200px;
+				position: absolute;
+				top: 50%;
+				width: 80%;
+			}
+			&.uploading .progress {
+				display: block;
+			}
+			// Delete image button
+			// -------------------
+			button {
+				.appearance(none);
+				
+				background-color: #164995;
+				bottom: 10px;
+				color: #FFF;
+				cursor: pointer;
+				display: none;
+				font-size: inherit;
+				padding: 8px 0;
+				position: absolute;
+				left: 50%;
+				margin-left: -85px;
+				text-align: center;
+				white-space: nowrap;
+				width: 170px;
+			}
+			&[style] button {
+				display: block;
+			}
+		}
+	}
+
+  .primary {
+		padding-right: @hMargin;
+		
+		@media @primary100 {
+			padding-right: 0;
+		}
+		
+		#titleAndSummary, #location {
+			h2:first-of-type {
+				margin-top: 0;
+			}
+			em {
+				color: rgba(0,0,0,0.3);
+			}
+		}
+		#titleAndSummary {
+			input {
+				box-sizing: border-box;
+				width: 100%;
+			}
+			textarea {
+				height: 100px;
+			}
+			#charsLeft {
+				color: #9A9A9A;
+				font-size: 0.7rem;
+			}
+		}
+		#location {
+			margin-bottom: 20px;
+		}
+		
+		#description {
+			clear: both;
+			
+			#trixToolbar {
+				.button_row {
+					justify-content: flex-start;
+					
+					.button_group {
+						margin-right: 10px;
+					}
+				}
+				button.attach::before {
+					background-image: url('/img/camera.svg');
+				}
+			}
+			textarea,
+			trix-editor {
+				min-height: 200px;
+			}
+		}
+	}
+
+	.secondary {
+		@media @primary100 {
+			display: none;
+		}
+	}
+}
+
+.completeRegistration {
+
+	table {
+		width: 660px;
+		td {
+			position: relative;
+			padding: 3px;
+			vertical-align: top;
+			line-height: 40px;
+		}
+	}
+
+	.padding-top {
+
+		padding-top: 30px;
+		
+	}
+
+	input {
+		border: 1px solid black;
+		border-radius: 0px;
+		width: 330px;
+		height: 40px;
+		padding: 12px;
+		font-size: 16px;
+		line-height: 16px;
+	}
+
+	.signedupfornewsletter {
+		position: relative;
+		z-index: 1;
+
+		input[type="checkbox"] {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			width: 25px;
+			height: 25px;
+			margin: 0;
+			padding: 0;
+			opacity: 0.1;
+			cursor: pointer;
+			z-index: 3;
+		}
+
+		.checkmark {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			width: 25px;
+			height: 25px;
+			content: "xxx";
+			border: 1px solid black;
+			border-radius: 0px;
+			background-color: white;
+			z-index: 2;
+		}
+
+		input:checked ~ .checkmark {
+			border-color: #787979;
+			background-color: black;
+		}
+
+		.checkmark:after {
+			content: "";
+			position: absolute;
+			display: block;
+		}
+
+		input:checked ~ .checkmark:after {
+			display: block;
+		}
+
+		.checkmark:after {
+			left: 9px;
+			top: 4px;
+			width: 5px;
+			height: 11px;
+			border: solid white;
+			border-width: 0 2px 2px 0;
+			-webkit-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
+	}
+
+	.extraInfo {
+		
+	}
+
+}
+
+.postcodecheck {
+
+	width: 320px;
+
+	h4 {
+		font-size: 16px;
+		margin-bottom: 4px;
+	}
+
+	input[type="text"] {
+		width: 100%;
+		margin-bottom: 12px;
+		padding: 5px 8px;
+		border: 1px solid #B6B7BA;
+		border-radius: 0;
+	}
+
+	input[type="submit"] {
+		margin-top: 0px;
+		float: right;
+		clear: both;
+	}
+
+
+}
+
+.completeRegistration {
+
+	table {
+		width: 660px;
+		td {
+			position: relative;
+			padding: 3px;
+			vertical-align: top;
+			line-height: 40px;
+		}
+	}
+
+	.padding-top {
+
+		padding-top: 30px;
+		
+	}
+
+	input {
+		border: 1px solid black;
+		border-radius: 0px;
+		width: 330px;
+		height: 40px;
+		padding: 12px;
+		font-size: 16px;
+		line-height: 16px;
+	}
+
+	.signedupfornewsletter {
+		position: relative;
+		z-index: 1;
+
+		input[type="checkbox"] {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			width: 25px;
+			height: 25px;
+			margin: 0;
+			padding: 0;
+			opacity: 0.1;
+			cursor: pointer;
+			z-index: 3;
+		}
+
+		.checkmark {
+			position: absolute;
+			top: 5px;
+			left: 0;
+			width: 25px;
+			height: 25px;
+			content: "xxx";
+			border: 1px solid black;
+			border-radius: 0px;
+			background-color: white;
+			z-index: 2;
+		}
+
+		input:checked ~ .checkmark {
+			border-color: #787979;
+			background-color: black;
+		}
+
+		.checkmark:after {
+			content: "";
+			position: absolute;
+			display: block;
+		}
+
+		input:checked ~ .checkmark:after {
+			display: block;
+		}
+
+		.checkmark:after {
+			left: 9px;
+			top: 4px;
+			width: 5px;
+			height: 11px;
+			border: solid white;
+			border-width: 0 2px 2px 0;
+			-webkit-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+
+	}
+
+	.extraInfo {
+		
+	}
+
+}
+

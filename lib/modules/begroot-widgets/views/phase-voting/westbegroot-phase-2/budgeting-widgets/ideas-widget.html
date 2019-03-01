@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" media="all"   href="/css/widgets/ideas.css"/>
+
+<template id="idea-template">
+	<div class="idea"> <!-- onclick="{{href}}" -->
+		<div class="idea-images"></div>
+		<div class="idea-title"></div>
+		<div class="idea-summary"></div>
+		<div class="idea-budget"></div>
+		<div class="idea-extra"></div>
+		<div class="idea-counters"></div>
+	</div>
+</template>
+
+<div class="ideas">
+	<slot name="title"><h2>Ideeën</h2></slot>
+	<div class="ideas-list">
+	</div>
+</div>
+

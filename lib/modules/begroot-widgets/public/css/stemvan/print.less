@@ -1,0 +1,113 @@
+body {
+	background-color: white;
+}
+
+#page {
+	max-width: none;
+	padding: 0;
+	font-size: 1.2em;
+
+	nav {
+		display: none;
+	}
+
+	header {
+		img {
+			left: 0px;
+		}
+		#amsterdam {
+			left: 32px;
+		}
+		#mainMenu,
+		#quick {
+			display: none;
+		}
+	}
+
+  footer {
+		display: none;
+	}
+
+  #mapcontainer {
+  	page-break-inside: avoid;
+	}
+
+	.controls {
+		h4 {
+			font-size: 16px;
+			margin: 2px 0;
+		}
+
+		.share {
+			display: none;
+		}
+		
+	}
+
+}
+
+.pageContent.idea {
+
+  >.primary {
+		float: none;
+		padding-right: 0;
+		width: 100%;
+
+		h1 {
+		  font-size: 1.6em;
+		}
+	}
+
+  >.secondary {
+		display: none;
+	}
+
+}
+
+#arguments {
+
+	form.newArgument {
+		display: none;
+	}
+
+	.delete, .edit, .reply {
+		display: none;
+	}
+
+	div.argList {
+		float: none;
+		padding: 0 !important;
+		width: 100%;
+
+		&.for:before,
+		&.against:before {
+			font-weight: bold;
+		}
+
+		div.argument,
+		div.reaction {
+
+		 	button.notvoted {
+				font-size: 0.8em;
+		 	}
+
+		 	button.voted {
+				font-size: 0.8em;
+		 	}
+
+      page-break-inside: avoid;
+
+			.user form,
+			.reply {
+				display: none;
+			}
+
+			.hamburger {
+				display: none;
+			}
+
+		}
+
+
+	}
+}

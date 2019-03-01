@@ -1,0 +1,167 @@
+{% extends 'base.njk' %}
+{% import 'includes/ideas-gridder-list.html' as ideasList %}
+{% import 'includes/budgeting.html' as budgeting %}
+
+{% set pageTitle    = 'Stemmen' %}
+{% set contentClass = 'ideasList' %}
+{% set activeMenu   = 'budget' %}
+
+{% block contentFullWidth %}
+
+	{% if config.budgeting.isActive %}
+		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
+			<div id="info-bewoners-west" class="info-block green">
+				Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
+				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
+			</div>
+		</div>
+
+		{{ budgeting.showBudgetWindow() }}
+	{% endif %}
+
+	<script>
+	 var csrfToken = '{{csrfToken}}';
+	 var userHasVoted = {{userHasVoted}};
+	 var userIsLoggedIn = {{userIsLoggedIn}};
+	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
+	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+
+	</script>
+
+	{% include 'includes/end-date-bar.njk' %}
+
+	<div id="ideasList" class="pageContent {{contentClass}}">
+
+		<h1>
+			Plannen voor West ({{runningIdeas.length}})
+		</h1>
+
+		<div class="tab-selector">
+			<ul class="hidden-xs">
+				<li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
+				<li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
+				<li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
+				<li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaamheid</a></li>
+			</ul>
+			<select onchange="activateTab(this.selectedIndex)" class="default-select visible-xs">
+				<option href="javascript: void activateTab(0)">Alle thema's </option>
+				<option href="javascript: void activateTab(1)">Groen</option>
+				<option href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</option>
+				<option href="javascript: void activateTab(3)">Duurzaamheid</option>
+			</select>
+			<div class="divider"></div>
+			<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+				<option value="0">Alle gebieden</option>
+				<option value="Oud-West">Oud-West</option>
+				<option value="Bos en Lommer">Bos en Lommer</option>
+				<option value="De Baarsjes">De Baarsjes</option>
+				<option value="Westerpark">Westerpark</option>
+				<option value="West Algemeen">West Algemeen</option>
+			</select>
+			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+		</div>
+
+		<div class="align-right">
+			<b>Sorteer op: </b>
+			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
+				{% if config.budgeting.isActive %}
+					<option value="random">Willekeurig</option>
+				{% else %}
+				<option value="ranking">Ranglijst</option>
+				{% endif %}
+				<option value="budget-down">Bedrag aflopend</option>
+				<option value="budget-up">Bedrag oplopend</option>
+			</select>
+		</div>
+		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
+
+	</div>
+{% endblock %}
+
+{% block scripts %}
+	<script src="/js/sticky.js"></script>
+	<script src="/js/accordion.js"></script>
+
+	<script>
+
+	 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
+
+	 // var stepNo       = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
+	 // var ideaId		    = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
+	 // var zipCode	    = '{{user.zipCode}}'     || openstadGetCookie('zipCode')	    || '';
+	 // var email		    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
+	 // var hasVoted     = {{userHasVoted}}       || openstadGetCookie('hasVoted')     || '';
+	 // var hasConfirmed = {{userHasConfirmed}}   || openstadGetCookie('hasConfirmed') || '';
+	 //
+	 //
+	 // var match = window.location.hash.match(/showidea-(\d+)/);
+	 // var showIdeaId = match ? match[1] : undefined;
+	 // showIdeaId
+	 //
+	 // // tmp
+	 // // var match = window.location.search.match(/stepNo=(\d+)/);
+	 // // if (match) {
+	 // //  	 currentStep = parseInt( match[1] );
+	 // //  	 hideStep(steps[0]);
+	 // //  	 showStep(steps[currentStep])
+	 // // }
+	 //
+	 // // var match = window.location.search.match(/zipCode=([a-zA-Z0-9]{6})/);
+	 // // if (match) {
+	 // //  	 zipCode = match[1];
+	 // // }
+	 // document.querySelector('input[name=zipCode]').value = zipCode;
+	 //
+	 // // var match = window.location.search.match(/email=([^&]+)/);
+	 // // if (match) {
+	 // //  	 email = match[1];
+	 // // }
+	 // document.querySelector('input[name=email]').value = email;
+	 //
+	 // // var match = window.location.search.match(/ideaId=(\d+)/);
+	 // // if (match) {
+	 // //  	 ideaId = match[1];
+	 // // }
+	 // // document.querySelector('input[name=ideaId]').value = ideaId;
+	 //
+	 // var match = window.location.hash.match(/closed/);
+	 // if (match) {
+	 //  	 hideVoteCreator();
+	 //  	 console.log('doClose')
+	 // } else {
+	 //
+	 //  	 if (hasConfirmed) {
+	 //  		 setHasConfirmed();
+	 //  	 } else {
+	 //  		 if (hasVoted) {
+	 //  			 setHasVoted();
+	 //  		 }
+	 //  	 }
+	 //
+	 //  	 var match = window.location.hash.match(/vote-creator-anchor/);
+	 //  	 if (match) {
+	 //  		 showVoteCreator();
+	 //  	 }
+	 //
+	 //  	 if (ideaId) {
+	 //  		 showVoteCreator()
+	 //  		 selectIdea(ideaId, true);
+	 //  	 }
+	 //
+	 //  	 setNextButton();
+	 //
+	 // }
+	 //
+	 // window.onload = function(){
+	 //  	 var match = window.location.search.match(/showIdea=(\d+)/);
+	 //  	 if (match) {
+	 //  		 showIdeaId = match[1];
+	 //  	 };
+	 //  	 if (showIdeaId) {
+	 //  		 document.querySelector('#idea-' + showIdeaId).click()
+	 //  	 }
+	 // }
+
+	</script>
+
+{% endblock %}

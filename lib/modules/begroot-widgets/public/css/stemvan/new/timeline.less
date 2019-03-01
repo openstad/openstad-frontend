@@ -1,0 +1,58 @@
+/* tijdlijn: gekopieerd uit javabrug */
+
+.box-grey {
+  padding: 15px 15px;
+  background: #f3f3f3;
+}
+
+.agenda-period, .agenda-day {
+  padding: 10px 20px 20px 50px;
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 14px;
+
+  ul {
+    padding: 0px 15px
+  }
+
+  h3 {
+		font-size: 18px;
+    margin: 10px 0;
+  }
+}
+
+.agenda-period::before, .agenda-day::before {
+  content: '';
+  width: 10px;
+  background: #323333;
+  left: 15px;
+  top: -10px;
+  bottom: 0;
+  position: absolute;
+}
+
+.agenda-period:first-child::before, .agenda-day:first-child::before {
+  top: 0;
+}
+
+.agenda-period::after, .agenda-day::after {
+  top: 50%;
+  position: absolute;
+  content: '';
+  background-repeat: no-repeat;
+  transform: translateY(-50%);
+}
+
+.agenda-period::after {
+  background-image: url('/img/stemtool/period.svg');
+  width: 22px;
+  height: 52px;
+  left: 10px;
+}
+
+.agenda-day::after {
+  background-image: url('../../img/stemtool/round-empty.svg');
+  width: 30px;
+  height: 30px;
+  left: 5px;
+}

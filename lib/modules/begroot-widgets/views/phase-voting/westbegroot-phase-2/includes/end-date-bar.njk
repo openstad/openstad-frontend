@@ -1,0 +1,41 @@
+<div class="pageContent">
+	<div id="end-date-bar">
+		<div id="ideas-anchor"></div>
+		<span id="end-date-bar-start-text" class="text"></span>
+		{% if config.budgeting.isActive %}
+			<span id="number-plates">
+				<span id="end-date-number-plate-00" class="number-plate">0</span><span id="end-date-number-plate-0" class="number-plate"> 0 </span>
+			</span>
+			<span id="end-date-bar-end-text" class="text"></span>
+		{% endif %}
+	</div>
+</div>
+
+<script>
+ {% if config.budgeting.isActive %}
+ var months = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+ var endDate = new Date('2018-11-30');
+ var endDate = new Date( Date.now() + 21 * 24 * 60 * 60 * 1000 ); // demo versie
+ var endDateText = endDate.getDate() + ' ' + months[ endDate.getMonth() ] + ' ' + ( 1900 + endDate.getYear() );
+ var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+ if ( daysLeft > 0 ) {
+	 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kan t/m ' + endDateText + ': ';
+	 document.getElementById('end-date-bar-end-text').innerHTML = 'dagen';
+	 var value000 = parseInt(daysLeft/100) || 0;
+	 var value00  = parseInt(daysLeft/10) - value000;
+	 var value0   = daysLeft - value000 * 100 - value00 * 10;
+	 document.getElementById('end-date-number-plate-00').innerHTML = value00;
+	 document.getElementById('end-date-number-plate-0').innerHTML = value0;
+ } else {
+	 document.getElementById('end-date-bar-start-text').innerHTML = 'Stemmen kon t/m ' + endDateText;
+	 document.getElementById('end-date-number-plate-00').innerHTML = 0;
+	 document.getElementById('end-date-number-plate-0').innerHTML = 0;
+ }
+ {% else %}
+ var endDate = new Date('2019-01-16');
+ var endDateText = '16 februari 2019';
+ var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+ document.getElementById('end-date-bar-start-text').innerHTML = 'De stemperiode is afgelopen. Meer uitleg over de uitslag lees je <a href="/img/westbegroot/Uitslag.West.Begroot_20190215.pdf">hier</a>.';
+ {% endif %}
+</script>
+

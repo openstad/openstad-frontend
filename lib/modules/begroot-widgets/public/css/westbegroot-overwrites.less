@@ -1,0 +1,239 @@
+#howDoesItWork .steps {
+	padding: 12px 0;
+
+	img {
+		max-width: 100%;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+header h1 {
+  color: #000000;
+  font-weight: 700;
+}
+
+.overview-title {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 10px 0 5px;
+}
+
+.overview {
+	.idea-image {
+		width: 44px;
+		height: 44px;
+		background-size: cover;
+	}
+
+	hr, .line {
+		background: none;
+		border: none;
+		border-top: 1px solid #434343;
+		margin: 5px 0;
+
+		td {
+			@media @phone {
+				padding: 0 !important;
+			}
+		}
+	}
+
+	hr.fully {
+		border-top: 2px solid #434343;
+    margin: 10px -25px
+	}
+
+	tr td {
+		padding-bottom: 8px;
+		font-size: 16px;
+
+		@media @phone {
+			font-size: 14px;
+			padding-left: 15px;
+		}
+	}
+
+	tr td:first-child{
+		width: 54px;
+
+		@media @phone {
+		}
+	}
+
+	tr td:last-child {
+		min-width: 154px;
+		white-space: nowrap;
+
+		@media @phone {
+			padding: 15px;
+		}
+
+		@media @gridderFull {
+			min-width: 0;
+		}
+	}
+
+	.total-row td {
+		font-weight: bold;
+		@media @phone {
+			padding: 10px 15px 3px;
+		}
+	}
+
+	.leftovers {
+		font-size: 14px;
+	  color: #434343;
+
+		@media @phone {
+			margin: 0;
+		}
+	}
+
+}
+
+.underscription {
+	font-size: 14px;
+	color: #787878;
+}
+
+.grider-title {
+	margin-top: 0;
+	font-size: 24px;
+	font-weight: 600;
+	color: #000000;
+	margin-bottom: 10px;
+}
+
+.default-select {
+	-webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 44px;
+  padding: 0 8px;
+  outline: solid 1px #434343;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 47px;
+  text-align: center;
+  background-color: #FFF;
+  background-image: url(/img/arrow_down_black.svg);
+  background-position: center right 10px;
+  background-repeat: no-repeat;
+  background-size: 12px auto;
+  border: none;
+  border-radius: 0;
+  min-width: 177px;
+  font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+  font-weight: 600 !important;
+  padding-left: 15px;
+}
+
+.sticky-bar-container {
+	min-height: 300px;
+}
+
+.budget {
+	background: url(../img/westbegroot/pricetag.svg);
+	width: 146px;
+	height: 44px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	font-size: 18px;
+	font-weight: 600;
+	color: #434343;
+	padding: 11px 20px;
+}
+
+.gridder .gridder-list .info {
+    padding: 10px 0 0;
+
+		.button-read-more {
+			margin: 10px 0;
+		}
+
+		.inner {
+    min-height: 46px;
+
+			@media @gridderFull {
+				min-height: 0;
+			}
+		}
+
+		.thema-en-gebied {
+			margin: 8px 0;
+		}
+}
+
+ul.share li {
+    display: block;
+    float: left;
+    margin: 0 4px;
+}
+
+ul.share li a {
+    display: block;
+}
+
+.mobile-menu-item {
+	width: 33%;
+	padding: 13px 0 10px;
+}
+
+table.thema-en-gebied {
+	 tr td {
+		 padding: 3px 4px;
+
+		 &:first-child {
+			 padding-left: 0;
+		 }
+	}
+}
+
+#vote-button-container, #vote-registered-container {
+	display: none;
+}
+
+.active-step-3 {
+	#vote-button-container {
+		display: block;
+	}
+}
+
+.active-step-4 {
+	#vote-registered-container {
+		display: block;
+	}
+
+	#budget-text {
+		display: none;
+	}
+
+	#vote-registered-container {
+		margin-top: -30px;
+		margin-bottom: 20px;
+	}
+
+	@media @phone {
+		.bottom-container {
+			float: none;
+		}
+
+		#vote-registered-container {
+			margin-top: 0px;
+			margin-bottom: 20px;
+
+		}
+
+	}
+
+
+
+
+}
+
+.active-step-6 {
+	#budget-text, #current-budget-preview {
+		display: none;
+	}
+}

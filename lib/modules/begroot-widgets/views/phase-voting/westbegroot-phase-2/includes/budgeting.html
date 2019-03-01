@@ -1,0 +1,294 @@
+{% macro showBudgetWindow() %}
+<div id="main-budget-block" class="sticky-bar-container">
+	<div class="sticky-bar">
+		<div class="pageContent">
+			<div id="budget-block" >
+				<div id="budget-block">
+					<div id="steps-bar">
+						<div id="steps-bar-1" class="step active">
+							<div class="content">1. Kies</div>
+						</div>
+						<div id="steps-bar-2" class="step">
+							<div class="content">2. Overzicht</div>
+						</div>
+						<div id="steps-bar-3" class="step">
+							<div class="content">3. Stemcode</div>
+						</div>
+						<div id="steps-bar-4" class="step">
+							<div class="content">4. Stem</div>
+						</div>
+					</div>
+
+					<div id="current-budget-bar" class="sticky-visible">
+						<div class="current-budget-images clearfix"></div>
+					</div>
+					<div id="steps-content">
+						<div id="current-step">
+							<div class="row">
+
+								<div class="col-sm-8 col-xs-12 ">
+									<div id="content">
+										<div id="text">
+											<div class="mobile-accordion overstretch--xs">
+												<a href="#" class="mobile-accordion-header">
+													<div class="mobile-accordion-header-open">
+														<h3 class="icon-header icon-header--blue">
+															<img src="/img/info.png" width="24" />
+															Lees uitleg
+														</h3>
+													</div>
+													<div class="mobile-accordion-header-closed">
+														<h3 class="icon-header icon-header--blue">
+															<img src="/img/info.png" width="24" />
+															Uitleg inklappen
+														</h3>
+													</div>
+												</a>
+												<div class="mobile-accordion-body">
+													Kies uit onderstaand overzicht jouw favoriete plannen. Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen. In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem.
+												</div>
+											</div>
+											<br class="visible-xs" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4  col-xs-12 ">
+									<div id="budget-text" class="stretch">
+										<div>
+											<table class="primary-color stretch table-reset">
+												<tr >
+													<td><label>Budget gekozen:</label> </td>
+													<td><span class="current-budget-amount text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Budget over:</label></td>
+													<td><span class="available-budget-amount  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-8 col-xs-12 bottom-container">
+									<br />
+									<div id="content">
+										<div id="current-budget-preview">
+											<div class="current-budget-images clearfix"></div>
+											<div class="current-budget-table">
+												<h5 class="overview-title">Overzicht van mijn selectie</h5>
+												<div class="overview"></div>
+											</div>
+										</div>
+										<div id="budgeting-edit-mode-container" class="hidden align-left">
+											<div class="onoffswitch">
+												<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox budgeting-edit-mode"  onchange="setBudgetingEditMode();" id="budgeting-edit-mode">
+												<label class="onoffswitch-label" for="budgeting-edit-mode">
+													<span class="onoffswitch-inner"></span>
+													<span class="onoffswitch-switch"></span>
+												</label>
+											</div>
+											<div>
+												Verwijder een plan
+											</div>
+										</div>
+										<div id="vote-button-container">
+											<div onclick="login();" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">Vul je stemcode in</div>
+											<div class="error-block">
+												Met deze stemcode is al gestemd op West Begroot.
+												Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.
+											</div>
+											{% if 0 %}
+											<br/></br><a href="/dev/delete-user-budget-vote">Dev optie: gooi eerst je oude stem weg</a>
+											{% endif %}
+										</div>
+										<div id="vote-registered-container">
+											<div class="button-stemcode geldige-code">Geldige stemcode</div>
+											<div>
+												Het controleren van je stemcode is gelukt!
+												Je bent bijna klaar.
+												Klik op onderstaande knop om je stem te versturen.
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="button-bar">
+						<div id="previous-button" onclick="previousStep(); calculateContainerHeight();">
+							Vorige
+						</div>
+						<div id="next-button" onclick="nextStep(); ">
+							Volgende
+						</div>
+					</div>
+					<div id="steps-content-1" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue margin-0">
+											<img src="/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									Kies uit onderstaand overzicht jouw favoriete plannen. Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen. In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem.
+								</div>
+							</div>
+							<br class="visible-xs" />
+						</div>
+						<div class="add-button" onclick="scrollToIdeas();">
+							<div>
+								Voeg <br />toe
+							</div>
+						</div>
+					</div>
+
+					<div id="steps-content-2" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									Bekijk hieronder je selectie. Ben je tevreden?
+									Klik dan onderaan door naar stap 3 om jouw stemcode in te vullen.
+								</div>
+							</div>
+							<br class="visible-xs" />
+						</div>
+					</div>
+
+					<div id="steps-content-3" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									Via onderstaande knop kun je op een aparte pagina je persoonlijke stemcode invullen. Wij controleren de stemcode op geldigheid. Als dat gelukt is kom je terug op deze pagina waarna je kunt stemmen. Alle bewoners van West hebben per post een stemcode ontvangen.
+								</div>
+							</div>
+
+							<br class="visible-xs" />
+						</div>
+					</div>
+
+					<div id="steps-content-4" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs" style="display: none;">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									Het controleren van je stemcode is gelukt! Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.
+								</div>
+							</div>
+							<br />
+						</div>
+					</div>
+
+					<div id="steps-content-5" class="step">
+						<div class="text">
+							&nbsp;
+						</div>
+					</div>
+
+					<div id="steps-content-6" class="step">
+						<div class="text">
+							<div class="checkmark-block-green">
+								<h4>Gelukt, je hebt gestemd!</h4>
+								<br/>
+								Bedankt voor het stemmen op West Begroot. De stemperiode loopt van 16 januari t/m 13 februari 2019. Wil je weten welke plannen het vaakst zijn gekozen en uitgevoerd worden? De uitslag wordt op 15 februari 2019 gepubliceerd op <a href="https://westbegroot.amsterdam.nl">westbegroot.amsterdam.nl</a>.
+							</div>
+						</div>
+					</div>
+					<div id="steps-content-7" class="step">
+						<div class="text">
+							&nbsp;
+						</div>
+					</div>
+				</div>
+
+				<div class="sticky-expand">
+					<div class="row">
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<label>
+								<span class="hidden-xs"> Budget gekozen: </span>
+								<span class="visible-xs"> Gekozen: </span>
+							</label>
+							<span class="current-budget-amount bold">0</span>
+						</div>
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<div class="text-center">
+								<span class="hidden-xs"> Budget over: </span>
+								<span class="visible-xs"> Over: </span>
+								<span class="available-budget-amount bold">0</span>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4 expand-bar">
+							<div class="align-right">
+								<a href="#mainMenu" class=" link scroll-link">
+									Omhoog
+									<img src="/img/arrow_up_blue.svg" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sticky-contract">
+					<div class="align-right">
+						<a href="#budget-block" class="contract link scroll-link">
+							Omhoog
+							<img src="/img/arrow_up_blue.svg" />
+						</a>
+					</div>
+				</div>
+				<div id="waitLayer" class="hidden"></div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endmacro %}
