@@ -1,34 +1,31 @@
-{% import 'ideas-list.html' as ideasList %}
-{% import 'budgeting.html' as budgeting %}
+{% import 'phase-voting/ideas-list.html' as ideasList %}
+{% import 'phase-voting/budgeting.html' as budgeting %}
 
 {% set pageTitle    = 'Stemmen' %}
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-
-	{% if config.budgeting.isActive %}
-		<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
-			<div id="info-bewoners-west" class="info-block green">
-        <!--
-				Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
-        -->
-        {{data.widget.infoMessage}}
-				<div class="close-button" onclick="hideInfoBewonersWest()"></div>
-			</div>
+	<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
+		<div id="info-bewoners-west" class="info-block green">
+      <!--
+			Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
+      -->
+      {{data.widget.infoMessage}}
+			<div class="close-button" onclick="hideInfoBewonersWest()"></div>
 		</div>
+	</div>
 
-		{{ budgeting.showBudgetWindow() }}
-	{% endif %}
+	{{ budgeting.showBudgetWindow() }}
 
 	<script>
 	 var csrfToken = '{{csrfToken}}';
-	 var userHasVoted = {{userHasVoted}};
-	 var userIsLoggedIn = {{userIsLoggedIn}};
+	 var userHasVoted = {{data.widget.userHasVoted}};
+	 var userIsLoggedIn = {{data.widget.userIsLoggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
 	</script>
 
-	{% include 'includes/end-date-bar.njk' %}
+	{% include 'phase-voting/includes/end-date-bar.njk' %}
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
 
@@ -73,11 +70,5 @@
 			</select>
 		</div>
 
-		{{ ideasList.showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) }}
-
+		{{ ideasList.showIdeasList(data.widget.ideas, fullHost, user, userHasVoted, isAdmin) }}
 	</div>
-
-{% block scripts %}
-	<script src="/js/sticky.js"></script>
-	<script src="/js/accordion.js"></script>
-{% endblock %}

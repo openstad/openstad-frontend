@@ -1,10 +1,6 @@
 {% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) %}
-
-<!-- gridder: https://github.com/oriongunning/gridder -->
-<script src="js/jquery.gridder.js"></script>
-
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
-	{% for idea in data.widget.ideas %}
+	{% for idea in runningIdeas %}
 	<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#idea-content-{{idea.id}}">
 		{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
@@ -129,9 +125,4 @@
 	</li>
 	{% endfor %}
 </ul>
-
-<script src="/js/ideas-gridder-list.js"></script>
-<script src="/js/westbegroot.js?1.0.0"></script>
-<script src="/js/westbegroot-enhancements.js"></script>
-
 {% endmacro %}

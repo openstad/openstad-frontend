@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="220" viewBox="0 0 220 220">
+    <g fill="none" fill-rule="nonzero">
+        <path fill="#FFF" d="M0 0h220v220H0z"/>
+        <g stroke="#000" stroke-width="2">
+            <path fill="#F3F3F3" d="M43 101.58V171h134v-69.42l-67-38.427-67 38.426z"/>
+            <path fill="#FFF" d="M62 49h96v104H62z"/>
+            <path fill="#F3F3F3" d="M43 102.77V171h134v-68.23l-67 40.398-67-40.397z"/>
+        </g>
+        <g transform="translate(89 62)">
+            <path fill="#D8D8D8" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.755 35.524a21.376 21.376 0 0 1-.745-1.022 47.535 47.535 0 0 0-.44-.577l-.137-.176-.044-.198A22.828 22.828 0 0 1-1 21.53C-1 9.093 8.844-1 21-1S43 9.093 43 21.531c0 4.232-1.142 8.293-3.265 11.817-.092.195-.163.34-.207.424l-.052.1-.073.086a38.12 38.12 0 0 0-.229.274c-.534.8-1.119 1.566-1.75 2.29-3.47 4.967-4.965 10.086-4.508 15.392L33.01 53H8.982l.102-1.094c.489-5.199-1.273-10.653-5.329-16.382z"/>
+            <rect width="18" height="2" x="12" y="59" fill="#000" rx="1"/>
+            <rect width="14" height="2" x="14" y="65" fill="#000" rx="1"/>
+        </g>
+    </g>
+</svg>

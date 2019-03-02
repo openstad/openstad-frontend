@@ -131,6 +131,7 @@ function run(id, config, callback) {
                   { name: 'Paragraph', element: 'p' }
                 ]
               },
+              'begroot': {},
               'card' : {},
               'counter' : {},
               'idea-overview' : {},
@@ -197,7 +198,8 @@ function run(id, config, callback) {
         'arguments-form-widgets': {},
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
-        'submissions-widgets': {}
+        'submissions-widgets': {},
+        'begroot-widgets': {}
       }
     }, config)
   );
