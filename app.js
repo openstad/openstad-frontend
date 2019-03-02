@@ -199,7 +199,51 @@ function run(id, config, callback) {
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
         'submissions-widgets': {},
-        'begroot-widgets': {}
+        'begroot-widgets': {},
+        'apostrophe-palette-widgets': {},
+        'apostrophe-palette': {},
+        'apostrophe-palette-global': {
+          paletteFields: [
+            {
+              name: 'backgroundNavColor',
+              label: 'Background color of the navigation bar',
+              type: 'color',
+              selector: '#navbar',
+              property: 'background-color',
+            },
+            {
+              name: 'backgroundFooterColor',
+              label: 'Background color of the footer',
+              type: 'color',
+              selector: 'footer',
+              property: 'background-color',
+            },
+            {
+              name: 'logoWidth',
+              label: 'Logo breedte',
+              type: 'range',
+              selector: ['#logo-image'],
+              property: ['width'],
+              min: 25,
+              max: 300,
+              step: 1,
+              unit: 'px',
+        //      mediaQuery: '(max-width: 59.99em)'
+            },
+          ],
+          arrangePaletteFields: [
+            {
+              name: 'colorFields',
+              label: 'Kleuren',
+              fields: ['backgroundNavColor', 'backgroundFooterColor']
+            },
+            {
+              name: 'logoFields',
+              label: 'Logo instellingen',
+              fields: ['logoWidth']
+            },
+          ]
+        }
       }
     }, config)
   );

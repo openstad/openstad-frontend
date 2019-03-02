@@ -30,20 +30,16 @@
 	{% include 'phase-voting/includes/end-date-bar.html' %}
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
-
 		<h1>
 			Plannen voor West ({{runningIdeas.length}})
 		</h1>
-
 		<div class="tab-selector">
-
 			<ul class="hidden-xs">
 				<li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
 				<li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
 				<li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
 				<li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaamheid</a></li>
 			</ul>
-
 			<select onchange="activateTab(this.selectedIndex)" class="default-select visible-xs">
 				<option href="javascript: void activateTab(0)">Alle thema's </option>
 				<option href="javascript: void activateTab(1)">Groen</option>

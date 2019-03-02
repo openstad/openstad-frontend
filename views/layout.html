@@ -1,5 +1,7 @@
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
+{% import 'apostrophe-palette-widgets:macros.html' as palette %}
+
 
 {% block title %}
   {# Create a useful, SEO-friendly title tag based on what we have #}
@@ -13,19 +15,28 @@
 {% endblock %}
 
 {% block extraHead %}
-
+{{ palette.stylesheetLink(data.global) }}
+{{ palette.stylesheetTag() }}
 {% endblock %}
 {% block beforeMain %}
+{% if data.user %} <!-- be sure to somehow safegaurd against non-editor situations, as performance could unnecessarily suffer -->
+  {{ palette.palette(data.global, 'palette') }}
+{% endif %}
     {% if not (data.query.layout === 'none') %}
     <header>
         <div class="container relative">
             <div class="row">
                 <div class="col-xs-12">
                   <a href="{{appUrl}}/" class="logo-container">
+                    {% if data.global.siteLogo %}
+                    <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
+
+                    {% else %}
                     <img src="/img/andreas.svg" alt="logo">
                     <div id="amsterdam">
                         Gemeente<br>Amsterdam
                     </div>
+                    {% endif %}
                   </a>
                   <h2 class="header-subtitle">
                     {{data.global.siteTitle}}
