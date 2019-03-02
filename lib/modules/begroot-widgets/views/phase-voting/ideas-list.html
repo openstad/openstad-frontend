@@ -24,7 +24,7 @@
 					<div class="budget">{{idea.budget}}</div> {# formatted in js #}
 				</div>
 				<div class="col-xs-6">
-					<div class="btn--blue noOfVotes stretch">{{idea.extraData.aantalStemmen}} stemmen</div>
+					<div class="button-add-idea-to-budget btn--blue stretch"></div>
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
@@ -45,8 +45,6 @@
 							{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
-								<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
-								<div class="statustext {{idea.status}}">Dit voorstel wordt uitgevoerd</div>
 							</div>
 							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>

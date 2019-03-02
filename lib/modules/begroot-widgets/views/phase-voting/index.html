@@ -25,7 +25,9 @@
 	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
 	</script>
 
-	{% include 'phase-voting/includes/end-date-bar.njk' %}
+
+
+	{% include 'phase-voting/includes/end-date-bar.html' %}
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
 
