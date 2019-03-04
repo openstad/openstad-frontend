@@ -170,6 +170,10 @@ function run(id, config, callback) {
               name: 'home',
               label: 'Home'
             },
+            {
+              name: 'idea',
+              label: 'Idea'
+            }
           ]
         },
         'apostrophe-global': {},
@@ -202,6 +206,7 @@ function run(id, config, callback) {
         'begroot-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
+        'idea-pages': {},
         'apostrophe-palette-global': {
           paletteFields: [
             {
