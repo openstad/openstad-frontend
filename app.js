@@ -255,4 +255,8 @@ function run(id, config, callback) {
   );
 }
 
+process.on('uncaughtException', function (exception) {
+  console.log('here');
+})
+
 app.listen(process.env.PORT);
