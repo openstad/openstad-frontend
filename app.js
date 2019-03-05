@@ -160,6 +160,7 @@ function run(id, config, callback) {
         // `views/` folder of the project
 
     //    'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
+        'idea-pages': {},
         'apostrophe-pages': {
           types: [
             {
@@ -176,6 +177,7 @@ function run(id, config, callback) {
             }
           ]
         },
+
         'apostrophe-global': {},
 
         //    'three-column-widgets': {},
@@ -206,7 +208,6 @@ function run(id, config, callback) {
         'begroot-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
-        'idea-pages': {},
         'apostrophe-palette-global': {
           paletteFields: [
             {
