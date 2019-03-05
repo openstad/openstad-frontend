@@ -1,0 +1,8 @@
+{% macro render(idea) %}
+	<div id="modBreak">
+		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+		<p>
+			{{idea.modBreak | safe | nl2br}}
+		</p>
+	</div>
+{% endmacro %}

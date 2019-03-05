@@ -1,0 +1,86 @@
+<div class="pageContent ideasList">
+
+<div id="ideas" class="primary">
+
+  <div class="tab-selector">
+    <ul>
+      <li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
+      <li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
+      <li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
+      <li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaam</a></li>
+    </ul>
+    <div class="divider"></div>
+    <select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+      <option value="0">Alle gebieden</option>
+      <option value="Oud-West">Oud-West</option>
+      <option value="Bos en Lommer">Bos en Lommer</option>
+      <option value="De Baarsjes">De Baarsjes</option>
+      <option value="Westerpark">Westerpark</option>
+      <option value="West Algemeen">West Algemeen</option>
+    </select>
+    <a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+  </div>
+
+  <div class="sort">
+    <select class="default-select">
+      <option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+      <option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+      <!--
+           <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
+      -->
+    </select>
+  </div>
+
+  {# Weird formatting because of `display: inline-block` #}
+  {% for idea in data.widget.ideas
+  %}<div class="tile {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.posterImageUrl}}">
+    <a href="/{{data.widget.ideaSlug}}/{{idea.id}}">
+      {% if idea.status != 'DENIED' %}
+        <!--
+             <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
+        -->
+      {% endif %}
+
+      <div class="image"></div>
+
+      <div class="duration">
+        {% if idea.status == 'DENIED' %}
+          Dit voorstel is afgewezen
+        {% elif idea.status == 'CLOSED' %}
+          De stemperiode is afgelopen
+        {% endif %}
+      </div>
+
+      <div class="info">
+        <h3>{{idea.title}}</h3>
+
+        {% if idea.extraData %}
+          <div class="thema">{{idea.extraData.thema}}</div>
+          <div class="gebied">{{idea.extraData.gebied}}</div>
+        {% endif %}
+
+        <p>{{idea.summary | safe | truncate(60) }}</p>
+
+        <div class="ideaProgress">
+          <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+        </div>
+
+        <div class="ideaStats">
+          <table width="100%" border="0" celpadding="0" cellspacting="0">
+            <tr>
+              <td align="left"><div class="count yes">{{idea.yes}}</div></td>
+              <td align="center"><div class="count no">{{idea.no}}</div></td>
+              <td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </a>
+  </div>{%
+        else %}
+  <i>Wees de eerste met een goed plan voor jouw buurt!</i>
+  {% endfor %}
+
+</div>
+</div>
