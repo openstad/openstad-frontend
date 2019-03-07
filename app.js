@@ -194,6 +194,7 @@ function run(id, config, callback) {
         'list-widgets': {},
         'agenda-widgets': {},
         'idea-overview-widgets': {},
+        'icon-section-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
         'idea-map-widgets': {},
