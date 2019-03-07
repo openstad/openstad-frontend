@@ -1,0 +1,27 @@
+<div id="howDoesItWork" class="open">
+	<a id="howDoesItWorkButton" href="javascript: (function() { document.getElementById('howDoesItWork').className = document.getElementById('howDoesItWork').className == 'open' ? 'closed' : 'open'; })()" style="outline: 0;">
+		{{data.widget.title}}
+		<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
+	</a>
+	<div class="pageContent">
+		<div class="steps">
+			{% for step in data.widget.steps %}
+			<div class="step">
+				<img class="step-image" src="{{apos.attachments.url(step.image)}}" />
+				<div class="step-header">{{step.title}}</div>
+				<p>
+					{{step.description}}
+
+					{% if step.linkUrl %}
+					<ul>
+						<li>
+							<a href="{{step.linkUrl}}">{{step.linkTitle}}</a>
+						</li>
+					</ul>
+					{% endif %}
+				</p>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>

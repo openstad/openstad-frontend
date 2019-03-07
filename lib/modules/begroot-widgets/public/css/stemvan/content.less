@@ -1,21 +1,21 @@
 .pageContent {
 	box-sizing: border-box;
 	margin: 0 auto;
-	max-width: 970px;
+	// max-width: 970px;
 	overflow: hidden;
-	padding: 0 15px 20px;
+	//padding: 0 15px 20px;
 	position: relative;
-	
+
 	// Visible again, because `#banner` has a negative margin to better
 	// line of with the top `nav.bar` that just got wider. A hidden over-
 	// flow hides this negative margin and thus the red background.
 	@media @phone {
 		overflow: visible;
 	}
-	
+
 	// Flash message for errors
 	// ------------------------
-	// 
+	//
 	div.flashMessage {
 		background-color: #F6F7F7;
 		border-right: 4px solid #B1B1B1;
@@ -23,7 +23,7 @@
 		margin: 10px 0px;
 		padding: 20px;
 		position: relative;
-		
+
 		&.error {
 			border-right-color: #EC0000;
 		}
@@ -41,20 +41,20 @@
 			position: absolute;
 			right: 15px;
 			top: 15px;
-			
+
 			img {
 				border: 0;
 				height: 18px;
 				width: 18px;
 			}
 		}
-		
+
 		// Cookie consent
 		// --------------
 		// Used on register page.
 		#cookieFlash {
 			font-weight: normal;
-			
+
 			p.small {
 				color: rgba(0,0,0,0.7);
 				font-size: 0.9em;
@@ -63,7 +63,7 @@
 			}
 		}
 	}
-	
+
 	// Speech bubble
 	// -------------
 	// Is used in #primary and #secondary.
@@ -83,7 +83,7 @@
 		padding: 20px;
 		position: relative;
 		text-align: center;
-		
+
 		&:after {
 			background-image: url('/img/bubble_point.svg');
 			background-position: center;
@@ -97,13 +97,13 @@
 			width: 83px;
 		}
 	}
-	
+
 	// Regular links
 	// -------------
 	a {
 		color: @amsterdam-navyblue;
 		text-decoration: none;
-		
+
 		&:hover {
 			text-decoration: underline;
 		}
@@ -165,7 +165,7 @@
 		text-align: center;
 		cursor: pointer;
 	}
-	
+
 	// Idea stats
 	// ----------
 	// Used in #primary tiles on the ideas list page, and in #secondary
@@ -173,7 +173,7 @@
 	.ideaStats {
 		text-align: center;
 		white-space: nowrap;
-		
+
 		div.count {
 			background-position: left top;
 			background-repeat: no-repeat;
@@ -185,7 +185,7 @@
 			padding-left: 30px;
 			padding-right: 5px;
 			padding-top: 4px;
-				
+
 			&:nth-child(n+2) {
 				margin-left: 5px;
 			}
@@ -210,7 +210,7 @@
 	.ideaProgress {
 		margin: 10px 0;
 		position: relative;
-		
+
 		&:after {
 			background-image: url('/img/thumbsup-gray-new.svg');
 			background-repeat: no-repeat;
@@ -232,7 +232,7 @@
 			border-radius: 10px;
 			margin-right: 50px;
 			overflow: hidden;
-			
+
 			div.bar {
 				height: 16px;
 				width: 0;
@@ -245,7 +245,7 @@
 		}
 
 	}
-	
+
 	// Cookie consent
 	// --------------
 	.consent {
@@ -253,7 +253,7 @@
 		height: 100%;
 		position: absolute;
 		width: 100%;
-		
+
 		>div {
 			display: table-cell;
 			height: 100%;
@@ -262,7 +262,7 @@
 			vertical-align: middle;
 		}
 	}
-	
+
 	// Google Maps
 	// -----------
 	#map,
@@ -271,7 +271,7 @@
 		overflow: hidden;
 		position: relative;
 	}
-	
+
 	// Video player
 	// ------------
 	.video {
@@ -279,7 +279,7 @@
 		padding-bottom: 56.25%;
 		position: relative;
 		width: 100%;
-		
+
 		&.blocked {
 			background-image: url('/img/vimeo.svg');
 			background-position: center;
@@ -288,7 +288,7 @@
 			height: 250px;
 			padding-bottom: 0;
 		}
-		
+
 		iframe {
 			height: 100%;
 			position: absolute;
@@ -324,7 +324,7 @@
 		box-sizing: border-box;
 		float: left;
 		width: calc(75% + (@hMargin*3/4));
-		
+
 		@media @grid50 {
 			width: calc(66.66% + (@hMargin*2/3));
 		}
@@ -332,18 +332,18 @@
 			float: none;
 			width: 100%;
 		}
-		
+
 		h1:first-of-type {
 			margin-top: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		
+
 		// Speech bubble
 		// -------------
 		.newIdeaBubble {
 			display: none;
-			
+
 			@media @grid50 {
 				display: block;
 				margin-right: @hMargin;
@@ -352,7 +352,7 @@
 				margin-right: 0;
 			}
 		}
-		
+
 		// Content tile
 		// ------------
 		// Is used to list news articles on the home page, and ideas
@@ -368,13 +368,13 @@
 			vertical-align: top;
 			overflow: hidden;
 			width: calc(33.33% - @hMargin);
-			
+
 			@media @grid50 {
 				width: calc(50% - @hMargin);
 			}
 			@media @primary100 {
 				width: calc(50% - (@hMargin / 2));
-				
+
 				& + div.tile:nth-of-type(2n) {
 					margin-right: 0;
 				}
@@ -383,14 +383,14 @@
 				float: none;
 				width: 100%;
 			}
-			
+
 			.image {
 				background-image: url('/img/placeholders/800x600.png');
 				background-position: center;
 				background-size: cover;
-				height: 130px;
+				height: 180px;
 				width: 100%;
-				
+
 				@media @phone {
 					height: 180px;
 				}
@@ -410,7 +410,7 @@
 				width: 100%;
 				margin-left: -15px;
 			}
-			
+
 
 			td {
 
@@ -419,7 +419,7 @@
 					height: 150px;
 					width: auto;
 					margin: 0 45px 0 0px;
-					
+
 					@media @phone {
 						height: 75px;
 						width: auto;
@@ -431,5 +431,5 @@
 			}
 		}
 	}
-	
+
 }

@@ -135,6 +135,7 @@ function run(id, config, callback) {
               'card' : {},
               'counter' : {},
               'idea-overview' : {},
+              'idea-map': {},
               'link': {},
               'idea-single' : {},
               'idea-form' : {},
@@ -177,10 +178,7 @@ function run(id, config, callback) {
             }
           ]
         },
-
         'apostrophe-global': {},
-
-        //    'three-column-widgets': {},
         'one-column-widgets': {},
         'two-column-widgets': {},
         'four-column-widgets': {},
@@ -198,6 +196,7 @@ function run(id, config, callback) {
         'idea-overview-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
+        'idea-map-widgets': {},
         'link-widgets': {},
         'counter-widgets': {},
         'arguments-widgets': {},

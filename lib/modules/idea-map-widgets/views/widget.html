@@ -1,8 +1,8 @@
 {% set editorInputElementId = 'map' %}
 <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
-<script src="{{apos.settings.getOption('appUrl')}}/js/lib/map.js"></script>
+<script src="{{apos.settings.getOption('appUrl')}}/js/openstad-map.js"></script>
 
-<div id="{{editorInputElementId}}" style="width: 100%; height: 100%;"></div>
+<div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
 
 <script>
 
@@ -10,7 +10,7 @@
 	  {% for idea in data.widget.ideas %}
 	  {% if (idea.location) and (idea.status !=  'DENIED' or ideas.length == 1) %}
 	 {
-		 position: JSON.parse('{{idea.location | dump | safe}}' || null),
+		 position: { lat: {{idea.location.lat}}, lng: {{idea.location.lng}} },
 		 icon     : {
 			 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-gray.svg'{% else %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-red.svg'{% endif %},
 			 size   : [22, 24],
@@ -35,8 +35,10 @@
 				 select = false;
 			 }
 		 }
+	 selectedMarkers.push(marker);
+
 		 if (select) {
-			 selectedMarkers.push(marker);
+		//	 selectedMarkers.push(marker);
 		 }
 	 });
  } else {
@@ -55,16 +57,16 @@
  }
 
  var map = new OpenStadMap(
-	 {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %},
-	 {% if config.openStadMap.polygonStyle %}{{ config.openStadMap.polygonStyle | dump | safe }}{% else %}null{% endif %},
-	 editorInputElement,
-	 editorMarker
- );
+   null,
+   {"strokeColor":"#d00","strokeOpacity":1,"strokeWeight":2,"fillColor":"#000","fillOpacity":0.15},
+   editorInputElement,
+   editorMarker
+  )
 
- map.createMap(
-   {% if apos.settings.getOption('openStadMap').defaults %}{{ apos.settings.getOption('openStadMap').defaults | dump | safe }}{% else %}null{% endif %},
-   selectedMarkers,
-   null
- )
+  map.createMap(
+    {% if apos.settings.getOption('openStadMap').defaults %}{{ apos.settings.getOption('openStadMap').defaults | dump | safe }}{% else %}null{% endif %},
+    selectedMarkers,
+    null
+  )
 
 </script>
