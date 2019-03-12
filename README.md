@@ -1,17 +1,43 @@
-# Apostrophe Boilerplate v2.x
+# An implentation of apostrophecms for Amsterdam open democracy
 
-Apostrophe Boilerplate is a minimal starting point for [Apostrophe 2](https://github.com/punkave/apostrophe) projects.
+## Prerequisites
+ - [Git](https://git-scm.com/)
+ - [Node.js and npm](https://nodejs.org/en/)
+ - [Mongodb](https://www.mongodb.com/)
 
-To get started, we recommend taking a look at [our guide to creating your first project](http://apostrophecms.org/docs/tutorials/getting-started/creating-your-first-project.html). You could also take a look at [Apostrophe's CLI](https://github.com/punkave/apostrophe) or simply fork this repository.
 
-Once you have a local copy of this project to work from, make sure to install its dependencies with `npm install`. With Apostrophe installed, the first thing to do create an admin user account so you're able to log into the CMS. Run the following command (this will prompt you for a password).
+#### 1. Set .env values
+```
+PORT=3000
+#default name of db in mongodb / can leave this
+DEFAULT_DB=localhost
+#Set to host
+DEFAULT_HOST=localhost:3000
+APP_URL=http://localhost:3000
+API=http://localhost:8108
+```
 
-```bash
+#### 2. Run NPM install
+
+```
+npm i
+```
+
+
+#### 3. Create admin user
+
+Run the following command to create a user named admin, belonging to the group admin.
+
+```
 node app.js apostrophe-users:add admin admin
 ```
 
-Now you're all set! Just run `node app.js` to start up the local server and head to `localhost:3000` in your web browser.
+Then visit your local website. This will trigger a password prompt in your terminal. Set the password.
+You can now login to the cms at /login.
 
----------------
 
-For more documentation on Apostrophe, visit the [A2 documentation site](http://apostrophecms.com).
+#### 3. Run dev server
+
+```
+npm run dev
+```
