@@ -1,18 +1,12 @@
 <div class="section"
   {% if data.widget.backgroundColor %}
   style="background: {{data.widget.backgroundColor}}"
+  {% if data.widget.padding.length > 1 %} padding:	{{data.widget.padding}}; {% endif %}
   {% endif %}
 >
   <div class="container">
-  {{ apos.area(data.widget, 'areaMain', {
-      widgets: {
-        'one-column': {},
-        'two-column': {},
-        'two-third-column': {},
-        'three-column': {},
-        'four-column': {},
-        'spacer': {}
-      }
-  }) }}
+    {% if data.widget.displayType %}
+    {% include 'types/' + data.widget.displayType + '.html'%}
+    {% endif %}
   </div>
 </div>

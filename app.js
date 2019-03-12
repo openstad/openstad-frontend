@@ -179,12 +179,12 @@ function run(id, config, callback) {
           ]
         },
         'apostrophe-global': {},
-        'one-column-widgets': {},
+      /*  'one-column-widgets': {},
         'two-column-widgets': {},
         'four-column-widgets': {},
         'three-column-widgets': {},
         'two-third-column-widgets': {},
-        'spacer-widgets': {},
+        'spacer-widgets': {},*/
         'section-widgets': {},
         'card-widgets': {},
         'iframe-widgets': {},
