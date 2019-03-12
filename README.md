@@ -9,9 +9,9 @@
 #### 1. Set .env values
 ```
 PORT=3000
-#default name of db in mongodb / can leave this
+#default name of db in mongodb, in doubt leave this to localhost
 DEFAULT_DB=localhost
-#Set to host
+#Set this the default website (in development this is your local url)
 DEFAULT_HOST=localhost:3000
 APP_URL=http://localhost:3000
 API=http://localhost:8108
@@ -41,3 +41,6 @@ You can now login to the cms at /login.
 ```
 npm run dev
 ```
+
+## Running multiple sites
+It's possible to run multiple sites on this one apostrophecms installation. Soon more information on how.
