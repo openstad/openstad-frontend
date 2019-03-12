@@ -69,7 +69,9 @@
 {% set variantNames   = config.variantNames %}
 {% set isFor          = propName == 'argumentsFor' %}
 
-{% for arg in data.arguments %}
+
+<h1> SITEID: {{data.widget.siteId}} </h1>
+{% for arg in data.widget.arguments %}
   <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
     <div class="user ">
       <strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
