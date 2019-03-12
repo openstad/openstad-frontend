@@ -142,7 +142,6 @@ function run(id, config, callback) {
               'list' : {},
               'main-image' : {},
               'speech-bubble' : {},
-              'spacer' : {},
               'title' : {},
               'user-form' : {},
               'submissions' : {},

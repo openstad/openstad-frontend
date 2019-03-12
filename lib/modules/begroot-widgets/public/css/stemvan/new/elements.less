@@ -65,7 +65,7 @@ strong, b {
 	h1, h2 h3, h4 {
 		margin-top: 0;
 	}
-	
+
 }
 
 .color-white {
@@ -107,54 +107,6 @@ ul.links-list {
 }
 
 
-/* lijst van punten met een checkmark er voor */
-
-ul.checkmark-list,
-ul.checkmark-dot-list {
-
-  box-sizing: border-box;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-	li {
-    position: relative;
-    padding-left: 41px;
-    margin: 16px 0;
-	}		
-
-	li {
-		&::before {
-			position: absolute;
-			content: '';
-			top: -3px;
-			left: 0;
-			width: 30px;
-			height: 30px;
-			background-image: url(/img/checkmark-dot-blue.svg);
-			background-repeat: no-repeat;
-		}
-	}
-
-}
-
-ul.checkmark-list {
-	li {
-    padding-left: 27px;
-
-		&::before {
-			top: 4px;
-			left: 0;
-			width: 15px;
-			height: 23px;
-			background-position: top 0 0;
-			background-repeat: no-repeat;
-			background-size: 15px 10px;
-			background-image: url(/img/checkmark-blue.svg);
-		}
-	}
-
-}
 
 .default-select {
 	-webkit-appearance: none;
@@ -207,51 +159,5 @@ ul.links-list {
 			color: #004699;
 		}
 
-	}
-}
-
-
-/* lijst van punten met een checkmark er voor */
-
-ul.checkmark-list,
-ul.checkmark-dot-list {
-
-  box-sizing: border-box;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-	li {
-    position: relative;
-    padding-left: 41px;
-    margin: 16px 0;
-	}		
-
-	li {
-		&::before {
-			position: absolute;
-			content: '';
-			top: -3px;
-			left: 0;
-			width: 30px;
-			height: 30px;
-			background-image: url(/img/checkmark-dot-blue.svg);
-			background-repeat: no-repeat;
-		}
-	}
-
-}
-
-ul.checkmark-list {
-	li {
-    padding-left: 27px;
-
-		&::before {
-			top: 4px;
-			left: 0;
-			width: 15px;
-			height: 23px;
-			background-image: url(/img/checkmark-blue.svg);
-		}
 	}
 }
