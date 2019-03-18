@@ -1,0 +1,493 @@
+{#
+todo: steps zouden op id moeten, niet op nummer
+todo: showstep zou hidestep(current) moeten doen
+todo: ik ben begonnen met een generiek en een speciek deel maar het generieke deel is nog veel te specifiek
+#}
+
+{% macro showVoteCreator(openOrClosed, runningIdeas) %}
+
+	{% set openOrClosed = 'closed' if not openOrClosed %}
+
+	<div class="pageContent {{contentClass}}">
+
+		<div id="vote-creator-anchor"></div>
+
+		<div id="vote-creator" class="{{openOrClosed}}">
+
+			{# TODO: naar config #}
+			<a id="vote-creator-button" href="javascript: void toggleVoteCreator()" style="outline: 0;">Stemmen<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
+
+			<div id="steps-bar">
+				<div id="steps-bar-1" class="step active">
+					<div class="content">1. Kies</div>
+				</div>
+				<div id="steps-bar-2" class="step">
+					<div class="content">2. Stem</div>
+				</div>
+				<div id="steps-bar-3" class="step">
+					<div class="content">3. Bevestig</div>
+				</div>
+			</div>
+			<div id="steps-content">
+
+				<div id="steps-content-1a" class="step active">
+					<div class="content">
+						Kies uit onderstaand overzicht jouw favoriete ontwerp voor de muurtekst ‘Zorg<br/>
+						goed voor onze stad en voor elkaar’, en vul in de volgende stap je gegevens in.
+						<input type="hidden" name="ideaId" value="">
+						<div class="preview-container" onclick="clickPreview(event)">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="preview-overlay" onclick="unSelectIdea(event)">
+								&times;
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-2a" class="step">
+					<div class="content">
+						Vul hier je gegevens in. Wij willen graag weten waar de verschillende stemmen<br/>
+						vandaan komen, vul daarom ook je postcode in.
+						<div id="zipcode-and-email" class="form">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label>
+									<input type="text" name="zipCode" placeholder="1234AB" onchange="validateZipCode(true); setNextButton();"/>
+								</div>
+								<div id="email">
+									<label>Emailadres: </label>
+									<input type="text" name="email" placeholder="Emailadres" onchange="validateEmail(true); setNextButton();"/></br>
+								</div>
+								<div class="form-info">Je emailadres wordt alleen gebruikt om je stem te bevestigen.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-3a" class="step">
+					<div class="content">
+						<h4 class="blue">Dankjewel voor je stem, je bent bijna klaar!</h4>
+						We hebben je een e-mail gestuurd zodat je je stem kunt bevestigen.
+						<div class="info-block">
+							Let op: pas na bevestiging is je stem geldig! Geen e-mail ontvangen? Bekijk of de e-mail in je spam-map terecht is gekomen.
+						</div>
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label><span id="showZipCode3a"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmail3a"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="steps-content-3c" class="step">
+					<div class="content">
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)" style="margin-top: 0;">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode" style="margin-top: -25px;">
+									<label>Postcode: </label><span id="showZipCode3c"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmail3c"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="checkmark-block-green">
+						<h4>Gelukt, je stem is opgeslagen!</h4>
+						</br>
+						Bedankt voor het stemmen. Hou deze website<br/>
+						in de gaten voor de uitslag.
+					</div>
+				</div>
+
+				<div id="steps-content-error" class="step">
+					<div class="content">
+						<h4 class="error">Het opslaan van je stem is niet gelukt</h4>
+
+						<div class="info-block error">
+							Er is iets misgegaan bij het opslaan van je stem.<br/>
+							Probeer het later nog eens of neem contatct op met de site beheerder.
+						</div>
+						<div id="zipcode-and-email">
+							<div class="preview" onclick="clickPreview(event)">
+								<div class="nothingYet">
+									<div class="text">
+										Kies een ontwerp
+									</div>
+								</div>
+							</div>
+							<div class="fields">
+								<div id="zipCode">
+									<label>Postcode: </label><span id="showZipCodeError"></span>
+								</div>
+								<div id="email">
+									<label>Emailadres:</label><span id="showEmailError"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div style="height: 50px;"></div>
+				<div id="button-bar">
+					<div id="previous-button" onclick="previousStep();">
+						Vorige
+					</div>
+					<div id="next-button" onclick="nextStep();">
+						Volgende
+					</div>
+				</div>
+			</div>
+			<div id="waitLayer"></div>
+		</div>
+
+	</div>
+	{% include "includes/vote-creator-config.html" ignore missing %}
+
+	<script>
+	 // als je dit in een losse js file stopt dan moet je wachten tot die geladen is en dat ziet er niet uit
+	 // vote-creator - generic
+
+	 var voteCreatorElement = document.querySelector('#vote-creator');
+	 var currentStep = 0;
+
+	 function nextStep(doBeforeNextIsDone) {
+		 var step = steps[currentStep];
+		 var isValid = step.validate ? steps[currentStep].validate(true) : true;
+		 if (isValid && steps[currentStep+1]) {
+			 if (step.doBeforeNext && !doBeforeNextIsDone) {
+				 step.doBeforeNext()
+			 } else {
+				 hideWaitLayer();
+				 // deactivate current step
+				 hideStep(step);
+				 // activate next step
+				 currentStep++;
+				 var step = steps[currentStep];
+				 showStep(step);
+			 }
+		 }
+		 setNextButton();
+	 }
+
+	 // last minute hardcoded ellende
+	 function previousStep() {
+		 hideStep(steps[currentStep]);
+		 hideStep({ barId: 'steps-bar-3', contentId: 'steps-content-error' }); // last minute hardcoded ellende
+		 currentStep = 0;
+		 var step = steps[currentStep];
+		 console.log(step)
+		 showStep(step);
+		 setNextButton();
+	 }
+
+	 function hideStep(step) {
+		 document.querySelector('#' + step.barId).className = document.querySelector('#' + step.barId).className.replace(' active', '');
+		 document.querySelector('#' + step.contentId).className = document.querySelector('#' + step.contentId).className.replace(' active', '');
+		 // activate next step
+	 }
+
+	 function showStep(step, doNotOpen) {
+		 if (!doNotOpen) showVoteCreator();
+		 if (step.doBeforeShow) {
+			 // todo: gebruik een doBeforeShowIsDone param zoals nextStep, zodat je hem kunt gebruiken met callbacks
+			 step.doBeforeShow();
+		 }
+		 document.querySelector('#' + step.barId).className = document.querySelector('#' + step.barId).className + ' active';
+		 document.querySelector('#' + step.contentId).className = document.querySelector('#' + step.contentId).className + ' active';
+		 updatePreview(document.querySelector('#' + step.contentId))
+	 }
+
+	 function setNextButton(showPrevious, hideNext) {
+		 var step = steps[currentStep];
+		 var isValid = step && step.validate ? steps[currentStep].validate() : true;
+		 if (steps[currentStep+1]) {
+			 if (isValid && !hideNext) {
+				 activateNextButton()
+			 } else {
+				 deactivateNextButton()
+			 }
+		 } else {
+			 hideNextButton()
+		 }
+
+		 // last minute hardcoded ellende
+		 if (currentStep == 1) {
+			 document.querySelector('#next-button').innerHTML = 'Verstuur';
+		 } else {
+			 document.querySelector('#next-button').innerHTML = 'Volgende';
+		 }
+
+		 // meer last minute hardcoded ellende
+		 if (currentStep == 1 || showPrevious) {
+			 document.querySelector('#previous-button').style.display = 'block';
+		 } else {
+			 document.querySelector('#previous-button').style.display = 'none';
+		 }
+
+	 }
+
+	 function activateNextButton() {
+		 if (!document.querySelector('#next-button').className.match(' active')) document.querySelector('#next-button').className = document.querySelector('#next-button').className + ' active';
+	 }
+
+	 function deactivateNextButton() {
+		 document.querySelector('#next-button').className = document.querySelector('#next-button').className.replace(' active', '');
+	 }
+
+	 function hideNextButton() {
+		 document.querySelector('#next-button').style.display = 'none';
+	 }
+
+	 function showWaitLayer() {
+		 document.querySelector('#waitLayer').style.display = 'block';
+	 }
+
+	 function hideWaitLayer() {
+		 document.querySelector('#waitLayer').style.display = 'none';
+	 }
+
+	 setNextButton();
+
+	 // vote-creator - specific
+	 var previewHTML = '';
+	 function selectIdea(newIdeaId, doNotOpen) {
+
+		 if (!doNotOpen) showVoteCreator();
+		 ideaId = newIdeaId;
+
+		 openstadSetCookie('ideaId', ideaId);
+		 voteCreatorElement.querySelector('input[name=ideaId]').value = ideaId;
+
+		 // last minute hardcoded ellende
+		 document.querySelector('.preview-overlay').style.display = 'block';
+
+		 var step = steps[currentStep] || steps[0];
+		 var stepElement = document.querySelector('#' + step.contentId);
+
+		 var previewElement = stepElement.querySelector('.preview');
+		 previewElement.className = previewElement.className.replace(' form-error', '');
+
+		 var node = document.createElement('div');
+		 node.className = 'image';
+		 node.innerHTML = document.querySelector('#idea-' + ideaId).querySelector('.image').innerHTML;
+		 previewElement.innerHTML = '';
+		 previewElement.appendChild(node)
+		 previewHTML = previewElement.innerHTML;
+		 doShowImage(ideaId, previewElement);
+
+		 setNextButton();
+
+		 location.href = "#vote-creator-anchor";
+
+	 }
+
+	 function unSelectIdea(event) {
+
+		 ideaId = undefined;
+		 openstadEraseCookie('ideaId');
+		 voteCreatorElement.querySelector('input[name=ideaId]').value = '';
+
+		 // last minute hardcoded ellende
+		 document.querySelector('.preview-overlay').style.display = 'none';
+
+		 var step = steps[currentStep] || steps[0];
+		 var stepElement = document.querySelector('#' + step.contentId);
+
+		 var previewElement = stepElement.querySelector('.preview');
+		 previewElement.innerHTML = '<div class="nothingYet"><div class="text">Kies een ontwerp</div></div>';
+
+		 setNextButton();
+
+		 event.stopPropagation();
+
+	 }
+
+	 function updatePreview(target) {
+		 var previewElement = target.querySelector('.preview');
+		 previewElement.innerHTML = previewHTML;
+		 doShowImage(ideaId, previewElement);
+	 }
+
+	 function clickPreview(event) {
+		 var target = event.target;
+		 if (!ideaId) {
+			 // window.location.hash = 'ideas-anchor';
+			 scrollToIdeas();
+		 } else {
+			 // let previewElement = target.querySelector('.preview');
+			 // previewElement.innerHTML = {
+			 //
+			 // };
+		 }
+	 }
+
+	 function validateZipCode(showError) {
+		 var isValid = true;
+		 if ( !document.querySelector('input[name=zipCode]').value.match(/^\d{4} ?[a-zA-Z]{2}$/) ) {
+			 isValid = false;
+			 if (showError) {
+				 document.querySelector('#zipCode').className = document.querySelector('#zipCode').className + ' form-error';
+				 document.querySelector('#zipCode').setAttribute('data-content', 'Vul hier een (geldige) postcode in.');
+			 }
+		 } else {
+			 document.querySelector('#zipCode').className = document.querySelector('#zipCode').className.replace(/ form-error/g, '');
+			 openstadSetCookie('zipCode', document.querySelector('input[name=zipCode]').value);
+		 }
+		 return isValid;
+	 }
+
+	 function validateEmail(showError) {
+		 var isValid = true;
+		 if ( !document.querySelector('input[name=email]').value.match(/^[^@]+@[^@]+\.[^@]+$/) ) {
+			 isValid = false;
+			 if (showError) {
+				 document.querySelector('#email').className = document.querySelector('#email').className + ' form-error';
+				 document.querySelector('#email').setAttribute('data-content', 'Vul hier een (geldige) email adres in.');
+			 }
+		 } else {
+			 document.querySelector('#email').className = document.querySelector('#zipCode').className.replace(/ form-error/g, '');
+			 openstadSetCookie('email', document.querySelector('input[name=email]').value);
+		 }
+		 return isValid;
+	 }
+
+	 function setHasVoted() {
+		 openstadSetCookie('hasVoted', true);
+		 hideStep(steps[currentStep])
+		 currentStep = 2;
+		 showStep(steps[currentStep], true)
+		 var buttons = document.querySelectorAll('.button-vote');
+		 for (var i=0; i<buttons.length; i++) {
+			 buttons[i].className += ' hasVoted';
+		 }
+		 buttons = document.querySelectorAll('.button-more-info');
+		 for (var i=0; i<buttons.length; i++) {
+			 buttons[i].className += ' centered';
+		 }
+		 buttons = document.querySelectorAll('.vote-button-container.hasNotVoted');
+		 for (var i=0; i<buttons.length; i++) {
+			 buttons[i].className = buttons[i].className.replace('active', '');
+		 }
+		 buttons = document.querySelectorAll('.vote-button-container.hasVoted');
+		 for (var i=0; i<buttons.length; i++) {
+			 buttons[i].className += ' active';
+		 }
+	 }
+
+	 function setHasConfirmed() {
+		 currentStep = 4;
+		 openstadSetCookie('hasConfirmed',  true);
+		 hasConfirmed = true;
+		 hideStep(steps[0]);
+		 showStep({
+			 barId: 'steps-bar-3',
+			 contentId: 'steps-content-3c',
+			 doBeforeShow: function() {
+				 document.querySelector('#showZipCode3c').innerHTML = document.querySelector('input[name=zipCode]').value;
+				 document.querySelector('#showEmail3c').innerHTML = document.querySelector('input[name=email]').value;
+			 }
+		 })
+		 var buttons = document.querySelectorAll('.button-vote');
+		 for (var i=0; i<buttons.length; i++) {
+			 buttons[i].className += ' hasVoted';
+		 }
+	 }
+
+	 function sendVote() {
+		 showWaitLayer();
+
+		 var ideaId = document.querySelector('input[name=ideaId]').value;
+
+		 var body = {
+			 zipCode: document.querySelector('input[name=zipCode]').value,
+			 email: document.querySelector('input[name=email]').value,
+			 opinion: 'yes',
+			 _csrf: csrfToken,
+		 }
+
+		 var xhttp = new XMLHttpRequest();
+		 xhttp.onreadystatechange = function() {
+			 if (this.readyState == 4) {
+				 hideWaitLayer();
+				 if (this.status == 200) {
+					 setHasVoted();
+					 nextStep(true)
+				 } else {
+					 hideStep(steps[currentStep])
+					 showStep({
+						 barId: 'steps-bar-3',
+						 contentId: 'steps-content-error',
+						 doBeforeShow: function() {
+							 document.querySelector('#showZipCodeError').innerHTML = document.querySelector('input[name=zipCode]').value;
+							 document.querySelector('#showEmailError').innerHTML = document.querySelector('input[name=email]').value;
+						 }
+					 })
+					 setNextButton(true, true);
+				 }
+			 }
+
+		 };
+		 xhttp.open("POST", "/idea/" + ideaId + "/vote", true);
+		 xhttp.setRequestHeader("Accept", "application/json");
+		 xhttp.setRequestHeader("Content-type", "application/json");
+		 xhttp.send(JSON.stringify(body));
+	 }
+
+	 function toggleVoteCreator() {
+		 // todo: real condition
+		 if (document.getElementById('vote-creator').className == 'open') {
+			 hideVoteCreator();
+		 } else if (document.getElementById('vote-creator').className == 'closed') {
+			 showVoteCreator();
+		 }
+	 }
+	 function showVoteCreator() {
+		 console.log('show')
+		 var doUpdateIdea = false;
+		 if (!document.getElementById('vote-creator').className.match('open')) {
+			 doUpdateIdea = true;
+		 }
+		 document.getElementById('vote-creator').className = 'open';
+		 if (ideaId && doUpdateIdea) selectIdea(ideaId, true);
+	 }
+	 function hideVoteCreator() {
+		 console.log('hide')
+		 document.getElementById('vote-creator').className = 'closed';
+	 }
+
+	</script>
+
+{% endmacro %}

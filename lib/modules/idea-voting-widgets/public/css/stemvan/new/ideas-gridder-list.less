@@ -1,0 +1,395 @@
+@import '../base';
+
+@phone				: ~'only screen and (max-width: 767px)';
+@numberOfColumns:  3;
+
+.gridder {
+
+	width: calc(100% + 20px);
+	margin: 0;
+	padding: 0;
+	font-size: 0; // wegens inline-blocks
+
+	.gridder-list {
+		display: inline-block;
+		position: relative;
+		width: calc((100% / @numberOfColumns) - 20px);
+		margin-right: 20px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		background-color: @light-grey2;
+
+		&:hover {
+			cursor: pointer;
+
+		}
+
+		@media @phone {
+			width: 100%;
+		}
+
+		.idea-image-mask {
+			display: block;
+			position: relative;
+			padding-top: 56.25%; /* 16:9 Aspect Ratio */
+			overflow: hidden;
+			background-color: #e7e7e7;
+			font-size: 14px;
+			font-weight: normal;
+			line-height: normal;
+
+			.idea-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				width: 100%;
+				background-position: center;
+				background-size: cover;
+			}
+
+		}
+
+		.info {
+
+			padding: 10px;
+
+			h3 {
+				margin: 0;
+				font-size: 16px;
+				height: 20px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+		}
+
+	}
+
+}
+
+.gridder-content {
+	display: none;
+}
+
+.gridder-show {
+	float: left;
+	position: relative;
+	display: block;
+	margin: 20px 0 40px 0;
+	padding: 40px 0 25px;
+	width: calc(100% - 20px);
+	font-size: 16px;
+	background-color: @light-grey2;
+
+	@media @phone {
+		width: 100%;
+		padding-top: 90px;
+
+		h3 {
+			margin: 0 0 15px 0;
+		}
+	}
+
+	.this-idea-id {
+		display: none;
+	}
+
+	.content {
+
+		@media @phone {
+		}
+
+		h3 {
+			margin: 0 0 15px 0;
+			font-size: 22px;
+		}
+
+		.summary {
+			font-weight: 600;
+			overflow: hidden;
+			margin-bottom: 25px;
+		}
+
+		.description {
+			overflow: hidden;
+			margin-bottom: 25px;
+			font-size: 14px;
+		}
+
+		.share-buttons {
+
+			display: block;
+
+			.text {
+				display: inline-block;
+				height: 30px;
+				margin: 0;
+				padding: 0;
+				margin-right: 15px;
+				font-weight: 600;
+				line-height: 30px;
+			}
+
+			ul {
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+				height: 30px;
+				list-style-type: none;
+
+				li {
+					display: inline;
+					height: 30px;
+					width: 30px;
+					margin: 0;
+					padding: 0;
+
+					a {
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 30px 30px;
+						display: block;
+						float: left;
+						font-size: 0;
+						line-height: 0;
+						margin: 0 3px 0 0;
+						height: 30px;
+						width: 30px;
+
+						&.facebook {
+							background-image: url('/img/share-facebook.svg');
+							&:hover {
+								background-image: url('/img/share-facebook-hover.svg');
+							}
+						}
+						&.twitter {
+							background-image: url('/img/share-twitter.svg');
+							&:hover {
+								background-image: url('/img/share-twitter-hover.svg');
+							}
+						}
+						&.email {
+							background-image: url('/img/share-email.svg');
+							&:hover {
+								background-image: url('/img/share-email-hover.svg');
+							}
+						}
+
+					}
+				}
+			}
+
+		}
+
+	}
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background-color: @light-grey2;
+		content: '';
+	}
+
+	&:after {
+		position: absolute;
+		top: 0;
+		left: 100%;
+		width: 100%;
+		height: 100%;
+		background-color: @light-grey2;
+		content: '';
+	}
+
+}
+
+.gridder-navigation {
+
+	.gridder-nav {
+		position: absolute;
+    display: block;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border: none;
+    outline: 0;
+    box-shadow: none;
+    cursor: pointer !important;
+    z-index: 1;
+    margin-top: -25px;
+
+		@media @phone {
+			width: 15px;
+			height: 15px;
+			margin-top: 0;
+		}
+
+		span {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			height: 23px;
+			margin: auto;
+			width: 14px;
+			background-position: center;
+			background-repeat: no-repeat;
+		}
+
+		&.prev {
+			left: -132px;
+			background-image: url(/img/prev-button-round.svg);
+			z-index: 100002;
+
+			@media @phone {
+				top: 32px;
+				left: 15px;
+				width: 7px;
+				height: 12px;
+				background-size: 7px 12px;
+				background-image: url(/img/pijltje-links.svg);
+			}
+
+		}
+
+		&.next {
+			right: -132px;
+			background-image: url(/img/next-button-round.svg);
+			z-index: 100002;
+
+			@media @phone {
+				top: 32px;
+				left: 62px;
+				width: 7px;
+				height: 12px;
+				background-size: 7px 12px;
+			background-image: url(/img/pijltje-rechts.svg);
+			}
+
+		}
+
+	}
+
+	.gridder-close {
+		position: absolute;
+		top: 40px;
+		right: -115px;
+		width: 20px;
+		height: 20px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-image: url(/img/close-button-grey-on-transparent.svg);
+		cursor: pointer;
+		z-index: 20;
+
+		@media @phone {
+			top: 15px;
+			right: 0;
+			width: 44px;
+			height: 44px;
+			background-image: url(/img/close-button-red.svg);
+			right: 0;
+		}
+
+	}
+
+}
+
+.gridder-content {
+	display: none;
+}
+
+.gridder {
+	.selectedItem:after {
+		position: absolute;
+		content: ' ';
+		display: block;
+		top: calc(100% + 17px);
+		width: 0;
+		left: (50% - 14px);
+		margin-bottom: -4px;
+		border-bottom: 28px solid @light-grey2;
+		border-left: 28px solid transparent;
+		border-right: 28px solid transparent;
+	}
+}
+
+.gridder .overlay { position: absolute; left: 10%; top: 10%; color: #FFF; line-height: 130%; text-align: left; }
+
+.gridder.hasSelectedItem .gridder-list:not(.selectedItem) { opacity: 1; }
+
+.gridder-mouse-over {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+
+	.background {
+		position: absolute;
+		opacity: .4;
+		background-color: black;
+		width: 100%;
+		height: 100%;
+	}
+
+	.button-more-info, .button-vote {
+		position: relative;
+		height: 44px;
+		margin: 0 auto;
+		padding: 11px 20px;
+		font-size: 16px;
+		font-weight: 600;
+		font-style: normal;
+		line-height: 22px;
+		text-align: center;
+		color: white;
+	}
+
+
+	.button-more-info {
+		top: 61px;
+		width: 176px;
+		color: @amsterdam-navyblue;
+		border: 1px solid @amsterdam-navyblue;
+		background-color: white;
+
+		&.centered {
+			top: 88px;
+		}
+
+		&:hover {
+			padding: 10px 19px;
+			border: 2px solid @amsterdam-navyblue;
+		}
+
+	}
+
+	.button-vote {
+		top: 75px;
+		width: 193px;
+		color: white;
+		background-color: @amsterdam-navyblue;
+
+
+		&.hasVoted {
+			display: none;
+		}
+
+		&:hover {
+			background-color: @amsterdam-navyblue-hover;
+		}
+
+	}
+
+}

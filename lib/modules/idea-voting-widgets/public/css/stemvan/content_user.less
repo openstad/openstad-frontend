@@ -1,0 +1,101 @@
+// User content
+// ------------
+// This styling is relevant for the idea's content, and the idea editor's
+// content.
+
+// User content display only.
+.userContent {
+	> h1, p, div {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	figcaption {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	figcaption:not(.caption-edited) {
+		display:none;
+	}
+}
+// User content display and editor.
+.userContent,
+.userContentEditor {
+	line-height: 1.5;
+	
+	h1 {
+		font-size: 1.4em;
+		line-height: 1.4;
+		margin: 0;
+	}
+	blockquote {
+		margin: 0 0 0 0.3em;
+		padding: 0 0 0 0.6em;
+		border-left: 0.3em solid #ccc;
+	}
+	pre {
+		font-family: monospace;
+		font-size: 0.9em;
+		margin: 0;
+		padding: 0.5em;
+		white-space: pre;
+		background-color: #eee;
+		overflow-x: auto;
+	}
+	ul, ol, li {
+		margin: 0;
+		padding: 0;
+		
+		li {
+			margin-left: 1em;
+		}
+	}
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+	a[data-trix-attachment] {
+		color: inherit;
+		text-decoration: none;
+		
+		&:hover,
+		&:visited:hover {
+			color: inherit;
+		}
+	}
+	.attachment {
+		display: inline-block;
+		position: relative;
+		max-width: 100%;
+		margin: 0;
+		padding: 0;
+		
+		&.attachment-preview {
+			width: 100%;
+			text-align: center;
+
+			.caption {
+				color: #666;
+				font-size: 0.9em;
+				line-height: 1.2;
+			}
+		}
+		&.attachment-file {
+			color: #333;
+			line-height: 1;
+			margin: 0 2px 2px 0;
+			padding: 0.4em 1em;
+			border: 1px solid #bbb;
+			border-radius: 5px;
+		}
+		.caption {
+			padding: 0;
+			text-align: center;
+
+			.size {
+				&:before {
+					content: ' · ';
+				}
+			}
+		}
+	}
+}

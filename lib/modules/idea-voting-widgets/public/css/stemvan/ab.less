@@ -1,0 +1,48 @@
+.pageContent.AB {
+	.primary > h1,
+	.primary > p {
+		margin-right: @hMargin;
+	}
+	
+	.primary {
+		.tile {
+			text-align: center;
+			
+			.image {
+				background-color: #FFF;
+				background-position: center;
+				background-size: cover;
+				height: 150px;
+				
+				@media @phone {
+					height: 220px;
+				}
+			}
+			.neighborhoods {
+				background-color: #F6F7F7;
+				padding: 5px;
+				
+				ul {
+					display: inline-block;
+					list-style: none;
+					padding: 0;
+				}
+				li {
+					background-image: url('/img/pin_red.svg');
+					background-size: 1em auto;
+					background-position: top 3px left;
+					background-repeat: no-repeat;
+					line-height: 2em;
+					padding-left: 25px;
+					text-align: left;
+				}
+			}
+		}
+		
+		img {
+			display: block;
+			margin-bottom: 20px;
+			width: calc(100% - @hMargin);
+		}
+	}
+}

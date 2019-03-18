@@ -65,6 +65,17 @@
 			</div>
 			<input type="submit" class="pull-right btn btn-primary btn--stretch stretch" value="Verzenden" />
 
+			<input
+				type="hidden"
+				name="ideaId"
+				{% if data.widget.ideaId === ':ideaId' %}
+				value="{{data.ideaId}}"
+				{% else %}
+				value="{{data.widget.ideaId}}"
+				{% endif %}
+			/>
+
+
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</form>
 	</div>

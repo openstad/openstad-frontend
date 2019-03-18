@@ -1,0 +1,228 @@
+.pageContent.ideasList {
+	#map {
+		height: 360px;
+		margin: 0 0 35px;
+		
+		@media @primary100 {
+			height: 250px;
+		}
+	}
+	
+	.primary {
+
+		#howDoesItWork,
+		#viewArchive {
+			display: block;
+			font-size: 1rem;
+			font-weight: 300;
+			line-height: 2.5em;
+			margin-right: @hMargin;
+			text-align: center;
+			text-decoration: none;
+			
+			@media @primary100 {
+				margin-right: 0;
+			}
+		}
+		#howDoesItWork {
+			background-color: #164995;
+			color: #FFF;
+			margin-bottom: 20px;
+		}
+		#viewArchive {
+			background-color: #f8f9f9;
+			border: 1px solid #CBCCCB;
+			color: #666767;
+			margin-top: 20px;
+		}
+		
+		h1 {
+			margin-top: 15px;
+			margin-right: @hMargin;
+			margin-bottom: 20px;
+			overflow: visible;
+	 		font-size: 24px;
+	 		font-weight: 600;
+			
+			@media @primary100 {
+				margin-right: 0;
+			}
+			select {
+				.appearance(none);
+				background-color: #FFF;
+				background-image: url('/img/arrow_down_black.svg');
+				background-position: center right 10px;
+				background-repeat: no-repeat;
+				background-size: 13px auto;
+				border: 1px solid black;
+				// border-radius: 4px;
+				float: right;
+				font-size: 16px;
+				font-weight: 600;
+				line-height: 1.25em;
+				margin-left: 5px;
+				margin-top: -4px;
+				outline: none;
+				padding: 5px 30px 5px 20px;
+				
+				&:focus {
+					background-image: url('/img/arrow_up_black.svg');
+				}
+			}
+		}
+		
+		.tile {
+			background-color: #F6F7F7;
+			position: relative;
+			font-size: 14px;
+			
+			// Remove clock icon for some labels.
+			.duration {
+				background-repeat: no-repeat;
+				background-size: 12px 12px;
+				background-position: 8px 7px;
+			}
+			// Change color for some labels.
+			&.BUSY {
+				.duration {
+					background-size: 11px 10px;
+					background-position: 9px 8px;
+					background-image: url('/img/idea/star-border.svg');
+					background-color: #2b9ad6;
+				}
+			}
+			&.ACCEPTED {
+				.duration {
+					background-size: 10px 10px;
+					background-position: 9px 8px;
+					background-image: url('/img/idea/calendar.svg');
+					background-color: #bdd131;
+				}
+			}
+			&.OPEN {
+				.duration {
+					background-image: url('/img/idea/klok-wit.svg');
+					background-color: #164995;
+				}
+			}
+			&.DENIED {
+				opacity: 0.5;
+				.duration {
+					background-size: 6px 6px;
+					background-position: 11px 10px;
+					background-image: url('/img/idea/afgewezen.svg');
+					background-color: #434343;
+				}
+			}
+			&.CLOSED {
+				.duration {
+					background-size: 6px 6px;
+					background-position: 11px 10px;
+					background-image: url('/img/idea/tijd-afgelopen.svg');
+					background-color: #787979;
+				}
+			}
+			&.DONE {
+				.duration {
+					background-size: 10.5px 10px;
+					background-position: 9px 7px;
+					background-image: url('/img/idea/star-fill.svg');
+					background-color: #003066;
+				}
+			}
+			&.USER {
+				background-color: #F6F7F7;
+				border: solid 3px #bdd131;
+
+				.image {
+					margin-top: -3px;
+				}
+
+				.info {
+					margin-bottom: -3px;
+				}
+				
+			}
+			
+			a {
+				color: #000;
+				text-decoration: none;
+			}
+			h3, p {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			h3 {
+				font-size: 16px;
+			}
+			
+			.duration {
+				position: relative;
+				box-sizing: border-box;
+				width: 100%;
+				left: 0;
+				padding: 0 5px 0 27px;
+				top: 0px;
+
+				font-size: 12px;
+				font-weight: 600;
+				line-height: 26px;
+				color: #FFF;
+			}
+
+			.image {
+				background-image: url('/img/placeholders/idea.jpg');
+			}
+
+			.info {
+				padding: 0 10px 10px;
+				
+				.ideaStats {
+					margin-top: 12px;
+					width: calc(100%);
+					
+					// Override white icons defined in `content.less`.
+					div.count {
+						padding-top: 6px;
+						height: 30px;
+						&.yes {
+							font-size: 14px;
+							line-height: 18px;
+							background-position: left 0px;
+							background-size: 25px 21px;
+							background-image: url('/img/thumbsup_gray_outline.svg');
+						}
+						&.no {
+							font-size: 14px;
+							line-height: 18px;
+							background-position: left 7px;
+							background-size: 25px 21px;
+							background-image: url('/img/thumbsdown_gray_outline.svg');
+						}
+						&.arguments {
+							font-size: 14px;
+							line-height: 18px;
+							background-position: left 5px;
+							background-size: 20px 19px;
+							background-image: url('/img/argument_gray_outline.svg');
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	li.idea {
+		&.CLOSED {
+			opacity: 0.5;
+		}
+		&.DENIED {
+			opacity: 0.5;
+			text-decoration: line-through;
+		}
+		
+		span.yes { color: #61AE24 }
+		span.no { color: #DA421A }
+		span.abstain { color: #A3A3A3 }
+	}
+}

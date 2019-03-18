@@ -1,0 +1,375 @@
+#arguments {
+
+	clear: both;
+	display: block;
+	overflow: hidden;
+	
+	>h1 {
+		background-color: #F3F3F3;
+	  margin-bottom: 30px;
+	  
+	  div {
+	  	font-size: 29px;
+	  	line-height: 60px;
+	  	padding: 0 0 0 15px;
+	  	text-align: left;
+	  }
+	}
+
+	h2 {
+		margin: 26px 0 14px 0;
+	}
+
+	div.argList {
+		box-sizing: border-box;
+		float: left;
+		width: 50%;
+		font-size: 16px;
+		line-height: 1.38;
+		
+		&:nth-of-type(odd) {
+			padding-right: 15px;
+		}
+		&:nth-of-type(even) {
+			padding-left: 15px;
+		}
+
+		&.for .argument p:before {
+			font-weight: bold;
+			display: block;
+			content: 'Ik ben voor, omdat:';
+			padding-top: 3px;
+			padding-bottom: 13px;
+		}
+		
+		&.against .argument p:before {
+			font-weight: bold;
+			display: block;
+			content: 'Ik ben tegen, omdat:';
+			padding-top: 3px;
+			padding-bottom: 13px;
+		}
+
+		@media @primary100 {
+			float: none;
+			margin-top: 20px;
+			padding: 0 !important;
+			width: 100%;
+		}
+		
+		// General user styling
+		// --------------------
+		// Author styling is similar for arguments and reactions.
+		.argument,
+		.reaction {
+			p {
+				margin-top: 0.5em;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			
+			.user {
+				overflow: hidden;
+				
+				&.admin {
+					background-image: url('/img/flag_small.svg');
+					background-size: auto 1em;
+					background-position: left top 3px;
+					background-repeat: no-repeat;
+					padding-left: 18px;
+				}
+				
+				a {
+					color: inherit;
+				}
+				form {
+					float: right;
+					line-height: 0;
+					
+					input.edit,
+					input.delete {
+						.appearance(none);
+						
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: 60%;
+						cursor: pointer;
+						font-size: 0;
+						height: 20px;
+						width: 20px;
+					}
+					input.edit {
+						background-color: #333;
+						background-image: url('/img/edit_white.svg');
+						margin-left: 4px;
+					}
+					input.delete {
+						background-color: #EC0000;
+						background-image: url('/img/delete_white.svg');
+					}
+				}
+			}
+		}
+		
+		form.newArgument {
+			margin-bottom: 10px;
+			overflow: visible;
+			font-weight: normal;
+
+			h4 {
+				font-size: 16px;
+				margin-bottom: 4px;
+			}
+
+			input[type="text"] {
+				width: 100%;
+				margin-bottom: 19px;
+				padding: 3px;
+				border: 1px solid #B6B7BA;
+				border-radius: 0;
+			}
+			
+			textarea {
+				.appearance(none);
+				
+				border: 1px solid #B6B7BA;
+				border-radius: 0;
+				box-sizing: border-box;
+				color: #B6B7BA;
+				cursor: pointer;
+				display: block;
+				height: 55px;
+				margin-bottom: 5px;
+				outline: none;
+				padding: 10px;
+				position: relative;
+				resize: none;
+				width: 100%;
+				transition: color 0.2s, font-size 0.2s, height 0.2s 0.2s;
+				
+				&:not([data-disabled]):focus {
+					color: #000;
+					cursor: auto;
+					font-size: 0.875rem;
+					font-weight: normal;
+					height: 100px;
+				}
+			}
+
+			input[type="submit"] {
+				margin-top: 12px;
+				float: right;
+				clear: both;
+			}
+			
+		}
+
+		.argument {
+			background-color: #F6F6F6;
+			border-left: 3px solid #043287;
+			margin-bottom: 20px;
+			padding: 15px;
+			padding-top: 17px;
+			position: relative;
+			color: black;
+			overflow: hidden;
+			
+			a.reply {
+				background-image: url('/img/arrow_right_black.svg');
+				background-size: auto 12px;
+				background-position: top 4px right;
+				background-repeat: no-repeat;
+				color: #000;
+				display: block;
+				float: right;
+				font-weight: 600;
+				line-height: 21px;
+				margin-top: 0px;
+				// icon width + 10px, like vote button.
+				padding-right: 15px;
+				text-decoration: none;
+			}
+
+			.user {
+				.admin {
+					padding-left: 24px;
+					background-size: 16px 18px;
+					background-position: 0 2px;
+				}
+			}
+
+			form.vote {
+				button {
+					.appearance(none);
+					cursor: pointer;
+					font-size: 14px;
+					padding-left: 35px;
+					line-height: 21px;
+					outline: none;
+					padding-left: calc(1.5em + 10px);
+					position: relative;
+					
+					&:before {
+						content: '';
+						width: 25px;
+						height: 25px;
+						background-color: #aeaeae;
+						background-position: center;
+						background-repeat: no-repeat;
+						background-size: auto 14px;
+						background-color: #656565;
+						background-image: url('/img/thumbsup_white.svg');
+						left: 0;
+						position: absolute;
+						top: -0.1em;
+					}
+					&.voted {
+						font-weight: bold;
+					}
+					&.voted:before {
+						background-color: #B1CC06;
+					}
+					&:disabled {
+						cursor: default;
+						opacity: 0.5;
+					}
+				}
+			}
+		}
+		.reaction + .argument,
+		form + .argument {
+			margin-top: 20px;
+		}
+		
+		// Reaction form
+		// -------------
+		form.newReaction {
+			margin-left: 20px;
+			.reaction();
+			
+			textarea {
+				.appearance(none);
+				
+				border: 1px solid #B6B7BA;
+				border-radius: 0;
+				color: #666;
+				display: block;
+				font-family: inherit;
+				font-size: 1em;
+				margin-bottom: 5px;
+				outline: none;
+				overflow: hidden;
+				padding: 5px 10px;
+				resize: none;
+				width: calc(100% - 22px);
+				
+				@media @phone {
+					font-size: 16px; // To prevent zooming.
+				}
+			}
+			input[type="submit"] {
+				float: right;
+				width: 100px;
+				padding: 0;
+				font-size: 14px;
+				line-height: 30px;
+			}
+		}
+		
+		.reaction {
+			position: relative;
+			border-left: 3px solid #B0B0B0;
+			color: black;
+			margin-bottom: 5px;
+			margin-left: 20px;
+			overflow: hidden;
+			padding: 17px 15px 10px 15px;
+			
+			p {
+				margin-bottom: 0;
+			}
+
+			.user.admin {
+				padding-left: 24px;
+				background-size: 16px 18px;
+				background-position: 0 2px;
+			}
+
+		}
+		.argument + .reaction {
+			border-top: 0;
+			margin-top: -15px;
+		}
+		
+		.noArguments {
+			background-color: #F6F6F6;
+			font-style: italic;
+			margin-bottom: 20px;
+			margin-top: 20px;
+			padding: 20px 10px;
+			text-align: center;
+		}
+
+		.argument .hamburger,
+		.reaction .hamburger {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 40px;
+			height: 40px;
+			background-image: url('/img/hamburger-dots.svg');
+			background-size: 4px 18px;
+			background-repeat: no-repeat;
+			background-position: center;
+
+			&:hover {
+				background-color: #e8e8e8;
+			}
+			
+			form {
+				display: none;
+
+				input.edit {
+					background-image: url('/img/edit-buttons/edit-transparent.svg');
+					background-color: #c9cbcc;
+					background-size: contain;
+					width: 40px;
+					height: 40px;
+					margin: 0;
+				}
+
+				input.delete {
+					background-image: url('/img/edit-buttons/delete-transparent.svg');
+					background-color: #f34541;
+					background-size: contain;
+					width: 40px;
+					height: 40px;
+					margin: 0;
+				}
+			}
+
+			&.active {
+				width: 80px;
+
+				form {
+					display: block;
+				}
+			}
+		}
+
+	} // .argList
+}
+
+// Add/edit argument
+// -----------------
+// This is a separate page from the idea details page.
+.pageContent.argument {
+	textarea {
+		box-sizing: border-box;
+		height: 100px;
+		width: 100%;
+	}
+	input[type="submit"] {
+		float: right;
+	}
+}

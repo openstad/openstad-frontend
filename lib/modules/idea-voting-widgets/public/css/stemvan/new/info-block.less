@@ -1,0 +1,28 @@
+.info-block {
+	width: 100%;
+	margin: 0  0 20px 0;
+	padding: 12px 12px 12px 48px;
+	background-color: @amsterdam-skyblue;
+	background-position: 12px 10px;
+	background-size: 24px 24px;
+	background-repeat: no-repeat;
+	background-image: url('/img/eberhardvanderlaan2/attention.svg');
+	font-size: 16px;
+	line-height: 22px;
+	color: #ffffff;
+
+	@media @phone {
+		width: calc(100% + 30px);
+		margin-left: -15px;
+		height: auto;
+	}
+
+	&.green {
+		background-color: @amsterdam-green;
+	}
+
+	&.error {
+		background-color: @amsterdam-red;
+	}
+
+}

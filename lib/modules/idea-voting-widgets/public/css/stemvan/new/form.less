@@ -1,0 +1,29 @@
+form {
+	.charsLeft {
+		color: #9A9A9A;
+		display: none;
+		float: left;
+		font-size: 12px;
+		
+		&.visible {
+			display: block;
+		}
+		
+		.min, .max {
+			display: none;
+		}
+		.ok {
+			color: #9A9A9A;
+		}
+		.error {
+			color: #EC0000;
+		}
+		.visible {
+			display: block;
+		}
+	}
+	input[type="submit"]:disabled {
+		cursor: default;
+		opacity: 0.3;
+	}
+}

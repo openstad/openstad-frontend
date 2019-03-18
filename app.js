@@ -13,6 +13,7 @@ const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
 const openstadMap   = require('./config/map').default;
 
+
 var aposServer = {};
 app.use(express.static('public'));
 
@@ -136,6 +137,7 @@ function run(id, config, callback) {
               'counter' : {},
               'idea-overview' : {},
               'idea-map': {},
+              'idea-voting': {},
               'link': {},
               'idea-single' : {},
               'idea-form' : {},
@@ -197,6 +199,7 @@ function run(id, config, callback) {
         'idea-single-widgets': {},
         'idea-form-widgets': {},
         'idea-map-widgets': {},
+        'idea-voting-widgets': {},
         'link-widgets': {},
         'counter-widgets': {},
         'arguments-widgets': {},

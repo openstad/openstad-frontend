@@ -1,0 +1,222 @@
+.pageContent.article {
+
+	#banner {
+		
+		@media @phone {
+			width: 100%;
+			left: 0;
+			height: 200px;
+		}
+		
+	}
+	
+	.primary {
+		overflow: hidden;
+		
+		ul {
+			list-style: none;
+			padding: 0;
+			
+			li {
+				background-image: url('/img/arrow_right_black.svg');
+				background-position: top 3px left;
+				background-repeat: no-repeat;
+				background-size: auto 0.9em;
+				padding-left: 15px;
+			}
+		}
+		
+		// TODO: proclaimer and FAQ pages use styling for `#summary` and
+		//       `#article` too. Refactor?
+		#summary {
+			box-sizing: border-box;
+			float: left;
+			padding-right: @hMargin;
+			overflow: hidden;
+			width: 33.33%;
+			
+			@media @grid50 {
+				float: none;
+				width: 100%;
+			}
+			@media @primary100 {
+				padding-right: 0;
+			}
+			
+			h3 {
+				color: #EC0000;
+			}
+			hr {
+				display: none;
+				margin: 2em 0;
+				
+				@media @grid50 {
+					display: block;
+				}
+			}
+			p:first-child {
+				color: #818181;
+				font-size: 0.7rem;
+				margin-bottom: 2em;
+			}
+			p.strong {
+				font-weight: bold;
+				
+				a {
+					color: #000;
+					text-decoration: underline;
+				}
+			}
+			// Main `ul` definition above in `.primary`.
+			ul li a {
+				color: #000;
+				font-weight: bold;
+				text-decoration: none;
+				
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+		#article {
+			box-sizing: border-box;
+			float: left;
+			padding-right: @hMargin;
+			position: relative;
+			width: 66.66%;
+			
+			@media @grid50 {
+				float: none;
+				width: 100%;
+			}
+			@media @primary100 {
+				padding-right: 0;
+			}
+			
+			p:first-of-type {
+				font-weight: bold;
+			}
+			// 
+			// `div.video` in content.less.
+			// 
+			blockquote {
+				@margin: 50px;
+				font-size: 1.875rem;
+				font-weight: bold;
+				line-height: 1.25em;
+				margin: 1em @margin;
+				position: relative;
+				
+				@media @phone {
+					@margin: 30px;
+					font-size: 1.25rem;
+					margin: 1em @margin;
+					
+					&:before {
+						left: -@margin !important;
+					}
+					&:after {
+						right: -@margin !important;
+					}
+				}
+				
+				&:before, &:after {
+					color: #EC0000;
+					font-family: Arial;
+					font-size: 2em;
+					position: absolute;
+				}
+				&:before {
+					content: '“';
+					top: 0px;
+					left: -@margin;
+				}
+				&:after {
+					content: '”';
+					bottom: -0.25em;
+					right: -@margin;
+				}
+			}
+				
+		}
+
+	}
+
+	#unpublished-line {
+		position: relative;
+		margin-bottom: 20px;
+		border: solid 3px #164995;
+ 		font-size: 16px;
+		font-weight: 600;
+		line-height: 40px;
+		padding: 20px;
+
+		.button {
+			display: inline-block;
+			margin: 0 0 0 40px;
+			background-color: #164995;
+			color: white;
+			width: 200px;
+			font-size: 16px;
+			font-weight: 600;
+			line-height: 40px;
+			height: 40px;
+			padding: 0 20px 0 40px;
+		}
+
+		a.button.edit {
+			background-position: 13px 12px;
+			background-size: 17px 15px;
+			background-repeat: no-repeat;
+			background-image: url('/img/icon-edit-argument.svg');
+		}
+
+		a.button.publish {
+			background-position: 13px 11px;
+			background-size: 17px 16px;
+			background-repeat: no-repeat;
+			background-image: url('/img/vinkje.svg');
+		}
+
+	}
+
+	.secondary {
+		.newIdeaBubble {
+			display: block !important;
+		}
+	}
+}
+
+/* todo: deze moet naar een hoger nivo */
+// Action buttons
+// --------------
+#content {
+	input[type="submit"]:not(.default) {
+		background-color: #164995;
+		background-image: none;
+		color: white;
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 40px;
+		height: 40px;
+		padding: 0 20px 0 20px;
+	}
+}
+
+.form-extra-help-text {
+	padding-top: 20px;
+	font-size: 14px;
+	text-align: right;
+}
+
+// Action buttons
+// --------------
+// All article mutation buttons on the right side of the article's content.
+#content.article >.secondary {
+	margin-top: 10px;
+	
+	h2:first-of-type {
+		margin-top: 0;
+	}
+
+}

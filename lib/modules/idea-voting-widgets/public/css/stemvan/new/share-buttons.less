@@ -1,0 +1,40 @@
+ul.share {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	
+	li {
+		display: inline;
+		margin: 0;
+		padding: 0;
+		
+		a {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 30px 30px;
+			display: inline-block;
+			font-size: 0;
+			height: 30px;
+			width: 30px;
+			
+			&.facebook {
+				background-image: url('/img/share-facebook.svg');
+				&:hover {
+					background-image: url('/img/share-facebook-hover.svg');
+				}
+			}
+			&.twitter {
+				background-image: url('/img/share-twitter.svg');
+				&:hover {
+					background-image: url('/img/share-twitter-hover.svg');
+				}
+			}
+			&.email {
+				background-image: url('/img/share-email.svg');
+				&:hover {
+					background-image: url('/img/share-email-hover.svg');
+				}
+			}
+		}
+	}
+}
