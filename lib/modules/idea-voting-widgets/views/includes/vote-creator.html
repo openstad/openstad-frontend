@@ -231,6 +231,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 	 }
 
 	 function setNextButton(showPrevious, hideNext) {
+		 console.log('====> setNextButton');
+
 		 var step = steps[currentStep];
 		 var isValid = step && step.validate ? steps[currentStep].validate() : true;
 		 if (steps[currentStep+1]) {
@@ -257,7 +259,12 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 			 document.querySelector('#previous-button').style.display = 'none';
 		 }
 
+		 console.log('====> currentStep', currentStep);
+
+
 	 }
+
+
 
 	 function activateNextButton() {
 		 if (!document.querySelector('#next-button').className.match(' active')) document.querySelector('#next-button').className = document.querySelector('#next-button').className + ' active';
@@ -284,8 +291,6 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 	 // vote-creator - specific
 	 var previewHTML = '';
 	 function selectIdea(newIdeaId, doNotOpen) {
-
-		 if (!doNotOpen) showVoteCreator();
 		 ideaId = newIdeaId;
 
 		 openstadSetCookie('ideaId', ideaId);
@@ -299,6 +304,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 		 var previewElement = stepElement.querySelector('.preview');
 		 previewElement.className = previewElement.className.replace(' form-error', '');
+		 console.log("===> step", step);
+		 console.log("===> previewElement", previewElement);
 
 		 var node = document.createElement('div');
 		 node.className = 'image';
@@ -306,11 +313,15 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		 previewElement.innerHTML = '';
 		 previewElement.appendChild(node)
 		 previewHTML = previewElement.innerHTML;
+
 		 doShowImage(ideaId, previewElement);
 
 		 setNextButton();
 
 		 location.href = "#vote-creator-anchor";
+
+		 if (!doNotOpen) showVoteCreator();
+
 
 	 }
 
@@ -325,6 +336,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 		 var step = steps[currentStep] || steps[0];
 		 var stepElement = document.querySelector('#' + step.contentId);
+
 
 		 var previewElement = stepElement.querySelector('.preview');
 		 previewElement.innerHTML = '<div class="nothingYet"><div class="text">Kies een ontwerp</div></div>';

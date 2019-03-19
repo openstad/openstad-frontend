@@ -79,7 +79,10 @@ function run(id, config, callback) {
         },
         'apostrophe-assets' : {
             minify: false,
-            scripts: [],
+            scripts: [
+              { name: 'cookies' },
+              { name: 'site' },
+            ],
             stylesheets: [
               { name: 'main' }
             ],
