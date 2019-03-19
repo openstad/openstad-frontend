@@ -2,7 +2,7 @@
 {% set contentClass = 'newIdea' %}
 {% set useModernEditor = true %}
 {% set showForm = true %}
-{% import 'includes/openstad-map.njk' as openStadMap %}
+{% import 'includes/openstad-map.html' as openStadMap %}
 
 {% set summaryMaxLength = 140 %}
 
@@ -12,6 +12,7 @@
 	{% if showForm %}
 		<div class="primary" id="formulier-block">
 			<br/><br/>
+			{#
 			<form id="posterImageUpload" class="dz-clickable" action="/image"
 	    {% if idea.posterImage %}
 	    style="background-image: url('{{idea.posterImageUrl}}');"
@@ -20,17 +21,20 @@
 				<div class="progress"><div class="bar"></div></div>
 				<button type="button">Verwijder afbeelding<!-- Also set in JS --></button>
 			</form>
+			#}
 
 			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit">
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
-					<p>{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em></p>
+					<p>
+						{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
+					</p>
 
 					<h2>Titel plan</h2>
-					<input type="text" name="title" value="{{idea.title}}"><br>
+					<input type="text" name="title" value="{{idea.title}}"><br />
+					<input type="hidden" id="extraData" name="extraData" value=""><br />
 
-					<input type="hidden" id="extraData" name="extraData" value=""><br>
-
+					{% if data.widget.area %}
 					<h2>Gebied</h2>
 					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor West Algemeen.</div>
 					<select id="gebied" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
@@ -41,8 +45,10 @@
 						<option value="Westerpark" {% if (idea.extraData) and (idea.extraData.gebied == "Westerpark") %}selected{% endif %}>Westerpark</option>
 						<option value="West Algemeen" {% if (idea.extraData) and (idea.extraData.gebied == "West Algemeen") %}selected{% endif %}>West Algemeen</option>
 					</select>
-					<br>
+					<br />
+					{% endif %}
 
+					{% if data.widget.theme %}
 					<h2>Thema</h2>
 					<select id="thema" value="{% if idea.extraData %}{{idea.extraData.thema}}{% endif %}">
 						<option value="">Kies thema</option>
@@ -50,12 +56,19 @@
 						<option value="Diversiteit & Inclusiviteit" {% if (idea.extraData) and (idea.extraData.thema == "Diversiteit & Inclusiviteit") %}selected{% endif %}>Diversiteit en Inclusiviteit</option>
 						<option value="Duurzaam" {% if (idea.extraData) and (idea.extraData.thema == "Duurzaam") %}selected{% endif %}>Duurzaam</option>
 					</select>
-					<br>
+					<br />
+					{% endif %}
 
 					<h2>Samenvatting</h2>
 					Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.<br>
 					<textarea name="summary">{{idea.summary}}</textarea>
 					<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
+
+				</div>
+
+				<div id="imageUpload">
+					<h2>Plaatjes</h2>
+					<input type="file" class="imageUploader filepond" multiple />
 				</div>
 
 				<div id="description">
