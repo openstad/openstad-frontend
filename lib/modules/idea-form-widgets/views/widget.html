@@ -16,6 +16,7 @@
 			<form id="posterImageUpload" class="dz-clickable" action="/image"
 	    {% if idea.posterImage %}
 	    style="background-image: url('{{idea.posterImageUrl}}');"
+
 	    {% endif %}
 			>
 				<div class="progress"><div class="bar"></div></div>
@@ -159,6 +160,7 @@
 			</div>
 		</div>
 	{% endif %}
-
-
-		</div>
+</div>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>

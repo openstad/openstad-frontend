@@ -1,4 +1,8 @@
 //standard filepond is done in absolute styling, but this collides with draggable
+.filepond--root {
+  max-width: 300px;
+}
+
 .filepond--list{
   position: relative !important;
   left: 0 !important;
@@ -9,5 +13,82 @@
   .filepond--item {
     position: relative !important;
     transform: none !important;
+    height: 76px !important;
+    width:  auto !important;
+    display: block;
+    margin: 4px;
+    overflow: hidden;
+    border-radius: 4px;
   }
 }
+
+.filepond--file-status-sub {
+  display: none !important;
+}
+
+
+.filepond--image-preview-overlay-idle,
+.filepond--image-preview-overlay-success
+ {
+   position: absolute;
+   top: 4px;
+   left: 4px;
+   right:  4px;
+   bottom:  4px;
+}
+
+.filepond--image-preview-overlay-idle svg {
+  display: none;
+}
+
+
+.filepond--image-preview-overlay-success svg{
+  display: none;
+}
+
+.filepond--file .filepond--file-status {
+    margin-left: -5px;
+}
+
+.filepond--file-info {
+    margin-left: 80px;
+}
+
+.filepond--image-canvas-wrapper {
+  transform: none !important;
+  width: 100% !important;
+  height: auto  !important;
+}
+
+.filepond--image-canvas-wrapper canvas {
+  width: 100% !important;
+}
+
+
+.filepond--image-preview-overlay-failure svg {
+  visibility: hidden;
+}
+
+.filepond--image-clip {
+  height: 68px !important;
+  width: 68px !important;
+  overflow: hidden;
+}
+
+.filepond--image-preview {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right:  4px;
+  bottom:  4px;
+}
+
+/*
+.filepond--image-preview-overlay {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right:  4px;
+  bottom:  4px;
+}
+*/
