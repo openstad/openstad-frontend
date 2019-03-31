@@ -14,6 +14,8 @@ const dbExists      = require('./services/mongo').dbExists;
 const openstadMap   = require('./config/map').default;
 
 
+console.log('process.env', process.env);
+
 var aposServer = {};
 app.use(express.static('public'));
 
@@ -33,16 +35,26 @@ app.use(function(req, res, next) {
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
+  console.log('thisHost', thisHost);
+  console.log('hostKey', hostKey);
+
 
   dbExists(hostKey)
     .then((exists) => {
       if (exists || thisHost === process.env.DEFAULT_HOST)  {
+
+          console.log('app.js 1');
+
         if (!aposServer[hostKey]) {
+          console.log('app.js 2');
+
           runner(hostKey, {}).then(function(apos) {
             aposServer[hostKey] = apos;
             aposServer[hostKey].app(req, res);
           });
         } else {
+          console.log('app.js 3');
+
           aposServer[hostKey].app(req, res);
         }
       } else {
