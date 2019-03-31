@@ -8,7 +8,11 @@
 			<div class="steps">
 				{% for step in data.widget.steps %}
 				<div class="step">
-					<img class="step-image" src="{{apos.attachments.url(step.image)}}" />
+					<img
+						class="step-image"
+						src="{{apos.attachments.url(step.image)}}"
+						style="{% if data.widget.imageHeight %} height:	{{data.widget.imageHeight}}; {% endif %}"
+					/>
 					<div class="step-header">{{step.title}}</div>
 					<p>
 						{{step.description}}

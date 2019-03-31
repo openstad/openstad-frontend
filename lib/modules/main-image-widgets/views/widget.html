@@ -1,6 +1,19 @@
 <div id="banner">
-		<div class="image" style="background-image: url('{{apos.attachments.url(data.widget.image)}}');"></div>
-		<h1 class="overlay-title">
-      {{data.widget.title}}
-		</h1>
+		<div class="image"
+			style="
+				background-image: url('{{apos.attachments.url(data.widget.image)}}');
+				{% if data.widget.height %} height:	{{data.widget.height}}; {% endif %}
+			"></div>
+		<div class="text">
+			<h2> {{data.widget.title}}</h2>
+			{{data.widget.description}}
+		</div>
+		<div class="buttons">
+			<a href="/wedstrijd#delocatie" class="page-button page-button-white bekijk-de-locatie-button">
+				Bekijk de locatie
+			</a>
+			<a href="/plan/nieuw" class="page-button page-button-blue stuur-je-ontwerp-button">
+				Stuur je ontwerp in
+			</a>
+		</div>
 </div>
