@@ -162,6 +162,7 @@ function run(id, config, callback) {
               'title' : {},
               'user-form' : {},
               'submissions' : {},
+              'section' : {},
           }
         },
 

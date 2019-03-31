@@ -8,7 +8,6 @@
 <div class="pageContent newIdea" id="content">
 	{% if showForm %}
 		<div class="primary" id="formulier-block">
-			<br/><br/>
 			{#
 			<form id="posterImageUpload" class="dz-clickable" action="/image"
 	    {% if idea.posterImage %}
@@ -25,7 +24,7 @@
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
 					<p>
-						{{user.fullName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
+						{{user.firstName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
 					</p>
 
 					<h2>Titel plan</h2>
