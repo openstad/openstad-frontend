@@ -1,8 +1,9 @@
-<div class="section"
-  {% if data.widget.backgroundColor %}
-  style="background: {{data.widget.backgroundColor}}"
-  {% if data.widget.padding.length > 1 %} padding:	{{data.widget.padding}}; {% endif %}
-  {% endif %}
+<div
+  class="section"
+  style="
+    {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}} {% endif %}
+    {% if data.widget.padding %} padding:	{{data.widget.padding}}; {% endif %}
+  "
 >
   <div class="container">
     {% if data.widget.displayType %}
