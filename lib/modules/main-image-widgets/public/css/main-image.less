@@ -28,4 +28,71 @@
       margin: 0;
       font-size: 24px;
     }
+
+    .text {
+      position: absolute;
+      box-sizing: border-box;
+      width: 534px;
+      left: 20px;
+      bottom: 20px;
+      padding: 20px 25px 45px 20px;
+      color: #fff;
+      background-color: #164995;
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.38;
+      z-index: 110;
+
+      @media @phone {
+        position: relative;
+        left: 15px;
+        bottom: auto;
+        width: calc(100% - 30px);
+        margin-top: 70px;
+        margin-bottom: 15px;
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+        margin-bottom: 15px;
+        padding: 0;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      a.button {
+        position: absolute;
+        display: block;
+        bottom: 5px;
+        right: 20px;
+        font-size: 16px;
+        font-weight: 600;
+        width: 270px;
+        max-width: 270px;
+        color: white;
+        line-height: 44px;
+        text-align: right;
+
+        .arrow {
+          position: relative;
+          top: 1px;
+          width: 9px;
+          display: inline-block;
+          margin-left: 14px;
+        }
+
+        @media @phone {
+          display: none;
+        }
+
+      }
+
+    }
+
 }
