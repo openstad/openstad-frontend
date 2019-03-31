@@ -1,5 +1,9 @@
 {% if data.widget.mode === 'h1' %}
-<h1>
+<h1
+style="
+  {% if data.widget.margin %} padding:	{{data.widget.margin}}; {% endif %}
+"
+>
   {{data.widget.title}}
 </h1>
 {% endif %}
