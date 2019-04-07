@@ -13,8 +13,7 @@ const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
 const openstadMap   = require('./config/map').default;
 
-
-console.log('process.env', process.env);
+//console.log('process.env', process.env);
 
 var aposServer = {};
 app.use(express.static('public'));
@@ -83,6 +82,8 @@ function run(id, config, callback) {
             scripts: [
               { name: 'cookies' },
               { name: 'site' },
+              { name: 'jquery.validate.min' },
+              { name: 'jquery.validate.nl' },
             ],
             stylesheets: [
               { name: 'main' }

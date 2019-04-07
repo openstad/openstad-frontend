@@ -24,12 +24,12 @@
  ]
 
  // delete old markers when there are too many
- let selectedMarkers = [];
+ var selectedMarkers = [];
  if (markers.length > 20) {
 	 markers.forEach(function(marker) {
-		 let select = true;
+		 var select = true;
 		 if (marker.status ==  'CLOSED') {
-			 let datediff = new Date().getTime() - new Date(marker.endDate).getTime();
+			 var datediff = new Date().getTime() - new Date(marker.endDate).getTime();
 			 if ( datediff > 1000 * 60 * 60 * 24 * 90 ) {
 				 select = false;
 			 }

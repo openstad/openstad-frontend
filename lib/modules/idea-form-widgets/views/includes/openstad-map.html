@@ -1,5 +1,5 @@
 {% macro map( googleKey='', ideas=[], editorInputElementId='' ) %}
-	
+
 	<script src="https://maps.googleapis.com/maps/api/js?key={{googleKey}}"></script>
 	<script src="/js/openstad-map.js"></script>
 	<div id="map" style="width: 100%; height: 100%;"></div>
@@ -25,12 +25,12 @@
 	 ]
 
 	 // delete old markers when there are too many
-	 let selectedMarkers = [];
+	 var selectedMarkers = [];
 	 if (markers.length > 20) {
 		 markers.forEach(function(marker) {
-			 let select = true;
+			 var select = true;
 			 if (marker.status ==  'CLOSED') {
-				 let datediff = new Date().getTime() - new Date(marker.endDate).getTime();
+				 var datediff = new Date().getTime() - new Date(marker.endDate).getTime();
 				 if ( datediff > 1000 * 60 * 60 * 24 * 90 ) {
 					 select = false;
 				 }
@@ -65,7 +65,7 @@
 		 selectedMarkers,
 		 {% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %}
 	 )
-	 
+
 	</script>
 
 {% endmacro %}

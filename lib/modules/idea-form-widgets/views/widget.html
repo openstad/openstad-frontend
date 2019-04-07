@@ -8,27 +8,15 @@
 <div class="pageContent newIdea" id="content">
 	{% if showForm %}
 		<div  id="formulier-block">
-			{#
-			<form id="posterImageUpload" class="dz-clickable" action="/image"
-	    {% if idea.posterImage %}
-	    style="background-image: url('{{idea.posterImageUrl}}');"
-
-	    {% endif %}
-			>
-				<div class="progress"><div class="bar"></div></div>
-				<button type="button">Verwijder afbeelding<!-- Also set in JS --></button>
-			</form>
-			#}
-
 			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit">
 				<div id="titleAndSummary">
 					<h4>Naam</h4>
 					<p>
-						{{user.firstName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
+						{{data.user.firstName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
 					</p>
 
 					<h2>Titel plan</h2>
-					<input type="text" name="title" value="{{idea.title}}"><br />
+					<input type="text" name="title" value="{{idea.title}}" required><br />
 					<input type="hidden" id="extraData" name="extraData" value=""><br />
 
 					{% if data.widget.area %}
@@ -58,7 +46,7 @@
 
 					<h2>Samenvatting</h2>
 					Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.<br>
-					<textarea name="summary">{{idea.summary}}</textarea>
+					<textarea name="summary" required maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 					<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 
 				</div>
@@ -66,22 +54,22 @@
 				<div id="imageUpload">
 					<h2>Plaatjes</h2>
 					<input type="file" class="imageUploader filepond" multiple />
+					<input type="hidden" name="validateImages" multiple />
 				</div>
 
 				<div id="description">
 					<h2>Beschrijving</h2>
 					<div class="form-info">
 						Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
-						<ul>
+					{#	<ul>
 							<li>Wat is het verhaal achter jouw plan?</li>
 							<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt?</li>
 							<li>Is het een plan dat je zelf wilt uitvoeren, of moet het door een organisatie of de gemeente uitgevoerd worden?</li>
 							<li>Wat wil je ermee bereiken?</li>
 							<li>Draag argumenten aan om mensen uit West te overtuigen op jouw plan te stemmen. Je plan heeft minimaal 50 stemmen nodig om door te gaan naar de volgende fase.</li>
 						</ul>
+						#}
 					</div>
-					{% if useModernEditor %}
-						<input type="hidden" id="js-description" name="description" value="{{idea.description}}">
 
 						<trix-toolbar id="trixToolbar">
 							<div class="button_row">
@@ -121,11 +109,21 @@
 							</div>
 						</trix-toolbar>
 						<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor><br>
-					{% else %}
-						<textarea name="description">{{idea.description}}</textarea>
-					{% endif %}
-					<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
 
+					<!--
+							<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
+							!-->
+
+						<input
+							type="hidden"
+							id="js-description"
+							name="description"
+							value="{{idea.description}}"
+							required
+							minlength="140"
+						/>
+
+						<input type="hidden" name="redirect" value="{{data.widget.redirect}}">
 
 					{% if idea.id %}
 						<input type="hidden" name="id" value="{{idea.id}}">
@@ -137,15 +135,14 @@
 				<div id="location">
 					<h2>Locatie</h2>
 					<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.</div>
-					<input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
 					<div id="mapcontainer">
 						{{openStadMap.map(googleKey = config.openStadMap.googleKey, editorInputElementId = 'locationField')}}
 					</div>
+
+					<input type="hidden" id="locationField" name="location" required value='{{idea.location | dump | safe}}'>
+
 				</div>
 
-				{% if idea.posterImageU %}
-					<input type="hidden" name="images[]" value="{{idea.posterImage.key}}">
-				{% endif %}
 
 				<input type="submit" value="Plan opslaan">
 			</form>
