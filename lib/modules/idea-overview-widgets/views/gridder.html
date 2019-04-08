@@ -111,9 +111,12 @@
     				<h3 class="desktop">{{idea.title}}</h3>
     				<div class="summary">{{idea.summary}}</div>
     				<div class="description">{{idea.description | safe | nlbr}}</div>
-    				{% if isAdmin %}
-    					<div class="description"><a href="/plan/{{idea.id}}">Bewerk dit plan</a></div>
+
+
+    				{% if data.openstadUser.id === idea.userId %}
+    					<div class="description"><a href="/indienen?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
     				{% endif %}
+
     				<div class="share-spacer"></div>
     				<div class="share-buttons">
     					<div class="text">Deel dit ontwerp:</div>

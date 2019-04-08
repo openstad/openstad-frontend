@@ -1,7 +1,7 @@
-{% macro map( googleKey='', ideas=[], editorInputElementId='' ) %}
 
 	<script src="https://maps.googleapis.com/maps/api/js?key={{googleKey}}"></script>
 	<div id="map" style="width: 100%; height: 100%;"></div>
+
 
 	{% if editorInputElementId %}
 	<input type="hidden" id="{{editorInputElementId}}" name="location" required value='{{idea.location | dump | safe}}'>
@@ -56,21 +56,11 @@
 		 }
 	 }
 
-	 window.onload = function () {
-		 var map = new OpenStadMap(
-			 {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %},
-			 {% if config.openStadMap.polygonStyle %}{{ config.openStadMap.polygonStyle | dump | safe }}{% else %}null{% endif %},
-			 editorInputElement,
-			 editorMarker
-		 );
-		 map.createMap(
-			 {% if config.openStadMap.defaults %}{{ config.openStadMap.defaults | dump | safe }}{% else %}null{% endif %},
-			 selectedMarkers,
-			 {% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %}
-		 )
-	 }
+	 var openstadMapMarkerstyles = {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %};
+ 	 var openstadMapPolygon = {% if data.widget.mapPolygon %}{{ data.widget.mapPolygon | dump | safe }}{% else %}null{% endif %};
+	 var openstadMapDefaults = {% if config.openStadMap.defaults %}{{ config.openStadMap.defaults | dump | safe }}{% else %}null{% endif %};
+	 var openstadPolygons = openstadMapPolygon;//{% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %};
+
 
 
 	</script>
-
-{% endmacro %}

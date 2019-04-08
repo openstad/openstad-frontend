@@ -2,9 +2,8 @@
 {% set contentClass = 'newIdea' %}
 {% set useModernEditor = true %}
 {% set showForm = true %}
-{% import 'includes/openstad-map.html' as openStadMap %}
 {% set summaryMaxLength = 140 %}
-
+{% set idea = data.idea %}
 <div class="pageContent newIdea" id="content">
 	{% if showForm %}
 		<div  id="formulier-block">
@@ -53,7 +52,42 @@
 
 				<div id="imageUpload">
 					<h2>Plaatjes</h2>
-					<input type="file" class="imageUploader filepond" multiple />
+					<fieldset class="filepondFieldset">
+						<!-- a list of already uploaded files -->
+						{% if idea.extraData.images %}
+				    <ul>
+							{% for image in idea.extraData.images %}
+				        <li>
+				            <label>
+				                <input value="{{image}}" data-type="remote" checked type="checkbox">
+				                {{image}}
+				            </label>
+				        </li>
+								{% endfor %}
+				    </ul>
+					{#	<script>
+							var ideaFiles = [];
+							{% for image in idea.extraData.images %}
+							ideaFiles.push({
+								source: {{loop.index}},
+								options : {
+									type: 'local',
+
+											// mock file information
+									 file: {
+											 name: '{{image}}',
+											 size: 3001025,
+											 type: 'image/png'
+									 }
+								}
+
+							});
+							{% endfor %}
+						</script>#}
+						{% endif %}
+						<input type="file" class="imageUploader filepond" multiple />
+
+					</fieldset>
 					<input type="hidden" name="validateImages" multiple />
 				</div>
 
@@ -133,8 +167,10 @@
 					<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.</div>
 
 					<div id="mapcontainer">
-						{{openStadMap.map(googleKey = config.openStadMap.googleKey, [], editorInputElementId = 'locationField')}}
+						{% set editorInputElementId = 'locationField' %}
+						{% include 'includes/openstad-map.html'  %}
 					</div>
+
 				</div>
 				<input type="submit" value="Plan opslaan">
 			</form>
