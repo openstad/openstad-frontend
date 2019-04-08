@@ -29,7 +29,7 @@
 
     	</script>
 
-    	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
+    	<ul id="ideaList" class="gridder" onclic="handleClick(event);">
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     		{% for idea in data.ideas %}<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
     			<div class="image-container" style="position: relative;">
@@ -53,17 +53,17 @@
     				{#
     			 {% if (idea.posterImage) and (idea.posterImage.extraData) %}
     			 imageUrl[{{idea.id}}] = "{{idea.posterImageUrl}}";
-    			 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+    			 // doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
     			 {% endif %}
     			 #}
     			 {% if (idea.imageUrl) %}
     			 imageUrl[{{idea.id}}] = "{{idea.imageUrl}}";
-    			 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+    			 // doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
     			 {% endif %}
 
            {% if (idea.extraData) and (idea.extraData.images) %}
            imageUrl[{{idea.id}}] = "{{idea.extraData.images[0]}}";
-           doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+            doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
            {% endif %}
     			</script>
     		</li>{% endfor %}
@@ -76,9 +76,9 @@
     			<div class="image-and-vote-button-container">
     				<div class="image-mask">
     					<div class="image-container">
-    						<div class="image" style="cursor: url('/img/vergrootglas.png'), pointer;">
+    						<div class="image" style="/*cursor: url('/img/vergrootglas.png'), pointer;*/">
     							{#<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>#}
-    							<div class="image-upload"></div>
+    							{#<div class="image-upload"></div>#}
     							{#<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground" onmouseover="if (!isPhone) document.getElementById('mask-{{idea.id}}').style.display = 'block'"/> #}
     							<!--<div
                     id="mask-{{idea.id}}"
@@ -126,20 +126,3 @@
     			</div>
     		</div>
     	{% endfor %}
-
-      <script src="/js/fotorama-4.6.4.min.js"></script>
-
-
-<script>
-
- window.onload = function(){
-	 var match = window.location.search.match(/showIdea=(\d+)/);
-	 if (match) {
-		 showIdeaId = match[1];
-	 };
-	 if (showIdeaId) {
-		 document.querySelector('#idea-' + showIdeaId).click()
-	 }
- }
-
-</script>
