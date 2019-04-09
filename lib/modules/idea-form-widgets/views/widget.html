@@ -55,7 +55,7 @@
 					<fieldset class="filepondFieldset">
 						<!-- a list of already uploaded files -->
 						{% if idea.extraData.images %}
-				    <ul>
+				    {#<ul>
 							{% for image in idea.extraData.images %}
 				        <li>
 				            <label>
@@ -64,8 +64,8 @@
 				            </label>
 				        </li>
 								{% endfor %}
-				    </ul>
-					{#	<script>
+				    </ul>#}
+						<script>
 							var ideaFiles = [];
 							{% for image in idea.extraData.images %}
 							ideaFiles.push({
@@ -76,14 +76,17 @@
 											// mock file information
 									 file: {
 											 name: '{{image}}',
-											 size: 3001025,
-											 type: 'image/png'
-									 }
+									//		 size: 3001025,
+										//	 type: 'image/png'
+									},
+									metadata: {
+                    poster: '{{image}}',
+                	}
 								}
 
 							});
 							{% endfor %}
-						</script>#}
+						</script>
 						{% endif %}
 						<input type="file" class="imageUploader filepond" multiple />
 
@@ -185,3 +188,4 @@
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
