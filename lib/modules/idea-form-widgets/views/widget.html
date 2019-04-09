@@ -65,14 +65,17 @@
 				        </li>
 								{% endfor %}
 				    </ul>#}
+						{% endif %}
+
 						<script>
 							var ideaFiles = [];
+							<!-- a list of already uploaded files -->
+							{% if idea.extraData.images %}
 							{% for image in idea.extraData.images %}
 							ideaFiles.push({
-								source: {{loop.index}},
+								source: '{"url":"{{image}}"}',
 								options : {
 									type: 'local',
-
 											// mock file information
 									 file: {
 											 name: '{{image}}',
@@ -86,8 +89,8 @@
 
 							});
 							{% endfor %}
+							{% endif %}
 						</script>
-						{% endif %}
 						<input type="file" class="imageUploader filepond" multiple />
 
 					</fieldset>
@@ -173,8 +176,11 @@
 						{% set editorInputElementId = 'locationField' %}
 						{% include 'includes/openstad-map.html'  %}
 					</div>
-
 				</div>
+
+				{% if idea %}
+				<input type="hidden" name="ideaId" value="{{idea.id}}">
+				{% endif %}
 				<input type="submit" value="Plan opslaan">
 			</form>
 		</div>
