@@ -31,7 +31,9 @@
 
     	<ul id="ideaList" class="gridder" onclic="handleClick(event);">
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
-    		{% for idea in data.ideas %}<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
+    		{% for idea in data.ideas %}
+
+        <li id="idea-{{idea.id}}" class="gridder-list {% if data.openstadUser.id === idea.userId %}owner{% endif %}" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
     			<div class="image-container" style="position: relative;">
     				<div class="image">
     					{# <img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/> #}

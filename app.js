@@ -11,7 +11,8 @@ const argv          = require('boring')();
 const quote         = require('shell-quote').quote;
 const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
-const openstadMap   = require('./config/map').default;
+const openstadMap           = require('./config/map').default;
+const openstadMapPolygons   = require('./config/map').polygons;
 
 //console.log('process.env', process.env);
 
@@ -122,6 +123,7 @@ function run(id, config, callback) {
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
           openStadMap: openstadMap,
+          openstadMapPolygons: openstadMapPolygons,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
