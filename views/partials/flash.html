@@ -1,0 +1,42 @@
+{% if messages.success %}
+<div class="flash-container">
+  <div role="alert" class="flash-message flash-message--success">
+    {% for success in messages.success %}
+    <p class="flash-message__content" aria-live="off" tabindex="-1">
+      {{ success.msg }}
+    </p>
+    <div class="flash-message__close-button">
+      <button aria-label="close message" class="close-button" name="button" type="button">x</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% if (messages.error) and (messages.error.length === 1) %}
+<div class="flash-container">
+  <div role="alert" class="flash-message flash-message--error">
+      {% for error in messages.error %}
+      <p class="flash-message__content" aria-live="off" tabindex="-1">
+        {{ error.msg }}
+      </p>
+      <div class="flash-message__close-button">
+        <button aria-label="close message" class="close-button" name="button" type="button">x</button>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% if messages.info %}
+<div class="flash-container">
+  <div role="alert" class="flash-message flash-message--error">
+  {% for info in messages.info %}
+    <p class="flash-message__content" aria-live="off" tabindex="-1">
+      {{ info.msg }}
+    </p>
+    <div class="flash-message__close-button">
+      <button aria-label="close message" class="close-button" name="button" type="button">x</button>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
