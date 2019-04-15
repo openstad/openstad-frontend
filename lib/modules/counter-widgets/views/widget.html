@@ -1,6 +1,6 @@
 {% from 'number-plate.njk' import numberPlate %}
 
-<a href="{{data.widget.url}}" class="margin-bottom-xs scroll-link block no-decoration">
+<a href="{{data.widget.url}}" style="{{data.widget.formattedContainerStyles}}" class="margin-bottom-xs scroll-link block no-decoration">
 	<span class="box-blue block">
 		{{numberPlate(data.widget.count)}}
     {{data.widget.label}}

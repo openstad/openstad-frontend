@@ -1,9 +1,6 @@
 <div
 	class="vote-box"
-	style="
-	{% if data.widget.backgroundColor.length > 1 %} background-color:	{{data.widget.backgroundColor}}; {% endif %}
-	{% if data.widget.padding.length > 1 %} padding:	{{data.widget.padding}}; {% endif %}
-	"
+	style="{{data.widget.formattedContainerStyles}}"
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>

@@ -1,27 +1,31 @@
 {% if data.widget.mode === 'h1' %}
 <h1
-style="
-  {% if data.widget.margin %} padding:	{{data.widget.margin}}; {% endif %}
-"
+style="{{data.widget.formattedContainerStyles}}"
 >
   {{data.widget.title}}
 </h1>
 {% endif %}
 
 {% if data.widget.mode === 'h2' %}
-<h2>
+<h2
+style="{{data.widget.formattedContainerStyles}}"
+>
   {{data.widget.title}}
 </h2>
 {% endif %}
 
 {% if data.widget.mode === 'h3' %}
-<h3>
+<h3
+style="{{data.widget.formattedContainerStyles}}"
+>
   {{data.widget.title}}
 </h3>
 {% endif %}
 
 {% if data.widget.mode === 'h4' %}
-<h4>
+<h4
+style="{{data.widget.formattedContainerStyles}}"
+>
   {{data.widget.title}}
 </h4>
 {% endif %}

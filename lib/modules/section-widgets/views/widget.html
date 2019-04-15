@@ -2,7 +2,7 @@
   class="section"
   style="
     {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}}; {% endif %}
-    {% if data.widget.padding %} padding:	{{data.widget.padding}}; {% endif %}
+    {{data.widget.formattedContainerStyles}}
   "
 >
   <div class="container">
