@@ -21,8 +21,8 @@
   #}
   <div class="sort">
     <select class="default-select">
-      <option {{'selected' if not sort or sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
-      <option {{'selected' if sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+      <option {{'selected' if not sort or data.query.sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+      <option {{'selected' if data.query.sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
       <!--
            <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
       -->

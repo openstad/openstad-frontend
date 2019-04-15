@@ -128,9 +128,8 @@
  var hasConfirmed = '{{userHasConfirmed}}' || openstadGetCookie('hasConfirmed') || '';
 
 
- var match = window.location.hash.match(/showidea-(\d+)/);
+ var match = window.location.hash.match(/ideaId-(\d+)/);
  var showIdeaId = match ? match[1] : undefined;
- showIdeaId
 
  // tmp
  // var match = window.location.search.match(/stepNo=(\d+)/);
@@ -187,7 +186,7 @@
  }
 
  window.onload = function(){
-	 var match = window.location.search.match(/showIdea=(\d+)/);
+	 var match = window.location.search.match(/ideaId=(\d+)/);
 	 if (match) {
 		 showIdeaId = match[1];
 	 };

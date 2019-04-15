@@ -2,7 +2,6 @@
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
 
-
 {% block title %}
   {# Create a useful, SEO-friendly title tag based on what we have #}
   {% if data.piece %}
@@ -17,6 +16,20 @@
 {% block extraHead %}
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
+
+{% if data.idea %}
+{% set activeIdea = data.idea %}
+<meta property="og:title" content="{{activeIdea.title}}">
+<meta property="og:type" content="website">
+<meta property="og:description" content="{{activeIdea.summary}}">
+<meta property="og:locale" content="nl_NL">
+<meta property="og:image" content="{{activeIdea.extraData.images[0]}}">
+{% else %}
+  {% if data.global.fbImage %}
+  <meta property="og:image" content="{{apos.settings.getOption('appUrl')}}{{apos.attachments.url(data.global.fbImage)}}">
+  {% endif %}
+{% endif %}
+
 {% endblock %}
 {% block beforeMain %}
 {% if data.user %} <!-- be sure to somehow safegaurd against non-editor situations, as performance could unnecessarily suffer -->

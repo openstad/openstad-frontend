@@ -11,6 +11,8 @@ const argv          = require('boring')();
 const quote         = require('shell-quote').quote;
 const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
+//const flash         = require('express-flash');
+
 const openstadMap           = require('./config/map').default;
 const openstadMapPolygons   = require('./config/map').polygons;
 
@@ -27,6 +29,8 @@ function getSampleSite() {
   // Find the first one that isn't a status string like "pending"
   return _.find(aposServer, apos => (typeof apos) === 'object');
 }
+
+//app.use(flash());
 
 app.use(function(req, res, next) {
   const runner = Promise.promisify(run);
