@@ -1,0 +1,119 @@
+@inward-easing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+@outward-easing: cubic-bezier(0.77, 0, 0.175, 1);
+@downward-easing: cubic-bezier(0.47, 0, 0.745, 0.715);
+
+.flash-container {
+    align-items: center;
+    right: 0;
+    top: 2rem;
+    left: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column-reverse;
+    position: fixed;
+    width: 100%;
+    pointer-events: none;
+    z-index: 10000000;
+    padding: .75rem;
+}
+
+.flash-message {
+    background: #f3f3f3;
+    border-radius: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #000;
+    cursor: default;
+    display: flex;
+    max-width: 400px;
+    pointer-events: auto;
+    position: relative;
+    font-weight: 700;
+    line-height: 1.25;
+
+    + .flash-message {
+      margin-bottom: .75rem;
+    }
+
+    &--error {
+      border-left: 3px solid #ec0000;
+    }
+
+    &--success {
+      border-left: 3px solid #00a03c;
+    }
+}
+
+.flash-message__content {
+  margin: 0;
+  padding: 1rem 2rem;
+  font-weight: 700;
+}
+
+.flash-message__close-button {
+  border-left: 1px solid rgba(255, 255, 255, .2);
+  display: flex;
+  .close-button {
+    background: transparent;
+    appearance: none;
+    border: 0;
+    color: rgba(0, 0, 0, .88);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 1rem 1.25rem;
+  }
+}
+
+.flash-message--is-animating-in {
+  animation-duration: 0.333333s;
+  animation-name: flashAnimateIn;
+  animation-timing-function: @inward-easing;
+}
+
+.flash-message--is-animating-out {
+  animation-duration: 0.333333s;
+  animation-name: flashAnimateOut;
+  animation-timing-function: @outward-easing;
+}
+
+.flash-message--is-animating-down {
+  animation-duration: 0.333333s;
+  animation-name: flashAnimateDown;
+  animation-timing-function: @downward-easing;
+}
+
+/*================ animations ================*/
+
+@keyframes flashAnimateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flashAnimateOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+}
+
+@keyframes flashAnimateDown {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(var(--element-height));
+  }
+}

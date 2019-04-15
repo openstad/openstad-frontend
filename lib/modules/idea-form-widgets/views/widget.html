@@ -185,10 +185,15 @@
 			</form>
 		</div>
 
-		<div class="secondary">
-			<div class="pageContent">
-			</div>
-		</div>
+		{% if idea %}
+		<br />
+		<form method="post" id="js-form" action="/modules/idea-form-widgets/submit" style="background: #efefef; padding: 5px 30px; margin: 60px 0 20px;">
+			<input type="hidden" name="ideaId" value="{{idea.id}}">
+			<input type="hidden" name="action" value="DELETE">
+			<input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
+		</form>
+		{% endif %}
+
 	{% endif %}
 </div>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
