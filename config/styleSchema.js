@@ -27,6 +27,14 @@ exports.default = {
               'label': 'Font size',
               'value': 'font-size'
             },
+            {
+              'label': 'Font color',
+              'value': 'color'
+            },
+            {
+              'label': 'Max width',
+              'value': 'max-width'
+            },
           ]
         },
         {
