@@ -14,18 +14,18 @@
 #title {
 	margin-bottom: 35px;
 	overflow: hidden;
-	
+
 	// Idea poster image
 	// -----------------
 	.primary {
 		height: 100%;
 		height: 375px;
 		position: relative;
-		
+
 		@media @primary100 {
 			height: 200px;
 		}
-		
+
 		.image {
 			background-image: url('/img/placeholders/idea.jpg');
 			background-position: center;
@@ -36,7 +36,8 @@
 			position: absolute;
 			right: 0px;
 			top: 0px;
-			
+			width: auto;
+
 			@media @primary100 {
 				margin-right: 0;
 			}
@@ -98,11 +99,11 @@
 		height: 375px;
 		margin-top: 0 !important;
 		overflow: visible;
-		
+
 		@media @primary100 {
 			height: auto;
 		}
-		
+
 		.controls {
 			height: 375px;
 			margin-left: -21px;
@@ -119,7 +120,7 @@
 				border-left-width: 1px;
 				border-top-width: 0;
 			}
-			
+
 			@media @phone {
 				padding: 15px 15px;
 				margin-left: 0;
@@ -130,19 +131,19 @@
 			h2:first-of-type {
 				margin-top: 0;
 			}
-			
+
 			h4 {
 				margin-top: 0;
 				padding-top: 0;
 				padding-bottom: 0;
 				margin-bottom: 6px;
 			}
-			
+
 			.vote {
-				
+
 				button {
 					.appearance(none);
-					
+
 					background: #004699;
 					background-repeat: no-repeat;
 					background-size: auto 28px;
@@ -167,7 +168,7 @@
 					&:hover {
 						background-color: #003066;
 					}
-					
+
 					&::before {
 						content: none;
 					}
@@ -205,7 +206,7 @@
 			}
 
 			.ideaDuration {
-				
+
 				position: relative;
 				margin: 20px 0px 20px 0px;
 				font-size: 12px;
@@ -235,7 +236,7 @@
 					}
 				}
 			}
-			
+
 			.no-of-votes-for,
 			.no-of-votes-against {
 				box-sizing: border-box;
@@ -246,7 +247,7 @@
 				float: left;
 				margin-bottom: 4px;
 			}
-			
+
 			.no-of-votes-for-content,
 			.no-of-votes-against-content {
 				box-sizing: border-box;
@@ -271,13 +272,13 @@
 			.disabled .no-of-votes-against-content {
 				background-color: #bebebe;
 			}
-			
+
 			.no-of-votes-for-content .number-plates,
 			.no-of-votes-against-content .number-plates {
 				font-size: 0px;
 				margin-right: 0px;
 			}
-			
+
 			.no-of-votes-for-content .number-plate,
 			.no-of-votes-against-content .number-plate {
 				margin-right: 4px;
@@ -306,14 +307,14 @@
 					margin: 0;
 					padding: 0;
 					list-style-type: none;
-					
+
 					li {
 						display: inline;
 						height: 30px;
 						width: 30px;
 						margin: 0;
 						padding: 0;
-						
+
 						a {
 							background-position: center;
 							background-repeat: no-repeat;
@@ -325,7 +326,7 @@
 							margin: 0 3px 0 0;
 							height: 30px;
 							width: 30px;
-							
+
 							&.facebook {
 								background-image: url('/img/share-facebook.svg');
 							}
@@ -347,7 +348,7 @@
 		}
 
 	}
-	
+
 }
 
 // Idea content
@@ -356,11 +357,11 @@
 .pageContent.idea .primary {
 	margin-bottom: 10px;
 	padding-right: @hMargin;
-	
+
 	@media @primary100 {
 		padding-right: 0;
 	}
-	
+
 	// Author information
 	// ------------------
 	#author {
@@ -368,16 +369,16 @@
 		line-height: 20px;
 		font-style: normal;
 		margin-bottom: 20px;
-		
+
 		a {
 			color: inherit;
 		}
 	}
-	
+
 	#map {
 		height: 250px;
 	}
-	
+
 	// Mod break
 	// ---------
 	// Always displayed below the user content.
@@ -421,7 +422,7 @@
 			bottom: -24px;
 			left: 0;
 		}
-		
+
 		b {
 			color: black;
 		}
@@ -445,9 +446,8 @@
 // All idea mutation buttons on the right side of the idea's content.
 .pageContent.idea >.secondary {
 	margin-top: 10px;
-	
+
 	h2:first-of-type {
 		margin-top: 0;
 	}
 }
-

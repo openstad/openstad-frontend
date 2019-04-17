@@ -1,5 +1,6 @@
+{% set options = [{title: 'Meer fietsen', order: 'A'},{title: 'Meer bomen', order: 'A'}] %}
 <div class="arguments-cta-box">
-	<div class="">
+	<div class="box-grey">
 		<form id="new-argument-form" method="POST" action="/modules/arguments-form-widgets/submit" class="clearfix ">
 
 			<textarea
@@ -7,7 +8,6 @@
 				name="description"
 				minlength="30"
 				maxlength="500"
-				placeholder="{{data.widget.placeholder}}"
 			></textarea>
 
 			<div class="charsLeft margin-bottom-s">
@@ -27,6 +27,8 @@
 				value="{{data.widget.ideaId}}"
 				{% endif %}
 			/>
+
+
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
 		</form>
 	</div>

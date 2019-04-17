@@ -66,10 +66,23 @@
 </div>
 !-->
 
-{% set variantNames   = config.variantNames %}
-{% set isFor          = propName == 'argumentsFor' %}
 
-{% for arg in data.widget.arguments %}
+{% if data.widget.ideaId === ':ideaId' %}
+
+  {% if data.widget.argumentSentiment === 'for' %}
+  {% set arguments = data.idea.argumentsFor %}
+  {% elif data.widget.argumentSentiment === 'against'  %}
+  {% set arguments = data.idea.argumentsAgainst %}
+  {% else %}
+  {% set arguments = data.idea.arguments %}
+  {% endif %}
+
+{% else %}
+{% set arguments = data.widget.arguments %}
+{% endif %}
+
+
+{% for arg in arguments %}
   <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
     <div class="user ">
       <strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
@@ -143,17 +156,12 @@
   {% endfor %}
 {% else %}
   <div class="noArguments">
-  {% if mayAddArg %}
-    Heb je een goed argument {{'voor' if isFor else 'tegen'}}?
-    Laat je stem horen!
-  {% else %}
-    Nog geen argumenten {{'voor' if isFor else 'tegen'}}.
-  {% endif %}
+    {{data.widget.emptyPlaceholder}}
   </div>
 {% endfor %}
 
 <div class="noArguments no-arguments" style="display: none;">
-    Heb je een goed argument {{'voor' if isFor else 'tegen'}}? Laat je stem horen!
+
 </div>
 
 {# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
@@ -173,7 +181,7 @@
 
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
   <input type="hidden" name="parentId" value="">
-  <input type="hidden" name="sentiment" value="{{'for' if isFor else 'against'}}">
+  <input type="hidden" name="sentiment" value="{{data.widget.argumentSentiment}}">
   <input type="submit" value="Verzenden">
 </form>
 
