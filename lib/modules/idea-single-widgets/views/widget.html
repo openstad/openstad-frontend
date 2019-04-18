@@ -34,15 +34,16 @@
 
 					{% if (idea.status === 'OPEN') %}
 						<div class="vote">
-							<form method="POST" action="/plan/{{idea.id}}/vote">
+							<form method="POST" action="/vote">
+								<input type="hidden" name="ideaId" value={{idea.id}} />
 								<input type="hidden" name="_csrf" value="{{csrfToken}}">
 								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
-								<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+								<button class="{{'selected' if idea.userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 									voor
 								</button>
 								<div style="clear: both;"></div>
 								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-								<button class="{{'selected' if userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
+								<button class="{{'selected' if idea.userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
 									tegen
 								</button>
 								<div style="clear: both;"></div>
@@ -81,9 +82,12 @@
 							{% elif idea.status == 'DONE' %}
 								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
 							{% else %}
-								<div id ="nog-xxx-om-te-stemmen"></div>
+								<div id="nog-xxx-om-te-stemmen"></div>
 								<script>
-								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
+									var endDate2 = new Date('{{idea.endDate}}');
+									var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+
+								  document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
 								</script>
 							{% endif %}
 						</div>
@@ -150,6 +154,7 @@
 	</div>
 </div>
 
+{#
 <script src="/js/promise.js"></script>
 <script src="/js/fetch.js"></script>
 <script>
@@ -227,3 +232,4 @@
 	 });
  }
 </script>
+#}

@@ -9,8 +9,9 @@
  var markers = [
 	  {% for idea in data.ideas %}
 	  {% if (idea.location) and (idea.status !=  'DENIED' or ideas.length == 1) %}
+    {% if (idea.location.coordinates[0]) and (idea.location.coordinates[1]) %}
 	 {
-		 position: { lat: {{idea.location.lat}}, lng: {{idea.location.lng}} },
+		 position: { lat: {{idea.location.coordinates[0]}}, lng: {{idea.location.coordinates[1]}} },
 		 icon     : {
 			 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-gray.svg'{% else %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-red.svg'{% endif %},
 			 size   : [22, 24],
@@ -21,6 +22,7 @@
 		 endDate: '{{idea.endDate}}',
 	 },
 	  {% endif %}
+    {% endif %}
 	  {% endfor %}
  ]
 
@@ -48,7 +50,7 @@
 
 
  var openstadMapMarkerstyles = {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %};
-   var openstadMapPolygon = {% if data.global.mapPolygons %}{{ data.global.mapPolygons | dump | safe }}{% else %}null{% endif %};
+var openstadMapPolygon = {% if data.global.mapPolygons %}{{ data.global.mapPolygons | dump | safe }}{% else %}null{% endif %};
 //	 var openstadMapDefaults = null;
  var openstadPolygons = openstadMapPolygon;//{% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %};
  var openstadMapDefaults = {
