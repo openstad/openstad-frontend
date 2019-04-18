@@ -44,9 +44,37 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false
 		},
 
+		startDateHumanized: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var date = this.getDataValue('startDate');
+				try {
+					if( !date )
+						return 'Onbekende datum';
+					return  moment(date).format('LLL');
+				} catch( error ) {
+					return (error.message || 'dateFilter error').toString()
+				}
+			}
+		},
+
 		endDate: {
 			type         : DataTypes.DATE,
 			allowNull    : true
+		},
+
+		endDateHumanized: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var date = this.getDataValue('endDate');
+				try {
+					if( !date )
+						return 'Onbekende datum';
+					return  moment(date).format('LLL');
+				} catch( error ) {
+					return (error.message || 'dateFilter error').toString()
+				}
+			}
 		},
 
 		duration: {

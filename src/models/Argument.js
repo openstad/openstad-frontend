@@ -57,7 +57,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		hasUserVoted: {
 			type         : DataTypes.VIRTUAL
-		}
+		},
+
+		createDateHumanized: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var date = this.getDataValue('createDate');
+				try {
+					if( !date )
+						return 'Onbekende datum';
+					return  moment(date).format('LLL');
+				} catch( error ) {
+					return (error.message || 'dateFilter error').toString()
+				}
+			}
+		},
 
 	}, {
 
