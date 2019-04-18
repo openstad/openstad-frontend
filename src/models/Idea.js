@@ -257,22 +257,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 			beforeValidate: function( instance, options ) {
 
-				// Automatically determine `endDate`
-				if( instance.changed('startDate') ) {
-					var duration = ( config.instances && config.instances.duration ) || 90;
-					var endDate  = moment(instance.startDate).add(duration, 'days').toDate();
-					instance.setDataValue('endDate', endDate);
-				}
-
 				return new Promise((resolve, reject) => {
 
 					if (instance.siteId) {
 						db.Site.findByPk(instance.siteId)
 							.then( site => {
 								instance.config = merge.recursive(true, config, site.config);
+								return site;
 							})
 							.then( site => {
+
+								// Automatically determine `endDate`
+								if( instance.changed('startDate') ) {
+									var duration = ( instance.config && instance.config.ideas && instance.config.ideas.duration ) || 90;
+									var endDate  = moment(instance.startDate).add(duration, 'days').toDate();
+									instance.setDataValue('endDate', endDate);
+								}
+
 								return resolve();
+
+							}).catch(err => {
+								throw err;
 							})
 					} else {
 						instance.config = config;
