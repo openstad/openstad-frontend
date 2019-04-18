@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?xml encoding="utf-8" ?>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{{SITENAME}}</title>
+		
+		<style type="text/css">
+		 #outlook a {padding:0;}
+		 .ExternalClass {width:100%;}
+		 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font,
+		 .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		 table td {border-collapse: collapse;}
+		 table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		 #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+
+		 a {
+			 color: #2b9ad6;
+			 text-deoration: none;
+		 }
+
+     h1 {
+			 font-size: 24px;
+			 font-weight: 600;
+			 margin-top: 25px;
+			 margin-bottom: 0;
+		 }
+		 
+     h2 {
+			 font-size: 18px;
+			 font-weight: 600;
+			 margin-top: 16px;
+			 margin-bottom: 30px;
+     }
+
+     h4 {
+       margin: 0;
+       margin-top: 20px;
+       padding: 0;
+       font-weight: 600;
+     }
+
+		 .blue {
+			 color: #164995;		 
+		 }
+
+		</style>
+	</head>
+	<body style="margin: 0; padding: 0; min-width: 100%;">
+		<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="backgroundTable" style="background-color: #FFF; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px;">
+			<tr>
+				<td></td>
+				<td width="560">
+					<img src="cid:logo" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<h1>{{SITENAME}}</h1>
+					{% if assets.idea %}
+						<h2 class="blue">Nieuwe voorstel - {{date | date}}.</h2>
+					{% endif %}
+					{% if assets.arg %}
+						<h2 class="blue">Nieuwe argumenten - {{date | date}}.</h2>
+					{% endif %}
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+
+					{% if assets.idea %}
+						{% for idea in assets.idea %}
+							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4;">
+								<tr>
+									<td style="background-color: white;">
+
+										<div style="padding: 20px;">
+
+											<img src="{{URL}}{{idea.instance.posterImageUrl}}" width="100%"/>
+
+											<br/>
+											<br/>
+											<strong>{{idea.instance.user.firstName}} {{idea.instance.user.lastName}} | {{idea.instance.updatedAt | date}}</strong><br/><br/>
+
+											<h2>{{idea.instance.title}}</h2>
+
+											<strong>{{idea.instance.summary | nl2br | safe}}</strong><br/>
+											<br/>
+
+											{{idea.instance.description | nl2br | safe}}<br/>
+
+										</div>
+
+									</td>
+								</tr>
+								<tr>
+									<td style="border-top: solid 3px #f3f3f4;">
+										<div style="padding: 8px 20px; font-size: 12px;">
+											<strong>Link naar Voorstel:</strong> <a href="{{URL}}/plan/{{idea.instance.id}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{idea.instance.id}}</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<br/>
+						{% endfor %}
+					{% endif %}
+					
+					{% if assets.arg %}
+						{% for arg in assets.arg %}
+							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4; background-color: #f3f3f4;">
+								<tr>
+									<td>
+
+										<div style="padding: 15px;">
+
+											<strong>{{arg.instance.user.firstName}} {{arg.instance.user.lastName}} | {{idea.instance.updatedAt | date}}</strong><br/><br/>
+
+											{% if arg.instance.sentiment == 'for' %}
+												<strong>Ik ben voor, omdat:</strong><br/><br/>
+											{% else %}
+												<strong>Ik ben tegen, omdat:</strong><br/><br/>
+											{% endif %}
+											{{arg.instance.description | nl2br | safe}}
+										</div>
+
+									</td>
+								</tr>
+								<tr>
+									<td style="background-color: white;">
+										<div style="padding: 6px 15px; font-size: 12px;;">
+											<strong>Voorstel:</strong> <a href="{{URL}}/plan/{{arg.instance.ideaId}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{arg.instance.ideaId}}</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<br/>
+						{% endfor %}
+					{% endif %}
+
+
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td style="height: 15px; background-color: #787979;" width="560">
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td style=" text-align: center; height: 15px;" width="560">
+          <h4><a href="{{URL}}" style="color: black; text-decoration: none;">{{HOSTNAME}}</a></h4>
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td style=" text-align: center; height: 15px;" width="560">
+          &nbsp;
+        </td>
+				<td></td>
+      </tr>
+		</table>
+	</body>
+</html>

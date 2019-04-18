@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?xml encoding="utf-8" ?>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{{SITENAME}}</title>
+		
+		<style type="text/css">
+		 #outlook a {padding:0;}
+		 .ExternalClass {width:100%;}
+		 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		 table td {border-collapse: collapse; line-height: 1.5em;}
+		 table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		 #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+		 p {margin-bottom: 1.5em;}
+
+		 a {
+			 color: #2b9ad6;
+			 text-deoration: none;
+		 }
+
+     h1 {
+			 font-size: 24px;
+			 font-weight: 600;
+			 margin-top: 20px;
+			 margin-bottom: 0;
+		 }
+		 
+     h2 {
+			 font-size: 18px;
+			 font-weight: 600;
+			 margin-top: 13px;
+			 margin-bottom: 20px;
+     }
+
+     h4 {
+       margin: 0;
+       margin-top: 20px;
+       padding: 0;
+       font-weight: 600;
+     }
+
+		 .blue {
+			 color: #164995;		 
+		 }
+
+		 .list {
+			 margin-top: 13px;
+		 }
+
+		 .list td {
+			 padding-bottom: 15px;
+		 }
+
+		 .list .bullet {
+			 margin-top: -3px;
+			 padding-right: 15px;
+		 }
+
+		 #howDoesItWork {
+			 margin: 20px 0 20px 0;
+		 }
+		 
+		 .step {
+			 width: calc(25% - 21px);
+			 display: inline-block;
+			 vertical-align: top;
+			 font-size: 14px;
+			 font-weight: 600;
+			 margin-left: 0;
+			 margin-right: 17px;
+			 margin-right: 17px;
+			 padding: 0;
+			 box-sizing: border-box;
+		 }
+
+		 .step-header {
+			 padding-top: 20px;
+			 font-size: 13px;
+			 font-weight: 600;
+			 line-height: normal;
+		 }
+		</style>
+	</head>
+	<body style="margin: 0; padding: 0; min-width: 100%;">
+		<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="backgroundTable" style="background-color: #FFF; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; width:100%;">
+			<tr>
+				<td></td>
+				<td width="560">
+					<img src="cid:logo" width="99" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<img src="cid:map" width="561" style="margin-top: 20px;"/>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+					<h1>{{SITENAME}}</h1>
+					<h2 class="blue">Welkom! Bedankt voor je plan.</h2>
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+
+          <h4>Beste  {{user.fullName | default('indiener')}},</h4>
+          <br/>
+					Bedankt voor het plaatsen van jouw voorstel op {{SITENAME}}!
+					Je idee is goed ontvangen en zal de komende 90 dagen beschikbaar
+					zijn op de site voor het verzamelen van stemmen en argumenten.
+					Gedurende deze periode kun je door middel van een (social media)
+					campagne zo veel mogelijk medestanders zien te verzamelen.
+					<a href="{{URL}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">Bekijk hier jouw voorstel</a>.
+					<br/>
+
+					<p align="middle" style="margin: 3em 0 2em 0;">
+						<img src="cid:steps" width="100%" height="auto"
+						alt="Stap 1: Jouw plan, Stap 2: Voer Campagne, Stap 3: Kom op de Agenda" align="center"
+						style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none;
+						text-decoration:none; -ms-interpolation-mode: bicubic;
+						"
+						>
+					</p>
+
+					<p>
+						<b>Peildatum</b><br>
+						Heeft jouw voorstel op de peildatum om 16:00 uur de meeste stemmen?
+						Dan krijg je per email een uitnodiging om je voorstel toe te lichten
+						in de vergadering van het Algemeen Bestuur. Voor dit gesprek wordt 45
+						minuten op de agenda gereserveerd, waarna het bestuur een besluit neemt
+						over het voorstel.
+					</p>
+					<p>
+						Elke maand is er een peildatum waarop het idee met de meeste stemmen wordt
+						geselecteerd. Jouw voorstel kan maximaal 3 keer meedingen. <a href="{{URL}}#agenda" target="_blank" style="color: #EC0000">Bekijk op de site het kopje 'Agenda'</a>
+						om te weten te komen wanneer de volgende peildatum is.
+					</p>
+					
+					<p style="margin-bottom: 0;">
+						<b>Campagnetips</b><br>
+					</p>
+					
+					<ul style="margin-top: 0px;">
+						<li>Voeg een foto en eventueel een locatie toe aan je voorstel.
+						<li>Zorg ervoor dat je duidelijk ingaat op hetgeen je wilt bereiken of juist voorkomen. Hoe beter je uitleg hoe groter de impact, waardoor je meer buurtgenoten bereikt.
+						<li>Bespreek je voorstel met buurtgenoten. Wellicht zijn er buren die mee willen helpen met jouw voorstel of goede ideeën hebben om het voorstel aan te vullen.
+						<li>Deel de pagina van jouw voorstel via facebook, twitter of email en zorg dat jouw voorstel minimaal 100 stemmen ophaalt en op de peildatum de meeste voor-stemmen heeft.
+					</ul>
+					
+					<p>
+						<b>Je voorstel aanpassen?</b><br>
+						Je kunt zelf je voorstel wijzigen, totdat iemand een stem heeft uitgebracht of een argument heeft toegevoegd.
+						Wil je daarna nog iets veranderen, mail dan naar <a href="mailto:{{EMAIL}}" style="color: #EC0000">{{EMAIL}}</a>.
+						Ons team pakt het zo snel mogelijk op.
+					</p>
+					
+					<p>
+						<b>Heel veel succes met je campagne!</b>
+					</p>
+
+					<p style="margin-bottom: 3em; margin-top: 2em;">
+						Hartelijke groet,<br>
+						Team {{SITENAME}}
+					</p>
+
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td style="height: 15px; background-color: #787979;" width="560">
+        </td>
+				<td></td>
+      </tr>
+			<tr>
+				<td></td>
+				<td style=" text-align: center; height: 15px;" width="560">
+          <h4><a href="{{URL}}" style="color: black; text-decoration: none;">{{HOSTNAME}}</a></h4>
+        </td>
+				<td></td>
+      </tr>
+    </table>
+
+    <br/><br style="display:block; clear: both;"/>
+
+	</body>
+</html>
