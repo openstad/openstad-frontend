@@ -500,10 +500,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 					order: [
 						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
 						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
-						'argumentsAgainst.parentId',
-						'argumentsFor.parentId',
-						'argumentsAgainst.createdAt',
-						'argumentsFor.createdAt'
+						sequelize.literal('argumentsAgainst.parentId'),
+						sequelize.literal('argumentsFor.parentId'),
+						sequelize.literal('argumentsAgainst.createdAt'),
+						sequelize.literal('argumentsFor.createdAt')
 					]
 				};
 			},

@@ -1,4 +1,5 @@
 var sanitize = require('../util/sanitize');
+var moment = require('moment-timezone');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -62,7 +63,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		createDateHumanized: {
 			type         : DataTypes.VIRTUAL,
 			get          : function() {
-				var date = this.getDataValue('createDate');
+				var date = this.getDataValue('createdAt');
 				try {
 					if( !date )
 						return 'Onbekende datum';
@@ -148,7 +149,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if( !userId ) return {};
 				
 				return {
-					attributes: Object.keys(this.attributes).concat([
+					attributes: Object.keys(this.rawAttributes).concat([
 						[sequelize.literal(`
 							(SELECT
 								COUNT(*)
