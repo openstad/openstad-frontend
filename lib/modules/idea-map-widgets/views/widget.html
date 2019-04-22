@@ -1,8 +1,24 @@
+{% import 'numberplate.njk' as numberPlateButton %}
+
+{% if caption %}
+
+{% else %}
+
+{% endif %}
+
 {% set editorInputElementId = 'map' %}
 <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
 <script src="{{apos.settings.getOption('appUrl')}}/js/openstad-map.js"></script>
 
-<div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
+<div id="map-with-buttons-container">
+  <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
+  {% if (config.ideas.addNewIdeas != 'closed') %}
+    <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
+      {{ data.widget.ctaText if data.widget.ctaText else 'Stuur je plan in!' }}
+    </a>
+  {% endif %}
+  {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+</div>
 
 <script>
 
