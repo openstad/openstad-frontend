@@ -2,12 +2,12 @@ ul.share {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	
+
 	li {
 		display: inline;
 		margin: 0;
 		padding: 0;
-		
+
 		a {
 			background-position: center;
 			background-repeat: no-repeat;
@@ -16,7 +16,7 @@ ul.share {
 			font-size: 0;
 			height: 30px;
 			width: 30px;
-			
+
 			&.facebook {
 				background-image: url('/img/share-facebook.svg');
 				&:hover {
@@ -35,6 +35,20 @@ ul.share {
 					background-image: url('/img/share-email-hover.svg');
 				}
 			}
+			&.whatsapp {
+				background-image: url('/img/share-whatsapp-hover.svg');
+				&:link {
+					background-image: url('/img/share-whatsapp.svg');
+				}
+				&:focus, &:hover {
+					background-image: url('/img/share-whatsapp-hover.svg');
+				}
+			}
+
+
 		}
 	}
+}
+
+
 }
