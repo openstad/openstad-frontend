@@ -146,6 +146,7 @@ function run(id, config, callback) {
               'begroot': {},
               'card' : {},
               'counter' : {},
+              'date-bar' : {},
               'idea-overview' : {},
               'idea-map': {},
               'idea-voting': {},
@@ -210,6 +211,7 @@ function run(id, config, callback) {
         'icon-section-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
+        'date-bar-widgets': {},
         'idea-map-widgets': {},
         'idea-voting-widgets': {},
         'link-widgets': {},
@@ -264,6 +266,7 @@ function run(id, config, callback) {
             },
           ]
         }
+
       }
     }, config)
   );
