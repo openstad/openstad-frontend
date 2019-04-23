@@ -96,10 +96,10 @@
 					<div class="share">
 						<h4>Deel dit voorstel</h4>
 						<ul>
-							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.widget.pageUrl}}">Facebook</a></li>
-							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.widget.pageUrl}}">Twitter</a></li>
-							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.widget.pageUrl | urlencode}}">Email</a></li>
-							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.widget.pageUrl}}">WhatsApp</a></li>
+							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.fullUrll}}">Facebook</a></li>
+							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.fullUrl}}">Twitter</a></li>
+							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.fullUrl | urlencode}}">Email</a></li>
+							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.fullUrl}}">WhatsApp</a></li>
 						</ul>
 					</div>
 

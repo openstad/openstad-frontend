@@ -63,6 +63,38 @@
     <div id="page">
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
+          <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
+            <span class="sr-only">Toggle navigation</span>
+            <div class="visible-active">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </div>
+            <div class="hidden-active">
+              <span class="glyphicon glyphicon-remove"></span>
+            </div>
+          </button>
+          <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
+          <div class="visible-active">
+            <span class="glyphicon glyphicon-user"></span>
+          </div>
+          <div class="hidden-active">
+            <span class="glyphicon glyphicon-remove"></span>
+          </div>
+          </a>
+          <div class="account-menu toggle-menu">
+            <nav  class="" role="navigation">
+              <div>
+                  {% if data.loggedIn %}
+                  <a href="/oauth/logout" >Uitloggen</a>
+                  {% else %}
+                   <a href="/oauth/login">
+                     Mijn account
+                   </a>
+                  {% endif %}
+              </div>
+            </nav>
+          </div>
           <div class="navbar-menu toggle-menu">
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
               <ul class="nav navbar-left">
@@ -139,6 +171,8 @@
 					</div>
 				</div>
 		</footer>
+    <div class="body-background" style="display: none;"></div>
+
 </div>
 {% endif %}
 
