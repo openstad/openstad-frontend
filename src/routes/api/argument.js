@@ -209,7 +209,7 @@ router.route('/:argumentId(\\d+)/vote')
 				db.Argument.scope(
 					{method: ['withVoteCount', 'argument']},
 					{method: ['withUserVote', 'argument', user.id]},
-					'withUser',
+					'withUser'
 				)
 					.findByPk(argument.id)
 					.then(function( argument ) {
