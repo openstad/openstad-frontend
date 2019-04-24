@@ -53,6 +53,11 @@ module.exports = function( helpers, role ) {
 		'argument:create'  : false,
 		'argument:edit'    : false,
 		'argument:delete'  : false,
+		'argument:vote'    : {
+			allow    : false,
+			resource : ['argument'],
+			message  : 'Stemmen kan enkel als geregistreerde gebruiker'
+		},
 
 		'ideavotes:list'	 : true,
 		'ideavote:view'		 : true,

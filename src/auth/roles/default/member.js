@@ -14,6 +14,10 @@ module.exports = function( helpers, role ) {
 		'argument:create'	 : true,
 		'argument:edit'		 : helpers.mayMutateArgument,
 		'argument:delete'	 : helpers.mayMutateArgument,
+		'argument:vote'    : {
+			allow   : helpers.mayVoteArgument,
+			message : 'Je kunt niet op reacties stemmen'
+		},
 
 		'ideavote:create'	 : true,
 

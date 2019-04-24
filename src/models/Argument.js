@@ -167,13 +167,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 				};
 			},
 
+			withUser: {
+				include: [{
+					model      : db.User,
+					as         : 'user',
+					required   : false
+				}]
+			},
+
 			withReactions: {
 				include: [{
 					model      : db.Argument,
 					as         : 'reactions',
 					required   : false
 				}]
-			}
+			},
+
 		}
 	}
 
