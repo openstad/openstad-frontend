@@ -1,4 +1,8 @@
-<a href="{{ data.widget.url }}" class="box-grey-img scroll-link margin-bottom-sm" style="{{data.widget.formattedContainerStyles}}">
+<a
+  href="{{ data.widget.url }}"
+  class="{{data.widget.style}} scroll-link margin-bottom-sm {{ 'button-with-icon' if data.widget.icon else  'button-without-icon'}}"
+  style="{{data.widget.formattedContainerStyles}}"
+>
   {% if data.widget.icon %}
 	<img src="{{apos.attachments.url(data.widget.icon)}}" />
   {% endif %}

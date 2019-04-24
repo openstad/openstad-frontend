@@ -35,6 +35,14 @@ exports.default = {
               'label': 'Max width',
               'value': 'max-width'
             },
+            {
+              'label': 'Text align',
+              'value': 'text-align'
+            },
+            {
+              'label': 'Float',
+              'value': 'float'
+            },
           ]
         },
         {
