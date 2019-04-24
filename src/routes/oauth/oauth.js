@@ -53,8 +53,6 @@ router
 			req.session.returnTo = req.query.redirectUrl;
 		}
 
-		console.log(req.session.returnTo);
-
 		req.session.save(() => {
 			let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
 			let authServerLoginPath = ( req.site && req.site.config.oauth['auth-server-login-path'] ) || config.authorization['auth-server-login-path'];
@@ -63,8 +61,6 @@ router
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
 
-			console.log(url);
-			
 			res.redirect(url);
 
 		});
@@ -95,8 +91,6 @@ router
 			grant_type: 'authorization_code'
 		}
 
-		console.log(postData);
-		
 		fetch(
 			url, {
 				method: 'post',
@@ -108,7 +102,6 @@ router
 			})
 			.then(
 				response => {
-					console.log('???x');
 					if (response.ok) return response.json()
 					throw createError('Login niet gelukt');
 				},
@@ -119,8 +112,6 @@ router
 			.then(
 				json => {
 
-					console.log('??', json);
-					
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
@@ -188,14 +179,10 @@ router
 			)
 		}
 		
-		console.log(where);
-		console.log(data);
-
 		// find or create the user
 		db.User
 			.findAll(where)
 			.then(result => {
-				console.log('??');
 				if (result && result.length > 1) return next(createError(403, 'Meerdere users gevonden'));
 				if (result && result.length == 1) {
 					// user found; update and use
@@ -236,8 +223,6 @@ router
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
 	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
-
-		console.log(redirectUrl);
 
 		req.session.returnTo = '';
 
