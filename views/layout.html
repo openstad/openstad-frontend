@@ -17,6 +17,10 @@
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
+{% if data.global.favicon %}
+<link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
+{% endif %}
+
 {% if data.idea %}
 {% set activeIdea = data.idea %}
 <meta property="og:title" content="{{activeIdea.title}}">
