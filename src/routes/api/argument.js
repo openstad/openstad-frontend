@@ -88,7 +88,27 @@ router.route('/')
 		db.Argument
 			.create(data)
 			.then(result => {
-				res.json(result);
+
+				db.Argument.scope(
+					{method: ['withVoteCount', 'argument']},
+					{method: ['withUserVote', 'argument', req.user.id]},
+					'withUser'
+				)
+					.findByPk(result.id)
+					.then(function( argument ) {
+
+						// todo: de can dingen
+
+						argument = argument.toJSON();
+						argument.user = {
+							nickName: argument.user.nickName || argument.user.fullName,
+							isAdmin: argument.user.role == 'admin',
+							email: req.user.role == 'admin' ? argument.user.email : '',
+						};
+
+						res.json(argument);
+					});
+
 			})
 	})
 

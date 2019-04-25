@@ -32,7 +32,6 @@ router
 		}
 
 		if (req.query.includeArguments) {
-			console.log('--------------------', req.user.id);
 			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
 
