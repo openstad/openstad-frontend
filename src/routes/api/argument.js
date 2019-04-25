@@ -81,6 +81,7 @@ router.route('/')
 			description : req.body.description,
 			sentiment   : req.body.sentiment || 'for',
 			label       : req.body.label,
+			parentId    : req.body.parentId,
 			ideaId      : req.params.ideaId,
 			userId      : req.user.id,
 		}
@@ -110,6 +111,8 @@ router.route('/')
 					});
 
 			})
+			.catch(next);
+
 	})
 
 	// with one existing argument
@@ -167,6 +170,7 @@ router.route('/')
 		.put(auth.can('argument:edit'))
 		.put(function(req, res, next) {
 			req.argument
+			// todo: filter body
 				.update(req.body)
 				.then(result => {
 					res.json(result);
