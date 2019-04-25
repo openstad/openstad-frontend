@@ -118,11 +118,6 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-		// TODO: ik wil hem nu niet openzetten; dit moet per site en met :can zoals hierboven
-		if (!(req.user && req.user.role == 'admin')) return next('Je kunt geen idee aanmaken')
-		return next();
-	})
-	.post(function(req, res, next) {
 		req.body.siteId = req.params.siteId;
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
