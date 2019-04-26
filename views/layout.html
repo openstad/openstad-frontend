@@ -33,7 +33,9 @@
   <meta property="og:image" content="{{apos.settings.getOption('appUrl')}}{{apos.attachments.url(data.global.fbImage)}}">
   {% endif %}
 {% endif %}
-
+<script>
+  var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
+</script>
 {% endblock %}
 {% block beforeMain %}
 {% if data.user %} <!-- be sure to somehow safegaurd against non-editor situations, as performance could unnecessarily suffer -->
@@ -90,7 +92,7 @@
             <nav  class="" role="navigation">
               <div>
                   {% if data.loggedIn %}
-                  <a href="/oauth/logout" >Uitloggen</a>
+                  <a href="/oauth/logout" class="logout-button" >Uitloggen</a>
                   {% else %}
                    <a href="/oauth/login">
                      Mijn account
@@ -117,7 +119,7 @@
         			<nav id="subMenu" class="" role="navigation">
         				<div>
         						{% if data.loggedIn %}
-      							<a href="/oauth/logout" class="account">Uitloggen</a>
+      							<a href="/oauth/logout" class="account logout-button">Uitloggen</a>
         						{% else %}
       						   <a href="/oauth/login" class="account">
                        Mijn account

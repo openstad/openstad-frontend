@@ -126,6 +126,7 @@ function run(id, config, callback) {
           alias: 'settings',
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
+          apiLogoutUrl:  process.env.API_LOGOUT_URL,
           openStadMap: openstadMap,
           openstadMapPolygons: openstadMapPolygons,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
