@@ -161,6 +161,8 @@ function run(id, config, callback) {
               'user-form' : {},
               'submissions' : {},
               'section' : {},
+              'local-video': {},
+              'apostrophe-video' : {'label': '3d party video'}
           }
         },
 
@@ -223,8 +225,10 @@ function run(id, config, callback) {
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
         'submissions-widgets': {},
         'begroot-widgets': {},
+        'local-video-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
+        'apostrophe-video-widgets': {},
         'apostrophe-palette-global': {
           paletteFields: [
             {
