@@ -150,7 +150,8 @@
 {% block afterMain %}
 {% if not (data.query.layout === 'none') %}
 
-<footer>
+
+{#<footer>
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-3 col-xs-12">
@@ -177,6 +178,27 @@
 					</div>
 				</div>
 		</footer>
+    #}
+<footer>
+	<div class="container">
+		<div class="row">
+      {% for column in data.global.footer %}
+      <div class="col-sm-3 col-xs-12">
+        <h2>{{column.title}}</h2>
+        <p>
+          {{column.description}}
+        </p>
+        <ul>
+          {% for link in column.links %}
+          <li><a href="{{link.url}}" target="_blank">{{link.label}}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</footer>
+
     <div class="body-background" style="display: none;"></div>
 
 </div>
