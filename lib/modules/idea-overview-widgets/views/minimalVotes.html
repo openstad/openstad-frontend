@@ -19,8 +19,8 @@
     <div class="info">
       <h3>{{idea.title}}</h3>
       {% if idea.extraData %}
-        <div class="thema">{{idea.extraData.thema}}</div>
-        <div class="gebied">{{idea.extraData.gebied}}</div>
+        <div class="thema">{{idea.extraData.theme}}</div>
+        <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
       <p>{{idea.summary | safe | truncate(60) }}</p>
       <div class="ideaProgress">

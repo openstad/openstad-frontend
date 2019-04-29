@@ -19,9 +19,9 @@
 				<h3 class="title">{{idea.title}}</h3>
 				{% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
-					<span class="thema">{{idea.extraData.thema}}</span>
+					<span class="thema">{{idea.extraData.theme}}</span>
 					|
-					<span class="gebied">{{idea.extraData.gebied}}</span>
+					<span class="gebied">{{idea.extraData.area}}</span>
 				</div>
 				{% endif %}
 			</div>
@@ -105,10 +105,10 @@
 					{% if idea.extraData %}
 					<table class="thema-en-gebied">
 						<tr class="thema">
-							<td>Thema: </td> <td><strong>{{idea.extraData.thema}}</strong>
+							<td>Thema: </td> <td><strong>{{idea.extraData.theme}}</strong>
 						</tr>
 						<tr class="gebied">
-							<td>Gebied: </td>  <td><strong>{{idea.extraData.gebied}}</strong>
+							<td>Gebied: </td>  <td><strong>{{idea.extraData.area}}</strong>
 						</tr>
 					</table>
 					{% endif %}

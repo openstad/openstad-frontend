@@ -18,27 +18,26 @@
 					<input type="text" name="title" value="{{idea.title}}" required><br />
 					<input type="hidden" id="extraData" name="extraData" value=""><br />
 
-					{% if data.widget.area %}
+					{% if data.global.areas %}
 					<h2>Gebied</h2>
-					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor West Algemeen.</div>
-					<select id="gebied" value="{% if idea.extraData %}{{idea.extraData.gebied}}{% endif %}">
+					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.</div>
+					<select id="gebied" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 						<option value="">Kies gebied</option>
-						<option value="Bos en Lommer" {% if (idea.extraData) and (idea.extraData.gebied == "Bos en Lommer") %}selected{% endif %}>Bos en Lommer</option>
-						<option value="De Baarsjes" {% if (idea.extraData) and (idea.extraData.gebied == "De Baarsjes") %}selected{% endif %}>De Baarsjes</option>
-						<option value="Oud-West" {% if (idea.extraData) and (idea.extraData.gebied == "Oud-West") %}selected{% endif %}>Oud-West</option>
-						<option value="Westerpark" {% if (idea.extraData) and (idea.extraData.gebied == "Westerpark") %}selected{% endif %}>Westerpark</option>
-						<option value="West Algemeen" {% if (idea.extraData) and (idea.extraData.gebied == "West Algemeen") %}selected{% endif %}>West Algemeen</option>
+						<option value="" {% if not idea.extraData.area %}selected{% endif %}>Algemeen</option>
+						{% for area in data.global.areas %}
+							<option value="{{area.value}}" {% if (idea.extraData) and (idea.extraData.area === area.value) %}selected{% endif %}>{{area.label}}</option>
+						{% endfor %}
 					</select>
 					<br />
 					{% endif %}
 
-					{% if data.widget.theme %}
+					{% if data.global.themes %}
 					<h2>Thema</h2>
-					<select id="thema" value="{% if idea.extraData %}{{idea.extraData.thema}}{% endif %}">
+					<select id="thema" name="theme" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}">
 						<option value="">Kies thema</option>
-						<option value="Groen" {% if (idea.extraData) and (idea.extraData.thema == "Groen") %}selected{% endif %}>Groen en Openbare ruimte</option>
-						<option value="Diversiteit & Inclusiviteit" {% if (idea.extraData) and (idea.extraData.thema == "Diversiteit & Inclusiviteit") %}selected{% endif %}>Diversiteit en Inclusiviteit</option>
-						<option value="Duurzaam" {% if (idea.extraData) and (idea.extraData.thema == "Duurzaam") %}selected{% endif %}>Duurzaam</option>
+						{% for theme in data.global.themes %}
+						<option value="{{theme.value}}" {% if (idea.extraData) and (idea.extraData.theme == "theme.value") %}selected{% endif %}>{{theme.label}}</option>
+						{% endfor %}
 					</select>
 					<br />
 					{% endif %}
