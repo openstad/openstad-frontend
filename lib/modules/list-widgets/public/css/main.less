@@ -1,15 +1,20 @@
-.checkmark-list {
+.checkmark-list, .checkmark-blue-list {
   list-style: none;
   padding: 0;
   margin: 0;
   background-size: 100%;
 }
-.checkmark-list li {
+.checkmark-list li, .checkmark-blue-list li {
   position: relative;
   padding-left: 46px;
   margin: 16px 0px;
 }
-.checkmark-list li::before {
+
+.checkmark-blue-list li {
+  padding-left: 27px;
+}
+
+.checkmark-list li::before, .checkmark-blue-list li::before {
   position: absolute;
   content: '';
   top: -5px;
@@ -18,4 +23,12 @@
   height: 30px;
   background-image: url(../img/check-filled-blue.svg);
   background-repeat: no-repeat;
+}
+
+
+.checkmark-blue-list li::before {
+    background-position: 0 8px;
+    background-repeat: no-repeat;
+    background-size: 15px 10px;
+    background-image: url(/img/checkmark-blue.svg);
 }
