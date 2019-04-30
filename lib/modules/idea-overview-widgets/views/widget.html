@@ -1,33 +1,35 @@
 <div class="pageContent ideasList">
-  {#
-  <div class="tab-selector">
-    <ul>
-      <li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
-      <li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
-      <li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
-      <li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaam</a></li>
-    </ul>
-    <div class="divider"></div>
-    <select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
-      <option value="0">Alle gebieden</option>
-      <option value="Oud-West">Oud-West</option>
-      <option value="Bos en Lommer">Bos en Lommer</option>
-      <option value="De Baarsjes">De Baarsjes</option>
-      <option value="Westerpark">Westerpark</option>
-      <option value="West Algemeen">West Algemeen</option>
-    </select>
-    <a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+  <div class="row">
+    <div class="col-xs-12 col-sm-8">
+      {% if data.global.areas %}
+      <div class="tab-selector">
+        <ul>
+          <li><a id="themaSelector0" href="javascript: void deactivateAll()">Alle plannen</a></li>
+        </ul>
+        <select id="filterSelector" class="default-select" onchange="console.log('aaa'); activateFilter(this.selectedIndex)">
+          <option value="0">Alle gebieden</option>
+          {% for area in data.global.areas %}
+          <option value="{{area.value}}">{{area.value}}</option>
+          {% endfor %}
+        </select>
+        <a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <div class="sort">
+        <select class="default-select">
+          <option {{'selected' if not sort or data.query.sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
+          <option {{'selected' if data.query.sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
+          <!--
+               <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
+          -->
+        </select>
+      </div>
+    </div>
+
   </div>
-  #}
-  <div class="sort">
-    <select class="default-select">
-      <option {{'selected' if not sort or data.query.sort == 'date_desc'}} value="date_desc">Nieuwste eerst</option>
-      <option {{'selected' if data.query.sort == 'date_asc'}} value="date_asc">Oudste eerst</option>
-      <!--
-           <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
-      -->
-    </select>
-  </div>
+
   <div id="ideas" class="primary">
     {% if data.widget.displayType === 'minimalVotes' %}
     {% include 'minimalVotes.html' %}
@@ -36,9 +38,29 @@
     {% if data.widget.displayType === 'gridder' %}
     {% include 'gridder.html' %}
     {% endif %}
-
-
-
-
 </div>
 </div>
+
+<script>
+  console.log('===> aaaaaa');
+
+ // tab selector functions
+ // var activeTab = getCookie('plannenActiveTab') || 0;
+
+ // function activateTab(which) {
+ //  	 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
+ //  	 activeTab = which;
+ //  	 document.cookie = 'plannenActiveTab=' + activeTab;
+ //  	 document.getElementById('themaSelector' + activeTab).className += ' active';
+ //  	 updateDisplay();
+ // }
+
+
+
+ function deactivateAll() {
+   // activateTab(0)
+   activateFilter(0)
+ }
+
+
+</script>
