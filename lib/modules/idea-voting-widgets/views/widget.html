@@ -1,7 +1,7 @@
 {% import 'includes/ideas-lister.html' as ideasList %}
 {% import 'includes/vote-creator.html' as voteCreator %}
 
-{{ voteCreator.showVoteCreator(true, data.widget.ideas) }}
+{{ voteCreator.showVoteCreator(true, data.ideas) }}
 <script>
  csrfToken = '{{csrfToken}}';
 </script>
@@ -40,7 +40,7 @@
 
 	<div id="ideas" class="primary">
 		<h1>
-			Ingestuurde ontwerpen ({{runningIdeas.length}})
+			Ingestuurde ontwerpen ({{data.ideas.length}})
 			<select id="selectSort">
 				<option value="random">Sorteer</option>
 				<option {{'selected' if sort == 'ranking'}} value="ranking">Meeste stemmen</option>
@@ -48,7 +48,7 @@
 			</select>
 		</h1>
 
-		{{ ideasList.showIdeasList(data.widget.ideas, data.widget.userHasVoted, data.widget.isAdmin) }}
+		{{ ideasList.showIdeasList(data.ideas, data.widget.userHasVoted, data.widget.isAdmin) }}
 
 	</div>
 

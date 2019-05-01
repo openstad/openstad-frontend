@@ -1,0 +1,44 @@
+<script>
+ // vote-creator - config
+ // todo: dit moet - hence de naam - naar de config
+ var steps = [{
+
+	 barId: 'steps-bar-1',
+	 contentId: 'steps-content-1a',
+	 validate: function(showError) {
+		 if ( document.querySelector('input[name=ideaId]').value ) {
+			 return true;
+		 } else {
+			 if (showError) {
+			 	 document.querySelector('.preview').className = document.querySelector('.preview').className + ' form-error';
+			 	 document.querySelector('.preview').setAttribute('data-content', 'Je hebt nog geen ontwerp geselecteerd.');
+			 }
+			 return false;
+		 }
+	 }
+
+ },{
+
+	 barId: 'steps-bar-2',
+	 contentId: 'steps-content-2a',
+	 validate: function(showError) {
+		 var isValid = validateZipCode(showError);
+		 isValid = validateEmail(showError) && isValid
+		 return isValid;
+	 },
+	 doBeforeNext: function() {
+		 sendVote();
+	 }
+
+ },{
+
+	 barId: 'steps-bar-3',
+	 contentId: 'steps-content-3a',
+	 doBeforeShow: function() {
+		 document.querySelector('#showZipCode3a').innerHTML = document.querySelector('input[name=zipCode]').value;
+		 document.querySelector('#showEmail3a').innerHTML = document.querySelector('input[name=email]').value;
+	 }
+
+ }];
+
+</script>

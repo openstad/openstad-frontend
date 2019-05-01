@@ -59,16 +59,10 @@
 				{{idea.yes}} {{ 'stem' if idea.yes == 1 else 'stemmen'}}
 			</div>
 			<script>
-				{#
-			 {% if (idea.posterImage) and (idea.posterImage.extraData) %}
-			 imageUrl[{{idea.id}}] = "{{idea.posterImageUrl}}";
-			 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
-			 {% endif %}
-			 #}
-			 {% if (idea.imageUrl) %}
-			 imageUrl[{{idea.id}}] = "{{idea.imageUrl}}";
-			 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
-			 {% endif %}
+				{% if (idea.extraData) and (idea.extraData.images) %}
+				imageUrl[{{idea.id}}] = "{{idea.extraData.images[0]}}";
+				 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+				{% endif %}
 			</script>
 		</li>{% endfor %}
 	</ul>

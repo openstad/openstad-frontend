@@ -1,3 +1,4 @@
+{% import 'numberplatebutton.html' as numberPlateButton %}
 
       <script>
     	 var imageUrl = {};
@@ -29,7 +30,7 @@
 
     	</script>
 
-    	<ul id="ideaList" class="gridder" onclic="handleClick(event);">
+    	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     		{% for idea in data.ideas %}
 
@@ -46,6 +47,11 @@
     					<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
     						Bekijk dit ontwerp
     					</div>
+              {% if data.widget.voting and not userHasVoted %}
+                <div class="button-vote" onclick="event.preventDefault();selectIdea({{idea.id}})">
+                  Stem op dit ontwerp
+                </div>
+              {% endif %}
     				</div>
     			</div>
     			<div class="info">
@@ -114,6 +120,20 @@
     						</div>
     					</div>
     				</div>
+
+            {% if data.widget.voting %}
+            <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
+              {% set id = 'no-of-votes-hasvoted-' + idea.id %}
+              {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+              <div class="vote-button"></div>
+            </div>
+            <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
+              {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
+              {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
+              <a href="#" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
+            </div>
+            {% endif %}
+
     			</div>
     			<div class="content">
     				<h3 class="desktop">{{idea.title}}</h3>

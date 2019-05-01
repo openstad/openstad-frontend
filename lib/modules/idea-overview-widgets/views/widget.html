@@ -1,5 +1,12 @@
+{% import 'vote-creator.html' as voteCreator %}
+
+{% if data.widget.voting %}
+  {{ voteCreator.showVoteCreator(true, data.ideas) }}
+{% endif %}
+
 <div class="pageContent ideasList">
   <div class="row">
+
     <div class="col-xs-12 col-sm-8">
       {% if data.global.areas %}
       <div class="tab-selector">
@@ -42,8 +49,6 @@
 </div>
 
 <script>
-  console.log('===> aaaaaa');
-
  // tab selector functions
  // var activeTab = getCookie('plannenActiveTab') || 0;
 
@@ -57,10 +62,7 @@
 
 
 
- function deactivateAll() {
-   // activateTab(0)
-   activateFilter(0)
- }
+
 
 
 </script>

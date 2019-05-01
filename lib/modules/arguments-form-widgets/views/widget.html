@@ -1,6 +1,12 @@
 <div class="arguments-cta-box">
 	<div class="">
-		<form id="new-argument-form" method="POST" action="/modules/arguments-form-widgets/submit" class="clearfix ">
+		<form
+			id="new-argument-form"
+			method="POST"
+			action="/modules/arguments-form-widgets/submit"
+			class="argument-form clearfix {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}"
+
+		>
 
 			<textarea
 				class="textarea margin-hor-s block argument-textarea"
