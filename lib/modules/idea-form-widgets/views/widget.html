@@ -15,13 +15,14 @@
 					</p>
 
 					<h2>Titel plan</h2>
+					<div class="form-info">Geef je voorstel een duidelijke naam, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
 					<input type="text" name="title" value="{{idea.title}}" required><br />
 					<input type="hidden" id="extraData" name="extraData" value=""><br />
 
 					{% if data.global.areas %}
 					<h2>Gebied</h2>
 					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.</div>
-					<select id="gebied" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
+					<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 						<option value="">Kies gebied</option>
 						<option value="" {% if not idea.extraData.area %}selected{% endif %}>Algemeen</option>
 						{% for area in data.global.areas %}
@@ -33,7 +34,11 @@
 
 					{% if data.global.themes %}
 					<h2>Thema</h2>
-					<select id="thema" name="theme" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}">
+					<div class="form-info">
+						Selecteer het thema waarop jouw plan betrekking heeft.
+					</div>
+
+					<select id="thema" name="theme" class="default-select" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}">
 						<option value="">Kies thema</option>
 						{% for theme in data.global.themes %}
 						<option value="{{theme.value}}" {% if (idea.extraData) and (idea.extraData.theme == "theme.value") %}selected{% endif %}>{{theme.value}}</option>
@@ -43,7 +48,7 @@
 					{% endif %}
 
 					<h2>Samenvatting</h2>
-					Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.<br>
+					<div class="form-info">Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.</div>
 					<textarea name="summary" required maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 					<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 
@@ -51,6 +56,9 @@
 
 				<div id="imageUpload">
 					<h2>Plaatjes</h2>
+					<div class="form-info">
+					 Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
+					</div>
 					<fieldset class="filepondFieldset">
 						<!-- a list of already uploaded files -->
 						{% if idea.extraData.images %}

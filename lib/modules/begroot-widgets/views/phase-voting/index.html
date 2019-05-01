@@ -25,14 +25,9 @@
 	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
 	</script>
 
-
-
 	{% include 'phase-voting/includes/end-date-bar.html' %}
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
-		<h1>
-			Plannen voor West ({{runningIdeas.length}})
-		</h1>
 		<div class="tab-selector">
 			<ul class="hidden-xs">
 				<li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>

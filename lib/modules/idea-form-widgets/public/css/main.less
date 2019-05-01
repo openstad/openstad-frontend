@@ -101,6 +101,25 @@ height: 68px !important;
     }
   }
 
+  .form-info:before, .form-warning:before {
+    position: absolute;
+    top: 0px;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    content: "";
+    background-position: 0px 0px;
+    background-size: 20px 22px;
+    background-repeat: no-repeat;
+    background-image: url(/img/info-pin.svg);
+}
+
+.form-info, .form-warning {
+    position: relative;
+    margin: -16px 0 10px 30px;
+    padding: 0;
+}
+
 /*
 .filepond--image-preview-overlay {
   position: absolute;
