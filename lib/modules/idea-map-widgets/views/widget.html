@@ -8,7 +8,7 @@
 
 {% set editorInputElementId = 'map' %}
 <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
-<script src="{{apos.settings.getOption('appUrl')}}/js/openstad-map.js"></script>
+<script src="/js/openstad-map.js"></script>
 
 <div id="map-with-buttons-container">
   <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
@@ -29,7 +29,7 @@
 	 {
 		 position: { lat: {{idea.location.coordinates[0]}}, lng: {{idea.location.coordinates[1]}} },
 		 icon     : {
-			 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-gray.svg'{% else %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-red.svg'{% endif %},
+			 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-gray.svg'{% else %}'{{apos.settings.getOption('appUrl')}}/img/idea/flag-red.svg'{% endif %},
 			 size   : [22, 24],
 			 anchor : [ 4, 21],
 		 },
