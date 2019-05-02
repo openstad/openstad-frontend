@@ -155,7 +155,7 @@
 							</div>
 						</div>
 					</trix-toolbar>
-					<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor><br>
+					<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor>
 						<input
 							type="hidden"
 							id="js-description"
@@ -166,6 +166,7 @@
 						/>
 
 						<input type="hidden" name="redirect" value="{{data.widget.redirect}}" />
+						<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
 
 						{% if idea.id %}
 						<input type="hidden" name="id" value="{{idea.id}}" />
