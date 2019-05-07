@@ -1,6 +1,6 @@
 //standard filepond is done in absolute styling, but this collides with draggable
 .filepond--root {
-  max-width: 300px;
+  max-width: none;
 }
 
 .filepond--list{
@@ -21,6 +21,23 @@
     border-radius: 4px;
   }
 }
+
+.filepond--panel-top, .filepond--panel-bottom {
+  border-radius: 0;
+}
+
+.idea-form .default-select {
+  width: 100%;
+  max-width: 350px;
+}
+
+/*
+ .filepond--drop-label{
+  border-radius: 0;
+  background: white;
+  border: 1px dashed #767676;
+}
+*/
 
 .filepond--file-status-sub {
   display: none !important;

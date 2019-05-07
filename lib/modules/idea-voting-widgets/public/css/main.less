@@ -692,8 +692,10 @@ and open the template in the editor.
 		@media @phone {
 			float: none;
 			position: relative;
-			left: -15px;
-			width: calc(100% + 30px);
+		//	left: -15px;
+		 left: 0;
+		 width: 100%;
+		//	width: calc(100% + 30px);
 		}
 
 
@@ -716,8 +718,10 @@ and open the template in the editor.
 				height: 380px;
 
 				@media @phone {
-					left: calc((100% - 100% * 380/320) / 2);
-					width: calc(100% * 380/320);
+				//	left: calc((100% - 100% * 380/320) / 2);
+				  left: 0;
+			//		width: calc(100% * 380/320);
+					width: 100%;
 					height: auto;
 				}
 			}
