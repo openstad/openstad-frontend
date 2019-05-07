@@ -19,7 +19,7 @@
 					<input type="text" name="title" value="{{idea.title}}" required><br />
 					<input type="hidden" id="extraData" name="extraData" value=""><br />
 
-					{% if data.global.areas %}
+					{% if data.global.areas and data.global.areas.length > 0 %}
 					<h2>Gebied</h2>
 					<div class="form-info">Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.</div>
 					<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
@@ -32,7 +32,7 @@
 					<br />
 					{% endif %}
 
-					{% if data.global.themes %}
+					{% if data.global.themes and data.global.themes.length > 0 %}
 					<h2>Thema</h2>
 					<div class="form-info">
 						Selecteer het thema waarop jouw plan betrekking heeft.
