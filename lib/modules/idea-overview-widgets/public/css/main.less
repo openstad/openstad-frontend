@@ -23,8 +23,20 @@
 */
 @desktop				: ~'only screen and (min-width: 992px)';
 
-.gridder-list.owner {
-	border: solid 3px #bdd131;
+.gridder-list{
+	&.owner {
+		border: solid 3px #bdd131;
+	}
+
+	&.DENIED {
+		opacity: 0.5 !important;
+	}
+}
+
+.gridder-inner-container  {
+	&.DENIED {
+		opacity: 0.5 !important;
+	}
 }
 
 #ideas.primary {
