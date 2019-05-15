@@ -173,7 +173,14 @@ function run(id, config, callback) {
               'title' : {},
               'user-form' : {},
               'submissions' : {},
-              'section' : {},
+              'section' : {
+                addLabel: 'Add a section',
+                controls: {
+                  movable: true,
+                  removable: true,
+                  position: 'bottom-left'
+                },
+              },
               'local-video': {},
               'apostrophe-video' : {'label': '3d party video'}
           }

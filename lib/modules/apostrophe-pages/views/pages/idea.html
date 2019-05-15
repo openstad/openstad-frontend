@@ -5,7 +5,13 @@
 
   {{ apos.area(data.page, 'body', {
     widgets: {
-      'section': {}
+      'section': {
+        addLabel: 'Add a section',
+        controls: {
+          movable: true,
+          removable: true,
+          position: 'bottom-left'
+        }
     }
   })
 }}
