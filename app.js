@@ -155,7 +155,12 @@ function run(id, config, callback) {
                   { name: 'Heading 3', element: 'h3' },
                   { name: 'Heading 4', element: 'h4' },
                   { name: 'Paragraph', element: 'p' }
-                ]
+                ],
+                controls: {
+                  movable: true,
+                  removable: true,
+                  position: 'top-right'
+                }
               },
               'begroot': {},
               'card' : {},
