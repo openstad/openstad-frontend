@@ -94,6 +94,15 @@ function run(id, config, callback) {
               { name: 'main' }
             ],
         },
+        'apostrophe-workflow': {
+          // IMPORTANT: if you follow the examples below,
+          // be sure to set this so the templates work
+          alias: 'workflow',
+          // Recommended to save database space. You can still
+          // export explicitly between locales
+          replicateAcrossLocales: true
+        },
+        'apostrophe-workflow-modified-documents': {},
         'auth': {},
         'apostrophe-multisite-fake-listener': {
           construct: function(self, options) {

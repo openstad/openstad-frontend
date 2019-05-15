@@ -17,6 +17,7 @@
     "apostrophe": "2.87.0",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.17",
+    "apostrophe-workflow": "^2.21.1",
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",
     "dotenv": "^6.0.0",
