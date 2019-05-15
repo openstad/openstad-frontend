@@ -1,10 +1,9 @@
 const Promise = require('bluebird');
-const express = require('express');
 const moment  = require('moment');
 const db      = require('../../db');
 const auth    = require('../../auth');
 
-let router = express.Router({mergeParams: true});
+let router = require('express-promise-router')({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -43,7 +42,7 @@ router.route('/')
 			where.sentiment = sentiment;
 		}
 
-		db.Argument
+		return db.Argument
 			.scope(...req.scope)
 			.findAll({ where })
 			.then( found => {

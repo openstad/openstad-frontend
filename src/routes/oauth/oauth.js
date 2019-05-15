@@ -72,6 +72,8 @@ router
 	.route('(/site/:siteId)?/digest-login')
 	.get(function( req, res, next ) {
 
+		console.log('???');
+
 		// use the code to get an access token
 		let code = req.query.code;
 
@@ -91,11 +93,13 @@ router
 			grant_type: 'authorization_code'
 		}
 
+		console.log(url);
+
 		fetch(
 			url, {
 				method: 'post',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
 				mode: 'cors',
 				body: JSON.stringify(postData)
@@ -103,6 +107,7 @@ router
 			.then(
 				response => {
 					if (response.ok) return response.json()
+					console.log(response);
 					throw createError('Login niet gelukt');
 				},
 				error => {
