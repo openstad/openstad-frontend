@@ -133,14 +133,27 @@ function run(id, config, callback) {
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
               'agenda' : {},
-              'apostrophe-images': {},
+              'apostrophe-images': {
+                fields: {
+                  type: 'string',
+                  name: 'maxWidth',
+                  label: 'Max width'
+                }
+              },
               'arguments' : {},
               'arguments-form' : {},
               'apostrophe-rich-text': {
-                toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink' ],
+                toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
+
+              /*  toolbar : [
+                  { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+               	  { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+                ],*/
                 styles: [
-                  { name: 'Heading', element: 'h3' },
-                  { name: 'Subheading', element: 'h4' },
+                  { name: 'Heading 1', element: 'h1' },
+                  { name: 'Heading 2', element: 'h2' },
+                  { name: 'Heading 3', element: 'h3' },
+                  { name: 'Heading 4', element: 'h4' },
                   { name: 'Paragraph', element: 'p' }
                 ]
               },
