@@ -1328,6 +1328,10 @@ and open the template in the editor.
 		.tile {
 			width: calc(33% - 17px);
 
+			@media @grid50 {
+				width: calc(33% - 18px);
+			}
+
 			@media @phone {
 				width: 100%;
 			}
