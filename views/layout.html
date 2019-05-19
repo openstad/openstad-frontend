@@ -77,7 +77,8 @@
               <span class="icon-bar"></span>
             </div>
             <div class="hidden-active">
-              <span class="glyphicon glyphicon-remove"></span>
+              <!--<span class="glyphicon glyphicon-remove"></span>!-->
+              <img src="/img/close-icon.svg" width="14" />
             </div>
           </button>
           <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
@@ -85,7 +86,7 @@
             <span class="glyphicon glyphicon-user"></span>
           </div>
           <div class="hidden-active">
-            <span class="glyphicon glyphicon-remove"></span>
+            <img src="/img/close-icon.svg" width="14" />
           </div>
           </a>
           <div class="account-menu toggle-menu">
@@ -95,7 +96,7 @@
                   <a href="/oauth/logout" class="logout-button" >Uitloggen</a>
                   {% else %}
                    <a href="/oauth/login">
-                     Mijn account
+                     <span class="glyphicon glyphicon-user"></span> Mijn account
                    </a>
                   {% endif %}
               </div>
@@ -122,7 +123,7 @@
       							<a href="/oauth/logout" class="account logout-button">Uitloggen</a>
         						{% else %}
       						   <a href="/oauth/login" class="account">
-                       Mijn account
+                       <span class="glyphicon glyphicon-user"></span> Mijn account
                      </a>
         						{% endif %}
                     {% if data.global.ctaButtonText %}
