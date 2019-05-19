@@ -707,7 +707,9 @@ and open the template in the editor.
 
 			@media @phone {
 				width: 100%;
-				padding-top: calc(100% * 380/320);
+				margin-bottom: 30px;
+				height: auto;
+				//padding-top: calc(100% * 380/320);
 			}
 
 			.image-container {
@@ -722,6 +724,7 @@ and open the template in the editor.
 				  left: 0;
 			//		width: calc(100% * 380/320);
 					width: 100%;
+					position: relative;
 					height: auto;
 				}
 			}
@@ -919,6 +922,10 @@ and open the template in the editor.
 			height: 30px;
       bottom: 40px;
 			z-index: 1000;
+
+			@phone {
+				position: relative;
+			}
 
 			.text {
 				display: block;
@@ -1320,6 +1327,10 @@ and open the template in the editor.
 
 		.tile {
 			width: calc(33% - 17px);
+
+			@media @phone {
+				width: 100%;
+			}
 		}
 
 	}
