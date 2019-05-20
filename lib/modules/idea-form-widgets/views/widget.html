@@ -29,17 +29,17 @@
 							</p>
 						</div>
 						<div class="form-group">
+							<h2>Titel plan</h2>
+							<div class="form-info">Geef je voorstel een duidelijke naam, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
+							<input type="text" name="title" value="{{idea.title}}" required><br />
+							<input type="hidden" id="extraData" name="extraData" value=""><br />
+						</div>
+						<div class="form-group">
 							<h2>Samenvatting</h2>
 							<div class="form-info">Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.</div>
 							<textarea name="summary" required maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 							<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<h2>Titel plan</h2>
-						<div class="form-info">Geef je voorstel een duidelijke naam, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
-						<input type="text" name="title" value="{{idea.title}}" required><br />
-						<input type="hidden" id="extraData" name="extraData" value=""><br />
 					</div>
 					<div class="form-group">
 						{% if data.global.areas and data.global.areas.length > 0 %}
