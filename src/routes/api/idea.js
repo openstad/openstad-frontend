@@ -64,33 +64,6 @@ router
 		return next();
 
 	})
-	.all('*', function(req, res, next) {
-
-		// extra validaties
-		if ( req.method === 'POST' || req.method === 'PUT' ) {
-
-			let filteredBody = {};
-
-			let keys;
-			if (req.user.isAdmin()) {
-				keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
-			} else {
-				keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location' ];
-			}
-
-			keys.forEach((key) => {
-				if (req.body[key]) {
-					filteredBody[key] = req.body[key];
-				}
-			});
-
-			req.body = filteredBody;
-
-		}
-
-		return next();
-
-	})
 
 router.route('/')
 
@@ -118,6 +91,7 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
+		filterBody(req)
 		req.body.siteId = req.params.siteId;
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
@@ -174,6 +148,7 @@ router.route('/:ideaId(\\d+)')
 // -----------
 	.put(auth.can('idea:edit'))
 	.put(function(req, res, next) {
+		filterBody(req)
 		// req.body.location = JSON.parse(req.body.location || null);
 		req.idea
 			.update(req.body)
@@ -194,5 +169,27 @@ router.route('/:ideaId(\\d+)')
 			})
 			.catch(next);
 	})
+
+// extra functions
+// ---------------
+
+function filterBody(req) {
+	let filteredBody = {};
+
+	let keys;
+	if (req.user.isAdmin()) {
+		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
+	} else {
+		keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location' ];
+	}
+
+	keys.forEach((key) => {
+		if (req.body[key]) {
+			filteredBody[key] = req.body[key];
+		}
+	});
+
+	req.body = filteredBody;
+}
 
 module.exports = router;

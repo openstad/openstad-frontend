@@ -560,7 +560,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			
 			includeUserVote: function(userId) {
-				this.hasOne(db.Vote, {as: 'userVote', });
+				//this.hasOne(db.Vote, {as: 'userVote' });
 				let result = {
 					include: [{
 						model    : db.Vote,
@@ -571,6 +571,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						}
 					}]
 				};
+				console.log('==', result);
 				return result;
 			},
 			
@@ -736,6 +737,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		this.hasMany(models.Image);
 		// this.hasOne(models.Image, {as: 'posterImage'});
 		this.hasMany(models.Image, {as: 'posterImage'});
+		this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId' });
 	}
 
 	Idea.getRunning = function( sort, extraScopes ) {
