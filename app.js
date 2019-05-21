@@ -79,6 +79,10 @@ function run(id, config, callback) {
       //shortName: 'localhost',
       shortName: site._id,
       modules: {
+				'apostrophe-db': {
+					host: process.env.DB_HOST || 'localhost',
+					port: process.env.DB_PORT || 27017,
+				},
         'apostrophe-express': {
           port: process.env.PORT
         },
