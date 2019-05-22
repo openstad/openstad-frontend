@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<link rel="stylesheet" href="https://map.data.amsterdam.nl/nlmaps/dist/assets/css/nlmaps.css"/>
+<link rel="stylesheet" href="https://map.data.amsterdam.nl/dist/css/ams-map.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<script src="https://map.data.amsterdam.nl/dist/amaps.iife.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<div id="gebiedsontwikkeling-tool">
+	<div id="openstad-map"></div>
+	<div id="title-bar">
+		Op welke plekken in West kan het schoonhouden van de buurt structureel beter?
+		<div class="close-button" onclick="document.querySelector('#title-bar').style.display = 'none';">&times;</div>
+	</div>
+	<div id="info-block"></div>
+	<ul id="filter-selector">
+		<li id="filter-selector-button-0" class="filter-selector-button" onclick="activateFilter(0)">
+			Toon alles
+		</li>
+		<li id="filter-selector-button-1" class="filter-selector-button" onclick="activateFilter(1)">
+			Afvalcontainers
+		</li>
+		<li id="filter-selector-button-2" class="filter-selector-button" onclick="activateFilter(2)">
+			Grofvuil
+		</li>
+		<li id="filter-selector-button-3" class="filter-selector-button" onclick="activateFilter(3)">
+			Straat
+		</li>
+	</ul>
+</div>
+
+{% include "includes/infoblock.html" %}
+
+<script>
+ const siteId = {{data.widget.siteId}};
+ const apiUrl = '{{data.widget.apiUrl}}';
+ const userJWT = '{{data.widget.userJWT}}';
+</script>

@@ -1,0 +1,319 @@
+<div id="default-info-block">
+	<div class="header">
+		Klik op de kaart om te starten
+	</div>
+</div>
+
+<div id="new-idea-form-container">
+	<form id="new-idea-form">
+		<div class="header clickable" onclick="toggleInfoBlock()">
+			Nieuw probleem
+		</div>
+		<div class="content">
+			<div id="step-0" class="step open">
+
+				<h3>1. Om welke plek gaat het</h3>
+
+				<div class="step-content">
+					<p>
+						In de buurt van:<br/>
+						<span id="address-text">klik op de kaart om een plaats te selecteren</span><br/>
+						<span id="city-text"></span><br/>
+						<input id="location" type="hidden" value="" onchange="currentInput.location = this.value; document.querySelector('#form-warning-location').style.display = 'none';"/>
+					</p>
+				</div>
+				<span id="form-warning-location" class="form-warning">Je hebt nog geen plaats geselecteerd</span>
+
+			</div>
+			<div id="step-1" class="step" onclick="openStep(this)">
+
+				<h3>2. Wat is er hier aan de hand?</h3>
+
+				<div class="step-content">
+					<h4>Categorie:</h4>
+					<p>
+						<select id="categorie" value="" class="default-select" onchange="currentInput.categorie = this.value;document.querySelector('#form-warning-categorie').style.display = 'none'">
+							<option value="">Maak een keuze</option>
+							<option value="Afvalcontainers">Afvalcontainers</option>
+							<option value="Grofvuil">Grofvuil</option>
+							<option value="Straat">Straat</option>
+						</select>
+						<span id="form-warning-categorie" class="form-warning">Je hebt nog geen categorie geselecteerd</span>
+					</p>
+
+					<h4>Type afval:</h4>
+					<p>
+						<select id="type" value="" class="default-select">
+							<option value="">Maak een keuze</option>
+							<option value="Papier of karton">Papier/karton</option>
+							<option value="Vuilniszakken of restafval">Vuilniszakken/restafval</option>
+							<option value="Plastic">Plastic</option>
+							<option value="Glas">Glas</option>
+							<option value="Grofvuil">Grofvuil (zoals meubels)</option>
+							<option value="Klein zwerfvuil">Klein zwerfvuil</option>
+						</select>
+					</p>
+
+					<p>
+						<h4>Beschrijving:</h4>
+						<textarea id="description" onchange="currentInput.description = this.value"  onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
+						<div id="charsLeftDescription" class="charsLeft">
+							<div class="min">Nog minimaal <span>0</span> tekens</div>
+							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						</div>
+						<span id="form-warning-description" class="form-warning">Je beschrijving is te [[langkort]]</span>
+					</p>
+				</div>
+
+			</div>
+			<div id="step-2" class="step" onclick="openStep(this)">
+
+				<h3>3. Wanneer gebeurt dit?</h3>
+
+				<div class="step-content">
+					<p>
+						Is er een specifiek moment dat dit gebeurt? Klik op een dag om deze te selecteren.<br/>
+						<br/>
+						
+						<h4>Dag van de week:</h4>
+						<input id="weekday" type="hidden" value="" onchange="currentInput.weekday = this.value;"/>
+						<div id="click-selector-weekday" class="click-selector">
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'ma')">ma</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'di')">di</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'wo')">wo</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'do')">do</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'vr')">vr</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'za')">za</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('weekday', 'zo')">zo</div>
+						</div>
+
+						<h4>Dagdeel:</h4>
+						<input id="daypart" type="hidden" value="" onchange="currentInput.daypart = this.value;"/>
+						<div id="click-selector-daypart" class="click-selector">
+							<div class="option" onclick="toggleClickSelectorOptionOption('daypart', 'ochtend')">ochtend</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('daypart', 'middag')">middag</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('daypart', 'avond')">avond</div>
+							<div class="option" onclick="toggleClickSelectorOptionOption('daypart', 'nacht')">nacht</div>
+						</div>
+
+						<h4>Tijdstip:</h4>
+						<input type="text" value="" id="timeofday" onchange="currentInput.timeofday = this.value;"/>
+
+						<span id="form-warning-time" class="form-warning">Je moet nog een tijdstip kiezen</span>
+					</p>
+				</div>
+				
+			</div>
+			<div id="step-3" class="step" onclick="openStep(this)">
+
+				<h3>4. Heb je beeldmateriaal?</h3>
+
+				<div class="step-content">
+					<p>
+						Om uw melding duidelijk te maken kan een foto van de situatie helpen.
+					</p>
+				</div>
+				
+			</div>
+		</div>
+		<div id="step-buttons" class="step-buttons">
+
+			<a href="javascript: void cancelNewIdea(document.querySelector('#new-idea-form'));" class="button-as-text with-close-button">
+				Annuleren
+			</a>
+			
+			<a id="nextButton" href="javascript: openNextStep();" class="button-blue float-right with-arrow-right">
+				Volgende
+			</a>
+			
+			<a id="submitButton" href="javascript: void submitNewIdea(document.querySelector('#new-idea-form'));" class="button-blue float-right hidden" style="display: none;">
+				Nu verzenden
+			</a>
+
+		</div>
+	</form>
+</div>
+
+<div id="new-idea-result-container">
+	<form id="new-idea-form">
+		<div class="header clickable" onclick="toggleInfoBlock()">
+			Probleem toegevoegd
+		</div>
+		<div class="content">
+			<div class="step">
+				<h3>Bedankt voor uw bijdrage!</h3>
+				We hebben uw probleem toegevoegd aan de kaart. Andere buurtbewoners kunnen hier nu op reageren.
+			</div>
+			<a href="javascript: void resetInfoBlock()" class="button-blue" style="margin-top: 20px;">
+				Sluit af
+			</a>
+			<br/>
+		</div>
+	</form>
+</div>
+
+<div id="idea-details">
+	<div class="header clickable" onclick="toggleInfoBlock()">
+		Probleem details
+	</div>
+	<div class="sub-header arguments-icon arrow-right">
+		<a href="javascript: void showIdeaArguments()">Bekijk de reacties op dit probleem</a>
+	</div>
+	<div class="content">
+		<div class="idea-details">
+
+			<p>
+				<strong>In de buurt van <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
+			</p>
+
+			<p>
+				<span id="description"></span>
+			</p>
+
+			<div class="extra-data">
+				<div class="left">
+					<strong>Categorie:</strong><br/>
+					<span id="categorie"></span><br/>
+					<br/>
+					<strong>Type&nbsp;afval:</strong><br/>
+					<span id="type"></span>
+				</div>
+				<div class="right">
+					<strong>Dit gebeurd op:</strong><br/>
+					<span id="time"></span>
+				</div>
+			</div>
+
+			<p class="user-and-date">
+				<span id="username"></span> | <span id="date"></span>
+			</p>
+
+			<br/><br/>
+
+		</div>
+	</div>
+</div>
+
+<div id="idea-arguments">
+	<div class="header clickable" onclick="toggleInfoBlock()">
+		Reacties op dit probleem
+	</div>
+	<div class="sub-header info-gray arrow-right">
+		<a href="javascript: void showIdeaDetails()">Bekijk de details van dit probleem</a>
+	</div>
+	<div class="content arguments">
+		<div class="not-logged-in">
+			<p>
+				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+			</p>
+			<p>
+				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
+			</p>
+			<a href="http://openstad-api.francesco.denes.nl/oauth/site/2/login" class="button-blue">
+				Aanmelden
+			</a>
+		</div>
+		<div class="arguments-form">
+			<form id="argument-form">
+				<div id="step-0" class="step open">
+					<p>
+						<strong>Ervaar jij dit probleem ook? Of wil je op dit probleem aanvullen? Laat het ons hieronder weten!</strong>
+					</p>
+					<p>
+						<h4>Toelichting:</h4>
+						<textarea id="description" onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
+						<div id="charsLeftDescription" class="charsLeft">
+							<div class="min">Nog minimaal <span>0</span> tekens</div>
+							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						</div>
+						<span id="form-warning-description" class="form-warning">Je toelichting is te [[langkort]]</span>
+					</p>
+					<br/>
+					<a id="submitButton" href="javascript: void submitNewArgument(currentIdea, document.querySelector('#argument-form'));" class="button-blue">
+						Plaats reactie
+					</a>
+				</div>
+			</form>
+		</div>
+		<div class="argument">
+			<div class="description"></div>
+			<p class="user-and-date">
+				<span class="username"></span> | <span class="date"></span>
+			</p>
+			<div class="votes-and-reactions">
+				<div class="votes" onclick="voteForArgument(currentIdea, [[argumentId]])">
+					Mee eens (<span class="no-of-votes"></span>)
+				</div>
+				<div class="reactions" onclick="showIdeaArgumentReactions(currentIdea, [[argumentId]])">
+					Reacties (<span class="no-of-reactions"></span>)
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="idea-argument-reactions">
+	<div class="header clickable" onclick="toggleInfoBlock()">
+		Discussie op deze reactie
+	</div>
+	<div class="sub-header arguments-icon arrow-right">
+		<a href="javascript: void showIdeaArguments(currentIdea)">Terug naar de reacties op dit probleem</a>
+	</div>
+	<div class="content argument-reactions">
+		<div class="title">
+			<p>
+				Dit probleem > reactie van <span class="username"></span>
+			</p>
+			<h4>Discussie op deze reactie</h4>
+		</div>
+		<div class="argument">
+			<div class="description"></div>
+			<p class="user-and-date">
+				<span class="username"></span> | <span class="date"></span>
+			</p>
+			<div class="votes-and-reactions">
+				<div class="votes" onclick="voteForArgument(currentIdea, [[argumentId]])">
+					Mee eens (<span class="no-of-votes"></span>)
+				</div>
+			</div>
+		</div>
+		<div class="not-logged-in">
+			<p>
+				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+			</p>
+			<p>
+				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
+			</p>
+			<a href="http://openstad-api.francesco.denes.nl/oauth/site/2/login" class="button-blue">
+				Aanmelden
+			</a>
+		</div>
+		<div class="argument-reactions-form">
+			<form id="argument-reactions-form">
+				<div class="step open">
+					<p>
+						<h4>Je reactie hierop:</h4>
+						<textarea id="description" onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
+						<div id="charsLeftDescription" class="charsLeft">
+							<div class="min">Nog minimaal <span>0</span> tekens</div>
+							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						</div>
+						<span id="form-warning-description" class="form-warning">Je toelichting is te [[langkort]]</span>
+					</p>
+					<br/>
+					<a id="submitButton" href="javascript: void submitNewArgumentReaction(currentIdea, document.querySelector('#argument-reactions-form'));" class="button-blue">
+						Plaats reactie
+					</a>
+					<input id="argumentId" type="hidden" value="[[argumentId]]"/>
+				</div>
+			</form>
+		</div>
+		<h4>Reacties van anderen:</h4>
+		<div class="argument-reaction">
+			<div class="description"></div>
+			<p class="user-and-date">
+				<span class="username"></span> | <span class="date"></span>
+			</p>
+		</div>
+	</div>
+</div>

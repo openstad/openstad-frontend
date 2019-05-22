@@ -155,6 +155,7 @@ function run(id, config, callback) {
               },
               'arguments' : {},
               'arguments-form' : {},
+              'gebiedsontwikkeling-tool': {},
               'apostrophe-rich-text': {
                 toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
 
@@ -259,6 +260,7 @@ function run(id, config, callback) {
         'counter-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
+        'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
         'submissions-widgets': {},

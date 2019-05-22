@@ -1,0 +1,345 @@
+/* gebiedsontwikkeling.css
+ * ----------------------------------------------------------------------------------------------------
+ * general */
+
+#gebiedsontwikkeling-tool {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	// tmp
+	width: calc(100% + 400px);
+	margin-left: -200px;
+	margin-right: -200px;
+	height: 800px;
+
+	#openstad-map {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		background-color: white;
+		z-index: 10;
+	}
+
+}
+
+/* end general
+ * ----------------------------------------------------------------------------------------------------
+ * map icons */
+
+.icon {
+	position: absolute;
+	display: block;
+	width: 20px;
+	height: 22px;
+	margin: 6px 0 0 6px;
+	padding: 0 4px;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 22px;
+	text-align: center;
+	color: white;
+	background-color: black;
+}
+
+.icon:after {
+	position: absolute;
+	right: 0;
+	bottom: -4px;
+	width: 0;
+	height: 0;
+	background-color: transparent;
+	border-bottom: 4px solid transparent;
+	border-right: 4px solid black;
+	content: '';
+}
+
+.icon.cluster {
+	width: auto;
+	min-width: 20px;
+}
+
+.icon.cluster:before {
+	position: absolute;
+	top: -4px;
+	left: -4px;
+	width: calc(100% - 1px);
+	height: calc(100% - 1px);
+	background-color: transparent;
+	border-top: 3px solid black;
+	border-left: 3px solid black;
+	content: '';
+}
+
+.icon.active {
+	background-color: #ec1c24;
+}
+
+.icon.active:before,
+.icon.active:after {
+	border-top-color: #ec1c24;
+	border-left-color: #ec1c24;
+	border-right-color: #ec1c24;
+}
+
+/* end map icons
+ * ----------------------------------------------------------------------------------------------------
+ * title-bar */
+
+#title-bar {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	right: 420px;
+	min-width: 650px;
+	height: 44px;
+	padding: 0 15px;
+  font-size: 16px;
+	font-weight: 500;
+	line-height: 40px;
+	color: white;
+	background-color: #a8b900;
+	z-index: 19;
+}
+
+#title-bar .close-button {
+	float: right;
+	font-size: 20px;
+	line-height: 42px;
+	cursor: pointer;
+}
+
+/* end title-bar
+ * ----------------------------------------------------------------------------------------------------
+ * info-block */
+
+#default-info-block {
+	display: none;
+}
+
+#info-block {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	bottom: auto;
+	width: 380px;
+	height: 44px;
+	font-size: 14px;
+	background-color: white;
+	overflow: hidden;
+	transition: height .2s;
+	z-index: 20;
+}
+
+#info-block .header {
+	position: relative;
+	height: 44px;
+	padding: 0 15px;
+  font-size: 16px;
+  font-weight: 500;
+	line-height: 44px;
+	background-color: #bebebe;
+	cursor: pointer;
+}
+
+#info-block .header.clickable:after {
+	position: absolute;
+	top: 18px;
+	right: 23px;
+	width: 12px;
+	height: 8px;
+	background-position: 0 0;
+	background-size: 12px 8px;
+	background-repeat: no-repeat;
+	background-image: url('img/arrow-down-gray.svg');
+	content: '';
+}
+
+#info-block .sub-header {
+	position: relative;
+	height: 44px;
+	padding: 0 15px;
+  font-size: 16px;
+  font-weight: 500;
+	line-height: 44px;
+	background-color: #e3e3e3;
+	cursor: pointer;
+}
+
+#info-block .sub-header.arguments-icon {
+	padding-left: 53px;
+}
+
+#info-block .sub-header.arguments-icon:before {
+	position: absolute;
+	top: 12px;
+	left: 15px;
+	width: 24px;
+	height: 23px;
+	background-position: 0 0;
+	background-size: 24px 23px;
+	background-repeat: no-repeat;
+	background-image: url('img/arguments-icon-gray.svg');
+	content: '';
+}
+
+#info-block .sub-header.info-gray {
+	padding-left: 53px;
+}
+
+#info-block .sub-header.info-gray:before {
+	position: absolute;
+	top: 11px;
+	left: 15px;
+	width: 22px;
+	height: 22px;
+	background-position: 0 0;
+	background-size: 22px 22px;
+	background-repeat: no-repeat;
+	background-image: url('img/info-icon-gray.svg');
+	content: '';
+}
+
+#info-block .sub-header.arrow-right:after {
+	position: absolute;
+	top: 16px;
+	right: 23px;
+	width: 9px;
+	height: 13px;
+	background-position: 0 0;
+	background-size: 9px 13px;
+	background-repeat: no-repeat;
+	background-image: url('img/arrow-right-gray.svg');
+	content: '';
+}
+
+#info-block.open {
+	bottom: 127px;
+	height: calc(100% - 149px);
+	border-bottom: 2px solid black;
+}
+
+#info-block.open .header.clickable:after {
+	background-image: url('img/arrow-up-gray.svg');
+}
+
+#info-block .content {
+	height: calc(100% - 44px);
+	margin: 0;
+	padding: 0 15px;
+	overflow: hidden;
+}
+
+#info-block.open:hover .content {
+	overflow: auto;
+}
+
+/* end info-block
+ * ----------------------------------------------------------------------------------------------------
+ * not-logged-in */
+
+#info-block .not-logged-in {
+	margin: 0 0 40px 0;
+	padding: 0 0 30px 0;
+	overflow: hidden;
+	color: #434343;
+	border-bottom: 2px solid #bebebe;
+}
+
+/* end not-logged-in
+ * ----------------------------------------------------------------------------------------------------
+ * idea details */
+
+#idea-details {
+	display: none;
+}
+
+#info-block .idea-details {
+	margin: 0;
+	padding: 0 0 15px 0;
+	overflow: hidden;
+	color: #434343;
+}
+
+#info-block .idea-details .description {
+	color: #434343;
+}
+
+#info-block .idea-details .extra-data {
+	display: flex;
+	width: 100%;
+	padding: 20px;
+	background-color: #e3e3e3;
+}
+
+#info-block .idea-details .extra-data .left {
+	flex-grow: 1;
+	padding-right: 15px;
+}
+
+#info-block .idea-details .extra-data .right {
+	flex-grow: 1;
+	padding-left: 15px;
+	border-left: 2px solid white;
+}
+
+#info-block .idea-details .user-and-date {
+	padding: 0;
+	font-size: 14px;
+	font-weight: 500;
+	color: #434343;
+}
+
+/* end idea details
+ * ----------------------------------------------------------------------------------------------------
+ * filter selector */
+
+ul#filter-selector {
+	display: flex;
+	position: absolute;
+	bottom: 24.5px;
+	right: 82px;
+	height: 44px;
+	padding: 0;
+	margin: 0;
+	z-index: 20;
+}
+
+li.filter-selector-button {
+	list-style: none;
+	flex-direction: row;
+	margin: 0 0 0 -2px;
+	padding: 0 15px;
+  font-size: 16px;
+	font-weight: 500;
+	line-height: 40px;
+	color: black;
+	border: 2px solid black;
+	background-color: white;
+	cursor: pointer;
+}
+
+.filter-selector-button:first-child {
+	margin: 0 0 0 0;
+}
+
+
+.filter-selector-button:hover {
+	background-color: #e5e5e5;
+}
+
+.filter-selector-button.active {
+	color: white;
+	background-color: black;
+}
+
+.filter-selector-button.active:hover {
+	background-color: #444;
+}
+
+
+/* end filter selector
+ * ----------------------------------------------------------------------------------------------------
+ * TAF */
