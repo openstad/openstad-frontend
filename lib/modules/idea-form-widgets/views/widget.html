@@ -20,7 +20,7 @@
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
-			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit" class="idea-form">
+			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit?_csrf={{data.csrfToken}}" class="idea-form">
 					<div id="titleAndSummary">
 						<div class="form-group">
 							<h4>Naam</h4>
@@ -187,7 +187,7 @@
 									minlength="140"
 								/>
 
-								<input type="hidden" name="redirect" value="{{data.widget.redirect}}" />
+								<input class="idea-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
 								<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
 
 								{% if idea.id %}
