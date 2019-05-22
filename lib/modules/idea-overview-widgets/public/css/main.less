@@ -352,6 +352,7 @@
 
 		@media @phone {
 			width: 100%;
+			text-align: left;
 		}
 
 		&:before {
@@ -359,8 +360,9 @@
 			font-weight: 600;
 			content: 'Sorteer op:';
 
-			@media @phone {
+			@media @grid50 {
 				content: '';
+				display: none;
 			}
 
 		}
@@ -398,6 +400,12 @@
 	flex-grow: 0;
 	margin: 0;
 	width: calc(100% - 350px);
+
+	@media @grid50 {
+		.no-button{
+			display: none;
+		}
+	}
 
 	@media @phone {
 		width: 100%;

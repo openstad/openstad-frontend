@@ -3,7 +3,8 @@
 {% block main %}
 
 
-  {{ apos.area(data.page, 'body', {
+  {{
+    apos.area(data.page, 'body', {
     widgets: {
       'section': {
         addLabel: 'Add a section',
@@ -12,6 +13,7 @@
           removable: true,
           position: 'bottom-left'
         }
+      }
     }
   })
 }}
