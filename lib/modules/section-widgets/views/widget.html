@@ -6,7 +6,9 @@
     {{data.widget.formattedContainerStyles}}
   "
 >
-{% if data.widget.displayType === 'full-width' %}
+{% if data.widget.displayType === 'full-screen' %}
+{% include 'types/full-screen.html'%}
+{% elseif data.widget.displayType === 'full-width' %}
 {% include 'types/full-width.html'%}
 {% else %}
   <div class="container">
@@ -16,3 +18,4 @@
   </div>
 {% endif %}
 </div>
+ 
