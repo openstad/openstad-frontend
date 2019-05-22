@@ -83,7 +83,7 @@ function run(id, config, callback) {
           port: process.env.PORT
         },
         'apostrophe-assets' : {
-            minify: false,
+            minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
             scripts: [
               { name: 'cookies' },
               { name: 'site' },
