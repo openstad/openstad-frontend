@@ -93,7 +93,9 @@
             <nav  class="" role="navigation">
               <div>
                   {% if data.loggedIn %}
-                  <a href="/oauth/logout" class="logout-button" >Uitloggen</a>
+                  <a href="/oauth/logout" class="logout-button" >
+                    <span class="glyphicon glyphicon-log-out"></span>Uitloggen
+                  </a>
                   {% else %}
                    <a href="/oauth/login">
                      <span class="glyphicon glyphicon-user"></span> Mijn account
@@ -120,7 +122,8 @@
         			<nav id="subMenu" class="" role="navigation">
         				<div>
         						{% if data.loggedIn %}
-      							<a href="/oauth/logout" class="account logout-button">Uitloggen</a>
+      							<a href="/oauth/logout" class="account logout-button">
+                      <span class="glyphicon glyphicon-log-out"></span> Uitloggen</a>
         						{% else %}
       						   <a href="/oauth/login" class="account">
                        <span class="glyphicon glyphicon-user"></span> Mijn account
