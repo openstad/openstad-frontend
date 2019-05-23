@@ -1,6 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-const port = 27017;
-const url = 'mongodb://localhost:' + port;
+const host = process.env.DB_HOST || 'localhost';
+const port = process.env.DB_PORT || 27017;
+const url = 'mongodb://' + host + ':' + port;
 
 exports.copyMongoDb = (oldDbName, newDbName) => {
   return new Promise((resolve, reject) => {
@@ -30,8 +31,6 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
 }
 
 exports.dbExists = (dbName) => {
-  var url = 'mongodb://localhost:27017';
-
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, (err, db) => {
       if (err) {

@@ -79,6 +79,10 @@ function run(id, config, callback) {
       //shortName: 'localhost',
       shortName: site._id,
       modules: {
+				'apostrophe-db': {
+					host: process.env.DB_HOST || 'localhost',
+					port: process.env.DB_PORT || 27017,
+				},
         'apostrophe-express': {
           port: process.env.PORT
         },
@@ -151,6 +155,7 @@ function run(id, config, callback) {
               },
               'arguments' : {},
               'arguments-form' : {},
+              'gebiedsontwikkeling-tool': {},
               'apostrophe-rich-text': {
                 toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
 
@@ -255,6 +260,7 @@ function run(id, config, callback) {
         'counter-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
+        'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
         'submissions-widgets': {},
