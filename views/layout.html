@@ -94,11 +94,16 @@
               <div>
                   {% if data.loggedIn %}
                   <a href="/oauth/logout" class="logout-button" >
-                    <span class="glyphicon glyphicon-log-out"></span>Uitloggen
+                  <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
+                  <img src="/img/avatar.svg" />
+
+                  Uitloggen
                   </a>
                   {% else %}
                    <a href="/oauth/login">
-                     <span class="glyphicon glyphicon-user"></span> Mijn account
+                    <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+
+                     Mijn account
                    </a>
                   {% endif %}
               </div>
@@ -123,10 +128,14 @@
         				<div>
         						{% if data.loggedIn %}
       							<a href="/oauth/logout" class="account logout-button">
-                      <span class="glyphicon glyphicon-log-out"></span> Uitloggen</a>
+                      <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
+                      Uitloggen</a>
         						{% else %}
       						   <a href="/oauth/login" class="account">
-                       <span class="glyphicon glyphicon-user"></span> Mijn account
+                       <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+                       <img src="/img/avatar.svg" />
+
+                       Mijn account
                      </a>
         						{% endif %}
                     {% if data.global.ctaButtonText %}
