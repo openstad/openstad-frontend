@@ -95,7 +95,9 @@ router.route('/')
 		req.body.siteId = req.params.siteId;
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
-		// req.body.location = JSON.parse(req.body.location || null);
+		req.body.location = JSON.parse(req.body.location || null);
+
+
 		db.Idea
 			.create(req.body)
 			.then(result => {
@@ -123,7 +125,7 @@ router.route('/')
 router.route('/:ideaId(\\d+)')
 	.all(function(req, res, next) {
 		var ideaId = parseInt(req.params.ideaId) || 1;
-		
+
 		db.Idea
 			.scope(...req.scope)
 			.findOne({
