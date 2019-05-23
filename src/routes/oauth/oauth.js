@@ -59,8 +59,8 @@ router
 			let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
-			url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-
+			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/digest-login?returnTo=' + req.query.redirectUrl));
 			res.redirect(url);
 
 		});
@@ -183,7 +183,7 @@ router
 				}
 			)
 		}
-		
+
 		// find or create the user
 		db.User
 			.findAll(where)
@@ -226,6 +226,7 @@ router
 		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
 		 */
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
+		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo + '?jwt=[[jwt]]' : false;
 	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
