@@ -38,9 +38,7 @@
         <li id="idea-{{idea.id}}" class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
     			<div class="image-container" style="position: relative;">
     				<div class="image">
-    					{# <img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/> #}
     					<div class="image-upload"></div>
-    					{# <img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground"/> #}
     				</div>
     				<div class="gridder-mouse-over">
     					<div class="background">
@@ -65,23 +63,10 @@
             {% endif %}
           </div>
     			<script>
-    				{#
-    			 {% if (idea.posterImage) and (idea.posterImage.extraData) %}
-    			 imageUrl[{{idea.id}}] = "{{idea.posterImageUrl}}";
-    			 // doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
-    			 {% endif %}
-    			 #}
-    			 {% if (idea.imageUrl) %}
-    			 imageUrl[{{idea.id}}] = "{{idea.imageUrl}}";
-    			 // doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
-    			 {% endif %}
-
            {% if (idea.extraData) and (idea.extraData.images) %}
-           imageUrl[{{idea.id}}] = "{{idea.extraData.images[0]}}";
-            doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+           imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true)}}";
+           doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
            {% endif %}
-
-           
     			</script>
     		</li>{% endfor %}
     	</ul>
@@ -117,7 +102,8 @@
               				>
                       {% if (idea.extraData) and (idea.extraData.images) %}
                       {% for image in idea.extraData.images %}
-                      <a href="{{image}}"></a>
+                      imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true)}}";
+                      <a href="{{data.widget.formatImageUrl(image, 1400, 1400, false)}}"></a>
                       {% endfor %}
                       {% endif %}
               				</div>

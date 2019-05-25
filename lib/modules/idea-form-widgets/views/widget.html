@@ -13,6 +13,10 @@
 {% set showForm = false %}
 {% endif %}
 
+
+
+{% set showForm = true %}
+
 <div class="pageContent newIdea" id="content">
 	{% if not showForm %}
 	<div class="box-grey">
@@ -228,7 +232,7 @@
 				{% if data.isAdmin %}
 				<div class="col-xs-8">
 
-				<form method="POST" action="/modules/idea-form-widgets/submit">
+				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
 					<input type="hidden" name="action" value="UPDATE_STATUS">
 					<div class="row">
 						<div class="col-xs-6">
@@ -251,7 +255,9 @@
 				</div>
 				{% endif %}
 				<div class="col-xs-4">
-				<form method="post" id="js-form" action="/modules/idea-form-widgets/submit" >
+				<form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
+					<input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
+
 					<input type="hidden" name="ideaId" value="{{idea.id}}">
 					<input type="hidden" name="action" value="DELETE">
 					<input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
