@@ -14,6 +14,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : 'Nieuwe site',
 		},
 
+		domain: {
+			type         : DataTypes.STRING(255),
+			allowNull    : false,
+			defaultValue : 'demo.openstad.nl',
+		},
+
 		config: {
 			type				 : DataTypes.TEXT,
 			allowNull		 : false,
@@ -51,9 +57,43 @@ module.exports = function( db, sequelize, DataTypes ) {
 		// todo: formaat gelijktrekken met sequelize defs
 		// todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
 		return {
+			allowedDomains: {
+				type: 'arrayOfStrings',
+				default: [
+					'https://openstad-api.amsterdam.nl'
+				]
+			},
+			basicAuth: {
+				type: 'object',
+				subset: {
+					status: {
+						type: 'string',
+						default: 'off',
+					},
+					users: {
+						type: 'object',
+						subset: {
+							status: {
+								type: 'string',
+								default: 'off',
+							},
+							users: {
+								type: 'arrayOfObjects',
+								default: [
+									{user:'password'}
+								],
+							},
+						}
+					},
+				}
+			},
 			cms: {
 				type: 'object',
 				subset: {
+					dbName: {
+						type: 'string',
+						default: 'domainname-id',
+					},
 					url: {
 						type: 'string',
 						default: 'https://openstad-api.amsterdam.nl',
@@ -167,18 +207,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 1,
 					},
-					
+
 					userRole: {
 						type: 'string',
 						default: 'anonymous',
 					},
-					
+
 					withExisting: {
 						type: 'enum',
 						values: ['error', 'replace', 'createOrCancel', 'replaceAll'],
 						default: 'replace',
 					},
-					
+
 					mustConfirm: {
 						type: 'boolean',
 						default: false,
@@ -227,7 +267,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						throw new Error(`site.config: ${key} must be an boolean`);
 					}
 					if (options[key].type && options[key].type === 'arrayOfStrings' && !(typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'string'))) {
-						throw new Error(`site.config: ${key} must be an arry of strings`);
+						throw new Error(`site.config: ${key} must be an array of strings`);
+					}
+					if (options[key].type && options[key].type === 'arrayOfObjects' && !(typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'object'))) {
+						throw new Error(`site.config: ${key} must be an array of objects`);
 					}
 					if (options[key].type && options[key].type === 'enum' && options[key].values && options[key].values.indexOf(value[key]) == -1) {
 						throw new Error(`site.config: ${key} has an invalid value`);

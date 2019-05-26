@@ -5,6 +5,10 @@ const auth    = require('../../auth');
 
 let router = express.Router({mergeParams: true});
 
+const isADomainName = (url) => {
+	return isADomainName.length > 0;
+}
+
 router.route('/')
 
 // list sites
@@ -35,14 +39,22 @@ router.route('/')
 
 // one site routes: get site
 // -------------------------
-router.route('/:siteId(\\d+)')
+router.route('/:siteIdOrDomain') //(\\d+)
 	.all(auth.can('site:view'))
 	.all(function(req, res, next) {
-		var siteId = parseInt(req.params.siteId) || 1;
+		const siteIdOrDomain = req.params.siteIdOrDomain;
+		let query;
+
+		if (isADomainName(siteIdOrDomain)) {
+			query = {	where: { domain: siteIdOrDomain } }
+		} else {
+			query = { where: { id: (parseInt(siteIdOrDomain) || 1) } }
+		}
+
+		console.log('===> query', query);
+
 		db.Site
-			.findOne({
-				where: { id: siteId }
-			})
+			.findOne(query)
 			.then(found => {
 				if ( !found ) throw new Error('Site not found');
 				req.site = found;

@@ -1,12 +1,24 @@
-const Sequelize = require('sequelize');
-const express = require('express');
+const Sequelize 	= require('sequelize');
+const express 		= require('express');
 const createError = require('http-errors');
-const fetch = require('isomorphic-fetch');
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const db = require('../../db');
+const fetch 			= require('isomorphic-fetch');
+const jwt 				= require('jsonwebtoken');
+const config 			= require('config');
+const URL         = require('url').URL;
+const db 					= require('../../db');
 
 let router = express.Router({mergeParams: true});
+
+
+const isAllowedRedirectDomain = (url, allowedDomains) => {
+	/**
+	 * Check if redirectURI same host as registered
+	 */
+	const redirectUrlHost = new URL(redirectURI).hostname;
+
+	// throw error if allowedDomains is empty or the redirectURI's host is not present in the allowed domains
+	return allowedDomains && allowedDomains.indexOf(redirectUrlHost) !== -1;
+}
 
 // all: add site
 // -------------
@@ -233,15 +245,21 @@ router
 		req.session.returnTo = '';
 
 		req.session.save(() => {
-			if (redirectUrl.match('[[jwt]]')) {
-				jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
-					if (err) return next(err)
-					req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
+			if (isAllowedRedirectDomain(redirectUrl, req.site.config.allowedDomains)) {
+				if (redirectUrl.match('[[jwt]]')) {
+					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+						if (err) return next(err)
+						req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
+						return next();
+					});
+				} else {
+					req.redirectUrl = redirectUrl;
 					return next();
-				});
+				}
 			} else {
-				req.redirectUrl = redirectUrl;
-				return next();
+				res.status(500).json(JSON.stringify({
+					status: 'Something went wrong'
+				}));
 			}
 		});
 	})
