@@ -43,15 +43,16 @@ app.use(function(req, res, next) {
   const runner = Promise.promisify(run);
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
-  const thisHost = req.headers['x-forwarded-host'] || req.get('host');
+  let thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
-  console.log('cccc');
 
+  thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
   console.log('eeee', `${process.env.API}/api/site/${thisHost}`);
 
   rp({
-      uri:`${process.env.API}/api/site/1`, //,
+  //    uri:`${process.env.API}/api/site/1`, //,
+      uri:`${process.env.API}/api/site/${thisHost}`, //,
       headers: {
           'Accept': 'application/json',
         //  "X-Authorization" : `Bearer ${jwt}`,
@@ -60,15 +61,18 @@ app.use(function(req, res, next) {
       json: true // Automatically parses the JSON string in the response
   })
   .then((siteConfig) => {
+    let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
-    console.log('siteConfig', siteConfig);
-
-
-    var dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
     return dbExists(dbName).then((exists) => {
         if (exists || thisHost === process.env.DEFAULT_HOST)  {
-          if (!aposServer[hostKey]) {
-              runner(hostKey, siteConfig).then(function(apos) {
+          if (!aposServer[dbName]) {
+              //format sitedatat so it makes more sense
+              var config = siteConfig.config;
+              config.id = siteConfig.id;
+              config.title = siteConfig.title;
+
+
+              runner(dbName, config).then(function(apos) {
                 aposServer[hostKey] = apos;
                 aposServer[hostKey].app(req, res);
               });
@@ -168,7 +172,7 @@ function run(id, siteData, callback) {
           openStadMap: openstadMap,
           openstadMapPolygons: openstadMapPolygons,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
-          siteConfig: siteData.config,
+          siteConfig: siteData,
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
               'agenda' : {},
