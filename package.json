@@ -23,6 +23,7 @@
     "dotenv": "^6.0.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
+    "express-basic-auth": "^1.2.0",
     "flash": "^1.1.0",
     "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.11",
