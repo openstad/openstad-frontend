@@ -20,8 +20,8 @@
     margin-top: 16px;
     position: relative;
     text-decoration: none;
-        margin-top: 20px;
-}
+    margin-top: 13px;
+  }
 
 
 #mainMenu ul {
@@ -142,6 +142,7 @@
 #navbar{
 
 @media @phone {
+  margin-bottom: 0;
 
 
   #mainMenu ul li {
@@ -170,16 +171,17 @@
   .navbar-menu .nav-link {
     position: relative;
     border-bottom: 1px solid #d6d6d6;
-    padding: 15px 20px 13px;
+    padding: 16px 20px 13px;
     width: 100%;
     display: block;
     font-size: 16px;
 
-    &:first-child {
-      border-top: 1px solid #d6d6d6;
-      margin-top: -2px;
+  }
+
+    .navbar-menu  .nav :first-child  .nav-link {
+    //  border-top: 1px solid #d6d6d6;
+      margin-top: 0;
     }
-}
 
    .navbar-menu {
      background: #f3f3f3;
@@ -239,11 +241,10 @@
 .body-background {
   opacity: 0.8;
   background: #000;
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 9;
-
 }
