@@ -9,13 +9,11 @@ const db 					= require('../../db');
 
 let router = express.Router({mergeParams: true});
 
-
+/**
+ * Check if redirectURI same host as registered
+ */
 const isAllowedRedirectDomain = (url, allowedDomains) => {
-	/**
-	 * Check if redirectURI same host as registered
-	 */
 	const redirectUrlHost = new URL(redirectURI).hostname;
-
 	// throw error if allowedDomains is empty or the redirectURI's host is not present in the allowed domains
 	return allowedDomains && allowedDomains.indexOf(redirectUrlHost) !== -1;
 }

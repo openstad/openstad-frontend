@@ -5,10 +5,6 @@ const auth    = require('../../auth');
 
 let router = express.Router({mergeParams: true});
 
-const isADomainName = (url) => {
-	return isADomainName.length > 0;
-}
-
 router.route('/')
 
 // list sites
@@ -45,13 +41,11 @@ router.route('/:siteIdOrDomain') //(\\d+)
 		const siteIdOrDomain = req.params.siteIdOrDomain;
 		let query;
 
-		if (isADomainName(siteIdOrDomain)) {
+		if (isNaN(siteIdOrDomain)) {
 			query = {	where: { domain: siteIdOrDomain } }
 		} else {
-			query = { where: { id: (parseInt(siteIdOrDomain) || 1) } }
+			query = { where: { id: parseInt(siteIdOrDomain) } }
 		}
-
-		console.log('===> query', query);
 
 		db.Site
 			.findOne(query)
