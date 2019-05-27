@@ -38,8 +38,6 @@ function getSampleSite() {
 //app.use(flash());
 
 app.use(function(req, res, next) {
-  console.log('bbb');
-
   const runner = Promise.promisify(run);
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
@@ -47,9 +45,7 @@ app.use(function(req, res, next) {
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
-
-  console.log('eeee', `${process.env.API}/api/site/${thisHost}`);
-
+  
   rp({
   //    uri:`${process.env.API}/api/site/1`, //,
       uri:`${process.env.API}/api/site/${thisHost}`, //,
