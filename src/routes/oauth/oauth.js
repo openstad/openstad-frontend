@@ -72,8 +72,6 @@ router
 	.route('(/site/:siteId)?/digest-login')
 	.get(function( req, res, next ) {
 
-		console.log('???');
-
 		// use the code to get an access token
 		let code = req.query.code;
 
@@ -92,8 +90,6 @@ router
 			code: code,
 			grant_type: 'authorization_code'
 		}
-
-		console.log(url);
 
 		fetch(
 			url, {
@@ -226,6 +222,12 @@ router
 		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
 		 */
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
+
+
+		// tmp
+		redirectUrl = redirectUrl || 'http://dekaart.cms.openstad.francesco.denes.nl/?jwt=[[jwt]]'
+
+		
 	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
