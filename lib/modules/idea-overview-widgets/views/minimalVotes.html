@@ -1,4 +1,9 @@
-{% for idea in data.ideas %}<div class="tile idea-item {{idea.status}} {{'USER' if user.id == idea.userId}}" data-poster-url="{{idea.extraData.images[0]}}">
+{% for idea in data.ideas %}<div
+  class="tile idea-item {{idea.status}} {{'USER' if user.id == idea.userId}}"
+  {% if idea.extraData.images[0] %}
+  data-poster-url="{{data.widget.formatImageUrl(idea.extraData.images[0], 600, 360, true)}}"
+  {% endif %}
+>
   <a href="/{{data.global.ideaSlug}}/{{idea.id}}">
     {% if idea.status != 'DENIED' %}
       <!--
