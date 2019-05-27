@@ -4,6 +4,25 @@
 	</div>
 </div>
 
+<div id="new-idea-form-not-logged-in-container">
+	<div class="header clickable" onclick="toggleInfoBlock()">
+		Nieuw probleem
+	</div>
+	<div class="content">
+		<div class="not-logged-in">
+			<p class="font-16">
+				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+			</p>
+			<p>
+				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
+			</p>
+			<a href="http://openstad-api.francesco.denes.nl/oauth/login" class="button-blue">
+				Aanmelden
+			</a>
+		</div>
+	</div>
+</div>
+
 <div id="new-idea-form-container">
 	<form id="new-idea-form">
 		<div class="header clickable" onclick="toggleInfoBlock()">
@@ -15,7 +34,7 @@
 				<h3>1. Om welke plek gaat het</h3>
 
 				<div class="step-content">
-					<p>
+					<p class="font-16">
 						In de buurt van:<br/>
 						<span id="address-text">klik op de kaart om een plaats te selecteren</span><br/>
 						<span id="city-text"></span><br/>
@@ -25,9 +44,9 @@
 				<span id="form-warning-location" class="form-warning">Je hebt nog geen plaats geselecteerd</span>
 
 			</div>
-			<div id="step-1" class="step" onclick="openStep(this)">
+			<div id="step-1" class="step">
 
-				<h3>2. Wat is er hier aan de hand?</h3>
+				<h3 onclick="toggleStep(1)">2. Wat is er hier aan de hand?</h3>
 
 				<div class="step-content">
 					<h4>Categorie:</h4>
@@ -66,9 +85,9 @@
 				</div>
 
 			</div>
-			<div id="step-2" class="step" onclick="openStep(this)">
+			<div id="step-2" class="step">
 
-				<h3>3. Wanneer gebeurt dit?</h3>
+				<h3 onclick="toggleStep(2)">3. Wanneer gebeurt dit?</h3>
 
 				<div class="step-content">
 					<p>
@@ -104,9 +123,9 @@
 				</div>
 				
 			</div>
-			<div id="step-3" class="step" onclick="openStep(this)">
+			<div id="step-3" class="step">
 
-				<h3>4. Heb je beeldmateriaal?</h3>
+				<h3 onclick="toggleStep(3)">4. Heb je beeldmateriaal?</h3>
 
 				<div class="step-content">
 					<p>
@@ -162,7 +181,7 @@
 	<div class="content">
 		<div class="idea-details">
 
-			<p>
+			<p class="font-16">
 				<strong>In de buurt van <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
 			</p>
 
@@ -203,20 +222,20 @@
 	</div>
 	<div class="content arguments">
 		<div class="not-logged-in">
-			<p>
+			<p class="font-16">
 				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
 			</p>
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="http://openstad-api.francesco.denes.nl/oauth/site/2/login" class="button-blue">
+			<a href="{{data.widget.apiUrl}}/oauth/login" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
 		<div class="arguments-form">
 			<form id="argument-form">
 				<div id="step-0" class="step open">
-					<p>
+					<p class="font-16">
 						<strong>Ervaar jij dit probleem ook? Of wil je op dit probleem aanvullen? Laat het ons hieronder weten!</strong>
 					</p>
 					<p>
@@ -256,10 +275,10 @@
 	<div class="header clickable" onclick="toggleInfoBlock()">
 		Discussie op deze reactie
 	</div>
-	<div class="sub-header arrow-left">
+	<div class="sub-header arrow-left-double">
 		<a href="javascript: void showIdeaDetails()">Terug naar de details van dit probleem</a>
 	</div>
-	<div class="sub-header arrow-left-double">
+	<div class="sub-header arrow-left">
 		<a href="javascript: void showIdeaArguments(currentIdea)">Terug naar de reacties op dit probleem</a>
 	</div>
 	<div class="content argument-reactions">
@@ -284,7 +303,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="http://openstad-api.francesco.denes.nl/oauth/site/2/login" class="button-blue">
+			<a href="http://openstad-api.francesco.denes.nl/oauth/login" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
