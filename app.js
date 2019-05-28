@@ -23,8 +23,6 @@ const openstadMapPolygons   = require('./config/map').polygons;
 var aposServer = {};
 app.use(express.static('public'));
 
-console.log('aaaa');
-
 
 function getSampleSite() {
   const keys = _.keys(aposServer);
@@ -82,7 +80,7 @@ app.use(function(req, res, next) {
       })
     })
     .catch((e) => {
-      console.log('eeee', e);
+      console.log('err: ', e);
 
       res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
     });
