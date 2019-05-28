@@ -73,15 +73,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 					users: {
 						type: 'object',
 						subset: {
-							status: {
-								type: 'string',
-								default: 'off',
+							active: {
+								type: 'boolean',
+								default: false,
 							},
-							users: {
-								type: 'arrayOfObjects',
-								default: [
-									{user:'password'}
-								],
+							user: {
+								type: 'string',
+								default: 'openstad',
+							},
+							password: {
+								type: 'string',
+								default: 'LqKNcKC7',
 							},
 						}
 					},

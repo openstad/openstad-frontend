@@ -13,7 +13,7 @@ let router = express.Router({mergeParams: true});
  * Check if redirectURI same host as registered
  */
 const isAllowedRedirectDomain = (url, allowedDomains) => {
-	const redirectUrlHost = new URL(redirectURI).hostname;
+	const redirectUrlHost = new URL(url).hostname;
 	// throw error if allowedDomains is empty or the redirectURI's host is not present in the allowed domains
 	return allowedDomains && allowedDomains.indexOf(redirectUrlHost) !== -1;
 }
@@ -51,7 +51,7 @@ router
 				next(err)
 			});
 
-	})
+	});
 
 // inloggen 1
 // ----------
@@ -70,7 +70,7 @@ router
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/digest-login?returnTo=' + req.query.redirectUrl));
+      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?returnTo=' + req.query.redirectUrl));
 			res.redirect(url);
 
 		});
@@ -241,29 +241,30 @@ router
 		req.session.save(() => {
 			if (isAllowedRedirectDomain(redirectUrl, req.site.config.allowedDomains)) {
 				if (redirectUrl.match('[[jwt]]')) {
+					console.log('req.redirectUrl 1', redirectUrl);
+
 					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 						if (err) return next(err)
 						req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
 						return next();
 					});
 				} else {
+					console.log('req.redirectUrl 2', redirectUrl);
+
 					req.redirectUrl = redirectUrl;
 					return next();
 				}
 			} else {
-				res.status(500).json(JSON.stringify({
+				res.status(500).json({
 					status: 'Something went wrong'
-				}));
+				});
 			}
 		});
 	})
 	.get(function( req, res, next ) {
+		console.log('req.redirectUrl do it', req.redirectUrl);
 		res.redirect(req.redirectUrl);
-	})
-	.get(function( req, res, next ) {
-		res.redirect(req.redirectUrl);
-	})
-
+	});
 // uitloggen
 // ---------
 router
