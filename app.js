@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
-  
+
   rp({
   //    uri:`${process.env.API}/api/site/1`, //,
       uri:`${process.env.API}/api/site/${thisHost}`, //,
