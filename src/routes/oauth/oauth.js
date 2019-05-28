@@ -179,7 +179,8 @@ router
 			email: req.userData.email,
 			firstName: req.userData.firstName,
 			zipCode: req.userData.postcode,
-			lastName: req.userData.lastName
+			lastName: req.userData.lastName,
+			role: req.userData.role || 'member',
 		}
 
 		let where = {
@@ -196,6 +197,7 @@ router
 			.then(result => {
 				if (result && result.length > 1) return next(createError(403, 'Meerdere users gevonden'));
 				if (result && result.length == 1) {
+
 					// user found; update and use
 					let user = result[0];
 
@@ -204,6 +206,7 @@ router
 					req.userData.id = user.id;
 					return next();
 				} else {
+
 					// user not found; create
 
 					data.role = 'member';
