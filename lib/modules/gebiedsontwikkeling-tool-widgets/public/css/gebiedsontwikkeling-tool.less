@@ -113,7 +113,17 @@
 }
 
 .icon.with-args {
-	background-color: green;
+	&:before {
+		position: absolute;
+		top: -5px;
+		right: -5px;
+		width: 12px;
+		height: 12px;
+		background-color: #00a03c;
+		border-radius: 6px;
+		border: 2px solid #eee;
+		content: '';
+	}
 }
 
 .icon.active {
