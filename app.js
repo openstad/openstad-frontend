@@ -61,6 +61,7 @@ app.use(function(req, res, next) {
 
     return dbExists(dbName).then((exists) => {
         if (exists || thisHost === process.env.DEFAULT_HOST)  {
+
           if (!aposServer[dbName]) {
               //format sitedatat so it makes more sense
               var config = siteConfig.config;
@@ -69,11 +70,11 @@ app.use(function(req, res, next) {
 
 
               runner(dbName, config).then(function(apos) {
-                aposServer[hostKey] = apos;
-                aposServer[hostKey].app(req, res);
+                aposServer[dbName] = apos;
+                aposServer[dbName].app(req, res);
               });
           } else {
-            aposServer[hostKey].app(req, res);
+            aposServer[dbName].app(req, res);
           }
         } else {
           res.status(404).json({ error: 'Not found page or website' });
