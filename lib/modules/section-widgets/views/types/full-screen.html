@@ -1,4 +1,14 @@
-<div class="full-screen-section">
+<div class="full-screen-section"
+{% if data.widget.backgroundImage %}
+  style="
+    background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    "
+{% endif %}
+>
   <div class="full-screen-section-inner ">
   {{
     apos.area(data.widget, 'area1', {

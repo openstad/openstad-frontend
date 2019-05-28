@@ -11,11 +11,20 @@
 {% elseif data.widget.displayType === 'full-width' %}
 {% include 'types/full-width.html'%}
 {% else %}
-  <div class="container">
+  <div class="container"
+    {% if data.widget.backgroundImage %}
+      style="
+        background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        "
+    {% endif %}
+    >
     {% if data.widget.displayType %}
     {% include 'types/' + data.widget.displayType + '.html'%}
     {% endif %}
   </div>
 {% endif %}
 </div>
- 
