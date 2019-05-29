@@ -1,6 +1,7 @@
 {% set pageTitle = 'Jouw plan insturen' %}
 {% set showForm = true %}
 {% set summaryMaxLength = 140 %}
+{% set summaryMinLength = 20 %}
 {% set idea = data.idea %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
@@ -37,7 +38,7 @@
 						<div class="form-group">
 							<h2>Samenvatting</h2>
 							<div class="form-info">Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.</div>
-							<textarea name="summary" required maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
+							<textarea name="summary" required minlength="{{summaryMinLength}}" maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 							<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 						</div>
 					</div>
@@ -226,7 +227,7 @@
 					<h4> Beheren </h4>
 				</div>
 				{% if data.isAdmin %}
-				<div class="col-xs-8">
+				<div class="col-sm-8 col-xs-12">
 
 				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
 					<input type="hidden" name="action" value="UPDATE_STATUS">
@@ -250,7 +251,7 @@
 				</form>
 				</div>
 				{% endif %}
-				<div class="col-xs-4">
+				<div class="col-sm-4 col-xs-12">
 				<form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
 					<input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
 
