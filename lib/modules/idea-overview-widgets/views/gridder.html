@@ -30,6 +30,9 @@
 
     	</script>
 
+      {% if data.ideas.length === 0 %}
+      <h3> <em> Nog geen inzendingen </em> </h3>
+      {% else %}
     	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     		{% for idea in data.ideas %}
@@ -148,3 +151,4 @@
           </div>
     		</div>
     	{% endfor %}
+      {% endif %}
