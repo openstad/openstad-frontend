@@ -5,6 +5,7 @@
   {{ voteCreator.showVoteCreator(true, data.ideas) }}
 {% endif %}
 <div class="pageContent ideasList">
+  {% if data.idea.length > 0%}
   <div class="row">
 
     <div class="col-xs-12 col-sm-8">
@@ -36,8 +37,13 @@
     </div>
 
   </div>
+  {% endif %}
 
   <div id="ideas" class="primary">
+    {% if data.ideas.length === 0 %}
+    <h3 style="text-align: center;"> <em> Nog geen inzendingen </em> </h3>
+    {% else %}
+
     {% if data.widget.displayType === 'minimalVotes' %}
     {% include 'minimalVotes.html' %}
     {% endif %}
@@ -45,6 +51,8 @@
     {% if data.widget.displayType === 'gridder' %}
     {% include 'gridder.html' %}
     {% endif %}
+    {% endif %}
+
 </div>
 </div>
 
