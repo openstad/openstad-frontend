@@ -66,26 +66,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 			basicAuth: {
 				type: 'object',
 				subset: {
-					status: {
-						type: 'string',
-						default: 'off',
+					active: {
+						type: 'boolean',
+						default: false,
 					},
-					users: {
-						type: 'object',
-						subset: {
-							active: {
-								type: 'boolean',
-								default: false,
-							},
-							user: {
-								type: 'string',
-								default: 'openstad',
-							},
-							password: {
-								type: 'string',
-								default: 'LqKNcKC7',
-							},
-						}
+					user: {
+						type: 'string',
+						default: 'openstad',
+					},
+					password: {
+						type: 'string',
+						default: 'LqKNcKC7',
 					},
 				}
 			},
