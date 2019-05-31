@@ -701,8 +701,8 @@ and open the template in the editor.
 
 		.image-mask {
 			position: relative;
-			width: 320px;
-			height: 380px;
+			width: 100%;
+			height: 320px;
 			/*overflow: hidden;*/
 
 			@media @phone {
@@ -714,10 +714,9 @@ and open the template in the editor.
 
 			.image-container {
 				position: absolute;
-				top: 0;
-				left: -30px;
-				width: 380px;
-				height: 380px;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
 
 				@media @phone {
 				//	left: calc((100% - 100% * 380/320) / 2);
@@ -730,7 +729,7 @@ and open the template in the editor.
 			}
 
 			.image {
-				width: 380px;
+				width: 320px;
 				height: 380px;
 				@media @phone {
 					width: 100%;
