@@ -116,8 +116,10 @@
                   <a href="{{ data.home._url }}" class="nav-link">{{ data.home.title }}</a>
                 </li>
                 {% for tab in data.home._children %}
+
+
                   <li class="nav-item">
-                    <a class="nav-link" href="{{ tab._url }}">
+                    <a class="nav-link {% if data.originalUrl === tab._url %} active{% endif %}" href="{{ tab._url }}">
                     {{ tab.title }}
                     </a>
                   </li>
