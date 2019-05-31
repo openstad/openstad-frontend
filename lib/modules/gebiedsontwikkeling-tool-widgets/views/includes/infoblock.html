@@ -131,6 +131,130 @@
 					<p>
 						Om uw melding duidelijk te maken kan een foto van de situatie helpen.
 					</p>
+
+
+					<div class="form-group">
+						<div id="imageUpload">
+							<h2>Plaatjes</h2>
+							<div class="form-info">
+								Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
+							</div>
+							<fieldset class="filepondFieldset2">
+								<!-- a list of already uploaded files -->
+								{% if idea.extraData.images %}
+						    {#<ul>
+								{% for image in idea.extraData.images %}
+						    <li>
+						      <label>
+						        <input value="{{image}}" data-type="remote" checked type="checkbox">
+						        {{image}}
+						      </label>
+						    </li>
+								{% endfor %}
+						    </ul>#}
+								{% endif %}
+
+								<script>
+								 var ideaFiles = [];
+								 <!-- a list of already uploaded files -->
+								 {% if idea.extraData.images %}
+								 {% for image in idea.extraData.images %}
+								 ideaFiles.push({
+									 source: '{"url":"{{image}}"}',
+									 options : {
+										 type: 'local',
+										 // mock file information
+										 file: {
+											 name: '{{image}}',
+											 //		 size: 3001025,
+											 //	 type: 'image/png'
+										 },
+										 metadata: {
+		                   poster: '{{image}}',
+		                 }
+									 }
+
+								 });
+								 {% endfor %}
+								 {% endif %}
+								</script>
+								<input type="file" class="imageUploader-gebiedstool filepond-gebiedstool" multiple />
+
+							</fieldset>
+							<input type="hidden" name="validateImages" multiple />
+						</div>
+					</div>
+
+					<script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+					<script>
+
+					 window.initImageUpload = function() {
+
+						 var fieldsetElement = document.querySelector('.filepondFieldset2');
+						 if (fieldsetElement) {
+							 FilePond.registerPlugin(FilePondPluginImagePreview);
+							 FilePond.registerPlugin(FilePondPluginFileValidateSize);
+							 FilePond.registerPlugin(FilePondPluginFileValidateType);
+							 FilePond.registerPlugin(FilePondPluginFilePoster);
+
+							 FilePond.setOptions({
+								 server: '/image'
+							 });
+
+							 var filePondSettings = {
+								 // set allowed file types with mime types
+								 acceptedFileTypes: ['image/*'],
+								 allowFileSizeValidation: true,
+								 maxFileSize: '5mb',
+								 name: 'image',
+								 maxFiles: 3,
+								 allowBrowse: true,
+								 files: ideaFiles,
+								 server: {
+									 process: '/image',
+									 fetch: '/fetch-image?img='
+								 },
+								 labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>KLIK HIER</span>",
+								 labelInvalidField: "Field contains invalid files",
+								 labelFileWaitingForSize: "Wachtend op grootte",
+								 labelFileSizeNotAvailable: "Grootte niet beschikbaar",
+								 labelFileCountSingular: "Bestand in lijst",
+								 labelFileCountPlural: "Bestanden in lijst",
+								 labelFileLoading: "Laden",
+								 labelFileAdded: "Toegevoegd", // assistive only
+								 labelFileLoadError: "Fout bij het uploaden",
+								 labelFileRemoved: "Verwijderd", // assistive only
+								 labelFileRemoveError: "Fout bij het verwijderen",
+								 labelFileProcessing: "Laden",
+								 labelFileProcessingComplete: "Afbeelding geladen",
+								 labelFileProcessingAborted: "Upload cancelled",
+								 labelFileProcessingError: "Error during upload",
+								 labelFileProcessingRevertError: "Error during revert",
+								 labelTapToCancel: "tap to cancel",
+								 labelTapToRetry: "tap to retry",
+								 labelTapToUndo: "tap to undo",
+								 labelButtonRemoveItem: "Verwijderen",
+								 labelButtonAbortItemLoad: "Abort",
+								 labelButtonRetryItemLoad: "Retry",
+								 labelButtonAbortItemProcessing: "Verwijder",
+								 labelButtonUndoItemProcessing: "Undo",
+								 labelButtonRetryItemProcessing: "Retry",
+								 labelButtonProcessItem: "Upload"
+							 }
+
+							 imageuploader = FilePond.create(fieldsetElement, filePondSettings);
+							 var sortableInstance;
+							 var pondEl = document.querySelector('.filepond--root');
+						 }
+					 }
+
+					</script>
+
+					
 				</div>
 				
 			</div>
@@ -180,6 +304,12 @@
 	</div>
 	<div class="content">
 		<div class="idea-details">
+
+			<div class="images">
+			</div>
+			<div class="image-template">
+				<div class="image" style="background-image: url('[[src]]')"></div>
+			</div>
 
 			<p class="font-16">
 				<strong>In de buurt van <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
