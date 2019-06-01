@@ -113,16 +113,14 @@
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
               <ul class="nav navbar-left">
                 <li class="nav-item">
-                  <a href="{{ data.home._url }}" class="nav-link">{{ data.home.title }}</a>
+                  <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
                 </li>
                 {% for tab in data.home._children %}
-
-
-                  <li class="nav-item">
-                    <a class="nav-link {% if data.originalUrl === tab._url %} active{% endif %}" href="{{ tab._url }}">
+                <li class="nav-item">
+                  <a class="nav-link {% if data.originalUrl == tab._url %} active {% endif %}" href="{{ tab._url }}">
                     {{ tab.title }}
-                    </a>
-                  </li>
+                  </a>
+                </li>
                 {% endfor %}
               </ul>
 
@@ -136,7 +134,6 @@
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
-
                        Mijn account
                      </a>
         						{% endif %}
