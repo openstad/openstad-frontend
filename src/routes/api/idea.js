@@ -151,7 +151,7 @@ router.route('/:ideaId(\\d+)')
 	.put(auth.can('idea:edit'))
 	.put(function(req, res, next) {
 		filterBody(req)
-		// req.body.location = JSON.parse(req.body.location || null);
+		req.body.location = JSON.parse(req.body.location || null);
 		req.idea
 			.update(req.body)
 			.then(result => {
