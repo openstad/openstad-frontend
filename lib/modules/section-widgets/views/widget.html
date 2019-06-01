@@ -12,7 +12,10 @@
 {% include 'types/full-width.html'%}
 {% else %}
   <div class="container"
+
+    >
     {% if data.widget.backgroundImage %}
+    <div class="section-bg-image"
       style="
         background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
         -webkit-background-size: cover;
@@ -20,8 +23,8 @@
         -o-background-size: cover;
         background-size: cover;
         "
+    ></div>
     {% endif %}
-    >
     {% if data.widget.displayType %}
     {% include 'types/' + data.widget.displayType + '.html'%}
     {% endif %}
