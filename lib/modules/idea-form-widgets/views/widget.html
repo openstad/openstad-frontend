@@ -2,6 +2,7 @@
 {% set showForm = true %}
 {% set summaryMaxLength = 140 %}
 {% set summaryMinLength = 20 %}
+{% set useModernEditor = false %}
 {% set idea = data.idea %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
@@ -145,6 +146,7 @@
 								#}
 							</div>
 
+							{% if useModernEditor %}
 							<trix-toolbar id="trixToolbar">
 								<div class="button_row">
 									<span class="button_group text_tools">
@@ -191,9 +193,15 @@
 									required
 									minlength="140"
 								/>
+							{% else %}
+								<textarea name="description" id="description-textarea">{{idea.description}}</textarea>
+							{% endif %}
+
+							</div>
 
 								<input class="idea-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
-								<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
+
+							<div id="charsLeftMain">Nog minimaal <span>140</span> tekens.</div><br/><br/>
 
 								{% if idea.id %}
 								<input type="hidden" name="id" value="{{idea.id}}" />
