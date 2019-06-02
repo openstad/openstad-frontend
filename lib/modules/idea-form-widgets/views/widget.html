@@ -31,13 +31,17 @@
 						</div>
 						<div class="form-group">
 							<h2>Titel plan</h2>
-							<div class="form-info">Geef je voorstel een duidelijke naam, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.</div>
+							<div class="form-info">
+								{{ data.widget.labelTitle if data.widget.labelTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
+							</div>
 							<input type="text" name="title" value="{{idea.title}}" required><br />
 							<input type="hidden" id="extraData" name="extraData" value=""><br />
 						</div>
 						<div class="form-group">
 							<h2>Samenvatting</h2>
-							<div class="form-info">Vertel in maximaal {{summaryMaxLength}} tekens iets meer over je plan.</div>
+							<div class="form-info">
+								{{ data.widget.labelSummary if data.widget.labelSummary else 'Vertel in maximaal 140 tekens iets meer over je plan.' }}
+							</div>
 							<textarea name="summary" required minlength="{{summaryMinLength}}" maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 							<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
 						</div>
@@ -46,7 +50,7 @@
 						{% if data.global.areas and data.global.areas.length > 0 %}
 						<h2>Gebied</h2>
 						<div class="form-info">
-							Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.
+							{{ data.widget.labelArea if data.widget.labelArea else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
 						</div>
 						<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 							<option value="">Kies gebied</option>
@@ -62,7 +66,7 @@
 						{% if data.global.themes and data.global.themes.length > 0 %}
 						<h2>Thema</h2>
 						<div class="form-info">
-							Selecteer het thema waarop jouw plan betrekking heeft.
+							{{ data.widget.labelTheme if data.widget.labelTheme else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
 						</div>
 
 						<select id="thema" name="theme" class="default-select" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}">
@@ -79,7 +83,7 @@
 						<div id="imageUpload">
 							<h2>Plaatjes</h2>
 							<div class="form-info">
-							 Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
+							 {{ data.widget.labelImage if data.widget.labelImage else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
 							</div>
 							<fieldset class="filepondFieldset">
 								<!-- a list of already uploaded files -->
