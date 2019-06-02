@@ -30,17 +30,21 @@
 							</p>
 						</div>
 						<div class="form-group">
-							<h2>Titel plan</h2>
+							<h2>
+								{{ data.widget.labelTitle if data.widget.labelTitle else 'Titel plan' }}
+							</h2>
 							<div class="form-info">
-								{{ data.widget.labelTitle if data.widget.labelTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
+								{{ data.widget.infoTitle if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
 							</div>
 							<input type="text" name="title" value="{{idea.title}}" required><br />
 							<input type="hidden" id="extraData" name="extraData" value=""><br />
 						</div>
 						<div class="form-group">
-							<h2>Samenvatting</h2>
+							<h2>
+								{{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
+							</h2>
 							<div class="form-info">
-								{{ data.widget.labelSummary if data.widget.labelSummary else 'Vertel in maximaal 140 tekens iets meer over je plan.' }}
+								{{ data.widget.infoSummary if data.widget.infoSummary else 'Vertel in maximaal 140 tekens iets meer over je plan.' }}
 							</div>
 							<textarea name="summary" required minlength="{{summaryMinLength}}" maxlength="{{summaryMaxLength}}">{{idea.summary}}</textarea>
 							<div id="charsLeft">Je hebt nog <span>{{summaryMaxLength}}</span> tekens over.</div>
@@ -48,9 +52,11 @@
 					</div>
 					<div class="form-group">
 						{% if data.global.areas and data.global.areas.length > 0 %}
-						<h2>Gebied</h2>
+						<h2>
+							{{ data.widget.labelAreas if data.widget.labelAreas else 'Gebied' }}
+						</h2>
 						<div class="form-info">
-							{{ data.widget.labelArea if data.widget.labelArea else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
+							{{ data.widget.infoAreas if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
 						</div>
 						<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 							<option value="">Kies gebied</option>
@@ -64,9 +70,11 @@
 					</div>
 					<div class="form-group">
 						{% if data.global.themes and data.global.themes.length > 0 %}
-						<h2>Thema</h2>
+						<h2>
+							{{ data.widget.labelAreas if data.widget.labelAreas else 'Gebied' }}
+						</h2>
 						<div class="form-info">
-							{{ data.widget.labelTheme if data.widget.labelTheme else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
+							{{ data.widget.infoThemes if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
 						</div>
 
 						<select id="thema" name="theme" class="default-select" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}">
@@ -81,25 +89,14 @@
 
 					<div class="form-group">
 						<div id="imageUpload">
-							<h2>Plaatjes</h2>
+							<h2>
+								{{ data.widget.labelImages if data.widget.labelImages else 'Plaatjes' }}
+							</h2>
 							<div class="form-info">
-							 {{ data.widget.labelImage if data.widget.labelImage else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
+							 {{ data.widget.infoImages if data.widget.infoImages else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
 							</div>
 							<fieldset class="filepondFieldset">
 								<!-- a list of already uploaded files -->
-								{% if idea.extraData.images %}
-						    {#<ul>
-									{% for image in idea.extraData.images %}
-						        <li>
-						            <label>
-						                <input value="{{image}}" data-type="remote" checked type="checkbox">
-						                {{image}}
-						            </label>
-						        </li>
-										{% endfor %}
-						    </ul>#}
-								{% endif %}
-
 								<script>
 									var ideaFiles = [];
 									<!-- a list of already uploaded files -->
@@ -132,9 +129,12 @@
 					</div>
 					<div class="form-group">
 						<div id="description">
-							<h2>Beschrijving</h2>
+							<h2>
+								{{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
+							</h2>
 							<div class="form-info">
-								Gebruik de ruimte hieronder om je voorstel verder uit te leggen.
+								{{ data.widget.infoDescription if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
+
 							{#	<ul>
 									<li>Wat is het verhaal achter jouw plan?</li>
 									<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt?</li>
@@ -203,23 +203,32 @@
 								<input type="hidden" name="_csrf" value="{{data.csrfToken}}" />
 						</div>
 					</div>
+					{% if data.widget.displayLocation %}
 					<div class="form-group">
 						<div id="location">
-							<h2>Locatie</h2>
-							<div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.</div>
-
+							<h2>
+								{{ data.widget.labelLocation if data.widget.labelLocation else 'Locatie' }}
+							</h2>
+							<div class="form-info" style="height: auto;">
+								{{ data.widget.infoLocation if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
+							</div>
 							<div id="mapcontainer">
 								{% set editorInputElementId = 'locationField' %}
 								{% include 'includes/openstad-map.html'  %}
 							</div>
 						</div>
 					</div>
+					{% endif %}
 
 				{% if idea %}
 				<input type="hidden" name="ideaId" value="{{idea.id}}">
 				{% endif %}
-				<input type="submit" value="Plan opslaan">
 
+				{% if idea %}
+				<input type="submit" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
+				{% else %}
+				<input type="submit" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">
+				{% endif %}
 			</form>
 		</div>
 
