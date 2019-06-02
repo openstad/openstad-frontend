@@ -577,7 +577,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 			// vergelijk getRunning()
 			sort: function (sort) {
-
 				let result = {};
 
 				var order;
@@ -591,10 +590,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						order = 'yes ASC';
 						break;
 					case 'createdate_asc':
-						order = 'createdAt ASC';
+						order = [['createdAt', 'ASC']];
 						break;
 					case 'createdate_desc':
-						order = 'createdAt DESC';
+						order = [['createdAt', 'DESC']];
 						break;
 					case 'date_asc':
 						order = 'endDate ASC';
@@ -611,6 +610,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							END DESC,
 							endDate DESC
 						`;
+
 				}
 
 				result.order = order;
@@ -741,6 +741,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 	Idea.getRunning = function( sort, extraScopes ) {
+
+    console.log('==> order',order);
+
 		var order;
 		switch( sort ) {
 			case 'votes_desc':
@@ -798,6 +801,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		}
 
+
+
 		return this.scope(...scopes).findAll({
 			where,
 			order   : order,
@@ -809,6 +814,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// add ranking
 			let ranked = ideas.slice();
 			ranked.forEach(idea => {
+        console.log('==> ', idea.id);
 				idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
 			});
 			ranked.sort( (a, b) => b.ranking - a.ranking );
