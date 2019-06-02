@@ -210,7 +210,6 @@
 
 								<input type="hidden" name="_csrf" value="{{data.csrfToken}}" />
 						</div>
-					</div>
 					{% if data.widget.displayLocation %}
 					<div class="form-group">
 						<div id="location">
@@ -227,6 +226,24 @@
 						</div>
 					</div>
 					{% endif %}
+
+
+					{% if data.widget.displayAdvice %}
+					<div class="form-group">
+						<div id="location">
+							<h2>
+								{{ data.widget.labelAdvice if data.widget.labelAdvice else 'Tip' }}
+							</h2>
+							<div class="form-info" style="height: auto;">
+								{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' }}
+							</div>
+							<textarea name="advice"  minlength="{{summaryMinLength}}" maxlength="{{summaryMaxLength}}">{{idea.extraData.advice}}</textarea>
+						</div>
+					</div>
+					{% endif %}
+
+
+
 
 				{% if idea %}
 				<input type="hidden" name="ideaId" value="{{idea.id}}">

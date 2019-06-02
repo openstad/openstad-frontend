@@ -126,6 +126,12 @@
       				<div class="summary">{{idea.summary}}</div>
       				<div class="description">{{idea.description | safe | nlbr}}</div>
 
+              {% if idea.extraData.advice %}
+              <b> Tip </b>
+              <div class="tip description">{{idea.extraData.advice | nlbr}}</div>
+              {% endif %}
+
+
       				{% if data.openstadUser.id === idea.userId or data.isAdmin %}
       					<div class="description"><a href="/indienen?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
       				{% endif %}
