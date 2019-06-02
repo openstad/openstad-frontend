@@ -1,12 +1,20 @@
-/* Eberhard 1 */
-
 #howDoesItWork {
 	position: relative;
 	width: 100%;
 	background-color: #f3f3f3;
-	margin-top: -20px;
+	margin-top: 20px;
 	margin-bottom: 20px;
 	z-index: 2;
+
+	.steps {
+		padding: 12px 0;
+
+		img {
+			max-width: 100%;
+			display: block;
+			margin: 0 auto;
+		}
+	}
 
 	a {
 		color: #004699;
@@ -97,6 +105,21 @@
 
 	}
 
+	@media @phone {
+		width: calc(100% - 20px);
+
+		.step .step-image {
+	    float: left;
+	    width: 64px;
+	    margin-right: 15px;
+			height: auto !important;
+		}
+
+		.step .step-text {
+	    float: left;
+	    width: calc(100% - 79px);
+		}
+	}
 }
 
 /* Eberhard 2 */
@@ -152,38 +175,6 @@
 
 		#arrow {
 			transform: rotate(180deg);
-		}
-
-	}
-
-}
-
-/* Eberhard 3 */
-
-#howDoesItWork {
-
-	margin-top: 20px;
-
-	.step {
-
-		.step-image-1 {
-			background-size: 140px 77px;
-			background-image: url(/img/eberhardvanderlaan3/howto-1.svg);
-		}
-
-		.step-image-2 {
-			background-size: 83px 76px;
-			background-image: url(/img/eberhardvanderlaan3/howto-2.svg);
-		}
-
-		.step-image-3 {
-			background-size: 74px 74px;
-			background-image: url(/img/eberhardvanderlaan3/howto-3.svg);
-		}
-
-		.step-image-4 {
-			background-size: 76x 77px;
-			background-image: url(/img/eberhardvanderlaan3/howto-4.svg);
 		}
 
 	}
