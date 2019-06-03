@@ -5,9 +5,13 @@
 {% block title %}
   {# Create a useful, SEO-friendly title tag based on what we have #}
   {% if data.piece %}
-    {{ data.piece.title }}
+    {{ data.piece.title }} | {{data.global.siteTitle}}
   {% elseif data.page %}
-    {{ data.page.title }}
+    {% if data.page.metaTitle %}
+    {{data.page.metaTitle}}
+    {% else %}
+    {{ data.page.title }} | {{data.global.siteTitle}}
+    {% endif %}
   {% else %}
     {{ apos.log('Looks like you forgot to override the title block in a template that does not have access to an Apostrophe page or piece.') }}
   {% endif %}
