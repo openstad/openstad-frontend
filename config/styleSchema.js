@@ -20,8 +20,40 @@ exports.default = {
               'value': 'margin'
             },
             {
-              'label': 'Padding ',
+              'label': 'Margin top',
+              'value': 'margin-top'
+            },
+            {
+              'label': 'Margin bottom',
+              'value': 'margin-bottom'
+            },
+            {
+              'label': 'Margin left',
+              'value': 'margin-left'
+            },
+            {
+              'label': 'Margin right',
+              'value': 'margin-right'
+            },
+            {
+              'label': 'Padding',
               'value': 'padding'
+            },
+            {
+              'label': 'Padding top',
+              'value': 'padding-top'
+            },
+            {
+              'label': 'Padding bottom',
+              'value': 'padding-bottom'
+            },
+            {
+              'label': 'Padding left',
+              'value': 'padding-left'
+            },
+            {
+              'label': 'Padding right',
+              'value': 'padding-right'
             },
             {
               'label': 'Font size',
