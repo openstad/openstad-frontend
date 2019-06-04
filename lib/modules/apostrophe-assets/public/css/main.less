@@ -1,3 +1,7 @@
+// Core variables and mixins
+// import variables first so we can overwrite them
+@import "vendor/bootstrap/variables.less";
+@import "bootstrap-variables.less";
 @import "vendor/bootstrap/bootstrap";
 
 html {
@@ -29,8 +33,8 @@ body {
   max-width: 970px;
 
   @media screen and (max-width: @screen-sm) {
-    padding-left: 18px;
-    padding-right: 18px;
+    /*padding-left: 18px;
+    padding-right: 18px;*/
   }
 
   .container {
@@ -50,7 +54,7 @@ body {
   }
 }
 
-a, a:active, a:focus,  a:hover, a:visited {
+a, a:active, a:focus, a:hover, a:visited {
   color: #164995;
 }
 
