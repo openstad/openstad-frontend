@@ -7,7 +7,6 @@
 <div class="pageContent ideasList">
   {% if data.ideas.length > 0 %}
   <div class="row">
-
     <div class="col-xs-12 col-sm-8">
       {% if data.global.areas and data.global.areas.length > 0 %}
       <div class="tab-selector">
@@ -29,13 +28,10 @@
         <select class="default-select">
           <option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
           <option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
-          <!--
-               <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>
-          -->
+          <!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
         </select>
       </div>
     </div>
-
   </div>
   {% endif %}
 
@@ -52,8 +48,7 @@
     {% include 'gridder.html' %}
     {% endif %}
     {% endif %}
-
-</div>
+  </div>
 </div>
 
 

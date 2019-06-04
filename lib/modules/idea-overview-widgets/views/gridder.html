@@ -41,11 +41,11 @@
     					<div class="background">
     					</div>
     					<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
-    						Bekijk dit ontwerp
+                {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
     					</div>
               {% if data.widget.voting and not userHasVoted %}
                 <div class="button-vote" onclick="event.preventDefault();selectIdea({{idea.id}})">
-                  Stem op dit ontwerp
+                  {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
                 </div>
               {% endif %}
     				</div>
@@ -77,29 +77,18 @@
       				<div class="image-mask">
       					<div class="image-container">
       						<div class="image" style="/*cursor: url('/img/vergrootglas.png'), pointer;*/">
-      							{#<img src="/img/eberhardvanderlaan2/image-background.jpg" class="image-background"/>#}
-      							{#<div class="image-upload"></div>#}
-      							{#<img src="/img/eberhardvanderlaan2/image-foreground.png" class="image-foreground" onmouseover="if (!isPhone) document.getElementById('mask-{{idea.id}}').style.display = 'block'"/> #}
-      							<!--<div
-                      id="mask-{{idea.id}}"
-                      style="position: absolute; width: 100%; height: 100%; background-color: black; opacity: 0.4; z-index: 30; display: none; cursor: url('/img/vergrootglas.png'), pointer;"
-                      onmouseout="document.getElementById('mask-{{idea.id}}').style.display = 'none'"
-                      onclickBKP="showLightbox({{idea.id}})"
-
-                    ></div> !-->
                       <div class="fotorama"
-
-              				data-nav="thumbs"
-              				data-allowfullscreen="true"
-              				data-ratio="400/300"
-              				data-fit="cover"
-              				data-thumbwidth="105"
-              				data-thumbheight="105"
-              				data-auto="true"
+                				data-nav="thumbs"
+                				data-allowfullscreen="true"
+                				data-ratio="400/300"
+                				data-fit="cover"
+                				data-thumbwidth="105"
+                				data-thumbheight="105"
+                				data-auto="true"
               				>
                       {% if (idea.extraData) and (idea.extraData.images) %}
                       {% for image in idea.extraData.images %}
-                      <a href="{{data.widget.formatImageUrl(image, 1400, 1400, false)}}"></a>
+                        <a href="{{data.widget.formatImageUrl(image, 1400, 1400, false)}}"></a>
                       {% endfor %}
                       {% endif %}
               				</div>
@@ -130,7 +119,6 @@
               <b> Tip </b>
               <div class="tip description">{{idea.extraData.advice | nlbr}}</div>
               {% endif %}
-
 
       				{% if data.openstadUser.id === idea.userId or data.isAdmin %}
       					<div class="description"><a href="/indienen?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
