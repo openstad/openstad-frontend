@@ -122,16 +122,36 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
-        'apostrophe-i18n': {
-             locales: ['en', 'nl']
-        },
+      /*  'apostrophe-i18n': {
+             locales: ['nl', 'en'],
+             defaultLocale: 'nl'
+        },*/
         'apostrophe-workflow': {
           // IMPORTANT: if you follow the examples below,
           // be sure to set this so the templates work
           alias: 'workflow',
           // Recommended to save database space. You can still
           // export explicitly between locales
-          replicateAcrossLocales: true
+          replicateAcrossLocales: true,
+
+          locales: [
+            {
+              name: 'default',
+              label: 'Default',
+              private: true,
+              children: [
+                {
+                  name: 'nl',
+                  label: 'Netherlands'
+                },
+                {
+                  name: 'en',
+                  label: 'English'
+                },
+
+              ]
+            },
+          ],
         },
         'apostrophe-workflow-modified-documents': {},
         'auth': {},

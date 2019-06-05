@@ -105,8 +105,7 @@
                   {% else %}
                    <a href="/oauth/login">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-
-                     Mijn account
+                     {{ __('My account') }}
                    </a>
                   {% endif %}
               </div>
@@ -138,7 +137,7 @@
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
-                       {{ __('My account') }}    
+                       {{ __('My account') }}
                      </a>
         						{% endif %}
                     {% if data.global.ctaButtonText %}
