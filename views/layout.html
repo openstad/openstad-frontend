@@ -100,8 +100,7 @@
                   <a href="/oauth/logout" class="logout-button" >
                   <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
                   <img src="/img/avatar.svg" />
-
-                  Uitloggen
+                   {{ __('Log out') }}
                   </a>
                   {% else %}
                    <a href="/oauth/login">
@@ -133,12 +132,13 @@
         						{% if data.loggedIn %}
       							<a href="/oauth/logout" class="account logout-button">
                       <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
-                      Uitloggen</a>
+                      {{ __('Log out') }}
+                    </a>
         						{% else %}
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
-                       Mijn account
+                       {{ __('My account') }}    
                      </a>
         						{% endif %}
                     {% if data.global.ctaButtonText %}

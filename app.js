@@ -122,6 +122,9 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
+        'apostrophe-i18n': {
+             locales: ['en', 'nl']
+        },
         'apostrophe-workflow': {
           // IMPORTANT: if you follow the examples below,
           // be sure to set this so the templates work
