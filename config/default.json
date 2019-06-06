@@ -27,7 +27,7 @@
 			"./routes/dev",
 			{ "route": "/api", "router": "./routes/api" },
 			{ "route": "/oauth", "router": "./routes/oauth" },
-			{ "route": "/", "router": "./routes/home" }
+			{ "route": "/", "router": "./routes/doc" }
 		]
 	},
 	
