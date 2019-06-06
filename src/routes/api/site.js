@@ -14,7 +14,11 @@ router.route('/')
 		db.Site
 			.findAll()
 			.then( found => {
-				return found.map( entry => entry.toJSON() );
+				found = found.map( entry => entry.toJSON() );
+				if (!( req.user && req.user.role && req.user.role == 'admin' )) {
+					found = found.map( entry => { entry.config = undefined; return entry } );
+				}
+				return found
 			})
 			.then(function( found ) {
 				res.json(found);
@@ -60,7 +64,14 @@ router.route('/:siteIdOrDomain') //(\\d+)
 // view site
 // ---------
 	.get(function(req, res, next) {
-		res.json(req.site);
+
+		let site = req.site.toJSON();
+		if (!( req.user && req.user.role && req.user.role == 'admin' )) {
+			site.config = undefined;
+		}
+
+		res.json(site);
+
 	})
 
 // update site
