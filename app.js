@@ -17,7 +17,7 @@ const dbExists      = require('./services/mongo').dbExists;
 
 const openstadMap           = require('./config/map').default;
 const openstadMapPolygons   = require('./config/map').polygons;
-
+const configForHosts = {};
 //console.log('process.env', process.env);
 
 var aposServer = {};
@@ -26,6 +26,7 @@ app.use(express.static('public'));
 
 function getSampleSite() {
   const keys = _.keys(aposServer);
+
   if (!keys.length) {
     return null;
   }
@@ -33,10 +34,15 @@ function getSampleSite() {
   return _.find(aposServer, apos => (typeof apos) === 'object');
 }
 
-//app.use(flash());
+
+app.get('/config-reset', (req, res, next) => {
+  let host = req.headers['x-forwarded-host'] || req.get('host');
+  host = host.replace(['http://', 'https://'], ['']);
+  delete configForHosts[host];
+  res.json({ message: 'Ok'});
+});
 
 app.use(function(req, res, next) {
-  const runner = Promise.promisify(run);
 //  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
 //  const host = hostname; //req.get('host');
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
@@ -44,49 +50,63 @@ app.use(function(req, res, next) {
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
-  rp({
-  //    uri:`${process.env.API}/api/site/1`, //,
-      uri:`${process.env.API}/api/site/${thisHost}`, //,
-      headers: {
-          'Accept': 'application/json',
-        //  "X-Authorization" : `Bearer ${jwt}`,
-          "Cache-Control": "no-cache"
-      },
-      json: true // Automatically parses the JSON string in the response
-  })
-  .then((siteConfig) => {
-    let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+  if (configForHosts[thisHost]) {
+    console.log('serve');
+    serveSite(req, res, configForHosts[thisHost], false);
+  } else {
+    console.log('fetch');
 
-    return dbExists(dbName).then((exists) => {
-        if (exists || thisHost === process.env.DEFAULT_HOST)  {
-
-          if (!aposServer[dbName]) {
-              //format sitedatat so it makes more sense
-              var config = siteConfig.config;
-              config.id = siteConfig.id;
-              config.title = siteConfig.title;
-
-
-              runner(dbName, config).then(function(apos) {
-                aposServer[dbName] = apos;
-                aposServer[dbName].app(req, res);
-              });
-          } else {
-            aposServer[dbName].app(req, res);
-          }
-        } else {
-          res.status(404).json({ error: 'Not found page or website' });
-        }
-      })
+    rp({
+    //    uri:`${process.env.API}/api/site/1`, //,
+        uri:`${process.env.API}/api/site/${thisHost}`, //,
+        headers: {
+            'Accept': 'application/json',
+          //  "X-Authorization" : `Bearer ${process.env.SITE_API_KEY}`,
+            "Cache-Control": "no-cache"
+        },
+        json: true // Automatically parses the JSON string in the response
     })
-    .catch((e) => {
-      console.log('err: ', e);
-
-      res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
+    .then((siteConfig) => {
+      configForHosts[thisHost] = siteConfig;
+      serveSite(req, res, siteConfig, true);
+    }).catch((e) => {
+        res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
     });
+  }
+
 //  apos = await runner(options.sites || {});
 });
 
+function serveSite(req, res, siteConfig, forceRestart) {
+  const runner = Promise.promisify(run);
+
+  let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+
+  return dbExists(dbName).then((exists) => {
+      if (exists || thisHost === process.env.DEFAULT_HOST)  {
+
+        if (!aposServer[dbName] || forceRestart) {
+            //format sitedatat so it makes more sense
+            var config = siteConfig.config;
+            config.id = siteConfig.id;
+            config.title = siteConfig.title;
+
+            runner(dbName, config).then(function(apos) {
+              aposServer[dbName] = apos;
+              aposServer[dbName].app(req, res);
+            });
+        } else {
+          aposServer[dbName].app(req, res);
+        }
+      } else {
+        res.status(404).json({ error: 'Not found page or website' });
+      }
+    })
+  .catch((e) => {
+    console.log('err: ', e);
+    res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
+  });
+}
 
 function run(id, siteData, callback) {
   const options = { }
@@ -363,6 +383,7 @@ function run(id, siteData, callback) {
       }
     }, siteData)
   );
+
 }
 
 /*
@@ -371,3 +392,16 @@ process.on('uncaughtException', function (exception) {
 })
 */
 app.listen(process.env.PORT);
+
+/**
+ * Run default SITE DATABASE if isset, this way when deploying
+ * the site is already spin up and assets will be generated
+ */
+if (process.env.DEFAULT_DB) {
+  const defaultRunner = Promise.promisify(run);
+  const dbName = process.env.DEFAULT_DB;
+
+  defaultRunner(dbName, {}).then(function(apos) {
+    aposServer[dbName] = apos;
+  });
+}
