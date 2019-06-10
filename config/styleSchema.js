@@ -120,7 +120,6 @@ exports.default = {
     let formattedStyles = '';
 
     const formatCSSLines = (cssValues) => {
-      console.log('cssValues 2', cssValues);
       let formattedLine = '';
       cssValues.forEach((css) => {
         formattedLine += `${css.property}:${css.value};`;
@@ -133,22 +132,18 @@ exports.default = {
       /**
        * Format the main styles that are without media queries
        */
-       console.log('cssValues 1', cssValues);
-
-      const mainStyles = formatCSSLines(cssValues.filter(cssValue => (!cssValues.mediaQuery || cssValues.mediaQuery.length === 0) ));
-      formattedStyles = `#${id}{${mainStyles}}`;
+      const mainStyles = formatCSSLines(cssValues.filter((cssValue) => { return !cssValue.mediaQuery; }));
+      formattedStyles = ` #${id}{${mainStyles}} `;
 
       /**
        * Format the styles that depend on a media query
        */
-       console.log('cssValues 3', cssValues);
-
       const mediaQueries = cssValues.filter(cssValue => !!cssValue.mediaQuery).map(cssValue => cssValue.mediaQuery);
       mediaQueries.forEach((mediaQuery) => {
-        let mediaQueryStyle = formatCSSLines(cssValues.filter(cssValue => cssValues.mediaQuery === 'mediaQuery'));
+        let mediaQueryStyle = formatCSSLines(cssValues.filter(cssValue => cssValue.mediaQuery && cssValue.mediaQuery ===  mediaQuery));
         if (mediaQueryStyle.length > 0) {
           mediaQueryStyle = `#${id}{${mediaQueryStyle}}`;
-          formattedStyles += `${mediaQuery} { ${mediaQueryStyle} }`;
+          formattedStyles += ` ${mediaQuery} { ${mediaQueryStyle} } `;
         }
       });
     }

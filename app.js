@@ -134,7 +134,7 @@ function run(id, siteData, callback) {
           // export explicitly between locales
           replicateAcrossLocales: true,
 
-          locales: [
+      /*    locales: [
             {
               name: 'default',
               label: 'Default',
@@ -151,7 +151,7 @@ function run(id, siteData, callback) {
 
               ]
             },
-          ],
+          ],*/
         },
         'apostrophe-workflow-modified-documents': {},
         'auth': {},
