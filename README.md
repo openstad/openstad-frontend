@@ -15,6 +15,8 @@ DEFAULT_DB=localhost
 DEFAULT_HOST=localhost:3000
 APP_URL=http://localhost:3000
 API=http://localhost:8108
+#should be defined in API config, is needed to get sensitive Site configuration
+SITE_API_KEY=xxxx
 ```
 
 #### 2. Run NPM install
