@@ -84,7 +84,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
   return dbExists(dbName).then((exists) => {
-      if (exists || thisHost === process.env.DEFAULT_HOST)  {
+      if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if (!aposServer[dbName] || forceRestart) {
             //format sitedatat so it makes more sense
