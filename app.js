@@ -54,11 +54,9 @@ app.use(function(req, res, next) {
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
     const siteOptions = {
-    //    uri:`${process.env.API}/api/site/1`, //,
         uri:`${process.env.API}/api/site/${thisHost}`, //,
         headers: {
             'Accept': 'application/json',
-          //  "X-Authorization" : `Bearer ${process.env.SITE_API_KEY}`,
             "Cache-Control": "no-cache"
         },
         json: true // Automatically parses the JSON string in the response
