@@ -1,4 +1,8 @@
-<div class="agenda" style="{{data.widget.formattedContainerStyles}}">
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+<div id="{{data.widget.containerId}}" class="agenda">
 {% for item in data.widget.items %}
   <div class=" {{'agenda-period' if item.period else 'agenda-day' }}">
     <div>

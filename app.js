@@ -51,12 +51,9 @@ app.use(function(req, res, next) {
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
   if (configForHosts[thisHost]) {
-    console.log('serve');
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
-    console.log('fetch');
-
-    rp({
+    const siteOptions = {
     //    uri:`${process.env.API}/api/site/1`, //,
         uri:`${process.env.API}/api/site/${thisHost}`, //,
         headers: {
@@ -65,13 +62,19 @@ app.use(function(req, res, next) {
             "Cache-Control": "no-cache"
         },
         json: true // Automatically parses the JSON string in the response
-    })
-    .then((siteConfig) => {
-      configForHosts[thisHost] = siteConfig;
-      serveSite(req, res, siteConfig, true);
-    }).catch((e) => {
-        res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
-    });
+    };
+
+    if (process.env.SITE_API_KEY) {
+      siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
+    }
+
+    rp(siteOptions)
+      .then((siteConfig) => {
+        configForHosts[thisHost] = siteConfig;
+        serveSite(req, res, siteConfig, true);
+      }).catch((e) => {
+          res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
+      });
   }
 
 //  apos = await runner(options.sites || {});
