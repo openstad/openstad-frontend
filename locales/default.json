@@ -331,5 +331,16 @@
 	"Tablet & phone (991px and smaller)": "Tablet & phone (991px and smaller)",
 	"Desktop (min width 992px)": "Desktop (min width 992px)",
 	"Section open by default?": "Section open by default?",
-	"Log out": "Log out"
+	"Log out": "Log out",
+	"Edit Counter": "Edit Counter",
+	"Save Counter": "Save Counter",
+	"Url": "Url",
+	"Select dynamic counter": "Select dynamic counter",
+	"Idea count": "Idea count",
+	"Static count": "Static count",
+	"Incomplete or incorrect information was provided. Please review.": "Incomplete or incorrect information was provided. Please review.",
+	"Weergave": "Weergave",
+	"Simpel": "Simpel",
+	"Volledig": "Volledig",
+	"Link naar": "Link naar"
 }
