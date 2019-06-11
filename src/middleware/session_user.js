@@ -43,13 +43,28 @@ module.exports = function( app ) {
 
 		let userId = req.session[uidProperty];
 
-		// jwt overrules other settings
 		if (req.headers['x-authorization']) {
-			let token = req.headers['x-authorization'].replace(/^Bearer /, '');
-			let data = jwt.verify(token, config.authorization['jwt-secret'])
-			if (data && data.userId) {
-				userId = data.userId
+
+			// jwt overrules other settings
+			if (req.headers['x-authorization'].match(/^bearer /i)) {
+				// jwt overrules other settings
+				let token = req.headers['x-authorization'].replace(/^bearer /i, '');
+				let data = jwt.verify(token, config.authorization['jwt-secret'])
+				if (data && data.userId) {
+					userId = data.userId
+				}
 			}
+
+			// auth token overrules other settings
+			let tokens = config && config.authorization && config.authorization['fixed-auth-tokens'];
+			if (tokens) {
+				tokens.forEach((token) => {
+					if ( token.token == req.headers['x-authorization'] ) {
+						userId = token.userId;
+					}
+				});
+			}
+
 		}
 			
 		getUserInstance(userId || 1)
