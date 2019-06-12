@@ -577,17 +577,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 			// vergelijk getRunning()
 			sort: function (sort) {
+
 				let result = {};
+				console.log('->', sort);
 
 				var order;
 				switch( sort ) {
 					case 'votes_desc':
 						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-						order = 'yes DESC';
+						order = sequelize.literal('yes DESC');
 						break;
 					case 'votes_asc':
 						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-						order = 'yes ASC';
+						order = sequelize.literal('yes ASC');
 						break;
 					case 'createdate_asc':
 						order = [['createdAt', 'ASC']];
@@ -596,11 +598,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						order = [['createdAt', 'DESC']];
 						break;
 					case 'date_asc':
-						order = 'endDate ASC';
+						order = [['endDate', 'ASC']];
 						break;
 					case 'date_desc':
 					default:
-						order = `
+						order = sequelize.literal(`
 							CASE status
 								WHEN 'ACCEPTED' THEN 4
 								WHEN 'OPEN'     THEN 3
@@ -609,7 +611,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 								                ELSE 1
 							END DESC,
 							endDate DESC
-						`;
+						`);
 
 				}
 
@@ -742,22 +744,28 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	Idea.getRunning = function( sort, extraScopes ) {
 
-    console.log('==> order',order);
-
 		var order;
 		switch( sort ) {
 			case 'votes_desc':
-				order = 'yes DESC';
+				// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+				order = sequelize.literal('yes DESC');
 				break;
 			case 'votes_asc':
-				order = 'yes ASC';
+				// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+				order = sequelize.literal('yes ASC');
+				break;
+			case 'createdate_asc':
+				order = [['createdAt', 'ASC']];
+				break;
+			case 'createdate_desc':
+				order = [['createdAt', 'DESC']];
 				break;
 			case 'date_asc':
-				order = 'endDate ASC';
+				order = [['endDate', 'ASC']];
 				break;
 			case 'date_desc':
 			default:
-				order = `
+				order = sequelize.literal(`
 							CASE status
 								WHEN 'ACCEPTED' THEN 4
 								WHEN 'OPEN'     THEN 3
@@ -766,9 +774,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 								                ELSE 1
 							END DESC,
 							endDate DESC
-						`;
+						`);
 		}
-
+		
 		// Get all running ideas.
 		// TODO: Ideas with status CLOSED should automatically
 		//       become DENIED at a certain point.

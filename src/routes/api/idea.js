@@ -18,7 +18,7 @@ router
 		if( sort ) {
 			res.cookie('idea_sort', sort, { expires: 0 });
 			if (sort == 'votes_desc' || sort == 'votes_asc') {
-				req.scope.push('includeVotes'); // het werkt niet als je dat in de sort scope functie doet...
+				req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
 			}
 			req.scope.push({ method: ['sort', req.query.sort]});
 		}
