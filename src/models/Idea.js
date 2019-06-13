@@ -542,6 +542,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 // 				});
 			},
 
+			includeSite: {
+				include : [{
+					model: db.Site,
+				}]
+			},
+
 			includeVoteCount: {
 				attributes: {
 					include: [
@@ -740,6 +746,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		// this.hasOne(models.Image, {as: 'posterImage'});
 		this.hasMany(models.Image, {as: 'posterImage'});
 		this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId' });
+		this.belongsTo(models.Site);
 	}
 
 	Idea.getRunning = function( sort, extraScopes ) {
@@ -808,8 +815,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				]
 			}
 		}
-
-
 
 		return this.scope(...scopes).findAll({
 			where,

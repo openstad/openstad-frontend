@@ -1,5 +1,7 @@
 var sanitize = require('../util/sanitize');
 var moment = require('moment-timezone');
+var config = require('config')
+const merge = require('merge');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -36,9 +38,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
 			validate     : {
-				len: {
-					args : [30,500],
-					msg  : 'Bericht moet tussen 30 en 500 tekens zijn'
+				// len: {
+				//  	args : [30,500],
+				//  	msg  : 'Bericht moet tussen 30 en 500 tekens zijn'
+				// }
+				textLength(value) {
+				 	let len = sanitize.summary(value.trim()).length;
+					let descriptionMinLength = ( this.config && this.config.arguments && this.config.arguments.descriptionMinLength || 30 )
+					let descriptionMaxLength = ( this.config && this.config.arguments && this.config.arguments.descriptionMaxLength || 500 )
+					console.log('==============================');
+					console.log(descriptionMinLength, descriptionMaxLength);
+					if (len < descriptionMinLength || len > descriptionMaxLength)
+					throw new Error(`Beschrijving moet tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`);
 				}
 			},
 			set          : function( text ) {
@@ -77,6 +88,33 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}, {
 
 		hooks: {
+
+			beforeValidate: function( instance, options ) {
+
+				return new Promise((resolve, reject) => {
+
+					if (instance.ideaId) {
+						db.Idea.scope('includeSite').findByPk(instance.ideaId)
+							.then( idea => {
+								instance.config = merge.recursive(true, config, idea.site.config);
+								console.log('--------------------');
+								console.log(instance.config);
+								return idea;
+							})
+							.then( idea => {
+								return resolve();
+							}).catch(err => {
+								throw err;
+							})
+
+					} else {
+						instance.config = config;
+            return resolve();
+					}
+
+				});
+
+			},
 
 			afterCreate: function(instance, options) {
 				notifications.trigger(instance.userId, 'arg', instance.id, 'create');
