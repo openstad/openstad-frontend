@@ -165,6 +165,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 				};
 			},
 
+
+			includeReactionsOnReactions: function( userId ) {
+				let argVoteThreshold = 5; // todo: configureerbaar
+				return {
+					include: [{
+						model      : db.Argument,
+						as         : 'reactions',
+						required   : false
+					}],
+					where: {
+						parentId: null
+					},
+					// HACK: Inelegant?
+					order: [
+//						sequelize.literal(`GREATEST(0, \`yes\` - ${argVoteThreshold}) DESC`),
+						sequelize.literal('parentId'),
+						sequelize.literal('createdAt')
+					]
+				};
+			},
+
 			withIdea: function() {
 				return {
 					include: [{

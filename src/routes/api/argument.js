@@ -12,13 +12,17 @@ router
 		req.scope = ['defaultScope', 'withIdea'];
 		req.scope.push({method: ['forSiteId', req.params.siteId]});
 
+		if (req.query.includeReactionsOnReactions) {
+			req.scope.push('includeReactionsOnReactions');
+			req.scope.push({method: ['includeReactionsOnReactions', req.user.id]});
+		}
+
 		if (req.query.withVoteCount) {
 			req.scope.push({method: ['withVoteCount', 'argument']});
 		}
 
 		if (req.query.withUserVote) {
 			req.scope.push({method: ['withUserVote', 'argument', req.user.id]});
-							
 		}
 
 		return next();
@@ -47,21 +51,7 @@ router.route('/')
 			.findAll({ where })
 			.then( found => {
 				return found.map( entry => {
- 				  let can = {
-// 						edit: req.user.can('arg:edit', entry.idea, entry),
-// 						delete: req.user.can('arg:delete', entry.idea, entry),
-// 					 	reply: req.user.can('arg:reply', entry.idea, entry),
- 					};
-					entry = entry.toJSON();
-					entry.can = can;
-					entry.user = {
-						nickName: entry.user.nickName || entry.user.fullName,
-						isAdmin: entry.user.role == 'admin',
-						email: req.user.role == 'admin' ? entry.user.email : '',
-					};
-					entry.createdAtText = moment(entry.createdAt).format('LLL');
-					delete entry.idea;
-					return entry;
+					return createArgumentJSON(entry, req.user);
 				});
 			})
 			.then(function( found ) {
@@ -99,14 +89,8 @@ router.route('/')
 
 						// todo: de can dingen
 
-						argument = argument.toJSON();
-						argument.user = {
-							nickName: argument.user.nickName || argument.user.fullName,
-							isAdmin: argument.user.role == 'admin',
-							email: req.user.role == 'admin' ? argument.user.email : '',
-						};
-
-						res.json(argument);
+						let result = createArgumentJSON(argument, req.user);
+						res.json(result);
 					});
 
 			})
@@ -136,22 +120,7 @@ router.route('/')
 				})
 				.then(entry => {
 					if ( !entry ) throw new Error('Argument not found');
-				  let can = {
-//  						edit: req.user.can('arg:edit', entry.idea, entry),
-//  						delete: req.user.can('arg:delete', entry.idea, entry),
-//  					 	reply: req.user.can('arg:reply', entry.idea, entry),
-					};
-					entry = entry.toJSON();
-					entry.can = can;
-					entry.user = {
-						nickName: entry.user.nickName || entry.user.fullName,
-						isAdmin: entry.user.role == 'admin',
-						email: req.user.role == 'admin' ? entry.user.email : '',
-					};
-					entry.createdAtText = moment(entry.createdAt).format('LLL');
-					delete entry.idea;
-
-					req.argument = entry;
+					req.argument = createArgumentJSON(entry, req.user);
 					next();
 				})
 				.catch(next);
@@ -264,5 +233,35 @@ router.route('/:argumentId(\\d+)/vote')
 		}
 	});
 
+// helper functions
+function createArgumentJSON(argument, user) {
+
+	let can = {
+		// edit: user.can('arg:edit', argument.idea, argument),
+		// delete: req.user.can('arg:delete', entry.idea, entry),
+		// reply: req.user.can('arg:reply', entry.idea, entry),
+	};
+
+	let result = argument.toJSON();
+	result.can = can;
+	result.user = {
+		firstName: argument.user.firstName,
+		lastName: argument.user.lastName,
+		fullName: argument.user.fullName,
+		nickName: argument.user.nickName,
+		isAdmin: user.role == 'admin',
+		email: user.role == 'admin' ? argument.user.email : '',
+	};
+	result.createdAtText = moment(argument.createdAt).format('LLL');
+
+	result.reactions = argument.reactions && argument.reactions.map( entry => {
+		return createArgumentJSON(entry, user);
+	});
+
+
+	delete result.idea;
+
+	return result;
+}
 
 module.exports = router;
