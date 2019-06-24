@@ -65,26 +65,19 @@ function sendMail( options ) {
 }
 
 function sendNotificationMail( data ) {
-
-	// TODO: site config; dat moet iets inteligenter. Site moet misschien sowieso toegevoegd.
-	let adminEmail = config.notifications && config.notifications.admin && config.notifications.admin.emailAddress;
-	let siteName = config.siteName;
-	let subject = data.assets.arg ? 'Nieuwe argumenten geplaatst' : 'Nieuw idee geplaatst';
-
-	if (adminEmail) {
-		sendMail({
-			to          : adminEmail,
-			subject     : subject,
-			html        : nunjucks.render('notifications_admin.njk', data),
-			text        : `Er hebben recent activiteiten plaatsgevonden op ${siteName} die mogelijk voor jou interessant zijn!`,
-			attachments : [{
-				filename : 'logo@2x.png',
-				path     : 'email/img/logo@2x.png',
-				cid      : 'logo'
-			}]
-		});
-	}
-
+	// console.log(JSON.stringify(data, null, 2));
+	sendMail({
+		to          : data.to,
+		from        : data.from,
+		subject     : data.subject,
+		html        : nunjucks.render('notifications_admin.njk', data),
+		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
+		attachments : [{
+			filename : 'logo.png',
+			path     : 'email/img/logo.png',
+			cid      : 'logo'
+		}]
+	});
 };
 
 // send email to user that submitted an idea

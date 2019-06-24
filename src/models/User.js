@@ -4,7 +4,6 @@ var config         = require('config')
 
 var auth           = require('../auth');
 var Password       = require('../auth/password');
-var notifications  = require('../notifications');
 var sanitize       = require('../util/sanitize');
 
 // For detecting throwaway accounts in the email address validation.

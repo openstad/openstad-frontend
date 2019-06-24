@@ -254,8 +254,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.DATE,
 			allowNull    : true
 		},
-		// Counts set in `summary`/`withVoteCount` scope.
 
+		modBreakDateHumanized: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var date = this.getDataValue('modBreakDate');
+				try {
+					if( !date )
+						return undefined;
+					return  moment(date).format('LLL');
+				} catch( error ) {
+					return (error.message || 'dateFilter error').toString()
+				}
+			}
+		},
+
+		// Counts set in `summary`/`withVoteCount` scope.
 		no: {
 			type         : DataTypes.VIRTUAL
 		},
@@ -277,7 +291,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		argCount: {
 			type         : DataTypes.VIRTUAL
-		}
+		},
+
+		createDateHumanized: {
+			type         : DataTypes.VIRTUAL,
+			get          : function() {
+				var date = this.getDataValue('createdAt');
+				try {
+					if( !date )
+						return 'Onbekende datum';
+					return  moment(date).format('LLL');
+				} catch( error ) {
+					return (error.message || 'dateFilter error').toString()
+				}
+			}
+		},
 
 	}, {
 
@@ -317,13 +345,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			afterCreate: function(instance, options) {
-				notifications.trigger(instance.userId, 'idea', instance.id, 'create');
+				notifications.addToQueue({ type: 'idea', action: 'create', siteId: instance.siteId, instanceId: instance.id });
 				// TODO: wat te doen met images
 				// idea.updateImages(imageKeys, data.imageExtraData);
 			},
 
 			afterUpdate: function(instance, options) {
-				notifications.trigger(instance.userId, 'idea', instance.id, 'update');
+				notifications.addToQueue({ type: 'idea', action: 'update', siteId: instance.siteId, instanceId: instance.id });
 				// TODO: wat te doen met images
 				// idea.updateImages(imageKeys, data.imageExtraData);
 			},
@@ -957,25 +985,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			throw new Error('Idea.setUserVote: missing params');
 		}
 
-	}
-
-	Idea.prototype.addUserArgument = function( user, data ) {
-		var filtered = pick(data, ['parentId', 'sentiment', 'description', 'label']);
-		filtered.ideaId = this.id;
-		filtered.userId = data.userId || user.id;
-		return db.Argument.create(filtered)
-			.tap(function( argument ) {
-				notifications.trigger(user.id, 'arg', argument.id, 'create');
-			});
-	}
-
-	Idea.prototype.updateUserArgument = function( user, argument, description ) {
-		return argument.update({
-			description: description
-		})
-			.tap(function( argument ) {
-				notifications.trigger(user.id, 'arg', argument.id, 'update');
-			});
 	}
 
 	Idea.prototype.setModBreak = function( user, modBreak ) {

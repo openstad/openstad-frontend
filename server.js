@@ -7,7 +7,6 @@ process.env.DEBUG = config.logging;
 require('./config/promises');
 require('./config/moment');
 require('./config/debug');
-require('./config/notifications');
 
 // Start HTTP server.
 const Server     = require('./src/Server');

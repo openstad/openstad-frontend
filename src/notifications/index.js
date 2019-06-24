@@ -1,85 +1,96 @@
-var ary           = require('lodash/ary');
-var config        = require('config');
-var Promise       = require('bluebird');
-var mail          = require('../lib/mail');
-var MemoryStore   = require('./MemoryStore');
-var Notifications = require('./Notifications');
-var Publication   = Notifications.Publication;
+const config = require('config');
+const mail = require('../lib/mail');
 
-var notifications = new Notifications();
+let Notifications = {
+	queue: {},
+};
 
-// Setup high-frequency admin email notifications.
-notifications.addPublication(new Publication('admin_idea', new MemoryStore(), {
-	assets: {
-		'idea': [{
-			events    : ['create', 'update'],
-			frequency : 600 // 10 minutes
-		}]
-	},
-	sendMessage: createSendMessageFunction()
-}));
-notifications.addPublication(new Publication('admin_arg', new MemoryStore(), {
-	assets: {
-		'arg': [{
-			events    : ['create', 'update'],
-			frequency : 86400 // 24 hours
-		}]
-	},
-	sendMessage: createSendMessageFunction()
-}));
+Notifications.addToQueue = function(data) {
 
-function createSendMessageFunction( subject ) {
-	return function sendMessage( user ) {
+	let self = this;
 
-		// HACK: The current file is included in some model definition
-		//       files, so including db at the top of this files results
-		//       in an empty object.
-		var db = require('../db');
+	if (!data.type || !data.instanceId) return;
 
-		if( user.id != 0 ) {
-			throw Error('Only user 0 can be subscribed to this publication');
-		}
-		
-		var queries = [];
-		var assets  = user.assets;
-		var data    = {
-			date   : new Date(),
-			assets : {}
-		};
+	self.queue[data.type] = self.queue[data.type] || {};
+	self.queue[data.type][data.siteId] = self.queue[data.type][data.siteId] || [];
+	
+	self.queue[data.type][data.siteId].push(data);
 
-		// Gather data
-		// -----------
-		// Turn maps and sets into POJOs and arrays, get the relevant model instances
-		// so they can be used by to render the email content.
-		assets.forEach(function( instances, assetName ) {
-			var Model = assetName == 'idea' ? db.Idea.scope('withUser', 'withPosterImage') :
-				  assetName == 'arg'  ? db.Argument :
-				  null;
-			var rows  = data.assets[assetName] = [];
-			
-			instances.forEach(function( actions, instanceId ) {
-				var row = {
-					instance : undefined,
-					action   : actions.has('create') ?
-						'created' :
-						'updated'
-				};
-				var query = Model.findByPk(instanceId).then(function( instance ) {
-					row.instance = instance;
-				});
-				
-				rows.push(row);
-				queries.push(query);
-			});
-		});
-		
-		// When all data is fetched, render email and send it off.
-		return Promise.all(queries)
-			.then(function() {
-				mail.sendNotificationMail(data);
-				return null;
-			});
-	}
 }
 
-module.exports = notifications;
+Notifications.processQueue = function(type) {
+
+	let self = this;
+
+	if (self.queue[type]) {
+
+		Object.keys(self.queue[type]).forEach((siteId) => {
+
+			if (self.queue[type][siteId] && self.queue[type][siteId].length) {
+
+				switch(type) {
+					case 'argument':
+						self.sendMessage(siteId, 'argument', 'create', self.queue[type][siteId])
+						break;
+
+					case 'idea':
+						self.queue[type][siteId].forEach((entry) => {
+							self.sendMessage(siteId, 'idea', entry.action, [entry] );
+						});
+						break;
+						
+					default: 
+				}
+
+				self.queue[type][siteId] = [];
+
+			}
+
+		});
+
+	}
+
+}
+
+Notifications.sendMessage = function(siteId, type, action, data) {
+
+	const db = require('../db'); // looped required
+
+	let self = this;
+
+	// get config
+	db.Site.findByPk(siteId)
+		.then(site => {
+
+			let myConfig = Object.assign({}, config, site && site.config);
+
+			let maildata = {};
+
+			maildata.subject = type == 'argument' ? 'Nieuwe argumenten geplaatst' : ( action == 'create' ? 'Nieuwe inzending geplaatst' : 'Bestaande inzending bewerkt' );
+
+			maildata.from = ( myConfig.notifications && ( myConfig.notifications.from || ( myConfig.notifications.admin && myConfig.notifications.admin.emailAddress ) ) ) || myConfig.mail.from; // backwards compatible
+			maildata.to = ( myConfig.notifications && myConfig.notifications.to ) || maildata.from;
+
+			maildata.EMAIL = maildata.from;
+			maildata.HOSTNAME = ( myConfig.cms && ( myConfig.cms.hostname || myConfig.cms.domain ) ) || myConfig.hostname || myConfig.domain;
+			maildata.URL = ( myConfig.cms && myConfig.cms.url ) || myConfig.url || ( 'https://' + maildata.HOSTNAME );
+			maildata.SITENAME = ( site && site.title ) || myConfig.siteName;
+
+			maildata.subject += ' op ' + maildata.SITENAME;
+
+			let instanceIds = data.map( entry => entry.instanceId );
+			let model = type.charAt(0).toUpperCase() + type.slice(1);
+
+			let scope = type == 'idea' ? ['withUser'] : ['withUser', 'withIdea'];
+			db[model].scope(scope).findAll({ where: { id: instanceIds }})
+				.then( found => {
+					maildata.data = {};
+					maildata.data[type] = found.map( entry => entry.toJSON() );
+					mail.sendNotificationMail(maildata);
+				});
+
+		})
+
+}
+
+module.exports = Notifications;

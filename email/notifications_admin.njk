@@ -24,7 +24,7 @@
 			 font-size: 24px;
 			 font-weight: 600;
 			 margin-top: 25px;
-			 margin-bottom: 0;
+			 margin-bottom: 25px;
 		 }
 		 
      h2 {
@@ -45,6 +45,25 @@
 			 color: #164995;		 
 		 }
 
+		 .multipleImages {
+			 margin-top: 10px;
+		 }
+
+		 #modBreak {
+			 position: relative;
+			 box-sizing: border-box;
+			 width: 100%;
+			 margin: 35px 0px;
+			 padding: 13px 20px 10px 20px;
+			 border: 3px solid #FFE115;
+			 margin-bottom: 20px;
+			 margin-top: 0px;
+		 }
+
+		 #modBreak p {
+			 margin: 0.5em 0 0;
+		 }
+		 
 		</style>
 	</head>
 	<body style="margin: 0; padding: 0; min-width: 100%;">
@@ -60,12 +79,6 @@
 				<td></td>
 				<td width="560">
 					<h1>{{SITENAME}}</h1>
-					{% if assets.idea %}
-						<h2 class="blue">Nieuwe voorstel - {{date | date}}.</h2>
-					{% endif %}
-					{% if assets.arg %}
-						<h2 class="blue">Nieuwe argumenten - {{date | date}}.</h2>
-					{% endif %}
 				</td>
 				<td></td>
 			</tr>
@@ -73,26 +86,43 @@
 				<td></td>
 				<td width="560">
 
-					{% if assets.idea %}
-						{% for idea in assets.idea %}
+					{% if data.idea %}
+						{% for idea in data.idea %}
 							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4;">
 								<tr>
 									<td style="background-color: white;">
 
 										<div style="padding: 20px;">
 
-											<img src="{{URL}}{{idea.instance.posterImageUrl}}" width="100%"/>
+											{% if idea.posterImageUrl %}
+												<img src="{{URL}}{{idea.posterImageUrl}}" width="100%"/>
+											{% endif %}
+
+											{% if idea.extraData and idea.extraData.images %}
+												{% for image in idea.extraData.images %}
+													<img class="multipleImages" src="{{image}}" width="100%"/><br/>
+												{% endfor %}
+											{% endif %}
 
 											<br/>
 											<br/>
-											<strong>{{idea.instance.user.firstName}} {{idea.instance.user.lastName}} | {{idea.instance.updatedAt | date}}</strong><br/><br/>
+											<strong>{{idea.user.firstName}} {{idea.user.lastName}} | {{idea.startDateHumanized}}</strong><br/><br/>
 
-											<h2>{{idea.instance.title}}</h2>
+											<h2>{{idea.title}}</h2>
 
-											<strong>{{idea.instance.summary | nl2br | safe}}</strong><br/>
+											<strong>{{idea.summary | nl2br | safe}}</strong><br/>
 											<br/>
 
-											{{idea.instance.description | nl2br | safe}}<br/>
+											{% if idea.modBreak %}
+												<div id="modBreak">
+													<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDateHumanized}}<br>
+													<p>
+														{{idea.modBreak | safe | nl2br}}
+													</p>
+												</div>
+											{% endif %}
+
+											{{idea.description | nl2br | safe}}<br/>
 
 										</div>
 
@@ -101,7 +131,7 @@
 								<tr>
 									<td style="border-top: solid 3px #f3f3f4;">
 										<div style="padding: 8px 20px; font-size: 12px;">
-											<strong>Link naar Voorstel:</strong> <a href="{{URL}}/plan/{{idea.instance.id}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{idea.instance.id}}</a>
+											<strong>Link naar inzending:</strong> <a href="{{URL}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{idea.id}}</a>
 										</div>
 									</td>
 								</tr>
@@ -111,22 +141,23 @@
 						{% endfor %}
 					{% endif %}
 					
-					{% if assets.arg %}
-						{% for arg in assets.arg %}
+					{% if data.argument %}
+						{% for arg in data.argument %}
 							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4; background-color: #f3f3f4;">
 								<tr>
 									<td>
 
 										<div style="padding: 15px;">
 
-											<strong>{{arg.instance.user.firstName}} {{arg.instance.user.lastName}} | {{idea.instance.updatedAt | date}}</strong><br/><br/>
+											<strong>{{arg.user.firstName}} {{arg.user.lastName}} | {{arg.createDateHumanized}}</strong><br/><br/>
 
-											{% if arg.instance.sentiment == 'for' %}
+											{% if arg.sentiment == 'for' %}
 												<strong>Ik ben voor, omdat:</strong><br/><br/>
-											{% else %}
+											{% endif %}
+											{% if arg.sentiment == 'against' %}
 												<strong>Ik ben tegen, omdat:</strong><br/><br/>
 											{% endif %}
-											{{arg.instance.description | nl2br | safe}}
+											{{arg.description | nl2br | safe}}
 										</div>
 
 									</td>
@@ -134,7 +165,7 @@
 								<tr>
 									<td style="background-color: white;">
 										<div style="padding: 6px 15px; font-size: 12px;;">
-											<strong>Voorstel:</strong> <a href="{{URL}}/plan/{{arg.instance.ideaId}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{arg.instance.ideaId}}</a>
+											<strong>Inzending:</strong> <a href="{{URL}}/plan/{{arg.ideaId}}" target="_blank" style="color: #EC0000">{{arg.idea.title}}</a>
 										</div>
 									</td>
 								</tr>

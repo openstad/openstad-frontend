@@ -46,8 +46,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				 	let len = sanitize.summary(value.trim()).length;
 					let descriptionMinLength = ( this.config && this.config.arguments && this.config.arguments.descriptionMinLength || 30 )
 					let descriptionMaxLength = ( this.config && this.config.arguments && this.config.arguments.descriptionMaxLength || 500 )
-					console.log('==============================');
-					console.log(descriptionMinLength, descriptionMaxLength);
 					if (len < descriptionMinLength || len > descriptionMaxLength)
 					throw new Error(`Beschrijving moet tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`);
 				}
@@ -97,8 +95,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 						db.Idea.scope('includeSite').findByPk(instance.ideaId)
 							.then( idea => {
 								instance.config = merge.recursive(true, config, idea.site.config);
-								console.log('--------------------');
-								console.log(instance.config);
 								return idea;
 							})
 							.then( idea => {
@@ -117,11 +113,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			afterCreate: function(instance, options) {
-				notifications.trigger(instance.userId, 'arg', instance.id, 'create');
+				db.Idea.findByPk(instance.ideaId)
+					.then( idea => {
+						notifications.addToQueue({ type: 'argument', action: 'create', siteId: idea.siteId, instanceId: instance.id });
+					})
 			},
 
 			afterUpdate: function(instance, options) {
-				notifications.trigger(instance.userId, 'arg', instance.id, 'update');
+				db.Idea.findByPk(instance.ideaId)
+					.then( idea => {
+						notifications.addToQueue({ type: 'argument', action: 'update', siteId: idea.siteId, instanceId: instance.id });
+					})
 			},
 			
 		},
@@ -190,7 +192,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return {
 					include: [{
 						model      : db.Idea,
-						attributes : ['id', 'status']
+						attributes : ['id', 'title', 'status']
 					}]
 				}
 			},

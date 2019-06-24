@@ -160,12 +160,13 @@ module.exports = function( app ) {
 		
 		res.send(content);
 	});
-	
-	router.get('/send_notifications', function( req, res, next ) {
-		var notifications = require('../notifications');
-		notifications.publications.forEach(function( pub ) {
-			pub.processQueue();
-		});
-		res.send('Done');
-	});
+
+	// old
+	 //router.get('/send_notifications', function( req, res, next ) {
+	 // 	var notifications = require('../notifications');
+	 // 	notifications.publications.forEach(function( pub ) {
+	 // 		pub.processQueue();
+	 // 	});
+	 // 	res.send('Done');
+	 //});
 }

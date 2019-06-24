@@ -53,12 +53,12 @@ extend(Notifications.prototype, {
 		return publication;
 	},
 	
-	trigger: function( sourceUserId, assetName, assetId, eventName ) {
+	trigger: function( sourceUserId, assetName, assetId, assetSiteId, eventName ) {
 		var events = [];
 		
 		this.publications.forEach(function( publication, pubName ) {
 			events.push(
-				publication.onEvent(sourceUserId, assetName, assetId, eventName)
+				publication.onEvent(sourceUserId, assetName, assetId, assetSiteId, eventName)
 			);
 		}, this);
 		
@@ -123,7 +123,7 @@ extend(Publication.prototype, {
 	},
 	
 	// Called by `Notifications.trigger`.
-	onEvent: function( sourceUserId, assetName, assetId, eventName, userIds ) {
+	onEvent: function( sourceUserId, assetName, assetId, assetSiteId, eventName, userIds ) {
 		this.store.getUsersForEvent(this.name, sourceUserId, assetName, assetId, eventName)
 		.bind(this)
 		.then(function( userIds ) {

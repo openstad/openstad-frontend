@@ -104,6 +104,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			notifications: {
 				type: 'object',
 				subset: {
+					from: {
+						type: 'string', // todo: add type email/list of emails
+						default: 'EMAIL@NOT.DEFINED',
+					},
 					to: {
 						type: 'string', // todo: add type email/list of emails
 						default: 'EMAIL@NOT.DEFINED',
