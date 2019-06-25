@@ -85,12 +85,14 @@ function sendThankYouMail( idea, user, site ) {
 
   let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
   let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
+  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
 
   let data    = {
     date: new Date(),
     user: user,
     idea: idea,
     HOSTNAME: hostname,
+    SITENAME: sitename,
     URL: url,
   };
 
@@ -102,9 +104,9 @@ function sendThankYouMail( idea, user, site ) {
   });
 
   let attachments = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-    filename: 'logo.png',
-		path: 'email/img/logo@2x.png',
-    cid: 'logo'
+		filename : 'logo.png',
+		path     : 'email/img/logo.png',
+		cid      : 'logo'
   }];
 
   sendMail({

@@ -94,16 +94,15 @@
 
 										<div style="padding: 20px;">
 
-											{% if idea.posterImageUrl %}
-												<img src="{{URL}}{{idea.posterImageUrl}}" width="100%"/>
-											{% endif %}
-
 											{% if idea.extraData and idea.extraData.images %}
 												{% for image in idea.extraData.images %}
 													<img class="multipleImages" src="{{image}}" width="100%"/><br/>
 												{% endfor %}
+											{% else %}
+												{% if idea.posterImageUrl %}
+													<img src="{{URL}}{{idea.posterImageUrl}}" width="100%"/>
+												{% endif %}
 											{% endif %}
-
 											<br/>
 											<br/>
 											<strong>{{idea.user.firstName}} {{idea.user.lastName}} | {{idea.startDateHumanized}}</strong><br/><br/>

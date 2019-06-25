@@ -45,6 +45,10 @@
 			 color: #164995;		 
 		 }
 
+		 .multipleImages {
+			 margin-top: 10px;
+		 }
+
 		 .list {
 			 margin-top: 13px;
 		 }
@@ -94,8 +98,18 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td width="560">
-					<img src="cid:map" width="561" style="margin-top: 20px;"/>
+				<td>
+
+					{% if idea.extraData and idea.extraData.images %}
+						{% for image in idea.extraData.images %}
+							<img class="multipleImages" src="{{image}}" width="100%"/><br/>
+						{% endfor %}
+					{% else %}
+						{% if idea.posterImageUrl %}
+							<img src="{{URL}}{{idea.posterImageUrl}}" width="100%"/>
+						{% endif %}
+					{% endif %}
+
 				</td>
 				<td></td>
 			</tr>
@@ -113,12 +127,17 @@
 
           <h4>Beste  {{user.fullName | default('indiener')}},</h4>
           <br/>
-					Bedankt voor het plaatsen van jouw voorstel op {{SITENAME}}!
-					Je idee is goed ontvangen en zal de komende 90 dagen beschikbaar
+					Bedankt voor het plaatsen van jouw voorstel op {{SITENAME}}!<br/>
+					Je idee is goed ontvangen.<br/>
+					<br/>
+					<a href="{{URL}}/inzendingen" target="_blank" style="color: #EC0000">Bekijk hier jouw voorstel</a>.
+
+					{#
+					en zal de komende 90 dagen beschikbaar
 					zijn op de site voor het verzamelen van stemmen en argumenten.
 					Gedurende deze periode kun je door middel van een (social media)
 					campagne zo veel mogelijk medestanders zien te verzamelen.
-					<a href="{{URL}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">Bekijk hier jouw voorstel</a>.
+					<a href="{{URL}}" target="_blank" style="color: #EC0000">Bekijk hier jouw voorstel</a>.
 					<br/>
 
 					<p align="middle" style="margin: 3em 0 2em 0;">
@@ -165,6 +184,9 @@
 					<p>
 						<b>Heel veel succes met je campagne!</b>
 					</p>
+
+					#}
+
 
 					<p style="margin-bottom: 3em; margin-top: 2em;">
 						Hartelijke groet,<br>
