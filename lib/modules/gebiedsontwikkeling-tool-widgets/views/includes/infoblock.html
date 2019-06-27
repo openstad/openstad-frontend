@@ -53,16 +53,18 @@
 					<p>
 						<select id="categorie" value="" class="default-select" onchange="currentInput.categorie = this.value;document.querySelector('#form-warning-categorie').style.display = 'none'">
 							<option value="">Maak een keuze</option>
-							<option value="Afvalcontainers">Afvalcontainers</option>
-							<option value="Grofvuil">Grofvuil</option>
-							<option value="Straat">Straat</option>
+							<option value="Te volle afvalcontainer">Te volle afvalcontainer</option>
+							<option value="Defecte afvalcontainer">Defecte afvalcontainer</option>
+							<option value="Afval in de omgeving van afvalcontainers">Afval in de omgeving van afvalcontainers</option>
+							<option value="Afval op straat">Afval op straat</option>
+							<option value="Overig">Overig</option>
 						</select>
 						<span id="form-warning-categorie" class="form-warning">Je hebt nog geen categorie geselecteerd</span>
 					</p>
 
 					<h4>Type afval:</h4>
 					<p>
-						<select id="type" value="" class="default-select">
+						<select id="type" value="" class="default-select" onchange="currentInput.type = this.value;">
 							<option value="">Maak een keuze</option>
 							<option value="Papier of karton">Papier/karton</option>
 							<option value="Vuilniszakken of restafval">Vuilniszakken/restafval</option>
@@ -70,18 +72,30 @@
 							<option value="Glas">Glas</option>
 							<option value="Grofvuil">Grofvuil (zoals meubels)</option>
 							<option value="Klein zwerfvuil">Klein zwerfvuil</option>
+							<option value="Textiel">Textiel</option>
 						</select>
 					</p>
 
 					<p>
-						<h4>Beschrijving:</h4>
-						<textarea id="description" onchange="currentInput.description = this.value"  onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
+						<h4>Heb je een idee waardoor het probleem wordt veroorzaakt?:</h4>
+						<textarea id="description" rows="2" onchange="currentInput.description = this.value"  onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
 						<div id="charsLeftDescription" class="charsLeft">
 							<div class="min">Nog minimaal <span>0</span> tekens</div>
 							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
 						</div>
 						<span id="form-warning-description" class="form-warning">Je beschrijving is te [[langkort]]</span>
 					</p>
+
+					<p>
+						<h4>Wat zou een goede oplossing zijn?</h4>
+						<textarea id="solution" rows="2" onchange="currentInput.solution = this.value"  onfocus="document.querySelector('#form-warning-solution').style.display = 'none'"></textarea>
+						<div id="charsLeftSolution" class="charsLeft">
+							<div class="min">Nog minimaal <span>0</span> tekens</div>
+							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						</div>
+						<span id="form-warning-solution" class="form-warning">Je oplossing is te [[langkort]]</span>
+					</p>
+
 				</div>
 
 			</div>
@@ -131,6 +145,176 @@
 					<p>
 						Om uw melding duidelijk te maken kan een foto van de situatie helpen.
 					</p>
+
+
+					<div class="form-group">
+						<div id="imageUpload">
+							<div class="form-info">
+								Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
+							</div>
+							<fieldset class="filepondFieldset2">
+								<!-- a list of already uploaded files -->
+								{% if idea.extraData.images %}
+						    {#<ul>
+								{% for image in idea.extraData.images %}
+						    <li>
+						      <label>
+						        <input value="{{image}}" data-type="remote" checked type="checkbox">
+						        {{image}}
+						      </label>
+						    </li>
+								{% endfor %}
+						    </ul>#}
+								{% endif %}
+
+								<script>
+								 var ideaFiles = [];
+								 <!-- a list of already uploaded files -->
+								 {% if idea.extraData.images %}
+								 {% for image in idea.extraData.images %}
+								 ideaFiles.push({
+									 source: '{"url":"{{image}}"}',
+									 options : {
+										 type: 'local',
+										 // mock file information
+										 file: {
+											 name: '{{image}}',
+											 //		 size: 3001025,
+											 //	 type: 'image/png'
+										 },
+										 metadata: {
+		                   poster: '{{image}}',
+		                 }
+									 }
+
+								 });
+								 {% endfor %}
+								 {% endif %}
+								</script>
+								<input type="file" class="imageUploader-gebiedstool filepond-gebiedstool" multiple />
+
+							</fieldset>
+							<input type="hidden" name="validateImages" multiple />
+						</div>
+					</div>
+
+					<script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+					<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+					<script>
+
+					 var imageuploader;
+					 window.initImageUpload = function() {
+
+						 var fieldsetElement = document.querySelector('.filepondFieldset2');
+						 if (fieldsetElement) {
+							 FilePond.registerPlugin(FilePondPluginImagePreview);
+							 FilePond.registerPlugin(FilePondPluginFileValidateSize);
+							 FilePond.registerPlugin(FilePondPluginFileValidateType);
+							 FilePond.registerPlugin(FilePondPluginFilePoster);
+
+							 FilePond.setOptions({
+								 server: '/image'
+							 });
+
+							 var filePondSettings = {
+								 // set allowed file types with mime types
+								 acceptedFileTypes: ['image/*'],
+								 allowFileSizeValidation: true,
+								 maxFileSize: '5mb',
+								 name: 'image',
+								 maxFiles: 3,
+								 allowBrowse: true,
+								 files: ideaFiles,
+								 server: {
+									 process: '/image',
+									 fetch: '/fetch-image?img='
+								 },
+								 imageResizeTargetWidth: 80,
+								 imageResizeTargetHeight: 80,
+								 imageCropAspectRatio: '1:1',
+								 labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>KLIK HIER</span>",
+								 labelInvalidField: "Field contains invalid files",
+								 labelFileWaitingForSize: "Wachtend op grootte",
+								 labelFileSizeNotAvailable: "Grootte niet beschikbaar",
+								 labelFileCountSingular: "Bestand in lijst",
+								 labelFileCountPlural: "Bestanden in lijst",
+								 labelFileLoading: "Laden",
+								 labelFileAdded: "Toegevoegd", // assistive only
+								 labelFileLoadError: "Fout bij het uploaden",
+								 labelFileRemoved: "Verwijderd", // assistive only
+								 labelFileRemoveError: "Fout bij het verwijderen",
+								 labelFileProcessing: "Laden",
+								 labelFileProcessingComplete: "Afbeelding geladen",
+								 labelFileProcessingAborted: "Upload cancelled",
+								 labelFileProcessingError: "Error during upload",
+								 labelFileProcessingRevertError: "Error during revert",
+								 labelTapToCancel: "tap to cancel",
+								 labelTapToRetry: "tap to retry",
+								 labelTapToUndo: "tap to undo",
+								 labelButtonRemoveItem: "Verwijderen",
+								 labelButtonAbortItemLoad: "Abort",
+								 labelButtonRetryItemLoad: "Retry",
+								 labelButtonAbortItemProcessing: "Verwijder",
+								 labelButtonUndoItemProcessing: "Undo",
+								 labelButtonRetryItemProcessing: "Retry",
+								 labelButtonProcessItem: "Upload"
+							 }
+							 
+							 imageuploader = FilePond.create(fieldsetElement, filePondSettings);
+							 var sortableInstance;
+							 var pondEl = document.querySelector('.filepond--root');
+							 
+							 document.querySelector('.filepond--root').addEventListener('FilePond:processfile', e => {
+								 if (e.detail) {
+									 console.log('Error uploding file: ', e.detail);
+								 }
+								 updateCurrentInput()
+							 });
+							 
+							 document.querySelector('.filepond--root').addEventListener('FilePond:removefile', e => {
+								 if (e.detail && e.detail.error) {
+									 console.log('Error uploding file: ', e.detail);
+								 }
+								 updateCurrentInput()
+							 });
+
+							 if (currentInput) {
+								 imageuploader.addFiles(currentInput.images)
+							 }
+
+						 }
+					 }
+					 
+
+					 function updateCurrentInput() {
+						 if (currentInput) {
+							 currentInput.images = [];
+							 if ( imageuploader && imageuploader.getFiles ) {
+								 var images = imageuploader.getFiles();
+								 images.forEach((image) => {
+									 try {
+										 var serverId = JSON.parse(image.serverId)
+										 currentInput.images.push(serverId.url)
+									 } catch(err) { console.log(err) }
+								 });
+							 }
+						 }
+					 }
+
+					 function uploaderAddImages(images) {
+						 console.log(1)
+						 if (imageuploader) {
+							 console.log(2, images)
+							 imageuploader.addFiles(images)
+						 }
+					 }
+
+					</script>
+
+					
 				</div>
 				
 			</div>
@@ -181,12 +365,22 @@
 	<div class="content">
 		<div class="idea-details">
 
+			<div class="images">
+			</div>
+			<div class="image-template">
+				<div class="image" style="background-image: url('[[src]]')"></div>
+			</div>
+
 			<p class="font-16">
 				<strong>In de buurt van <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
 			</p>
 
 			<p>
 				<span id="description"></span>
+			</p>
+
+			<p>
+				<span id="solution"></span>
 			</p>
 
 			<div class="extra-data">
