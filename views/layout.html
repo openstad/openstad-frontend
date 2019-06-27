@@ -21,6 +21,9 @@
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
+{% for stylesheet in data.global.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}">
+{% endfor %}
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}

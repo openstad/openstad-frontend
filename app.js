@@ -175,6 +175,12 @@ function run(id, siteData, callback) {
           ],*/
         },
         'apostrophe-workflow-modified-documents': {},
+    /*    'apostrophe-docs': {
+          beforeConstruct: function(self, options) {
+            console.log('==>>>> beforeConstruct', options);
+            options.permission = false;
+          }
+        },*/
         'auth': {},
         'apostrophe-multisite-fake-listener': {
           construct: function(self, options) {
@@ -398,11 +404,13 @@ app.listen(process.env.PORT);
  * Run default SITE DATABASE if isset, this way when deploying
  * the site is already spin up and assets will be generated
  */
+/*
 if (process.env.DEFAULT_DB) {
   const defaultRunner = Promise.promisify(run);
   const dbName = process.env.DEFAULT_DB;
 
-  defaultRunner(dbName, {}).then(function(apos) {
+  defaultRunner(dbName).then(function(apos) {
     aposServer[dbName] = apos;
   });
 }
+*/
