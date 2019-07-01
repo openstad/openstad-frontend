@@ -11,7 +11,7 @@
 	<div class="content">
 		<div class="not-logged-in">
 			<p class="font-16">
-				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
 			</p>
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
@@ -53,9 +53,9 @@
 					<p>
 						<select id="categorie" value="" class="default-select" onchange="currentInput.categorie = this.value;document.querySelector('#form-warning-categorie').style.display = 'none'">
 							<option value="">Maak een keuze</option>
-							<option value="Te volle afvalcontainer">Te volle afvalcontainer</option>
+							<option value="Volle afvalcontainer">Volle afvalcontainer</option>
 							<option value="Defecte afvalcontainer">Defecte afvalcontainer</option>
-							<option value="Afval in de omgeving van afvalcontainers">Afval in de omgeving van afvalcontainers</option>
+							<option value="Afval naast afvalcontainer">Afval naast afvalcontainer</option>
 							<option value="Afval op straat">Afval op straat</option>
 							<option value="Overig">Overig</option>
 						</select>
@@ -64,7 +64,7 @@
 
 					<h4>Type afval:</h4>
 					<p>
-						<select id="type" value="" class="default-select" onchange="currentInput.type = this.value;">
+						<select id="type" value="" class="default-select" onchange="currentInput.type = this.value;document.querySelector('#form-warning-type').style.display = 'none'">
 							<option value="">Maak een keuze</option>
 							<option value="Papier of karton">Papier/karton</option>
 							<option value="Vuilniszakken of restafval">Vuilniszakken/restafval</option>
@@ -73,7 +73,9 @@
 							<option value="Grofvuil">Grofvuil (zoals meubels)</option>
 							<option value="Klein zwerfvuil">Klein zwerfvuil</option>
 							<option value="Textiel">Textiel</option>
+							<option value="Overig">Overig</option>
 						</select>
+						<span id="form-warning-type" class="form-warning">Je hebt nog geen type afval geselecteerd</span>
 					</p>
 
 					<p>
@@ -129,7 +131,7 @@
 							<div class="option" onclick="toggleClickSelectorOptionOption('daypart', 'nacht')">nacht</div>
 						</div>
 
-						<h4>Tijdstip:</h4>
+						<h4>Tijdstip of andere toelichting:</h4>
 						<input type="text" value="" id="timeofday" onchange="currentInput.timeofday = this.value;"/>
 
 						<span id="form-warning-time" class="form-warning">Je moet nog een tijdstip kiezen</span>
@@ -359,8 +361,8 @@
 	<div class="header clickable" onclick="toggleInfoBlock()">
 		Probleem details
 	</div>
-	<div class="sub-header arguments-icon arrow-right">
-		<a href="javascript: void showIdeaArguments()">Bekijk de reacties op dit probleem</a>
+	<div class="sub-header arguments-icon arrow-right is-link" onclick="showIdeaArguments()">
+		<span id="show-idea-arguments-button-text"></span>
 	</div>
 	<div class="content">
 		<div class="idea-details">
@@ -372,14 +374,16 @@
 			</div>
 
 			<p class="font-16">
-				<strong>In de buurt van <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
+				<strong><span id="before-address-text"></span> <span id="address-text">...</span><span id="city-text" style="display: none;"></span></strong>
 			</p>
 
 			<p>
+				<strong>Oorzaak:</strong><br/>
 				<span id="description"></span>
 			</p>
 
 			<p>
+				<strong>Oplossing:</strong><br/>
 				<span id="solution"></span>
 			</p>
 
@@ -392,7 +396,7 @@
 					<span id="type"></span>
 				</div>
 				<div class="right">
-					<strong>Dit gebeurd op:</strong><br/>
+					<strong>Wanneer:</strong><br/>
 					<span id="time"></span>
 				</div>
 			</div>
@@ -411,13 +415,13 @@
 	<div class="header clickable" onclick="toggleInfoBlock()">
 		Reacties op dit probleem
 	</div>
-	<div class="sub-header arrow-left">
-		<a href="javascript: void showIdeaDetails()">Terug naar de details van dit probleem</a>
+	<div class="sub-header arrow-left is-link" onclick="showIdeaDetails()">
+		<span id="back-to-idea-details-button-text"></span>
 	</div>
 	<div class="content arguments">
 		<div class="not-logged-in">
 			<p class="font-16">
-				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
 			</p>
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
@@ -469,11 +473,11 @@
 	<div class="header clickable" onclick="toggleInfoBlock()">
 		Discussie op deze reactie
 	</div>
-	<div class="sub-header arrow-left-double">
-		<a href="javascript: void showIdeaDetails()">Terug naar de details van dit probleem</a>
+	<div class="sub-header arrow-left-double is-link" onclick="showIdeaDetails()">
+		<span id="back-to-idea-details-button-text"></span>
 	</div>
-	<div class="sub-header arrow-left">
-		<a href="javascript: void showIdeaArguments(currentIdea)">Terug naar de reacties op dit probleem</a>
+	<div class="sub-header arrow-left is-link" onclick="showIdeaArguments(currentIdea)">
+		<span id="back-to-idea-arguments-button-text"></span>
 	</div>
 	<div class="content argument-reactions">
 		<div class="title">
@@ -492,7 +496,7 @@
 		</div>
 		<div class="not-logged-in">
 			<p>
-				<strong>Om mee te kunnen praten over dit probleem, moet je eerst aangemeld zijn.</strong>
+				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
 			</p>
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
