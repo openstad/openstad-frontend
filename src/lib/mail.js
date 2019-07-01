@@ -87,12 +87,16 @@ function sendThankYouMail( idea, user, site ) {
   let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
   let sitename = ( site && site.title ) || ( config && config.get('siteName') );
 
+	let inzendingPath = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.inzendingPath && site.config.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, idea.id) ) || "/" ;
+	let inzendingURL = url + inzendingPath;
+
   let data    = {
     date: new Date(),
     user: user,
     idea: idea,
     HOSTNAME: hostname,
     SITENAME: sitename,
+		inzendingURL,
     URL: url,
   };
 
