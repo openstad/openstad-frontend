@@ -1,0 +1,72 @@
+.mobile-accordion {
+
+  .mobile-accordion-header  {
+    display: none;
+
+    &:hover{
+      text-decoration: none !important;
+    }
+  }
+
+  @media @phone {
+    .mobile-accordion-header {
+      display: block;
+      height: 50px;
+      padding: 15px;
+      background-color: #e8e8e8;
+
+
+      .mobile-accordion-header-open {
+        display: block;
+        position: relative;
+
+        &:after {
+          content: " ";
+          background: url('../img/arrow_under_blue.svg');
+          height: 8px;
+          width: 13px;
+          background-repeat: no-repeat;
+          position: absolute;
+          right: 0;
+          top: 5px;
+        }
+      }
+
+      .mobile-accordion-header-closed {
+        display: none;
+        position: relative;
+
+        &:after {
+          content: " ";
+          position: absolute;
+          right: 0;
+          top: 5px;
+          background: url('../img/arrow_up_blue.svg');
+          height: 8px;
+          width: 13px;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    .mobile-accordion-body {
+      display: none;
+      padding: 0 20px 15px;
+      background-color: #e8e8e8;
+    }
+  }
+
+  &.open {
+    .mobile-accordion-body {
+      display: block;
+    }
+
+    .mobile-accordion-header-open {
+      display: none;
+    }
+
+    .mobile-accordion-header-closed {
+      display: block;
+    }
+  }
+}
