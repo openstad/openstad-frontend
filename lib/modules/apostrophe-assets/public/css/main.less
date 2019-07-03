@@ -3,6 +3,7 @@
 @import "vendor/bootstrap/variables.less";
 @import "bootstrap-variables.less";
 @import "vendor/bootstrap/bootstrap";
+@import "variables";
 
 html {
   position: relative;
@@ -14,7 +15,7 @@ body {
   margin: 0 auto !important;
   max-width: 1440px;
   padding: 0;
-  font-family: 'Avenir_Custom', Helvetica, Arial, sans-serif;
+  font-family: "Avenir_Custom", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5em;
   color: #000000;
@@ -54,18 +55,34 @@ body {
   }
 }
 
-a, a:active, a:focus, a:hover, a:visited {
+/*a, a:active, a:focus, a:hover, a:visited {
   color: #164995;
+}*/
+
+
+// Regular links
+// -------------
+a {
+	color: @amsterdam-navyblue;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+	&:visited {
+		color: @amsterdam-navyblue;
+	}
 }
 
-@import 'content';
-@import 'helpers';
-@import 'elements';
-@import 'variables';
-@import 'tab-selector';
-@import 'ideas-gridder-list';
+@import "helpers";
+@import "elements";
+@import "tab-selector";
+@import "ideas-gridder-list";
+@import "share-buttons";
+@import "links";
 @import "apos";
 @import "fonts";
+@import "links";
 @import "typography";
 @import "fotorama";
 @import "header";
@@ -77,5 +94,5 @@ a, a:active, a:focus, a:hover, a:visited {
 @import "modal";
 @import "buttons";
 @import "browser-warning";
-@import 'sticky';
-@import 'checkbox-switch';
+@import "sticky";
+@import "checkbox-switch";

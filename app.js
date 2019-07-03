@@ -131,18 +131,7 @@ function run(id, siteData, callback) {
         'apostrophe-express': {
           port: process.env.PORT
         },
-        'apostrophe-assets' : {
-            minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
-            scripts: [
-              { name: 'cookies' },
-              { name: 'site' },
-              { name: 'jquery.validate.min' },
-              { name: 'jquery.validate.nl' },
-            ],
-            stylesheets: [
-              { name: 'main' }
-            ],
-        },
+
       /*  'apostrophe-i18n': {
              locales: ['nl', 'en'],
              defaultLocale: 'nl'
@@ -257,7 +246,6 @@ function run(id, siteData, callback) {
               'date-bar' : {},
               'idea-overview' : {},
               'idea-map': {},
-              'idea-voting': {},
               'link': {},
               'idea-single' : {},
               'idea-form' : {},
@@ -385,7 +373,19 @@ function run(id, siteData, callback) {
               fields: ['logoWidth']
             },
           ]
-        }
+        },
+        'apostrophe-assets' : {
+            minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
+            scripts: [
+              { name: 'cookies' },
+              { name: 'site' },
+              { name: 'jquery.validate.min' },
+              { name: 'jquery.validate.nl' },
+            ],
+            stylesheets: [
+              { name: 'main' }
+            ],
+        },
 
       }
     }, siteData)

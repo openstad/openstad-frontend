@@ -343,5 +343,16 @@
 	"Weergave": "Weergave",
 	"Simpel": "Simpel",
 	"Volledig": "Volledig",
-	"Link naar": "Link naar"
+	"Link naar": "Link naar",
+	"Save Begroot": "Save Begroot",
+	"Huidige fase": "Huidige fase",
+	"Indienronde": "Indienronde",
+	"Afgelopen": "Afgelopen",
+	"Informatie bericht": "Informatie bericht",
+	"Save Arguments form": "Save Arguments form",
+	"Idea ID (add :ideaId for ideaId from url)": "Idea ID (add :ideaId for ideaId from url)",
+	"Placeholder": "Placeholder",
+	"Sentiment": "Sentiment",
+	"Voor": "Voor",
+	"Tegen": "Tegen"
 }
