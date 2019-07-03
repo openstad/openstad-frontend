@@ -1,4 +1,3 @@
-@phone				: ~'only screen and (max-width: 767px)';
 @numberOfColumns:  3;
 
 .gridder {
@@ -10,20 +9,45 @@
 	.gridder-list {
 		display: inline-block;
 		position: relative;
-		width: calc((100% / @numberOfColumns) - 20px);
-		margin-right: 20px;
-		margin-bottom: 20px;
+		width: calc((100% - @hMargin * 2) / 3);
+		margin-bottom: @vMargin;
+	  margin-right: @hMargin;
 		font-size: 14px;
 		background-color: @light-grey2;
 
-		&:hover {
-			cursor: pointer;
+		//	height: 400px;
+	  &.third-item {
+	    margin-right: 0;
 
+			@media @m {
+				margin-right: @hMargin;
+		    float: left;
+			}
+
+	    @media @phone {
+	      float: none;
+	      width: 100%;
+	    }
+	  }
+
+		@media @m {
+			width: calc((100% / 2) - 20px);
+		}
+
+		@media @gridderFull {
+			width: 100%;
+			margin: 10px auto;
 		}
 
 		@media @phone {
 			width: 100%;
 		}
+
+
+		&:hover {
+			cursor: pointer;
+		}
+
 
 		.idea-image-mask {
 			display: block;
@@ -338,6 +362,7 @@
 	height: 100%;
 	z-index: 1000;
 	text-align: center;
+	display: none;
 
 
 	.background {
@@ -410,8 +435,6 @@
 	}
 }
 
-
-
 .gridder {
 
 	@media @xs {
@@ -419,18 +442,11 @@
 	}
 
 	.gridder-list {
-		    z-index: 1;
+		z-index: 1;
 		cursor: pointer;
 		background: #f6f7f7;
 
-		@media @m {
-			width: calc((100% / 2) - 20px);
-		}
 
-		@media @gridderFull {
-			width: 100%;
-			margin: 10px auto;
-		}
 
 
 	}

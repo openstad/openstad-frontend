@@ -5,15 +5,7 @@
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-	<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
-		<div id="info-bewoners-west" class="info-block green">
-      <!--
-			Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
-      -->
-      {{data.widget.infoMessage}}
-			<div class="close-button" onclick="hideInfoBewonersWest()"></div>
-		</div>
-	</div>
+<div class="begroot-container">
 
 	{{ budgeting.showBudgetWindow() }}
 
@@ -62,3 +54,4 @@
 
 		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin) }}
 	</div>
+</div>

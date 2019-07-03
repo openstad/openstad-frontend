@@ -1,7 +1,7 @@
 {% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) %}
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
 	{% for idea in runningIdeas %}
-	<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#idea-content-{{idea.id}}">
+	<li id="idea-{{idea.id}}" class="gridder-list {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#idea-content-{{idea.id}}">
 		{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
