@@ -1,3 +1,33 @@
+<script>
+
+ // polyfill Object.assign
+ if (typeof Object.assign != "function") {
+   Object.defineProperty(Object, "assign", {
+     value: function assign(target, varArgs) {
+       "use strict";
+       if (target == null) {
+         throw new TypeError("Cannot convert undefined or null to object");
+       }
+       var to = Object(target);
+       for (var index = 1; index < arguments.length; index++) {
+         var nextSource = arguments[index];
+         if (nextSource != null) {
+           for (var nextKey in nextSource) {
+             if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+               to[nextKey] = nextSource[nextKey];
+             }
+           }
+         }
+       }
+       return to;
+     },
+     writable: true,
+     configurable: true
+   });
+ }
+
+</script>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 <link rel="stylesheet" href="https://map.data.amsterdam.nl/nlmaps/dist/assets/css/nlmaps.css"/>
 <!-- link rel="stylesheet" href="https://map.data.amsterdam.nl/dist/css/ams-map.css"/ -->
