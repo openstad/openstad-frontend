@@ -288,10 +288,6 @@ function run(id, siteData, callback) {
               label: 'Default'
             },
             {
-              name: 'home',
-              label: 'Home'
-            },
-            {
               name: 'idea',
               label: 'Idea'
             }
