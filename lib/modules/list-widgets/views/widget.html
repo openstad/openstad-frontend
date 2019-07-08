@@ -1,5 +1,9 @@
-<ul class="{{data.widget.listClassName}}" style="{{data.widget.formattedContainerStyles}}">
-{% for item in data.widget.items %}
-<li> {{ item.item | safe }} </li>
-{% endfor %}
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+<ul id="{{data.widget.containerId}}" class="{{data.widget.listClassName}}">
+  {% for item in data.widget.items %}
+  <li> {{ item.item | safe }} </li>
+  {% endfor %}
 </ul>

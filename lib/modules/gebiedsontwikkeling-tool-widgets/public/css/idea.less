@@ -13,6 +13,24 @@
 	color: #434343;
 }
 
+#info-block .idea-details .images {
+	overflow: auto;
+	margin-bottom: 15px;
+	.image {
+		width: 80px;
+		height: 80px;
+		margin-right: 15px;
+		float: left;
+		background-color: #aeaeae;
+		background-position: center;
+		background-size: cover;
+	}
+}
+
+#info-block .idea-details .image-template {
+	display: none;
+}
+
 #info-block .idea-details .description {
 	color: #434343;
 }
@@ -140,7 +158,69 @@
 
 #info-block textarea {
 	width: 100%;
-	height: 120px;
+	padding: 4px;
+	height: 44px;
+}
+
+#info-block form .content {
+
+	/*
+	.filepond--file .filepond--file-status {
+    margin-left: -5px;
+	}
+
+	.filepond--file-info {
+    margin-left: 5px;
+	}
+
+	.filepond--item {
+		width: 80px !important;
+		height: 80px !important;
+		display: inline-block;
+	}
+
+	.filepond--item-panel {
+    background-color: red;
+	}
+	 
+	.filepond--image-preview-wrapper {
+		width: 80px;
+		height: 80px;
+	}
+	 
+	.filepond--image-preview-wrapper {
+		width: 80px;
+		height: 80px;
+	}
+	 
+	.filepond--image-preview {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right:  0px;
+		bottom:  0px;
+	}
+
+	.filepond--image-canvas-wrapper {
+    transform: none !important;
+    width: 80px !important;
+    height: 80px !important;
+	}
+*/
+
+  .form-info:before, .form-warning:before {
+    position: absolute;
+    top: 0px;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    content: "";
+    background-position: 0px 0px;
+    background-size: 20px 22px;
+    background-repeat: no-repeat;
+    background-image: url(/img/info-pin.svg);
+	}
+
 }
 
 /* end new idea form

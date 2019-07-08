@@ -1,9 +1,12 @@
+<style>
+{{data.widget.formattedContainerStyles}}
+</style>
+
 <div
-  id="{{data.widget.htmlId}}"
+  id="{{data.widget.containerId}}"
   class="section {{data.widget.htmlClass}}"
   style="
     {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}}; {% endif %}
-    {{data.widget.formattedContainerStyles}}
   "
 >
 {% if data.widget.displayType === 'full-screen' %}

@@ -1,0 +1,401 @@
+.tile {
+  width: calc((100% - @hMargin * 2) / 3);
+  background-color: #f6f7f7;
+  font-size: 14px;
+  line-height: normal;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-bottom: @vMargin;
+  margin-right: @hMargin;
+  position: relative;
+  vertical-align: top;
+  overflow: hidden;
+  position: relative;
+
+  @media @grid50 {
+    width: calc(50% - @hMargin);
+  }
+
+  @media @primary100 {
+    width: calc(50% - (@hMargin / 2));
+
+    & + div.tile:nth-of-type(2n) {
+      margin-right: 0;
+    }
+  }
+
+  @media @phone {
+    float: none;
+    width: 100%;
+  }
+
+//	height: 400px;
+  &:nth-child(3n+3) {
+    margin-right: 0;
+    float: right;
+
+    @media @phone {
+      float: none;
+      width: 100%;
+    }
+
+  }
+
+
+
+  &.CLOSED {
+    .duration {
+      background-color: #787979;
+    }
+  }
+
+  .ranking {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    color: white;
+    background-color: #164995;
+    background-repeat: no-repeat;
+    background-size: 22px 22px;
+    background-position: 10px 5px;
+    background-image: url('/img/trophy.svg');
+    z-index: 100;
+
+    .label {
+      position: absolute;
+      top: 32px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      line-height: 10px;
+      font-size: 10px;
+    }
+  }
+
+  @media @phone {
+    width: 100%;
+  }
+
+  .image {
+    background-image: url('/img/placeholders/800x600.png');
+    background-position: center;
+    background-size: cover;
+    height: 180px;
+    width: 100%;
+
+    @media @phone {
+      height: 180px;
+    }
+  }
+
+
+
+  // Remove clock icon for some labels.
+  .duration {
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    background-position: 8px 7px;
+  }
+  // Change color for some labels.
+  &.BUSY {
+    .duration {
+      background-size: 11px 10px;
+      background-position: 9px 8px;
+      background-image: url('/img/idea/star-border.svg');
+      background-color: #2b9ad6;
+    }
+  }
+  &.ACCEPTED {
+    .duration {
+      background-size: 10px 10px;
+      background-position: 9px 8px;
+      background-image: url('/img/idea/calendar.svg');
+      background-color: #bdd131;
+    }
+  }
+  &.OPEN {
+    .duration {
+      background-image: url('/img/idea/klok-wit.svg');
+      background-color: #164995;
+    }
+  }
+  &.DENIED {
+    opacity: 0.5;
+    .duration {
+      background-size: 6px 6px;
+      background-position: 11px 10px;
+      background-image: url('/img/idea/afgewezen.svg');
+      background-color: #434343;
+    }
+  }
+  &.CLOSED {
+    .duration {
+      background-size: 6px 6px;
+      background-position: 11px 10px;
+      background-image: url('/img/idea/tijd-afgelopen.svg');
+      background-color: #787979;
+    }
+  }
+  &.DONE {
+    .duration {
+      background-size: 10.5px 10px;
+      background-position: 9px 7px;
+      background-image: url('/img/idea/star-fill.svg');
+      background-color: #003066;
+    }
+  }
+  &.USER {
+    background-color: #F6F7F7;
+    border: solid 3px #bdd131;
+
+    .image {
+      margin-top: -3px;
+    }
+
+    .info {
+      margin-bottom: -3px;
+    }
+  }
+
+  a, a:hover, a:visited {
+    color: #000;
+    text-decoration: none;
+  }
+
+  h3, p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 1em 0 0.5em;
+  }
+
+  .duration {
+    box-sizing: border-box;
+    position: relative;
+    margin-top: -6px;
+    width: 100%;
+    line-height: 26px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #434343;
+    padding-left: 26px;
+    background-repeat: no-repeat;
+    background-size: 6px 6px;
+    background-position: 10px 10px;
+    background-image: url('/img/bullet.svg');
+    position: relative;
+
+    box-sizing: border-box;
+    width: 100%;
+    left: 0;
+    padding: 0 5px 0 27px;
+    top: 0px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 26px;
+    color: #FFF;
+  }
+
+  .image {
+    background-image: url('/img/placeholders/idea.jpg');
+  }
+
+  .info {
+    padding: 0 10px 10px;
+
+    .ideaStats {
+      margin-top: 12px;
+      width: calc(100%);
+
+      // Override white icons defined in `content.less`.
+      div.count {
+        padding-top: 6px;
+        height: 30px;
+        &.yes {
+          font-size: 14px;
+          line-height: 18px;
+          background-position: left 0px;
+          background-size: 25px 21px;
+          background-image: url('/img/thumbsup_gray_outline.svg');
+        }
+        &.no {
+          font-size: 14px;
+          line-height: 18px;
+          background-position: left 7px;
+          background-size: 25px 21px;
+          background-image: url('/img/thumbsdown_gray_outline.svg');
+        }
+        &.arguments {
+          font-size: 14px;
+          line-height: 18px;
+          background-position: left 5px;
+          background-size: 20px 19px;
+          background-image: url('/img/argument_gray_outline.svg');
+        }
+      }
+    }
+  }
+}
+
+.ideaProgress {
+  margin: 10px 0;
+  position: relative;
+
+  &:after {
+    background-image: url('/img/thumbsup-gray-new.svg');
+    background-repeat: no-repeat;
+    background-size: 19px 16px;
+    background-position: top right 5px;
+    color: #676868;
+    content: '100';
+    font-size: 12px;
+    line-height: 1.83;
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 50px;
+  }
+
+  div.progress {
+    height: 16px;
+    border: 1px solid #434343;
+    border-radius: 10px;
+    margin-right: 50px;
+    overflow: hidden;
+
+    div.bar {
+      height: 16px;
+      width: 0;
+      background: #004699;
+
+      &.CLOSED, &.DENIED {
+        background: #787979;
+      }
+    }
+  }
+
+}
+.ideaProgress {
+  margin: 10px 0;
+  position: relative;
+
+  &:after {
+    background-image: url('/img/thumbsup-gray-new.svg');
+    background-repeat: no-repeat;
+    background-size: 19px 16px;
+    background-position: top right 5px;
+    color: #676868;
+    content: '100';
+    font-size: 12px;
+    line-height: 1.83;
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 50px;
+  }
+
+  div.progress {
+    height: 16px;
+    border: 1px solid #434343;
+    border-radius: 10px;
+    margin-right: 50px;
+    overflow: hidden;
+
+    div.bar {
+      height: 16px;
+      width: 0;
+      background: #004699;
+
+      &.CLOSED, &.DENIED {
+        background: #787979;
+      }
+    }
+  }
+
+}
+
+
+// Idea stats
+// ----------
+// Used in #primary tiles on the ideas list page, and in #secondary
+// on several pages.
+.ideaStats {
+  text-align: center;
+  white-space: nowrap;
+
+  div.count {
+    background-position: left top;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 100;
+    height: 25px;
+    padding-left: 30px;
+    padding-right: 5px;
+    padding-top: 4px;
+
+    &:nth-child(n+2) {
+      margin-left: 5px;
+    }
+    &.yes {
+      background-size: auto 20px;
+      background-image: url('/img/thumbsup_white.svg');
+    }
+    &.no {
+      background-position: left 5px;
+      background-size: auto 20px;
+      background-image: url('/img/thumbsdown_white.svg');
+    }
+    &.arguments {
+      background-position: left 5px;
+      background-size: auto 20px;
+      background-image: url('/img/argument_white.svg');
+    }
+  }
+}
+
+.ideaProgress {
+  margin: 10px 0;
+  position: relative;
+
+  &:after {
+    background-image: url('/img/thumbsup-gray-new.svg');
+    background-repeat: no-repeat;
+    background-size: 19px 16px;
+    background-position: top right 5px;
+    color: #676868;
+    content: '100';
+    font-size: 12px;
+    line-height: 1.83;
+    position: absolute;
+    right: -5px;
+    top: -2px;
+    width: 50px;
+  }
+
+  div.progress {
+    height: 16px;
+    border: 1px solid #434343;
+    border-radius: 10px;
+    margin-right: 50px;
+    overflow: hidden;
+
+    div.bar {
+      height: 16px;
+      width: 0;
+      background: #004699;
+
+      &.CLOSED, &.DENIED {
+        background: #787979;
+      }
+    }
+  }
+
+}

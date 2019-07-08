@@ -5,15 +5,7 @@
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-	<div class="pageContent {{contentClass}}" style="margin-top: -40px;">
-		<div id="info-bewoners-west" class="info-block green">
-      <!--
-			Bewoners uit West kunnen stemmen t/m 13 feb 2019 met de stemcode die zij per post hebben ontvangen.
-      -->
-      {{data.widget.infoMessage}}
-			<div class="close-button" onclick="hideInfoBewonersWest()"></div>
-		</div>
-	</div>
+<div class="begroot-container">
 
 	{{ budgeting.showBudgetWindow() }}
 
@@ -28,40 +20,38 @@
 	{% include 'phase-voting/includes/end-date-bar.html' %}
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
-		<div class="tab-selector">
-			<ul class="hidden-xs">
-				<li><a id="themaSelector0" href="javascript: void activateTab(0)">Alle thema's</a></li>
-				<li><a id="themaSelector1" href="javascript: void activateTab(1)">Groen</a></li>
-				<li><a id="themaSelector2" href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</a></li>
-				<li><a id="themaSelector3" href="javascript: void activateTab(3)">Duurzaamheid</a></li>
-			</ul>
-			<select onchange="activateTab(this.selectedIndex)" class="default-select visible-xs">
-				<option href="javascript: void activateTab(0)">Alle thema's </option>
-				<option href="javascript: void activateTab(1)">Groen</option>
-				<option href="javascript: void activateTab(2)">Diversiteit & Inclusiviteit</option>
-				<option href="javascript: void activateTab(3)">Duurzaamheid</option>
-			</select>
-			<div class="divider"></div>
-			<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
-				<option value="0">Alle gebieden</option>
-				<option value="Oud-West">Oud-West</option>
-				<option value="Bos en Lommer">Bos en Lommer</option>
-				<option value="De Baarsjes">De Baarsjes</option>
-				<option value="Westerpark">Westerpark</option>
-				<option value="West Algemeen">West Algemeen</option>
-			</select>
-			<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+		{% if data.ideas.length > 0 %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8">
+				{% if data.global.areas and data.global.areas.length > 0 %}
+				<div class="tab-selector">
+					<ul>
+						<li><a id="themaSelector0" href="javascript: void deactivateAll()">Alle plannen</a></li>
+					</ul>
+					<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+						<option value="0">Alle gebieden</option>
+						{% for area in data.global.areas %}
+						<option value="{{area.value}}">{{area.value}}</option>
+						{% endfor %}
+					</select>
+					<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+				</div>
+				{% endif %}
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<div class="sort">
+					<select class="default-select">
+						<option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
+						<option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
+						<!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
+					</select>
+				</div>
+			</div>
 		</div>
+		{% endif %}
 
-		<div class="align-right">
-			<b>Sorteer op: </b>
-			<select id="selectSort" class="default-select sort-selector" onchange="doSort(this.value)">
-				<option value="random">Willekeurig</option>
-				<option value="ranking">Ranglijst</option>
-				<option value="budget-down">Bedrag aflopend</option>
-				<option value="budget-up">Bedrag oplopend</option>
-			</select>
-		</div>
+		<br />
 
 		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin) }}
 	</div>
+</div>

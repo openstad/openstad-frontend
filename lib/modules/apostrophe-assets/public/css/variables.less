@@ -1,0 +1,81 @@
+@landscape    : ~'only screen and (max-width: 1000px)';
+@portrait     : ~'only screen and (max-width: 868px)';
+@phone        : ~'only screen and (max-width: 700px)';
+@retina       : ~'only screen and (-webkit-min-device-pixel-ratio: 2),
+                  only screen and (   min--moz-device-pixel-ratio: 2),
+                  only screen and (     -o-min-device-pixel-ratio: 2/1),
+                  only screen and (        min-device-pixel-ratio: 2),
+                  only screen and (                min-resolution: 192dpi),
+                  only screen and (                min-resolution: 2dppx)';
+
+@primary100   : ~'only screen and (max-width: 700px)';
+
+
+@m        		: ~'only screen and (max-width: 991px)';
+
+@gridderFull 	: ~'only screen and (max-width: 767px)';
+
+@xs        		: ~'only screen and (max-width: 767px)';
+
+@phone				: ~'only screen and (max-width: 767px)';
+
+@desktop				: ~'only screen and (min-width: 992px)';
+
+
+// Normal grid is 25% of total `#content` width.
+// This translates to 33.33% in `#primary` (which is itself 75%)
+// and 100% in `#secondary` (which is 25%).
+@grid50       : @landscape;
+@grid100      : @phone;
+
+@navBarHeight : 46px;
+
+// For columns, sctions, and tiles.
+@hMargin      : 20px;
+@vMargin      : 20px;
+
+@light-grey2: #f6f7f7;
+@amsterdam-lightgrey: #e8e8e8;
+@amsterdam-grey: #bebebe;
+@amsterdam-navyblue: #164995;
+@amsterdam-textblue: #004699;
+@amsterdam-navyblue-hover: #003066;
+@amsterdam-skyblue: #2b9ad6;
+@amsterdam-lightgreen: #bdd131;
+@amsterdam-green: #a8b900;
+@amsterdam-red: #ea1d25;
+
+
+.appearance( @value ) {
+	-webkit-appearance: @value;
+	-moz-appearance:    @value;
+	appearance:         @value;
+	background: none;
+	border: 0;
+	border-radius: 0;
+	color: inherit;
+	font: inherit;
+	padding: 0;
+	line-height: inherit;
+}
+
+// Script in `base.njk` removes this class when DOM is loaded.
+body.preload * {
+	animation-duration: 0s !important;
+	-webkit-animation-duration: 0s !important;
+	transition: background-color 0s,
+	            opacity 0s,
+	            color 0s,
+	            width 0s,
+	            height 0s,
+	            padding 0s,
+	            margin 0s !important;
+}
+
+.tpl {
+	display: none      !important;
+	left: -9999px      !important;
+	position: absolute !important;
+	top: -9999px       !important;
+	visibility: hidden !important;
+}

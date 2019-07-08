@@ -1,6 +1,10 @@
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
 {% if data.widget.mode === 'h1' %}
 <h1
-style="{{data.widget.formattedContainerStyles}}"
+  id="{{data.widget.containerId}}"
 >
   {{data.widget.title}}
 </h1>
@@ -8,7 +12,7 @@ style="{{data.widget.formattedContainerStyles}}"
 
 {% if data.widget.mode === 'h2' %}
 <h2
-style="{{data.widget.formattedContainerStyles}}"
+  id="{{data.widget.containerId}}"
 >
   {{data.widget.title}}
 </h2>
@@ -16,7 +20,7 @@ style="{{data.widget.formattedContainerStyles}}"
 
 {% if data.widget.mode === 'h3' %}
 <h3
-style="{{data.widget.formattedContainerStyles}}"
+  id="{{data.widget.containerId}}"
 >
   {{data.widget.title}}
 </h3>
@@ -24,7 +28,7 @@ style="{{data.widget.formattedContainerStyles}}"
 
 {% if data.widget.mode === 'h4' %}
 <h4
-style="{{data.widget.formattedContainerStyles}}"
+  id="{{data.widget.containerId}}"
 >
   {{data.widget.title}}
 </h4>

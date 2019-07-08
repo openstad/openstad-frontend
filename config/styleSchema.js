@@ -83,18 +83,83 @@ exports.default = {
           label: 'CSS Value',
           type: 'string',
         },
+        {
+          name: 'mediaQuery',
+          type: 'select',
+          label: 'Media Query',
+          choices: [
+            {
+              'label': 'None',
+              'value': ''
+            },
+            {
+              'label': 'Phone (767px and smaller)',
+              'value': '@media screen and (max-width: 767px)'
+            },
+            {
+              'label': 'Tablet (between 768px - 991px)',
+              'value': '@media screen (min-width: 768px) and (max-width: 991px) '
+            },
+            {
+              'label': 'Tablet & phone (991px and smaller)',
+              'value': '@media screen and (max-width: 991px)'
+            },
+            {
+              'label': 'Desktop (min width 992px)',
+              'value': '@media screen and (min-width: 992px)'
+            },
+          ]
+        },
+
+
       ],
     }
   },
-  format: (cssValues) => {
+  format: (id, cssValues) => {
+
     let formattedStyles = '';
 
-    if (cssValues) {
+    const formatCSSLines = (cssValues) => {
+      let formattedLine = '';
       cssValues.forEach((css) => {
-        formattedStyles += `${css.property}:${css.value};`;
+        formattedLine += `${css.property}:${css.value};`;
+      });
+
+      return formattedLine;
+    }
+
+    if (cssValues) {
+      /**
+       * Format the main styles that are without media queries
+       */
+      const mainStyles = formatCSSLines(cssValues.filter((cssValue) => { return !cssValue.mediaQuery; }));
+      formattedStyles = ` #${id}, .${id}{${mainStyles}} `;
+
+      /**
+       * Format the styles that depend on a media query
+       */
+      const mediaQueries = cssValues.filter(cssValue => !!cssValue.mediaQuery).map(cssValue => cssValue.mediaQuery);
+      mediaQueries.forEach((mediaQuery) => {
+        let mediaQueryStyle = formatCSSLines(cssValues.filter(cssValue => cssValue.mediaQuery && cssValue.mediaQuery ===  mediaQuery));
+        if (mediaQueryStyle.length > 0) {
+          mediaQueryStyle = ` #${id}, .${id}{${mediaQueryStyle}} `;
+          formattedStyles += ` ${mediaQuery} { ${mediaQueryStyle} } `;
+        }
       });
     }
 
     return formattedStyles;
+  },
+  generateId: () => {
+    function makeid(length) {
+       var result           = '';
+       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+       var charactersLength = characters.length;
+       for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+       }
+       return result;
+    }
+     return 'ID-' + makeid(22);
   }
 }

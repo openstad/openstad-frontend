@@ -8,6 +8,20 @@
 	text-decoration: none;
 }
 
+.pageContent .primary {
+    box-sizing: border-box;
+    float: left;
+    width: calc(75% + (20px*3/4));
+
+		@media @grid50 {
+			width: calc(66.66% + (@hMargin*2/3));
+		}
+		@media @primary100 {
+			float: none;
+			width: 100%;
+		}
+}
+
 // Title container
 // ---------------
 // Holds the idea's poster image and vote/share controls.
