@@ -16,24 +16,7 @@
 
 
  .gridder-show {
-
- 	float: left;
- 	position: relative;
- 	display: block;
- 	margin: 20px 0 40px 0;
- 	padding: 40px 0;
- 	width: calc(100% - 20px);
- 	background-color: @light-grey2;
-
- 	@media @phone {
- 		width: calc(100%);
- 		padding-top: 90px;
-
- 		h3 {
- 			margin: 0 0 15px 0;
- 		}
- 	}
-
+ 
 
  	.thisIdeaId {
  		display: none;
@@ -270,80 +253,6 @@
  			height: 30px;
  		}
 
- 		.share-buttons {
-
-       position: absolute;
- 			height: 30px;
-       bottom: 40px;
- 			z-index: 1000;
-
- 			@phone {
- 				position: relative;
- 			}
-
- 			.text {
- 				display: block;
- 				float: left;
- 				height: 30px;
- 				margin: 0;
- 				padding: 0;
- 				margin-right: 15px;
- 				font-weight: 600;
- 				line-height: 30px;
- 			}
-
- 			ul {
- 				display: block;
- 				float: left;
- 				margin: 0;
- 				padding: 0;
- 				height: 30px;
- 				list-style-type: none;
-
- 				li {
- 					display: inline;
- 					height: 30px;
- 					width: 30px;
- 					margin: 0;
- 					padding: 0;
-
- 					a {
- 						background-position: center;
- 						background-repeat: no-repeat;
- 						background-size: 30px 30px;
- 						display: block;
- 						float: left;
- 						font-size: 0;
- 						line-height: 0;
- 						margin: 0 3px 0 0;
- 						height: 30px;
- 						width: 30px;
-
- 						&.facebook {
- 							background-image: url('/img/share-facebook.svg');
- 							&:hover {
- 								background-image: url('/img/share-facebook-hover.svg');
- 							}
- 						}
- 						&.twitter {
- 							background-image: url('/img/share-twitter.svg');
- 							&:hover {
- 								background-image: url('/img/share-twitter-hover.svg');
- 							}
- 						}
- 						&.email {
- 							background-image: url('/img/share-email.svg');
- 							&:hover {
- 								background-image: url('/img/share-email-hover.svg');
- 							}
- 						}
-
- 					}
- 				}
- 			}
-
- 		}
-
  	}
 
  	&:before {
@@ -368,102 +277,6 @@
 
  }
 
- .gridder-navigation {
-
- 	.gridder-nav {
- 		position: absolute;
- 		display: block;
- 		top: 260px;
- 		width: 50px;
- 		height: 50px;
- 		padding: 0;
- 		border: none;
- 		outline: 0;
- 		box-shadow: none;
- 		cursor: pointer !important;
- 		z-index: 1;
-
- 		@media @phone {
- 			width: 15px;
- 			height: 15px;
- 		}
-
- 		span {
- 			display: block;
- 			position: absolute;
- 			top: 0;
- 			right: 0;
- 			bottom: 0;
- 			left: 0;
- 			height: 23px;
- 			margin: auto;
- 			width: 14px;
- 			background-position: center;
- 			background-repeat: no-repeat;
- 		}
-
- 		&.prev {
- 			left: -132px;
- 			background-image: url(/img/prev-button-round.svg);
- 			z-index: 100002;
-
- 			@media @phone {
- 				top: 32px;
- 				left: 15px;
- 				width: 7px;
- 				height: 12px;
- 				background-size: 7px 12px;
- 				background-image: url(/img/pijltje-links.svg);
- 			}
-
- 		}
-
- 		&.next {
- 			right: -132px;
- 			background-image: url(/img/next-button-round.svg);
- 			z-index: 100002;
-
- 			@media @phone {
- 				top: 32px;
- 				left: 62px;
- 				width: 7px;
- 				height: 12px;
- 				background-size: 7px 12px;
- 			background-image: url(/img/pijltje-rechts.svg);
- 			}
-
- 		}
-
- 	}
-
- 	.gridder-close {
- 		position: absolute;
- 		top: 40px;
- 		right: -115px;
- 		width: 20px;
- 		height: 20px;
- 		background-size: cover;
- 		background-repeat: no-repeat;
- 		background-image: url(/img/close-button-grey-on-transparent.svg);
- 		cursor: pointer;
- 		z-index: 20;
-
- 		@media @phone {
- 			top: 15px;
- 			right: 0;
- 			width: 44px;
- 			height: 44px;
- 			background-image: url(/img/close-button-red.svg);
- 			right: 0;
- 		}
-
- 	}
-
- }
-
- .gridder-content {
- 	display: none;
- }
 
 .image {
 	position: relative;

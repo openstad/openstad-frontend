@@ -43,11 +43,9 @@
 			width: 100%;
 		}
 
-
 		&:hover {
 			cursor: pointer;
 		}
-
 
 		.idea-image-mask {
 			display: block;
@@ -73,7 +71,6 @@
 		}
 
 		.info {
-
 			padding: 10px;
 
 			h3 {
@@ -95,24 +92,23 @@
 	display: none;
 }
 
-.gridder-show {
-	float: left;
-	position: relative;
-	display: block;
-	margin: 20px 0 40px 0;
-	padding: 40px 0 25px;
-	width: 100%;
-	font-size: 16px;
-	background-color: @light-grey2;
+	.gridder-show {
+		float: left;
+	 position: relative;
+	 display: block;
+	 margin: 20px 0 40px 0;
+	 padding: 40px 0;
+	 width: calc(100% - 20px);
+	 background-color: @light-grey2;
 
-	@media @phone {
-		width: 100%;
-		padding-top: 90px;
+	 @media @phone {
+		 width: calc(100%);
+		 padding-top: 90px;
 
-		h3 {
-			margin: 0 0 15px 0;
-		}
-	}
+		 h3 {
+			 margin: 0 0 15px 0;
+		 }
+	 }
 
 	.this-idea-id {
 		display: none;
@@ -140,77 +136,7 @@
 			font-size: 14px;
 		}
 
-		.share-buttons {
 
-			display: block;
-
-			.text {
-				display: inline-block;
-				height: 30px;
-				margin: 0;
-				padding: 0;
-				margin-right: 15px;
-				font-weight: 600;
-				line-height: 30px;
-			}
-
-			ul {
-				display: inline-block;
-				margin: 0;
-				padding: 0;
-				height: 30px;
-				list-style-type: none;
-
-				li {
-					display: inline;
-					height: 30px;
-					width: 30px;
-					margin: 0 5px;
-					padding: 0;
-
-					a {
-						background-position: center;
-						background-repeat: no-repeat;
-						background-size: 30px 30px;
-						display: block;
-						float: left;
-						font-size: 0;
-						line-height: 0;
-						margin: 0 3px 0 0;
-						height: 30px;
-						width: 30px;
-
-						&.facebook {
-							background-image: url('/img/share-facebook.svg');
-							&:hover {
-								background-image: url('/img/share-facebook-hover.svg');
-							}
-						}
-						&.twitter {
-							background-image: url('/img/share-twitter.svg');
-							&:hover {
-								background-image: url('/img/share-twitter-hover.svg');
-							}
-						}
-						&.email {
-							background-image: url('/img/share-email.svg');
-							&:hover {
-								background-image: url('/img/share-email-hover.svg');
-							}
-						}
-
-						&.whatsapp {
-							background-image: url('/img/share-whatsapp.svg');
-							&:hover {
-								background-image: url('/img/share-whatsapp-hover.svg');
-							}
-						}
-
-					}
-				}
-			}
-
-		}
 
 	}
 
