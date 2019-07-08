@@ -205,6 +205,7 @@ router
 					req.setSessionUser(user.id, '');
 					req.userData.id = user.id;
 					return next();
+
 				} else {
 
 					// user not found; create
@@ -268,6 +269,7 @@ router
 		console.log('req.redirectUrl do it', req.redirectUrl);
 		res.redirect(req.redirectUrl);
 	});
+
 // uitloggen
 // ---------
 router

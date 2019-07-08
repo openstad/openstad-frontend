@@ -6,10 +6,10 @@ var db  = require('../db');
 // -------
 // Auto-close ideas that passed the deadline.
 // 
-// Runs every 5 minutes.
+// Runs every hour
 module.exports = {
-	cronTime: '0 */5 * * * *',
-	runOnInit: true,
+	cronTime: '0 0 */1 * * *',
+	runOnInit: false,
 	onTick: function() {
 		db.Idea.scope('withVoteCount').findAll({
 			where: {
