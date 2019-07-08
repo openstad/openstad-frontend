@@ -176,7 +176,7 @@
 	padding: 0 15px;
   font-size: 16px;
 	font-weight: 600;
-	line-height: 40px;
+	line-height: 44px;
 	color: white;
 	background-color: #a8b900;
 	z-index: 19;
@@ -271,6 +271,11 @@
 		margin: 0;
 		padding: 0 15px;
 		overflow: hidden;
+
+		@media @phone {
+			overflow: auto;
+		}
+
 	}
 
 	&.open {
@@ -357,6 +362,15 @@
 	background-repeat: no-repeat;
 	background-image: url('/img/info-icon-gray.svg');
 	content: '';
+}
+
+#info-block .sub-header.is-link {
+	color: #164995;
+	text-decoration: none;
+}
+
+#info-block .sub-header.is-link:hover {
+	text-decoration: underline;
 }
 
 #info-block .sub-header.arrow-right:after {
