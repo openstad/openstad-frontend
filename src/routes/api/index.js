@@ -2,9 +2,6 @@ const express = require('express');
 
 let router = express.Router({mergeParams: true});
 
-// find site
-router.use( require('../../middleware/site') );
-
 // sites
 router.use( '/site', require('./site') );
 

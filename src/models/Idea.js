@@ -381,8 +381,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if (configExtraData) {
 					Object.keys(configExtraData).forEach((key) => {
 
-						console.log(value[key]);
-
 						if (value[key]) {
 							if ( configExtraData[key].type == 'enum' && configExtraData[key].values.indexOf(value[key]) == -1) {
 								error = `Ongeldige waarde voor ${key}`;
@@ -605,7 +603,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 						}
 					}]
 				};
-				console.log('==', result);
 				return result;
 			},
 
@@ -613,7 +610,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			sort: function (sort) {
 
 				let result = {};
-				console.log('->', sort);
 
 				var order;
 				switch( sort ) {
@@ -855,7 +851,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// add ranking
 			let ranked = ideas.slice();
 			ranked.forEach(idea => {
-        console.log('==> ', idea.id);
 				idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
 			});
 			ranked.sort( (a, b) => b.ranking - a.ranking );

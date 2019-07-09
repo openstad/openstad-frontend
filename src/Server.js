@@ -123,9 +123,14 @@ module.exports  = {
 				maxAge   : null
 			}
 		}));
+
+		// Middleware to fill `req.site` with a `Site` instance.
+		const sessionSite = require('./middleware/site');
+		this.app.use(sessionSite);
+
 		// Middleware to fill `req.user` with a `User` instance.
-		require('./middleware/session_user')(this.app);
-		// Support for flash messages.
-		
+		const sessionUser = require('./middleware/session_user');
+		this.app.use(sessionUser);
+
 	},
 };

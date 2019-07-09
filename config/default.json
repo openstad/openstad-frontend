@@ -275,8 +275,6 @@
 			"tokenTTL"     : 172800000,
 			// Property name to store user ID in `req.session`.
 			"uidProperty"  : "userId",
-			// Cached user instance TTL in seconds.
-			"userCacheTTL" : 3600
 		}
 	},
 

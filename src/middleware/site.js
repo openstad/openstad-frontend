@@ -1,5 +1,6 @@
 const config = require('config');
 const db = require('../db');
+const sessionUser = require('./session_user');
 
 module.exports = function( req, res, next ) {
 
@@ -23,9 +24,11 @@ module.exports = function( req, res, next ) {
 	db.Site
 		.findOne({ where })
 		.then(function( found ) {
+			if (!found) return next();
+
 			req.site = found;
-			//console.log('found', req.site && [req.site.id, req.site.name]);
 			next();
+
 		})
 		.catch( err => {
 			console.log('site not found:', siteId);

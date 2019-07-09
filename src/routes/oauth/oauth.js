@@ -14,44 +14,10 @@ let router = express.Router({mergeParams: true});
  */
 const isAllowedRedirectDomain = (url, allowedDomains) => {
 	const redirectUrlHost = new URL(url).hostname;
+
 	// throw error if allowedDomains is empty or the redirectURI's host is not present in the allowed domains
 	return allowedDomains && allowedDomains.indexOf(redirectUrlHost) !== -1;
 }
-
-// all: add site
-// -------------
-router
-	.all('*', function(req, res, next) {
-
-		let siteId;
-
-		let match = req.path.match(/\/site\/(\d+)?/);
-		if (match) {
-			siteId = parseInt(match[1]);
-		} else {
-			siteId = config.siteId;
-		}
-		if (!siteId) return next();
-
-		let where = {};
-		if (typeof siteId === 'number') {
-			where = { id: siteId }
-		} else {
-			where = { name: siteId }
-		}
-
-		db.Site
-			.findOne({ where })
-			.then(function( found ) {
-				req.site = found;
-				next();
-			})
-			.catch( err => {
-				console.log('site not found:', siteId);
-				next(err)
-			});
-
-	});
 
 // inloggen 1
 // ----------
@@ -113,7 +79,6 @@ router
 			.then(
 				response => {
 					if (response.ok) return response.json()
-					console.log(response);
 					throw createError('Login niet gelukt');
 				},
 				error => {
@@ -176,6 +141,7 @@ router
 
 		let data = {
 			externalUserId: req.userData.user_id,
+			externalAccessToken: req.session.userAccessToken,
 			email: req.userData.email,
 			firstName: req.userData.firstName,
 			zipCode: req.userData.postcode,
@@ -245,16 +211,12 @@ router
 		req.session.save(() => {
 			if (isAllowedRedirectDomain(redirectUrl, req.site.config.allowedDomains)) {
 				if (redirectUrl.match('[[jwt]]')) {
-					console.log('req.redirectUrl 1', redirectUrl);
-
 					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 						if (err) return next(err)
 						req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
 						return next();
 					});
 				} else {
-					console.log('req.redirectUrl 2', redirectUrl);
-
 					req.redirectUrl = redirectUrl;
 					return next();
 				}
@@ -266,7 +228,6 @@ router
 		});
 	})
 	.get(function( req, res, next ) {
-		console.log('req.redirectUrl do it', req.redirectUrl);
 		res.redirect(req.redirectUrl);
 	});
 
@@ -293,7 +254,23 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
-		res.json(req.user)
+		res.json({
+			"id": req.user.id,
+			"complete": req.user.complete,
+			"role": req.user.role,
+			"email": req.user.email,
+			"firstName": req.user.firstName,
+			"lastName": req.user.lastName,
+			"fullName": req.user.fullName,
+			"nickName": req.user.nickName,
+			"initials": req.user.initials,
+			"gender": req.user.gender,
+			"zipCode": req.user.zipCode,
+			"signedUpForNewsletter": req.user.signedUpForNewsletter,
+			"createdAt": req.user.createdAt,
+			"updatedAt": req.user.updatedAt,
+			"deletedAt": req.user.deletedAt,
+		})
 	})
 
 module.exports = router;

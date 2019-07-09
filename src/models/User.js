@@ -18,6 +18,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : null
     },
 
+    externalAccessToken: {
+      type         : DataTypes.STRING(2048),
+			allowNull    : true,
+			defaultValue : null
+    },
+
 		role: {
 			type         : DataTypes.STRING(32),
 			allowNull    : false,
