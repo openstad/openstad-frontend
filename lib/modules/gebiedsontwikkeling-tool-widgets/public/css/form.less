@@ -2,6 +2,31 @@
  * ----------------------------------------------------------------------------------------------------
  * generic form elements */
 
+.form-alert-message {
+	position: relative;
+	margin-top: 18px;
+	padding: 12px 15px 12px 50px;
+	color: #4a4a4a;
+	border: solid 2px #ec0000;
+}
+
+.form-alert-message:before {
+  position: absolute;
+  top: 26px;
+  left: 18px;
+  width: 15px;
+  height: 13.7px;
+  content: "";
+  background-position: 0 0;
+  background-size: 15px 13.7px;
+  background-repeat: no-repeat;
+  background-image: url(/img/alert-triangle-icon.svg);
+}
+
+.form-alert-message a {
+	text-decoration: underline;
+}
+
 .form-info, .form-warning {
   position: relative;
   margin: 6px 0 4px 0px;
