@@ -5,7 +5,7 @@
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-<div class="begroot-container">
+<div id="westbegroot-voting" class="begroot-container">
 
 	{{ budgeting.showBudgetWindow() }}
 
@@ -40,9 +40,12 @@
 			</div>
 			<div class="col-xs-12 col-sm-4">
 				<div class="sort">
-					<select class="default-select">
+					<select id="selectSort" class="default-select">
+						<option {{'selected' if sort == 'random'}} value="random">Willekeurig</option> 
 						<option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
 						<option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
+
+
 						<!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
 					</select>
 				</div>
