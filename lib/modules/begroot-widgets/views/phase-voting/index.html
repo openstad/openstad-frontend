@@ -12,7 +12,7 @@
 	<script>
 	 var csrfToken = '{{csrfToken}}';
 	 var userHasVoted = {{data.widget.userHasVoted}};
-	 var userIsLoggedIn = {{data.widget.userIsLoggedIn}};
+	 var userIsLoggedIn = {{data.loggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
 	</script>
@@ -41,7 +41,7 @@
 			<div class="col-xs-12 col-sm-4">
 				<div class="sort">
 					<select id="selectSort" class="default-select">
-						<option {{'selected' if sort == 'random'}} value="random">Willekeurig</option> 
+						<option {{'selected' if sort == 'random'}} value="random">Willekeurig</option>
 						<option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
 						<option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
 

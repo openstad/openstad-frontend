@@ -92,7 +92,9 @@
 											</div>
 										</div>
 										<div id="vote-button-container">
-											<div onclick="login();" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">Vul je stemcode in</div>
+											<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+												Vul je stemcode in
+											</a>
 											<div class="error-block">
 												Met deze stemcode is al gestemd op West Begroot.
 												Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.
