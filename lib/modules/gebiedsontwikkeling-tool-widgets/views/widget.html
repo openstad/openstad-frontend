@@ -1,3 +1,33 @@
+<script>
+
+ // polyfill Object.assign
+ if (typeof Object.assign != "function") {
+   Object.defineProperty(Object, "assign", {
+     value: function assign(target, varArgs) {
+       "use strict";
+       if (target == null) {
+         throw new TypeError("Cannot convert undefined or null to object");
+       }
+       var to = Object(target);
+       for (var index = 1; index < arguments.length; index++) {
+         var nextSource = arguments[index];
+         if (nextSource != null) {
+           for (var nextKey in nextSource) {
+             if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+               to[nextKey] = nextSource[nextKey];
+             }
+           }
+         }
+       }
+       return to;
+     },
+     writable: true,
+     configurable: true
+   });
+ }
+
+</script>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 <link rel="stylesheet" href="https://map.data.amsterdam.nl/nlmaps/dist/assets/css/nlmaps.css"/>
 <!-- link rel="stylesheet" href="https://map.data.amsterdam.nl/dist/css/ams-map.css"/ -->
@@ -31,12 +61,12 @@
 	</ul>
 	#}
 	<select id="filter-select" class="default-select filter-select" onchange="activateFilter(this.value)">
-		<option value="0">Toon alles</option>
-		<option value="1">Te volle afvalcontainer</option>
-		<option value="2">Defecte afvalcontainer</option>
-		<option value="3">Afval in de omgeving van afvalcontainers</option>
-		<option value="4">Afval op straat</option>
-		<option value="5">Overig</option>
+    <option value="0">Toon alle categorieen</option>
+    <option value="1">Volle afvalcontainer</option>
+    <option value="2">Defecte afvalcontainer</option>
+    <option value="3">Afval naast afvalcontainer</option>
+    <option value="4">Afval op straat</option>
+    <option value="5">Overig</option>
 	</select>
 </div>
 
@@ -50,4 +80,5 @@
  var moduleBaseUrl = '{{data.widget.moduleBaseUrl}}';
  var displayType = '{{data.widget.displayType}}';
  var siteConfig = {{data.widget.siteConfig | dump | safe}};
+ var editIdeaPage = '{{data.widget.editIdeaPage}}';
 </script>

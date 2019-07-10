@@ -12,6 +12,10 @@
   line-height: 27px;
   width: 100%;
 
+	&:hover {
+		background: #004699 !important;
+	}
+
 	&:before {
 		content: " ";
 		background-image: url('../img/plus-icon.svg');
@@ -28,15 +32,14 @@
 	}
 
 	&.added {
-		background: white;
+		background: white  !important;
     border: none;
+		outline: 2px #004699 solid;
     color: #004699 !important;
-    outline: 2px #004699 solid;
     outline-offset: -2px;
     padding-left: 0;
     text-align: center;
     padding-right: 0;
-
 
 		&:after {
 			content: "Toegevoegd";

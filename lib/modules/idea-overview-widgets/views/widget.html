@@ -1,6 +1,6 @@
 {% import 'vote-creator.html' as voteCreator %}
 
-<div class="idea-overview-container">
+<div  class="idea-overview-container">
   {% if data.widget.voting %}
     {{ voteCreator.showVoteCreator(true, data.ideas) }}
   {% endif %}

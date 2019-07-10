@@ -1,4 +1,4 @@
-{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) %}
+{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
 	{% for idea in runningIdeas %}
 	<li id="idea-{{idea.id}}" class="gridder-list {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#idea-content-{{idea.id}}">
@@ -42,7 +42,7 @@
 					<div id="image-location-toggable-{{idea.id}}" class="image-location-toggable">
 
 						<div class="idea-image-container">
-							{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
+							{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
 							</div>
@@ -73,13 +73,14 @@
 						<table class="table-center">
 							<tr>
 								<td>
-									<b> Deel dit plan: </b>
+									<b class="text"> Deel dit: </b>
 								</td>
 								<td>
 									<ul class="share">
-										<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{fullHost}}/begroten?showIdea={{idea.id}}">Facebook</a></li>
-										<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{fullHost}}/begroten?showIdea={{idea.id}}">Twitter</a></li>
-										<li><a class="email"    target="_blank" href="mailto:?subject={{'Westbegroot plan: '+idea.title | urlencode}}&body={{fullHost | urlencode}}/begroten?showIdea={{idea.id}}">Email</a></li>
+										<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}">Facebook</a></li>
+										<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.currentUrl}}?ideaId={{idea.id}}">Twitter</a></li>
+										<li><a class="email"    target="_blank" href="mailto:?subject={{'Westbegroot plan: '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}">Email</a></li>
+										<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.currentUrl}}?ideaId={{idea.id}}">WhatsApp</a></li>
 									</ul>
 								</td>
 							</tr>
@@ -98,9 +99,12 @@
 					</table>
 					{% endif %}
 					<br />
+
+					{% if data.widget.originalIdeaUrl %}
 					<div class="margin-hor-10">
-						<a href="{{fullUrl}}/originele-plannen/plan/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
+						<a href="{{data.widget.originalIdeaUrl}}/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
 					</div>
+					{% endif %}
 					<br />
 					<div class="align-left">
 						<div class="budget">{{idea.budget}}</div>

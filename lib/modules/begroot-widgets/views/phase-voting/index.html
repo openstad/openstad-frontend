@@ -5,19 +5,25 @@
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-<div class="begroot-container">
+<div id="westbegroot-voting" class="begroot-container">
 
 	{{ budgeting.showBudgetWindow() }}
 
 	<script>
-	 var csrfToken = '{{csrfToken}}';
 	 var userHasVoted = {{data.widget.userHasVoted}};
-	 var userIsLoggedIn = {{data.widget.userIsLoggedIn}};
+	 var userIsLoggedIn = {{data.loggedIn}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+	 var siteId = '{{data.global.siteId}}';
 	</script>
 
-	{% include 'phase-voting/includes/end-date-bar.html' %}
+	{{
+    apos.area(data.widget, 'contentArea', {
+      widgets: apos.settings.getOption('contentWidgets')
+    })
+  }}
+
+	<br />
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
 		{% if data.ideas.length > 0 %}
@@ -40,9 +46,12 @@
 			</div>
 			<div class="col-xs-12 col-sm-4">
 				<div class="sort">
-					<select class="default-select">
-						<option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
+					<select id="selectSort" class="default-select">
+						<option default {{'selected' if data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
 						<option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
+						<option {{'selected' if data.query.sort == 'random'}} value="random">Willekeurig</option>
+
+
 						<!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
 					</select>
 				</div>
@@ -52,6 +61,6 @@
 
 		<br />
 
-		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin) }}
+		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin, data) }}
 	</div>
 </div>
