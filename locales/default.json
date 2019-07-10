@@ -356,5 +356,8 @@
 	"Voor": "Voor",
 	"Tegen": "Tegen",
 	"The page has been created and saved.": "The page has been created and saved.",
-	"Bewerk plan pagina": "Bewerk plan pagina"
+	"Bewerk plan pagina": "Bewerk plan pagina",
+	"Url where orginal urls are found (ideaId is attached to the end)": "Url where orginal urls are found (ideaId is attached to the end)",
+	"Add test text": "Add test text",
+	"Add Date bar": "Add Date bar"
 }

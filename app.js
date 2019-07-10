@@ -83,8 +83,13 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
+  console.log('siteConfig', siteConfig);
+
+  console.log('dbName', dbName);
+
   return dbExists(dbName).then((exists) => {
       if (exists || dbName === process.env.DEFAULT_DB)  {
+
 
         if (!aposServer[dbName] || forceRestart) {
             //format sitedatat so it makes more sense
@@ -382,6 +387,7 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
+        'api-proxy': {}
 
       }
     }, siteData)
