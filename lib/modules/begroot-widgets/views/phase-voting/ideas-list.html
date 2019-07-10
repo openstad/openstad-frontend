@@ -1,4 +1,4 @@
-{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin) %}
+{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
 	{% for idea in runningIdeas %}
 	<li id="idea-{{idea.id}}" class="gridder-list {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#idea-content-{{idea.id}}">
@@ -102,7 +102,7 @@
 
 					{% if data.widget.originalIdeaUrl %}
 					<div class="margin-hor-10">
-						<a href="{{fullUrl}}/originele-plannen/plan/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
+						<a href="{{data.widget.originalIdeaUrl}}/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
 					</div>
 					{% endif %}
 					<br />

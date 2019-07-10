@@ -354,5 +354,8 @@
 	"Placeholder": "Placeholder",
 	"Sentiment": "Sentiment",
 	"Voor": "Voor",
-	"Tegen": "Tegen"
+	"Tegen": "Tegen",
+	"Url where orginal urls are found (ideaId is attached to the end)": "Url where orginal urls are found (ideaId is attached to the end)",
+	"Add test text": "Add test text",
+	"Add Date bar": "Add Date bar"
 }

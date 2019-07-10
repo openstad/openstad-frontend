@@ -4,7 +4,6 @@
 
  #ideas.primary {
  	box-sizing: content-box;
- 	width: calc(100% + 21px);
  	padding: 0;
 
    @media @phone {
@@ -20,4 +19,17 @@
 
 .ideasList {
 	 overflow: visible;
+ }
+
+ .ideasList .sort:before {
+    margin-right: 10px;
+    font-weight: 600;
+    content: 'Sorteer op:';
+}
+
+ .ideasList .sort {
+     width: 100%;
+     margin-top: 10px;
+     margin-bottom: 10px;
+     text-align: right;
  }

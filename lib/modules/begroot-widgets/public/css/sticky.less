@@ -7,8 +7,8 @@
     margin: 0 auto;
     max-width: 970px;
     overflow: hidden;
-    padding: 0 10px 0 10px;
     position: relative;
+		padding: 0;
 
 		@media @xs {
 			padding: 0;
@@ -27,6 +27,10 @@
 		left: 0;
 		z-index: 100003;
 		width: 100%;
+
+		.sticky-bar-inner {
+			padding: 0 10px 0 10px;
+		}
 
 		&.closed {
 	    #steps-bar, #steps-content, #button-bar {

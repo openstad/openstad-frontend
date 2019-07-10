@@ -387,6 +387,7 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
+        'api-proxy': {}
 
       }
     }, siteData)
