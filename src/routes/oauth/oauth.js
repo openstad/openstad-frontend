@@ -237,6 +237,12 @@ router
 	.route('(/site/:siteId)?/logout')
 	.get(function( req, res, next ) {
 
+		if (req.user && req.user.id > 1) {
+			req.user.update({
+				externalAccessToken: null
+			});
+		}
+
 		req.session.destroy();
 
 		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
