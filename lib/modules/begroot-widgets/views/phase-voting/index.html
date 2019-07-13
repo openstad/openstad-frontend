@@ -7,14 +7,22 @@
 
 <div id="westbegroot-voting" class="begroot-container">
 
-	{{ budgeting.showBudgetWindow() }}
+	{{ budgeting.showBudgetWindow(data) }}
 
 	<script>
 	 var userHasVoted = {{data.widget.userHasVoted}};
-	 var userIsLoggedIn = {{data.loggedIn}};
+	 var userIsLoggedIn = {{true if data.loggedIn else false}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
-	 var defaultSort = 	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+	 var defaultSort = 'random'; //	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
 	 var siteId = '{{data.global.siteId}}';
+
+	 var votingType = '{{data.widget.votingType}}'; // budgeting or count
+	 var maxIdeas = {{data.widget.maxIdeas if data.widget.maxIdeas else 0}};
+	 var minIdeas = {{data.widget.minIdeas if data.widget.minIdeas else 0}};
+
+	 var initialAvailableBudget = {{data.widget.initialAvailableBudget if data.widget.initialAvailableBudget else 0}};
+	 var minimalBudgetSpent = {{data.widget.minimalBudgetSpent if data.widget.minimalBudgetSpent else 0}};
+
 	</script>
 
 	{{
