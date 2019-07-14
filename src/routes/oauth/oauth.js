@@ -251,6 +251,10 @@ router
 		let url = authServerUrl + authServerGetUserPath;
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
 
+		if (req.query.redirectUrl) {
+			url = `${url}&redirectUrl=${req.query.redirectUrl}`;
+		}
+
 		res.redirect(url);
 
 	});
