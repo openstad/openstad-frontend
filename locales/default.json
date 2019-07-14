@@ -360,12 +360,5 @@
 	"Url where orginal urls are found (ideaId is attached to the end)": "Url where orginal urls are found (ideaId is attached to the end)",
 	"Add test text": "Add test text",
 	"Add Date bar": "Add Date bar",
-	"Voting type": "Voting type",
-	"Budgeting": "Budgeting",
-	"Count": "Count",
-	"Maximum selectable ideas": "Maximum selectable ideas",
-	"Minimum selectable ideas": "Minimum selectable ideas",
-	"Available Budget": "Available Budget",
-	"Minimum budget that has to be selected": "Minimum budget that has to be selected",
-	"Display price label": "Display price label"
+	"Enable voting (currently only works with for gridder)": "Enable voting (currently only works with for gridder)"
 }

@@ -40,14 +40,16 @@
     				<div class="gridder-mouse-over">
     					<div class="background">
     					</div>
-    					<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
-                {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
-    					</div>
-              {% if data.widget.voting and not userHasVoted %}
-                <div class="button-vote" onclick="event.preventDefault();selectIdea({{idea.id}})">
-                  {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
-                </div>
-              {% endif %}
+              <div class="vertically-centered">
+      					<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
+                  {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
+      					</div>
+                {% if data.widget.voting and not userHasVoted %}
+                  <div class="button-vote" onclick="event.preventDefault();selectIdea({{idea.id}})">
+                    {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
+                  </div>
+                {% endif %}
+              </div>
     				</div>
     			</div>
     			<div class="info">
