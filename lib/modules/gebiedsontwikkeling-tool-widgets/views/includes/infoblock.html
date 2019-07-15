@@ -16,7 +16,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
@@ -435,7 +435,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showArguments=[[ideaId]]" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
@@ -510,7 +510,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showReactions=[[argumentId]]" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
