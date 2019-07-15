@@ -8,7 +8,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 	{% set openOrClosed = 'closed' if not openOrClosed %}
 
-	<div class="pageContent {{contentClass}}">
+	<div class=" {{contentClass}}">
 
 		<div id="vote-creator-anchor"></div>
 
@@ -35,7 +35,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						Kies uit onderstaand overzicht jouw favoriete ontwerp voor de muurtekst ‘Zorg<br/>
 						goed voor onze stad en voor elkaar’, en vul in de volgende stap je gegevens in.
 
-					
+
 
 						<input type="hidden" name="ideaId" value="">
 						<div class="preview-container" onclick="clickPreview(event)">
@@ -55,8 +55,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div id="steps-content-2a" class="step">
 					<div class="content">
-						Vul hier je gegevens in. Wij willen graag weten waar de verschillende stemmen<br/>
-						vandaan komen, vul daarom ook je postcode in.
+						Via onderstaande knop kun je op een aparte pagina inloggen. <br />
+						Hierna wordt je teruggestuurd om je stem te bevestigen.
 						<div id="zipcode-and-email" class="form">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
@@ -66,15 +66,9 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 								</div>
 							</div>
 							<div class="fields">
-								<div id="zipCode">
-									<label>Postcode: </label>
-									<input type="text" name="zipCode" placeholder="1234AB" onchange="validateZipCode(true); setNextButton();"/>
-								</div>
-								<div id="email">
-									<label>Emailadres: </label>
-									<input type="text" name="email" placeholder="Emailadres" onchange="validateEmail(true); setNextButton();"/></br>
-								</div>
-								<div class="form-info">Je emailadres wordt alleen gebruikt om je stem te bevestigen.</div>
+								<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+									Inloggen
+								</a>
 							</div>
 						</div>
 					</div>
@@ -82,11 +76,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div id="steps-content-3a" class="step">
 					<div class="content">
-						<h4 class="blue">Dankjewel voor je stem, je bent bijna klaar!</h4>
-						We hebben je een e-mail gestuurd zodat je je stem kunt bevestigen.
+						<h4 class="blue">Dankjewel voor je stem!</h4>
 						<div class="info-block">
-							Let op: pas na bevestiging is je stem geldig! Geen e-mail ontvangen? Bekijk of de e-mail in je spam-map terecht is gekomen.
-						</div>
 						<div id="zipcode-and-email">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
@@ -96,16 +87,22 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 								</div>
 							</div>
 							<div class="fields">
-								<div id="zipCode">
-									<label>Postcode: </label><span id="showZipCode3a"></span>
-								</div>
-								<div id="email">
-									<label>Emailadres:</label><span id="showEmail3a"></span>
+								<div class="fields">
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+										Inloggen
+									</a>
 								</div>
 							</div>
 						</div>
-					</div>
+						<div class="checkmark-block-green">
+							<h4>Gelukt, je stem is opgeslagen!</h4>
+							</br>
+							Bedankt voor het stemmen. Hou deze website<br/>
+							in de gaten voor de uitslag.
+						</div>
+						</div>
 				</div>
+			</div>
 
 				<div id="steps-content-3c" class="step">
 					<div class="content">
@@ -118,11 +115,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 								</div>
 							</div>
 							<div class="fields">
-								<div id="zipCode" style="margin-top: -25px;">
-									<label>Postcode: </label><span id="showZipCode3c"></span>
-								</div>
-								<div id="email">
-									<label>Emailadres:</label><span id="showEmail3c"></span>
+								<div class="fields">
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+										Inloggen
+									</a>
 								</div>
 							</div>
 						</div>
@@ -175,8 +171,8 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 			</div>
 			<div id="waitLayer"></div>
 		</div>
-
 	</div>
+
 	{% include "vote-creator-config.html" ignore missing %}
 
 

@@ -1,4 +1,4 @@
-{% macro showBudgetWindow() %}
+{% macro showBudgetWindow(data) %}
 <div id="main-budget-block" class="sticky-bar-container">
 	<div class="sticky-bar">
 		<div class="sticky-bar-inner">
@@ -56,6 +56,18 @@
 								<div class="col-sm-4  col-xs-12 ">
 									<div id="budget-text" class="stretch">
 										<div>
+											{% if data.widget.votingType === 'count' %}
+											<table class="primary-color stretch table-reset">
+												<tr >
+													<td><label>Ideeën gekozen:</label> </td>
+													<td><span class="current-ideas-count text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Nog kiezen:</label></td>
+													<td><span class="available-ideas-count  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+											{% else %}
 											<table class="primary-color stretch table-reset">
 												<tr >
 													<td><label>Budget gekozen:</label> </td>
@@ -66,6 +78,8 @@
 													<td><span class="available-budget-amount  text-align-right block bold">0</span></td>
 												</tr>
 											</table>
+											{% endif %}
+
 										</div>
 									</div>
 								</div>
@@ -257,6 +271,20 @@
 
 				<div class="sticky-expand">
 					<div class="row">
+						{% if data.widget.votingType === 'count' %}
+						<div class="col-sm-4 col-xs-6 budget-col">
+								<label>
+									<span> Ideeën gekozen: </span>
+								</label>
+								<span class="current-ideas-count bold">0</span>
+							</div>
+							<div class="col-sm-4 col-xs-6 budget-col">
+								<label>
+									<span> Nog kiezen: </span>
+								</label>
+								<span class="available-ideas-count bold">0</span>
+							</div>
+						{% else %}
 						<div class="col-sm-4 col-xs-6 budget-col">
 							<label>
 								<span class="hidden-xs"> Budget gekozen: </span>
@@ -271,6 +299,7 @@
 								<span class="available-budget-amount bold">0</span>
 							</div>
 						</div>
+						{% endif %}
 						<div class="col-xs-12 col-sm-4 expand-bar">
 							<div class="align-right">
 								<a href="#mainMenu" class=" link scroll-link">
