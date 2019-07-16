@@ -122,13 +122,16 @@ function run(id, siteData, callback) {
       //multisite: self,
       afterListen: function() {
         apos._id = site._id;
-        return callback(null, apos);
+        if (callback) {
+          return callback(null, apos);
+        }
       },
   //    rootDir: getRootDir() + '/sites',
   //    npmRootDir: getRootDir(),
       //shortName: 'localhost',
       shortName: site._id,
       modules: {
+        'api-proxy': {},
 				'apostrophe-db': {
 					host: process.env.DB_HOST || 'localhost',
 					port: process.env.DB_PORT || 27017,
@@ -387,7 +390,6 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
-        'api-proxy': {}
 
       }
     }, siteData)
@@ -406,7 +408,7 @@ app.listen(process.env.PORT);
  * Run default SITE DATABASE if isset, this way when deploying
  * the site is already spin up and assets will be generated
  */
-/*
+
 if (process.env.DEFAULT_DB) {
   const defaultRunner = Promise.promisify(run);
   const dbName = process.env.DEFAULT_DB;
@@ -415,4 +417,3 @@ if (process.env.DEFAULT_DB) {
     aposServer[dbName] = apos;
   });
 }
-*/
