@@ -34,7 +34,7 @@
 	position: relative;
 
 	p {
-		margin-top: 0.5em;
+		margin: 20px 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -68,6 +68,7 @@
 				font-size: 0;
 				height: 20px;
 				width: 20px;
+        border: none;
 			}
 
 			input.edit {
@@ -158,8 +159,10 @@ form.newArgument {
   }
 
 	form.vote {
-    margin: 20px 0 10px;
-    display: inline-block;
+    margin: 0;
+    display: block;
+    float: left;
+    padding: 5px 0;
 
 		button {
 			cursor: pointer;
@@ -280,10 +283,6 @@ form.argument-form {
 	color: #000;
 	margin-bottom: 20px;
 	padding: 20px 15px 10px;
-
-	p {
-		margin-bottom: 0;
-	}
 }
 
 .argument + .reaction {
