@@ -360,5 +360,13 @@
 	"Url where orginal urls are found (ideaId is attached to the end)": "Url where orginal urls are found (ideaId is attached to the end)",
 	"Add test text": "Add test text",
 	"Add Date bar": "Add Date bar",
-	"Enable voting (currently only works with for gridder)": "Enable voting (currently only works with for gridder)"
+	"Enable voting (currently only works with for gridder)": "Enable voting (currently only works with for gridder)",
+	"Voting": "Voting",
+	"Intro for login": "Intro for login",
+	"Text of login button": "Text of login button",
+	"Save Ideas map": "Save Ideas map",
+	"CTA url": "CTA url",
+	"CTA text": "CTA text",
+	"Counter text": "Counter text",
+	"Edit Ideas map": "Edit Ideas map"
 }

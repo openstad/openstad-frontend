@@ -2,7 +2,7 @@
 
 <div  class="idea-overview-container">
   {% if data.widget.voting %}
-    {{ voteCreator.showVoteCreator(true, data.ideas) }}
+    {{ voteCreator.showVoteCreator(true, data.ideas, data) }}
   {% endif %}
   <div class="ideasList">
     {% if data.ideas.length > 0 %}
