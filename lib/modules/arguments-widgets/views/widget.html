@@ -67,7 +67,7 @@
 !-->
 
 
-{% if data.widget.ideaId === ':ideaId' %}
+{% if not data.widget.ideaId  %}
 
   {% if data.widget.argumentSentiment === 'for' %}
   {% set arguments = data.idea.argumentsFor %}

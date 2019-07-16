@@ -368,5 +368,9 @@
 	"CTA url": "CTA url",
 	"CTA text": "CTA text",
 	"Counter text": "Counter text",
-	"Edit Ideas map": "Edit Ideas map"
+	"Edit Ideas map": "Edit Ideas map",
+	"Save Arguments": "Save Arguments",
+	"Idea ID (if empty it will try to fetch the ideaId from the URL)": "Idea ID (if empty it will try to fetch the ideaId from the URL)",
+	"Text for no results": "Text for no results",
+	"Argument Sentiment": "Argument Sentiment"
 }
