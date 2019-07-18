@@ -1,0 +1,20 @@
+<style>
+    {{data.widget.formattedContainerStyles}}
+</style>
+
+<div id="{{data.widget.containerId}}" class="accordeon">
+{% for item in data.widget.items %}
+    <div class="accordeon-item closed">
+        <div class="title">
+            {{item.title | safe}}
+        </div>
+        <div class="description">
+            {% if item.actionText %}
+                <p>
+                    {{item.actionText | safe}}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+</div>
