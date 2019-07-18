@@ -245,7 +245,7 @@ function run(id, siteData, callback) {
                   position: 'top-right'
                 }
               },
-              // 'begroot': {},
+              'begroot': {},
               'card' : {},
               'counter' : {},
               'date-bar' : {},
@@ -328,7 +328,7 @@ function run(id, siteData, callback) {
         'user-form-widgets': {},
         'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
         'submissions-widgets': {},
-        // 'begroot-widgets': {},
+        'begroot-widgets': {},
         'local-video-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
