@@ -58,13 +58,14 @@ We hebben momenteel:
 
 Om dat te facliteren bestaan de volgende settings in de site configuratie (de eerste waarde is steeds de default):
 
-#### isViewable: false | true
+#### isViewable: null | false | true
 
 Mag het stem resultaat worden getoond.
 
 #### isActiveFrom: "ISODate" en isActiveTo: "ISODate"
 
-Van waneer tot waneer kan er gestemd worden. Buiten deze data is het stemmen gesloten. Nog niet geimplementeerd.
+Van waneer tot waneer kan er gestemd worden. Buiten deze data is het stemmen gesloten.
+De waarde van isActive overruled dit. Anders gezegd: dit werkt alleen als isActive null is.
 
 #### isActive: false | true
 
@@ -145,4 +146,3 @@ Zorg goed voor onze stad
 **TODO**
 create User on vote?
 confirmation
-isActiveFrom/isActiveTo

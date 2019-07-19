@@ -1,6 +1,7 @@
 const Promise     = require('bluebird');
 const express     = require('express');
 const createError = require('http-errors')
+const moment      = require('moment');
 const db          = require('../../db');
 const auth        = require('../../auth');
 const config      = require('config');
@@ -30,7 +31,14 @@ router.route('*')
 
   // mag er gestemd worden
 	.post(function(req, res, next) {
-		if (!req.site.config.votes.isActive) {
+		let isActive = req.site.config.votes.isActive;
+		if ( isActive == null && req.site.config.votes.isActiveFrom && req.site.config.votes.isActiveTo ) {
+			console.log(moment().isAfter(req.site.config.votes.isActiveFrom));
+			console.log(moment().isBefore(req.site.config.votes.isActiveTo));
+			isActive = moment().isAfter(req.site.config.votes.isActiveFrom) && moment().isBefore(req.site.config.votes.isActiveTo)
+		}
+		
+		if (!isActive) {
 			return next(createError(403, 'Stemmen is gesloten'));
 		}
 		return next();
@@ -55,7 +63,6 @@ router.route('*')
 // ----------------------------------------
 router.route('/')
 	.get(function(req, res, next) {
-		console.log(req.params);
 		let where = {};
 		let ideaId = req.query.ideaId;
 		if (ideaId) {
@@ -135,7 +142,6 @@ router.route('/')
 
   // validaties voor voteType=count
 	.post(function(req, res, next) {
-		console.log('req.site.config.votes');
 		if (req.site.config.votes.voteType != 'count') return next();
 		if (req.votes.length >= req.site.config.votes.minIdeas && req.votes.length <= req.site.config.votes.maxIdeas) {
 			return next();
@@ -176,7 +182,6 @@ router.route('/')
 						} else {
 							existingVote.opinion = vote.opinion
 							toBeUpdated.push(existingVote)
-							console.log(existingVote);
 						}
 					} else {
 						toBeCreated.push(vote)
@@ -198,16 +203,6 @@ router.route('/')
 
 		}
 
-		// let vote = toBeCreated[0];
-		// db.Vote
-		//  	.upsert(vote)
-		//  	.then(result => {
-		//  		db.Vote.restore({where: {ideaId: vote.ideaId }})
-		//  		console.log(result);
-		//  		res.json(result)
-		//  	})
-		// return;
-
 		// save
 		let promises = [];
 		toBeCreated.forEach((vote) => {
@@ -227,7 +222,6 @@ router.route('/')
 			.all(promises)
 			.then(
 				result => {
-					console.log(result);
 					req.result = {
 						created: toBeCreated,
 						updated: toBeUpdated,

@@ -207,7 +207,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 
 					isActive: {
-						type: 'boolean',
+						type: 'enum',
+						values: [ null, true, false ],
 						default: false,
 					},
 
