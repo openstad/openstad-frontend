@@ -58,7 +58,7 @@ We hebben momenteel:
 
 Om dat te facliteren bestaan de volgende settings in de site configuratie (de eerste waarde is steeds de default):
 
-#### isViewable: null | false | true
+#### isViewable: false | true
 
 Mag het stem resultaat worden getoond.
 
@@ -67,7 +67,7 @@ Mag het stem resultaat worden getoond.
 Van waneer tot waneer kan er gestemd worden. Buiten deze data is het stemmen gesloten.
 De waarde van isActive overruled dit. Anders gezegd: dit werkt alleen als isActive null is.
 
-#### isActive: false | true
+#### isActive: null | false | true
 
 Kan er gestemd worden. Deze parameter overruled de from-to dates hierboven.
 
@@ -146,3 +146,4 @@ Zorg goed voor onze stad
 **TODO**
 create User on vote?
 confirmation
+Je kun nu ook meerdere likes tegelijk opsturen. Misschien is dat niet wenselijk. Wellicht een config param?
