@@ -200,27 +200,69 @@ module.exports = function( db, sequelize, DataTypes ) {
 			votes: {
 				type: 'object',
 				subset: {
-					maxChoices: {
-						type: 'int',
-						default: 1,
+
+					isViewable: {
+						type: 'boolean',
+						default: true,
 					},
 
-					userRole: {
+					isActive: {
+						type: 'boolean',
+						default: true,
+					},
+
+					isActiveFrom: {
 						type: 'string',
-						default: 'anonymous',
+						default: undefined,
 					},
 
-					withExisting: {
-						type: 'enum',
-						values: ['error', 'replace', 'createOrCancel', 'replaceAll'],
-						default: 'replace',
+					isActiveTo: {
+						type: 'string',
+						default: undefined,
+					},
+
+					requiredUserRole: {
+						type: 'string',
+						default: 'member',
 					},
 
 					mustConfirm: {
 						type: 'boolean',
 						default: false,
-					}
+					},
 
+					withExisting: {
+						type: 'enum',
+						values: ['error', 'replace'],
+						default: 'replace',
+					},
+
+					votingType: {
+						type: 'enum',
+						values: ['likes', 'count', 'budgeting'],
+						default: 'likes',
+					},
+
+					maxIdeas: {
+						type: 'int',
+						default: undefined,
+					},
+
+					minIdeas: {
+						type: 'int',
+						default: undefined,
+					},
+
+					minBudget: {
+						type: 'int',
+						default: undefined,
+					},
+
+					maxBudget: {
+						type: 'int',
+						default: undefined,
+					},
+					
 				},
 			},
 		}

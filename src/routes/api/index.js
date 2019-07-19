@@ -16,7 +16,7 @@ router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
 
 // vote
-router.use( '/site/:siteId(\\d+)', require('./vote') );
+router.use( '/site/:siteId(\\d+)/vote', require('./vote') );
 
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );

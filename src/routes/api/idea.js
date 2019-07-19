@@ -47,11 +47,11 @@ router
 			req.scope.push('includeUser');
 		}
 
-		if (req.query.includeVoteCount) {
+		if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			req.scope.push('includeVoteCount');
 		}
 
-		if (req.query.includeUserVote) {
+		if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			// ik denk dat je daar niet het hele object wilt?
 			req.scope.push({ method: ['includeUserVote', req.user.id]});
 		}

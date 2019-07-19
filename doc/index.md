@@ -207,67 +207,7 @@ ideas hebben een extraData veld dat een JSON object bevat. De toegestane waarden
 
 ## Vote
 
-`GET /api/site/:SITE_ID/vote`
-list all votes for a site
-
-`GET /api/site/:SITE_ID/idea/:IDEA_ID/vote`
-list all votes for one idea
-
-`GET /api/site/:SITE_ID/idea/:IDEA_ID/vote?opinion=no`
-list all votes for one idea where opinion is 'no'
-
-`POST /api/site/:SITE_ID/vote`
-`POST /api/site/:SITE_ID/idea/:IDEA_ID/vote`
-create or update votes
-
-Payload:
-```
-[
-  {
-    "ideaId": 7,
-    "opinion": "yes"
-  },
-  {
-    "ideaId": 8,
-    "opinion": "yes"
-  },
-  {
-    "ideaId": 9,
-    "opinion": "yes"
-  },
-  {
-    "ideaId": 10,
-    "opinion": "yes"
-  }
-]
-```
-
-Het laatste is ontwikkeling
-
-Ik denk dat de budgetVotes die we in westbegroot gebruiken ook simpele votes kunnen worden. In plaats van 1 record met ideaIds kan er een vote record per ideaId worden gemaakt.
-
-we hebben dan:
-- stemvan stemmen: je kunt op elk open plan een voor of tegen stem uitbrengen. Nog een keer stemmen vervangt of annuleert de oude.
-- westbegroot: in principe hetzelfde, maar dan in bulk. Je kunt bovendien niet meer wijzigen.
-- javabrug: ook in bulk, maar je kunt nog wel wijzigen
-- kareldoorman en kademuren: max 1 stem, die je nog kunt wijzigen
-- eberhard: max 1 stem, die je bovendien moet bevestigen
-
-Met andere woorden: het uitbrengen van een stem kan per ideaId of in bulk. Wat er gebeurd als je opnieuw iets instuurt is afhankelijk van de configuratie.
-Er moet ook iets komen om extra validaties te kunnen doen, zoals die bijvoorbeeld in westbegroot zitten
-
-Daarnaast zijn er wellicht nog wat frontend opties, zoals de sterren van javabrug
-
-```
-config: {
-  votes: {
-    maxChoices: int || null,
-    widthExisting: 'error' || 'replace' || 'createOrCancel' || 'replaceAll',
-    mustConfirm: true || false,
-    userRole: minimum role required
-  }
-}
-```
+Staat nu in een [eigen doc](/doc/vote)
 
 #### TODO
 - config.votes.userRole doet nog niets. Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
