@@ -56,9 +56,9 @@ We hebben momenteel:
 - kareldoorman en kademuren: max 1 stem, die je nog kunt wijzigen
 - eberhard: max 1 stem, die je bovendien moet bevestigen
 
-Om dat te facliteren bestaan de volgende settings in de site configuratie:
+Om dat te facliteren bestaan de volgende settings in de site configuratie (de eerste waarde is steeds de default):
 
-#### isViewable: true | false
+#### isViewable: false | true
 
 Mag het stem resultaat worden getoond.
 
@@ -66,7 +66,7 @@ Mag het stem resultaat worden getoond.
 
 Van waneer tot waneer kan er gestemd worden. Buiten deze data is het stemmen gesloten. Nog niet geimplementeerd.
 
-#### isActive: true | false
+#### isActive: false | true
 
 Kan er gestemd worden. Deze parameter overruled de from-to dates hierboven.
 
@@ -80,7 +80,7 @@ Nog niet geimplementeerd
 
 De stem van een gebruiker is pas geldig als die is bevestigd via email.
 
-#### withExisting: "replace" | "error"
+#### withExisting: "error" | "replace"
 
 Als een gebruiker die stemt al eens eerder heeft gestemd dan kan zijn stem worden overschreven of er kan een error worden gegenererd
 
@@ -145,5 +145,4 @@ Zorg goed voor onze stad
 **TODO**
 create User on vote?
 confirmation
-Ik denk dat de defaut waardes meer paranoid (isViewable: false, withExisting: error, etc.) moeten zijn, maar dat moeten wel eerst de bestaande sites geupdate worden
 isActiveFrom/isActiveTo

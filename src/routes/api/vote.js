@@ -8,15 +8,6 @@ const merge       = require('merge');
 
 let router = express.Router({mergeParams: true});
 
-var defaultConfig = {
-	"isActive": false,
-	"votingType": "count",
-	"maxIdeas": 5,
-	"minIdeas": 4,
-	"minBudget": 200000,
-	"maxBudget": 300000,
-};
-
 // basis validaties
 // ----------------
 router.route('*')

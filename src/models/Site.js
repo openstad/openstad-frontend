@@ -203,12 +203,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					isViewable: {
 						type: 'boolean',
-						default: true,
+						default: false,
 					},
 
 					isActive: {
 						type: 'boolean',
-						default: true,
+						default: false,
 					},
 
 					isActiveFrom: {
@@ -234,7 +234,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					withExisting: {
 						type: 'enum',
 						values: ['error', 'replace'],
-						default: 'replace',
+						default: 'error',
 					},
 
 					votingType: {
