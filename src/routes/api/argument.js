@@ -108,7 +108,7 @@ router.route('/')
 			let ideaId = parseInt(req.params.ideaId) || 0;
 			let sentiment = req.query.sentiment;
 			let where = { ideaId, id: argumentId }
-			
+
 			if (sentiment) {
 				where.sentiment = sentiment;
 			}
@@ -120,19 +120,20 @@ router.route('/')
 				})
 				.then(entry => {
 					if ( !entry ) throw new Error('Argument not found');
-					req.argument = createArgumentJSON(entry, req.user);
+					req.argumentJSON = createArgumentJSON(entry, req.user);
+					req.argument = entry;
 					next();
 				})
 				.catch(next);
 		})
-	 
+
 	// view argument
 	// -------------
 		.get(auth.can('argument:view'))
 		.get(function(req, res, next) {
-			res.json(req.argument);
+			res.json(req.argumentJSON);
 		})
-	 
+
 	// update argument
 	// ---------------
 		.put(auth.can('argument:edit'))
@@ -145,7 +146,7 @@ router.route('/')
 				})
 				.catch(next);
 		})
-	 
+
 	// delete argument
 	// ---------------
 		.delete(auth.can('argument:delete'))
@@ -170,7 +171,7 @@ router.route('/:argumentId(\\d+)/vote')
 		let ideaId = parseInt(req.params.ideaId) || 0;
 		let sentiment = req.query.sentiment;
 		let where = { ideaId, id: argumentId }
-		
+
 		if (sentiment) {
 			where.sentiment = sentiment;
 		}
@@ -194,7 +195,7 @@ router.route('/:argumentId(\\d+)/vote')
 		var argument = req.argument;
 		var idea     = req.idea;
 		var opinion  = 'yes'; // todo
-		
+
 		req.argument.addUserVote(user, opinion, req.ip)
 			.then(function( voteRemoved ) {
 
