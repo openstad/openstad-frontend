@@ -17,7 +17,7 @@
 {% set arguments = data.widget.arguments %}
 {% endif %}
 
-{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/'+ideaId+'/argument/' %}
+{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/' + ideaId + '/argument' %}
 
 {% for arg in arguments %}
   {% set isArgumentOwner = arg.userId === data.openstadUser.id %}

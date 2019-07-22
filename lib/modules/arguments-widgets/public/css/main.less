@@ -58,31 +58,51 @@
 		form {
 			float: right;
 			line-height: 0;
+    }
 
-			input.delete,
-			input.edit {
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: 60%;
-				cursor: pointer;
-				font-size: 0;
-				height: 20px;
-				width: 20px;
-        border: none;
-			}
-
-			input.edit {
-				background-color: #333;
-				background-image: url("/img/edit_white.svg");
-				margin-left: 4px;
-			}
-
-			input.delete {
-				background-color: #EC0000;
-				background-image: url("/img/delete_white.svg");
-			}
+		.delete,
+		.edit {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 60%;
+			cursor: pointer;
+			font-size: 0;
+			height: 20px;
+			width: 20px;
+      border: none;
+      display: block;
+      float: right;
 		}
+
+		.edit {
+			background-color: #333;
+			background-image: url("/img/edit_white.svg");
+			margin-left: 4px;
+		}
+
+		.delete {
+			background-color: #EC0000;
+			background-image: url("/img/delete_white.svg");
+		}
+
 	}
+
+  .argument-edit-form {
+    display: none;
+    margin: 17px 0;
+  }
+
+  &.edit-mode {
+    .argument-edit-form {
+      display: block;
+    }
+
+    .argument-content {
+      display: none;
+    }
+  }
+
+
 }
 // Argument
 // --------

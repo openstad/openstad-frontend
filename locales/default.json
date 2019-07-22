@@ -372,5 +372,9 @@
 	"Save Arguments": "Save Arguments",
 	"Idea ID (if empty it will try to fetch the ideaId from the URL)": "Idea ID (if empty it will try to fetch the ideaId from the URL)",
 	"Text for no results": "Text for no results",
-	"Argument Sentiment": "Argument Sentiment"
+	"Argument Sentiment": "Argument Sentiment",
+	"Save Video": "Save Video",
+	"Video URL": "Video URL",
+	"Embedding is not allowed for this video.": "Embedding is not allowed for this video.",
+	"That video was not found. Paste a URL to the video's page.": "That video was not found. Paste a URL to the video's page."
 }
