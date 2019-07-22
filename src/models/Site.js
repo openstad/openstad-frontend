@@ -1,3 +1,5 @@
+const merge = require('merge');
+
 module.exports = function( db, sequelize, DataTypes ) {
 
 	var Site = sequelize.define('site', {
@@ -34,7 +36,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return this.parseConfig(value);
 			},
 			set					 : function(value) {
+				var currentconfig = this.getDataValue('config');
+				try {
+					if (typeof currentconfig == 'string') {	currentconfig = JSON.parse(currentconfig); }
+				} catch(err) { currentconfig = {}; }
 				value = value || {};
+				value = merge.recursive(currentconfig, value);
 				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
 			}
 		},
