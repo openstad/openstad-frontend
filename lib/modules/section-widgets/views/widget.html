@@ -4,8 +4,12 @@
 
 <div
   id="{{data.widget.containerId}}"
-  class="section {{data.widget.htmlClass}}"
+  class="section
+  {{data.widget.htmlClass}}
+  {% if data.widget.marginType === 'up' %} margin-up {% endif %}
+"
   style="
+
     {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}}; {% endif %}
   "
 >
