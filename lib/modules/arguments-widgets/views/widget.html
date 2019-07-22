@@ -3,9 +3,10 @@
 
 {% if not data.widget.ideaId  %}
   {% set ideaId = data.idea.id %}
+
   {% if data.widget.argumentSentiment === 'for' %}
   {% set arguments = data.idea.argumentsFor %}
-  {% elif data.widget.argumentSentiment === 'against'  %}
+  {% elseif data.widget.argumentSentiment === 'against'  %}
   {% set arguments = data.idea.argumentsAgainst %}
   {% else %}
   {% set arguments = data.idea.arguments %}
@@ -16,95 +17,23 @@
 {% set arguments = data.widget.arguments %}
 {% endif %}
 
-{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/'+ideaId+'/argument/ %}
-
+{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/'+ideaId+'/argument/' %}
 
 {% for arg in arguments %}
   {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
-  {% set mayEdit = data.isAdmin or isArgumentOwner %}
-  {% set mayDelete =  data.isAdmin or isArgumentOwner %}
+  {% set mayEdit = (data.isAdmin or isArgumentOwner) %}
+  {% set mayDelete =  (data.isAdmin or isArgumentOwner) %}
 
-
-  <div class="argument argument-variant-{{arg.label}} argument-action-form" data-id="{{arg.id}}" id="arg{{arg.id}}">
-    <div class="user ">
-      <strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
-      {% if mayEdit %}
-        <form class="action" method="GET" action="{{}}/arg/{{arg.id}}/edit">
-          <input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
-        </form>
-
-      {% endif %}
-      {% if mayDelete %}
-        <form class="action delete argument-action-form" method="POST" action="/arg/{{arg.id}}/delete">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
-        </form>
-      {% endif %}
-    </div>
-    <!--
-    <div class="comment-pre-sentence">
-      <b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
-    </div>
-    !-->
-
-    <p>{{arg.description | urlize | nlbr | safe}}</p>
-    {% if mayEdit %}
-    <form class="action argument-form" method="POST" action="{{apiArgumentUrl}}/edit" class="editForm">
-      <input type="hidden" name="_method" value="PUT">
-      <input type="submit" class="btn btn-default" value="Opslaan" title="Argument bewerken">
-    </form>
-    {% endif %}
-
-    <div class="clearfix">
-    {% if mayVote %}
-      <form class="action vote argument-action-form ajax-form" method="POST" action="{{arg.id}}/vote">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
-          Mee eens (<span>{{arg.yes}}</span>)
-        </button>
-      </form>
-    {% else %}
-      <form class="action vote argument-action-form ajax-form">
-        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
-          Mee eens (<span>{{arg.yes}}</span>)
-        </button>
-      </form>
-    {% endif %}
-
-    {% if maySeeReplyForm %}
-      <a href="/arg/{{arg.id}}/reply"
-         class="reply argument-action-form" {{'data-disabled' if not mayReply}}
-      >Reageren</a>
-    {% endif %}
-    </div>
-  </div>
+  {% include 'argument.html' %}
 
   {% for reaction in arg.reactions %}
     {% set isReactionOwner = arg.userId === data.openstadUser.id %}
-    {% set mayEdit   = data.isAdmin or isReactionOwner %}
-    {% set mayDelete = data.isAdmin or isReactionOwner %}
+    {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
+    {% set mayDelete = (data.isAdmin or isReactionOwner) %}
 
-    <div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
-      <div class="user {{'admin' if reaction.user.isAdmin()}}">
-        <strong>{{reaction.user.firstName}} {{reaction.user.lastName}}</strong> | {{reaction.createdAt | date('LLL')}}
-
-        {% if mayEdit %}
-          <form class="action" method="GET" action="/arg/{{reaction.id}}/edit">
-            <input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
-          </form>
-        {% endif %}
-        {% if mayDelete %}
-          <form class="action delete ajax-form" method="POST" action="/arg/{{reaction.id}}/delete">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
-          </form>
-        {% endif %}
-      </div>
-
-      <p>{{reaction.description | urlize | safe}}</p>
-    </div>
+    {% include 'reaction.html' %}
   {% endfor %}
+
 {% else %}
   <div class="noArguments">
     {{data.widget.emptyPlaceholder}}
@@ -116,27 +45,11 @@
 </div>
 
 {# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
-<form method="POST" action="/arg/reply" class="tpl newReaction">
-  {#<div {% if (user.firstName > 0 ) %} style="display: none;" {% endif %}>
-  <input
-    type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"
-    />
-  </div>#}
-
-  <textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
-
-  <div class="charsLeft">
-    <div class="min">Nog minimaal <span>140</span> tekens.</div>
-    <div class="max"><span>360</span> tekens resterend.</div>
-  </div>
-
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="parentId" value="">
-  <input type="hidden" name="sentiment" value="{{data.widget.argumentSentiment}}">
-  <input type="submit" value="Verzenden">
-</form>
 
 {#
+
+  {% include 'reaction-form.html' %}
+
 <script>
 // For each argument
 // -----------------

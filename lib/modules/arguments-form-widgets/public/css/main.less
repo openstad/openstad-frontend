@@ -98,7 +98,7 @@
     border: 1px solid #B6B7BA;
     border-radius: 0;
     box-sizing: border-box;
-    color: #B6B7BA;
+    color: #000;
     cursor: pointer;
     display: block;
     font-family: inherit;
@@ -109,6 +109,19 @@
     outline: none;
     padding: 10px;
     position: relative;
+
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: rgb(182, 183, 186);
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      color: rgb(182, 183, 186);
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      color: rgb(182, 183, 186);
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      color: rgb(182, 183, 186);
+    }
 
     &:not([data-disabled]):focus {
       color: #000;

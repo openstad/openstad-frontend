@@ -1,0 +1,19 @@
+<div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
+  <div class="user {{'admin' if reaction.user.isAdmin()}}">
+    <strong>{{reaction.user.firstName}} {{reaction.user.lastName}}</strong> | {{reaction.createdAt | date('LLL')}}
+
+    {% if mayEdit %}
+      <form class="action" method="GET" action="/arg/{{reaction.id}}/edit">
+        <input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
+      </form>
+    {% endif %}
+    {% if mayDelete %}
+      <form class="action delete ajax-form" method="POST" action="/arg/{{reaction.id}}/delete">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
+      </form>
+    {% endif %}
+  </div>
+
+  <p>{{reaction.description | urlize | safe}}</p>
+</div>

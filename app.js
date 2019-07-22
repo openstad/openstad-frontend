@@ -407,7 +407,7 @@ app.listen(process.env.PORT);
 /**
  * Run default SITE DATABASE if isset, this way when deploying
  * the site is already spin up and assets will be generated
- */
+
 
 if (process.env.DEFAULT_DB) {
   const defaultRunner = Promise.promisify(run);
@@ -417,3 +417,4 @@ if (process.env.DEFAULT_DB) {
     aposServer[dbName] = apos;
   });
 }
+ */
