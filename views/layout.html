@@ -183,35 +183,6 @@ ga('send', 'pageview');
 {% block afterMain %}
 {% if not (data.query.layout === 'none') %}
 
-
-{#<footer>
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-3 col-xs-12">
-						<h2>Over deze site</h2>
-						<ul>
-							<li><a href="/disclaimer">Disclaimer</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-3 col-xs-12">
-						<h2>Meer informatie</h2>
-						<ul>
-							<li><a href="https://www.amsterdam.nl/javabrug" target="_blank">Volg de project­pagina op amsterdam.nl</a></li>
-						</ul>
-					</div>
-					<div class="col-sm-3 col-xs-12">
-						<h2>Contact</h2>
-						<p>
-							Heb je een vraag of het gebruik van de site? Wij horen het graag
-						</p>
-						<ul>
-							<li><a href="mailto:javabrug@amsterdam.nl">Stuur een e-mail</a></li>
-						</ul>
-					</div>
-					</div>
-				</div>
-		</footer>
-    #}
 <footer>
 	<div class="container">
 		<div class="row">
@@ -223,7 +194,14 @@ ga('send', 'pageview');
         </p>
         <ul>
           {% for link in column.links %}
-          <li><a href="{{link.url}}" target="_blank">{{link.label}}</a></li>
+          <li>
+            <a
+              href="{{link.url}}"
+              {% if link.targetBlank %} target="_blank" {% endif %}
+            >
+              {{link.label}}
+            </a>
+          </li>
           {% endfor %}
         </ul>
       </div>

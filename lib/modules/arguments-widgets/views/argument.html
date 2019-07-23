@@ -2,13 +2,13 @@
   <div class="user ">
     <strong>{{arg.user.nickName}}</strong> | {{ arg.createdAt | date('LLL') }}
     {% if mayEdit %}
-        <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
+    <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
     {% if mayDelete %}
-      <form class="action delete argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
-      </form>
+    <form class="action delete argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
+    </form>
     {% endif %}
   </div>
 
@@ -40,7 +40,7 @@
     {% endif %}
 
     {% if maySeeReplyForm %}
-      <a href="#"  class="reply argument-action-form" {{'data-disabled' if not mayReply}}
+      <a href="#"  class="reply reply-click argument-action-form" {{'data-disabled' if not mayReply}}
       >Reageren</a>
     {% endif %}
   </div>

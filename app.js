@@ -152,7 +152,7 @@ function run(id, siteData, callback) {
           // export explicitly between locales
           replicateAcrossLocales: true,
 
-      /*    locales: [
+      /*  locales: [
             {
               name: 'default',
               label: 'Default',
@@ -170,8 +170,8 @@ function run(id, siteData, callback) {
               ]
             },
           ],*/
-        },
-        'apostrophe-workflow-modified-documents': {},
+      },
+  //      'apostrophe-workflow-modified-documents': {},
     /*    'apostrophe-docs': {
           beforeConstruct: function(self, options) {
             console.log('==>>>> beforeConstruct', options);
@@ -218,16 +218,41 @@ function run(id, siteData, callback) {
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
               'agenda' : {},
-              'apostrophe-images': {
+          /*    'apostrophe-images': {
                 fields: {
                   type: 'string',
                   name: 'maxWidth',
                   label: 'Max width'
                 }
-              },
+              },*/
               'arguments' : {},
               'arguments-form' : {},
-              'gebiedsontwikkeling-tool': {},
+              'section' : {
+                addLabel: 'Columns',
+                controls: {
+                  movable: true,
+                  removable: true,
+                  position: 'bottom-left'
+                },
+              },
+              'counter' : {
+                addLabel: 'Counter',
+              },
+              'date-bar' : {},
+              'idea-form' : {},
+              'idea-map': {},
+              'idea-overview' : {},
+              'idea-single' : {},
+              'image' : {},
+              'link': {},
+              'list' : {},
+              'gebiedsontwikkeling-tool': {
+                addLabel: 'Map for area development',
+              },
+              'begroot': {
+                addLabel: 'Participatory budgetting',
+              },
+              'main-image' : {},
               'apostrophe-rich-text': {
                 toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
 
@@ -248,31 +273,17 @@ function run(id, siteData, callback) {
                   position: 'top-right'
                 }
               },
-              'begroot': {},
-              'card' : {},
-              'counter' : {},
-              'date-bar' : {},
-              'idea-overview' : {},
-              'idea-map': {},
-              'link': {},
-              'idea-single' : {},
-              'idea-form' : {},
-              'list' : {},
-              'main-image' : {},
+
               'speech-bubble' : {},
               'title' : {},
-              'user-form' : {},
-              'submissions' : {},
-              'section' : {
-                addLabel: 'Add a section',
-                controls: {
-                  movable: true,
-                  removable: true,
-                  position: 'bottom-left'
-                },
+        //      'user-form' : {},
+              'local-video': {
+                addLabel: 'Video (upload)',
               },
-              'local-video': {},
-              'apostrophe-video' : {'label': '3d party video'}
+              'apostrophe-video' : {
+                addLabel: 'Video (3d party, youtube, vimeo, etc.)',
+              },
+
           }
         },
 
@@ -333,6 +344,7 @@ function run(id, siteData, callback) {
         'submissions-widgets': {},
         'begroot-widgets': {},
         'local-video-widgets': {},
+        'image-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
         'apostrophe-video-widgets': {},

@@ -19,36 +19,31 @@
 
 {% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/' + ideaId + '/argument' %}
 
+{% if arguments.length > 0 %}
 {% for arg in arguments %}
   {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
   {% set mayEdit = (data.isAdmin or isArgumentOwner) %}
   {% set mayDelete =  (data.isAdmin or isArgumentOwner) %}
+  <div id="argument-container-{{arg.id}}" class="argument-container">
+    {% include 'argument.html' %}
 
-  {% include 'argument.html' %}
+    <div class="reaction-container">
+    {% for reaction in arg.reactions %}
+      {% set isReactionOwner = arg.userId === data.openstadUser.id %}
+      {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
+      {% set mayDelete = (data.isAdmin or isReactionOwner) %}
 
-  {% for reaction in arg.reactions %}
-    {% set isReactionOwner = arg.userId === data.openstadUser.id %}
-    {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
-    {% set mayDelete = (data.isAdmin or isReactionOwner) %}
-
-    {% include 'reaction.html' %}
-  {% endfor %}
-
-{% else %}
-  <div class="noArguments">
-    {{data.widget.emptyPlaceholder}}
+      {% include 'reaction.html' %}
+    {% endfor %}
+    {% include 'reaction-form.html' %}
+    </div>
   </div>
 {% endfor %}
-
-<div class="noArguments no-arguments" style="display: none;">
-
+{% else %}
+<div class="noArguments">
+  {{data.widget.emptyPlaceholder}}
 </div>
-
-{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
-
-{#
-
-  {% include 'reaction-form.html' %}
+{% endif %}
 
 <script>
 // For each argument
@@ -270,4 +265,3 @@ function renderForm( form ) {
 
 }
 </script>
-#}

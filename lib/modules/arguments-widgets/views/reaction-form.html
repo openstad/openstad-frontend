@@ -1,18 +1,7 @@
-<form method="POST" action="/arg/reply" class="tpl newReaction">
-  {#<div {% if (user.firstName > 0 ) %} style="display: none;" {% endif %}>
-  <input
-    type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"
-    />
-  </div>#}
-
+<form method="POST" action="{{apiArgumentUrl}}" class="newReaction argument-form reply-form clearfix">
   <textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
 
-  <div class="charsLeft">
-    <div class="min">Nog minimaal <span>140</span> tekens.</div>
-    <div class="max"><span>360</span> tekens resterend.</div>
-  </div>
-
-  <input type="hidden" name="parentId" value="">
+  <input type="hidden" name="parentId" value="{{arg.id}}">
   <input type="hidden" name="sentiment" value="{{data.widget.argumentSentiment}}">
-  <input type="submit" value="Verzenden">
+  <input type="submit" class="btn btn-primary pull-right" value="Verzenden">
 </form>

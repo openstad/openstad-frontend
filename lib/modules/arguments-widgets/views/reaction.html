@@ -3,17 +3,25 @@
     <strong>{{reaction.user.firstName}} {{reaction.user.lastName}}</strong> | {{reaction.createdAt | date('LLL')}}
 
     {% if mayEdit %}
-      <form class="action" method="GET" action="/arg/{{reaction.id}}/edit">
-        <input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
-      </form>
+    <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
     {% if mayDelete %}
-      <form class="action delete ajax-form" method="POST" action="/arg/{{reaction.id}}/delete">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
-      </form>
+    <form class="action delete ajax-form" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}/delete">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
+    </form>
     {% endif %}
   </div>
 
-  <p>{{reaction.description | urlize | safe}}</p>
+  <p class="argument-content">{{reaction.description | urlize | safe}}</p>
+
+  {% if mayEdit %}
+  <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}" class="editForm">
+    <input type="hidden" name="_method" value="PUT">
+    <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{reaction.description | urlize | nlbr | safe}}</textarea>
+    <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
+    &nbsp;
+    <a href="#" class="edit-cancel"> Annuleer </a>
+  </form>
+  {% endif %}
 </div>
