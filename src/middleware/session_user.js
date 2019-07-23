@@ -123,7 +123,6 @@ function getUserInstance( userId, site ) {
 						json => {
 							json.role = json.role || 'member';
 							user = merge(dbuser, json)
-							console.log('========== MERGED');
 							return user;
 						}
 					)
@@ -138,7 +137,6 @@ function getUserInstance( userId, site ) {
 
 		})
 		.then(function( user ) {
-			console.log('--------------------', user.id);
 			return user;
 		})
 
@@ -146,7 +144,6 @@ function getUserInstance( userId, site ) {
 
 function resetSessionUser(user) {
 
-	console.log('xxx reset');
 	return user.update({
 		externalAccessToken: null
 	})

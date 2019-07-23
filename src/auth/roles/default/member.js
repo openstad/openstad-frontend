@@ -12,8 +12,16 @@ module.exports = function( helpers, role ) {
 
 		'argument:view'    : true,
 		'argument:create'	 : true,
-		'argument:edit'		 : helpers.mayMutateArgument,
-		'argument:delete'	 : helpers.mayMutateArgument,
+		'argument:edit'		 : {
+			allow    : helpers.mayMutateArgument,
+			resource : ['argument', 'idea'],
+			message  : 'Je kunt deze reactie niet bewerken'
+		},
+		'argument:delete'	 : {
+			allow    : helpers.mayMutateArgument,
+			resource : ['argument', 'idea'],
+			message  : 'Je kunt deze reactie niet bewerken'
+		},
 		'argument:vote'    : {
 			allow   : helpers.mayVoteArgument,
 			message : 'Je kunt niet op reacties stemmen'

@@ -122,7 +122,18 @@ router.route('/')
 					if ( !entry ) throw new Error('Argument not found');
 					req.argumentJSON = createArgumentJSON(entry, req.user);
 					req.argument = entry;
-					next();
+
+					db.Idea // add idea for auth checks
+						.scope()
+						.findOne({
+							where: { id: req.argument.ideaId }
+						})
+						.then(entry => {
+							if ( !entry ) throw new Error('Idea not found');
+							req.idea = entry;
+							next();
+						})
+
 				})
 				.catch(next);
 		})

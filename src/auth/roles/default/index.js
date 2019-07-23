@@ -58,7 +58,7 @@ var helpers = {
 	},
 
 	// TODO: Deny when arg replies exist.
-	mayMutateArgument: function( user, idea, argument ) {
+	mayMutateArgument: function( user, argument, idea ) {
 		return user.id === argument.userId &&
 		       idea.isRunning();
 	},
