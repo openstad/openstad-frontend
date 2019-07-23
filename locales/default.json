@@ -431,5 +431,20 @@
 	"Save Idea single": "Save Idea single",
 	"Accordeon": "Accordeon",
 	"Save Accordeon": "Save Accordeon",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Margin type": "Margin type",
+	"Normal": "Normal",
+	"Shift upwards": "Shift upwards",
+	"Crop Image": "Crop Image",
+	"Save Crop": "Save Crop",
+	"home": "home",
+	"Search Documents...": "Search Documents...",
+	"Last Edit": "Last Edit",
+	"Submitted?": "Submitted?",
+	"Revert": "Revert",
+	"Slider": "Slider",
+	"Save Slider": "Save Slider",
+	"Edit Slider": "Edit Slider",
+	"Display": "Display",
+	"Flex wrap": "Flex wrap"
 }

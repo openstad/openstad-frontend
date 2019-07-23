@@ -269,6 +269,7 @@ function run(id, siteData, callback) {
                   position: 'bottom-left'
                 },
               },
+              'slider' : {},
               'local-video': {},
               'apostrophe-video' : {'label': '3d party video'}
           }
@@ -315,6 +316,7 @@ function run(id, siteData, callback) {
         'list-widgets': {},
         'agenda-widgets': {},
         'accordeon-widgets': {},
+        'slider-widgets': {},
         'idea-overview-widgets': {},
         'icon-section-widgets': {},
         'idea-single-widgets': {},

@@ -1,0 +1,25 @@
+<style>
+    {{data.widget.formattedContainerStyles}}
+</style>
+
+<div id="{{data.widget.containerId}}" class="slider">
+{% if data.widget.items %}
+    <ul class="slide-items">
+        {% for item in data.widget.items %}
+            <li class="slide-item">
+                <div class="image-container">
+                    <div class="imgdiv"
+                        style="background-image: url({{ apos.attachments.url(item.image) }})"
+                    >
+                        <img class="button button-left" src="/img/button-arrow-blue.svg"></img>
+                        <img class="button button-right" src="/img/button-arrow-blue.svg"></img>
+
+                    </div>
+                </div>
+                <h4>{{ item.title | safe}}</h4>
+                <p>{{ item.description | safe}}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</div>
