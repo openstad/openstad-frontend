@@ -401,5 +401,14 @@
 	"New Image": "New Image",
 	"Search Images...": "Search Images...",
 	"Showing %s - %s of %s results%s": "Showing %s - %s of %s results%s",
-	"Edit Image": "Edit Image"
+	"Edit Image": "Edit Image",
+	"Your submission will be reviewed.": "Your submission will be reviewed.",
+	"Voting type": "Voting type",
+	"Budgeting": "Budgeting",
+	"Count": "Count",
+	"Maximum selectable ideas": "Maximum selectable ideas",
+	"Minimum selectable ideas": "Minimum selectable ideas",
+	"Available Budget": "Available Budget",
+	"Minimum budget that has to be selected": "Minimum budget that has to be selected",
+	"Display price label": "Display price label"
 }
