@@ -33,11 +33,9 @@ router.route('*')
 	.post(function(req, res, next) {
 		let isActive = req.site.config.votes.isActive;
 		if ( isActive == null && req.site.config.votes.isActiveFrom && req.site.config.votes.isActiveTo ) {
-			console.log(moment().isAfter(req.site.config.votes.isActiveFrom));
-			console.log(moment().isBefore(req.site.config.votes.isActiveTo));
 			isActive = moment().isAfter(req.site.config.votes.isActiveFrom) && moment().isBefore(req.site.config.votes.isActiveTo)
 		}
-		
+
 		if (!isActive) {
 			return next(createError(403, 'Stemmen is gesloten'));
 		}
@@ -47,15 +45,19 @@ router.route('*')
   // is er een geldige gebruiker
 	.all(function(req, res, next) {
 		if (req.method == 'GET') return next(); // nvt
+
 		if (!req.user) {
 			return next(createError(401, 'Geen gebruiker gevonden'));
 		}
+
 		if (req.site.config.votes.requiredUserRole == 'anonymous') {
 			return next(createError(401, 'Anonymous stemmen is nog niet geimplementeerd'));
 		}
+
 		if (req.site.config.votes.requiredUserRole == 'member' && req.user.role == 'member' || req.user.role == 'admin') {
 			return next();
 		}
+
 		return next(createError(401, 'Je mag niet stemmen op deze site'));
 	})
 
@@ -63,6 +65,7 @@ router.route('*')
 // ----------------------------------------
 router.route('/')
 	.get(function(req, res, next) {
+
 		let where = {};
 		let ideaId = req.query.ideaId;
 		if (ideaId) {
@@ -76,6 +79,7 @@ router.route('/')
 		if (opinion) {
 			where.opinion = opinion;
 		}
+
 		db.Vote
 			.scope({ method: ['forSiteId', req.site.id]})
 			.findAll({ where })
@@ -109,7 +113,7 @@ router.route('/')
 		if (!Array.isArray(votes)) votes = [votes];
 		votes = votes.map((entry) => {
 			return {
-				ideaId: parseInt(entry.ideaId),
+				ideaId: parseInt(entry.ideaId, 10),
 				opinion: typeof entry.opinion == 'string' ? entry.opinion : null,
 				userId: req.user.id,
 				confirmed: false,
@@ -119,6 +123,7 @@ router.route('/')
 			}
 		});
 		req.votes = votes;
+
 		return next();
 	})
 
@@ -126,7 +131,7 @@ router.route('/')
 	.post(function(req, res, next) {
 		let ids = req.votes.map( entry => entry.ideaId );
 		db.Idea
-			.findAll({ where: { id: ids, siteId: req.site.id } })
+			.findAll({ where: { id:ids, siteId: req.site.id } })
 			.then(found => {
 				if (req.votes.length != found.length) return next(createError(400, 'Idee niet gevonden'));
 				req.ideas = found;
@@ -169,7 +174,7 @@ router.route('/')
 		let toBeUpdated = [];
 		let toBeDeleted = [];
 
-		switch(req.site.config.votes.voteType) {
+		switch(req.site.config.votes.votingType) {
 
   		// dit is nog niet goed genoeg, omdat hij een niuew record niet maakt als daar al een deleted versie van is
 
@@ -205,6 +210,7 @@ router.route('/')
 
 		// save
 		let promises = [];
+
 		toBeCreated.forEach((vote) => {
 			let promise = db.Vote.restoreOrInsert( vote ) // HACK: `upsert` on paranoid deleted row doesn't unset `deletedAt`.
 			promises.push( promise )
