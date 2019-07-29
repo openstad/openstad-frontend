@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+    <g fill="none" fill-rule="evenodd" transform="translate(1 1)">
+        <circle cx="12" cy="12" r="12" fill-rule="nonzero" stroke="#FFF" stroke-width="1.75"/>
+        <text fill="#FFF" font-family="AvenirNext-DemiBold, Avenir Next" font-size="14" font-weight="500">
+            <tspan x="10.12" y="17">!</tspan>
+        </text>
+    </g>
+</svg>

@@ -83,9 +83,9 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
-  console.log('siteConfig', siteConfig);
+//  console.log('siteConfig', siteConfig);
 
-  console.log('dbName', dbName);
+  //console.log('dbName', dbName);
 
   return dbExists(dbName).then((exists) => {
       if (exists || dbName === process.env.DEFAULT_DB)  {
@@ -122,13 +122,16 @@ function run(id, siteData, callback) {
       //multisite: self,
       afterListen: function() {
         apos._id = site._id;
-        return callback(null, apos);
+        if (callback) {
+          return callback(null, apos);
+        }
       },
   //    rootDir: getRootDir() + '/sites',
   //    npmRootDir: getRootDir(),
       //shortName: 'localhost',
       shortName: site._id,
       modules: {
+        'api-proxy': {},
 				'apostrophe-db': {
 					host: process.env.DB_HOST || 'localhost',
 					port: process.env.DB_PORT || 27017,
@@ -149,7 +152,7 @@ function run(id, siteData, callback) {
           // export explicitly between locales
           replicateAcrossLocales: true,
 
-      /*    locales: [
+      /*  locales: [
             {
               name: 'default',
               label: 'Default',
@@ -167,8 +170,8 @@ function run(id, siteData, callback) {
               ]
             },
           ],*/
-        },
-        'apostrophe-workflow-modified-documents': {},
+      },
+  //      'apostrophe-workflow-modified-documents': {},
     /*    'apostrophe-docs': {
           beforeConstruct: function(self, options) {
             console.log('==>>>> beforeConstruct', options);
@@ -216,16 +219,41 @@ function run(id, siteData, callback) {
           contentWidgets: {
               'agenda' : {},
               'accordeon': {},
-              'apostrophe-images': {
+          /*    'apostrophe-images': {
                 fields: {
                   type: 'string',
                   name: 'maxWidth',
                   label: 'Max width'
                 }
-              },
+              },*/
               'arguments' : {},
               'arguments-form' : {},
-              'gebiedsontwikkeling-tool': {},
+              'section' : {
+                addLabel: 'Columns',
+                controls: {
+                  movable: true,
+                  removable: true,
+                  position: 'bottom-left'
+                },
+              },
+              'counter' : {
+                addLabel: 'Counter',
+              },
+              'date-bar' : {},
+              'idea-form' : {},
+              'idea-map': {},
+              'idea-overview' : {},
+              'idea-single' : {},
+              'image' : {},
+              'link': {},
+              'list' : {},
+              'gebiedsontwikkeling-tool': {
+                addLabel: 'Map for area development',
+              },
+              'begroot': {
+                addLabel: 'Participatory budgetting',
+              },
+              'main-image' : {},
               'apostrophe-rich-text': {
                 toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
 
@@ -246,31 +274,17 @@ function run(id, siteData, callback) {
                   position: 'top-right'
                 }
               },
-              'begroot': {},
-              'card' : {},
-              'counter' : {},
-              'date-bar' : {},
-              'idea-overview' : {},
-              'idea-map': {},
-              'link': {},
-              'idea-single' : {},
-              'idea-form' : {},
-              'list' : {},
-              'main-image' : {},
+
               'speech-bubble' : {},
               'title' : {},
-              'user-form' : {},
-              'submissions' : {},
-              'section' : {
-                addLabel: 'Add a section',
-                controls: {
-                  movable: true,
-                  removable: true,
-                  position: 'bottom-left'
-                },
+        //      'user-form' : {},
+              'local-video': {
+                addLabel: 'Video (upload)',
               },
-              'local-video': {},
-              'apostrophe-video' : {'label': '3d party video'}
+              'apostrophe-video' : {
+                addLabel: 'Video (3d party, youtube, vimeo, etc.)',
+              },
+
           }
         },
 
@@ -332,6 +346,7 @@ function run(id, siteData, callback) {
         'submissions-widgets': {},
         'begroot-widgets': {},
         'local-video-widgets': {},
+        'image-widgets': {},
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
         'apostrophe-video-widgets': {},
@@ -389,7 +404,6 @@ function run(id, siteData, callback) {
               { name: 'main' }
             ],
         },
-        'api-proxy': {}
 
       }
     }, siteData)
@@ -407,8 +421,8 @@ app.listen(process.env.PORT);
 /**
  * Run default SITE DATABASE if isset, this way when deploying
  * the site is already spin up and assets will be generated
- */
-/*
+
+
 if (process.env.DEFAULT_DB) {
   const defaultRunner = Promise.promisify(run);
   const dbName = process.env.DEFAULT_DB;
@@ -417,4 +431,4 @@ if (process.env.DEFAULT_DB) {
     aposServer[dbName] = apos;
   });
 }
-*/
+ */

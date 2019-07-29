@@ -1,24 +1,23 @@
 <div class="arguments-cta-box">
 	<div class="">
 		<form
-			id="new-argument-form"
 			method="POST"
 			action="/modules/arguments-form-widgets/submit"
 			class="argument-form clearfix {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}"
-
 		>
+			<div class="form-group">
+				<textarea
+					class="textarea margin-hor-s block argument-textarea"
+					name="description"
+					minlength="30"
+					maxlength="500"
+					placeholder="{{data.widget.placeholder}}"
+				></textarea>
 
-			<textarea
-				class="textarea margin-hor-s block argument-textarea"
-				name="description"
-				minlength="30"
-				maxlength="500"
-				placeholder="{{data.widget.placeholder}}"
-			></textarea>
-
-			<div class="charsLeft margin-bottom-s">
-				<div class="min">Nog minimaal <span>30</span> tekens.</div>
-				<div class="max"><span>360</span> tekens resterend.</div>
+				<div class="charsLeft margin-bottom-s">
+					<div class="min">Nog minimaal <span>30</span> tekens.</div>
+					<div class="max"><span>360</span> tekens resterend.</div>
+				</div>
 			</div>
 			<br />
 
@@ -33,7 +32,7 @@
 			<input
 				type="hidden"
 				name="ideaId"
-				{% if data.widget.ideaId === ':ideaId' %}
+				{% if not data.widget.ideaId  %}
 				value="{{data.ideaId}}"
 				{% else %}
 				value="{{data.widget.ideaId}}"

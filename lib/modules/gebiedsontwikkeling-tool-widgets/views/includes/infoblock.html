@@ -9,6 +9,11 @@
 		Nieuw probleem
 	</div>
 	<div class="content">
+		<div class="form-alert-message">
+			<div style="max-width: 270px;">
+				Heb je een acute melding over het afval	op straat? Maak dan een <a href="https://www.amsterdam.nl/wonen-leefomgeving/melding-openbare/" target="_blank">MORA melding</a>.
+			</div>
+		</div>
 		<div class="not-logged-in">
 			<p class="font-16">
 				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
@@ -16,7 +21,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
@@ -155,12 +160,12 @@
 						Om uw melding duidelijk te maken kan een foto van de situatie helpen.
 					</p>
 
-
 					<div class="form-group">
 						<div id="imageUpload">
 							<div class="form-info">
 								Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto's van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.
 							</div>
+							<span id="form-warning-images" class="form-warning">Het uploaden van images is nog niet afgerond</span>
 							<fieldset class="filepondFieldset2">
 								<!-- a list of already uploaded files -->
 								{% if idea.extraData.images %}
@@ -435,7 +440,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showArguments=[[ideaId]]" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
@@ -510,7 +515,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login" class="button-blue">
+			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showReactions=[[argumentId]]" class="button-blue">
 				Aanmelden
 			</a>
 		</div>

@@ -97,7 +97,6 @@
           						</div>
           					</div>
           				</div>
-
                   {% if data.widget.voting %}
                   <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
                     {% set id = 'no-of-votes-hasvoted-' + idea.id %}

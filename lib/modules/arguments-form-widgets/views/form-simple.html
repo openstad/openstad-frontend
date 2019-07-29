@@ -21,7 +21,7 @@
 			<input
 				type="hidden"
 				name="ideaId"
-				{% if data.widget.ideaId === ':ideaId' %}
+				{% if not data.widget.ideaId  %}
 				value="{{data.ideaId}}"
 				{% else %}
 				value="{{data.widget.ideaId}}"
