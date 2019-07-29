@@ -41,7 +41,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 	}, {
 		indexes: [{
-			fields : ['ideaId', 'userId'],
+			fields : ['ideaId', 'userId', 'deletedAt'],
 			unique : true
 		}],
 		// paranoid: false,
@@ -89,26 +89,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			.spread(function( result, metaData ) {
 				return metaData;
 			});
-	}
-
-	Vote.restoreOrInsert = function(data) {
-		// ToDo: cleanup nesting
-		return db.Vote
-			.upsert(data)
-			.then(result => {
-				if ( result ) {
-					return result
-				} else {
-					return db.Vote
-						.restore({where: {ideaId: data.ideaId, userId: data.userId }})
-						.then(result => {
-							return db.Vote.findOne({where: {ideaId: data.ideaId, userId: data.userId }})
-								.then(found => {
-									return found.update(data);
-								})
-						})
-				}
-			})
 	}
 
 	Vote.prototype.toggle = function() {

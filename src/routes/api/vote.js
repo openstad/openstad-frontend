@@ -23,7 +23,7 @@ router.route('*')
 
   // mag je de stemmen bekijken
 	.get(function(req, res, next) {
-		if (!req.site.config.votes.isViewable) {
+		if (!(req.site.config.votes.isViewable || req.user.role == 'admin')) {
 			return next(createError(403, 'Stemmen zijn niet zichtbaar'));
 		}
 		return next();
@@ -33,8 +33,6 @@ router.route('*')
 	.post(function(req, res, next) {
 		let isActive = req.site.config.votes.isActive;
 		if ( isActive == null && req.site.config.votes.isActiveFrom && req.site.config.votes.isActiveTo ) {
-			console.log(moment().isAfter(req.site.config.votes.isActiveFrom));
-			console.log(moment().isBefore(req.site.config.votes.isActiveTo));
 			isActive = moment().isAfter(req.site.config.votes.isActiveFrom) && moment().isBefore(req.site.config.votes.isActiveTo)
 		}
 		
@@ -59,8 +57,8 @@ router.route('*')
 		return next(createError(401, 'Je mag niet stemmen op deze site'));
 	})
 
-// list all votes or all votes for one idea
-// ----------------------------------------
+// list all votes or all votes
+// ---------------------------
 router.route('/')
 	.get(function(req, res, next) {
 		let where = {};
@@ -80,7 +78,13 @@ router.route('/')
 			.scope({ method: ['forSiteId', req.site.id]})
 			.findAll({ where })
 			.then(function( found ) {
-				res.json(found);
+				res.json(found.map(entry => { return {
+					id: entry.id,
+					ideaId: entry.ideaId,
+					userId: entry.userId,
+					confirmed: entry.confirmed,
+					opinion: entry.opinion,
+				}}));
 			})
 			.catch(next);
 	});
@@ -96,7 +100,7 @@ router.route('/')
 		db.Vote // get existing votes for this user
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
-				if ( req.site.config.votes.withExisting == 'error' && found ) throw new Error('Je hebt al gestemd');
+				if ( req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
 				req.existingVotes = found.map(entry => entry.toJSON());
 				return next();
 			})
@@ -165,73 +169,58 @@ router.route('/')
 
 	.post(function(req, res, next) {
 
-		let toBeCreated = [];
-		let toBeUpdated = [];
-		let toBeDeleted = [];
-
+		let actions = [];
 		switch(req.site.config.votes.voteType) {
-
-  		// dit is nog niet goed genoeg, omdat hij een niuew record niet maakt als daar al een deleted versie van is
-
 			case 'likes':
 				req.votes.forEach((vote) => {
 					let existingVote = req.existingVotes.find(entry => entry.ideaId == vote.ideaId);
 					if ( existingVote ) {
 						if (existingVote.opinion == vote.opinion) {
-							toBeDeleted.push(existingVote)
+							actions.push({ action: 'delete', vote: existingVote })
 						} else {
 							existingVote.opinion = vote.opinion
-							toBeUpdated.push(existingVote)
+							actions.push({ action: 'update', vote: existingVote})
 						}
 					} else {
-						toBeCreated.push(vote)
+						actions.push({ action: 'create', vote: vote})
 					}
 				});
 				break;
 
 			case 'count':
-				toBeCreated = req.votes;
-				toBeUpdated = [];
-				toBeDeleted = req.existingVotes;
+				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
+				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
 				break;
 
 			case 'budgeting':
-				toBeCreated = req.votes;
-				toBeUpdated = [];
-				toBeDeleted = req.existingVotes;
+				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
+				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
 				break;
 
 		}
 
-		// save
-		let promises = [];
-		toBeCreated.forEach((vote) => {
-			let promise = db.Vote.restoreOrInsert( vote ) // HACK: `upsert` on paranoid deleted row doesn't unset `deletedAt`.
-			promises.push( promise )
-		});
-		toBeUpdated.forEach((vote) => {
-			let promise = db.Vote.update(vote, { where: { id: vote.id } });
-			promises.push( promise )
-		});
-		toBeDeleted.forEach((vote) => {
-			let promise = db.Vote.destroy({ where: { id: vote.id } });
-			promises.push( promise )
-		});
-
 		Promise
-			.all(promises)
-			.then(
+			.map(actions, function(action) {
+				switch(action.action) {
+					case 'create':
+						return db.Vote.create( action.vote ) // HACK: `upsert` on paranoid deleted row doesn't unset `deletedAt`.
+						break;
+					case 'update':
+						return db.Vote.update(action.vote, { where: { id: action.vote.id } });
+						break;
+					case 'delete':
+						return db.Vote.destroy({ where: { id: action.vote.id } });
+						break;
+				}
+			}).then(
 				result => {
-					req.result = {
-						created: toBeCreated,
-						updated: toBeUpdated,
-						deleted: toBeDeleted,
-					};
+					req.result = result;
 					return next();
 				},
 				error => next(error)
 			)
 			.catch(next)
+
 	})
 
 	.post(function(req, res, next) {
@@ -247,7 +236,13 @@ router.route('/')
 					confirmed: entry.confirmed,
 					confirmReplacesVoteId: entry.confirmReplacesVoteId,
 				}})
-					res.json(result);
+				res.json(result.map(entry => { return {
+					id: entry.id,
+					ideaId: entry.ideaId,
+					userId: entry.userId,
+					confirmed: entry.confirmed,
+					opinion: entry.opinion,
+				}}));
 			})
 			.catch(next)
 	})
