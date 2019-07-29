@@ -3,7 +3,7 @@
 </style>
 
 <div
-  id="{{data.widget.containerId}}"
+  id="{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}"
   class="section
   {{data.widget.htmlClass}}
   {% if data.widget.marginType === 'up' %} margin-up {% endif %}

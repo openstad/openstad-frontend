@@ -22,7 +22,7 @@
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
-			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit?_csrf={{data.csrfToken}}" class="idea-form">
+			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit" class="idea-form">
 					<div id="titleAndSummary">
 						<div class="form-group">
 							<h4>Naam</h4>
@@ -207,8 +207,6 @@
 								<input type="hidden" name="id" value="{{idea.id}}" />
 								<input type="hidden" name="_method" value="PUT" />
 								{% endif %}
-
-								<input type="hidden" name="_csrf" value="{{data.csrfToken}}" />
 						</div>
 					{% if data.widget.displayLocation %}
 					<div class="form-group">
@@ -250,9 +248,9 @@
 				{% endif %}
 
 				{% if idea %}
-				<input type="submit" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
+				<input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
 				{% else %}
-				<input type="submit" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">
+				<input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">
 				{% endif %}
 			</form>
 		</div>
@@ -285,7 +283,6 @@
 
 					<input type="hidden" name="ideaId" value="{{idea.id}}">
 					<input type="hidden" name="_method" value="PUT">
-					<input type="hidden" name="_csrf" value="{{data.csrfToken}}">
 				</form>
 				</div>
 				{% endif %}

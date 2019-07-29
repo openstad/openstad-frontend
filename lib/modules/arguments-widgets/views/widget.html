@@ -1,191 +1,50 @@
-<!--
+{% set mayVote = true %}
+{% set maySeeReplyForm = true %}
 
-<div class="row">
-  <div class="col-xs-12">
-  			<div class="box-grey" style="margin-bottom: 20px;">
-      	<div class="aa-col-container " style="display: flex;   justify-content: space-between;">
-
-      		<div class="visible-lg">
-      			<a id="filter-arguments-option-all" href="#" class="tab-button argument-filter-tab active" data-variant="all">
-      				Alles
-      			</a>
-      		</div>
-      			<div class="aa-col-2 visible-lg">
-      				<a id="filter-arguments-option-A" href="#" class="tab-button argument-filter-tab" data-variant="A">
-      					Het conceptontwerp
-      				</a>
-      			</div>
-
-      			<div class="aa-col-2 visible-lg">
-      				<a id="filter-arguments-option-B" href="#" class="tab-button argument-filter-tab" data-variant="B">
-      					Meer autoparkeerplekken
-      				</a>
-      			</div>
-
-      			<div class="aa-col-2 visible-lg">
-      				<a id="filter-arguments-option-C" href="#" class="tab-button argument-filter-tab" data-variant="C">
-      					Meer fietsparkeerplekken
-      				</a>
-      			</div>
-
-      			<div class="aa-col-2 visible-lg">
-      				<a id="filter-arguments-option-D" href="#" class="tab-button argument-filter-tab" data-variant="D">
-      					Meer bomen
-      				</a>
-      			</div>
-
-
-      		<div id="filter-arguments-select-wrapper" class="select-wrapper stretch hidden-lg">
-      			<select id="filter-arguments-select" class="stretch">
-      				<option value="all">
-      					Laat reacties zien van:
-      				</option>
-      				<option value="all">
-      					 Alles
-      				</option>
-      					<option value="A">
-      							A. Het conceptontwerp
-      					</option>
-      					<option value="B">
-      							B. Meer autoparkeerplekken
-      					</option>
-
-      					<option value="C">
-      							C. Meer fietsparkeerplekken
-      					</option>
-
-      					<option value="D">
-      							D. Meer bomen
-      					</option>
-
-      			</select>
-      		</div>
-      	</div>
-      </div>
-  </div>
-</div>
-!-->
-
-
-{% if data.widget.ideaId === ':ideaId' %}
+{% if not data.widget.ideaId  %}
+  {% set ideaId = data.idea.id %}
 
   {% if data.widget.argumentSentiment === 'for' %}
   {% set arguments = data.idea.argumentsFor %}
-  {% elif data.widget.argumentSentiment === 'against'  %}
+  {% elseif data.widget.argumentSentiment === 'against'  %}
   {% set arguments = data.idea.argumentsAgainst %}
   {% else %}
   {% set arguments = data.idea.arguments %}
   {% endif %}
 
 {% else %}
+{% set ideaId = data.widget.ideaId %}
 {% set arguments = data.widget.arguments %}
 {% endif %}
 
+{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/' + ideaId + '/argument' %}
 
+{% if arguments.length > 0 %}
 {% for arg in arguments %}
-  <div class="argument argument-variant-{{arg.label}}" data-id="{{arg.id}}" id="arg{{arg.id}}">
-    <div class="user ">
-      <strong>{{arg.user.nickName}}</strong> | {{arg.createdAt | date('LLL')}}
-      {% if mayEdit %}
-        <form class="action" method="GET" action="/arg/{{arg.id}}/edit">
-          <input type="submit" class="default edit" value="bewerken" title="Argument bewerken">
-        </form>
-      {% endif %}
-      {% if mayDelete %}
-        <form class="action delete" method="POST" action="/arg/{{arg.id}}/delete">
-          <input type="hidden" name="_method" value="DELETE">
-          <input type="hidden" name="_csrf" value="{{csrfToken}}">
-          <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
-        </form>
-      {% endif %}
+  {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
+  {% set mayEdit = (data.isAdmin or isArgumentOwner) %}
+  {% set mayDelete =  (data.isAdmin or isArgumentOwner) %}
+  <div id="argument-container-{{arg.id}}" class="argument-container">
+    {% include 'argument.html' %}
+
+    <div class="reaction-container">
+    {% for reaction in arg.reactions %}
+      {% set isReactionOwner = arg.userId === data.openstadUser.id %}
+      {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
+      {% set mayDelete = (data.isAdmin or isReactionOwner) %}
+
+      {% include 'reaction.html' %}
+    {% endfor %}
+    {% include 'reaction-form.html' %}
     </div>
-    <!--
-    <div class="comment-pre-sentence">
-      <b> Mijn voorkeur heeft {{variantNames[arg.label]}}, omdat </b>
-    </div>
-    !-->
-
-    <p>{{arg.description | urlize | nlbr | safe}}</p>
-
-    {% if mayVote %}
-      <form class="action vote" method="POST" action="/arg/{{arg.id}}/vote">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
-          Mee eens (<span>{{arg.yes}}</span>)
-        </button>
-      </form>
-    {% else %}
-      <form class="action vote">
-        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
-          Mee eens (<span>{{arg.yes}}</span>)
-        </button>
-      </form>
-    {% endif %}
-
-    {% if maySeeReplyForm %}
-      <a href="/arg/{{arg.id}}/reply"
-         class="reply" {{'data-disabled' if not mayReply}}
-      >Reageren</a>
-    {% endif %}
-  </div>
-
-  {% for reaction in arg.reactions %}
-    {% set mayEdit   = user.can('arg:edit', idea, reaction) %}
-    {% set mayDelete = user.can('arg:delete', idea, reaction) %}
-
-    <div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
-      <div class="user {{'admin' if reaction.user.isAdmin()}}">
-        <strong>{{reaction.user.firstName}} {{reaction.user.lastName}}</strong> | {{reaction.createdAt | date('LLL')}}
-
-        {% if mayEdit %}
-          <form class="action" method="GET" action="/arg/{{reaction.id}}/edit">
-            <input type="submit" class="default edit" value="bewerken" title="Reactie bewerken">
-          </form>
-        {% endif %}
-        {% if mayDelete %}
-          <form class="action delete" method="POST" action="/arg/{{reaction.id}}/delete">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            <input type="submit" class="default delete" value="verwijderen" title="Reactie verwijderen">
-          </form>
-        {% endif %}
-      </div>
-
-      <p>{{reaction.description | urlize | safe}}</p>
-    </div>
-  {% endfor %}
-{% else %}
-  <div class="noArguments">
-    {{data.widget.emptyPlaceholder}}
   </div>
 {% endfor %}
-
-<div class="noArguments no-arguments" style="display: none;">
-
+{% else %}
+<div class="noArguments">
+  {{data.widget.emptyPlaceholder}}
 </div>
+{% endif %}
 
-{# Javascript below picks this up, and `insertBefore`s this when/where it's relevant #}
-<form method="POST" action="/arg/reply" class="tpl newReaction">
-  {#<div {% if (user.firstName > 0 ) %} style="display: none;" {% endif %}>
-  <input
-    type="text" name="nickName" placeholder="Typ hier je naam" value="{{user.nickName}}"
-    />
-  </div>#}
-
-  <textarea name="description" rows="1" placeholder="Typ hier jouw reactie..."></textarea>
-
-  <div class="charsLeft">
-    <div class="min">Nog minimaal <span>140</span> tekens.</div>
-    <div class="max"><span>360</span> tekens resterend.</div>
-  </div>
-
-  <input type="hidden" name="_csrf" value="{{csrfToken}}">
-  <input type="hidden" name="parentId" value="">
-  <input type="hidden" name="sentiment" value="{{data.widget.argumentSentiment}}">
-  <input type="submit" value="Verzenden">
-</form>
-
-{#
 <script>
 // For each argument
 // -----------------
@@ -406,4 +265,3 @@ function renderForm( form ) {
 
 }
 </script>
-#}

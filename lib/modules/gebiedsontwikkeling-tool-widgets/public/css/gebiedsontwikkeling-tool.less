@@ -15,8 +15,9 @@
 
 		#title-bar { display: none; }
 		#info-block { display: none; }
-		#filter-select { display: none; }
+		#ideas-filter-select { display: none; }
 		#linkToButton { display: block; }
+		#deactivate-input-layer { display: block; }
 
 	}
 
@@ -78,6 +79,16 @@
 		border-radius: 0;
 		border: 2px solid #b7b7b7 !important;
 		border-top: 1px solid #b7b7b7 !important;
+	}
+
+	#deactivate-input-layer {
+		display: none;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 19;
 	}
 
 	#linkToButton {
@@ -489,7 +500,7 @@ li.filter-selector-button {
  * ----------------------------------------------------------------------------------------------------
  * filter select */
 
-.default-select.filter-select {
+.default-select.ideas-filter-select {
 	position: absolute;
 	bottom: 26px;
 	right: 82px;
