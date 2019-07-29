@@ -87,14 +87,14 @@ Als een gebruiker die stemt al eens eerder heeft gestemd dan kan zijn stem worde
 
 Deze config var heeft geen invloed op voteType 'likes'.
 
-#### votingType: 'likes' | 'count' | 'budgeting'
+#### voteType: 'likes' | 'count' | 'budgeting'
 
-votingTypes 'budgeting' en 'count' komen uit westbegroot en molenwijk
+voteTypes 'budgeting' en 'count' komen uit westbegroot en molenwijk
 'likes' is de variant voor stemvan
 
 #### maxIdeas, minIdeas, minBudget, maxBudget
 
-Deze waarden gelden bij votingType 'count' resp. 'budgeting', en bepalen de marges voor de ingebrachte stem.
+Deze waarden gelden bij voteType 'count' resp. 'budgeting', en bepalen de marges voor de ingebrachte stem.
 
 #### Voorbeeld configuraties
 
@@ -102,7 +102,7 @@ Westbegroot ideeenfase
 ```
 {
 	"isActive": true,
-	"votingType": "likes",
+	"voteType": "likes",
 	"isViewable": true,
 	"withExisting": "replace",
 }
@@ -112,7 +112,7 @@ Westbegroot stemfase
 ```
 {
 	"isActive": true,
-	"votingType": "budgeting",
+	"voteType": "budgeting",
 	"minBudget": 200000,
 	"maxBudget": 300000,
 	"withExisting": "error"
@@ -123,7 +123,7 @@ Molenwijk
 ```
 {
 	"isActive": true,
-	"votingType": "count",
+	"voteType": "count",
 	"maxIdeas": 5,
 	"minIdeas": 4,
 	"withExisting": "error"
@@ -135,7 +135,7 @@ Zorg goed voor onze stad
 {
   "isViewable": true
 	"isActive": true,
-	"votingType": "count",
+	"voteType": "count",
 	"maxIdeas": 1,
 	"minIdeas": 1,
 	"withExisting": "replace",

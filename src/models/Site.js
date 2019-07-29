@@ -270,7 +270,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: undefined,
 					},
-					
+
 				},
 			},
 		}
