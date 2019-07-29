@@ -218,6 +218,7 @@ function run(id, siteData, callback) {
           // Let's pass in a Google Analytics id, just as an example
           contentWidgets: {
               'agenda' : {},
+              'accordeon': {},
           /*    'apostrophe-images': {
                 fields: {
                   type: 'string',
@@ -327,6 +328,7 @@ function run(id, siteData, callback) {
         'main-image-widgets': {},
         'list-widgets': {},
         'agenda-widgets': {},
+        'accordeon-widgets': {},
         'idea-overview-widgets': {},
         'icon-section-widgets': {},
         'idea-single-widgets': {},
