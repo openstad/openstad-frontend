@@ -283,7 +283,11 @@ function run(id, siteData, callback) {
         {
           name: 'idea',
           label: 'Idea'
-        }
+        },
+        {
+          name: 'home',
+          label: 'Home'
+        },
       ]
     },
     'apostrophe-global': {},
