@@ -1,0 +1,27 @@
+.accordeon {
+    .accordeon-item {
+        margin-bottom: 20px;
+
+        .title {
+            background: #e3e4e5;
+            padding: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        &.closed {
+            .description {
+                max-height: 0px;
+            }
+        }
+
+        .description {
+            overflow: hidden;
+            transition: max-height 300ms ease;
+
+            p {
+                padding: 10px;
+            }
+        }
+    }
+}

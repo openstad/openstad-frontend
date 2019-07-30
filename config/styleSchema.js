@@ -68,12 +68,28 @@ exports.default = {
               'value': 'max-width'
             },
             {
+              'label': 'Max height',
+              'value': 'max-height'
+            },
+            {
+              'label': 'Width',
+              'value': 'width'
+            },
+            {
+              'label': 'Height',
+              'value': 'height'
+            },
+            {
               'label': 'Text align',
               'value': 'text-align'
             },
             {
               'label': 'Float',
               'value': 'float'
+            },
+            {
+              'label': 'Direction',
+              'value': 'direction'
             },
           ]
         },

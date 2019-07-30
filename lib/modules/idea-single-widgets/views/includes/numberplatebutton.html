@@ -15,7 +15,7 @@
 	</div>
 	<script>
 
-	 var value = {{value}};
+	 var value = {{value if value else 0}};
 
 	 var value000 = parseInt(value/100) || 0;
 	 var value00  = parseInt(( value - 100 * value000 )/10) || 0;
