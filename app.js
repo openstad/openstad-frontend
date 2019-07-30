@@ -200,6 +200,7 @@ function run(id, siteData, callback) {
             }
           },*/
           'arguments' : {},
+        'slider' : {},
           'arguments-form' : {},
           'section' : {
             addLabel: 'Columns',
@@ -315,6 +316,7 @@ function run(id, siteData, callback) {
     'idea-voting-widgets': {},
     'link-widgets': {},
     'counter-widgets': {},
+    'slider-widgets': {},
     'arguments-widgets': {},
     'arguments-form-widgets': {},
     'gebiedsontwikkeling-tool-widgets': {},

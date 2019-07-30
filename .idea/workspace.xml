@@ -5,65 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72e438a6-6df6-4423-a1a6-e21151a54115" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/public/css/validation.less" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/public/js/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/views/argument.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/views/reaction-form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/views/reaction.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/public/js/vote.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/image-widgets/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/modules/image-widgets/views/widget.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/attention-red.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/attention.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/checkmark-dot-green.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/delete_white.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/img/edit_white.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/styleSchema.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/styleSchema.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/api-proxy/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/api-proxy/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/arguments.less" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/buttons.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/buttons.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/form-elements.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/form-elements.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/ideas-gridder-list.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/ideas-gridder-list.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/main.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/css/main.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/js/site.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-assets/public/js/site.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-express/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-express/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-global/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-global/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/apostrophe-pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/apostrophe-pages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/public/css/main.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/public/css/main.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/public/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/public/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/form-opinion.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/form-opinion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/form-simple.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/form-simple.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-form-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-widgets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-widgets/public/css/main.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/public/css/main.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/arguments-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/arguments-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/begroot-widgets/public/js/voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/begroot-widgets/public/js/voting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/css/gebiedsontwikkeling-tool.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/css/gebiedsontwikkeling-tool.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/argument.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/argument.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/gebiedsontwikkeling-tool.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/gebiedsontwikkeling-tool.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/idea.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/public/js/idea.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/views/includes/infoblock.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/views/includes/infoblock.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/gebiedsontwikkeling-tool-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/icon-section-widgets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/icon-section-widgets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-form-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-form-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/public/css/vote-creator.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/public/css/vote-creator.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/gridder.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/gridder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/numberplatebutton.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/numberplatebutton.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/vote-creator-config.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/vote-creator-config.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/vote-creator.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/vote-creator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-overview-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/idea-single-widgets/views/includes/numberplatebutton.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/idea-single-widgets/views/includes/numberplatebutton.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/section-widgets/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/section-widgets/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/section-widgets/views/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/section-widgets/views/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/modules/slider-widgets/public/js/slider.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/modules/slider-widgets/public/js/slider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/default.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/default.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/locales/nl.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/nl.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,55 +18,26 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/public/js/slider.js">
+        <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="59" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="230">
+              <caret line="10" column="94" selection-start-line="10" selection-start-column="94" selection-end-line="10" selection-end-column="94" />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/section-widgets/views/widget.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="17" column="53" selection-start-line="17" selection-start-column="53" selection-end-line="17" selection-end-column="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3802" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/locales/default.json">
+        <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="479" column="1" selection-start-line="479" selection-start-column="1" selection-end-line="479" selection-end-column="1" />
+            <state relative-caret-position="325">
+              <caret line="318" column="25" selection-start-line="318" selection-start-column="25" selection-end-line="318" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/modules/section-widgets/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="143" column="11" selection-start-line="143" selection-start-column="11" selection-end-line="143" selection-end-column="11" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -138,17 +53,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/lib/modules/slider-widgets/public/js/slider.js" />
         <option value="$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less" />
         <option value="$PROJECT_DIR$/lib/modules/section-widgets/index.js" />
         <option value="$PROJECT_DIR$/lib/modules/section-widgets/views/widget.html" />
         <option value="$PROJECT_DIR$/locales/default.json" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1920" />
+    <option name="x" value="-1916" />
     <option name="y" value="-157" />
     <option name="width" value="1920" />
     <option name="height" value="1057" />
@@ -170,6 +86,24 @@
               <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
@@ -219,13 +153,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11739000" />
+    <option name="totallyTimeSpent" value="13386000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="-157" width="1920" height="1057" extended-state="0" />
+    <frame x="-1916" y="-157" width="1920" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19542067" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19542067" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -240,7 +174,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3306288" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3306288" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -263,13 +197,6 @@
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -301,15 +228,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3802" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/locales/default.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="479" column="1" selection-start-line="479" selection-start-column="1" selection-end-line="479" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="94" selection-start-line="10" selection-start-column="94" selection-end-line="10" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="318" column="25" selection-start-line="318" selection-start-column="25" selection-end-line="318" selection-end-column="25" />
         </state>
       </provider>
     </entry>
