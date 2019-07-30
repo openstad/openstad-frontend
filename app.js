@@ -415,8 +415,9 @@ function run(id, siteData, callback) {
 
   const useAposWorkflow = siteData.cms && siteData.cms.aposWorkflow;
   const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;
-    console.log('ininininin');
 
+    console.log('ininininin');
+  if (process.env.APOS_WORKFLOW === 'ON') {
     siteConfig.modules['apostrophe-workflow'] = {
       // IMPORTANT: if you follow the examples below,
       // be sure to set this so the templates work
