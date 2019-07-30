@@ -76,6 +76,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									<div class="button-stemcode geldige-code">Geldige e-mailadres</div>
 									Het controleren van je e-mailadres is gelukt!<br/>
 									Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.
+
+
+									{% if data.ideasVotedFor.length > 0 %}
+									<div class="info-block error warning">
+										Je hebt al gestemd. Als je nog een keer stemt<br/>
+										wordt je vorige stem overschreven
+									</div>
+									{% endif %}
 								</div>
 
 							</div>
