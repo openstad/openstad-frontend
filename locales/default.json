@@ -456,5 +456,12 @@
 	"Search Files...": "Search Files...",
 	"Choose if period or moment": "Choose if period or moment",
 	"Period": "Period",
-	"Moment": "Moment"
+	"Moment": "Moment",
+	"Margin type": "Margin type",
+	"Normal": "Normal",
+	"Shift upwards": "Shift upwards",
+	"Search Documents...": "Search Documents...",
+	"Last Edit": "Last Edit",
+	"Submitted?": "Submitted?",
+	"Revert": "Revert"
 }
