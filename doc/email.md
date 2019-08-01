@@ -28,7 +28,7 @@ Configureren kan via de site.config
 }
 ```
 
-Template is een nunjucks template. Daar zijn de volgende variabelen bechikbaar:
+Template is een nunjucks template. Daar zijn de volgende variabelen beschikbaar:
 
 **user**: het user object van de inzender
 **idea**: het idea object van de nieuwe inzending
@@ -61,7 +61,7 @@ Configureren kan via de site.config
 }
 ```
 
-Template is een nunjucks template. Daar zijn de volgende variabelen bechikbaar:
+Template is een nunjucks template. Daar zijn de volgende variabelen beschikbaar:
 
 **data.idea**: een array van idea objecten, met de user included
 **data.argument**: een array van argument objecten, met de user en idea included

@@ -2,9 +2,13 @@
 
 Dit is een JSON API server
 
-## Login
-
-Staat nu in een [eigen doc](/doc/auth)
+## Inhoud
+[Login](/doc/auth)
+[Site](#site)
+[Idea](#idea)
+[Argument](#argument)
+[Vote](/doc/vote)
+[Email](/doc/email)
 
 ## Site
 
@@ -232,10 +236,6 @@ ideas hebben een extraData veld dat een JSON object bevat. De toegestane waarden
 #### TODO
 - Wat hier nog niet is geimplementeerd is een oplossing voor images; je krijgt nu terug wat er in de DB zit.
 - Ik denk dat er een overkoepelend idea zou moeten zijn, maar even overleggen
-
-## Vote
-
-Staat nu in een [eigen doc](/doc/vote)
 
 #### TODO
 - config.votes.userRole doet nog niets. Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.
