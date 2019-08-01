@@ -140,10 +140,10 @@ function run(id, siteData, callback) {
       port: process.env.PORT
     },
 
-  /*  'apostrophe-i18n': {
+    'apostrophe-i18n': {
          locales: ['nl', 'en'],
          defaultLocale: 'nl'
-    },*/
+    },
 
 /*    'apostrophe-docs': {
       beforeConstruct: function(self, options) {
