@@ -12,6 +12,7 @@ module.exports = function( req, res, next ) {
 		siteId = parseInt(match[1]);
 	}
 	if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
+	//if (!siteId || typeof siteId !== 'number') return next();
 
 	let where = {};
 	where = { id: siteId }
@@ -20,6 +21,7 @@ module.exports = function( req, res, next ) {
 		.findOne({ where })
 		.then(function( found ) {
 			if (!found) return next(new createError('400', 'Site niet gevonden'));
+			//if (!found) return next();
 
 			req.site = found;
 			next();

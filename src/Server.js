@@ -126,7 +126,7 @@ module.exports  = {
 
 		// Middleware to fill `req.site` with a `Site` instance.
 		const sessionSite = require('./middleware/site');
-		this.app.use(sessionSite);
+		this.app.use('(?!(?:/doc|/dev|/accepteer-cookies|/api/site$))', sessionSite);
 
 		// Middleware to fill `req.user` with a `User` instance.
 		const sessionUser = require('./middleware/session_user');
