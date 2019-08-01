@@ -159,7 +159,6 @@
     <div id="location">
         <h2>Locatie</h2>
         <div class="form-info" style="height: auto;">Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.</div>
-        <input type="hidden" id="locationField" name="location" value='{{idea.location | dump | safe}}'>
         <div id="mapcontainer">
             {% set editorInputElementId = 'locationField' %}
             {% include 'includes/openstad-map.html'  %}
