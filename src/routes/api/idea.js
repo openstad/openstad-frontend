@@ -14,7 +14,7 @@ router
 
 		req.scope = ['api'];
 
-		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || req.cookies['idea_sort'];
+		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || ( req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, '') );
 		if( sort ) {
 			res.cookie('idea_sort', sort, { expires: 0 });
 			if (sort == 'votes_desc' || sort == 'votes_asc') {
@@ -92,11 +92,13 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 		filterBody(req)
-		req.body.siteId = req.params.siteId;
+		req.body.siteId = parseInt(req.params.siteId);
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
-		req.body.location = JSON.parse(req.body.location || null);
 
+		try {
+			req.body.location = JSON.parse(req.body.location || null);
+		} catch(err) {}
 
 		db.Idea
 			.create(req.body)
@@ -152,10 +154,13 @@ router.route('/:ideaId(\\d+)')
 	.put(function(req, res, next) {
 		filterBody(req)
 		if (req.body.location) {
-			req.body.location = JSON.parse(req.body.location);
+			try {
+				req.body.location = JSON.parse(req.body.location || null);
+			} catch(err) {}
 		} else {
 			req.body.location = undefined;
 		}
+
 		req.idea
 			.update(req.body)
 			.then(result => {
@@ -186,7 +191,7 @@ function filterBody(req) {
 	if (req.user.isAdmin()) {
 		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
 	} else {
-		keys = [ 'title', 'summary', 'description', 'budget', 'extraData', 'location' ];
+		keys = [ 'title', 'summary', 'description', 'extraData', 'location' ];
 	}
 
 	keys.forEach((key) => {

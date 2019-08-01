@@ -67,16 +67,16 @@ router.route('/')
 	.get(function(req, res, next) {
 
 		let where = {};
-		let ideaId = req.query.ideaId;
+		let ideaId = parseInt(req.query.ideaId);
 		if (ideaId) {
 			where.ideaId = ideaId;
 		}
-		let userId = req.query.userId;
+		let userId = parseInt(req.query.userId);
 		if (userId) {
 			where.userId = userId;
 		}
 		let opinion = req.query.opinion;
-		if (opinion) {
+		if (opinion && (opinion == 'yes' || opinion == 'no')) {
 			where.opinion = opinion;
 		}
 

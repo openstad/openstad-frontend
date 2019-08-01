@@ -94,6 +94,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					if (instance.ideaId) {
 						db.Idea.scope('includeSite').findByPk(instance.ideaId)
 							.then( idea => {
+								if (!idea) throw Error('Idea niet gevonden')
 								instance.config = merge.recursive(true, config, idea.site.config);
 								return idea;
 							})

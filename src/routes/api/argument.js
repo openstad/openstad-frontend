@@ -1,7 +1,8 @@
-const Promise = require('bluebird');
-const moment  = require('moment');
-const db      = require('../../db');
-const auth    = require('../../auth');
+const Promise			= require('bluebird');
+const moment			= require('moment');
+const createError = require('http-errors')
+const db          = require('../../db');
+const auth        = require('../../auth');
 
 let router = require('express-promise-router')({mergeParams: true});
 
@@ -28,6 +29,16 @@ router
 		return next();
 
 	})
+	.all('*', function(req, res, next) {
+		// zoek het idee
+		let ideaId = parseInt(req.params.ideaId) || 0;
+		if (!ideaId) return next();
+		db.Idea.findByPk(ideaId)
+			.then( idea => {
+				if (!idea || idea.siteId != req.params.siteId) return next(createError(400, 'Idea not found'));
+				return next();
+			})
+	})
 
 router.route('/')
 
@@ -42,7 +53,7 @@ router.route('/')
 			where.ideaId = ideaId;
 		}
 		let sentiment = req.query.sentiment;
-		if (sentiment) {
+		if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
 			where.sentiment = sentiment;
 		}
 
@@ -109,7 +120,7 @@ router.route('/')
 			let sentiment = req.query.sentiment;
 			let where = { ideaId, id: argumentId }
 
-			if (sentiment) {
+			if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
 				where.sentiment = sentiment;
 			}
 
@@ -183,7 +194,7 @@ router.route('/:argumentId(\\d+)/vote')
 		let sentiment = req.query.sentiment;
 		let where = { ideaId, id: argumentId }
 
-		if (sentiment) {
+		if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
 			where.sentiment = sentiment;
 		}
 
