@@ -4,6 +4,9 @@
  //
  var userIsLoggedIn = {{true if data.loggedIn else false}};
  var userHasVoted = {{true if data.loggedIn else false}};
+ var currentUrl = '{{data.currentUrl}}';
+ var loginUrl = '/oauth/login';
+ var returnToKey = 'returnTo';
 
  var steps = [{
 
