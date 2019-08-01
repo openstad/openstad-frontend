@@ -5,6 +5,256 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72e438a6-6df6-4423-a1a6-e21151a54115" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/css/main.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/delete-form.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/dropzone.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/editor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/filepond.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/jquery.sortable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/openstad-map.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/status-form.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/trix.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/includes/openstad-map.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/.tagconfig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/.travis.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/AMD_footer" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/AMD_header" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/CONTRIBUTING.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/Gruntfile.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/bower.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/component.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/composer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/basic.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/dropzone-amd-module.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/dropzone.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/dropzone.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/min/basic.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/min/dropzone-amd-module.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/min/dropzone.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/min/dropzone.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/dist/readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/src/basic.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/src/dropzone.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/src/dropzone.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/test.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/test/test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/test/test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/dropzone/test/test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/.blade.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/.github/ISSUE_TEMPLATE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/.ruby-version" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/.travis.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/CONDUCT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/Gemfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/Gemfile.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix-core.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/banner/index.coffee.erb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/banner/index.scss.erb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/banner/index.txt.erb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/attach.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/bold.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/bullets.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/code.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/heading_1.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/italic.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/link.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/nesting_level_decrease.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/nesting_level_increase.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/numbers.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/quote.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/redo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/remove.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/strike.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/trash.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/images/undo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/attachments.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/content.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/editor.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/icons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/media-queries.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/assets/trix/stylesheets/toolbar.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/blade" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/ci" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/rackup" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/rake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/release" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/setup" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bin/update-status-image" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/bower.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/config.ru" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/dist/trix-core.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/dist/trix.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/dist/trix.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/polyfills/polyfills.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/polyfills/set.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/polyfills/vendor/CustomElements.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/polyfills/vendor/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/polyfills/vendor/promise.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/VERSION" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/block_attributes.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/css.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/file_size_formatting.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/lang.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/selection_elements.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/serialization.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/text_attributes.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/toolbar.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/config/undo_interval.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/attachment_editor_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/composition_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/editor_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/input/composition_input.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/input_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/controllers/toolbar_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/basic_object.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/collections/element_store.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/collections/hash.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/collections/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/collections/object_group.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/collections/object_map.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/arrays.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/config.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/custom_elements.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/dom.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/extend.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/functions.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/global.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/objects.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/ranges.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/selection.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/helpers/strings.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/object.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/utilities/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/utilities/operation.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/core/utilities/utf16_string.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/elements/trix_editor_element.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/elements/trix_toolbar_element.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/index.coffee.erb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/control_element.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/debugger.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/element.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/polyfills/vendor/details-element-polyfill.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/debug.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/document.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/performance.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/render.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/selection.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/templates/undo.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/debug_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/document_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/performance_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/render_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/selection_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/views/undo_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/deserializer.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/player.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/player_controller.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/player_element.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/player_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/recorder.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/recording.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/inspector/watchdog/serializer.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/attachment.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/attachment_manager.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/attachment_piece.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/block.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/composition.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/document.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/editor.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/html_parser.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/line_break_insertion.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/location_mapper.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/managed_attachment.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/piece.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/point_mapper.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/selection_manager.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/splittable_list.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/string_piece.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/text.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/models/undo_manager.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/observers/mutation_observer.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/observers/selection_change_observer.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/operations/file_verification_operation.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/operations/image_preload_operation.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/attachment_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/block_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/document_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/object_group_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/object_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/piece_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/previewable_attachment_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/src/trix/views/text_view.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/attachment_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/basic_input_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/block_formatting_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/caching_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/composition_input_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/cursor_movement_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/custom_element_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/html_loading_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/html_replacement_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/installation_process_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/list_formatting_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/mutation_input_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/pasting_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/text_formatting_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/system/undo_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/assertions.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/editor_helpers.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_empty.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_html.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_in_table.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_with_block_styles.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_with_bold_styles.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_with_image.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_with_styled_content.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/editor_with_toolbar_and_input.jst.eco" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/fixtures.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/fixtures/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/index.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/input_helpers.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/selection_helpers.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/test_helpers.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/test_stubs.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/test_helpers/toolbar_helpers.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/attachment_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/block_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/composition_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/document_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/document_view_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/html_parser_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/location_mapper_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/mutation_observer_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/serialization_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/string_change_summary_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/src/unit/text_test.coffee" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/vendor/rangy-core.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/trix/test/vendor/rangy-textrange.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/locales/en.json" afterDir="false" />
@@ -18,26 +268,61 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.env">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="10" column="94" selection-start-line="10" selection-start-column="94" selection-end-line="10" selection-end-column="94" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="318" column="25" selection-start-line="318" selection-start-column="25" selection-end-line="318" selection-end-column="25" />
+            <state relative-caret-position="415">
+              <caret line="221" column="23" selection-start-line="221" selection-start-column="23" selection-end-line="221" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-widgets/views/widget.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="220" column="32" lean-forward="true" selection-start-line="220" selection-start-column="32" selection-end-line="221" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/delete-form.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="483">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2274">
+              <caret line="108" column="13" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="13" />
+              <folding>
+                <element signature="e#8033#8054#0" expanded="true" />
+                <element signature="e#8497#8518#0" expanded="true" />
+                <element signature="e#9116#9137#0" expanded="true" />
+                <element signature="e#9455#9476#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-673" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/css/main.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="16" column="18" lean-forward="true" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -45,6 +330,18 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>formattedContainer</find>
+      <find>slider</find>
+      <find>isOwne</find>
+      <find>charsLeft</find>
+      <find>public</find>
+      <find>script</find>
+      <find>trix.js</find>
+      <find>openstad-map.js</find>
+      <find>js-editor</find>
+      <find>submit</find>
+      <find>idea-form-red</find>
+      <find>map</find>
+      <find>trix</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -60,11 +357,15 @@
         <option value="$PROJECT_DIR$/locales/default.json" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/index.js" />
+        <option value="$PROJECT_DIR$/lib/modules/idea-form-widgets/views/widget.html" />
+        <option value="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html" />
+        <option value="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/css/main.less" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-1916" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1921" />
     <option name="y" value="-157" />
     <option name="width" value="1920" />
     <option name="height" value="1057" />
@@ -103,12 +404,121 @@
               <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-alt-widgets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-alt-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-alt-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-alt-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="includes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
               <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="idea-form-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="includes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="slider-widgets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="slider-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="slider-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="slider-widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
               <item name="locales" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="openstad-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="openstad-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -122,6 +532,18 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public/js" />
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views" />
+      <recent name="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js" />
+      <recent name="$PROJECT_DIR$/lib" />
+      <recent name="$PROJECT_DIR$/public/css" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -149,17 +571,18 @@
       <workItem from="1562659611285" duration="375000" />
       <workItem from="1562739535103" duration="4000" />
       <workItem from="1562739608873" duration="1963000" />
+      <workItem from="1564641629543" duration="3389000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13386000" />
+    <option name="totallyTimeSpent" value="32792000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1916" y="-157" width="1920" height="1057" extended-state="0" />
+    <frame x="-1921" y="-157" width="1920" height="1057" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19542067" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19755058" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -174,7 +597,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3306288" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.1764706" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -186,31 +609,11 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/css/gridder.less">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/master-anon-cjxugf3zb00000wzbrqw71e77.less" />
-    <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/views/widget.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/public/js/slider.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="59" selection-start-line="59" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -235,9 +638,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
@@ -245,10 +645,113 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-widgets/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="4" lean-forward="true" selection-end-line="364" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/trix.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/trix/bin/ci">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/gridder.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-354" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/dropzone/src/basic.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1145" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/includes/openstad-map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="23" column="11" lean-forward="true" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/css/main.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-widgets/views/widget.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="220" column="32" lean-forward="true" selection-start-line="220" selection-start-column="32" selection-end-line="221" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/js/delete-form.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2274">
+          <caret line="108" column="13" selection-start-line="108" selection-start-column="9" selection-end-line="108" selection-end-column="13" />
+          <folding>
+            <element signature="e#8033#8054#0" expanded="true" />
+            <element signature="e#8497#8518#0" expanded="true" />
+            <element signature="e#9116#9137#0" expanded="true" />
+            <element signature="e#9455#9476#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/public/css/main.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-195">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/views/widget.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" lean-forward="true" selection-start-column="7" selection-end-line="2" selection-end-column="8" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="318" column="25" selection-start-line="318" selection-start-column="25" selection-end-line="318" selection-end-column="25" />
+        <state relative-caret-position="415">
+          <caret line="221" column="23" selection-start-line="221" selection-start-column="23" selection-end-line="221" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/slider-widgets/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-673" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/public/css/main.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="16" column="18" lean-forward="true" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
         </state>
       </provider>
     </entry>
