@@ -78,6 +78,11 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 
 			maildata.subject += ' op ' + maildata.SITENAME;
 
+			maildata.template = myConfig.notifications && myConfig.notifications.template;
+			console.log(myConfig.notifications);
+			console.log(maildata.template);
+			
+
 			let instanceIds = data.map( entry => entry.instanceId );
 			let model = type.charAt(0).toUpperCase() + type.slice(1);
 

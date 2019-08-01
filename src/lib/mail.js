@@ -66,11 +66,19 @@ function sendMail( options ) {
 
 function sendNotificationMail( data ) {
 	// console.log(JSON.stringify(data, null, 2));
+
+	let html;
+	if (data.template) {
+		html = nunjucks.renderString(data.template, data)
+	} else {
+		html = nunjucks.render('notifications_admin.njk', data)
+	}
+	
 	sendMail({
 		to          : data.to,
 		from        : data.from,
 		subject     : data.subject,
-		html        : nunjucks.render('notifications_admin.njk', data),
+		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
 		attachments : [{
 			filename : 'logo.png',
@@ -100,7 +108,14 @@ function sendThankYouMail( idea, user, site ) {
     URL: url,
   };
 
-  let html = nunjucks.render('idea_created.njk', data);
+	let html;
+	let template = site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.template;
+	if (template) {
+		html = nunjucks.renderString(template, data);
+	} else {
+		html = nunjucks.render('idea_created.njk', data);
+	}
+
   let text = htmlToText.fromString(html, {
     ignoreImage: true,
     hideLinkHrefIfSameAsText: true,
