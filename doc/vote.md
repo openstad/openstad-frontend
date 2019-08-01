@@ -133,7 +133,7 @@ Molenwijk
 Zorg goed voor onze stad
 ```
 {
-  "isViewable": true
+  "isViewable": true,
 	"isActive": true,
 	"voteType": "count",
 	"maxIdeas": 1,
