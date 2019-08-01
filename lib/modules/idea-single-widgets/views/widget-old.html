@@ -139,3 +139,85 @@
 
 
 </div>
+
+
+
+{#
+<script src="/js/promise.js"></script>
+<script src="/js/fetch.js"></script>
+<script>
+ // Helper for sending non-GET HTTP requests
+ // ----------------------------------------
+ // Used in progressive enhancement scripts to replace a 'old-school'
+ // request with a `fetch`/`XMLHTTPRequest` action.
+ (function( global ) {
+	 var csrfToken = '{{csrfToken}}';
+
+	 // Wrapper for fetch to POST/PUT data
+	 global.send = function( method, url, data ) {
+		 data._csrf = csrfToken;
+
+		 return fetch(url, {
+			 method      : method,
+			 headers     : {
+				 'Content-Type' : 'application/json',
+				 'Accept'       : 'application/json'
+			 },
+			 credentials : 'same-origin',
+			 body        : data ? JSON.stringify(data): null
+		 })
+			 .then(handleResponse)
+			 .then(function( data ) {
+				 if( 'csrfToken' in data ) {
+					 csrfToken = data.csrfToken;
+					 // HACK?: Update all tokens in static forms as well.
+						 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
+							 input.value = csrfToken;
+						 });
+				 }
+				 return data;
+			 });
+	 }
+
+	 function handleResponse( response ) {
+		 var json = response.json();
+		 if( response.status >= 200 && response.status < 300 ) {
+			 return json;
+		 } else {
+			 return json.then(function( data ) {throw data});
+		 }
+	 }
+ })(this);
+</script>
+
+
+<script>
+ // First image in content
+ // ----------------------
+ // If the content starts with an image, remove it from the content
+ // since it's already visible as poster image.
+ var figure = document.querySelector('.userContent figure:first-child');
+ if( figure ) {
+	 var parent = figure.parentNode;
+	 if( parent.firstChild === figure ) {
+		 parent.removeChild(figure);
+	 }
+ }
+</script>
+
+<script>
+ // Delete idea confirmation
+ // ------------------------
+ var form = document.getElementById('deleteIdea');
+ if( form ) {
+	 form.addEventListener('submit', function( event ) {
+		 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+			         'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			         'Weet je het zeker?';
+		 if( !confirm(msg) ) {
+			 event.preventDefault();
+		 }
+	 });
+ }
+</script>
+#}
