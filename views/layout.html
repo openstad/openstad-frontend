@@ -120,7 +120,7 @@ ga('send', 'pageview');
                   <img src="/img/avatar.svg" />
                    {{ __('Log out') }}
                   </a>
-                  {% else %}
+                  {% elseif data.global.displayMyAcount %}
                    <a href="/oauth/login">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                      {{ __('My account') }}
@@ -151,7 +151,7 @@ ga('send', 'pageview');
                       <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                       {{ __('Log out') }}
                     </a>
-        						{% else %}
+        						{% elseif data.global.displayMyAcount %}
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
