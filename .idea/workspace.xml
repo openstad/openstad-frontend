@@ -123,11 +123,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/main.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="33">
-                  <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+                <state relative-caret-position="297">
+                  <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
                 </state>
               </provider>
             </entry>
@@ -144,11 +144,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/openstad-map.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="99">
-                  <caret line="6" column="24" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="24" />
+                <state relative-caret-position="230">
+                  <caret line="75" column="66" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
                 </state>
               </provider>
             </entry>
@@ -212,6 +212,7 @@
         <option value="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html" />
         <option value="$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/includes/openstad-map.html" />
         <option value="$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/main.js" />
+        <option value="$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/openstad-map.js" />
       </list>
     </option>
   </component>
@@ -309,12 +310,12 @@
       <workItem from="1563862499614" duration="24000" />
       <workItem from="1564411084480" duration="5639000" />
       <workItem from="1564555666594" duration="9464000" />
-      <workItem from="1564661127844" duration="1672000" />
+      <workItem from="1564661127844" duration="1759000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42451000" />
+    <option name="totallyTimeSpent" value="42538000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1920" y="0" width="1920" height="1080" extended-state="0" />
@@ -335,7 +336,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.35204569" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.35204569" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -572,10 +573,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/openstad-map.js">
+    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="6" column="24" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="24" />
+        <state relative-caret-position="142">
+          <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
         </state>
       </provider>
     </entry>
@@ -589,17 +597,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/modules/idea-form-alt-widgets/views/widget.html">
+    <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/openstad-map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="158" column="23" lean-forward="true" selection-start-line="158" selection-start-column="23" selection-end-line="158" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/modules/idea-form-alt-widgets/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="5" column="65" selection-start-line="5" selection-start-column="65" selection-end-line="5" selection-end-column="65" />
+        <state relative-caret-position="230">
+          <caret line="75" column="66" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
         </state>
       </provider>
     </entry>
