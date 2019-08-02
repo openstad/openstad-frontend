@@ -463,5 +463,10 @@
 	"Border color": "Border color",
 	"Styles for the speech bubble": "Styles for the speech bubble",
 	"You were unable to take control of the document.": "You were unable to take control of the document.",
-	"Area 1": "Area 1"
+	"Area 1": "Area 1",
+	"Search Documents...": "Search Documents...",
+	"Last Edit": "Last Edit",
+	"Submitted?": "Submitted?",
+	"Revert": "Revert",
+	"No results for current filters.": "No results for current filters."
 }

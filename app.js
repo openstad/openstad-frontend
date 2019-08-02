@@ -17,7 +17,8 @@ const dbExists      = require('./services/mongo').dbExists;
 
 const openstadMap           = require('./config/map').default;
 const openstadMapPolygons   = require('./config/map').polygons;
-const configForHosts = {};
+const configForHosts        = {};
+const aposStartingUp        = {};
 //console.log('process.env', process.env);
 
 var aposServer = {};
@@ -27,7 +28,7 @@ app.use(express.static('public'));
 function getSampleSite() {
   const keys = _.keys(aposServer);
 
-  if (!keys.length) {
+  if (!keys.length ) {
     return null;
   }
   // Find the first one that isn't a status string like "pending"
@@ -95,19 +96,40 @@ function serveSite(req, res, siteConfig, forceRestart) {
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
 
-        if (!aposServer[dbName] || forceRestart) {
+        if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
             //format sitedatat so it makes more sense
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
 
+            aposStartingUp[dbName] = true;
+
             runner(dbName, config).then(function(apos) {
+              aposStartingUp[dbName] = false;
               aposServer[dbName] = apos;
               aposServer[dbName].app(req, res);
             });
         } else {
-          aposServer[dbName].app(req, res);
+          const startServer = (server, req, res) => {
+            server.app(req, res);
+          }
+
+          const safeStartServer = () => {
+            if (aposStartingUp[dbName]) {
+              // timeout loop //
+              setTimeout(() => {
+                console.log('time out start', aposStartingUp);
+                safeStartServer();
+              }, 100);
+            } else {
+              startServer(aposServer[dbName], req, res)
+            }
+          }
+
+          safeStartServer();
         }
+
+    //    console.log(aposServer)
       } else {
         res.status(404).json({ error: 'Not found page or website' });
       }
@@ -179,7 +201,6 @@ function run(id, siteData, callback) {
       'apostrophe-workflow-modified-documents': {},*/
       'apostrophe-docs': {
         beforeConstruct: function(self, options) {
-          console.log('==>>>> beforeConstruct', options);
           options.permission = false;
         }
       },
@@ -206,6 +227,8 @@ function run(id, siteData, callback) {
           if (!sample) {
             return;
           }
+
+          console.log('sample', sample);
           self.apos.assets.generation = sample.assets.generation;
         }
       },
@@ -344,7 +367,7 @@ function run(id, siteData, callback) {
       'idea-form-widgets': {},
       'date-bar-widgets': {},
       'idea-map-widgets': {},
-      'idea-voting-widgets': {},
+    //  'idea-voting-widgets': {},
       'link-widgets': {},
       'counter-widgets': {},
       'arguments-widgets': {},
