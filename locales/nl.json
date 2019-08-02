@@ -1,6 +1,6 @@
 {
 	"Server error, please try again.": "Server error, please try again.",
-	"My account": "My account",
+	"My account": "Mijn account",
 	"Tags": "Tags",
 	"Global": "Global",
 	"Open Palette": "Open Palette",
@@ -57,5 +57,6 @@
 	"Locales": "Locales",
 	"Locale: default": "Locale: default",
 	"Log out": "Log out",
-	"Edit undefined": "Edit undefined"
+	"Edit undefined": "Edit undefined",
+	"Use the Add Content button to get started.": "Use the Add Content button to get started."
 }
