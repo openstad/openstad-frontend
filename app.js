@@ -88,9 +88,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
-//  console.log('siteConfig', siteConfig);
 
-  //console.log('dbName', dbName);
 
   return dbExists(dbName).then((exists) => {
       if (exists || dbName === process.env.DEFAULT_DB)  {
@@ -118,7 +116,6 @@ function serveSite(req, res, siteConfig, forceRestart) {
             if (aposStartingUp[dbName]) {
               // timeout loop //
               setTimeout(() => {
-                console.log('time out start', aposStartingUp);
                 safeStartServer();
               }, 100);
             } else {
@@ -228,7 +225,6 @@ function run(id, siteData, callback) {
             return;
           }
 
-          console.log('sample', sample);
           self.apos.assets.generation = sample.assets.generation;
         }
       },
