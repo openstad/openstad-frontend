@@ -34,7 +34,13 @@
 <meta property="og:type" content="website">
 <meta property="og:description" content="{{activeIdea.summary}}">
 <meta property="og:locale" content="nl_NL">
-<meta property="og:image" content="{{activeIdea.extraData.images[0]}}">
+
+{% if activeIdea.extraData.images[0] %}
+<meta property="og:image" content="{{activeIdea.extraData.images[0]}}/:/rs=w:600,h:315">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="315">
+{% endif %}
+
 {% else %}
   {% if data.global.fbImage %}
   <meta property="og:image" content="{{apos.settings.getOption('appUrl')}}{{apos.attachments.url(data.global.fbImage)}}">
