@@ -456,5 +456,12 @@
 	"Search Files...": "Search Files...",
 	"Choose if period or moment": "Choose if period or moment",
 	"Period": "Period",
-	"Moment": "Moment"
+	"Moment": "Moment",
+	"Margin type": "Margin type",
+	"Normal": "Normal",
+	"Shift upwards": "Shift upwards",
+	"Border color": "Border color",
+	"Styles for the speech bubble": "Styles for the speech bubble",
+	"You were unable to take control of the document.": "You were unable to take control of the document.",
+	"Area 1": "Area 1"
 }

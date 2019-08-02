@@ -50,9 +50,13 @@ app.use(function(req, res, next) {
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
+//  thishost = 'statenkwartier.draad.nu';
+
   if (configForHosts[thisHost]) {
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
+
+
     const siteOptions = {
         uri:`${process.env.API}/api/site/${thisHost}`, //,
         headers: {
@@ -263,20 +267,20 @@ function run(id, siteData, callback) {
                 { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
               ],*/
               styles: [
-                { name: 'Heading 1', element: 'h1' },
-                { name: 'Heading 2', element: 'h2' },
-                { name: 'Heading 3', element: 'h3' },
-                { name: 'Heading 4', element: 'h4' },
                 { name: 'Paragraph', element: 'p' }
               ],
               controls: {
                 movable: true,
                 removable: true,
-                position: 'top-right'
+                position: 'top-left'
               }
             },
 
-            'speech-bubble' : {},
+            'speech-bubble' : {
+              controls: {
+                position: 'top-left'
+              },
+            },
             'title' : {},
       //      'user-form' : {},
             'local-video': {
