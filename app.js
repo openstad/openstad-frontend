@@ -1,3 +1,15 @@
+/**
+ * This is the startup script voor ApostrhopheCMS for the Openstad cms
+ * It allows multiple CMS sites to run on this one server.
+ * Works as follows:
+ *  - Check if site with domain has server already,
+ *  - if yes serve, otherwise check if site exists in API
+ *  - if yes get site Config from API, spin up server for site, the config from API specifies the name of the mongodb database necessary for the sites
+ *  - if database exists run server for visiting domain
+ *  - for production/staging environment a seperate admin exists to create & copy sites, including config & mongodb database.
+ *  - for local development a DEFAULT_DB can be specified if this is same as config from api a database will be created.
+ * @type {[type]}
+ */
 require('dotenv').config();
 
 const path          = require('path');
@@ -12,8 +24,6 @@ const argv          = require('boring')();
 const quote         = require('shell-quote').quote;
 const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
-
-//const flash         = require('express-flash');
 
 const openstadMap           = require('./config/map').default;
 const openstadMapPolygons   = require('./config/map').polygons;
@@ -35,7 +45,10 @@ function getSampleSite() {
   return _.find(aposServer, apos => (typeof apos) === 'object');
 }
 
-
+/**
+ * Route for resetting the config of the server so the server will refetch
+ * Necessary when making changes in the site config.
+ */
 app.get('/config-reset', (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
   host = host.replace(['http://', 'https://'], ['']);
@@ -44,14 +57,11 @@ app.get('/config-reset', (req, res, next) => {
 });
 
 app.use(function(req, res, next) {
-//  const hostname = ( req.headers.host.match(/:/g) ) ? req.headers.host.slice( 0, req.headers.host.indexOf(":") ) : req.headers.host
-//  const host = hostname; //req.get('host');
+
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
-
-//  thishost = 'statenkwartier.draad.nu';
 
   if (configForHosts[thisHost]) {
     serveSite(req, res, configForHosts[thisHost], false);
@@ -162,40 +172,6 @@ function run(id, siteData, callback) {
       'apostrophe-express': {
         port: process.env.PORT
       },
-
-    /*  'apostrophe-i18n': {
-           locales: ['nl', 'en'],
-           defaultLocale: 'nl'
-      },*/
-
-  /*    'apostrophe-workflow': {
-        // IMPORTANT: if you follow the examples below,
-        // be sure to set this so the templates work
-        alias: 'workflow',
-        // Recommended to save database space. You can still
-        // export explicitly between locales
-        replicateAcrossLocales: true,
-
-    /*    locales: [
-          {
-            name: 'default',
-            label: 'Default',
-            private: true,
-            children: [
-              {
-                name: 'nl',
-                label: 'Netherlands'
-              },
-              {
-                name: 'en',
-                label: 'English'
-              },
-
-            ]
-          },
-        ],
-      },
-      'apostrophe-workflow-modified-documents': {},*/
       'apostrophe-docs': {
         beforeConstruct: function(self, options) {
           options.permission = false;
@@ -205,6 +181,7 @@ function run(id, siteData, callback) {
       'apostrophe-multisite-fake-listener': {
         construct: function(self, options) {
           // Don't really listen for connections. We'll run as middleware
+          // This is necessary for the multisite startup script
           self.apos.listen = function() {
             if (self.apos.options.afterListen) {
               return self.apos.options.afterListen(null);
