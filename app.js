@@ -161,7 +161,7 @@ function run(id, siteData, callback) {
   },
 //    rootDir: getRootDir() + '/sites',
 //    npmRootDir: getRootDir(),
-  //shortName: 'localhost',
+  // shortName: 'localhost',
   shortName: site._id,
   modules: {
       'api-proxy': {},
@@ -216,7 +216,6 @@ function run(id, siteData, callback) {
         openstadMapPolygons: openstadMapPolygons,
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
         siteConfig: siteData,
-        // Let's pass in a Google Analytics id, just as an example
         contentWidgets: {
             'agenda' : {},
             'accordeon': {},
@@ -246,6 +245,7 @@ function run(id, siteData, callback) {
             'idea-overview' : {},
             'idea-single' : {},
             'image' : {},
+            'info-bar' : {},
             'link': {},
             'list' : {},
             'gebiedsontwikkeling-tool': {
@@ -257,7 +257,6 @@ function run(id, siteData, callback) {
             'main-image' : {},
             'apostrophe-rich-text': {
               toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
-
             /*  toolbar : [
                 { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
                 { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
@@ -408,7 +407,8 @@ function run(id, siteData, callback) {
         stylesheets: [
           { name: 'main' }
         ],
-    },
+      },
+      'info-bar-widgets' : {}
     }
   };
 

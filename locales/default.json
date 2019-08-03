@@ -469,5 +469,12 @@
 	"Submitted?": "Submitted?",
 	"Revert": "Revert",
 	"No results for current filters.": "No results for current filters.",
-	"Display my account in menu?": "Display my account in menu?"
+	"Display my account in menu?": "Display my account in menu?",
+	"Info bar": "Info bar",
+	"Save Info bar": "Save Info bar",
+	"Message": "Message",
+	"Removable": "Removable",
+	"backgroundColor": "backgroundColor",
+	"Styles": "Styles",
+	"Edit Info bar": "Edit Info bar"
 }
