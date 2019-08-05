@@ -1,4 +1,4 @@
-.link, .link-caret--blue {
+.link, .link-caret--blue,  .link-caret--black{
   font-size: 16px;
   font-weight: 600;
   color: #004699 !important;
@@ -17,7 +17,22 @@
     padding-left: 16px;
     background-position: 1px 4px;
   }
+
+  &--black {
+    color: black !important;
+    background-image: url(/img/arrow_right_black.svg);
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+
+    &:hover {
+      color: #ec0000  !important;
+      background-image: url(/img/arrow_right_red.svg);
+      text-decoration: none;
+    }
+  }
 }
+
+
 
 
 // Big, button-like links
