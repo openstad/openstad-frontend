@@ -4,9 +4,15 @@ todo: showstep zou hidestep(current) moeten doen
 todo: ik ben begonnen met een generiek en een speciek deel maar het generieke deel is nog veel te specifiek
 #}
 
-{% macro showVoteCreator(openOrClosed, runningIdeas, data) %}
+{% macro showVoteCreator(open, runningIdeas, data) %}
 
-	{% set openOrClosed = 'closed' if not openOrClosed %}
+	{{openOrClosed}}
+
+	{% if open %}
+	{% set openOrClosed = 'open' %}
+	{% else %}
+	{% set openOrClosed = 'closed'  %}
+	{% endif %}
 
 	<div class=" {{contentClass}}">
 

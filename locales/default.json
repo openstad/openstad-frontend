@@ -476,5 +476,10 @@
 	"Removable": "Removable",
 	"backgroundColor": "backgroundColor",
 	"Styles": "Styles",
-	"Edit Info bar": "Edit Info bar"
+	"Edit Info bar": "Edit Info bar",
+	"In Progress...": "In Progress...",
+	"Exporting changes for %s item(s) (%s)": "Exporting changes for %s item(s) (%s)",
+	"This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.": "This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.",
+	"Batch Export": "Batch Export",
+	"Export": "Export"
 }
