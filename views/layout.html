@@ -99,7 +99,7 @@ ga('send', 'pageview');
                           <li>
                             <a
                               href="{{topLink.url}}"
-                              {% if link.targetBlank %} target="_blank" {% endif %}
+                              {% if topLink.targetBlank %} target="_blank" {% endif %}
                               class="link-caret--black"
                             >
                               {{topLink.label}}
@@ -171,9 +171,9 @@ ga('send', 'pageview');
                 </li>
                 {% endfor %}
                 {% if data.global.topLinks %}
-                <li class="li-spacer"></li>
+                <li class="li-spacer visible-xs"></li>
                 {% for topLink in data.global.topLinks %}
-                  <li>
+                  <li class="visible-xs">
                     <a
                       href="{{topLink.url}}"
                       {% if link.targetBlank %} target="_blank" {% endif %}
