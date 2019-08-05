@@ -12,10 +12,15 @@
 
 .link-caret {
   &--blue {
-    background: url(/img/westbegroot/caret-blue.svg);
+    background: url(/img/arrow-right-blue.svg);
     background-repeat: no-repeat;
     padding-left: 16px;
     background-position: 1px 4px;
+
+    &:hover {
+      background-image: url(/img/arrow-right-blue-dark.svg);
+      color: #003066 !important;
+    }
   }
 
   &--black {
