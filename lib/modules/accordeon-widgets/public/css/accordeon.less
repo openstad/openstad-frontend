@@ -4,14 +4,32 @@
 
         .title {
             background: #e3e4e5;
-            padding: 10px;
+            padding: 10px 50px 10px 20px;
             font-weight: 700;
             cursor: pointer;
+            position: relative;
+
+            &:after {
+                content: '';
+                position: absolute;
+                right: 15px;
+                background-image: url('/img/chevron_down.svg');
+                width: 16px;
+                height: 10px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                top: 50%;
+                transform: translateY(-50%) rotate(180deg);
+            }
         }
 
         &.closed {
             .description {
                 max-height: 0px;
+            }
+
+            .title:after {
+                transform: translateY(-50%) rotate(0);
             }
         }
 

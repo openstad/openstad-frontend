@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData">
+    <serverData>
+      <paths name="AoE dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="AoE live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Buyit live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Cruise dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Dimension data dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Draad2019 dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="FIER live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Fygi dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Guliker live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Hatchtech dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Hatchtraveller dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Hatchtraveller migration">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Hottub dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Jako dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Kraatskip dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Mindtuning live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Pluk en Proef">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="TalentTargeting live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Tosch live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Utz dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Utz live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="WZB live">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Welzijn barneveld dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Zilvertron dev">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="dev-jobs irdeto">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="e-Con portal">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../openstad-css-server" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
