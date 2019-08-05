@@ -63,16 +63,41 @@ app.use(function(req, res, next) {
     };
 
     if (process.env.SITE_API_KEY) {
-      siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
-    }
-
-    rp(siteOptions)
-      .then((siteConfig) => {
-        configForHosts[thisHost] = siteConfig;
-        serveSite(req, res, siteConfig, true);
-      }).catch((e) => {
-          res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
-      });
+     siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
+   }
+   console.log('siteOptions', siteOptions);
+   const siteConfig = {
+     id: 143,
+     name: 'local-test-denhaag',
+     domain: 'localhost:8109',
+     config: {
+           "cms": {
+               "url": "http://localhost:8109",
+               "dbName": "demodb2",
+               "hostname": "localhost:8109",
+               "after-login-redirect-uri": "/oauth/login?jwt=[[jwt]]"
+           },
+           "oauth": {
+               "auth-client-id": "2f2c7b3a838dcc33bdfee74137575468",
+               "auth-client-secret": "1f9ffddcfb4569db413126a67edca37a"
+           },
+           "allowedDomains": [
+               "demo-begroot-1.cms.staging.openstadsdeel.nl",
+               "api2.staging.openstadsdeel.nl",
+               "localhost",
+               "localhost:8109",
+               "vuilnisvrijwest.cms.staging.openstadsdeel.nl"
+           ]
+       }
+   }
+   serveSite(req, res, siteConfig, true);
+   /*rp(siteOptions)
+     .then((siteConfig) => {
+       configForHosts[thisHost] = siteConfig;
+       serveSite(req, res, siteConfig, true);
+     }).catch((e) => {
+         res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
+     });*/
   }
 
 //  apos = await runner(options.sites || {});
