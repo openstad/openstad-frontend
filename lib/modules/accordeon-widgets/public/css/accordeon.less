@@ -2,20 +2,28 @@
     .accordeon-item {
         margin-bottom: 20px;
 
+        &:hover {
+            .title {
+                background: #b4b4b4!important;
+            }
+        }
+
         .title {
-            background: #e3e4e5;
-            padding: 10px 50px 10px 20px;
+            background: #b4b4b4;
+            padding: 9px 60px 10px 20px;
             font-weight: 700;
             cursor: pointer;
             position: relative;
+            font-size: 16px;
+            line-height: 1.38;
 
             &:after {
                 content: '';
                 position: absolute;
-                right: 15px;
+                right: 20px;
                 background-image: url('/img/chevron_down.svg');
-                width: 16px;
-                height: 10px;
+                width: 20px;
+                height: 13px;
                 background-size: contain;
                 background-repeat: no-repeat;
                 top: 50%;
@@ -24,6 +32,9 @@
         }
 
         &.closed {
+            .title {
+                background: #e3e4e5;
+            }
             .description {
                 max-height: 0px;
             }
