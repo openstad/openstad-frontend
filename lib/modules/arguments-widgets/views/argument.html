@@ -40,7 +40,7 @@
     {% endif %}
 
     {% if maySeeReplyForm %}
-      <a href="#"  class="reply reply-click argument-action-form" {{'data-disabled' if not mayReply}}
+      <a href="#"  class="reply reply-click argument-action-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}" {{'data-disabled' if not mayReply}}
       >Reageren</a>
     {% endif %}
   </div>
