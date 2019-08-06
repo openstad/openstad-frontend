@@ -8,9 +8,8 @@ module.exports = function( req, res, next ) {
 	let siteId;
 
 	// deze paden mogen dit overslaan
-	if (req.path.match('/doc|/dev|/accepteer-cookies|/$')) return next();
-	if (req.path.match('/api/site(/[^/]*)?$')) return next();
-	// |	
+	if (req.path.match('^(/doc|/dev|/accepteer-cookies|/$)')) return next();
+	if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
 
 	let match = req.path.match(/\/site\/(\d+)?\//);
 	if (match) {
@@ -18,6 +17,8 @@ module.exports = function( req, res, next ) {
 	}
 	if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
 	//if (!siteId || typeof siteId !== 'number') return next();
+
+	console.log(siteId);
 
 	let where = {};
 	where = { id: siteId }
