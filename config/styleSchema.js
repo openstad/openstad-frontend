@@ -91,6 +91,10 @@ exports.default = {
               'label': 'Direction',
               'value': 'direction'
             },
+            {
+              'label': 'Display',
+              'value': 'display'
+            },
           ]
         },
         {
