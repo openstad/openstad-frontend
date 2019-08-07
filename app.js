@@ -34,6 +34,34 @@ const aposStartingUp        = {};
 var aposServer = {};
 app.use(express.static('public'));
 
+function getRoot() {
+    let _module = module;
+    let m = _module;
+    while (m.parent) {
+      // The test file is the root as far as we are concerned,
+      // not mocha itself
+      if (m.parent.filename.match(/\/node_modules\/mocha\//)) {
+        return m;
+      }
+      m = m.parent;
+      _module = m;
+    }
+    return _module;
+  }
+
+function getRootDir() {
+   const path = require('path');
+   return path.dirname(path.resolve(getRoot().filename));
+ }
+
+ function getNpmPath(root, type) {
+   const npmResolve = require('resolve');
+   return npmResolve.sync(type, { basedir: getRootDir() });
+ }
+
+ function hostnameOnly(server) {
+   return server.replace(/\:\d+$/, '');
+ }
 
 function getSampleSite() {
   const keys = _.keys(aposServer);
@@ -56,8 +84,46 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-app.use(function(req, res, next) {
+var runningSampleSite = false;
+var startingUpSampleSite = false;
 
+
+app.use(function(req, res, next) {
+  // run sample server
+  //
+
+  if (!runningSampleSite) {
+    runningSampleSite  = true;
+    startingUpSampleSite = true;
+    const defaultRunner = Promise.promisify(run);
+    const dbName = process.env.SAMPLE_DB;
+
+    console.log('startup sample');
+
+    defaultRunner(dbName, {}, function(apos) {
+        console.log('started sample');
+        startingUpSampleSite = false;
+        aposServer[dbName] = apos;
+      });
+  }
+
+  const safeStartServers = (req, res, next) => {
+    if (startingUpSampleSite) {
+      // timeout loop //
+      setTimeout(() => {
+        safeStartServers(req, res, next);
+      }, 100);
+    } else {
+      serveSites(req, res, next);
+    }
+  }
+
+  safeStartServers(req, res, next);
+
+});
+
+
+function serveSites (req, res, next) {
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
@@ -66,8 +132,6 @@ app.use(function(req, res, next) {
   if (configForHosts[thisHost]) {
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
-
-
     const siteOptions = {
         uri:`${process.env.API}/api/site/${thisHost}`, //,
         headers: {
@@ -89,16 +153,11 @@ app.use(function(req, res, next) {
           res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
       });
   }
-
-//  apos = await runner(options.sites || {});
-});
+}
 
 function serveSite(req, res, siteConfig, forceRestart) {
   const runner = Promise.promisify(run);
-
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
-
-
 
   return dbExists(dbName).then((exists) => {
       if (exists || dbName === process.env.DEFAULT_DB)  {
@@ -190,20 +249,49 @@ function run(id, siteData, callback) {
         }
       },
 
+      'apostrophe-attachments': {
+    /*    uploadfs: {
+          prefix: '/' + site._id,
+          uploadsPath: getRootDir() + '/sites/public/uploads',
+          uploadsUrl: '/uploads',
+          tempPath: getRootDir() + '/sites/data/temp/' + site._id + '/uploadfs',
+          https: true
+        }*/
+      },
+
       'apostrophe-multisite-patch-assets': {
         construct: function(self, options) {
-          // At least one site has already started up, which means
-          // assets have already been attended to. Steal its
-          // asset generation identifier so they don't fight.
-          // We're not too late because apostrophe-assets doesn't
-          // use this information until afterInit
-          const sample = getSampleSite();
-          if (!sample) {
-            return;
-          }
+            // The sites should share a collection for this purpose,
+            // so they don't fail to see that a bundle has already been
+            // generated via a temporary site during deployment
+          //  self.apos.assets.generationCollection = dashboard.db.collection('sitesAssetGeneration');
+            // Use a separate uploadfs instance for assets, so that the
+            // sites share assets but not attachments
 
-          self.apos.assets.generation = sample.assets.generation;
-        }
+         //  self.apos.assets.uploadfs = function() {
+          //    return self.uploadfs;
+          //  };
+
+
+            // For dev: at least one site has already started up, which
+            // means assets have already been attended to. Steal its
+            // asset generation identifier so they don't fight.
+            // We're not too late because apostrophe-assets doesn't
+            // use this information until afterInit
+            const sample = getSampleSite();
+
+
+            if (!sample) {
+              return;
+            }
+
+
+            self.apos.assets.generation = sample.assets.generation;
+          },
+
+/*        afterConstruct: function(self, callback) {
+          return self.initUploadfs(callback);
+        }*/
       },
 
       settings: {
