@@ -4,4 +4,9 @@
 
 <span class="speechBubble" id="{{data.widget.containerId}}">
 	{{data.widget.title}}
+
+
+	{% if data.widget.displayLink %}
+		<a class="filled-button" href="{{data.widget.link}}">{{data.widget.linkLabel}}</a>
+    {% endif %}
 </span>
