@@ -32,6 +32,9 @@ const aposStartingUp        = {};
 //console.log('process.env', process.env);
 
 var aposServer = {};
+var sampleSite;
+var runningSampleSite = false;
+var startingUpSampleSite = false;
 app.use(express.static('public'));
 
 function getRoot() {
@@ -63,14 +66,24 @@ function getRootDir() {
    return server.replace(/\:\d+$/, '');
  }
 
+
+
 function getSampleSite() {
+
+  return sampleSite ? sampleSite : null;
+
+/*
   const keys = _.keys(aposServer);
+
+
 
   if (!keys.length ) {
     return null;
   }
-  // Find the first one that isn't a status string like "pending"
-  return _.find(aposServer, apos => (typeof apos) === 'object');
+
+  let server = _.find(aposServer, apos => (typeof apos) === 'object');
+
+*/
 }
 
 /**
@@ -84,8 +97,7 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-var runningSampleSite = false;
-var startingUpSampleSite = false;
+
 
 
 app.use(function(req, res, next) {
@@ -98,12 +110,12 @@ app.use(function(req, res, next) {
     const defaultRunner = Promise.promisify(run);
     const dbName = process.env.SAMPLE_DB;
 
-    console.log('startup sample');
 
-    defaultRunner(dbName, {}, function(apos) {
-        console.log('started sample');
-        startingUpSampleSite = false;
+
+    run(dbName, {}, function(silly, apos) {
+        sampleSite = apos;
         aposServer[dbName] = apos;
+        startingUpSampleSite = false;
       });
   }
 
@@ -147,6 +159,7 @@ function serveSites (req, res, next) {
 
     rp(siteOptions)
       .then((siteConfig) => {
+
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
@@ -279,12 +292,9 @@ function run(id, siteData, callback) {
             // We're not too late because apostrophe-assets doesn't
             // use this information until afterInit
             const sample = getSampleSite();
-
-
             if (!sample) {
               return;
             }
-
 
             self.apos.assets.generation = sample.assets.generation;
           },
