@@ -73,7 +73,7 @@ function getSampleSite() {
   return sampleSite ? sampleSite : null;
 
 /*
-  const keys = _.keys(aposServer);
+  const keys = finio;
 
 
 
@@ -93,12 +93,25 @@ function getSampleSite() {
 app.get('/config-reset', (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
   host = host.replace(['http://', 'https://'], ['']);
+  console.log('configForHosts', configForHosts);
+
   delete configForHosts[host];
+  console.log('configForHosts', configForHosts);
   res.json({ message: 'Ok'});
 });
 
 
-
+app.get('/info', (req, res, next) => {
+  let host = req.headers['x-forwarded-host'] || req.get('host');
+  host = host.replace(['http://', 'https://'], ['']);
+  let sample = getSampleSite();
+  res.json({
+    running: _.keys(aposServer),
+    host: host,
+    generation: sample.assets.generation,
+    configForHosts: configForHosts
+  });
+});
 
 app.use(function(req, res, next) {
   // run sample server
@@ -183,6 +196,10 @@ function serveSite(req, res, siteConfig, forceRestart) {
             config.title = siteConfig.title;
 
             aposStartingUp[dbName] = true;
+
+            if (aposServer[dbName]) {
+          //    aposServer[dbName].close();
+            }
 
             runner(dbName, config).then(function(apos) {
               aposStartingUp[dbName] = false;
@@ -292,10 +309,17 @@ function run(id, siteData, callback) {
             // We're not too late because apostrophe-assets doesn't
             // use this information until afterInit
             const sample = getSampleSite();
+
+
             if (!sample) {
               return;
             }
 
+        //    console.log('===>>>> sample.assets ', sample.assets);
+
+            console.log('===>>>> sample.assets.generation ', sample.assets.generation);
+
+            self.apos.assets.generationCollection = sample.assets.generationCollection;
             self.apos.assets.generation = sample.assets.generation;
           },
 
