@@ -24,6 +24,7 @@
 	// --------------
 	// All action buttons on the right side of the primary content.
 	// Think of buttons like 'edit idea', 'add article', etc.
+	.edit-button,
 	button[type="submit"],
 	select.button {
 		.appearance(none);
@@ -47,9 +48,11 @@
 		text-overflow: ellipsis;
 		padding-left: 46px;
 		padding-right: 3px;
+		padding-top: 5px;
 		position: relative;
 		text-align: center;
 		width: 100%;
+		line-height: 38px;
 
 		&.edit {
 			background-image: url('/img/edit-buttons/edit.svg');
@@ -60,7 +63,7 @@
 		&.delete {
 			background-image: url('/img/edit-buttons/delete.svg');
 		}
-		&.modBreak {
+		&.modBreak, &.modbreak-button {
 			background-image: url('/img/edit-buttons/modbreak.svg');
 		}
 		&.calendar {
@@ -69,7 +72,7 @@
 		&.status {
 			background-image: url('/img/edit-buttons/status.svg');
 		}
-		&.votes {
+		&.votes, &.votes-overview-button {
 			background-image: url('/img/edit-buttons/votes.svg');
 		}
 	}

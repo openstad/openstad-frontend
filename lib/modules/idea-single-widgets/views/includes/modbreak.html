@@ -1,8 +1,13 @@
-{% macro render(idea) %}
-	<div id="modBreak">
-		<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{idea.modBreakDate | date('LLL')}}<br>
+{% if idea.modBreak %}
+<div id="modBreak">
+		{% if data.global.modbreakAuthor %}
+			<b>{{data.global.modbreakAuthor}} | </b>
+		{% endif %}
+
+		<b>{{idea.modBreakDateNice}}</b>
+		<br>
 		<p>
-			{{idea.modBreak | safe | nl2br}}
+			{{idea.modBreak | safe | nlbr}}
 		</p>
-	</div>
-{% endmacro %}
+</div>
+{% endif %}

@@ -1,0 +1,37 @@
+<div id="modbreak" class="content-modal content-modal--s">
+  <div class="content-modal-content">
+
+    <h2>
+      Reactie van moderator
+    </h2>
+    <p>
+      <form method="post" id="js-form " action="/modules/idea-form-widgets/submit" class="ajax-form">
+        <input type="hidden" name="action" value="MODBREAK">
+        {% if idea.modBreakDate %}
+        <input type="hidden" name="modBreakDate" value="{{idea.modBreakDate}}">
+        {% endif %}
+        <div class="form-group">
+          <textarea name="modBreak" id="description-textarea" class="textarea">{{idea.modBreak}}</textarea>
+        </div>
+
+        <input type="hidden" name="redirect-url" class="redirect-url"  value="{{data.currentUrl}}"  />
+
+
+        {% if idea %}
+        <input type="hidden" name="ideaId" value="{{idea.id}}">
+        {% endif %}
+
+        <div class="row">
+          <button type="submit" href="/oauth/login?returnTo={{data.currentUrl}}" class="btn-primary btn-primary--blue">
+            <span>Opslaan</span>
+          </button>
+        </div>
+      </form>
+
+
+
+    <a href="#closed" class="content-modal-close" >
+      <img src="{{appUrl}}/img/close-white.svg" width="17" height="17"/>
+    </a>
+  </div>
+</div>

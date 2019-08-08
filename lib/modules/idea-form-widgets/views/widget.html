@@ -66,7 +66,6 @@
 						</div>
 						<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 							<option value="">Kies gebied</option>
-							<option value="" {% if not idea.extraData.area %}selected{% endif %}>Algemeen</option>
 							{% for area in data.global.areas %}
 								<option value="{{area.value}}" {% if (idea.extraData) and (idea.extraData.area === area.value) %}selected{% endif %}>{{area.value}}</option>
 							{% endfor %}
@@ -77,7 +76,7 @@
 					<div class="form-group">
 						{% if data.global.themes and data.global.themes.length > 0 %}
 						<h2>
-							{{ data.widget.labelAreas if data.widget.labelAreas else 'Thema' }}
+							{{ data.widget.labelThemes if data.widget.labelThemes else 'Thema' }}
 						</h2>
 						<div class="form-info">
 							{{ data.widget.infoThemes if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
@@ -127,7 +126,7 @@
 									{% endfor %}
 									{% endif %}
 								</script>
-								<input type="file" class="imageUploader filepond" multiple />
+								<input type="file" class="imageUploader filepond" {% if data.widget.uploadMultiple %} multiple {% endif %} />
 
 							</fieldset>
 							<input type="hidden" name="validateImages" multiple />

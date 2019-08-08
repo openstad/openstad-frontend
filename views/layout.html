@@ -34,7 +34,13 @@
 <meta property="og:type" content="website">
 <meta property="og:description" content="{{activeIdea.summary}}">
 <meta property="og:locale" content="nl_NL">
-<meta property="og:image" content="{{activeIdea.extraData.images[0]}}">
+
+{% if activeIdea.extraData.images[0] %}
+<meta property="og:image" content="{{activeIdea.extraData.images[0]}}/:/rs=w:600,h:315">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="315">
+{% endif %}
+
 {% else %}
   {% if data.global.fbImage %}
   <meta property="og:image" content="{{apos.settings.getOption('appUrl')}}{{apos.attachments.url(data.global.fbImage)}}">
@@ -79,11 +85,33 @@ ga('send', 'pageview');
                     </div>
                     {% endif %}
                   </a>
-                  <h2 class="header-subtitle">
-                    {{data.global.siteTitle}}
-                  </h2>
+                  <div class="header-side-container">
+                    <div class="row">
+                      <div class="col-sm-7 col-md-6 col-xs-12">
+                        <h2 class="header-subtitle">
+                          {{data.global.siteTitle}}
+                        </h2>
+                      </div>
+                      <div class="col-sm-5 col-md-6 hidden-xs">
+                        {% if data.global.topLinks %}
+                        <ul class="top-links">
+                        {% for topLink in data.global.topLinks.reverse() %}
+                          <li>
+                            <a
+                              href="{{topLink.url}}"
+                              {% if topLink.targetBlank %} target="_blank" {% endif %}
+                              class="link-caret--black"
+                            >
+                              {{topLink.label}}
+                            </a>
+                          </li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
             </div>
         </div>
     </header>
@@ -120,7 +148,7 @@ ga('send', 'pageview');
                   <img src="/img/avatar.svg" />
                    {{ __('Log out') }}
                   </a>
-                  {% else %}
+                  {% elseif data.global.displayMyAcount %}
                    <a href="/oauth/login">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                      {{ __('My account') }}
@@ -142,6 +170,20 @@ ga('send', 'pageview');
                   </a>
                 </li>
                 {% endfor %}
+                {% if data.global.topLinks %}
+                <li class="li-spacer visible-xs"></li>
+                {% for topLink in data.global.topLinks %}
+                  <li class="visible-xs">
+                    <a
+                      href="{{topLink.url}}"
+                      {% if link.targetBlank %} target="_blank" {% endif %}
+                      class="nav-link "
+                    >
+                      <b> {{topLink.label}} </b>
+                    </a>
+                  </li>
+                {% endfor %}
+                {% endif %}
               </ul>
 
         			<nav id="subMenu" class="" role="navigation">
@@ -151,7 +193,7 @@ ga('send', 'pageview');
                       <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                       {{ __('Log out') }}
                     </a>
-        						{% else %}
+        						{% elseif data.global.displayMyAcount %}
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />

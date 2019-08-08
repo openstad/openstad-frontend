@@ -1,17 +1,14 @@
-{% if can('idea:edit', 'idea:delete') %}
-  <h2 class="edit-header">Bewerken</h2>
+<h2 class="edit-header">Bewerken</h2>
 
-  {% if can('idea:edit') %}
-    <form action="/plan/{{idea.id}}/edit">
-      <button type="submit" class="edit">Bewerk idee</button>
-    </form>
-  {% endif %}
+<form action="{{data.global.editIdeaUrl}}" method="GET">
+  <input type="hidden" name="ideaId" value="{{idea.id}}" />
+  <button type="submit" class="edit">Bewerk idee</button>
+</form>
 
-  {% if can('idea:delete') %}
-    <form method="POST" action="/plan/{{idea.id}}/delete" id="deleteIdea">
-      <input type="hidden" name="_method" value="DELETE">
-      <input type="hidden" name="_csrf" value="{{csrfToken}}">
-      <button type="submit" class="delete">Verwijder idee</button>
-    </form>
-  {% endif %}
-{% endif %}
+
+<form method="POST" action="/modules/idea-form-widgets/submit" id="deleteIdea" class="ajax-form">
+  <input type="hidden" name="ideaId" value="{{idea.id}}" />
+  <input type="hidden" name="action" value="DELETE" />
+  <button type="submit" class="delete" onclick="return confirm('Zeker?')">Verwijder idee</button>
+  <input type="hidden" name="redirect-url" class="redirect-url"  value="/{{data.global.ideaOverviewSlug}}"  />
+</form>

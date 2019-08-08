@@ -1,4 +1,4 @@
-.speechBubble {
+.speech-bubble {
   border: 3px solid #EC0000;
       border-radius: 12px;
       box-sizing: border-box;
@@ -13,15 +13,16 @@
       color: #000;
 }
 
-.speechBubble:after {
-    background-image: url(/img/bubble_point.svg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+.bubble-triangle-icon {
     bottom: -28px;
-    content: '';
     height: 28px;
     position: absolute;
     right: 20px;
     width: 83px;
+}
+
+.speech-bubble {
+  h1, h2, h3, h4, h5 {
+    margin: 5px 0;
+  }
 }

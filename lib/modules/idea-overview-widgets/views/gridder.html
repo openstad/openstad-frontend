@@ -121,8 +121,10 @@
                   <div class="tip description">{{idea.extraData.advice | nlbr}}</div>
                   {% endif %}
 
+                  {% include 'modbreak.html' %}
+
           				{% if data.openstadUser.id === idea.userId or data.isAdmin %}
-          					<div class="description"><a href="/indienen?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
+          					<div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
           				{% endif %}
 
           				<div class="share-spacer"></div>
