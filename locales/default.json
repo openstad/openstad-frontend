@@ -509,5 +509,14 @@
 	"Url instellingen": "Url instellingen",
 	"Site ID (overwrite the default site id)": "Site ID (overwrite the default site id)",
 	"Url van de bewerk pagina": "Url van de bewerk pagina",
-	"Author of the modbreaks": "Author of the modbreaks"
+	"Author of the modbreaks": "Author of the modbreaks",
+	"Slider": "Slider",
+	"Three Columns: 25% - 50% - 25%": "Three Columns: 25% - 50% - 25%",
+	"Show section as toggle section": "Show section as toggle section",
+	"Toggle title": "Toggle title",
+	"Show toggle only on mobile": "Show toggle only on mobile",
+	"Save Slider": "Save Slider",
+	"Edit Slider": "Edit Slider",
+	"Display link": "Display link",
+	"Link": "Link"
 }
