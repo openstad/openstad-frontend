@@ -2,7 +2,6 @@
 {% set showForm = true %}
 {% set summaryMaxLength = 140 %}
 {% set summaryMinLength = 20 %}
-{% set useModernEditor = false %}
 {% set idea = data.idea %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
@@ -13,6 +12,12 @@
 {% set showForm = true %}
 {% else %}
 {% set showForm = false %}
+{% endif %}
+
+{% if data.widget.editorDescription %}
+{% set useModernEditor = true %}
+{% else %}
+{% set useModernEditor = false %}
 {% endif %}
 
 <div class="pageContent newIdea" id="content">
@@ -224,6 +229,33 @@
 					</div>
 					{% endif %}
 
+				{% if data.widget.displayEstimate %}
+				<div id="estimate">
+					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
+					<div class="form-info" style="height: auto;">{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.' }}</div>
+					<input type="text" id="estimate_input" name="estimate"
+						   {% if idea.extraData.estimate %}
+						   value="{{idea.extraData.estimate}}"
+						   {% endif %}
+					>
+				</div>
+				{% endif %}
+
+				{% if data.widget.displayRole %}
+				<div id="role">
+					<h2>Welke rol ga je zelf vervullen bij de uitvoering?</h2>
+					<div class="form-info" style="height: auto;">Bewoners kunnen zelf of samen met de gemeente of een andere organisatie een plan uitvoeren. Geef aan welke rol je hierin wilt en kunt vervullen.</div>
+					<textarea id="role_input" name="role"></textarea>
+				</div>
+				{% endif %}
+
+				{% if data.widget.displayPhone %}
+				<div id="phone">
+					<h2>Telefoonnummer (optioneel)</h2>
+					<div class="form-info" style="height: auto;">Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.</div>
+					<input type="number" id="phone_input" name="phone" value="">
+				</div>
+				{% endif %}
 
 					{% if data.widget.displayAdvice %}
 					<div class="form-group">
@@ -238,9 +270,6 @@
 						</div>
 					</div>
 					{% endif %}
-
-
-
 
 				{% if idea %}
 				<input type="hidden" name="ideaId" value="{{idea.id}}">

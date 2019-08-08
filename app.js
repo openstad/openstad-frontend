@@ -362,6 +362,7 @@ function run(id, siteData, callback) {
                 position: 'bottom-left'
               },
             },
+            'slider' : {},
             'counter' : {
               addLabel: 'Counter',
             },
@@ -468,6 +469,7 @@ function run(id, siteData, callback) {
     //  'idea-voting-widgets': {},
       'link-widgets': {},
       'counter-widgets': {},
+      'slider-widgets': {},
       'arguments-widgets': {},
       'arguments-form-widgets': {},
       'gebiedsontwikkeling-tool-widgets': {},

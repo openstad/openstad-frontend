@@ -110,7 +110,7 @@
 							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.fullUrll}}">Facebook</a></li>
 							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.fullUrl}}">Twitter</a></li>
 							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.fullUrl | urlencode}}">Email</a></li>
-							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.fullUrl}}">WhatsApp</a></li>
+							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.fullUrl | urlencode}}">WhatsApp</a></li>
 						</ul>
 					</div>
 
