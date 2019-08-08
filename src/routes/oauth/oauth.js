@@ -163,7 +163,7 @@ router
 		let where = {
 			where: Sequelize.or(
 				{ externalUserId: req.userData.user_id },
-				{ email: req.userData.email || 'anonymous.nowhere.nl' }, // do not find users with email = null
+				{ email: req.userData.email || 'anonymous.nowhere.nl' } // do not find users with email = null
 			)
 		}
 
