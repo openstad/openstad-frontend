@@ -61,7 +61,6 @@
 						</div>
 						<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}">
 							<option value="">Kies gebied</option>
-							<option value="" {% if not idea.extraData.area %}selected{% endif %}>Algemeen</option>
 							{% for area in data.global.areas %}
 								<option value="{{area.value}}" {% if (idea.extraData) and (idea.extraData.area === area.value) %}selected{% endif %}>{{area.value}}</option>
 							{% endfor %}
@@ -286,7 +285,7 @@
 				</form>
 				</div>
 				{% endif %}
-				<div class="col-sm-4 col-xs-12"> 
+				<div class="col-sm-4 col-xs-12">
 				<form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
 					<input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
 
