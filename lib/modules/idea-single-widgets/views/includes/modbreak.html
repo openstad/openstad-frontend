@@ -1,3 +1,4 @@
+{% if idea.modBreak %}
 <div id="modBreak">
 		{% if data.global.modbreakAuthor %}
 			<b>{{data.global.modbreakAuthor}} | </b>
@@ -9,3 +10,4 @@
 			{{idea.modBreak | safe | nlbr}}
 		</p>
 </div>
+{% endif %}

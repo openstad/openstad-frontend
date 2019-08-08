@@ -125,15 +125,11 @@
 		<h1>{{idea.title}}</h1>
 
 		<div id="author">
-
-				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
-
+			<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
 			{{idea.startDate | date('LL')}}
 		</div>
 
-		{% if idea.modBreak and not (idea.status === 'OPEN') %}
 		{% include 'includes/modbreak.html' %}
-		{% endif %}
 
 		<div class="userContent">
 			<p class="summary">
