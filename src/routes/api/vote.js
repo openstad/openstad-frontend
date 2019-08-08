@@ -21,13 +21,27 @@ router.route('*')
 		return next();
 	})
 
-  // mag je de stemmen bekijken
+  // special get route for anonymous likes
+  // this is a bit dubious security wise, but so is anonymous voting...
 	.get(function(req, res, next) {
-		if (!(req.site.config.votes.isViewable || req.user.role == 'admin')) {
-			return next(createError(403, 'Stemmen zijn niet zichtbaar'));
+		let match = req.path.match(/\/idea\/(\d+)$/);
+		if (match) {
+			if (req.site.config.votes.voteType == 'likes' && req.site.config.votes.requiredUserRole == 'anonymous') {
+				req.body = {
+					ideaId: parseInt(match[1], 10),
+					opinion: req.query.opinion,
+				};
+				req.method = "POST";
+				next();
+			} else {
+				next(createError(400, 'Anoniem stemmen niet toegestaan'));
+			}
+		} else {
+			next();
 		}
-		return next();
 	})
+
+router.route('*')
 
   // mag er gestemd worden
 	.post(function(req, res, next) {
@@ -50,11 +64,15 @@ router.route('*')
 			return next(createError(401, 'Geen gebruiker gevonden'));
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'anonymous') {
-			return next(createError(401, 'Anonymous stemmen is nog niet geimplementeerd'));
+		if (req.site.config.votes.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || req.user.role == 'admin' )) {
+			return next();
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'member' && req.user.role == 'member' || req.user.role == 'admin') {
+		if (req.site.config.votes.requiredUserRole == 'member' && ( req.user.role == 'member' || req.user.role == 'admin' )) {
+			return next();
+		}
+
+		if (req.site.config.votes.requiredUserRole == 'admin' && ( req.user.role == 'admin' )) {
 			return next();
 		}
 
@@ -64,6 +82,14 @@ router.route('*')
 // list all votes or all votes
 // ---------------------------
 router.route('/')
+
+  // mag je de stemmen bekijken
+	.get(function(req, res, next) {
+		if (!(req.site.config.votes.isViewable || req.user.role == 'admin')) {
+			return next(createError(403, 'Stemmen zijn niet zichtbaar'));
+		}
+		return next();
+	})
 	.get(function(req, res, next) {
 
 		let where = {};
@@ -97,7 +123,7 @@ router.route('/')
 
 // create votes
 // ------------
-router.route('/')
+router.route('/*')
 
 	// .post(auth.can('ideavote:create'))
 

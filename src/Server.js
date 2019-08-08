@@ -120,6 +120,7 @@ module.exports  = {
 			cookie: {
 				httpOnly : true,
 				secure   : config.get('security.sessions.onlySecure'),
+				sameSite : config.get('security.sessions.onlySecure'),
 				maxAge   : null
 			}
 		}));

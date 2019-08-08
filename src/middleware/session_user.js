@@ -50,8 +50,10 @@ module.exports = function getSessionUser( req, res, next ) {
 		}
 
 	}
-	
-	getUserInstance(userId || 1, req.site)
+
+	let which = req.session.useOauth || 'default';
+	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+	getUserInstance(userId || 1, siteOauthConfig)
 		.then(function( user ) {
 			req.user = user;
 			// Pass user entity to template view.
@@ -78,7 +80,7 @@ function unsetSessionUser() {
 	this.session['ref']        = null;
 }
 
-function getUserInstance( userId, site ) {
+function getUserInstance( userId, siteOauthConfig ) {
 
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
@@ -95,14 +97,11 @@ function getUserInstance( userId, site ) {
 			if (dbuser && dbuser.externalUserId && dbuser.externalAccessToken) {
 
 				// get the user info using the access token
-				let authServerUrl = ( site && site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-				let authServerGetUserPath = ( site && site.config.oauth['auth-server-get-user-path'] ) || config.authorization['auth-server-get-user-path'];
-				let authClientId = ( site && site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+				let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+				let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
+				let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 				let url = authServerUrl + authServerGetUserPath;
 				url = url.replace(/\[\[clientId\]\]/, authClientId);
-
-				// eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjMjdkM2E1Mi0zYzc0LTRlMjYtYTk2My1kMjcwMjhiM2M3ODEiLCJzdWIiOjEwOSwiZXhwIjoxNTYyOTI5ODAzLCJpYXQiOjE1NjI5MjYyMDN9.f4mPsAuzIO64IcU9ux73GmzGMCS68xiWrkKbENAnVPqcQAJ4kZf9Z8AVF7gd-HuUBxhOAd7LG1mEr_ggdvUmyhP2s9U2ZjRo_VBJoW8vJmDnTTkPYvAVcwV3TXpOY8UyPTBUYOfZxMiebwzUSbU9IEaXti__7YOTIs2zV_edoyJTw0QQJ4gSEYNuZ8_HRbHq-wJpZq0klSzY4L4mOkXwy6iqQqAiNjnWwa85Eso1zVIIKza0Qw4hXBhlKOaOEJjT3CQIOvC4X-vkztLa6FDzEEoPEyvCI-ckKPHfKZOtjjA7HXClrm6ZE5OeINzO3lznlNodrMXKGw-ExA3GzR1L8Q
-				// eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0N2QxMTVkNy0yMmUzLTQ4ZTMtOGFjYi00NDJiNGUzYjgyMmQiLCJzdWIiOjIzMSwiZXhwIjoxNTYyNjg4NDE1LCJpYXQiOjE1NjI2ODQ4MTV9.wKwhnwpzoXv-zRO2TRMQqzlv8MlZeh8oYMnj_D6a_rxmFYfaFkHr5FcYdgxfbG6NntNs8pKF-H_3WLhxnRgxK2S8je7uEHZHGCryZzCOY5W_XC1H2NOP8OrZNYRHY78E8gIWYhgoDoGfB9XwJ6MDrnb9w30NxLALEkkKCdcqEPunkZwiyfrXxq4STIEnYtXrjt7Hz-1qv3-a2q0ILildUZmB8Cx8soELozHuHj6TEO3Amh3O_JeWtVjsEHfEsaT9bL26RzipRcruhm_6W7_xyNtMTGJpSwCZQJRgjR6njQKLs-YRa1q6Dl7_rjDHSwQx9o2lntFJ87d9wOwUhseJ0Q
 				
 				return fetch(
 					url, {

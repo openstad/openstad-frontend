@@ -18,8 +18,6 @@ module.exports = function( req, res, next ) {
 	if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
 	//if (!siteId || typeof siteId !== 'number') return next();
 
-	console.log(siteId);
-
 	let where = {};
 	where = { id: siteId }
 

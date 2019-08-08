@@ -140,7 +140,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			'oauth': {
-				type: 'object',
+				type: 'objectsInObject',
 				subset: {
 					"auth-server-url": {
 						type: 'string',
@@ -245,7 +245,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						default: 'error',
 					},
 
-					votingType: {
+					voteType: {
 						type: 'enum',
 						values: ['likes', 'count', 'budgeting'],
 						default: 'likes',
@@ -297,9 +297,29 @@ module.exports = function( db, sequelize, DataTypes ) {
 			let newValue = {};
 			Object.keys(options).forEach( key => {
 
+				// backwards compatibility op oauth settings
+				if (key == 'oauth' && value[key] && !value[key].default && ( value[key]['auth-server-url'] || value[key]['auth-client-id'] || value[key]['auth-client-secret'] || value[key]['auth-server-login-path'] || value[key]['auth-server-exchange-code-path'] || value[key]['auth-server-get-user-path'] || value[key]['auth-server-logout-path'] || value[key]['after-login-redirect-uri'] )) {
+					// dit is een oude
+					value[key] = { default: value[key] };
+				}
+
+				// objects in objects
 				if (options[key].type == 'object' && options[key].subset) {
 					let temp = checkValues(value[key] || {}, options[key].subset); // recusion
 					return newValue[key] = Object.keys(temp) ? temp : undefined;
+				}
+
+				// objects in objects
+				if (options[key].type == 'objectsInObject' && options[key].subset) {
+					Object.keys(options[key].subset).forEach( subkey => {
+						newValue[key] = {};
+						let temp = checkValues(value[subkey] || {}, options[key].subset[subkey]); // recusion
+						return newValue[key][subkey] = Object.keys(temp) ? temp : undefined;
+					})
+				}
+
+				// set to null
+				if (value[key]) {
 				}
 
 				// TODO: in progress
@@ -323,7 +343,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 						throw new Error(`site.config: ${key} has an invalid value`);
 					}
 					return newValue[key] = value[key];
-
 				}
 
 				// default?
@@ -337,6 +356,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 
 			});
+
 			// voor nu mag je er in stoppen wat je wilt; uiteindelijk moet dat zo gaan werken dat je alleen bestaande opties mag gebruiken
 			// dit blok kan dan weg
 			Object.keys(value).forEach( key => {

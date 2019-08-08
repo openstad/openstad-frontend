@@ -13,7 +13,10 @@ let router = express.Router({mergeParams: true});
  * Check if redirectURI same host as registered
  */
 const isAllowedRedirectDomain = (url, allowedDomains) => {
-	const redirectUrlHost = new URL(url).hostname;
+	let redirectUrlHost = '';
+	try {
+		redirectUrlHost = new URL(url).hostname;
+	} catch(err) {}
 
 	// throw error if allowedDomains is empty or the redirectURI's host is not present in the allowed domains
 	return allowedDomains && allowedDomains.indexOf(redirectUrlHost) !== -1;
@@ -27,16 +30,20 @@ router
 
 		if (req.query.redirectUrl) {
 			req.session.returnTo = req.query.redirectUrl;
+			req.session.useOauth = req.query.useOauth;
 		}
 
 		req.session.save(() => {
-			let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-			let authServerLoginPath = ( req.site && req.site.config.oauth['auth-server-login-path'] ) || config.authorization['auth-server-login-path'];
-			let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+			let which = req.session.useOauth || 'default';
+			let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
+			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
       url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?returnTo=' + req.query.redirectUrl));
+
 			res.redirect(url);
 
 		});
@@ -54,12 +61,14 @@ router
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
-		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let authServerExchangeCodePath = ( req.site && req.site.config.oauth['auth-server-exchange-code-path'] ) || config.authorization['auth-server-exchange-code-path'];
+		let which = req.session.useOauth || 'default';
+		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
 		let url = authServerUrl + authServerExchangeCodePath;
 
-		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
-		let authClientSecret = ( req.site && req.site.config.oauth['auth-client-secret'] ) || config.authorization['auth-client-secret'];
+		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+		let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
 		let postData = {
 			client_id: authClientId,
 			client_secret: authClientSecret,
@@ -106,9 +115,11 @@ router
 	.get(function( req, res, next ) {
 
 		// get the user info using the access token
-		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let authServerGetUserPath = ( req.site && req.site.config.oauth['auth-server-get-user-path'] ) || config.authorization['auth-server-get-user-path'];
-		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let which = req.session.useOauth || 'default';
+		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
+		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
 
@@ -142,18 +153,17 @@ router
 		let data = {
 			externalUserId: req.userData.user_id,
 			externalAccessToken: req.session.userAccessToken,
-			email: req.userData.email,
+			email: req.userData.email || null,
 			firstName: req.userData.firstName,
 			zipCode: req.userData.postcode,
 			lastName: req.userData.lastName,
-			role: req.userData.role || 'member',
+			role: req.userData.role || ( req.userData.email ? 'member' : 'anonymous' ),
 		}
 
 		let where = {
 			where: Sequelize.or(
 				{ externalUserId: req.userData.user_id },
-				{ email: req.userData.email
-				}
+				{ email: req.userData.email || 'anonymous.nowhere.nl' }, // do not find users with email = null
 			)
 		}
 
@@ -167,6 +177,9 @@ router
 					// user found; update and use
 					let user = result[0];
 
+					console.log('--- UPDATE');
+					console.log(data);
+
 					user.update(data);
 					req.setSessionUser(user.id, '');
 					req.userData.id = user.id;
@@ -176,12 +189,14 @@ router
 
 					// user not found; create
 
-					data.role = 'member';
 					data.complete = true;
+
+					console.log('--- CREATE');
+					console.log(data);
+					
 					db.User
 						.create(data)
 						.then(result => {
-							console.log('USER CREATED', result.id);
 							req.setSessionUser(result.id, '');
 							req.userData.id = result.id;
 							return next();
@@ -196,20 +211,22 @@ router
 			.catch(next)
 	})
 	.get(function( req, res, next ) {
-		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
+		let which = req.session.useOauth || 'default';
+		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
 		/**
 		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
 		 */
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
 		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo + '?jwt=[[jwt]]' : false;
-	  redirectUrl = redirectUrl || ( req.site && ( req.site.config.cms['after-login-redirect-uri'] || req.site.config.oauth['after-login-redirect-uri'] ) ) || config.authorization['after-login-redirect-uri'];
+	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
 		req.session.returnTo = '';
 
 		req.session.save(() => {
-			if (isAllowedRedirectDomain(redirectUrl, req.site.config.allowedDomains)) {
+			if (isAllowedRedirectDomain(redirectUrl, req.site && req.site.config && req.site.config.allowedDomains)) {
 				if (redirectUrl.match('[[jwt]]')) {
 					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 						if (err) return next(err)
@@ -243,13 +260,15 @@ router
 			});
 		}
 
-		req.session.destroy();
-
-		let authServerUrl = ( req.site && req.site.config.oauth['auth-server-url'] ) || config.authorization['auth-server-url'];
-		let authServerGetUserPath = ( req.site && req.site.config.oauth['auth-server-logout-path'] ) || config.authorization['auth-server-logout-path'];
-		let authClientId = ( req.site && req.site.config.oauth['auth-client-id'] ) || config.authorization['auth-client-id'];
+		let which = req.session.useOauth || 'default';
+		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerGetUserPath = siteOauthConfig['auth-server-logout-path'] || config.authorization['auth-server-logout-path'];
+		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
+		req.session.destroy();
 
 		if (req.query.redirectUrl) {
 			url = `${url}&redirectUrl=${req.query.redirectUrl}`;
