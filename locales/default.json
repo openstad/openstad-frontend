@@ -505,5 +505,9 @@
 	"Two Columns: 25% - 75%": "Two Columns: 25% - 75%",
 	"Two Columns: Desktop: 75% - 25%, Tablet:  66% - 33%": "Two Columns: Desktop: 75% - 25%, Tablet:  66% - 33%",
 	"Three columns: 33% - 33% - 33%": "Three columns: 33% - 33% - 33%",
-	"Four Columns: 25% - 25% - 25% - 25%": "Four Columns: 25% - 25% - 25% - 25%"
+	"Four Columns: 25% - 25% - 25% - 25%": "Four Columns: 25% - 25% - 25% - 25%",
+	"Url instellingen": "Url instellingen",
+	"Site ID (overwrite the default site id)": "Site ID (overwrite the default site id)",
+	"Url van de bewerk pagina": "Url van de bewerk pagina",
+	"Author of the modbreaks": "Author of the modbreaks"
 }

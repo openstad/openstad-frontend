@@ -1,7 +1,8 @@
 {% set idea = data.idea %}
+{% set isOwner = data.openstadUser.id === idea.userId %}
+{% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
-{% import 'includes/modbreak.html' as modbreak %}
 
 <div class="pageContent idea">
 	<div id="title">
@@ -37,7 +38,7 @@
 							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="yes"/>
-
+								<input type="hidden" name="redirect-url" value="/{{data.global.ideaOverviewSlug}}"
 								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
 								<button class="{{'selected' if idea.userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 									voor
@@ -126,7 +127,9 @@
 			{{idea.startDate | date('LL')}}
 		</div>
 
-		{{ modBreak.render(idea) if idea.modBreak and not (idea.status === 'OPEN') }}
+		{% if idea.modBreak and not (idea.status === 'OPEN') %}
+		{% include 'includes/modbreak.html' %}
+		{% endif %}
 
 		<div class="userContent">
 			<p class="summary">
@@ -143,7 +146,6 @@
 			</div>
 		{% endif %}
 
-		{{ modBreak.render(idea) if idea.modBreak and not (idea.status === 'OPEN') }}
 	</div> <!-- #primary -->
 
 	<div class="secondary">
@@ -153,10 +155,16 @@
 		<input type="submit" value="Mail updates">
 		</form> #}
 
-		{#
-		{% 'includes/crud/edit-delete.html' %}
-		{% 'includes/crud/admin.html' %}
-		#}
+		{% if isOwnerOrAdmin%}
+		{% include 'includes/crud/edit-delete.html' %}
+		{% endif %}
 
+		{% if data.isAdmin %}
+		{% include 'includes/crud/admin.html' %}
+		{% endif %}
 	</div>
 </div>
+{% if data.isAdmin %}
+{% include 'includes/modal-modbreak.html' %}
+{% include 'includes/modal-vote-overview.html' %}
+{% endif %}

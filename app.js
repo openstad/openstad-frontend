@@ -25,6 +25,8 @@ const quote         = require('shell-quote').quote;
 const Promise       = require('bluebird');
 const dbExists      = require('./services/mongo').dbExists;
 
+
+
 const openstadMap           = require('./config/map').default;
 const openstadMapPolygons   = require('./config/map').polygons;
 const configForHosts        = {};
@@ -36,6 +38,8 @@ var sampleSite;
 var runningSampleSite = false;
 var startingUpSampleSite = false;
 app.use(express.static('public'));
+
+
 
 function getRoot() {
     let _module = module;
@@ -570,11 +574,24 @@ function run(id, siteData, callback) {
     siteConfig.modules['apostrophe-workflow-modified-documents'] = {};
   }
 
+  siteConfig.configureNunjucks = function(env) {
+    console.log('>>>>>> nunjucksEnv', env);
+      env.addFilter('repeat', function(s, n) {
+        var r = '';
+        while (n--) {
+          r += s;
+        }
+        return r;
+      });
+    }
+
 //  console.log('siteConfigsiteConfig', siteConfig.modules);
 
   const apos = apostrophe(
     _.merge(siteConfig, siteData)
   );
+
+
 
 }
 
