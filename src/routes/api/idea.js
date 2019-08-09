@@ -75,7 +75,18 @@ router.route('/')
 			.scope(...req.scope)
 			.findAll({ where: { siteId: req.params.siteId } })
 			.then( found => {
-				return found.map( entry => entry.toJSON() );
+				return found.map( entry => {
+					let json = entry.toJSON();
+					if (json.user && typeof json.user == 'object') {
+						json.user = {
+							nickName: json.user.nickName,
+							firstName: json.user.firstName,
+							lastName: json.user.lastName,
+							email: req.user.role == 'admin' ? json.user.email : undefined,
+						}
+					}
+					return json;
+				});
 			})
 			.then(function( found ) {
 				res.json(found);
@@ -145,7 +156,16 @@ router.route('/:ideaId(\\d+)')
 // ---------
 	.get(auth.can('idea:view'))
 	.get(function(req, res, next) {
-		res.json(req.idea);
+		let json = req.idea.toJSON();
+		if (json.user && typeof json.user == 'object') {
+			json.user = {
+				nickName: json.user.nickName,
+				firstName: json.user.firstName,
+				lastName: json.user.lastName,
+				email: req.user.role == 'admin' ? json.user.email : undefined,
+			}
+		}
+		res.json(json);
 	})
 
 // update idea
