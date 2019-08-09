@@ -132,6 +132,7 @@ function getUserInstance( userId, siteOauthConfig ) {
 
 			} else {
 				return user;
+			  // return resetSessionUser(user);
 			}
 
 		})

@@ -79,7 +79,11 @@ module.exports  = {
 		var cookieParser       = require('cookie-parser');
 		var methodOverride     = require('method-override');
 
-		this.app.use(require('./middleware/allow-headers'));
+		// Middleware to fill `req.site` with a `Site` instance.
+		const sessionSite = require('./middleware/site');
+		this.app.use(sessionSite);
+
+		this.app.use(require('./middleware/security-headers'));
 
 		this.app.use(bodyParser.json({limit: '10mb'}));
 		this.app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
@@ -124,10 +128,6 @@ module.exports  = {
 				maxAge   : null
 			}
 		}));
-
-		// Middleware to fill `req.site` with a `Site` instance.
-		const sessionSite = require('./middleware/site');
-		this.app.use(sessionSite);
 
 		// Middleware to fill `req.user` with a `User` instance.
 		const sessionUser = require('./middleware/session_user');
