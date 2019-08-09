@@ -6,6 +6,7 @@ const db          = require('../../db');
 const auth        = require('../../auth');
 const config      = require('config');
 const merge       = require('merge');
+const bruteForce = require('../../middleware/brute-force');
 
 let router = express.Router({mergeParams: true});
 
@@ -13,7 +14,7 @@ let router = express.Router({mergeParams: true});
 // ----------------
 router.route('*')
 
-  // bestaat de site config
+// bestaat de site config
 	.all(function(req, res, next) {
 		if (!( req.site && req.site.config && req.site.config.votes )) {
 			return next(createError(403, 'Site niet gevonden of niet geconfigureerd'));
@@ -21,18 +22,21 @@ router.route('*')
 		return next();
 	})
 
-  // special get route for anonymous likes
-  // this is a bit dubious security wise, but so is anonymous voting...
+// special get route for anonymous likes
+// this is a bit dubious security wise, but so is anonymous voting...
 	.get(function(req, res, next) {
 		let match = req.path.match(/\/idea\/(\d+)$/);
 		if (match) {
 			if (req.site.config.votes.voteType == 'likes' && req.site.config.votes.requiredUserRole == 'anonymous') {
-				req.body = {
-					ideaId: parseInt(match[1], 10),
-					opinion: req.query.opinion,
-				};
-				req.method = "POST";
-				next();
+				bruteForce.post.prevent(req, res, function(err) {
+					if (err) return next(err);
+					req.body = {
+						ideaId: parseInt(match[1], 10),
+						opinion: req.query.opinion,
+					};
+					req.method = "POST";
+					next();
+				});
 			} else {
 				next(createError(400, 'Anoniem stemmen niet toegestaan'));
 			}
