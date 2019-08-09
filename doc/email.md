@@ -14,8 +14,8 @@ Configureren kan via de site.config
 {
   "config": {
     "cms": {
-   	  "url": "URL VAN DE WEBSITE"
-   	},
+      "url": "URL VAN DE WEBSITE"
+    },
     "ideas": {
       "feedbackEmail": {
         "from": "NAAM <EMAIL@ADDRESS>",
@@ -55,16 +55,16 @@ Configureren kan via de site.config
     "notifications": {
       "from": "NAAM <EMAIL@ADDRESS>",
       "to": "NAAM <EMAIL@ADDRESS>",
-			"inzendingPath": "/PATH/NAAR/INGEDIEND/PLAN/[[ideaId]]",
+      "inzendingPath": "/PATH/NAAR/INGEDIEND/PLAN/[[ideaId]]",
       "template": "{% if data.idea %}{% for idea in data.idea %}{{idea.title}}{% endfor %}{% endif %}{% if data.argument %}{% for arg in data.argument %}{{arg.description | nl2br | safe}}{% endfor %}{% endif %}"
     }
-	}
+  }
 }
 ```
 
 Template is een nunjucks template. Daar zijn de volgende variabelen beschikbaar:
 
-**data.idea**: een array van idea objecten, met de user included
+**data.idea**: een array van idea objecten, met de user included, en een **inzendingURL** per idea
 **data.argument**: een array van argument objecten, met de user en idea included
 **HOSTNAME**: site.config.cms.hostname
 **SITENAME**: site.title
