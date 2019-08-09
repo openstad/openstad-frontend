@@ -55,6 +55,7 @@ Configureren kan via de site.config
     "notifications": {
       "from": "NAAM <EMAIL@ADDRESS>",
       "to": "NAAM <EMAIL@ADDRESS>",
+			"inzendingPath": "/PATH/NAAR/INGEDIEND/PLAN/[[ideaId]]",
       "template": "{% if data.idea %}{% for idea in data.idea %}{{idea.title}}{% endfor %}{% endif %}{% if data.argument %}{% for arg in data.argument %}{{arg.description | nl2br | safe}}{% endfor %}{% endif %}"
     }
 	}

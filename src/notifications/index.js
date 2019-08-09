@@ -79,9 +79,6 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 			maildata.subject += ' op ' + maildata.SITENAME;
 
 			maildata.template = myConfig.notifications && myConfig.notifications.template;
-			console.log(myConfig.notifications);
-			console.log(maildata.template);
-			
 
 			let instanceIds = data.map( entry => entry.instanceId );
 			let model = type.charAt(0).toUpperCase() + type.slice(1);
@@ -90,7 +87,14 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 			db[model].scope(scope).findAll({ where: { id: instanceIds }})
 				.then( found => {
 					maildata.data = {};
-					maildata.data[type] = found.map( entry => entry.toJSON() );
+					maildata.data[type] = found.map( entry => {
+						let json = entry.toJSON();
+						if ( type == 'idea' ) {
+							let inzendingPath = ( myConfig.ideas && myConfig.ideas.feedbackEmail && myConfig.ideas.feedbackEmail.inzendingPath && myConfig.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, entry.id) ) || "/";
+							json.inzendingURL = maildata.URL + inzendingPath;
+						}
+						return json;
+					});
 					mail.sendNotificationMail(maildata);
 				});
 
