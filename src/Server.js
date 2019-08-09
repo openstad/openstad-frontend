@@ -125,7 +125,7 @@ module.exports  = {
 				httpOnly : true,
 				secure   : config.get('security.sessions.onlySecure'),
 				sameSite : config.get('security.sessions.onlySecure'),
-				maxAge   : null
+				maxAge   : config.get('security.sessions.maxAge')
 			}
 		}));
 

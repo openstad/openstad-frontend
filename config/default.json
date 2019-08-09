@@ -264,6 +264,7 @@
 			"roles": "default"
 		},
 		"sessions": {
+			"maxAge"       : 15552000000, // six months
 			"cookieName"   : "amsterdam.sid",
 			"onlySecure"   : true,
 			"secret"       : "bsp713oThgtWinJ5yoy5L68qVniW1qAM",
