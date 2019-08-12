@@ -26,6 +26,7 @@ module.exports = function getSessionUser( req, res, next ) {
 	}
 
 	let userId = req.session[uidProperty];
+	let isFixedUser = false;
 
 	if (req.headers['x-authorization']) {
 
@@ -45,6 +46,7 @@ module.exports = function getSessionUser( req, res, next ) {
 			tokens.forEach((token) => {
 				if ( token.token == req.headers['x-authorization'] ) {
 					userId = token.userId;
+					isFixedUser = true;
 				}
 			});
 		}
@@ -53,7 +55,7 @@ module.exports = function getSessionUser( req, res, next ) {
 
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-	getUserInstance(userId || 1, siteOauthConfig)
+	getUserInstance(userId || 1, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
 			req.user = user;
 			// Pass user entity to template view.
@@ -80,7 +82,7 @@ function unsetSessionUser() {
 	this.session['ref']        = null;
 }
 
-function getUserInstance( userId, siteOauthConfig ) {
+function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
@@ -131,8 +133,11 @@ function getUserInstance( userId, siteOauthConfig ) {
 					})
 
 			} else {
-				return user;
-			  // return resetSessionUser(user);
+				if (isFixedUser) {
+					return user;
+				} else {
+			    return resetSessionUser(user);
+				}
 			}
 
 		})
