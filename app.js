@@ -533,7 +533,8 @@ function run(id, siteData, callback) {
           { name: 'main' }
         ],
       },
-      'info-bar-widgets' : {}
+      'info-bar-widgets' : {},
+      'apostrophe-area-structure': {},
     }
   };
 
