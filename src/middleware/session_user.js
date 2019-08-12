@@ -122,7 +122,8 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 					)
 					.then(
 						json => {
-							json.role = json.role || 'member';
+							json.role = json.role || user.role || 'member';
+							console.log('--------------------', json.role);
 							user = merge(dbuser, json)
 							return user;
 						}

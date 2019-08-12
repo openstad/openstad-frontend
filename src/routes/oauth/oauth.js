@@ -262,9 +262,6 @@ router
 	.route('(/site/:siteId)?/logout')
 	.get(function( req, res, next ) {
 
-
-		console.log('xxxx');
-
 		if (req.user && req.user.id > 1) {
 			req.user.update({
 				externalAccessToken: null
