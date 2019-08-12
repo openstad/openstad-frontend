@@ -33,7 +33,7 @@ router
 		}
 		req.session.useOauth = req.query.useOauth;
 
-		if (req.query.forceNewLogin) {
+		if (req.query.forceNewLogin && req.user && req.user.id != 1) {
 			let backToHereUrl = req.protocol + '://' + req.hostname + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl 
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = req.protocol + '://' + req.hostname + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
