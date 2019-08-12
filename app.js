@@ -37,9 +37,8 @@ var aposServer = {};
 var sampleSite;
 var runningSampleSite = false;
 var startingUpSampleSite = false;
+
 app.use(express.static('public'));
-
-
 
 function getRoot() {
     let _module = module;
@@ -126,8 +125,6 @@ app.use(function(req, res, next) {
     startingUpSampleSite = true;
     const defaultRunner = Promise.promisify(run);
     const dbName = process.env.SAMPLE_DB;
-
-
 
     run(dbName, {}, function(silly, apos) {
         sampleSite = apos;
