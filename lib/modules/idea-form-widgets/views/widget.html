@@ -232,7 +232,7 @@
 				{% if data.widget.displayEstimate %}
 				<div id="estimate">
 					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
-					<div class="form-info" style="height: auto;">{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.' }}</div>
+					<div class="form-info" style="height: auto;">{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.' | safe }}</div>
 					<input type="text" id="estimate_input" name="estimate"
 						   {% if idea.extraData.estimate %}
 						   value="{{idea.extraData.estimate}}"
@@ -264,7 +264,7 @@
 								{{ data.widget.labelAdvice if data.widget.labelAdvice else 'Tip' }}
 							</h2>
 							<div class="form-info" style="height: auto;">
-								{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' }}
+								{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' | safe }}
 							</div>
 							<textarea name="advice"  minlength="{{summaryMinLength}}" maxlength="{{summaryMaxLength}}">{{idea.extraData.advice}}</textarea>
 						</div>
