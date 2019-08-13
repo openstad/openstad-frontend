@@ -523,5 +523,12 @@
 	"Area Structure": "Area Structure",
 	"Widget deleted": "Widget deleted",
 	"Display CTA button": "Display CTA button",
-	"Display counter": "Display counter"
+	"Display counter": "Display counter",
+	"Roles & Rights": "Roles & Rights",
+	"What role is necessary to like an idea or comment?": "What role is necessary to like an idea or comment?",
+	"Anonymous": "Anonymous",
+	"Registered user": "Registered user",
+	"Admin": "Admin",
+	"What role is necessary to comment?": "What role is necessary to comment?",
+	"What role is necessary to like an idea?": "What role is necessary to like an idea?"
 }

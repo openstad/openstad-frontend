@@ -47,7 +47,9 @@
   {% endif %}
 {% endif %}
 <script>
+  // global variables!
   var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
+  var openstadUserRole = '{{data.openstadUser.role}}';
 </script>
 
 {% if data.global.analytics %}
