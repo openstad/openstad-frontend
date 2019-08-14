@@ -144,17 +144,19 @@ ga('send', 'pageview');
           <div class="account-menu toggle-menu">
             <nav  class="" role="navigation">
               <div>
+                  {% if data.global.displayMyAcount %}
                   {% if data.loggedIn %}
                   <a href="/oauth/logout" class="logout-button" >
                   <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
                   <img src="/img/avatar.svg" />
                    {{ __('Log out') }}
                   </a>
-                  {% elseif data.global.displayMyAcount %}
+                  {% else %}
                    <a href="/oauth/login">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                      {{ __('My account') }}
                    </a>
+                  {% endif %}
                   {% endif %}
               </div>
             </nav>
@@ -190,18 +192,21 @@ ga('send', 'pageview');
 
         			<nav id="subMenu" class="" role="navigation">
         				<div>
+                    {% if data.global.displayMyAcount %}
         						{% if data.loggedIn %}
       							<a href="/oauth/logout" class="account logout-button">
                       <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                       {{ __('Log out') }}
                     </a>
-        						{% elseif data.global.displayMyAcount %}
+        						{% else %}
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
                        {{ __('My account') }}
                      </a>
         						{% endif %}
+                    {% endif %}
+
                     {% if data.global.ctaButtonText %}
                     <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button">{{data.global.ctaButtonText}}</a>
                     {% endif %}
