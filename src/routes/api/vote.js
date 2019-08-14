@@ -28,7 +28,7 @@ router.route('*')
 		let match = req.path.match(/\/idea\/(\d+)$/);
 		if (match) {
 			if (req.site.config.votes.voteType == 'likes' && req.site.config.votes.requiredUserRole == 'anonymous') {
-				bruteForce.post.prevent(req, res, function(err) {
+				bruteForce.postMiddleware(req, res, function(err) {
 					if (err) return next(err);
 					req.body = {
 						ideaId: parseInt(match[1], 10),

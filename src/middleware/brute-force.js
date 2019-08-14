@@ -16,16 +16,24 @@ const handleStoreError = function (error) {
 }
 
 //CONFIGURE BRUTE FORCE PROTECT
-exports.post = new ExpressBrute(new ExpressBrute.MemoryStore(), {
-	freeRetries: 5,
+let postBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
+	freeRetries: 3,
 	minWait: 30*1000, // 30 seconds
 	maxWait: 60*60*1000, // 1 hour,
 	failCallback: failCallback,
 	handleStoreError: handleStoreError
 });
 
+exports.postMiddleware = function(req, res, next) {
+	if (req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1) {
+		next();
+	} else {
+		postBruteForce.prevent(req, res, next);
+	}
+}
+
 //CONFIGURE BRUTE FORCE PROTECT
-exports.global = new ExpressBrute(new ExpressBrute.MemoryStore(), {
+let globalBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 	freeRetries: 1000,
 	attachResetToRequest: false,
 	refreshTimeoutOnRequest: false,
@@ -35,3 +43,11 @@ exports.global = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 	failCallback: failCallback,
 	handleStoreError: handleStoreError
 });
+
+exports.globalMiddleware = function(req, res, next) {
+	if (req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1) {
+		next();
+	} else {
+		globalBruteForce.prevent(req, res, next);
+	}
+}

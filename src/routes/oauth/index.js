@@ -4,8 +4,8 @@ const bruteForce = require('../../middleware/brute-force');
 let router = express.Router({mergeParams: true});
 
 // brute force
-router.use( bruteForce.global.getMiddleware() );
-router.post( '*', bruteForce.post.getMiddleware() );
+router.use( bruteForce.globalMiddleware );
+router.post( '*', bruteForce.postMiddleware );
 
 // login routes
 router.use( '/', require('./oauth') );
