@@ -61,7 +61,7 @@ a.page-button-flag  {
 
   .no-of-locations-content {
     box-sizing: border-box;
-    width: calc(100% + 20px);
+    width: 210px;
     padding: 7px 6px 7px 10px;
     background: #004699;
     font-size: 18px;
@@ -70,6 +70,7 @@ a.page-button-flag  {
     display: block;
     text-decoration: none;
     height: 43px;
+    margin-top: 10px;
   }
 
 	#mapcontainer {
@@ -77,15 +78,20 @@ a.page-button-flag  {
 		height: 375px;
 	}
 
+  .map-buttons-container {
+    position: absolute;
+    left: 15px;
+    bottom: 35px;
+    z-index: 1000;
+  }
+
 	a.page-button {
-		position: absolute;
 		border-radius: 2px;
 		padding-right: 10px;
-		left: 15px;
-		top: 243px;
 		line-height: 44px;
-		width: 204px;
+		width: 210px;
 		z-index: 10000;
+    margin-top: 10px;
 	}
 
 	a.page-button-flag  {
@@ -93,11 +99,7 @@ a.page-button-flag  {
 	}
 
 	a.no-of-locations {
-		position: absolute;
-		left: 15px;
-		top: 316px;
 		width: 184px;
-		z-index: 10000;
 		border-radius: 2px;
 		background-color: #164995;
 
