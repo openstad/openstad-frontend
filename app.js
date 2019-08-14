@@ -537,10 +537,11 @@ function run(id, siteData, callback) {
       // export explicitly between locales
       replicateAcrossLocales: true,
 
-  /*  locales: [
+      locales: [
         {
           name: 'default',
           label: 'Default',
+          defaultLocale: 'nl',
           private: true,
           children: [
             {
@@ -551,13 +552,18 @@ function run(id, siteData, callback) {
               name: 'en',
               label: 'English'
             },
-
           ]
         },
-      ],*/
+      ],
     };
 
     siteConfig.modules['apostrophe-workflow-modified-documents'] = {};
+  } else {
+    siteConfig.modules['apostrophe-i18n'] = {
+      locales:['nl', 'en'],
+      directory: __dirname + '/locales',
+      defaultLocale: 'nl'
+    }
   }
 
   siteConfig.configureNunjucks = function(env) {
