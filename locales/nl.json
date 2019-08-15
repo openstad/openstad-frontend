@@ -56,7 +56,7 @@
 	"Edit Link or button": "Edit Link or button",
 	"Locales": "Locales",
 	"Locale: default": "Locale: default",
-	"Log out": "Uitloggen 2",
+	"Log out": "Uitloggen",
 	"Edit undefined": "Edit undefined",
 	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
 	"Login": "Login",
@@ -302,5 +302,7 @@
 	"Author of the modbreaks": "Author of the modbreaks",
 	"Buurten": "Buurten",
 	"Thema's": "Thema's",
-	"Log Out": "Log Out"
+	"Save Slider": "Save Slider",
+	"Save Image": "Save Image",
+	"Styles for the image": "Styles for the image"
 }
