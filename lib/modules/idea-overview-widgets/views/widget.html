@@ -1,6 +1,6 @@
 {% import 'vote-creator.html' as voteCreator %}
 
-<div  class="idea-overview-container">
+<div id="idea-overview-container" class="idea-overview-container">
   {% if data.widget.voting %}
     {{ voteCreator.showVoteCreator(true, data.ideas, data) }}
   {% endif %}
@@ -36,7 +36,7 @@
  // tab selector functions
  // var activeTab = getCookie('plannenActiveTab') || 0;
 
- // function activateTab(which) {
+ // function activateIdeaOverviewTab(which) {
  //  	 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
  //  	 activeTab = which;
  //  	 document.cookie = 'plannenActiveTab=' + activeTab;

@@ -74,7 +74,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							</div>
 							<div class="fields">
 								<div class="vote-not-logged-in">
-									<a href="/oauth/login?returnTo={{data.currentUrl}}?returnedFromVerification-50" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
 										Vul je e-mailadres in
 									</a>
 								</div>
@@ -109,7 +109,9 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
+									<label>E-mailadres: {{data.openstadUser.email}}</label> <br/>
+									<label>E-mailadres: {{data.openstadUser.email}}</label>
+									<span id="showEmailError"></span>
 								</div>
 							</div>
 						</div>
@@ -120,34 +122,6 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							Bedankt voor het stemmen. Hou deze website<br/>
 							in de gaten voor de uitslag.
 						</div>
-					</div>
-				</div>
-
-				<div id="steps-content-3c" class="step">
-					<div class="content">
-
-						<div id="zipcode-and-email">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="text">
-										Kies een ontwerp
-									</div>
-								</div>
-							</div>
-							<div class="fields">
-								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
-								</div>
-							</div>
-						</div>
-
-						<div class="checkmark-block-green">
-							<h4>Gelukt, je stem is opgeslagen!</h4>
-							<br />
-							Bedankt voor het stemmen. Hou deze website<br/>
-							in de gaten voor de uitslag.
-						</div>
-
 					</div>
 				</div>
 

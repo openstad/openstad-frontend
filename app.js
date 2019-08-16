@@ -315,8 +315,6 @@ function run(id, siteData, callback) {
 
         //    console.log('===>>>> sample.assets ', sample.assets);
 
-            console.log('===>>>> sample.assets.generation ', sample.assets.generation);
-
             self.apos.assets.generationCollection = sample.assets.generationCollection;
             self.apos.assets.generation = sample.assets.generation;
           },
