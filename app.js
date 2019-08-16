@@ -534,7 +534,7 @@ function run(id, siteData, callback) {
       // Recommended to save database space. You can still
       // export explicitly between locales
       replicateAcrossLocales: true,
-
+/*
       locales: [
         {
           name: 'default',
@@ -552,7 +552,7 @@ function run(id, siteData, callback) {
             },
           ]
         },
-      ],
+      ],*/
     };
 
     siteConfig.modules['apostrophe-workflow-modified-documents'] = {};

@@ -1,13 +1,13 @@
 {
 	"100": "100",
-	"Server error, please try again.": "Server error, please try again.",
+	"Server error, please try again.": "Fout op server, probeer aub opniew.",
 	"Open Palette": "Open Palette",
-	"Users": "Users",
-	"Log Out": "Log Out",
+	"Users": "Gebruikers",
+	"Log Out": "Uitloggen",
 	"Page Menu": "Page Menu",
 	"New Page": "New Page",
 	"Copy Page": "Copy Page",
-	"Page Settings": "Page Settings",
+	"Page Settings": "Pagina instellingen",
 	"Page Versions": "Page Versions",
 	"Move to Trash": "Move to Trash",
 	"Reorganize": "Reorganize",
@@ -331,7 +331,6 @@
 	"Tablet & phone (991px and smaller)": "Tablet & phone (991px and smaller)",
 	"Desktop (min width 992px)": "Desktop (min width 992px)",
 	"Section open by default?": "Section open by default?",
-	"Log out": "Log out",
 	"External stylesheets": "External stylesheets",
 	"Url": "Url",
 	"Edit Counter": "Edit Counter",
@@ -531,5 +530,6 @@
 	"Admin": "Admin",
 	"What role is necessary to comment?": "What role is necessary to comment?",
 	"What role is necessary to like an idea?": "What role is necessary to like an idea?",
-	"Display": "Display"
+	"Display": "Display",
+	"Log out": "Uitloggen"
 }
