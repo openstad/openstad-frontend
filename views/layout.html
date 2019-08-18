@@ -118,7 +118,7 @@ ga('send', 'pageview');
         </div>
     </header>
     {% include 'partials/flash.html' %}
-    <div id="page">
+    <div id="page" class="{{ 'cms-admin' if data.user }}">
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
           <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
