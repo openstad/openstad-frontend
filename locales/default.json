@@ -531,5 +531,11 @@
 	"What role is necessary to comment?": "What role is necessary to comment?",
 	"What role is necessary to like an idea?": "What role is necessary to like an idea?",
 	"Display": "Display",
-	"Log out": "Uitloggen"
+	"Log out": "Uitloggen",
+	"Loading...": "Loading...",
+	"Step 1: intro": "Step 1: intro",
+	"Step 2: intro": "Step 2: intro",
+	"Step 2: succesfully authenticated": "Step 2: succesfully authenticated",
+	"Text in button for authenticating": "Text in button for authenticating",
+	"Placeholder when no item is selected": "Placeholder when no item is selected"
 }
