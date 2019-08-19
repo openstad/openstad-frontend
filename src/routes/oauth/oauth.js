@@ -235,18 +235,23 @@ router
 		req.session.returnTo = '';
 
 		req.session.save(() => {
+			console.log(1, redirectUrl, req.site && req.site.config && req.site.config.allowedDomains);
 			if (isAllowedRedirectDomain(redirectUrl, req.site && req.site.config && req.site.config.allowedDomains)) {
+			console.log(2);
 				if (redirectUrl.match('[[jwt]]')) {
+			console.log(3);
 					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
 						if (err) return next(err)
 						req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
 						return next();
 					});
 				} else {
+			console.log(4);
 					req.redirectUrl = redirectUrl;
 					return next();
 				}
 			} else {
+				console.log(6);
 				res.status(500).json({
 					status: 'Something went wrong'
 				});

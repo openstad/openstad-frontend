@@ -194,13 +194,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// 	}
 			// },
 			isValidMember: function() {
-				if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
-					if( !this.email ) {
-						throw new Error('Onjuist email adres');
-					} else if( this.complete && (!this.firstName || !this.lastName) ) {
-						throw new Error('Voor- en achternaam zijn verplichte velden');
-					}
-				}
+				// dit is niet langer relevant; mijnopenstad bepaald wat je default rol is
+				// if( this.role !== 'unknown' && this.role !== 'anonymous' ) {
+				//  	if( !this.email ) {
+				//  		throw new Error('Onjuist email adres');
+				//  	} else if( this.complete && (!this.firstName || !this.lastName) ) {
+				//  		throw new Error('Voor- en achternaam zijn verplichte velden');
+				//  	}
+				// }
 			},
 			onlyMembersCanLogin: function() {
 				if( this.role === 'unknown' || this.role === 'anonymous' ) {
