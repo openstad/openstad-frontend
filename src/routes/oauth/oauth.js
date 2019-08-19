@@ -35,8 +35,6 @@ router
 
 		if (req.query.forceNewLogin && req.user && req.user.id != 1) {
       let baseUrl = config.url
-			console.log('--------------------');
-			console.log(baseUrl);
 			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl 
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = baseUrl + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
