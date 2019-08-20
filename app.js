@@ -37,9 +37,8 @@ var aposServer = {};
 var sampleSite;
 var runningSampleSite = false;
 var startingUpSampleSite = false;
+
 app.use(express.static('public'));
-
-
 
 function getRoot() {
     let _module = module;
@@ -97,10 +96,7 @@ function getSampleSite() {
 app.get('/config-reset', (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
   host = host.replace(['http://', 'https://'], ['']);
-  console.log('configForHosts', configForHosts);
-
   delete configForHosts[host];
-  console.log('configForHosts', configForHosts);
   res.json({ message: 'Ok'});
 });
 
@@ -126,8 +122,6 @@ app.use(function(req, res, next) {
     startingUpSampleSite = true;
     const defaultRunner = Promise.promisify(run);
     const dbName = process.env.SAMPLE_DB;
-
-
 
     run(dbName, {}, function(silly, apos) {
         sampleSite = apos;
@@ -178,6 +172,7 @@ function serveSites (req, res, next) {
       .then((siteConfig) => {
 
         configForHosts[thisHost] = siteConfig;
+
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
           res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
@@ -191,7 +186,6 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
   return dbExists(dbName).then((exists) => {
       if (exists || dbName === process.env.DEFAULT_DB)  {
-
 
         if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
             //format sitedatat so it makes more sense
@@ -321,8 +315,6 @@ function run(id, siteData, callback) {
 
         //    console.log('===>>>> sample.assets ', sample.assets);
 
-            console.log('===>>>> sample.assets.generation ', sample.assets.generation);
-
             self.apos.assets.generationCollection = sample.assets.generationCollection;
             self.apos.assets.generation = sample.assets.generation;
           },
@@ -384,10 +376,6 @@ function run(id, siteData, callback) {
             'main-image' : {},
             'apostrophe-rich-text': {
               toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
-            /*  toolbar : [
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-              ],*/
               styles: [
                 { name: 'Paragraph', element: 'p' }
               ],
@@ -445,12 +433,6 @@ function run(id, siteData, callback) {
         ]
       },
       'apostrophe-global': {},
-    /*  'one-column-widgets': {},
-      'two-column-widgets': {},
-      'four-column-widgets': {},
-      'three-column-widgets': {},
-      'two-third-column-widgets': {},
-      'spacer-widgets': {},*/
       'section-widgets': {},
       'card-widgets': {},
       'iframe-widgets': {},
@@ -466,7 +448,6 @@ function run(id, siteData, callback) {
       'idea-form-widgets': {},
       'date-bar-widgets': {},
       'idea-map-widgets': {},
-    //  'idea-voting-widgets': {},
       'link-widgets': {},
       'counter-widgets': {},
       'slider-widgets': {},
@@ -536,7 +517,8 @@ function run(id, siteData, callback) {
           { name: 'main' }
         ],
       },
-      'info-bar-widgets' : {}
+      'info-bar-widgets' : {},
+      'apostrophe-area-structure': {},
     }
   };
 
@@ -552,11 +534,12 @@ function run(id, siteData, callback) {
       // Recommended to save database space. You can still
       // export explicitly between locales
       replicateAcrossLocales: true,
-
-  /*  locales: [
+/*
+      locales: [
         {
           name: 'default',
           label: 'Default',
+          defaultLocale: 'nl',
           private: true,
           children: [
             {
@@ -567,17 +550,21 @@ function run(id, siteData, callback) {
               name: 'en',
               label: 'English'
             },
-
           ]
         },
       ],*/
     };
 
     siteConfig.modules['apostrophe-workflow-modified-documents'] = {};
+  } else {
+    siteConfig.modules['apostrophe-i18n'] = {
+      locales:['nl', 'en'],
+      directory: __dirname + '/locales',
+      defaultLocale: 'nl'
+    }
   }
 
   siteConfig.configureNunjucks = function(env) {
-    console.log('>>>>>> nunjucksEnv', env);
       env.addFilter('repeat', function(s, n) {
         var r = '';
         while (n--) {

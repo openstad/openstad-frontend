@@ -15,12 +15,16 @@
 
 <div id="map-with-buttons-container">
   <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
-  {% if (config.ideas.addNewIdeas != 'closed') %}
+  <div class="map-buttons-container">
+  {% if (data.widget.displayCtaButton) %}
     <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
       {{ data.widget.ctaText if data.widget.ctaText else 'Stuur je plan in!' }}
     </a>
   {% endif %}
+  {% if (data.widget.displayCounter) %}
   {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+  {% endif %}
+  </div>
 </div>
 
 <script>

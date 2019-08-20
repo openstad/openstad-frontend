@@ -15,10 +15,18 @@
   {% if data.widget.marginType === 'up' %} margin-up {% endif %}
 "
   style="
-
-    {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}}; {% endif %}
+  {% if data.widget.backgroundImage %}
+  background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  {% endif %}
+    {% if data.widget.backgroundColor %} background-color: {{data.widget.backgroundColor}}; {% endif %}
   "
 >
+
+
   {% if data.widget.sectionToggle %}
   <a class="howDoesItWorkButton" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()" style="outline: 0;">
     {{data.widget.toggleTitle}}
@@ -32,20 +40,8 @@
 {% include 'types/full-width.html'%}
 {% else %}
 
-  <div class="container"
+  <div class="container">
 
-    >
-    {% if data.widget.backgroundImage %}
-    <div class="section-bg-image"
-      style="
-        background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        "
-    ></div>
-    {% endif %}
     {% if data.widget.displayType %}
     {% include 'types/' + data.widget.displayType + '.html'%}
     {% endif %}
