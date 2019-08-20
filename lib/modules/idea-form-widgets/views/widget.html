@@ -8,7 +8,7 @@
 
 {% if idea and isOwnerOrAdmin %}
 {% set showForm = true %}
-{% elseif (not idea) %}
+{% elseif (not idea) and data.openstadUser and data.openstadUser.id %}
 {% set showForm = true %}
 {% else %}
 {% set showForm = false %}
@@ -232,7 +232,13 @@
 				{% if data.widget.displayEstimate %}
 				<div id="estimate">
 					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
-					<div class="form-info" style="height: auto;">{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.' | safe }}</div>
+					<div class="form-info" style="height: auto;">
+						{% if data.widget.infoAdvice %}
+							{{ data.widget.infoAdvice }}
+						{% else %}
+							Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.
+						{% endif %}
+					</div>
 					<input type="text" id="estimate_input" name="estimate"
 						   {% if idea.extraData.estimate %}
 						   value="{{idea.extraData.estimate}}"
