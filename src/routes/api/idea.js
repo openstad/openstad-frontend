@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
+const createError = require('http-errors')
 const config = require('config');
 const db = require('../../db');
 const auth = require('../../auth');
@@ -98,7 +99,12 @@ router.route('/')
 // -----------
 	.post(auth.can('idea:create'))
 	.post(function(req, res, next) {
-		if (!req.site) return next('Site niet gevonden');
+		if (!req.site) return next(createError(401, 'Site niet gevonden'));
+		return next();
+	})
+	.post(function( req, res, next ) {
+		console.log(req.site.config, req.site.config.canAddNewIdeas);
+		if (!(req.site.config && req.site.config.ideas && req.site.config.ideas.canAddNewIdeas)) return next(createError(401, 'Inzenden is gesloten'));
 		return next();
 	})
 	.post(function(req, res, next) {

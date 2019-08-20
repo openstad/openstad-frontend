@@ -171,10 +171,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 			ideas: {
 				type: 'object',
 				subset: {
+					canAddNewIdeas: {
+						type: 'boolean',
+						default: true,
+					},
 					noOfColumsInList: {
 						type: 'int',
 						default: 4,
-					}
+					},
 				}
 			},
 			arguments: {
@@ -319,16 +323,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 
 				// set to null
-				if (value[key]) {
+				if (value[key] == null && options[key].allowNull != false) {
+					return newValue[key] = null;
 				}
 
 				// TODO: in progress
-				if (value[key]) {
+				if (typeof value[key] != 'undefined' && value[key] != null) {
 					if (options[key].type && options[key].type === 'int' && parseInt(value[key]) !== value[key]) {
 						throw new Error(`site.config: ${key} must be an int`);
 					}
 					if (options[key].type && options[key].type === 'string' && typeof value[key] !== 'string') {
-						throw new Error(`site.config: ${key} must be an int`);
+						throw new Error(`site.config: ${key} must be an string`);
 					}
 					if (options[key].type && options[key].type === 'boolean' && typeof value[key] !== 'boolean') {
 						throw new Error(`site.config: ${key} must be an boolean`);

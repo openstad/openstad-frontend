@@ -36,6 +36,7 @@ router
 		db.Idea.findByPk(ideaId)
 			.then( idea => {
 				if (!idea || idea.siteId != req.params.siteId) return next(createError(400, 'Idea not found'));
+				req.idea = idea;
 				return next();
 			})
 	})
@@ -75,6 +76,11 @@ router.route('/')
 // create argument
 // ---------------
 	.post(auth.can('argument:create'))
+	.post(function(req, res, next) {
+		if (!req.idea) next( createError(400, 'Inzending niet gevonden') );
+		if (req.idea.status != 'OPEN') next( createError(400, 'Reactie toevoegen is niet mogelijk') );
+		next();
+	})
 	.post(function(req, res, next) {
 
 		let data = {
