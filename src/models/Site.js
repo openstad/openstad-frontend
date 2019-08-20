@@ -323,9 +323,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 
 				// set to null
-				if (value[key] == null && options[key].allowNull != false) {
-					return newValue[key] = null;
-				}
+				// if (value[key] == null && options[key].allowNull != false) {
+				//  	return newValue[key] = null;
+				// }
 
 				// TODO: in progress
 				if (typeof value[key] != 'undefined' && value[key] != null) {

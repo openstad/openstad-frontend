@@ -103,7 +103,6 @@ router.route('/')
 		return next();
 	})
 	.post(function( req, res, next ) {
-		console.log(req.site.config, req.site.config.canAddNewIdeas);
 		if (!(req.site.config && req.site.config.ideas && req.site.config.ideas.canAddNewIdeas)) return next(createError(401, 'Inzenden is gesloten'));
 		return next();
 	})
