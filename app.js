@@ -168,8 +168,12 @@ function serveSites (req, res, next) {
       siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
     }
 
+    console.log(siteOptions);
+
     rp(siteOptions)
       .then((siteConfig) => {
+
+          console.log(siteConfig);
 
         configForHosts[thisHost] = siteConfig;
 
@@ -248,7 +252,7 @@ function run(id, siteData, callback) {
   },
 //    rootDir: getRootDir() + '/sites',
 //    npmRootDir: getRootDir(),
-  // shortName: 'localhost',
+  //shortName: 'localhost',
   shortName: site._id,
   modules: {
       'api-proxy': {},
@@ -363,6 +367,7 @@ function run(id, siteData, callback) {
             'idea-map': {},
             'idea-overview' : {},
             'idea-single' : {},
+            'header' : {},
             'image' : {},
             'info-bar' : {},
             'link': {},
@@ -437,6 +442,7 @@ function run(id, siteData, callback) {
       'card-widgets': {},
       'iframe-widgets': {},
       'speech-bubble-widgets': {},
+      'header-widgets': {},
       'title-widgets': {},
       'main-image-widgets': {},
       'list-widgets': {},

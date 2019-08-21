@@ -1,0 +1,42 @@
+<style>
+    {{data.widget.formattedContainerStyles}}
+</style>
+
+<div class="page_header">
+    <div class="header_img">
+        <img src="{{apos.attachments.url(data.widget.background)}}">
+    </div>
+    <div class="header-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-xs-12">
+                    <div class="header-block">
+                        <h1>{{data.widget.title}}</h1>
+                        <span class="subtitle">{{data.widget.subtitle}}</span>
+                        <div class="intro-text">{{data.widget.introText}}</div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-12 header-buttons">
+                    <a href="/plannen" class="margin-bottom-xs scroll-link block no-decoration">
+                        <span class="box-blue block">
+                            <span class="margin-right-s">
+                              <span class="number-plate"> 0 </span>
+                              <span class="number-plate"> 2 </span>
+                              <span class="number-plate"> 3 </span>
+                            </span>
+                            plannen
+                        </span>
+                    </a>
+                    {% if data.widget.showBtn %}
+                    <a href="{{data.widget.btnUrl}}" class="link-box scroll-link margin-bottom-sm button-with-icon" style="">
+
+                        <img src="{{apos.attachments.url(data.widget.btnIcon)}}">
+
+                        {{data.widget.btnLabel}}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
