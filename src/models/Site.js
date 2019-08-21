@@ -357,7 +357,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 				// set to null
 				if (value[key] == null) {
-					console.log('???', key);
 					newValue[key] = value[key] = undefined;
 				}
 				

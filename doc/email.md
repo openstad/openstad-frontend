@@ -78,3 +78,34 @@ Subject configureerbaar?
 Aparte templates voor ideas en arguments?
 Inline images?
 
+## Bevestig een nieuwsbrief aanmedling
+
+Bij het inschrijven voor de nieuwsbrief krijgt de gebruiker een email ter bevestiging. Zie ook [Newsletter Signup](/doc/newslettersignup).
+
+#### Configuratie
+
+```
+{
+  "config": {
+    "newslettersignup": {
+      "isActive": true,
+      "confirmationEmail": {
+        "url": "URL/[[token]]",
+        "from": "NAAM <EMAIL@ADDRESS>",
+        "to": "NAAM <EMAIL@ADDRESS>",
+        "template": "Klik op de link om te bevestigen: {{confirmationUrl}}"
+      }
+    }
+  }
+}
+
+```
+
+Template is een nunjucks template. Daar zijn de volgende variabelen beschikbaar:
+
+**HOSTNAME**: site.config.cms.hostname
+**SITENAME**: site.title
+**URL**: site.config.cms.url
+**confirmationUrl**: de url waarop iemand kan bevestigen
+
+Ik ga er vanuit dat je bevestigen en afmelden via de frontend doet, en dat daarvandaan een post request naar de API wordt gestuurd. Een directe link naar de API zou ook kunnen met een doorverwijzing naar de frontend; als je dat wilt moet je het even zeggen en bouw ik daar extra endpoints voor.

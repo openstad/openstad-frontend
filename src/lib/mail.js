@@ -139,9 +139,60 @@ function sendThankYouMail( idea, user, site ) {
 
 }
 
+// send email to user that submitted an idea
+function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
+
+  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
+  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
+  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
+
+	let confirmationUrl = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.url;
+	confirmationUrl = confirmationUrl.replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+
+  let data    = {
+    date: new Date(),
+    user: user,
+    HOSTNAME: hostname,
+    SITENAME: sitename,
+		confirmationUrl,
+    URL: url,
+  };
+
+	let html;
+	let template = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.template;
+	if (template) {
+		html = nunjucks.renderString(template, data);
+	} else {
+		html = nunjucks.render('confirm_newsletter_signup.njk', data);
+	}
+
+  let text = htmlToText.fromString(html, {
+    ignoreImage: true,
+    hideLinkHrefIfSameAsText: true,
+    uppercaseHeadings: false
+  });
+
+  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
+		filename : 'logo.png',
+		path     : 'email/img/logo.png',
+		cid      : 'logo'
+  }];
+
+  sendMail({
+    to: newslettersignup.email,
+    from: (site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email,
+    subject: (site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je aanmelding',
+    html: html,
+    text: text,
+    attachments: attachments,
+  });
+
+}
+
 module.exports = {
   sendMail,
 	sendNotificationMail,
   sendThankYouMail,
+	sendNewsletterSignupConfirmationMail,
 };
 

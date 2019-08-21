@@ -9,6 +9,7 @@ Dit is een JSON API server
 [Argument](#argument)
 [Vote](/doc/vote)
 [Email](/doc/email)
+[Newsletter Signup](/doc/newslettersignup)
 
 ## Site
 
