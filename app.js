@@ -260,9 +260,6 @@ function run(id, siteData, callback) {
         port: process.env.PORT
       },
       'apostrophe-docs': {
-        beforeConstruct: function(self, options) {
-          options.permission = false;
-        }
       },
       'auth': {},
       'apostrophe-multisite-fake-listener': {
