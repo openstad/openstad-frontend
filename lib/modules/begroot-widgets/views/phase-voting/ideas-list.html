@@ -55,7 +55,9 @@
 						{% if idea.location %}
 						<div class="location-image-container">
 							<div class="location-image-mask">
-								<a href="{{idea.extraData.locationUrl}}" target="_blank" class="location-image" style="background-image: url('/img/westbegroot/locaties/{{idea.id}}.png')"></a>
+								<a href="{{idea.locationUrl}}" target="_blank" class="location-image" >
+									<img src="{{idea.locationMapImage}}" />
+								</a>
 							</div>
 							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>

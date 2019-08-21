@@ -1,10 +1,11 @@
 <div id="modbreak" class="content-modal content-modal--s">
   <div class="content-modal-content">
-
-    <h2>
-      Reactie van moderator
-    </h2>
-    <p>
+    <div class="content-modal-header">
+      <h3 class="content-modal-title">
+        Reactie van moderator
+      </h3>
+    </div>
+    <div class="content-modal-body">
       <form method="post" id="js-form " action="/modules/idea-form-widgets/submit" class="ajax-form">
         <input type="hidden" name="action" value="MODBREAK">
         {% if idea.modBreakDate %}
@@ -27,11 +28,9 @@
           </button>
         </div>
       </form>
-
-
-
+    </div>
     <a href="#closed" class="content-modal-close" >
-      <img src="{{appUrl}}/img/close-white.svg" width="17" height="17"/>
+      <img src="{{appUrl}}/img/close.svg" width="13" height="13"/>
     </a>
   </div>
 </div>
