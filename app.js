@@ -335,6 +335,7 @@ function run(id, siteData, callback) {
         openstadMapPolygons: openstadMapPolygons,
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
         siteConfig: siteData,
+        useRichTextFields: process.env.USE_RICH_TEXT_FIELDS === 'yes',
         contentWidgets: {
             'agenda' : {},
             'accordeon': {},
