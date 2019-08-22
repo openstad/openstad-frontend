@@ -19,7 +19,9 @@
 					/>
 					<div class="step-header">{{step.title}}</div>
 					<p class="step-text">
-						{{step.description}}
+						{{step.description.items[0].content | safe }}
+
+						{{apos.log(step.description)}}
 
 						{% if step.linkUrl %}
 						<ul>
