@@ -4,6 +4,13 @@
 
 <ul id="{{data.widget.containerId}}" class="{{data.widget.listClassName}}">
   {% for item in data.widget.items %}
-  <li> {{ item.item | safe }} </li>
+  <li>
+    {{ item.item | safe }}
+    <ul class="{{item.subListClassName}}">
+      {% for subitem in item.subitems %}
+      <li> {{ subitem.subitem | safe }} </li>
+      {% endfor %}
+    </ul>
+  </li>
   {% endfor %}
 </ul>
