@@ -38,7 +38,8 @@ Uiteindelijk zal de API alleen config vars opslaan die zijn gedefineerd. Voor nu
 
 De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu zo uit (maar dat is volgende week vast weer anders):
 
-```{
+```
+{
   "config": {
     "allowedDomains": {
       "type": "arrayOfStrings",
@@ -151,9 +152,21 @@ De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu
           "type": "boolean",
           "default": true
         },
-        "noOfColumsInList": {
-          "type": "int",
-          "default": 4
+        "feedbackEmail": {
+          "from": {
+            "type": "string",
+            "default": "EMAIL@NOT.DEFINED"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "inzendingPath": {
+            "type": "string",
+            "default": "/PATH/TO/PLAN/[[ideaId]]"
+          },
+          "template": {
+            "type": "string"
+          }
         }
       }
     },
@@ -242,6 +255,38 @@ De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu
           "type": "int"
         }
       }
+    },
+    "newslettersignup": {
+      "type": "object",
+      "subset": {
+        "isActive": {
+          "type": "boolean",
+          "default": false
+        },
+        "confirmationEmail": {
+          "type": "object",
+          "subset": {
+            "from": {
+              "type": "string",
+              "default": "EMAIL@NOT.DEFINED"
+            },
+            "subject": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "default": "/PATH/TO/CONFIRMATION/[[token]]"
+            },
+            "template": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ignoreBruteForce": {
+      "type": "arrayOfStrings",
+      "default": []
     }
   }
 }

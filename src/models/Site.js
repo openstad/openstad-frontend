@@ -175,9 +175,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'boolean',
 						default: true,
 					},
-					noOfColumsInList: {
-						type: 'int',
-						default: 4,
+					"feedbackEmail": {
+						from: {
+							type: 'string', // todo: add type email/list of emails
+							default: 'EMAIL@NOT.DEFINED',
+						},
+						subject: {
+							type: 'string',
+							default: undefined,
+						},
+						inzendingPath: {
+							type: 'string',
+							default: "/PATH/TO/PLAN/[[ideaId]]",
+						},
+						template: {
+							type: 'string',
+							default: undefined,
+						},
 					},
 				}
 			},
@@ -276,6 +290,44 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 				},
 			},
+
+			newslettersignup: {
+				type: 'object',
+				subset: {
+					isActive: {
+						type: 'boolean',
+						default: false,
+					},
+					"confirmationEmail": {
+						type: 'object',
+						subset: {
+							from: {
+								type: 'string', // todo: add type email/list of emails
+								default: 'EMAIL@NOT.DEFINED',
+							},
+							subject: {
+								type: 'string',
+								default: undefined,
+							},
+							url: {
+								type: 'string',
+								default: "/PATH/TO/CONFIRMATION/[[token]]",
+							},
+							template: {
+								type: 'string',
+								default: undefined,
+							},
+						},
+					},
+				},
+			},
+
+			"ignoreBruteForce": {
+				type: 'arrayOfStrings',
+				default: [
+				]
+			},
+
 		}
 	}
 

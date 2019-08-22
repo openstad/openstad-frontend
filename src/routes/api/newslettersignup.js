@@ -36,6 +36,8 @@ router.route('/$')
 						id: entry.id,
 						siteId: entry.siteId,
 						email: entry.email,
+						firstName: entry.firstName,
+						lastName: entry.lastName,
 						externalUserId: entry.externalUserId,
 						confirmed: entry.confirmed,
 						confirmToken: entry.confirmToken,
@@ -96,9 +98,13 @@ router.route('/$')
 
 		if (req.user && req.user.email) {
 			data.email = req.user.email
+			data.firstName = req.user.firstName,
+			data.lastName = req.user.lastName,
 			data.confirmed = true;
 		} else {
 			data.email= req.body.email;
+			data.firstName = req.body.firstName,
+			data.lastName = req.body.lastName,
 			data.confirmed = false;
 			data.confirmToken = generateToken({length: 256});
 		}
@@ -140,6 +146,8 @@ router.route('/confirm$')
 							id: result.id,
 							siteId: result.siteId,
 							email: result.email,
+							firstName: result.firstName,
+							lastName: result.lastName,
 							externalUserId: result.externalUserId,
 							confirmed: result.confirmed,
 							signoutToken: result.signoutToken,

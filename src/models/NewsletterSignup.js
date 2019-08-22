@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const config = require('config');
 const emailBlackList = require('../../config/mail_blacklist')
+const sanitize = require('../util/sanitize');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
@@ -27,6 +28,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 						}
 					}
 				}
+			}
+		},
+
+		firstName: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('firstName', value ? sanitize.noTags(value) : null);
+			}
+		},
+
+		lastName: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('lastName', value ? sanitize.noTags(value) : null);
 			}
 		},
 
