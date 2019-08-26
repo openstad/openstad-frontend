@@ -88,7 +88,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 
 // delete site
 // ---------
-	// .delete(auth.can('site:delete'))
+	.delete(auth.can('site:delete'))
 	.delete(function(req, res, next) {
 		req.site
 			.destroy()
