@@ -1,7 +1,7 @@
 {% macro showBudgetWindow(data) %}
 <div id="main-budget-block" class="sticky-bar-container">
 	<div class="sticky-bar">
-		<div class="sticky-bar-inner">
+		<div class="sticky-bar-inner ">
 			<div id="budget-block" >
 				<div id="budget-block">
 
@@ -46,7 +46,10 @@
 													</div>
 												</a>
 												<div class="mobile-accordion-body">
-													Kies uit onderstaand overzicht jouw favoriete plannen. Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen. In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem.
+													Kies uit onderstaand overzicht jouw favoriete plannen.
+													Selecteer voor minimaal € 200.000 en maximaal € 300.000 aan plannen.
+													In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen.
+													Tot slot verstuur je in stap 4 je stem.
 												</div>
 											</div>
 											<br class="visible-xs" />
@@ -119,6 +122,9 @@
 										</div>
 										<div id="vote-registered-container">
 											<div class="button-stemcode geldige-code">Geldige stemcode</div>
+											<a href="/oauth/login?returnTo={{data.currentUrl}}" class="underline" style="margin-top:-30px;     margin-top: -15px; display: block;margin-bottom: 20px; ">
+												<small>Vul een andere stemcode in</small>
+											</a>
 											<div>
 												Het controleren van je stemcode is gelukt!
 												Je bent bijna klaar.
@@ -318,7 +324,9 @@
 						</a>
 					</div>
 				</div>
-				<div id="waitLayer" class="hidden"></div>
+				<div id="waitLayer" class="hidden">
+					<div class="spinning-loader"> </div>
+				</div>
 			</div>
 		</div>
 	</div>

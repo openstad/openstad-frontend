@@ -27,20 +27,28 @@
   <div class="clearfix">
     {% if mayVote %}
       <form class="action vote argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}/vote">
-        <button type="submit" name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+        <button
+          data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+          type="submit"
+          name="opinion"
+          value="yes"
+          class="{{'voted' if arg.hasUserVoted}} role-required-member {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}">
           Mee eens (<span>{{arg.yes}}</span>)
         </button>
       </form>
     {% else %}
       <form class="action vote argument-action-form ajax-form">
-        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}}">
+        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}} role-required-{{data.global.roleToLike}}" data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken.">
           Mee eens (<span>{{arg.yes}}</span>)
         </button>
       </form>
     {% endif %}
 
     {% if maySeeReplyForm %}
-      <a href="#"  class="reply reply-click argument-action-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}" {{'data-disabled' if not mayReply}}
+      <a
+        href="#"
+        data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+        class="reply reply-click argument-action-form role-required-member {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}" {{'data-disabled' if not mayReply}}
       >Reageren</a>
     {% endif %}
   </div>

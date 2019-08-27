@@ -1,0 +1,39 @@
+<div id="newsletter" class="content-modal content-modal--xs">
+  <div class="content-modal-content">
+      <div class="content-modal-header">
+        <h3 class="content-modal-title">
+          {{ data.global.newsletterModalTitle }}
+        </h3>
+      </div>
+      <div class="content-modal-body">
+        <p class="modal-newsletter-text">
+          {{ data.global.newsletterModalDescription }}
+        </p>
+        <form id="newsletter-form" method="post"  action="/api/site/{{data.global.siteId}}/newslettersignup">
+
+          <div class="form-field" style="margin-bottom: 10px">
+            <label>  {{ __('First name') }} </label>
+            <br />
+            <input type="text" class="input-field" required name="firstName" />
+          </div>
+          <div class="form-field">
+            <label>  {{ __('Email') }} </label>
+            <br />
+            <input type="email" class="input-field" required name="email" />
+          </div>
+          <div class="error-message error-block" style="display: none;"> </div>
+          <div class="success-message success-block" style="display: none;"> </div>
+
+          <button href="/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
+            {{ __('Sign up') }}
+          </button>
+          <a href="#closed" class="outlined-button" type="submit">
+            {{ __('Cancel') }}
+          </a>
+          <a href="#closed" class="content-modal-close" >
+            <img src="{{appUrl}}/img/close.svg" width="13" height="13"/>
+          </a>
+        </form>
+    </div>
+  </div>
+</div>

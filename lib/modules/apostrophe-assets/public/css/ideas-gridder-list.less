@@ -1,7 +1,6 @@
-@numberOfColumns:  3;
-
 .gridder {
-	width: 100%;
+	// one
+	width: calc(100% + @hMargin);
 	margin: 0;
 	padding: 0;
 	font-size: 0; // wegens inline-blocks
@@ -9,38 +8,33 @@
 	.gridder-list {
 		display: inline-block;
 		position: relative;
-		width: calc((100% - @hMargin * 2) / 3);
+		width: calc((100% - @hMargin * 3) / 3);
 		margin-bottom: @vMargin;
 	  margin-right: @hMargin;
 		font-size: 14px;
 		background-color: @light-grey2;
 
+
 		//	height: 400px;
-	  &.third-item {
+/*	 &:nth-child(3n+3) {
 	    margin-right: 0;
 
 			@media @m {
 				margin-right: @hMargin;
-		    float: left;
 			}
 
 	    @media @phone {
-	      float: none;
 	      width: 100%;
 	    }
-	  }
+	  }*/
 
 		@media @m {
-			width: calc((100% / 2) - 20px);
+			width: calc((100% - @hMargin * 2) / 2);
 		}
 
-		@media @gridderFull {
+		@media @xs {
 			width: 100%;
 			margin: 10px auto;
-		}
-
-		@media @phone {
-			width: 100%;
 		}
 
 		&:hover {
@@ -321,7 +315,7 @@
 		color: @amsterdam-navyblue;
 		border: 1px solid @amsterdam-navyblue;
 		background-color: white;
-		
+
 		&:hover {
 			padding: 10px 19px;
 			border: 2px solid @amsterdam-navyblue;

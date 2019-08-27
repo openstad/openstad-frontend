@@ -1,17 +1,19 @@
 {% import 'vote-creator.html' as voteCreator %}
 
-<div  class="idea-overview-container">
+<div class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+	{{ __('Loading...') }}
+</div>
+<div id="idea-overview-container" class="idea-overview-container opacity-0-for-load">
   {% if data.widget.voting %}
     {{ voteCreator.showVoteCreator(true, data.ideas, data) }}
   {% endif %}
   <div class="ideasList">
-    {% if data.ideas.length > 0 %}
     {% include 'filters.html' %}
-    {% endif %}
     <br />
 
     <div id="ideas" class="primary">
-      {% if data.ideas.length === 0 %}
+
+      {% if not data.ideas or data.ideas.length === 0 %}
       <h3 style="text-align: center;"> <em> Nog geen inzendingen </em> </h3>
       {% else %}
 
@@ -36,7 +38,7 @@
  // tab selector functions
  // var activeTab = getCookie('plannenActiveTab') || 0;
 
- // function activateTab(which) {
+ // function activateIdeaOverviewTab(which) {
  //  	 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
  //  	 activeTab = which;
  //  	 document.cookie = 'plannenActiveTab=' + activeTab;

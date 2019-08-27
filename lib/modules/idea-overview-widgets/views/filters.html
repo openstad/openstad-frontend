@@ -3,15 +3,15 @@
     {% if data.global.areas and data.global.areas.length > 0 %}
     <div class="tab-selector">
       <ul>
-        <li><a id="themaSelector0" href="javascript: void deactivateAll()">Alle plannen</a></li>
+        <li><a id="themaSelector0" href="javascript: void deactivateIdeaOverviewAll()">Alle plannen</a></li>
       </ul>
-      <select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+      <select id="filterSelector" class="default-select" onchange="activateIdeaOverviewFilter(this.selectedIndex)">
         <option value="0">Alle gebieden</option>
         {% for area in data.global.areas %}
         <option value="{{area.value}}">{{area.value}}</option>
         {% endfor %}
       </select>
-      <a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+      <a class="no-button inactive" href="javascript: void deactivateIdeaOverviewAll()">Wissen</a>
     </div>
     {% endif %}
   </div>
@@ -20,7 +20,6 @@
       <select class="default-select">
         <option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
         <option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
-        <!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
       </select>
     </div>
   </div>

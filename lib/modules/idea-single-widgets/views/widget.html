@@ -38,10 +38,15 @@
 							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="yes"/>
-								<input type="hidden" name="redirect-url" value="/{{data.global.ideaOverviewSlug}}" />
+
 								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
 								<button
-									class="{{'selected' if idea.userVote.opinion == 'yes'}}"
+									class="
+										{{'selected' if idea.userVote.opinion == 'yes'}}
+										role-required-{{data.global.roleToLike}}
+									"
+									data-modal-text="Log in om een plan te liken."
+									data-return-to="/like?ideaId={{idea.id}}&opinion=yes"
 									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 									voor
 								</button>
@@ -51,10 +56,19 @@
 							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="no"/>
-								<input type="hidden" name="redirect-url" value="/{{data.global.ideaOverviewSlug}}" />
 
 								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-								<button class="{{'selected' if idea.userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
+								<button
+									class="
+										{{'selected' if idea.userVote.opinion == 'no'}}
+										role-required-{{data.global.roleToLike}}
+									"
+									data-return-to="/like?ideaId={{idea.id}}&opinion=no"
+									type="submit"
+									name="opinion"
+									value="no"
+									data-count="{{idea.no}}"
+								>
 									tegen
 								</button>
 								<div style="clear: both;"></div>

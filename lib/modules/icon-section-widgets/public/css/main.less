@@ -128,7 +128,12 @@
 .howDoesItWork {
 
 	ul {
-	    padding: 0 15px 0 0;
+	  padding: 0 15px 0 0;
+
+		@media @phone {
+			width: calc(100% - 79px);
+			float: right;
+		}
 
 		li {
 			background-image: url('/img/arrow_right_blue.svg');

@@ -18,14 +18,11 @@
   text-decoration: none;
   display: inline-block;
 
-  &:active, &:hover:active, :focus, .focus, .active, :disabled, .disabled {
-    background-color: #004699 !important;
-    color: white;
-  }
 
   &:hover {
     background-color: #004699 !important;
     border-color: #004699 !important;
+    text-decoration: none;
   }
 
   > img {
@@ -45,6 +42,14 @@
   &--grey {
     background-color: #bebebe !important;
     border-color: #bebebe !important;
+    color: white !important;
+
+    &:active, &:hover:active, &:focus, &.focus, &.active, &:disabled, &.disabled {
+      background-color: #bebebe !important;
+
+      text-decoration: none;
+      color: white !important;
+    }
   }
 
   &--white {

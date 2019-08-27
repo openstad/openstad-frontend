@@ -38,15 +38,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div id="steps-content-1a" class="step active">
 					<div class="content">
-						Kies uit onderstaand overzicht jouw favoriete ontwerp voor de muurtekst ‘Zorg<br/>
-						goed voor onze stad en voor elkaar’, en vul in de volgende stap je gegevens in.
+						{{data.widget.step_1_intro}}
 
 						<input type="hidden" name="ideaId" value="">
 						<div class="preview-container" onclick="clickPreview(event)">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
 									<div class="text">
-										Kies een ontwerp
+										{{data.widget.placeholder_empty_item}}
 									</div>
 								</div>
 							</div>
@@ -60,29 +59,25 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 				<div id="steps-content-2a" class="step">
 					<div class="content">
 						<div class="vote-not-logged-in">
-							Via onderstaande knop kun je op een aparte pagina je e-mailadres invullen.  <br />
-							Ter controle krijg je een mail om je e-mailadres te bevestigen.
-							Als dat lukt kom je terug op deze pagina.
+							{{data.widget.step_2_intro}}
 						</div>
 						<div id="zipcode-and-email" class="form">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
 									<div class="text">
-										Kies een ontwerp
+										{{data.widget.placeholder_empty_item}}
 									</div>
 								</div>
 							</div>
 							<div class="fields">
 								<div class="vote-not-logged-in">
-									<a href="/oauth/login?returnTo={{data.currentUrl}}?returnedFromVerification-50" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
-										Vul je e-mailadres in
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+										{{data.widget.button_authenticating}}
 									</a>
 								</div>
 								<div class="vote-logged-in">
 									<div class="button-stemcode geldige-code">Geldige e-mailadres</div>
-									Het controleren van je e-mailadres is gelukt!<br/>
-									Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.
-
+									{{data.widget.step_2_succesfull_auth}}
 
 									{% if data.ideasVotedFor.length > 0 %}
 									<div class="info-block error warning">
@@ -103,13 +98,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
 									<div class="text">
-										Kies een ontwerp
+										{{data.widget.placeholder_empty_item}}
 									</div>
 								</div>
 							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
+									<label>E-mailadres: {{data.openstadUser.email}}</label> <br/>
+									<span id="showEmailError"></span>
 								</div>
 							</div>
 						</div>
@@ -120,34 +116,6 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							Bedankt voor het stemmen. Hou deze website<br/>
 							in de gaten voor de uitslag.
 						</div>
-					</div>
-				</div>
-
-				<div id="steps-content-3c" class="step">
-					<div class="content">
-
-						<div id="zipcode-and-email">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="text">
-										Kies een ontwerp
-									</div>
-								</div>
-							</div>
-							<div class="fields">
-								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
-								</div>
-							</div>
-						</div>
-
-						<div class="checkmark-block-green">
-							<h4>Gelukt, je stem is opgeslagen!</h4>
-							<br />
-							Bedankt voor het stemmen. Hou deze website<br/>
-							in de gaten voor de uitslag.
-						</div>
-
 					</div>
 				</div>
 
@@ -163,7 +131,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
 									<div class="text">
-										Kies een ontwerp
+										{{data.widget.placeholder_empty_item}}
 									</div>
 								</div>
 							</div>

@@ -47,7 +47,10 @@
   {% endif %}
 {% endif %}
 <script>
+  // global variables!
   var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
+  var openstadUserRole = '{{data.openstadUser.role}}';
+  var currentPath = '{{data.currentPath}}'
 </script>
 
 {% if data.global.analytics %}
@@ -116,7 +119,7 @@ ga('send', 'pageview');
         </div>
     </header>
     {% include 'partials/flash.html' %}
-    <div id="page">
+    <div id="page" class="{{ 'cms-admin' if data.user }}">
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
           <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
@@ -142,17 +145,19 @@ ga('send', 'pageview');
           <div class="account-menu toggle-menu">
             <nav  class="" role="navigation">
               <div>
+                  {% if data.global.displayMyAcount %}
                   {% if data.loggedIn %}
                   <a href="/oauth/logout" class="logout-button" >
                   <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
                   <img src="/img/avatar.svg" />
                    {{ __('Log out') }}
                   </a>
-                  {% elseif data.global.displayMyAcount %}
+                  {% else %}
                    <a href="/oauth/login">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                      {{ __('My account') }}
                    </a>
+                  {% endif %}
                   {% endif %}
               </div>
             </nav>
@@ -165,7 +170,7 @@ ga('send', 'pageview');
                 </li>
                 {% for tab in data.home._children %}
                 <li class="nav-item">
-                  <a class="nav-link {% if data.originalUrl == tab._url %} active {% endif %}" href="{{ tab._url }}">
+                  <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
                     {{ tab.title }}
                   </a>
                 </li>
@@ -188,18 +193,21 @@ ga('send', 'pageview');
 
         			<nav id="subMenu" class="" role="navigation">
         				<div>
+                    {% if data.global.displayMyAcount %}
         						{% if data.loggedIn %}
       							<a href="/oauth/logout" class="account logout-button">
                       <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                       {{ __('Log out') }}
                     </a>
-        						{% elseif data.global.displayMyAcount %}
+        						{% else %}
       						   <a href="/oauth/login" class="account">
                        <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                        <img src="/img/avatar.svg" />
                        {{ __('My account') }}
                      </a>
         						{% endif %}
+                    {% endif %}
+
                     {% if data.global.ctaButtonText %}
                     <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button">{{data.global.ctaButtonText}}</a>
                     {% endif %}
@@ -258,5 +266,6 @@ ga('send', 'pageview');
 
 {% endif %}
 {% include 'partials/modal-login-required.html' %}
+{% include 'partials/modal-newsletter.html' %}
 
 {% endblock %}
