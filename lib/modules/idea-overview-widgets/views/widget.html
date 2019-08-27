@@ -8,13 +8,12 @@
     {{ voteCreator.showVoteCreator(true, data.ideas, data) }}
   {% endif %}
   <div class="ideasList">
-    {% if data.ideas.length > 0 %}
     {% include 'filters.html' %}
-    {% endif %}
     <br />
 
     <div id="ideas" class="primary">
-      {% if data.ideas.length === 0 %}
+
+      {% if not data.ideas or data.ideas.length === 0 %}
       <h3 style="text-align: center;"> <em> Nog geen inzendingen </em> </h3>
       {% else %}
 
