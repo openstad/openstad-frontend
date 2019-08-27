@@ -82,7 +82,7 @@
 	"Edit Idea single": "Edit Idea single",
 	"Edit Arguments form": "Edit Arguments form",
 	"Edit Arguments": "Edit Arguments",
-	"Cancel": "Cancel",
+	"Cancel": "Annuleren",
 	"Save Arguments form": "Save Arguments form",
 	"Idea ID (if empty it will try to fetch the ideaId from the URL)": "Idea ID (if empty it will try to fetch the ideaId from the URL)",
 	"Placeholder": "Placeholder",
@@ -414,5 +414,9 @@
 	"Last Edit": "Last Edit",
 	"Submitted?": "Submitted?",
 	"Last Commit": "Last Commit",
-	"Revert": "Revert"
+	"Revert": "Revert",
+	"Loading...": "Laden...",
+	"First name": "Voornaam",
+	"Email": "E-mail",
+	"Sign up": "Inschrijven",
 }
