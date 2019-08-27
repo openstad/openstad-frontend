@@ -281,7 +281,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		progress: {
 			type         : DataTypes.VIRTUAL,
 			get          : function() {
-				var minimumYesVotes = config.get('ideas.minimumYesVotes');
+				var minimumYesVotes = (this.site && this.site.config && this.site.config.ideas && this.site.config.ideas.minimumYesVotes) || config.get('ideas.minimumYesVotes');
 				var yes             = this.getDataValue('yes');
 				return yes !== undefined ?
 				       Number((Math.min(1, (yes / minimumYesVotes)) * 100).toFixed(2)) :
@@ -575,6 +575,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			includeVoteCount: {
+				include : [{
+					model: db.Site,
+				}],
 				attributes: {
 					include: [
 						voteCount('yes'),

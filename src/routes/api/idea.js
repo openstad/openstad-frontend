@@ -77,7 +77,9 @@ router.route('/')
 			.findAll({ where: { siteId: req.params.siteId } })
 			.then( found => {
 				return found.map( entry => {
+          console.log(entry.progress);
 					let json = entry.toJSON();
+          console.log(json.progress);
 					if (json.user && typeof json.user == 'object') {
 						json.user = {
 							nickName: json.user.nickName,

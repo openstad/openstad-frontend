@@ -175,6 +175,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'boolean',
 						default: true,
 					},
+					minimumYesVotes: {
+						type: 'int',
+						default: 100,
+					},
 					"feedbackEmail": {
 						from: {
 							type: 'string', // todo: add type email/list of emails
