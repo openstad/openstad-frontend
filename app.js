@@ -12,26 +12,23 @@
  */
 require('dotenv').config();
 
-const path          = require('path');
-const express       = require('express');
-const apostrophe    = require('apostrophe');
-const app           = express();
-const _             = require('lodash');
-const mongo         = require('mongodb');
-const rp            = require('request-promise');
-const fs            = require('fs');
-const argv          = require('boring')();
-const quote         = require('shell-quote').quote;
-const Promise       = require('bluebird');
-const dbExists      = require('./services/mongo').dbExists;
-
-
-
-const openstadMap           = require('./config/map').default;
-const openstadMapPolygons   = require('./config/map').polygons;
-const configForHosts        = {};
-const aposStartingUp        = {};
-//console.log('process.env', process.env);
+const path                    = require('path');
+const express                 = require('express');
+const apostrophe              = require('apostrophe');
+const app                     = express();
+const _                       = require('lodash');
+const mongo                   = require('mongodb');
+const rp                      = require('request-promise');
+const fs                      = require('fs');
+const argv                    = require('boring')();
+const quote                   = require('shell-quote').quote;
+const Promise                 = require('bluebird');
+const dbExists                = require('./services/mongo').dbExists;
+const openstadMap             = require('./config/map').default;
+const openstadMapPolygons     = require('./config/map').polygons;
+const contentWidgets          = require('./config/contentWidgets').default;
+const configForHosts          = {};
+const aposStartingUp          = {};
 
 var aposServer = {};
 var sampleSite;
@@ -72,21 +69,7 @@ function getRootDir() {
 
 
 function getSampleSite() {
-
   return sampleSite ? sampleSite : null;
-
-/*
-  const keys = finio;
-
-
-
-  if (!keys.length ) {
-    return null;
-  }
-
-  let server = _.find(aposServer, apos => (typeof apos) === 'object');
-
-*/
 }
 
 /**
@@ -100,23 +83,27 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
+/**
+ * Info url for debugging the apostrhopheCMS server
 
 app.get('/info', (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
   host = host.replace(['http://', 'https://'], ['']);
+
   let sample = getSampleSite();
   res.json({
-    running: _.keys(aposServer),
+  //  running: _.keys(aposServer),
     host: host,
     generation: sample.assets.generation,
-    configForHosts: configForHosts
+  //  configForHosts: configForHosts
   });
 });
+ */
 
 app.use(function(req, res, next) {
-  // run sample server
-  //
-
+  /**
+   * Run a sample site that create the assets
+   */
   if (!runningSampleSite) {
     runningSampleSite  = true;
     startingUpSampleSite = true;
@@ -130,6 +117,9 @@ app.use(function(req, res, next) {
       });
   }
 
+  /**
+   * Start the servers only when the sample site has finished running
+   */
   const safeStartServers = (req, res, next) => {
     if (startingUpSampleSite) {
       // timeout loop //
@@ -152,9 +142,14 @@ function serveSites (req, res, next) {
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
+  // if the config is existing it means the site has been loaded already, serve site
   if (configForHosts[thisHost]) {
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
+
+    /**
+     * Fetch the config for sites
+     */
     const siteOptions = {
         uri:`${process.env.API}/api/site/${thisHost}`, //,
         headers: {
@@ -168,15 +163,9 @@ function serveSites (req, res, next) {
       siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
     }
 
-    console.log(siteOptions);
-
     rp(siteOptions)
       .then((siteConfig) => {
-
-          console.log(siteConfig);
-
         configForHosts[thisHost] = siteConfig;
-
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
           res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
@@ -188,7 +177,9 @@ function serveSite(req, res, siteConfig, forceRestart) {
   const runner = Promise.promisify(run);
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
+  // check if the mongodb database exist. The name for databse
   return dbExists(dbName).then((exists) => {
+      // if default DB is set
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
@@ -252,7 +243,7 @@ function run(id, siteData, callback) {
   },
 //    rootDir: getRootDir() + '/sites',
 //    npmRootDir: getRootDir(),
-  //shortName: 'localhost',
+  // shortName: 'localhost',
   shortName: site._id,
   modules: {
       'api-proxy': {},
@@ -290,39 +281,17 @@ function run(id, siteData, callback) {
 
       'apostrophe-multisite-patch-assets': {
         construct: function(self, options) {
-            // The sites should share a collection for this purpose,
-            // so they don't fail to see that a bundle has already been
-            // generated via a temporary site during deployment
-          //  self.apos.assets.generationCollection = dashboard.db.collection('sitesAssetGeneration');
-            // Use a separate uploadfs instance for assets, so that the
-            // sites share assets but not attachments
-
-         //  self.apos.assets.uploadfs = function() {
-          //    return self.uploadfs;
-          //  };
-
-
-            // For dev: at least one site has already started up, which
-            // means assets have already been attended to. Steal its
-            // asset generation identifier so they don't fight.
-            // We're not too late because apostrophe-assets doesn't
             // use this information until afterInit
             const sample = getSampleSite();
-
 
             if (!sample) {
               return;
             }
 
-        //    console.log('===>>>> sample.assets ', sample.assets);
-
             self.apos.assets.generationCollection = sample.assets.generationCollection;
             self.apos.assets.generation = sample.assets.generation;
           },
 
-/*        afterConstruct: function(self, callback) {
-          return self.initUploadfs(callback);
-        }*/
       },
 
       settings: {
@@ -415,8 +384,7 @@ function run(id, siteData, callback) {
 
       // If a template is not found somewhere else, serve it from the top-level
       // `views/` folder of the project
-
-  //    'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
+      'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
       'idea-pages': {},
       'apostrophe-pages': {
         types: [
@@ -436,6 +404,7 @@ function run(id, siteData, callback) {
       },
       'apostrophe-global': {},
       'section-widgets': {},
+      'all-on-one-row-widgets': {},
       'card-widgets': {},
       'iframe-widgets': {},
       'speech-bubble-widgets': {},
@@ -458,10 +427,10 @@ function run(id, siteData, callback) {
       'arguments-form-widgets': {},
       'gebiedsontwikkeling-tool-widgets': {},
       'user-form-widgets': {},
-      'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
       'submissions-widgets': {},
       'begroot-widgets': {},
       'local-video-widgets': {},
+      'one-row-widgets': {},
       'image-widgets': {},
       'apostrophe-palette-widgets': {},
       'apostrophe-palette': {},
@@ -525,10 +494,10 @@ function run(id, siteData, callback) {
     }
   };
 
-
   const useAposWorkflow = siteData.cms && siteData.cms.aposWorkflow;
   const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;
 
+  // If apostrophe workflow is turned o
   if ((process.env.APOS_WORKFLOW === 'ON' || useAposWorkflow) && !turnOffWorkflow) {
     siteConfig.modules['apostrophe-workflow'] = {
       // IMPORTANT: if you follow the examples below,
@@ -537,28 +506,10 @@ function run(id, siteData, callback) {
       // Recommended to save database space. You can still
       // export explicitly between locales
       replicateAcrossLocales: true,
-/*
-      locales: [
-        {
-          name: 'default',
-          label: 'Default',
-          defaultLocale: 'nl',
-          private: true,
-          children: [
-            {
-              name: 'nl',
-              label: 'Netherlands'
-            },
-            {
-              name: 'en',
-              label: 'English'
-            },
-          ]
-        },
-      ],*/
     };
 
     siteConfig.modules['apostrophe-workflow-modified-documents'] = {};
+
   } else {
     siteConfig.modules['apostrophe-i18n'] = {
       locales:['nl', 'en'],
@@ -575,15 +526,11 @@ function run(id, siteData, callback) {
         }
         return r;
       });
-    }
-
-//  console.log('siteConfigsiteConfig', siteConfig.modules);
+  }
 
   const apos = apostrophe(
     _.merge(siteConfig, siteData)
   );
-
-
 
 }
 
@@ -593,18 +540,3 @@ process.on('uncaughtException', function (exception) {
 })
 */
 app.listen(process.env.PORT);
-
-/**
- * Run default SITE DATABASE if isset, this way when deploying
- * the site is already spin up and assets will be generated
-
-
-if (process.env.DEFAULT_DB) {
-  const defaultRunner = Promise.promisify(run);
-  const dbName = process.env.DEFAULT_DB;
-
-  defaultRunner(dbName).then(function(apos) {
-    aposServer[dbName] = apos;
-  });
-}
- */
