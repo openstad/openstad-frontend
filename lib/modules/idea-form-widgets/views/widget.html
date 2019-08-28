@@ -29,7 +29,7 @@
 			<form method="post" id="js-form" action="/modules/idea-form-widgets/submit" class="idea-form">
 					<div id="titleAndSummary">
 						<div class="form-group">
-							<h4>Naam</h4>
+							<h2>Naam</h2>
 							<p>
 								{{data.openstadUser.firstName}} {{data.openstadUser.lastName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
 							</p>
@@ -241,9 +241,9 @@
 				<div id="estimate">
 					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
 					<div class="form-info" style="height: auto;">{% if data.widget.infoAdvice %}
-						{{ data.widget.infoAdvice }}
+						{{ data.widget.infoAdvice | safe}}
 					{% else %}
-						Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:duinoordbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.
+						Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:statenkwartierbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.
 					{% endif %}</div>
 					{% if data.widget.typeEstimate === 'textarea'  %}
 					<textarea id="estimate_input" name="estimate">
