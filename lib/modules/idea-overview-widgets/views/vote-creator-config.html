@@ -18,8 +18,7 @@
 			 return true;
 		 } else {
 			 if (showError) {
-			 	 document.querySelector('.preview').className = document.querySelector('.preview').className + ' form-error';
-			 	 document.querySelector('.preview').setAttribute('data-content', selectionError);
+         $('.preview-container').addClass('form-error').attr('data-content', selectionError);
 			 }
 			 return false;
 		 }
