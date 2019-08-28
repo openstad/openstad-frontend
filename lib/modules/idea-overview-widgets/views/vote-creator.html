@@ -14,10 +14,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 	{% set openOrClosed = 'closed'  %}
 	{% endif %}
 
-	<div class=" {{contentClass}}">
-
-		<div id="vote-creator-anchor"></div>
-
+	<div class="{{contentClass}}">
 		<div id="vote-creator" class="{{openOrClosed}}">
 
 			{# TODO: naar config #}
@@ -45,8 +42,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div class="preview-container" onclick="clickPreview(event)">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item | nlbr}}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -65,8 +64,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div id="zipcode-and-email" class="form">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item | nlbr }}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -98,8 +99,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div id="zipcode-and-email">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item | nlbr }}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -131,8 +134,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div id="zipcode-and-email">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item | nlbr}}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
