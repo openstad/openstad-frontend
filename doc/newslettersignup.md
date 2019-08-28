@@ -14,7 +14,7 @@ Het aanmelden voor niewsbrieven staat alleen open als dat in de siteconfig is op
 }
 ```
 
-Optionele extra params zijn confirmationEmail.from en confirmationEmail.template. Template is een nunjucksTemplate; zie [Email](/doc/email) voor meer informatie.
+Optionele extra params zijn `autoConfirm` (default false), `confirmationEmail.from` en `confirmationEmail.template`. Template is een nunjucksTemplate; zie [Email](/doc/email) voor meer informatie.
 
 Ik ga er vanuit dat je bevestigen en afmelden via de frontend doet, en dat daarvandaan een post request naar de API wordt gestuurd. Een directe link naar de API zou ook kunnen met een doorverwijzing naar de frontend; als je dat wilt moet je het even zeggen en bouw ik daar extra endpoints voor.
 

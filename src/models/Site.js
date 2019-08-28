@@ -302,6 +302,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'boolean',
 						default: false,
 					},
+					autoConfirm: {
+						type: 'boolean',
+						default: false,
+					},
 					"confirmationEmail": {
 						type: 'object',
 						subset: {
