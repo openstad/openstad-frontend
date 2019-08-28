@@ -580,5 +580,6 @@
 	"Field type": "Field type",
 	"Text bar": "Text bar",
 	"Text area": "Text area",
-	"Info for Estimate costs": "Info for Estimate costs"
+	"Info for Estimate costs": "Info for Estimate costs",
+	"Error for no selection": "Error for no selection"
 }
