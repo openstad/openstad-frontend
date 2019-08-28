@@ -82,7 +82,7 @@
 	"Edit Idea single": "Edit Idea single",
 	"Edit Arguments form": "Edit Arguments form",
 	"Edit Arguments": "Edit Arguments",
-	"Cancel": "Cancel",
+	"Cancel": "Annuleren",
 	"Save Arguments form": "Save Arguments form",
 	"Idea ID (if empty it will try to fetch the ideaId from the URL)": "Idea ID (if empty it will try to fetch the ideaId from the URL)",
 	"Placeholder": "Placeholder",
@@ -435,4 +435,8 @@
 	"Three columns: 33% - 33% - 33%": "Three columns: 33% - 33% - 33%",
 	"Four Columns: 25% - 25% - 25% - 25%": "Four Columns: 25% - 25% - 25% - 25%",
 	"Full screen (vertical & horizontal)": "Full screen (vertical & horizontal)"
+	"Loading...": "Laden...",
+	"First name": "Voornaam",
+	"Email": "E-mail",
+	"Sign up": "Inschrijven",
 }
