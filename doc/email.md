@@ -92,7 +92,7 @@ Bij het inschrijven voor de nieuwsbrief krijgt de gebruiker een email ter bevest
       "confirmationEmail": {
         "url": "URL/[[token]]",
         "from": "NAAM <EMAIL@ADDRESS>",
-        "to": "NAAM <EMAIL@ADDRESS>",
+        "subject": "ONDERWERP",
         "template": "Klik op de link om te bevestigen: {{confirmationUrl}}"
       }
     }

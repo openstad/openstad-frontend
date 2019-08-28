@@ -10,7 +10,7 @@ let router = express.Router({ mergeParams: true });
 // scopes: for all get requests
 router
   .all('*', function(req, res, next) {
-    req.scope = [{ method: ['forSiteId', req.params.siteId] }];
+    req.scope = [{ method: ['forSiteId', req.site.id] }];
     return next();
   });
 
