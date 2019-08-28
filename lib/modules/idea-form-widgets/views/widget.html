@@ -51,7 +51,7 @@
 								{{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
 							</h2>
 							<div class="form-info">
-								{{ data.widget.infoSummary if data.widget.infoSummary else 'Vertel in maximaal {data.widget.maxSummary} tekens iets meer over je plan.' }}
+								{{ data.widget.infoSummary if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.maxSummary+' tekens iets meer over je plan.' }}
 							</div>
 
 							{% if data.widget.typeSummary === 'text'  %}
@@ -146,15 +146,6 @@
 							</h2>
 							<div class="form-info">
 								{{ data.widget.infoDescription if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
-
-							{#	<ul>
-									<li>Wat is het verhaal achter jouw plan?</li>
-									<li>Waarom past dit plan goed bij het thema dat je geselecteerd hebt?</li>
-									<li>Is het een plan dat je zelf wilt uitvoeren, of moet het door een organisatie of de gemeente uitgevoerd worden?</li>
-									<li>Wat wil je ermee bereiken?</li>
-									<li>Draag argumenten aan om mensen uit West te overtuigen op jouw plan te stemmen. Je plan heeft minimaal 50 stemmen nodig om door te gaan naar de volgende fase.</li>
-								</ul>
-								#}
 							</div>
 
 							{% if useModernEditor %}
@@ -240,11 +231,17 @@
 				{% if data.widget.displayEstimate %}
 				<div id="estimate">
 					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
-					<div class="form-info" style="height: auto;">{% if data.widget.infoAdvice %}
-						{{ data.widget.infoAdvice | safe}}
-					{% else %}
-						Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk, dan kun je ook het <a href="mailto:statenkwartierbegroot@denhaag.nl">stadsdeel</a> vragen om je daarbij te helpen. Als andere organisaties willen meebetalen aan het plan, kun je dat ook hier aangeven.
-					{% endif %}</div>
+					<div class="form-info" style="height: auto;">
+						{% if data.widget.infoEstimate %}
+						{{ data.widget.infoEstimate | safe}}
+						{% else %}
+							Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk,
+							dan kun je ook het <a href="mailto:statenkwartierbegroot@denhaag.nl">stadsdeel</a>
+							vragen om je daarbij te helpen.
+							Als andere organisaties willen meebetalen aan het plan,
+							kun je dat ook hier aangeven.
+						{% endif %}
+					</div>
 					{% if data.widget.typeEstimate === 'textarea'  %}
 					<textarea id="estimate_input" name="estimate">
 						{{idea.estimate}}
@@ -263,11 +260,18 @@
 
 				{% if data.widget.displayRole %}
 				<div id="role">
-					<h2>Welke rol ga je zelf vervullen bij de uitvoering?</h2>
-					<div class="form-info" style="height: auto;">Bewoners kunnen zelf of samen met de gemeente of een andere organisatie een plan uitvoeren. Geef aan welke rol je hierin wilt en kunt vervullen.</div>
+					<h2>{{ data.widget.labelRole if data.widget.labelRole else 'Welke rol ga je zelf vervullen bij de uitvoering?' }}</h2>
+					<div class="form-info" style="height: auto;">
+						{% if data.widget.infoRole %}
+						{{ data.widget.infoRole | safe}}
+						{% else %}
+						Bewoners kunnen zelf of samen met de gemeente of een andere organisatie een plan uitvoeren.
+						Geef aan welke rol je hierin wilt en kunt vervullen.
+						{% endif %}
+					</div>
 
 					{% if data.widget.typeRole === 'text'  %}
-					<input id="role_input" name="role" value={{idea.role}}">
+					<input id="role_input" name="role" type="text" value="{{idea.role}}" />
 					{% else %}
 					<textarea id="role_input" name="role">{{idea.role}}</textarea>
 					{% endif %}
@@ -276,9 +280,15 @@
 
 				{% if data.widget.displayPhone %}
 				<div id="phone">
-					<h2>Telefoonnummer (optioneel)</h2>
-					<div class="form-info" style="height: auto;">Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.</div>
-					<input type="number" id="phone_input" name="phone" value="">
+					<h2>{{ data.widget.labelPhone if data.widget.labelPhone else 'Telefoonnummer (optioneel)' }}</h2>
+					<div class="form-info" style="height: auto;">
+						{% if data.widget.infoPhone %}
+						{{ data.widget.infoPhone | safe}}
+						{% else %}
+						Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.
+						{% endif %}
+					</div>
+					<input type="text" id="phone_input" name="phone" value="">
 				</div>
 				{% endif %}
 
