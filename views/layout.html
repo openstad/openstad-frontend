@@ -114,6 +114,17 @@ ga('send', 'pageview');
                       </div>
                     </div>
                   </div>
+                    {% if data.global.translations and data.global.translations.length > 0 %}
+
+                    <div class="language-menu">
+                        <ul>
+                            {% for translation in data.global.translations %}
+                                <li class="language"><a href="{{translation.translationUrl}}">{{translation.translation}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    {% endif %}
                 </div>
             </div>
         </div>
