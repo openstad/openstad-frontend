@@ -581,5 +581,9 @@
 	"Text bar": "Text bar",
 	"Text area": "Text area",
 	"Info for Estimate costs": "Info for Estimate costs",
-	"Error for no selection": "Error for no selection"
+	"Error for no selection": "Error for no selection",
+	"Apply permissions to subpages now": "Apply permissions to subpages now",
+	"How would you like the permissions to be applied to the subpages ?": "How would you like the permissions to be applied to the subpages ?",
+	"Copy (Overrides the existing permissions)": "Copy (Overrides the existing permissions)",
+	"Append (Adds to the existing permissions)": "Append (Adds to the existing permissions)"
 }

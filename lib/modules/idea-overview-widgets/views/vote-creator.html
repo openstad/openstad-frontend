@@ -63,11 +63,13 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							{{data.widget.step_2_intro}}
 						</div>
 						<div id="zipcode-and-email" class="form">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="inner-container">
-										<div class="text">
-											{{data.widget.placeholder_empty_item}}
+							<div class="preview-container">
+								<div class="preview" onclick="clickPreview(event)">
+									<div class="nothingYet">
+										<div class="inner-container">
+											<div class="text">
+												{{data.widget.placeholder_empty_item}}
+											</div>
 										</div>
 									</div>
 								</div>
@@ -98,6 +100,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 				<div id="steps-content-3a" class="step">
 					<div class="content">
 						<div id="zipcode-and-email">
+							<div class="preview-container">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
 									<div class="inner-container">
@@ -107,9 +110,11 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									</div>
 								</div>
 							</div>
+
+							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label> <br/>
+									<label><b class="selected-idea-title"></b></label>
 									<span id="showEmailError"></span>
 								</div>
 							</div>
@@ -132,19 +137,23 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							Er is iets misgegaan bij het opslaan van je stem.<br/>
 							Probeer het later nog eens of neem contact op met de site beheerder.
 						</div>
+						<br />
 						<div id="zipcode-and-email">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="inner-container">
-										<div class="text">
-											{{data.widget.placeholder_empty_item}}
+							<div class="preview-container">
+								<div class="preview" onclick="clickPreview(event)">
+									<div class="nothingYet">
+										<div class="inner-container">
+											<div class="text">
+												{{data.widget.placeholder_empty_item}}
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
+									<label><b class="selected-idea-title"></b></label>
+									<span id="showEmailError"></span>
 								</div>
 							</div>
 						</div>
@@ -186,25 +195,12 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		  return value;
 		}
 
-		var siteId 	= {{data.global.siteId}};
-		var stepNo  = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
-		var ideaId  = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
-		var zipCo   = '{{user.zipCode}}'     || openstadGetCookie('zipCode')	    || '';
-		var emai    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
+		var siteId 	     = {{data.global.siteId}};
+		var stepNo  		 = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
+		var ideaId  		 = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
 		var hasVoted     = '{{userHasVoted}}'     || openstadGetCookie('hasVoted')     || '';
 		var hasConfirmed = '{{userHasConfirmed}}' || openstadGetCookie('hasConfirmed') || '';
 
-/*	 window.onload = function(){
-		 var match = window.location.search.match(/ideaId=(\d+)/);
-		 if (match) {
-			 showIdeaId = match[1];
-		 };
-		 if (showIdeaId) {
-			 document.querySelector('#idea-' + showIdeaId).click()
-		 }
-
-
-	 }*/
 
 	</script>
 
