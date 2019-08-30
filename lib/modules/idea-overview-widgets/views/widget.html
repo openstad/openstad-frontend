@@ -5,7 +5,7 @@
 </div>
 <div id="idea-overview-container" class="idea-overview-container opacity-0-for-load">
   {% if data.widget.voting %}
-    {{ voteCreator.showVoteCreator(true, data.ideas, data) }}
+    {{ voteCreator.showVoteCreator(false, data.ideas, data) }}
   {% endif %}
   <div class="ideasList">
     {% include 'filters.html' %}
