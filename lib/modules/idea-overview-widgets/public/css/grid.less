@@ -1,6 +1,10 @@
 
 .tile-list {
   width: calc(100% + @hMargin);
+
+  @media @xs {
+    width: 100%;
+  }
 }
 
 .tile {
@@ -17,7 +21,6 @@
     width: 100%;
     margin: 10px auto;
   }
-
 
   &:visible {
     @media @grid50 {
