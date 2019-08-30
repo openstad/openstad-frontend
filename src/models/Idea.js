@@ -60,7 +60,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		endDate: {
 			type         : DataTypes.DATE,
-			allowNull    : true
+			allowNull    : true,
+			get          : function() {
+				var date = this.getDataValue('endDate');
+        if (this.site && this.site.config && this.site.config.votes && this.site.config.votes.isActiveTo) {
+          return this.site.config.votes.isActiveTo;
+        } else {
+          return date;
+        }
+      },
 		},
 
 		endDateHumanized: {
@@ -458,7 +466,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// -------------------------
 
 			// defaults
-			api: {
+      default: {
+				include : [{
+					model: db.Site,
+				}]
+      },
+
+      api: {
 			},
 
 			mapMarkers: {
