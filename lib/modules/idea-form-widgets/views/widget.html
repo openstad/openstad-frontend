@@ -2,7 +2,10 @@
 {% set showForm = true %}
 {% set idea = data.idea %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
-{% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
+{% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+
 
 {% if idea and isOwnerOrAdmin %}
 {% set showForm = true %}
