@@ -145,18 +145,18 @@ ga('send', 'pageview');
               <img src="/img/close-icon.svg" width="14" />
             </div>
           </button>
+          {% if data.global.displayMyAcount %}
           <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
-          <div class="visible-active">
-            <img src="/img/avatar.svg" />
-          </div>
-          <div class="hidden-active">
-            <img src="/img/close-icon.svg" width="14" />
-          </div>
+            <div class="visible-active">
+              <img src="/img/avatar.svg" />
+            </div>
+            <div class="hidden-active">
+              <img src="/img/close-icon.svg" width="14" />
+            </div>
           </a>
           <div class="account-menu toggle-menu">
             <nav  class="" role="navigation">
               <div>
-                  {% if data.global.displayMyAcount %}
                   {% if data.loggedIn %}
                   <a href="/oauth/logout" class="logout-button" >
                   <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
@@ -169,10 +169,10 @@ ga('send', 'pageview');
                      {{ __('My account') }}
                    </a>
                   {% endif %}
-                  {% endif %}
               </div>
             </nav>
           </div>
+          {% endif %}
           <div class="navbar-menu toggle-menu">
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
               <ul class="nav navbar-left">
