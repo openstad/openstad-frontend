@@ -1,6 +1,6 @@
 
 
-	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
+	<ul id="ideaList" class="gridder" onclick="ideaListClick(event);">
 		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
 		{% for idea in data.submissions %}
 		{% if (idea.submittedData) and (idea.submittedData.title) %}

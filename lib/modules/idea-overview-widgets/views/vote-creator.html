@@ -75,7 +75,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							</div>
 							<div class="fields">
 								<div class="vote-not-logged-in">
-									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
 										{{data.widget.button_authenticating | nlbr }}
 									</a>
 								</div>
@@ -161,10 +161,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div style="height: 50px;"></div>
 				<div id="button-bar">
-					<div id="previous-button" onclick="previousStep();">
+					<div id="previous-button" onclick="votingPreviousStep();">
 						Vorige
 					</div>
-					<div id="next-button" onclick="nextStep();">
+					<div id="next-button" onclick="votingNextStep();">
 						Volgende
 					</div>
 				</div>

@@ -30,7 +30,7 @@
 
 	</script>
 
-	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
+	<ul id="ideaList" class="gridder" onclick="ideaListClick(event);">
 		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
 		{% for idea in runningIdeas %}<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
 			<div class="image-container" style="position: relative;">
