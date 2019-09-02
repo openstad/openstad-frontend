@@ -44,9 +44,11 @@
 							<div class="form-info">
 								{{ data.widget.infoTitle if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
 							</div>
-							<input type="text" name="title" value="{{idea.title}}" {% if data.widget.requiredTitle %}required{% endif %}
-								   minlength="{{data.widget.minTitle}}"
-								   maxlength="{{data.widget.maxTitle}}"><br />
+							<input type="text" name="title" value="{{idea.title}}" {% if data.widget.requiredTitle %}required{% endif %}><br />
+              <div id="charsLeftTitle" class="charsLeft">
+                <div class="min">Nog minimaal <span>0</span> tekens</div>
+                <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+              </div>
 							<input type="hidden" id="extraData" name="extraData" value=""><br />
 						</div>
 						<div class="form-group">
@@ -59,11 +61,18 @@
 
 							{% if data.widget.typeSummary === 'text'  %}
 							<input type="text" name="summary" minlength="{{data.widget.minSummary}}" maxlength="{{data.widget.maxSummary}}"  {% if data.widget.requiredSummary %}required{% endif %} value="{{idea.summary}}">
+              <div id="charsLeftSummary" class="charsLeft">
+                <div class="min">Nog minimaal <span>0</span> tekens</div>
+                <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+              </div>
 							{% else %}
 							<textarea name="summary" minlength="{{data.widget.minSummary}}" maxlength="{{data.widget.maxSummary}}"  {% if data.widget.requiredSummary %}required{% endif %}>{{idea.summary}}</textarea>
+              <div id="charsLeftSummary" class="charsLeft">
+                <div class="min">Nog minimaal <span>0</span> tekens</div>
+                <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+              </div>
 							{% endif %}
 
-							<div id="charsLeft">Je hebt nog <span>{{data.widget.maxSummary}}</span> tekens over.</div>
 						</div>
 					</div>
 					<div class="form-group">
@@ -201,13 +210,16 @@
 								/>
 							{% else %}
 								<textarea name="description" id="description-textarea" {% if data.widget.requiredDescription %}required{% endif %}>{{idea.description}}</textarea>
-							{% endif %}
+							  {% endif %}
 
-							</div>
+						</div>
 
-								<input class="idea-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
+						<input class="idea-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
 
-							<div id="charsLeftMain">Nog minimaal <span>{{data.widget.maxDescription}}</span> tekens.</div><br/><br/>
+            <div id="charsLeftDescription" class="charsLeft">
+              <div class="min">Nog minimaal <span>0</span> tekens</div>
+              <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+            </div>
 
 								{% if idea.id %}
 								<input type="hidden" name="id" value="{{idea.id}}" />
@@ -354,20 +366,20 @@
 				</div>
 				{% endif %}
 				<div class="col-sm-4 col-xs-12">
-				<form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
-					<input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
+				  <form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
+					  <input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
 
-					<input type="hidden" name="ideaId" value="{{idea.id}}">
-					<input type="hidden" name="action" value="DELETE">
-					<input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
-				</form>
+					  <input type="hidden" name="ideaId" value="{{idea.id}}">
+					  <input type="hidden" name="action" value="DELETE">
+					  <input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
+				  </form>
 				</div>
 
 
-		<!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
-					<button type="submit" class="modBreak">Moderator reactie</button>
-				</form>
-	!-->
+		    <!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
+					   <button type="submit" class="modBreak">Moderator reactie</button>
+				     </form>
+	           !-->
 			</div>
 
 		</div>
@@ -375,8 +387,16 @@
 
 
 
-	{% endif %}
+	  {% endif %}
 </div>
+<script>
+ var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}') || 10;
+ var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}') || 50;
+ var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}') || 20;
+ var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}') || 140;
+ var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}') || 140;
+ var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}') || 5000;
+</script>
 <script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>

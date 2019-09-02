@@ -150,8 +150,28 @@
   }
 }
 
-#charsLeftMain {
-  margin-top: 5px;
+.charsLeft {
+	color: #9A9A9A;
+	display: none;
+  float: none !important;
+	font-size: 12px;
+  margin-bottom: -24px;
+	
+	&.visible {
+		display: block;
+	}
+	
+	.min, .max {
+	}
+	.ok {
+		color: #9A9A9A;
+	}
+	.error {
+		color: #EC0000;
+	}
+	.visible {
+		display: block;
+	}
 }
 
 /*
