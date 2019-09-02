@@ -1,6 +1,7 @@
 const ExpressBrute = require('express-brute');
 const createError = require('http-errors')
 const moment = require('moment-timezone');
+const config = require('config');
 
 const failCallback = function (req, res, next, nextValidRequestDate) {
   next(createError(429, "Te veel verzoeken, probeer het weer " + moment(nextValidRequestDate).fromNow()));
@@ -25,7 +26,7 @@ let postBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 });
 
 exports.postMiddleware = function(req, res, next) {
-	if (req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1) {
+	if ((config.ignoreBruteForce && config.ignoreBruteForce.indexOf(req.ip) != -1) || ( req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1 )) {
 		next();
 	} else {
 		postBruteForce.prevent(req, res, next);
@@ -45,7 +46,7 @@ let globalBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 });
 
 exports.globalMiddleware = function(req, res, next) {
-	if (req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1) {
+	if ((config.ignoreBruteForce && config.ignoreBruteForce.indexOf(req.ip) != -1) || ( req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1 )) {
 		next();
 	} else {
 		globalBruteForce.prevent(req, res, next);
