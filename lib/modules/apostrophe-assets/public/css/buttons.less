@@ -14,17 +14,15 @@
   text-align: center;
   color: #ffffff;
   position: inline;
-  padding: 0px 11px;
+  padding: 0px 15px;
   text-decoration: none;
   display: inline-block;
 
-  &:active, &:hover:active, :focus, .focus, .active, :disabled, .disabled {
-    background-color: #004699 !important;
-  }
 
   &:hover {
-    background-color: #b90000 !important;
-    border-color: #b90000 !important;
+    background-color: #004699 !important;
+    border-color: #004699 !important;
+    text-decoration: none;
   }
 
   > img {
@@ -44,6 +42,14 @@
   &--grey {
     background-color: #bebebe !important;
     border-color: #bebebe !important;
+    color: white !important;
+
+    &:active, &:hover:active, &:focus, &.focus, &.active, &:disabled, &.disabled {
+      background-color: #bebebe !important;
+
+      text-decoration: none;
+      color: white !important;
+    }
   }
 
   &--white {
@@ -94,6 +100,8 @@
   line-height: 46px;
   height: 47px;
   padding: 0 11px;
+
+
   //padding-top: 0;
   //padding-right: 15px;
 

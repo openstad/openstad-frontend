@@ -1,7 +1,8 @@
 {% set idea = data.idea %}
+{% set isOwner = data.openstadUser.id === idea.userId %}
+{% set isOwnerOrAdmin =(isOwner or data.isAdmin) %}
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
-{% import 'includes/modbreak.html' as modbreak %}
 
 <div class="pageContent idea">
 	<div id="title">
@@ -34,16 +35,40 @@
 
 					{% if (idea.status === 'OPEN') %}
 						<div class="vote">
-							<form method="POST" action="/vote" class="idea-vote-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}">
-								<input type="hidden" name="ideaId" value={{idea.id}} />
-								<input type="hidden" name="_csrf" value="{{csrfToken}}">
+							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
+								<input type="hidden" name="ideaId" value="{{idea.id}}" />
+								<input type="hidden" name="opinion" value="yes"/>
+
 								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
-								<button class="{{'selected' if idea.userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+								<button
+									class="
+										{{'selected' if idea.userVote.opinion == 'yes'}}
+										role-required-{{data.global.roleToLike}}
+									"
+									data-modal-text="Log in om een plan te liken."
+									data-return-to="/like?ideaId={{idea.id}}&opinion=yes"
+									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 									voor
 								</button>
-								<div style="clear: both;"></div>
+							</form>
+
+							<div style="clear: both;"></div>
+							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
+								<input type="hidden" name="ideaId" value="{{idea.id}}" />
+								<input type="hidden" name="opinion" value="no"/>
+
 								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-								<button class="{{'selected' if idea.userVote.opinion == 'no'}}" type="submit" name="opinion" value="no" data-count="{{idea.no}}">
+								<button
+									class="
+										{{'selected' if idea.userVote.opinion == 'no'}}
+										role-required-{{data.global.roleToLike}}
+									"
+									data-return-to="/like?ideaId={{idea.id}}&opinion=no"
+									type="submit"
+									name="opinion"
+									value="no"
+									data-count="{{idea.no}}"
+								>
 									tegen
 								</button>
 								<div style="clear: both;"></div>
@@ -99,7 +124,7 @@
 							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.fullUrll}}">Facebook</a></li>
 							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.fullUrl}}">Twitter</a></li>
 							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.fullUrl | urlencode}}">Email</a></li>
-							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.fullUrl}}">WhatsApp</a></li>
+							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.fullUrl | urlencode}}">WhatsApp</a></li>
 						</ul>
 					</div>
 
@@ -109,18 +134,16 @@
 		</div>
 	</div>
 </div>
-<div class="pageContent idea">
+<div class="pageContent idea clearfix">
 	<div class="primary">
 		<h1>{{idea.title}}</h1>
 
 		<div id="author">
-
-				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
-
+			<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
 			{{idea.startDate | date('LL')}}
 		</div>
 
-		{{ modBreak.render(idea) if idea.modBreak and not (idea.status === 'OPEN') }}
+		{% include 'includes/modbreak.html' %}
 
 		<div class="userContent">
 			<p class="summary">
@@ -137,7 +160,6 @@
 			</div>
 		{% endif %}
 
-		{{ modBreak.render(idea) if idea.modBreak and not (idea.status === 'OPEN') }}
 	</div> <!-- #primary -->
 
 	<div class="secondary">
@@ -147,90 +169,16 @@
 		<input type="submit" value="Mail updates">
 		</form> #}
 
-		{#
-		{% 'includes/crud/edit-delete.html' %}
-		{% 'includes/crud/admin.html' %}
-		#}
+		{% if isOwnerOrAdmin%}
+		{% include 'includes/crud/edit-delete.html' %}
+		{% endif %}
 
+		{% if data.isAdmin %}
+		{% include 'includes/crud/admin.html' %}
+		{% endif %}
 	</div>
 </div>
-
-{#
-<script src="/js/promise.js"></script>
-<script src="/js/fetch.js"></script>
-<script>
- // Helper for sending non-GET HTTP requests
- // ----------------------------------------
- // Used in progressive enhancement scripts to replace a 'old-school'
- // request with a `fetch`/`XMLHTTPRequest` action.
- (function( global ) {
-	 var csrfToken = '{{csrfToken}}';
-
-	 // Wrapper for fetch to POST/PUT data
-	 global.send = function( method, url, data ) {
-		 data._csrf = csrfToken;
-
-		 return fetch(url, {
-			 method      : method,
-			 headers     : {
-				 'Content-Type' : 'application/json',
-				 'Accept'       : 'application/json'
-			 },
-			 credentials : 'same-origin',
-			 body        : data ? JSON.stringify(data): null
-		 })
-			 .then(handleResponse)
-			 .then(function( data ) {
-				 if( 'csrfToken' in data ) {
-					 csrfToken = data.csrfToken;
-					 // HACK?: Update all tokens in static forms as well.
-						 $('form input[type="hidden"][name="_csrf"]').forEach(function( input ) {
-							 input.value = csrfToken;
-						 });
-				 }
-				 return data;
-			 });
-	 }
-
-	 function handleResponse( response ) {
-		 var json = response.json();
-		 if( response.status >= 200 && response.status < 300 ) {
-			 return json;
-		 } else {
-			 return json.then(function( data ) {throw data});
-		 }
-	 }
- })(this);
-</script>
-
-
-<script>
- // First image in content
- // ----------------------
- // If the content starts with an image, remove it from the content
- // since it's already visible as poster image.
- var figure = document.querySelector('.userContent figure:first-child');
- if( figure ) {
-	 var parent = figure.parentNode;
-	 if( parent.firstChild === figure ) {
-		 parent.removeChild(figure);
-	 }
- }
-</script>
-
-<script>
- // Delete idea confirmation
- // ------------------------
- var form = document.getElementById('deleteIdea');
- if( form ) {
-	 form.addEventListener('submit', function( event ) {
-		 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
-			         'Dit kan niet ongedaan gemaakt worden.\n\n'+
-			         'Weet je het zeker?';
-		 if( !confirm(msg) ) {
-			 event.preventDefault();
-		 }
-	 });
- }
-</script>
-#}
+{% if data.isAdmin %}
+{% include 'includes/modal-modbreak.html' %}
+{% include 'includes/modal-vote-overview.html' %}
+{% endif %}

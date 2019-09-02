@@ -1,5 +1,5 @@
-{% for idea in data.ideas %}<div
-  class="tile idea-item {{idea.status}} {{'USER' if user.id == idea.userId}}"
+<div class="tile-list">{% for idea in data.ideas %}<div
+  class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
   {% if idea.extraData.images[0] %}
   data-poster-url="{{data.widget.formatImageUrl(idea.extraData.images[0], 600, 360, true)}}"
   {% endif %}
@@ -45,4 +45,4 @@
 </div>{%
       else %}
 <i>Wees de eerste met een goed plan voor jouw buurt!</i>
-{% endfor %}
+{% endfor %}</div>

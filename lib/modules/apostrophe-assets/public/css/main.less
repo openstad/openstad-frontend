@@ -8,12 +8,12 @@
 html {
   position: relative;
   min-height: 100%;
-  background: #e5e5e5;
+  background: #e6e6e6;
 }
 
 body {
   margin: 0 auto !important;
-  max-width: 1440px;
+  max-width: 1400px;
   padding: 0;
   font-family: "Avenir_Custom", Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -26,12 +26,11 @@ body {
     box-sizing: border-box;
     margin: 0 auto;
     width: 100%;
-    max-width: 1440px;
     overflow: hidden;
 }
 
 .container {
-  max-width: 970px;
+  max-width: 960px;
 
   @media screen and (max-width: @screen-sm) {
     /*padding-left: 18px;
@@ -72,6 +71,10 @@ a {
 	&:visited {
 		color: @amsterdam-navyblue;
 	}
+}
+
+.row img {
+  max-width: 100%;
 }
 
 @import "helpers";

@@ -39,3 +39,76 @@
 
   }
 }
+
+.section.margin-up {
+    margin-top: -70px;
+}
+
+.section {
+
+  .howDoesItWorkButton {
+    outline: 0;
+    background: #dfdfdf;
+    color: black;
+    padding: 15px 20px;
+    text-align: center;
+  }
+
+  &.mobileonly {
+    .howDoesItWorkButton {
+      display: none;
+    }
+
+    .row {
+      display: block!important;
+    }
+
+    @media only screen and (max-width: 767px) {
+      .howDoesItWorkButton {
+        display: block;
+      }
+
+      &.closed {
+        .row {
+          display: none!important
+        }
+        .arrow {
+          transform: rotate(0deg);
+        }
+      }
+
+      &.open {
+        .row {
+          display: block!important;
+        }
+        .arrow {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  &.closed {
+
+    .container {
+      display: none
+    }
+
+    .arrow {
+      transform: rotate(0deg);
+    }
+
+  }
+
+  &.open {
+
+    .row {
+      display: block
+    }
+
+    .arrow {
+      transform: rotate(180deg);
+    }
+
+  }
+}

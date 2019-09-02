@@ -139,3 +139,41 @@
 
 
 </div>
+
+
+
+{#
+<script src="/js/promise.js"></script>
+<script src="/js/fetch.js"></script>
+
+
+<script>
+ // First image in content
+ // ----------------------
+ // If the content starts with an image, remove it from the content
+ // since it's already visible as poster image.
+ var figure = document.querySelector('.userContent figure:first-child');
+ if( figure ) {
+	 var parent = figure.parentNode;
+	 if( parent.firstChild === figure ) {
+		 parent.removeChild(figure);
+	 }
+ }
+</script>
+
+<script>
+ // Delete idea confirmation
+ // ------------------------
+ var form = document.getElementById('deleteIdea');
+ if( form ) {
+	 form.addEventListener('submit', function( event ) {
+		 var msg = 'Let op! Je staat op het punt je voorstel te verwijderen. '+
+			         'Dit kan niet ongedaan gemaakt worden.\n\n'+
+			         'Weet je het zeker?';
+		 if( !confirm(msg) ) {
+			 event.preventDefault();
+		 }
+	 });
+ }
+</script>
+#}

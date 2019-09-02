@@ -2,6 +2,21 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<span class="speechBubble" id="{{data.widget.containerId}}">
-	{{data.widget.title}}
+<span
+  class="speech-bubble"
+  id="{{data.widget.containerId}}"
+  style="
+    {% if data.widget.borderColor %}border-color: {{data.widget.borderColor}}; {% endif %}
+    {% if data.widget.backgroundColor %}background-color: {{data.widget.backgroundColor}}; {% endif %}
+  "
+>
+  {{
+    apos.area(data.widget, 'area1', {
+      widgets: data.widget.contentWidgets,
+      blockLevelControls: true
+    })
+  }}
+  <span class="bubble-triangle-icon">
+  {% include 'triangle-svg.html' %}
+  </span>
 </span>

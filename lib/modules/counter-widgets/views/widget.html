@@ -4,9 +4,22 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<a id="{{data.widget.containerId}}"  href="{{data.widget.url}}"  class="margin-bottom-xs scroll-link block no-decoration">
+
+
+{% if data.widget.url %}
+<a href="{{data.widget.url}}"
+{% else %}
+<span
+{% endif %}
+  id="{{data.widget.containerId}}"
+  class="margin-bottom-xs scroll-link block no-decoration"
+>
 	<span class="box-blue block">
 		{{numberPlate(data.widget.count)}}
     {{data.widget.label}}
 	</span>
+{% if data.widget.url %}
 </a>
+{% else %}
+</span>
+{% endif %}

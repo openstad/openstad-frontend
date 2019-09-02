@@ -5,7 +5,11 @@
 {% set contentClass = 'ideasList' %}
 {% set activeMenu   = 'budget' %}
 
-<div id="westbegroot-voting" class="begroot-container">
+<div class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+	{{ __('Loading...') }}
+</div>
+
+<div id="westbegroot-voting" class="begroot-container opacity-0-for-load">
 
 	{{ budgeting.showBudgetWindow(data) }}
 
@@ -25,11 +29,13 @@
 
 	</script>
 
+	<div id="begroot-content-area">
 	{{
     apos.area(data.widget, 'contentArea', {
       widgets: apos.settings.getOption('contentWidgets')
     })
   }}
+	</div>
 
 	<br />
 
@@ -58,9 +64,6 @@
 						<option default {{'selected' if data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
 						<option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
 						<option {{'selected' if data.query.sort == 'random'}} value="random">Willekeurig</option>
-
-
-						<!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
 					</select>
 				</div>
 			</div>
@@ -69,6 +72,6 @@
 
 		<br />
 
-		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin, data) }}
+		{{ ideasList.showIdeasList(data.widget.acceptedIdeas, fullHost, user, userHasVoted, isAdmin, data) }}
 	</div>
 </div>

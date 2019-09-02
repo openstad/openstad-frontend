@@ -1,0 +1,20 @@
+{% if not data.widget.hidden %}
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+<div
+  id="{{data.widget._id}}"
+  class="info-bar info-bar-green"
+  style="
+    {% if data.widget.backgroundColor %} background-color: {{data.widget.backgroundColor}}; {% endif %}
+  "
+>
+    <span class="info-block-message">
+      {{data.widget.message}}
+    </span>
+    {% if data.widget.removable %}
+    <div class="close-button"></div>
+    {% endif %}
+</div>
+{% endif %}

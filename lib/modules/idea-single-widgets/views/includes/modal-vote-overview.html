@@ -1,0 +1,55 @@
+<div id="overview-votes" class="content-modal content-modal--s">
+  <div class="content-modal-content">
+    <div class="content-modal-header">
+      <h3 class="content-modal-title">
+        Stemoverzicht
+      </h3>
+    </div>
+    <div class="content-modal-body">
+      <a href="/plan/{{idea.id}}/votes?download" class="pull-right outlined">Download als CSV</a>
+
+      <table id="votes" class="sortable table">
+        <thead>
+          <tr>
+            <th>Vote ID</th>
+            <th>User ID</th>
+            <th>Mening</th>
+            {% if showConfirmed %}
+              <th>Bevestigd</th>
+            {% endif%}
+            <th>Postcode</th>
+            {% if showEmail %}
+              <th>Email</th>
+            {% endif%}
+            <th class="sorttable_alpha">IP</th>
+            <th>Datum</th>
+            <th>OK</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for vote in idea.votes %}
+            <tr class="{{'rejected' if vote.checked === false}}">
+              <td>{{vote.id}}</td>
+              <td>{{vote.user.id}}</td>
+              <td>{{vote.opinion}}</td>
+              {% if showConfirmed %}
+                <td>{{vote.confirmed}}</td>
+              {% endif%}
+              <td>{{vote.user.zipCode}}</td>
+              {% if showEmail %}
+                <td>{{vote.user.email}}</td>
+              {% endif%}
+              <td>{{vote.ip}}</td>
+              <td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
+              <td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}"></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a href="#closed" class="content-modal-close" >
+        <img src="{{appUrl}}/img/close.svg" width="13" height="13"/>
+      </a>
+    </div>
+  </div>
+</div>

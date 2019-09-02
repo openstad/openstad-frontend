@@ -3,31 +3,45 @@
 </style>
 
 <div
-  id="{{data.widget.containerId}}"
-  class="section {{data.widget.htmlClass}}"
+  id="{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}"
+  class="section
+  {% if data.widget.sectionToggle %}
+  {% if data.widget.sectionOpen %}open{% else %}closed{% endif %}
+  {% endif %}
+  {% if data.widget.mobileToggle %}
+  mobileonly
+  {% endif %}
+  {{data.widget.htmlClass}}
+  {% if data.widget.marginType === 'up' %} margin-up {% endif %}
+"
   style="
-    {% if data.widget.backgroundColor %} background: {{data.widget.backgroundColor}}; {% endif %}
+  {% if data.widget.backgroundImage %}
+  background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  {% endif %}
+    {% if data.widget.backgroundColor %} background-color: {{data.widget.backgroundColor}}; {% endif %}
   "
 >
+
+
+  {% if data.widget.sectionToggle %}
+  <a class="howDoesItWorkButton" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()" style="outline: 0;">
+    {{data.widget.toggleTitle}}
+    <img class="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
+  </a>
+  {% endif %}
+
 {% if data.widget.displayType === 'full-screen' %}
 {% include 'types/full-screen.html'%}
 {% elseif data.widget.displayType === 'full-width' %}
 {% include 'types/full-width.html'%}
 {% else %}
-  <div class="container"
 
-    >
-    {% if data.widget.backgroundImage %}
-    <div class="section-bg-image"
-      style="
-        background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        "
-    ></div>
-    {% endif %}
+  <div class="container">
+
     {% if data.widget.displayType %}
     {% include 'types/' + data.widget.displayType + '.html'%}
     {% endif %}

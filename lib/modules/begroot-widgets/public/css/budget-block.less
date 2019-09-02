@@ -485,12 +485,12 @@
 
 			@media @phone {
 				font-size: 14px;
-		    top: 42px;
+		    top: 40px;
 		    left: 15px;
 		    padding-left: 16px;
 
 				&:before {
-					top: 2px;
+					top: 5px;
 					width: 7px;
 					height: 12px;
 					background-size: 7px 12px;
@@ -606,15 +606,24 @@
 			content: attr(data-error-content);
 		}
 	}
+}
 
-	.error-block {
-		width: 100%;
-		margin-top: 30px;
-		padding: 9px 15px;
-		font-weight: normal;
-		color: @amsterdam-red;
-		border: 2px solid @amsterdam-red;
-	}
+.error-block {
+	width: 100%;
+	margin-top: 30px;
+	padding: 9px 15px;
+	font-weight: normal;
+	color: @amsterdam-red;
+	border: 2px solid @amsterdam-red;
+}
+
+.success-block {
+	width: 100%;
+	margin-top: 30px;
+	padding: 9px 15px;
+	font-weight: normal;
+	color: green;
+	border: 2px solid green;
 }
 
 #budget-block .idea-image-mask {

@@ -1,9 +1,7 @@
 {% extends "layout.html" %}
 
 {% block main %}
-
-
-  {{ apos.area(data.page, 'body', {
+{{ apos.area(data.page, 'body', {
     widgets: {
       'section': {
         addLabel: 'Add a section',
@@ -24,5 +22,4 @@
     }
   })
 }}
-
 {% endblock %}

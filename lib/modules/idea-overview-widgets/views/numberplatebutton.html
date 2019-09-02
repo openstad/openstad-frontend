@@ -2,6 +2,7 @@
 	{% if not value %}
 	{% set value = 0 %}
 	{% endif %}
+
 	{% if href %}
 		<a href="/plannen" class="{{class}}">
 	{% else %}
@@ -13,14 +14,13 @@
 			<div id="{{id}}-number-plate-0000" class="number-plate"> 0 </div>
 			<div id="{{id}}-number-plate-000" class="number-plate"> 0 </div>
 			<div id="{{id}}-number-plate-00" class="number-plate"> 0 </div>
-			<div id="{{id}}-number-plate-0" class="number-plate"> 0 </div>
+			<div id="{{id}}-number-plate-0" class="number-plate"> 4 </div>
 		</div><div class="{{id}}-caption">
 			{{caption}}
 		</div>
 	</div>
 	<script>
-
-	 var value = {{value}};
+	 var value = parseInt('{{value}}', 10);
 
 	 if (value > 10000) {
 		 var value00000 = parseInt(value/10000) || 0
@@ -40,7 +40,8 @@
 
 	 var value000 = parseInt(value/100) || 0;
 	 var value00  = parseInt(( value - 100 * value000 )/10) || 0;
-	 var value0   = value0 === 0 ? value0 : value - value000 * 100 - value00 * 10;
+	 var value0   = value === 0 ? 0 : value - value000 * 100 - value00 * 10;
+
 	 document.getElementById('{{id}}-number-plate-000').innerHTML = value000;
 	 document.getElementById('{{id}}-number-plate-00').innerHTML = value00;
 	 document.getElementById('{{id}}-number-plate-0').innerHTML = value0;

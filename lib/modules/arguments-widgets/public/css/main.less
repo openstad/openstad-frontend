@@ -33,8 +33,12 @@
 .reaction {
 	position: relative;
 
+  label.error {
+    display: block;
+  }
+
 	p {
-		margin-top: 0.5em;
+		margin: 20px 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -58,30 +62,55 @@
 		form {
 			float: right;
 			line-height: 0;
+    }
 
-			input.delete,
-			input.edit {
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: 60%;
-				cursor: pointer;
-				font-size: 0;
-				height: 20px;
-				width: 20px;
-			}
-
-			input.edit {
-				background-color: #333;
-				background-image: url("/img/edit_white.svg");
-				margin-left: 4px;
-			}
-
-			input.delete {
-				background-color: #EC0000;
-				background-image: url("/img/delete_white.svg");
-			}
+		.delete,
+		.edit {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: 60%;
+			cursor: pointer;
+			font-size: 0;
+			height: 20px;
+			width: 20px;
+      border: none;
+      display: block;
+      float: right;
 		}
+
+		.edit {
+			background-color: #333;
+			background-image: url("/img/edit_white.svg");
+			margin-left: 4px;
+		}
+
+		.delete {
+			background-color: #EC0000;
+			background-image: url("/img/delete_white.svg");
+		}
+
 	}
+
+  .argument-edit-form {
+    display: none;
+    margin: 17px 0;
+  }
+
+  &.edit-mode {
+    .argument-edit-form {
+      display: block;
+    }
+
+    .argument-content {
+      display: none;
+    }
+  }
+}
+
+.reaction {
+  border-left: 3px solid #868686;
+  padding: 9px 0 3px 12px;
+  margin: 20px 0;
 }
 // Argument
 // --------
@@ -158,8 +187,10 @@ form.newArgument {
   }
 
 	form.vote {
-    margin: 20px 0 10px;
-    display: inline-block;
+    margin: 0;
+    display: block;
+    float: left;
+    padding: 5px 0;
 
 		button {
 			cursor: pointer;
@@ -213,6 +244,7 @@ form + .argument {
 // -------------
 form.argument-form {
 	.reaction();
+  border: 0;
 
 	textarea {
 		width: 100%;
@@ -234,30 +266,10 @@ form.argument-form {
 		}
 	}
 
-	/*input[type="submit"] {
-		background-color: transparent;
-    background-image: url(/img/arrow_right_whiteonred.svg);
-    background-position: center right;
-    background-repeat: no-repeat;
-    background-size: 32px;
-    border: 0;
-    border-radius: 0;
-    color: #000;
-    cursor: pointer;
-    font-size: inherit;
-    font-weight: bold;
-    line-height: 32px;
-    padding-right: 40px;
-    float: right;
-    line-height: 20px;
-    padding-right: 39px;
-    font-size: 16px;
-    clear: right;
-    height: 36px;
-    display: block;
-		margin-top: 15px;
-	}
-  */
+}
+
+.reaction-container {
+  padding-left: 30px;
 }
 
 .reply-form {
@@ -280,10 +292,6 @@ form.argument-form {
 	color: #000;
 	margin-bottom: 20px;
 	padding: 20px 15px 10px;
-
-	p {
-		margin-bottom: 0;
-	}
 }
 
 .argument + .reaction {
