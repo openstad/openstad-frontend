@@ -35,10 +35,27 @@
     	 var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
 
     	</script>
-    	<ul id="ideaList" class="gridder" onclick="ideaListClick(event);">
+    	<ul
+        id="ideaList"
+        class="ideas-list gridder"
+        onclick="ideaListClick(event);"
+        {% if data.widget.defaultSorting %}
+        data-default-sort="{{data.widget.defaultSorting}}"
+        {% endif %}
+      >
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     		{% for idea in data.ideas %}
-        <li id="idea-{{idea.id}}" class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}  {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
+        <li
+          id="idea-{{idea.id}}"
+          class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
+          data-griddercontent="#ideaContent{{idea.id}}"
+          onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
+          onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
+          data-createdtime="{{idea.createdTime}}"
+          data-likes="{{idea.yes}}"
+          data-budget="{{idea.budget}}"
+          data-ranking="{{idea.extraData.ranking}}"
+        >
     			<div class="image-container" style="position: relative;">
     				<div class="image">
     					<div class="image-upload"></div>
@@ -129,7 +146,7 @@
 
                   {% include 'modbreak.html' %}
 
-          				{% if isOwnerOrAdmin %}
+          				{% if data.isAdmin %}
           					<div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
           				{% endif %}
 

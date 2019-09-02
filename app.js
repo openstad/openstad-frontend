@@ -83,6 +83,12 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
+/*
+app.get('/login', (req, res, next) => {
+  res.json({ message: 'Ok'});
+});
+*/
+
 /**
  * Info url for debugging the apostrhopheCMS server
 
@@ -482,6 +488,9 @@ function run(id, siteData, callback) {
         scripts: [
           { name: 'cookies' },
           { name: 'site' },
+          { name: 'shuffle.min' },
+          { name: 'sort' },
+
           { name: 'jquery.validate.min' },
           { name: 'jquery.validate.nl' },
         ],
