@@ -83,9 +83,11 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
+/*
 app.get('/login', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
+*/
 
 /**
  * Info url for debugging the apostrhopheCMS server
