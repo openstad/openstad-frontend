@@ -27,12 +27,17 @@
       </select>
       #}
       <select class="default-select ideas-sort-select">
+        {% for selectedSorting in data.widget.selectedSorting %}
+        <option value="{{selectedSorting.value}}">{{selectedSorting.label}}</option>
+        {% endfor %}
+        {#
         <option value="createdtime,desc">Nieuwste eerst</option>
         <option value="createdtime,asc">Oudste eerst</option>
         <option value="random">Willekeurig</option>
         <option value="likes,desc">Meeste likes</option>
         <option value="likes,asc">Minste likes</option>
         <option value="ranking,asc">Ranking</option>
+        #}
       </select>
     </div>
   </div>
