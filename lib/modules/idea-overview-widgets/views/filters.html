@@ -28,7 +28,7 @@
       #}
       <select class="default-select ideas-sort-select">
         {% for selectedSorting in data.widget.selectedSorting %}
-        <option value="{{selectedSorting.value}}">{{selectedSorting.label}}</option>
+        <option value="{{selectedSorting.value}}">{{ __(selectedSorting.label) }}</option>
         {% endfor %}
         {#
         <option value="createdtime,desc">Nieuwste eerst</option>
