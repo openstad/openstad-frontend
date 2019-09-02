@@ -20,9 +20,19 @@
   </div>
   <div class="col-xs-12 col-sm-4">
     <div class="sort">
+      {#
       <select class="default-select">
         <option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
         <option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
+      </select>
+      #}
+      <select class="default-select ideas-sort-select">
+        <option value="createdtime,desc">Nieuwste eerst</option>
+        <option value="createdtime,asc">Oudste eerst</option>
+        <option value="random">Willekeurig</option>
+        <option value="likes,desc">Meeste likes</option>
+        <option value="likes,asc">Minste likes</option>
+        <option value="ranking,asc">Ranking</option>
       </select>
     </div>
   </div>

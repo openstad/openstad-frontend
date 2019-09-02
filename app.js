@@ -488,6 +488,9 @@ function run(id, siteData, callback) {
         scripts: [
           { name: 'cookies' },
           { name: 'site' },
+          { name: 'shuffle.min' },
+          { name: 'sort' },
+
           { name: 'jquery.validate.min' },
           { name: 'jquery.validate.nl' },
         ],
