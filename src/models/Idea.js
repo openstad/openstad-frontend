@@ -13,12 +13,6 @@ const merge = require('merge');
 
 var argVoteThreshold =  config.ideas && config.ideas.argumentVoteThreshold;
 
-// todo: description min/max werkt via de config; dat moet de rest dus ook
-var titleMinLength = config.ideas && config.ideas.titleMinLength || 10;
-var titleMaxLength = config.ideas && config.ideas.titleMaxLength || 50;
-var summaryMinLength = config.ideas && config.ideas.summaryMinLength || 20;
-var summaryMaxLength = config.ideas && config.ideas.summaryMaxLength || 140;
-
 module.exports = function( db, sequelize, DataTypes ) {
 
 	var Idea = sequelize.define('idea', {
@@ -114,9 +108,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
 			validate     : {
-				len: {
-					args : [titleMinLength,titleMaxLength],
-					msg  : `Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens lang zijn`
+				// len: {
+				//   args : [titleMinLength,titleMaxLength],
+				//   msg  : `Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens lang zijn`
+				// }
+				textLength(value) {
+				 	let len = sanitize.title(value.trim()).length;
+					let titleMinLength = ( this.config && this.config.ideas && this.config.ideas.titleMinLength || 140 )
+					let titleMaxLength = ( this.config && this.config.ideas && this.config.ideas.titleMaxength || 5000 )
+					if (len < titleMinLength || len > titleMaxLength)
+					throw new Error(`Beschrijving moet tussen ${titleMinLength} en ${titleMaxLength} tekens zijn`);
 				}
 			},
 			set          : function( text ) {
@@ -150,9 +151,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
 			validate     : {
-				len: {
-					args : [summaryMinLength,summaryMaxLength],
-					msg  : `Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`
+				// len: {
+				//   args : [summaryMinLength,summaryMaxLength],
+				//   msg  : `Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`
+				// }
+				textLength(value) {
+				 	let len = sanitize.summary(value.trim()).length;
+					let summaryMinLength = ( this.config && this.config.ideas && this.config.ideas.summaryMinLength || 140 )
+					let summaryMaxLength = ( this.config && this.config.ideas && this.config.ideas.summaryMaxength || 5000 )
+					if (len < summaryMinLength || len > summaryMaxLength)
+					throw new Error(`Beschrijving moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`);
 				}
 			},
 			set          : function( text ) {

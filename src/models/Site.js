@@ -175,6 +175,30 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'boolean',
 						default: true,
 					},
+          titleMinLength: {
+						type: 'int',
+						default: 10,
+          },
+          titleMaxLength: {
+						type: 'int',
+						default: 50,
+          },
+          summaryMinLength: {
+						type: 'int',
+						default: 20,
+          },
+          summaryMaxLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMinLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMaxLength: {
+						type: 'int',
+						default: 5000,
+          },
 					minimumYesVotes: {
 						type: 'int',
 						default: 100,
