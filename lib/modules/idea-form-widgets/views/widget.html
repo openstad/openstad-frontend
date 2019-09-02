@@ -221,10 +221,10 @@
               <div class="max">Je hebt nog <span>0</span> tekens over.</div>
             </div>
 
-								{% if idea.id %}
-								<input type="hidden" name="id" value="{{idea.id}}" />
-								<input type="hidden" name="_method" value="PUT" />
-								{% endif %}
+						{% if idea.id %}
+						<input type="hidden" name="id" value="{{idea.id}}" />
+						<input type="hidden" name="_method" value="PUT" />
+						{% endif %}
 						</div>
 					{% if data.widget.displayLocation %}
 					<div class="form-group">
@@ -258,19 +258,23 @@
 						{% endif %}
 					</div>
 					{% if data.widget.typeEstimate === 'textarea'  %}
-					<textarea id="estimate_input" name="estimate" {% if data.widget.requiredEstimate %}required{% endif %} >
+					<textarea id="estimate_input" class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}" name="estimate" {% if data.widget.requiredEstimate %}required{% endif %} >
 						{{idea.extraData.estimate}}
 					</textarea>
 					{% else %}
 
 					<input type="text" id="estimate_input" name="estimate"
+							 class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}"
 						   {% if idea.extraData.estimate %}
 						   value="{{idea.extraData.estimate}}"
 						   {% endif %}
 							 {% if data.widget.requiredEstimate %}required{% endif %}
 					>
 					{% endif %}
-
+					<div id="charsLeftEstimate" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
 				</div>
 				{% endif %}
 
@@ -287,10 +291,14 @@
 					</div>
 
 					{% if data.widget.typeRole === 'text'  %}
-					<input id="role_input" name="role" type="text" value="{{idea.extraData.role}}" {% if data.widget.requiredRole %}required{% endif %} />
+					<input id="role_input" class="chars-counter" minlength="{{data.widget.minRole if data.widget.minRole else 20 }}" maxlength="{{data.widget.maxRole  if data.widget.maxRole else 200}}" name="role" type="text" value="{{idea.extraData.role}}" {% if data.widget.requiredRole %}required{% endif %} />
 					{% else %}
-					<textarea id="role_input" name="role" {% if data.widget.requiredRole %}required{% endif %}>{{idea.extraData.role}}</textarea>
+					<textarea id="role_input" class="chars-counter" minlength="{{data.widget.minRole if data.widget.minRole else 20}}" maxlength="{{data.widget.maxRole if data.widget.maxRole else 200}}" name="role" {% if data.widget.requiredRole %}required{% endif %}>{{idea.extraData.role}}</textarea>
 					{% endif %}
+					<div id="charsLeftRole" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
 				</div>
 				{% endif %}
 
@@ -303,7 +311,11 @@
 						<div class="form-info" style="height: auto;">
 							{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' | safe }}
 						</div>
-						<textarea name="advice"  minlength="" maxlength="">{{idea.extraData.advice}}</textarea>
+						<textarea name="advice" class="chars-counter" minlength="{{data.widget.minAdvice if data.widget.minAdvice else 20}}" maxlength="{{data.widget.maxAdvice if data.widget.maxAdvice else 200}}">{{idea.extraData.advice}}</textarea>
+						<div id="charsLeftAdvice" class="charsLeft">
+							<div class="min">Nog minimaal <span>0</span> tekens</div>
+							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+						</div>
 					</div>
 				</div>
 				{% endif %}
@@ -318,7 +330,11 @@
 						Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.
 						{% endif %}
 					</div>
-					<input type="text" id="phone_input" name="phone" value="{{idea.extraData.phone}}" {% if data.widget.requiredPhone %}required{% endif %}>
+					<input type="text" id="phone_input" class="chars-counter" minlength="{{data.widget.minPhone if data.widget.minPhone else 3}}" maxlength="{{data.widget.maxPhone if data.widget.maxPhone else 20}}" name="phone" value="{{idea.extraData.phone}}" {% if data.widget.requiredPhone %}required{% endif %}>
+					<div id="charsLeftPhone" class="charsLeft">
+						<div class="min">Nog minimaal <span>0</span> tekens</div>
+						<div class="max">Je hebt nog <span>0</span> tekens over.</div>
+					</div>
 				</div>
 				{% endif %}
 
@@ -390,12 +406,12 @@
 	  {% endif %}
 </div>
 <script>
- var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}') || 10;
- var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}') || 50;
- var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}') || 20;
- var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}') || 140;
- var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}') || 140;
- var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}') || 5000;
+	var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}') || 10;
+  var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}') || 50;
+  var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}') || 20;
+  var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}') || 140;
+  var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}') || 140;
+  var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}') || 5000;
 </script>
 <script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>

@@ -6,7 +6,11 @@
 {# list of ideas #}
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
 	{% for idea in runningIdeas %}
-	<li id="idea-{{idea.id}}" class="gridder-list" data-griddercontent="#idea-content-{{idea.id}}">
+	<li
+		id="idea-{{idea.id}}"
+		class="gridder-list"
+		data-griddercontent="#idea-content-{{idea.id}}"
+	>
 		{% set imageUrl = idea.posterImageUrl if idea.posterImageUrl else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>

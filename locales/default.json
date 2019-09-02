@@ -606,5 +606,13 @@
 	"Select the default sortin": "Select the default sortin",
 	"Sorting": "Sorting",
 	"Select the default sorting (needs to be checked)": "Select the default sorting (needs to be checked)",
-	"Select sorting available (check one or more)": "Select sorting available (check one or more)"
+	"Select sorting available (check one or more)": "Select sorting available (check one or more)",
+	"Minimum number of characters needed for estimate": "Minimum number of characters needed for estimate",
+	"Maximum number of characters needed for estimate": "Maximum number of characters needed for estimate",
+	"Minimum number of characters needed for role": "Minimum number of characters needed for role",
+	"Maximum number of characters needed for role": "Maximum number of characters needed for role",
+	"Minimum number of characters needed for phone": "Minimum number of characters needed for phone",
+	"Maximum number of characters needed for phone": "Maximum number of characters needed for phone",
+	"Minimum number of characters needed for advice": "Minimum number of characters needed for advice",
+	"Maximum number of characters needed for advice": "Maximum number of characters needed for advice"
 }

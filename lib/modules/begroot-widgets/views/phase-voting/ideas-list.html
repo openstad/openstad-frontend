@@ -1,20 +1,25 @@
 {% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
 <ul id="ideaList" class="gridder" onclick="handleClick(event);">
 	{% for idea in runningIdeas %}
-	<li id="idea-{{idea.id}}" class="gridder-list {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#idea-content-{{idea.id}}">
+	<li
+		id="idea-{{idea.id}}"
+		class="gridder-list {% if loop.index % 3 === 0 %} third-item {% endif %}"
+		data-griddercontent="#idea-content-{{idea.id}}"
+		data-createdtime="{{idea.createdTime}}"
+		data-likes="{{idea.yes}}"
+		data-budget="{{idea.budget}}"
+		data-ranking="{{idea.extraData.ranking}}"
+	>
 		{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
 		</div>
-
 		<div class="info">
 			<div class="inner">
 				<h3 class="title">{{idea.title}}</h3>
 				{% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
-					<span class="thema">{{idea.extraData.theme}}</span>
-					|
-					<span class="gebied">{{idea.extraData.area}}</span>
+					<span class="thema">{{idea.extraData.theme}}</span> | <span class="gebied">{{idea.extraData.area}}</span>
 				</div>
 				{% endif %}
 			</div>
@@ -25,7 +30,6 @@
 					<div class="budget">{{idea.budget}}</div> {# formatted in js #}
 				</div>
 				{% endif %}
-
 				<div class="col-xs-6">
 					<div class="button-add-idea-to-budget btn-primary stretch"></div>
 				</div>
@@ -43,7 +47,6 @@
 						<h3 class="grider-title">{{idea.title}}</h3>
 					</div>
 					<div id="image-location-toggable-{{idea.id}}" class="image-location-toggable">
-
 						<div class="idea-image-container">
 							{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
@@ -51,7 +54,6 @@
 							</div>
 							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>
-
 						{% if idea.location %}
 						<div class="location-image-container">
 							<div class="location-image-mask">
@@ -62,9 +64,7 @@
 							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>
 						{% endif %}
-
 					</div>
-
 					<div class="visible-xs">
 						<br />
 						<div class="intro">
@@ -92,7 +92,6 @@
 						</table>
 					</div>
 					<br />
-
 					{% if idea.extraData %}
 					<table class="thema-en-gebied">
 						<tr class="thema">
@@ -104,7 +103,6 @@
 					</table>
 					{% endif %}
 					<br />
-
 					{% if data.widget.originalIdeaUrl %}
 					<div class="margin-hor-10">
 						<a href="{{data.widget.originalIdeaUrl}}/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
