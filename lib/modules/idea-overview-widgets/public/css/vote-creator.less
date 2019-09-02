@@ -413,10 +413,11 @@
 
 	.preview-container {
 		position: relative;
+		margin-top: 25px;
 	}
 
   .preview {
-		margin-top: 25px;
+		margin-top: 0;
 		width: 110px;
 		height: 110px;
 		max-width: 110px;
@@ -434,16 +435,28 @@
 			border: 2px dashed @amsterdam-lightgrey;
 			cursor: pointer;
 
-			.text {
+			.inner-container {
 				margin: 4px;
 				width: calc(100% - 8px);
 				height: calc(100% - 8px);
-				padding: 27px 10px;
+				padding: 0;
 				font-size: 14px;
 				text-align: center;
 				line-height: 20px;
 				color: black;
 				background-color: white;
+				position: relative;
+			}
+
+			.text {
+				position: absolute;
+			  top: 50%;
+			  transform: translateY(-50%);
+				display: block;
+				text-align: center;
+				width: 100%;
+				padding: 10px;
+				box-sizing: border-box;
 			}
 		}
 

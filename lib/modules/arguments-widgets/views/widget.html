@@ -29,7 +29,7 @@
 
     <div class="reaction-container">
     {% for reaction in arg.reactions %}
-      {% set isReactionOwner = arg.userId === data.openstadUser.id %}
+      {% set isReactionOwner = reaction.userId === data.openstadUser.id %}
       {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
       {% set mayDelete = (data.isAdmin or isReactionOwner) %}
 

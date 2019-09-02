@@ -304,8 +304,83 @@ function run(id, siteData, callback) {
         openstadMapPolygons: openstadMapPolygons,
         googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
         siteConfig: siteData,
-        contentWidgets: contentWidgets
+        contentWidgets: {
+            'agenda' : {},
+            'accordeon': {},
+        /*    'apostrophe-images': {
+              fields: {
+                type: 'string',
+                name: 'maxWidth',
+                label: 'Max width'
+              }
+            },*/
+            'arguments' : {},
+            'arguments-form' : {},
+            'section' : {
+              addLabel: 'Columns',
+              controls: {
+                movable: true,
+                removable: true,
+                position: 'bottom-left'
+              },
+            },
+            'slider' : {},
+            'counter' : {
+              addLabel: 'Counter',
+            },
+            'date-bar' : {},
+            'idea-form' : {},
+            'idea-map': {},
+            'idea-overview' : {},
+            'idea-single' : {},
+            'header' : {},
+            'image' : {},
+            'info-bar' : {},
+            'link': {},
+            'list' : {},
+            'gebiedsontwikkeling-tool': {
+              addLabel: 'Map for area development',
+            },
+            'begroot': {
+              addLabel: 'Participatory budgetting',
+            },
+            'main-image' : {},
+            'apostrophe-rich-text': {
+              toolbar: [ 'Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', ],
+              styles: [
+                { name: 'Paragraph', element: 'p' }
+              ],
+              controls: {
+                movable: true,
+                removable: true,
+                position: 'top-left'
+              }
+            },
+
+            'speech-bubble' : {
+              controls: {
+                position: 'top-left'
+              },
+            },
+            'title' : {},
+      //      'user-form' : {},
+            'local-video': {
+              addLabel: 'Video (upload)',
+            },
+            'apostrophe-video' : {
+              addLabel: 'Video (3d party, youtube, vimeo, etc.)',
+            },
+
+        }
       },
+
+      // Apostrophe module configuration
+
+      // Note: most configuration occurs in the respective
+      // modules' directories. See lib/apostrophe-assets/index.js for an example.
+
+      // However any modules that are not present by default in Apostrophe must at
+      // least have a minimal configuration here: `moduleName: {}`
 
       // If a template is not found somewhere else, serve it from the top-level
       // `views/` folder of the project
@@ -333,6 +408,7 @@ function run(id, siteData, callback) {
       'card-widgets': {},
       'iframe-widgets': {},
       'speech-bubble-widgets': {},
+      'header-widgets': {},
       'title-widgets': {},
       'main-image-widgets': {},
       'list-widgets': {},
@@ -351,7 +427,6 @@ function run(id, siteData, callback) {
       'arguments-form-widgets': {},
       'gebiedsontwikkeling-tool-widgets': {},
       'user-form-widgets': {},
-      'apostrophe-templates': { viewsFolderFallback: path.join(__dirname, 'views') },
       'submissions-widgets': {},
       'begroot-widgets': {},
       'local-video-widgets': {},

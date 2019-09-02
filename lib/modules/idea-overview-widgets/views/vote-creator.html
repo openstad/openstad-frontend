@@ -5,24 +5,22 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 #}
 
 {% macro showVoteCreator(open, runningIdeas, data) %}
-
-	{{openOrClosed}}
-
 	{% if open %}
 	{% set openOrClosed = 'open' %}
 	{% else %}
 	{% set openOrClosed = 'closed'  %}
 	{% endif %}
 
-	<div class=" {{contentClass}}">
 
+	<div class="{{contentClass}}">
 		<div id="vote-creator-anchor"></div>
 
 		<div id="vote-creator" class="{{openOrClosed}}">
 
 			{# TODO: naar config #}
-			<a id="vote-creator-button" href="javascript: void toggleVoteCreator()" style="outline: 0;">Stemmen<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/></a>
-
+			<a id="vote-creator-button" href="javascript: void toggleVoteCreator()" style="outline: 0;">
+				Stemmen<img id="arrow" src="/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
+			</a>
 			<div id="steps-bar">
 				<div id="steps-bar-1" class="step active">
 					<div class="content">1. Kies</div>
@@ -44,8 +42,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div class="preview-container" onclick="clickPreview(event)">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item}}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -62,22 +62,26 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							{{data.widget.step_2_intro}}
 						</div>
 						<div id="zipcode-and-email" class="form">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item}}
+							<div class="preview-container">
+								<div class="preview" onclick="clickPreview(event)">
+									<div class="nothingYet">
+										<div class="inner-container">
+											<div class="text">
+												{{data.widget.placeholder_empty_item}}
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 							<div class="fields">
 								<div class="vote-not-logged-in">
-									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
-										{{data.widget.button_authenticating}}
+									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
+										{{data.widget.button_authenticating | nlbr }}
 									</a>
 								</div>
 								<div class="vote-logged-in">
 									<div class="button-stemcode geldige-code">Geldige e-mailadres</div>
-									{{data.widget.step_2_succesfull_auth}}
+									{{data.widget.step_2_succesfull_auth | nlbr }}
 
 									{% if data.ideasVotedFor.length > 0 %}
 									<div class="info-block error warning">
@@ -95,16 +99,21 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 				<div id="steps-content-3a" class="step">
 					<div class="content">
 						<div id="zipcode-and-email">
+							<div class="preview-container">
 							<div class="preview" onclick="clickPreview(event)">
 								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item}}
+									<div class="inner-container">
+										<div class="text">
+											{{data.widget.placeholder_empty_item}}
+										</div>
 									</div>
 								</div>
 							</div>
+
+							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label> <br/>
+									<label><b class="selected-idea-title"></b></label>
 									<span id="showEmailError"></span>
 								</div>
 							</div>
@@ -127,17 +136,23 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							Er is iets misgegaan bij het opslaan van je stem.<br/>
 							Probeer het later nog eens of neem contact op met de site beheerder.
 						</div>
+						<br />
 						<div id="zipcode-and-email">
-							<div class="preview" onclick="clickPreview(event)">
-								<div class="nothingYet">
-									<div class="text">
-										{{data.widget.placeholder_empty_item}}
+							<div class="preview-container">
+								<div class="preview" onclick="clickPreview(event)">
+									<div class="nothingYet">
+										<div class="inner-container">
+											<div class="text">
+												{{data.widget.placeholder_empty_item}}
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 							<div class="fields">
 								<div id="email">
-									<label>E-mailadres: {{data.openstadUser.email}}</label><span id="showEmailError"></span>
+									<label><b class="selected-idea-title"></b></label>
+									<span id="showEmailError"></span>
 								</div>
 							</div>
 						</div>
@@ -146,10 +161,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div style="height: 50px;"></div>
 				<div id="button-bar">
-					<div id="previous-button" onclick="previousStep();">
+					<div id="previous-button" onclick="votingPreviousStep();">
 						Vorige
 					</div>
-					<div id="next-button" onclick="nextStep();">
+					<div id="next-button" onclick="votingNextStep();">
 						Volgende
 					</div>
 				</div>
@@ -179,25 +194,12 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		  return value;
 		}
 
-		var siteId 	= {{data.global.siteId}};
-		var stepNo  = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
-		var ideaId  = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
-		var zipCo   = '{{user.zipCode}}'     || openstadGetCookie('zipCode')	    || '';
-		var emai    = '{{user.email}}'	     || openstadGetCookie('email')		    || '';
+		var siteId 	     = {{data.global.siteId}};
+		var stepNo  		 = '{{stepNo}}'           || openstadGetCookie('stepNo')		    || '';
+		var ideaId  		 = '{{userVoteIdeaId}}'   || openstadGetCookie('ideaId')		    || '';
 		var hasVoted     = '{{userHasVoted}}'     || openstadGetCookie('hasVoted')     || '';
 		var hasConfirmed = '{{userHasConfirmed}}' || openstadGetCookie('hasConfirmed') || '';
 
-/*	 window.onload = function(){
-		 var match = window.location.search.match(/ideaId=(\d+)/);
-		 if (match) {
-			 showIdeaId = match[1];
-		 };
-		 if (showIdeaId) {
-			 document.querySelector('#idea-' + showIdeaId).click()
-		 }
-
-
-	 }*/
 
 	</script>
 

@@ -2,9 +2,12 @@
   <div class="col-xs-12 col-sm-8">
     {% if data.global.areas and data.global.areas.length > 0 %}
     <div class="tab-selector">
-      <ul>
-        <li><a id="themaSelector0" href="javascript: void deactivateIdeaOverviewAll()">Alle plannen</a></li>
-      </ul>
+      <select id="themaSelector" class="default-select" onchange="activateIdeaOverviewTab(this.selectedIndex)">
+        <option value="0">Alle thema's</option>
+        {% for theme in data.global.themes %}
+        <option value="{{theme.value}}">{{theme.value}}</option>
+        {% endfor %}
+      </select>
       <select id="filterSelector" class="default-select" onchange="activateIdeaOverviewFilter(this.selectedIndex)">
         <option value="0">Alle gebieden</option>
         {% for area in data.global.areas %}
@@ -20,7 +23,6 @@
       <select class="default-select">
         <option {{'selected' if not sort or data.query.sort == 'createdate_desc'}} value="createdate_desc">Nieuwste eerst</option>
         <option {{'selected' if data.query.sort == 'createdate_asc'}} value="createdate_asc">Oudste eerst</option>
-        <!-- <option {{'selected' if sort == 'ranking'}} value="ranking">Ranglijst</option>  -->
       </select>
     </div>
   </div>

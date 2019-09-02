@@ -1,3 +1,9 @@
+{% set isOwner = data.openstadUser.id === idea.userId %}
+{% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+
+
 {% import 'numberplatebutton.html' as numberPlateButton %}
 
       <script>
@@ -29,7 +35,7 @@
     	 var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
 
     	</script>
-    	<ul id="ideaList" class="gridder" onclick="handleClick(event);">
+    	<ul id="ideaList" class="gridder" onclick="ideaListClick(event);">
     		<!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
     		{% for idea in data.ideas %}
         <li id="idea-{{idea.id}}" class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}  {% if loop.index % 3 === 0 %} third-item {% endif %}" data-griddercontent="#ideaContent{{idea.id}}" onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';" onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';">
@@ -53,7 +59,7 @@
     				</div>
     			</div>
     			<div class="info">
-    				<h3>{{idea.title}}</h3>
+    				<h3 class="title">{{idea.title}}</h3>
     			</div>
           <div style="display:none">
             {% if idea.extraData %}
@@ -73,7 +79,7 @@
     	{% for idea in data.ideas %}
     		<div id="ideaContent{{idea.id}}" class="gridder-content ">
           <div class="gridder-inner-container {{idea.status}}">
-                <div class="thisIdeaId">{{idea.id}}</div>
+                <div class="thisIdeaId this-idea-id">{{idea.id}}</div>
           			<h3 class="phone">{{idea.title}}</h3>
           			<div class="image-and-vote-button-container">
           				<div class="image-mask">
@@ -123,7 +129,7 @@
 
                   {% include 'modbreak.html' %}
 
-          				{% if data.openstadUser.id === idea.userId or data.isAdmin %}
+          				{% if isOwnerOrAdmin %}
           					<div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
           				{% endif %}
 

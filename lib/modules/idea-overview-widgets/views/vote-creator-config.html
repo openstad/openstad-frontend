@@ -7,6 +7,7 @@
  var currentUrl = '{{data.currentUrl}}';
  var loginUrl = '/oauth/login';
  var returnToKey = 'returnTo';
+ var selectionError = '{{data.widget.no_selection_error}}';
 
  var steps = [{
 
@@ -17,8 +18,7 @@
 			 return true;
 		 } else {
 			 if (showError) {
-			 	 document.querySelector('.preview').className = document.querySelector('.preview').className + ' form-error';
-			 	 document.querySelector('.preview').setAttribute('data-content', 'Je hebt nog geen ontwerp geselecteerd.');
+         $('.preview-container').addClass('form-error').attr('data-content', selectionError);
 			 }
 			 return false;
 		 }
