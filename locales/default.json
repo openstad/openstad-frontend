@@ -614,5 +614,7 @@
 	"Minimum number of characters needed for phone": "Minimum number of characters needed for phone",
 	"Maximum number of characters needed for phone": "Maximum number of characters needed for phone",
 	"Minimum number of characters needed for advice": "Minimum number of characters needed for advice",
-	"Maximum number of characters needed for advice": "Maximum number of characters needed for advice"
+	"Maximum number of characters needed for advice": "Maximum number of characters needed for advice",
+	"Highest amount": "Hoogste bedrag",
+	"Lowest amount": "Laagste bedrag"
 }

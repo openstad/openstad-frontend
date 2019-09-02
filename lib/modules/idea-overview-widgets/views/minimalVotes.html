@@ -1,4 +1,9 @@
-<div class="tile-list ideas-list">{% for idea in data.ideas %}<div
+<div
+  class="tile-list ideas-list"
+  {% if data.widget.defaultSorting %}
+	data-default-sort="{{data.widget.defaultSorting}}"
+	{% endif %}
+>{% for idea in data.ideas %}<div
   class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
   {% if idea.extraData.images[0] %}
   data-poster-url="{{data.widget.formatImageUrl(idea.extraData.images[0], 600, 360, true)}}"
