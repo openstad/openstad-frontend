@@ -44,6 +44,13 @@
     margin-top: -70px;
 }
 
+// give standard margin bottom to columns in row, otherwise they are stacked
+.section > .container > .row > div {
+  @media @phone {
+    margin-bottom: 40px;
+  }
+}
+
 .section {
 
   .howDoesItWorkButton {
