@@ -19,13 +19,11 @@
 				{% else %}
 					<div class="image"></div>
 				{% endif %}
-				{% if idea.status == 'CLOSED' %}
-					<div class="statusbalk {{idea.status}}">De stemperiode is afgelopen</div>
-				{% elif idea.status == 'DENIED' %}
-					<div class="statusbalk {{idea.status}}">Dit voorstel is afgewezen</div>
-				{% else %}
-					<div class="statusbalk {{idea.status}}">Je kunt nu op dit plan stemmen</div>
+
+				{% if data.widget['label' + idea.status] %}
+				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
 				{% endif %}
+
 				<!--
 						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				-->

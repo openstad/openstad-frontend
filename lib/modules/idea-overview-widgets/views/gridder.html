@@ -86,7 +86,8 @@
           </div>
     			<script>
            {% if (idea.extraData) and (idea.extraData.images) %}
-           imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true)}}";
+           {% set imageUrl = data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true) if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
+           imageUrl[{{idea.id}}] = "{{imageUrl}}";
            doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
            {% endif %}
     			</script>
