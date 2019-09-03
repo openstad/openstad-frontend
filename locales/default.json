@@ -617,5 +617,7 @@
 	"Maximum number of characters needed for advice": "Maximum number of characters needed for advice",
 	"Highest amount": "Hoogste bedrag",
 	"Lowest amount": "Laagste bedrag",
-	"HTML Container id (must be unique on the page for css)": "HTML Container id (must be unique on the page for css)"
+	"HTML Container id (must be unique on the page for css)": "HTML Container id (must be unique on the page for css)",
+	"Label for: ACCEPTED": "Label for: ACCEPTED",
+	"Label for: DENIED": "Label for: DENIED"
 }

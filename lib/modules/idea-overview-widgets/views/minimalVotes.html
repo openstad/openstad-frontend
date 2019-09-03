@@ -5,10 +5,8 @@
 	{% endif %}
 >{% for idea in data.ideas %}<div
   class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
-  {% if idea.extraData.images[0] %}
   {% set imageUrl = data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true) if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
   data-poster-url="{{imageUrl}}"
-  {% endif %}
   data-createdtime="{{idea.createdTime}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
