@@ -35,7 +35,7 @@ router
 
 		if (req.query.forceNewLogin && req.user && req.user.id != 1) {
       let baseUrl = config.url
-			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl 
+			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = baseUrl + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
 			return res.redirect(url)
@@ -202,7 +202,7 @@ router
 
 					console.log('--- CREATE');
 					console.log(data);
-					
+
 					db.User
 						.create(data)
 						.then(result => {
@@ -224,13 +224,12 @@ router
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
-		/**
-		 * @TODO; ADD DOMAIN CHECK!!!!!!!!
-		 */
-		let redirectUrl = req.session.returnTo ? req.session.returnTo + '?jwt=[[jwt]]' : false;
-		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo + '?jwt=[[jwt]]' : false;
-	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
-		redirectUrl = redirectUrl || '/';
+
+	 let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
+	 redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false;
+	 redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
+	 redirectUrl = redirectUrl || '/';
+
 
 		req.session.returnTo = '';
 
