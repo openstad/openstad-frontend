@@ -4,5 +4,17 @@ exports.states = [
   },
   {
     value: 'DENIED'
-  }
+  },
+  {
+    value: 'OPEN'
+  },
+  {
+    value: 'CLOSED'
+  },
+  {
+    value: 'BUSY'
+  },
+  {
+    value: 'DONE'
+  },
 ]

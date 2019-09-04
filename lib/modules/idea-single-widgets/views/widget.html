@@ -93,23 +93,16 @@
 					<div class="ideaDuration {{idea.status}}">
 						<h4>Status</h4>
 						<div class="duration">
-							{% if idea.status == 'CLOSED' %}
-								<div>De stemperiode is afgelopen</div>
-							{% elif idea.status == 'DENIED' %}
-								<div>Stemmen op dit voorstel is niet meer mogelijk.</div>
-							{% elif idea.status == 'ACCEPTED' %}
-								<div>Dit voorstel wordt besproken in de volgende vergadering!</div>
-							{% elif idea.status == 'BUSY' %}
-								<div>Dit voorstel wordt uitgevoerd. Lees op deze pagina over de voortgang.</div>
-							{% elif idea.status == 'DONE' %}
-								<div>Dit voorstel is uitgevoerd. Lees daar meer over op deze pagina.</div>
-							{% else %}
+
+							{% if idea.status === 'OPEN' %}
 								<div id="nog-xxx-om-te-stemmen"></div>
 								<script>
 									var endDate2 = new Date('{{idea.endDate}}');
 									var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 								  document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
 								</script>
+							{% elseif data.widget['labelTime' + idea.status] %}
+								{{data.widget['labelTime' + idea.status]}}
 							{% endif %}
 						</div>
 					</div>
@@ -119,7 +112,7 @@
 						<h4>Deel dit voorstel</h4>
 						<ul>
 							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>
-							<li><a class="twitter"  target="_blank" href="https://twitter.com/home?status={{data.currentUrl}}">Twitter</a></li>
+							<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text=={{data.currentUrl}}">Twitter</a></li>
 							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>
 							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.currentUrl | urlencode}}">WhatsApp</a></li>
 						</ul>

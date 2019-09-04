@@ -619,5 +619,20 @@
 	"Lowest amount": "Laagste bedrag",
 	"HTML Container id (must be unique on the page for css)": "HTML Container id (must be unique on the page for css)",
 	"Label for: ACCEPTED": "Label for: ACCEPTED",
-	"Label for: DENIED": "Label for: DENIED"
+	"Label for: DENIED": "Label for: DENIED",
+	"Step 3: intro": "Step 3: intro",
+	"Step 3: succesfull auth": "Step 3: succesfull auth",
+	"Thank you message": "Thank you message",
+	"Label for photo: ACCEPTED": "Label for photo: ACCEPTED",
+	"Label for photo: DENIED": "Label for photo: DENIED",
+	"Labelfor time status: : ACCEPTED": "Labelfor time status: : ACCEPTED",
+	"Labelfor time status: : DENIED": "Labelfor time status: : DENIED",
+	"Label for photo: OPEN": "Label for photo: OPEN",
+	"Label for photo: CLOSED": "Label for photo: CLOSED",
+	"Label for photo: BUSY": "Label for photo: BUSY",
+	"Label for photo: DONE": "Label for photo: DONE",
+	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
+	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
+	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
 }
