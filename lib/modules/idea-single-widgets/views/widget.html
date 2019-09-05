@@ -99,7 +99,7 @@
 								<script>
 									var endDate2 = new Date('{{idea.endDate}}');
 									var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
-								  document.getElementById('nog-xxx-om-te-stemmen').innerHTML = `Nog ${daysLeft2} dagen om te stemmen`;
+								  document.getElementById('nog-xxx-om-te-stemmen').innerHTML = 'Nog ' + daysLeft2 + ' dagen om te stemmen';
 								</script>
 							{% elseif data.widget['labelTime' + idea.status] %}
 								{{data.widget['labelTime' + idea.status]}}
@@ -112,7 +112,7 @@
 						<h4>Deel dit voorstel</h4>
 						<ul>
 							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>
-							<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text=={{data.currentUrl}}">Twitter</a></li>
+							<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}">Twitter</a></li>
 							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>
 							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.currentUrl | urlencode}}">WhatsApp</a></li>
 						</ul>
