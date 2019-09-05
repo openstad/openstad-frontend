@@ -85,8 +85,7 @@
             {% endif %}
           </div>
     			<script>
-           {% set imageUrl = data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true) if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
-           imageUrl[{{idea.id}}] = "{{imageUrl}}";
+           imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location)}}";
            doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
     			</script>
     		</li>{% endfor %}
@@ -112,7 +111,7 @@
                   				>
                           {% if (idea.extraData) and (idea.extraData.images) %}
                           {% for image in idea.extraData.images %}
-                            <a href="{{data.widget.formatImageUrl(image, 1400, 1400, false)}}"></a>
+                            <a href="{{data.widget.formatImageUrl(image, 1200, 1200, false)}}"></a>
                           {% endfor %}
                           {% endif %}
                   				</div>

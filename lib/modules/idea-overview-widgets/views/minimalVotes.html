@@ -1,3 +1,5 @@
+
+
 <div
   class="tile-list ideas-list"
   {% if data.widget.defaultSorting %}
@@ -5,8 +7,6 @@
 	{% endif %}
 >{% for idea in data.ideas %}<div
   class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
-  {% set imageUrl = data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true) if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
-  data-poster-url="{{imageUrl}}"
   data-createdtime="{{idea.createdTime}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
@@ -17,7 +17,7 @@
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}
 
-    <div class="image"></div>
+    <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
 
     <div class="duration">
       {{ data.widget['label' + idea.status] }}
