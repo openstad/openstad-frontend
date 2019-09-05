@@ -638,5 +638,7 @@
 	"Label for: OPEN": "Label for: OPEN",
 	"Label for: CLOSED": "Label for: CLOSED",
 	"Label for: BUSY": "Label for: BUSY",
-	"Label for: DONE": "Label for: DONE"
+	"Label for: DONE": "Label for: DONE",
+	"Subitems": "Subitems",
+	"Select appearance modus for subitems": "Select appearance modus for subitems"
 }
