@@ -17,9 +17,8 @@
 		data-budget="{{idea.budget}}"
 		data-ranking="{{idea.extraData.ranking}}"
 	>
-		{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 		<div class="idea-image-mask">
-			<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
+			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 250, 250, true, idea.location) }}')"></div>
 		</div>
 		<div class="info">
 			<div class="inner">
@@ -55,9 +54,8 @@
 					</div>
 					<div id="image-location-toggable-{{idea.id}}" class="image-location-toggable">
 						<div class="idea-image-container">
-							{% set imageUrl = idea.extraData.images[0] if idea.extraData.images[0] else '/img/placeholders/idea.jpg' %}
 							<div class="idea-image-mask">
-								<div class="idea-image" style="background-image: url('{{imageUrl}}')"></div>
+								<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
 							</div>
 							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/img/arrow_right_white.svg"></div>
 						</div>
