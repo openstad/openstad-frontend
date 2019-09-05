@@ -634,5 +634,9 @@
 	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
 	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
-	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
+	"Label for: OPEN": "Label for: OPEN",
+	"Label for: CLOSED": "Label for: CLOSED",
+	"Label for: BUSY": "Label for: BUSY",
+	"Label for: DONE": "Label for: DONE"
 }
