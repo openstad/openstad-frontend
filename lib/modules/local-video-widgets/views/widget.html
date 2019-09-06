@@ -1,13 +1,10 @@
-{% set vidFile = data.widget.filename.items[0]._pieces[0].attachment or null %}
-{% set vidPoster = data.widget.poster.items[0]._pieces[0].item.attachment or null %}
-
 <div class="video-wrapper">
-    {% if vidPoster %}
-        <video class="playRepeatVideo" id="highZoomVid"  width=100% controls controlsList="nodownload" poster="{{ apos.attachments.url(vidPoster) }}">
+    {% if data.widget.poster %}
+        <video class="playRepeatVideo" id="highZoomVid"  width=100% controls controlsList="nodownload" poster="{{ apos.attachments.url(data.widget.poster) }}">
     {% else %}
         <video class="playRepeatVideo" id="highZoomVid"  width=100% controls controlsList="nodownload">
     {% endif %}
-            <source src="{{ apos.attachments.url(vidFile) }}" type='video/mp4' >
+            <source src="{{apos.attachments.url(data.widget.filename)}}" type='video/mp4' >
             <button id="play">&gt;</button>
             <button type="button" class="btn btn-primary">Primary</button>
         </video>
