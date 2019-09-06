@@ -65,6 +65,15 @@ module.exports = function( helpers, role ) {
 		'ideavote:edit'		 : false,
 		'ideavote:delete'	 : false,
 
+		// newslettersignup
+		'newslettersignup:list'     : false,
+		'newslettersignup:view'	 	  : false,
+		'newslettersignup:create'   : true,
+		'newslettersignup:confirm'  : true,
+		'newslettersignup:signout'  : true,
+		'newslettersignup:edit'		  : false,
+		'newslettersignup:delete'   : false,
+
 		//submissions
 		'submissions:list'    : true,
 		'submissions:view'    : true,

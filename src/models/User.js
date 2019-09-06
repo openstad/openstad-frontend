@@ -167,11 +167,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 		
-		signedUpForNewsletter: {
-			type         : DataTypes.BOOLEAN,
-			allowNull    : false,
-			defaultValue : false
-		},
+		// signedUpForNewsletter: {
+		//  	type         : DataTypes.BOOLEAN,
+		//  	allowNull    : false,
+		//  	defaultValue : false
+		// },
+
 	}, {
 		charset: 'utf8',
 		

@@ -175,9 +175,51 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'boolean',
 						default: true,
 					},
-					noOfColumsInList: {
+          titleMinLength: {
 						type: 'int',
-						default: 4,
+						default: 10,
+          },
+          titleMaxLength: {
+						type: 'int',
+						default: 50,
+          },
+          summaryMinLength: {
+						type: 'int',
+						default: 20,
+          },
+          summaryMaxLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMinLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMaxLength: {
+						type: 'int',
+						default: 5000,
+          },
+					minimumYesVotes: {
+						type: 'int',
+						default: 100,
+					},
+					"feedbackEmail": {
+						from: {
+							type: 'string', // todo: add type email/list of emails
+							default: 'EMAIL@NOT.DEFINED',
+						},
+						subject: {
+							type: 'string',
+							default: undefined,
+						},
+						inzendingPath: {
+							type: 'string',
+							default: "/PATH/TO/PLAN/[[ideaId]]",
+						},
+						template: {
+							type: 'string',
+							default: undefined,
+						},
 					},
 				}
 			},
@@ -218,9 +260,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 
 					isActive: {
-						type: 'enum',
-						values: [ null, true, false ],
-						default: false,
+						type: 'boolean',
+						default: null,
 					},
 
 					isActiveFrom: {
@@ -277,6 +318,48 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 				},
 			},
+
+			newslettersignup: {
+				type: 'object',
+				subset: {
+					isActive: {
+						type: 'boolean',
+						default: false,
+					},
+					autoConfirm: {
+						type: 'boolean',
+						default: false,
+					},
+					"confirmationEmail": {
+						type: 'object',
+						subset: {
+							from: {
+								type: 'string', // todo: add type email/list of emails
+								default: 'EMAIL@NOT.DEFINED',
+							},
+							subject: {
+								type: 'string',
+								default: undefined,
+							},
+							url: {
+								type: 'string',
+								default: "/PATH/TO/CONFIRMATION/[[token]]",
+							},
+							template: {
+								type: 'string',
+								default: undefined,
+							},
+						},
+					},
+				},
+			},
+
+			"ignoreBruteForce": {
+				type: 'arrayOfStrings',
+				default: [
+				]
+			},
+
 		}
 	}
 
@@ -314,18 +397,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 
 				// objects in objects
-				if (options[key].type == 'objectsInObject' && options[key].subset) {
-					Object.keys(options[key].subset).forEach( subkey => {
-						newValue[key] = {};
-						let temp = checkValues(value[subkey] || {}, options[key].subset[subkey]); // recusion
-						return newValue[key][subkey] = Object.keys(temp) ? temp : undefined;
-					})
+				if (options[key].type == 'objectsInObject' && options[key].subset && value[key]) {
+					newValue[key] = {};
+					let elementkeys = Object.keys(value[key]);
+					for (let i = 0; i < elementkeys.length; i++) {
+						let elementkey = elementkeys[i];
+						if (value[key][elementkey] == null) {
+						} else {
+							let temp = checkValues(value[key][elementkey] || {}, options[key].subset); // recusion
+							newValue[key][elementkey] = Object.keys(temp) ? temp : undefined;
+						}
+					}
+					return newValue[key];
 				}
-
-				// set to null
-				// if (value[key] == null && options[key].allowNull != false) {
-				//  	return newValue[key] = null;
-				// }
 
 				// TODO: in progress
 				if (typeof value[key] != 'undefined' && value[key] != null) {
@@ -355,17 +439,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					return newValue[key] = options[key].default
 				}
 
+				// set to null
+				if (value[key] == null) {
+					newValue[key] = value[key] = undefined;
+				}
+				
 				// allowNull?
 				if (!newValue[key] && options[key].allowNull === false) {
 					throw new Error(`site.config: $key must be defined`);
 				}
+
+				return newValue[key];
 
 			});
 
 			// voor nu mag je er in stoppen wat je wilt; uiteindelijk moet dat zo gaan werken dat je alleen bestaande opties mag gebruiken
 			// dit blok kan dan weg
 			Object.keys(value).forEach( key => {
-				if ( !newValue[key] ) {
+				if ( typeof newValue[key] == 'undefined' ) {
 					newValue[key] = value[key];
 				}
 			});

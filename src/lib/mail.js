@@ -52,6 +52,17 @@ let defaultSendMailOptions = {
 
 // generic send mail function
 function sendMail( options ) {
+
+  if ( options.attachments ) {
+    options.attachments.forEach((entry, index) => {
+      options.attachments[index] = {
+		    filename : entry,
+		    path     : 'email/uploads/' + entry,
+		    cid      : entry
+      }
+    });
+  }
+
   transporter.sendMail(
     merge(defaultSendMailOptions, options),
     function( error, info ) {
@@ -73,18 +84,14 @@ function sendNotificationMail( data ) {
 	} else {
 		html = nunjucks.render('notifications_admin.njk', data)
 	}
-	
+
 	sendMail({
 		to          : data.to,
 		from        : data.from,
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : [{
-			filename : 'logo.png',
-			path     : 'email/img/logo.png',
-			cid      : 'logo'
-		}]
+		attachments : ['logo.png']
 	});
 };
 
@@ -94,6 +101,8 @@ function sendThankYouMail( idea, user, site ) {
   let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
   let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
   let sitename = ( site && site.title ) || ( config && config.get('siteName') );
+  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
+  if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
 	let inzendingPath = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.inzendingPath && site.config.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, idea.id) ) || "/" ;
 	let inzendingURL = url + inzendingPath;
@@ -106,6 +115,7 @@ function sendThankYouMail( idea, user, site ) {
     SITENAME: sitename,
 		inzendingURL,
     URL: url,
+    EMAIL: fromAddress
   };
 
 	let html;
@@ -130,11 +140,64 @@ function sendThankYouMail( idea, user, site ) {
 
   sendMail({
     to: user.email,
-    from: (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email,
+    from: fromAddress,
     subject: (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je inzending',
     html: html,
     text: text,
-    attachments: attachments,
+    attachments,
+  });
+
+}
+
+// send email to user that submitted an idea
+function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
+
+  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
+  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
+  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
+  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
+  if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
+
+	let confirmationUrl = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.url;
+	confirmationUrl = confirmationUrl.replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+
+  let data    = {
+    date: new Date(),
+    user: user,
+    HOSTNAME: hostname,
+    SITENAME: sitename,
+		confirmationUrl,
+    URL: url,
+    EMAIL: fromAddress,
+  };
+
+	let html;
+	let template = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.template;
+	if (template) {
+		html = nunjucks.renderString(template, data);
+	} else {
+		html = nunjucks.render('confirm_newsletter_signup.njk', data);
+	}
+
+  let text = htmlToText.fromString(html, {
+    ignoreImage: true,
+    hideLinkHrefIfSameAsText: true,
+    uppercaseHeadings: false
+  });
+
+  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
+		filename : 'logo.png',
+		path     : 'email/img/logo.png',
+		cid      : 'logo'
+  }];
+
+  sendMail({
+    to: newslettersignup.email,
+    from: fromAddress,
+    subject: (site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je aanmelding',
+    html: html,
+    text: text,
+    attachments,
   });
 
 }
@@ -143,5 +206,6 @@ module.exports = {
   sendMail,
 	sendNotificationMail,
   sendThankYouMail,
+	sendNewsletterSignupConfirmationMail,
 };
 

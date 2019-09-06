@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
+const moment			= require('moment');
 const createError = require('http-errors')
 const config = require('config');
 const db = require('../../db');
@@ -77,16 +78,7 @@ router.route('/')
 			.findAll({ where: { siteId: req.params.siteId } })
 			.then( found => {
 				return found.map( entry => {
-					let json = entry.toJSON();
-					if (json.user && typeof json.user == 'object') {
-						json.user = {
-							nickName: json.user.nickName,
-							firstName: json.user.firstName,
-							lastName: json.user.lastName,
-							email: req.user.role == 'admin' ? json.user.email : undefined,
-						}
-					}
-					return json;
+					return createIdeaJSON(entry, req.user);
 				});
 			})
 			.then(function( found ) {
@@ -119,7 +111,7 @@ router.route('/')
 		db.Idea
 			.create(req.body)
 			.then(result => {
-				res.json(result);
+				res.json(createIdeaJSON(result, req.user));
 				mail.sendThankYouMail(result, req.user, req.site) // todo: optional met config?
 			})
 			.catch(function( error ) {
@@ -145,7 +137,7 @@ router.route('/:ideaId(\\d+)')
 		var ideaId = parseInt(req.params.ideaId) || 1;
 
 		db.Idea
-			.scope(...req.scope)
+			.scope(...req.scope, 'includeVoteCount')
 			.findOne({
 				where: { id: ideaId, siteId: req.params.siteId }
 			})
@@ -161,16 +153,7 @@ router.route('/:ideaId(\\d+)')
 // ---------
 	.get(auth.can('idea:view'))
 	.get(function(req, res, next) {
-		let json = req.idea.toJSON();
-		if (json.user && typeof json.user == 'object') {
-			json.user = {
-				nickName: json.user.nickName,
-				firstName: json.user.firstName,
-				lastName: json.user.lastName,
-				email: req.user.role == 'admin' ? json.user.email : undefined,
-			}
-		}
-		res.json(json);
+		res.json(createIdeaJSON(req.idea, req.user));
 	})
 
 // update idea
@@ -189,7 +172,7 @@ router.route('/:ideaId(\\d+)')
 		req.idea
 			.update(req.body)
 			.then(result => {
-				res.json(result);
+				res.json(createIdeaJSON(result, req.user));
 			})
 			.catch(next);
 	})
@@ -226,6 +209,38 @@ function filterBody(req) {
 	});
 
 	req.body = filteredBody;
+}
+
+function createIdeaJSON(idea, user) {
+
+	let can = {
+		// edit: user.can('arg:edit', argument.idea, argument),
+		// delete: req.user.can('arg:delete', entry.idea, entry),
+		// reply: req.user.can('arg:reply', entry.idea, entry),
+	};
+
+	let result = idea.toJSON();
+	result.config = null;
+	result.site = null;
+	result.can = can;
+	if (idea.user) {
+		result.user = {
+			firstName: idea.user.firstName,
+			lastName: idea.user.lastName,
+			fullName: idea.user.fullName,
+			nickName: idea.user.nickName,
+			isAdmin: user.role == 'admin',
+			email: user.role == 'admin' ? idea.user.email : '',
+		};
+	} else {
+		result.user = {
+			isAdmin: user.role == 'admin',
+		};
+	}
+	result.createdAtText = moment(idea.createdAt).format('LLL');
+
+	return result;
+
 }
 
 module.exports = router;

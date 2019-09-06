@@ -200,9 +200,6 @@ router
 
 					data.complete = true;
 
-					console.log('--- CREATE');
-					console.log(data);
-
 					db.User
 						.create(data)
 						.then(result => {
@@ -225,15 +222,15 @@ router
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
 
-	 let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
-	 redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false;
-	 redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
-	 redirectUrl = redirectUrl || '/';
-
+		let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
+		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false;
+	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
+		redirectUrl = redirectUrl || '/';
 
 		req.session.returnTo = '';
 
 		req.session.save(() => {
+			//check if redirect domain is allowed
 			if (isAllowedRedirectDomain(redirectUrl, req.site && req.site.config && req.site.config.allowedDomains)) {
 				if (redirectUrl.match('[[jwt]]')) {
 					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {

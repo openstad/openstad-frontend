@@ -45,10 +45,6 @@
 			 color: #164995;		 
 		 }
 
-		 .multipleImages {
-			 margin-top: 10px;
-		 }
-
 		 .list {
 			 margin-top: 13px;
 		 }
@@ -98,26 +94,9 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td>
-
-					{% if idea.extraData and idea.extraData.images %}
-						{% for image in idea.extraData.images %}
-							<img class="multipleImages" src="{{image}}" width="100%"/><br/>
-						{% endfor %}
-					{% else %}
-						{% if idea.posterImageUrl %}
-							<img src="{{URL}}{{idea.posterImageUrl}}" width="100%"/>
-						{% endif %}
-					{% endif %}
-
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
 				<td width="560">
 					<h1>{{SITENAME}}</h1>
-					<h2 class="blue">Welkom! Bedankt voor je inzending!</h2>
+					<h2 class="blue">Bedankt! Bevestig je aanmelding.</h2>
 				</td>
 				<td></td>
 			</tr>
@@ -125,17 +104,29 @@
 				<td></td>
 				<td width="560">
 
-          <h4>Beste  {{user.fullName | default('indiener')}},</h4>
-
-					Bedankt voor het plaatsen van jouw inzending op Vuilnisvrij West!<br/>
-					Je inzending is goed ontvangen.<br/>
+          <br/>
+					Je hebt je aangemald voor de nieuwsbrief van <a herf="{{URL}}">{{SITENAME}}</a>!
+					
 					<br/>
-					<a href="{{inzendingURL}}" target="_blank" style="color: #EC0000">Bekijk hier je inzending</a>
+					<br/>
+					
+					<a href="{{confirmationUrl}}" target="_blank"
+					style="background-color: #EC0000; color: #FFF; font-size: 1.25em; padding: 15px 50px; text-decoration: none;"
+					>
+						<b>Klik hier om je aanmelding te bevestigen</b>
+					</a>
 
-					<p style="margin-bottom: 3em; margin-top: 2em;">
-						Hartelijke groet,<br>
-						Team {{SITENAME}}
-					</p>
+					<br/>
+					<br/>
+
+					<strong>Feedback?</strong><br/>
+					Vragen of suggesties over dit project kun je naar {{EMAIL}}.<br/>
+					<br/>
+					Hartelijke groet,<br/>
+					Team {{SITENAME}}<br/>
+
+					<br/>
+					<br/>
 
         </td>
 				<td></td>
