@@ -37,7 +37,7 @@
 				</div>
 				{% endif %}
 				<div class="col-xs-6">
-					<div class="button-add-idea-to-budget btn-primary stretch" ></div>
+					<div class="button-add-idea-to-budget btn-primary stretch"onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
