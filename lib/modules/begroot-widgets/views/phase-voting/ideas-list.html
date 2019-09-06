@@ -33,11 +33,11 @@
 			<div class="row">
 				{% if data.widget.displayBudgetLabel %}
 				<div class="col-xs-6">
-					<div class="budget">{{idea.budget}}</div> {# formatted in js #}
+					<div class="budget budget-{{idea.id}}">{{idea.budget}}</div> {# formatted in js #}
 				</div>
 				{% endif %}
 				<div class="col-xs-6">
-					<div class="button-add-idea-to-budget btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
+					<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
@@ -117,9 +117,9 @@
 					<br />
 					<div class="align-left">
 						{% if data.widget.displayBudgetLabel %}
-						<div class="budget">{{idea.budget}}</div>
+						<div class="budget budget-{{idea.id}}">{{idea.budget}}</div>
 						{% endif %}
-						<div class="button-add-idea-to-budget btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></div>
+						<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-12">
