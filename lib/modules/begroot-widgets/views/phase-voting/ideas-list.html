@@ -37,7 +37,7 @@
 				</div>
 				{% endif %}
 				<div class="col-xs-6">
-					<div class="button-add-idea-to-budget btn-primary stretch"></div>
+					<div class="button-add-idea-to-budget btn-primary stretch" ></div>
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
@@ -119,7 +119,7 @@
 						{% if data.widget.displayBudgetLabel %}
 						<div class="budget">{{idea.budget}}</div>
 						{% endif %}
-						<div class="button-add-idea-to-budget btn-primary" onclick="toggleIdeaInSelection({{idea.id}})"></div>
+						<div class="button-add-idea-to-budget btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-12">
