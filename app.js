@@ -11,7 +11,7 @@
  * @type {[type]}
  */
 require('dotenv').config();
-
+//external libs
 const path                    = require('path');
 const express                 = require('express');
 const apostrophe              = require('apostrophe');
@@ -23,6 +23,11 @@ const fs                      = require('fs');
 const argv                    = require('boring')();
 const quote                   = require('shell-quote').quote;
 const Promise                 = require('bluebird');
+const basicAuth               = require('express-basic-auth');
+const auth                    = require('basic-auth');
+const compare                 = require('tsscmp');
+
+//internal code
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
@@ -83,11 +88,32 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-/*
+
 app.get('/login', (req, res, next) => {
-  res.json({ message: 'Ok'});
+  const unauthorized = (req, res) => {
+      var challengeString = 'Basic realm=Openstad';
+      res.set('WWW-Authenticate', challengeString);
+      return res.status(401).send('Authentication required.');
+  }
+
+  const basicAuthUser = process.env.LOGIN_CSM_BASIC_AUTH_USER;
+  const basicAuthPassword = process.env.LOGIN_CSM_BASIC_AUTH_PASSWORD;
+
+
+
+  if (basicAuthUser && basicAuthPassword) {
+    var user = auth(req);
+
+    if (!user || !compare(user.name, basicAuthUser) || ! compare(user.pass, basicAuthPassword)) {
+      unauthorized(req, res);
+    } else {
+      next();
+    }
+
+  }
+
 });
-*/
+
 
 /**
  * Info url for debugging the apostrhopheCMS server
