@@ -8,6 +8,7 @@
 			<div class="form-group">
 				<textarea
 					class="textarea margin-hor-s block argument-textarea role-required-member"
+					data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
 					name="description"
 					minlength="30"
 					maxlength="500"
@@ -26,7 +27,12 @@
 				value="{{data.widget.sentiment}}"
 			/>
 
-			<input type="submit" class="pull-right btn btn-primary role-required-member" value="Verzenden" />
+			<input
+				type="submit"
+				class="pull-right btn btn-primary role-required-member"
+				value="Verzenden"
+				data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+			/>
 
 			<input
 				type="hidden"
