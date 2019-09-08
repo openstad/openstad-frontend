@@ -34,7 +34,7 @@
 					<h4>Stemmen</h4>
 					{% if (idea.status === 'OPEN') %}
 						<div class="vote">
-							<div class="hide-when-loaded" style="padding-top: 30px;">
+							<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
 								laden...
 								</div>
 							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
