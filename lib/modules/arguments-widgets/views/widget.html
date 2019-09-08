@@ -1,5 +1,5 @@
-{% set mayVote = true %}
-{% set maySeeReplyForm = true %}
+{% set mayVote = data.widget.votingEnabled %}
+{% set maySeeReplyForm = data.widget.votingEnabled %}
 
 {% if not data.widget.ideaId  %}
   {% set ideaId = data.idea.id %}

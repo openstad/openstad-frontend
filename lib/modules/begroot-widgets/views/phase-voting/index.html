@@ -54,7 +54,7 @@
 					</select>
 					{% endif %}
 					{% if (data.global.areas and data.global.areas.length) > 0 %}
-					<select id="filterSelector" class="default-select" onchange="deactivateAll(this.selectedIndex)">
+					<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
 						<option value="0">Alle gebieden</option>
 						{% for area in data.global.areas %}
 						<option value="{{area.value}}">{{area.value}}</option>
