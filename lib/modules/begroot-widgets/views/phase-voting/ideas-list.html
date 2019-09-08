@@ -106,12 +106,13 @@
 						<tr class="gebied">
 							<td>Gebied: </td>  <td><strong>{{idea.extraData.area}}</strong>
 						</tr>
-					</table>
+					</table>a
 					{% endif %}
 					<br />
 					{% if data.widget.originalIdeaUrl %}
+					{% set orignalId = idea.extraData.originalId if idea.extraData.originalId else idea.id %}
 					<div class="margin-hor-10">
-						<a href="{{data.widget.originalIdeaUrl}}/{{idea.id}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
+						<a href="{{data.widget.originalIdeaUrl}}/{{orignalId}}" class="link-original link-caret--blue">Bekijk het originele voorstel</a>
 					</div>
 					{% endif %}
 					<br />
