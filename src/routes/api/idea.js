@@ -166,7 +166,7 @@ router.route('/:ideaId(\\d+)')
 				req.body.location = JSON.parse(req.body.location || null);
 			} catch(err) {}
 		} else {
-			req.body.location = undefined;
+			req.body.location = JSON.parse(null);
 		}
 
 		req.idea
