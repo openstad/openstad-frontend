@@ -114,10 +114,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// }
 				textLength(value) {
 				 	let len = sanitize.title(value.trim()).length;
-					let titleMinLength = ( this.config && this.config.ideas && this.config.ideas.titleMinLength || 140 )
-					let titleMaxLength = ( this.config && this.config.ideas && this.config.ideas.titleMaxength || 5000 )
+					let titleMinLength = ( this.config && this.config.ideas && this.config.ideas.titleMinLength || 10 )
+					let titleMaxLength = ( this.config && this.config.ideas && this.config.ideas.titleMaxLength || 50 )
 					if (len < titleMinLength || len > titleMaxLength)
-					throw new Error(`Beschrijving moet tussen ${titleMinLength} en ${titleMaxLength} tekens zijn`);
+					throw new Error(`Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens zijn`);
 				}
 			},
 			set          : function( text ) {
@@ -157,10 +157,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				// }
 				textLength(value) {
 				 	let len = sanitize.summary(value.trim()).length;
-					let summaryMinLength = ( this.config && this.config.ideas && this.config.ideas.summaryMinLength || 140 )
-					let summaryMaxLength = ( this.config && this.config.ideas && this.config.ideas.summaryMaxength || 5000 )
+					let summaryMinLength = ( this.config && this.config.ideas && this.config.ideas.summaryMinLength || 20 )
+					let summaryMaxLength = ( this.config && this.config.ideas && this.config.ideas.summaryMaxLength || 140 )
 					if (len < summaryMinLength || len > summaryMaxLength)
-					throw new Error(`Beschrijving moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`);
+					throw new Error(`Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`);
 				}
 			},
 			set          : function( text ) {
@@ -179,7 +179,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				textLength(value) {
 				 	let len = sanitize.summary(value.trim()).length;
 					let descriptionMinLength = ( this.config && this.config.ideas && this.config.ideas.descriptionMinLength || 140 )
-					let descriptionMaxLength = ( this.config && this.config.ideas && this.config.ideas.descriptionMaxength || 5000 )
+					let descriptionMaxLength = ( this.config && this.config.ideas && this.config.ideas.descriptionMaxLength || 5000 )
 					if (len < descriptionMinLength || len > descriptionMaxLength)
 					throw new Error(`Beschrijving moet tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`);
 				}
@@ -832,7 +832,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 							endDate DESC
 						`);
 		}
-		
+
 		// Get all running ideas.
 		// TODO: Ideas with status CLOSED should automatically
 		//       become DENIED at a certain point.
