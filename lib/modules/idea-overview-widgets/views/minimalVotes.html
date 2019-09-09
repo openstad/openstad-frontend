@@ -31,7 +31,7 @@
       {% endif %}
       <p>{{idea.summary | safe | truncate(60) }}</p>
       <div class="ideaProgress">
-        <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress*2}}%;"></div></div>
+        <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
       </div>
       <div class="ideaStats">
         <table width="100%" border="0" celpadding="0" cellspacting="0">
