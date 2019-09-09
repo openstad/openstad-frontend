@@ -111,7 +111,7 @@
 
 	@media screen and (max-width: @screen-sm) {
 		.no-button{
-			display: none;
+		//	display: none;
 		}
 	}
 
@@ -127,6 +127,16 @@
 			color: white;
 			background-color: #ea1d25;
 			background-image: url('/img/arrow_down_white.svg');
+		}
+
+		@media @phone {
+			width: 100%;
+			max-width: none;
+		}
+
+		@media @m  {
+			width: 100%;
+			max-width: none;
 		}
 
 	}

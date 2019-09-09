@@ -32,4 +32,18 @@
      margin-top: 10px;
      margin-bottom: 10px;
      text-align: right;
+
+     &:before {
+        margin-right: 10px;
+        font-weight: 600;
+        content: 'Sorteer op:';
+    }
+
+     @media @phone {
+       text-align: left;
+     }
+
+     .default-select {
+       width: calc(100% - 99px);
+     }
  }
