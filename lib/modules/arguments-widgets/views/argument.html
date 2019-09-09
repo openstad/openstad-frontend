@@ -17,7 +17,7 @@
   {% if mayEdit %}
   <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">
     <input type="hidden" name="_method" value="PUT">
-    <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{arg.description | urlize | nlbr | safe}}</textarea>
+    <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{arg.description}}</textarea>
     <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
     &nbsp;
     <a href="#" class="edit-cancel"> Annuleer </a>
