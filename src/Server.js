@@ -10,33 +10,33 @@ var reportErrors = config.sentry && config.sentry.active;
 
 module.exports  = {
 	app: undefined,
-	
+
 	start: function( port ) {
 		log('initializing...');
-		
+
 		// var Raven       = require('../config/raven');
 		var compression = require('compression');
 		// var cors        = require('cors');
-		
+
 		this.app = express();
 		this.app.disable('x-powered-by');
 		this.app.set('trust proxy', true);
 		this.app.set('view engine', 'njk');
 		this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
-		
+
 		if( reportErrors ) {
 			// this.app.use(Raven.requestHandler());
 		}
 		this.app.use(compression());
 		// this.app.use(cors());
-		
+
 		// Register statics first...
 		this._initStatics();
-		
+
 		// ... then middleware everyone needs...
 		this._initBasicMiddleware();
 		this._initSessionMiddleware();
-		
+
 		var middleware = config.express.middleware;
 
 		middleware.forEach(( entry ) => {
@@ -54,17 +54,17 @@ module.exports  = {
 		}
 
 		require('./middleware/error_handling')(this.app);
-		
+
 		this.app.listen(port, function() {
 		  log('listening on port %s', port);
 		});
 
 	},
-	
+
 	_initStatics: function() {
-		
+
 		// require('./routes/media_get')(this.app);
-		
+
 		var headerOptions = {
 			setHeaders: function( res ) {
 				res.set({
@@ -124,7 +124,7 @@ module.exports  = {
 			cookie: {
 				httpOnly : true,
 				secure   : config.get('security.sessions.onlySecure'),
-				sameSite : config.get('security.sessions.onlySecure'),
+				sameSite : false,//config.get('security.sessions.onlySecure'),
 				maxAge   : config.get('security.sessions.maxAge')
 			}
 		}));
