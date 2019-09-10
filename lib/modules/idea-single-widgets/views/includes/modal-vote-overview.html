@@ -6,8 +6,9 @@
       </h3>
     </div>
     <div class="content-modal-body">
-      <a href="/plan/{{idea.id}}/votes?download" class="pull-right outlined">Download als CSV</a>
-
+      {#
+        <a href="/plan/{{idea.id}}/votes?download" class="pull-right outlined">Download als CSV</a>
+      #}
       <table id="votes" class="sortable table">
         <thead>
           <tr>
@@ -17,7 +18,9 @@
             {% if showConfirmed %}
               <th>Bevestigd</th>
             {% endif%}
+            {% if showPostcode %}
             <th>Postcode</th>
+            {% endif%}
             {% if showEmail %}
               <th>Email</th>
             {% endif%}
@@ -27,19 +30,28 @@
           </tr>
         </thead>
         <tbody>
-          {% for vote in idea.votes %}
+          {% for vote in data.ideaVotes %}
             <tr class="{{'rejected' if vote.checked === false}}">
               <td>{{vote.id}}</td>
-              <td>{{vote.user.id}}</td>
+              <td>{{vote.userId}}</td>
               <td>{{vote.opinion}}</td>
               {% if showConfirmed %}
                 <td>{{vote.confirmed}}</td>
               {% endif%}
+              {% if showPostcode %}
               <td>{{vote.user.zipCode}}</td>
+              {% endif%}
               {% if showEmail %}
                 <td>{{vote.user.email}}</td>
               {% endif%}
-              <td>{{vote.ip}}</td>
+              <td>
+                {# was an issue that voting got ip of CMS#}
+                {% if vote.ip === '185.110.174.172' %}
+                  Onbekend
+                {% else %}
+                  {{ vote.ip }}
+                {% endif %}
+              </td>
               <td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}"></td>
             </tr>

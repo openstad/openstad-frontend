@@ -197,7 +197,7 @@ ga('send', 'pageview');
                 {% endfor %}
                 {% if data.global.topLinks %}
                 <li class="li-spacer visible-xs"></li>
-                {% for topLink in data.global.topLinks %}
+                {% for topLink in data.global.topLinks.reverse() %}
                   <li class="visible-xs">
                     <a
                       href="{{topLink.url}}"
