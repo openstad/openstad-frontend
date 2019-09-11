@@ -195,6 +195,11 @@
 					&[value="no"] {
 						background-image: url('/img/thumbsdown_white.svg');
 					}
+					&:disabled::before {
+						content: none;
+					}
+
+
 					&:disabled {
   					background-color: #bebebe;
 						cursor: default;
@@ -202,9 +207,7 @@
   						background-color: #bebebe;
 						}
 					}
-					&:disabled::before {
-						content: none;
-					}
+
 					&.selected[value="yes"] {
 						background-color: #bdd131;
 						&:disabled {
@@ -217,6 +220,29 @@
   						background-color: #bebebe;
 						}
 					}
+
+					&.idea-status-OPEN {
+						&:disabled {
+							background-color: #004699;
+							opacity: 0.5;
+						}
+
+						&.selected[value="yes"] {
+							&:disabled {
+								opacity: 0.5;
+								background-color: #bdd131;
+							}
+						}
+
+						&.selected[value="no"] {
+							&:disabled {
+								opacity: 0.5;
+								background-color: #ea1d25;
+							}
+						}
+					}
+
+
 				}
 
 			}

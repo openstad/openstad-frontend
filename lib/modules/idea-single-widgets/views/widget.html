@@ -45,6 +45,7 @@
 									class="
 										{{'selected' if idea.userVote.opinion == 'yes'}}
 										role-required-{{data.global.roleToLike}}
+										idea-status-{{idea.status}}
 									"
 									data-modal-text="Log in om een plan te liken."
 									data-return-to="/like?ideaId={{idea.id}}&opinion=yes"
@@ -62,6 +63,7 @@
 									class="
 										{{'selected' if idea.userVote.opinion == 'no'}}
 										role-required-{{data.global.roleToLike}}
+										idea-status-{{idea.status}}
 									"
 									data-return-to="/like?ideaId={{idea.id}}&opinion=no"
 									type="submit"
@@ -77,12 +79,12 @@
 					{% else %}
 						<div class="vote disabled">
 							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
+							<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}} idea-status-{{idea.status}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
 								voor
 							</button>
 							<div style="clear: both;"></div>
 							{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
+							<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}} idea-status-{{idea.status}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
 								tegen
 							</button>
 							<div style="clear: both;"></div>
