@@ -316,11 +316,18 @@ router.route('/*')
 				var ideaId = req.params.ideaId;
 				var vote   = req.vote;
 
-
-
 				vote.toggle()
 					.then(function() {
-						res.json({'message': 'ok'})
+						res.json({
+							id: vote.id,
+							ideaId: vote.ideaId,
+							userId: vote.userId,
+							confirmed: vote.confirmed,
+							opinion: vote.opinion,
+							ip: vote.ip,
+						  createdAt: vote.createdAt,
+							checked: vote.checked
+						});
 					})
 					.catch(next);
 			});
