@@ -516,7 +516,8 @@ function run(id, siteData, callback) {
           { name: 'site' },
           { name: 'shuffle.min' },
           { name: 'sort' },
-
+          { name: 'jquery.validate.min' },
+          { name: 'jquery.dataTables.min' },
           { name: 'jquery.validate.min' },
           { name: 'jquery.validate.nl' },
         ],
