@@ -114,13 +114,23 @@ router.route('/')
 			.scope({ method: ['forSiteId', req.site.id]})
 			.findAll({ where })
 			.then(function( found ) {
-				res.json(found.map(entry => { return {
-					id: entry.id,
-					ideaId: entry.ideaId,
-					userId: entry.userId,
-					confirmed: entry.confirmed,
-					opinion: entry.opinion,
-				}}));
+				res.json(found.map(entry => {
+					let vote = {
+						id: entry.id,
+						ideaId: entry.ideaId,
+						userId: entry.userId,
+						confirmed: entry.confirmed,
+						opinion: entry.opinion
+					};
+
+					if (req.user.role == 'admin') {
+						vote.ip = entry.ip;
+						vote.createdAt = entry.createdAt;
+						vote.checked =  entry.checked;
+					}
+
+					return vote;
+				}));
 			})
 			.catch(next);
 	});
@@ -284,5 +294,43 @@ router.route('/*')
 			})
 			.catch(next)
 	})
+
+	router.route('/:voteId(\\d+)/toggle')
+		.all(( req, res, next ) => {
+			var voteId = req.params.voteId;
+
+			db.Vote
+			.findOne({
+				where: { id: voteId }
+			})
+			.then(function( vote ) {
+				if( vote ) {
+					req.vote = vote;
+				}
+				next();
+			})
+			.catch(next);
+		})
+		.all(auth.can('idea:admin'))
+			.get(function( req, res, next ) {
+				var ideaId = req.params.ideaId;
+				var vote   = req.vote;
+
+				vote.toggle()
+					.then(function() {
+						res.json({
+							id: vote.id,
+							ideaId: vote.ideaId,
+							userId: vote.userId,
+							confirmed: vote.confirmed,
+							opinion: vote.opinion,
+							ip: vote.ip,
+						  createdAt: vote.createdAt,
+							checked: vote.checked
+						});
+					})
+					.catch(next);
+			});
+
 
 module.exports = router;
