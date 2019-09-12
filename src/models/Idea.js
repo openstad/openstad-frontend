@@ -393,7 +393,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				let value = this.extraData || {}
 				let newValue = {};
 
-				let configExtraData = this.config.ideas && this.config.ideas.extraData;
+				let configExtraData = this.config && this.config.ideas && this.config.ideas.extraData;
 				if (configExtraData) {
 					Object.keys(configExtraData).forEach((key) => {
 
@@ -413,8 +413,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						}
 
 					});
-				}
-				// TODO: wat als niet defined?
+				} else {
+          console.log('Idea site config not defined!');
+        }
+
+        // TODO: wat als niet defined?
 				return next(error);
 
 			}
