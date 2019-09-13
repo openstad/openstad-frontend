@@ -24,9 +24,9 @@
 				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
 				{% endif %}
 
-				<!--
-						 <div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
-				-->
+				{% if idea.ranking %}
+				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
+				{% endif %}
 			</div>
 
 			<div class="secondary">
@@ -37,9 +37,11 @@
 							<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
 								laden...
 								</div>
-							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
+							<form id="idea-vote-form-yes" method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="yes" />
+								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
+
 								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
 								<button
 									class="
@@ -48,16 +50,19 @@
 										idea-status-{{idea.status}}
 									"
 									data-modal-text="Log in om een plan te liken."
-									data-return-to="/like?ideaId={{idea.id}}&opinion=yes"
+									data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=yes"
+									data-return-to="{{data.currentPathname}}?voteOpinion=yes"
 									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
 									voor
 								</button>
 							</form>
 
 							<div style="clear: both;"></div>
-							<form method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
+							<form id="idea-vote-form-no" method="POST" action="/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="no"/>
+								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
+
 								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
 								<button
 									class="
@@ -65,7 +70,8 @@
 										role-required-{{data.global.roleToLike}}
 										idea-status-{{idea.status}}
 									"
-									data-return-to="/like?ideaId={{idea.id}}&opinion=no"
+									data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=no"
+									data-return-to="{{data.currentPathname}}?voteOpinion=no"
 									type="submit"
 									name="opinion"
 									value="no"
@@ -179,3 +185,11 @@
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
 {% endif %}
+
+
+<script>
+	var ideaFormToSubmit;
+	{% if data.formToSubmit %}
+	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
+	{% endif %}
+</script>
