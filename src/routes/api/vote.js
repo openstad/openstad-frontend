@@ -7,6 +7,8 @@ const auth        = require('../../auth');
 const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
+const {Op} = require('sequelize');
+
 
 let router = express.Router({mergeParams: true});
 
@@ -22,28 +24,7 @@ router.route('*')
 		return next();
 	})
 
-// special get route for anonymous likes
-// this is a bit dubious security wise, but so is anonymous voting...
-	.get(function(req, res, next) {
-		let match = req.path.match(/\/idea\/(\d+)$/);
-		if (match) {
-			if (req.site.config.votes.voteType == 'likes' && req.site.config.votes.requiredUserRole == 'anonymous') {
-				bruteForce.postMiddleware(req, res, function(err) {
-					if (err) return next(err);
-					req.body = {
-						ideaId: parseInt(match[1], 10),
-						opinion: req.query.opinion,
-					};
-					req.method = "POST";
-					next();
-				});
-			} else {
-				next(createError(400, 'Anoniem stemmen niet toegestaan'));
-			}
-		} else {
-			next();
-		}
-	})
+
 
 router.route('*')
 
@@ -188,7 +169,41 @@ router.route('/*')
   // validaties voor voteType=likes
 	.post(function(req, res, next) {
 		if (req.site.config.votes.voteType != 'likes') return next();
-		return next();
+
+		if (req.site.config.votes.voteType == 'likes' && req.site.config.votes.requiredUserRole == 'anonymous') {
+			req.votes.forEach((vote) => {
+				// check if votes exists for same opinion on the same IP within 5 minutes
+				const whereClause = {
+						ip: vote.ip,
+						opinion : vote.opinion,
+						ideaId: vote.ideaId,
+						createdAt: {
+							[Op.gte]: db.sequelize.literal('NOW() - INTERVAL 1 DAY'),
+						}
+				};
+
+				// Make sure it only blocks new users
+				// otherwise the toggle functionality for liking is blocked
+				if (req.user) {
+					whereClause.userId = {
+						[Op.ne] : req.user.id
+					};
+				}
+
+				// get existing votes for this IP
+				db.Vote
+					.findAll({ where:whereClause })
+					.then(found => {
+						if (found && found.length > 0) {
+							throw new Error('Je hebt al gestemd');
+						}
+						return next();
+					})
+					.catch(next)
+			});
+		} else {
+			return next();
+		}
 	})
 
   // validaties voor voteType=count
