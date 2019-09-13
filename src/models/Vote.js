@@ -25,7 +25,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,
 			validate     : {
-				isIP: true
+				//isIP: true
 			}
 		},
 		opinion: {

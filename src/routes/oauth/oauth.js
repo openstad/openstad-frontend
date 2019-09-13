@@ -221,6 +221,7 @@ router
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
+
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
 		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false;
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
