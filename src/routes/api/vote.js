@@ -24,8 +24,6 @@ router.route('*')
 		return next();
 	})
 
-
-
 router.route('*')
 
   // mag er gestemd worden
@@ -175,10 +173,10 @@ router.route('/*')
 				// check if votes exists for same opinion on the same IP within 5 minutes
 				const whereClause = {
 						ip: vote.ip,
-						opinion : vote.opinion,
+			//			opinion : vote.opinion,
 						ideaId: vote.ideaId,
 						createdAt: {
-							[Op.gte]: db.sequelize.literal('NOW() - INTERVAL 1 DAY'),
+							[Op.gte]: db.sequelize.literal('NOW() - INTERVAL 5 MINUTE'),
 						}
 				};
 
