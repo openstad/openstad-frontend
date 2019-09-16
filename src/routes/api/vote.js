@@ -143,7 +143,7 @@ router.route('/*')
 				userId: req.user.id,
 				confirmed: false,
 				confirmReplacesVoteId: null,
-				ip: entry.ipOriginXXX ? entry.ipOriginXXX : req.ip,
+				ip: req.ip,
 				checked: null,
 			}
 		});
