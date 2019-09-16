@@ -185,11 +185,3 @@
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
 {% endif %}
-
-
-<script>
-	var ideaFormToSubmit;
-	{% if data.formToSubmit %}
-	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
-	{% endif %}
-</script>

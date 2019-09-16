@@ -54,7 +54,11 @@
   var openstadUserRole = '{{data.openstadUser.role}}';
   var currentPath = '{{data.currentPath}}';
   var currentPathname = '{{data.currentPathname}}';
-
+  var ideaFormToSubmit;
+	{% if data.formToSubmit %}
+	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
+	{% endif %}
+  </script>
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}
