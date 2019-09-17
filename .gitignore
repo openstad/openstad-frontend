@@ -16,3 +16,4 @@ node_modules
 /public/js/_site-compiled.js
 .env
 .idea/
+store.json

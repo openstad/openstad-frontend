@@ -643,5 +643,7 @@
 	"Select appearance modus for subitems": "Select appearance modus for subitems",
 	"Poster image (for when loading)": "Poster image (for when loading)",
 	"Is replying to arguments allowed?": "Is replying to arguments allowed?",
-	"Is voting for arguments allowed?": "Is voting for arguments allowed?"
+	"Is voting for arguments allowed?": "Is voting for arguments allowed?",
+	"Url & api instellingen": "Url & api instellingen",
+	"Cache ideas? This optmises performance for sites, only works for sites where ideas are static, most voting sits": "Cache ideas? This optmises performance for sites, only works for sites where ideas are static, most voting sits"
 }
