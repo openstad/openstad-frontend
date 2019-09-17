@@ -59,13 +59,13 @@
               <td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}">
                 <form method="get" class="vote-toggle-form" action="/api/site/{{data.global.siteId}}/vote/{{vote.id}}/toggle">
-            {#
+                  {#
                   <b {% if vote.checked === false %} style="display: none" {% endif%} class="vote-approved-text"> yes </b>
                   <b {% if vote.checked !== false %} style="display: none" {% endif%} class="vote-unapproved-text"> no </b>
-                #}
+                  #}
                   <button type="submit" class="link" style="background: none; border: 0; padding: 0">
-                    <small {% if vote.checked === false %} style="display: none" {% endif%} class="vote-approved-text" >✓</small>
-                    <small {% if vote.checked !== false %} style="display: none" {% endif%} class="vote-unapproved-text">✗</small>
+                    <small {% if vote.checked === false %} style="display: none" {% endif%} class="vote-approved-text">✗</small>
+                    <small {% if vote.checked !== false %} style="display: none" {% endif%} class="vote-unapproved-text">✓</small>
                   </button>
                 </form>
               </td>
