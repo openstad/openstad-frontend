@@ -70,11 +70,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}],
 				};
 			},
-
+			includeUser: {
+				include: [{
+					model      : db.User,
+					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email', 'zipCode']
+				}]
+			},
 		}
-
 	}
-	
+
 	Vote.anonimizeOldVotes = function() {
 		var anonimizeThreshold = config.get('ideas.anonimizeThreshold');
 		return sequelize.query(`
