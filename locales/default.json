@@ -646,4 +646,5 @@
 	"Is voting for arguments allowed?": "Is voting for arguments allowed?",
 	"Url & api instellingen": "Url & api instellingen",
 	"Cache ideas? This optmises performance for sites, only works for sites where ideas are static, most voting sits": "Cache ideas? This optmises performance for sites, only works for sites where ideas are static, most voting sits"
+	"Which field should be used as title for an idea": "Which field should be used as title for an idea"
 }
