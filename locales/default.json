@@ -641,5 +641,6 @@
 	"Label for: DONE": "Label for: DONE",
 	"Subitems": "Subitems",
 	"Select appearance modus for subitems": "Select appearance modus for subitems",
-	"Poster image (for when loading)": "Poster image (for when loading)"
+	"Poster image (for when loading)": "Poster image (for when loading)",
+	"Which field should be used as title for an idea": "Which field should be used as title for an idea"
 }
