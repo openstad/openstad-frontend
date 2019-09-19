@@ -41,7 +41,7 @@
                 <td>{{vote.confirmed}}</td>
               {% endif%}
               {% if showPostcode %}
-              <td>{{vote.zipCode}}</td>
+              <td>{{vote.user.zipCode}}</td>
               {% endif%}
               {% if showEmail %}
                 <td>{{vote.user.email}}</td>
@@ -54,8 +54,6 @@
                   {{ vote.ip }}
                 {% endif %}
               </td>
-
-
               <td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}">
                 <form method="get" class="vote-toggle-form" action="/api/site/{{data.global.siteId}}/vote/{{vote.id}}/toggle">
@@ -73,7 +71,6 @@
           {% endfor %}
         </tbody>
       </table>
-
       <a href="#closed" class="content-modal-close" >
         <img src="{{appUrl}}/img/close.svg" width="13" height="13"/>
       </a>
