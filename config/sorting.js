@@ -22,10 +22,10 @@ exports.options = [
   {
     value: 'likes,asc',
   //  label: 'Least liked',
-    label: 'Meeste likes'
+    label: 'Minste likes'
   },
   {
-    value: 'ranking,desc',
+    value: 'Ranglijst,desc',
     label: 'Ranking',
   },
   {
