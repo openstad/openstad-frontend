@@ -8,11 +8,20 @@
 
       <script>
     	 var imageUrl = {};
+       var aspect = '{{data.widget.gridder_tile_image_aspect_ratio}}' || '1:1';
+       aspect = aspect.split(':');
+       var aspect_width = aspect[0];
+       var aspect_height = aspect[1];
+       if (!aspect_width || !aspect_height) {
+         aspect_width = 1;
+         aspect_height = 1;
+       }
+       console.log(aspect, aspect_width, aspect_height)
 
     	 function doShowImage(ideaId, target) {
     		 var div = target.querySelector('div.image');
     		 if (div) {
-    			 div.style.height = target.offsetWidth + 'px';
+    			 div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
     			 var img = div.querySelector('div.image-upload');
     			 img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
     /*
@@ -28,7 +37,8 @@
     				img.style.left   = '0px';
     				img.style.width  = '100%';
     				img.style.height = '100%';
-    				img.style.backgroundSize = 'cover';
+            img.style.backgroundPosition = 'center';
+    			  img.style.backgroundSize = 'cover';
     		 }
     	 }
 
