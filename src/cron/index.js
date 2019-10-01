@@ -8,7 +8,7 @@
 //  - Day of Month: 1-31
 //  - Months: 0-11
 //  - Day of Week: 0-6
-// 
+//
 // Example
 // -------
 // This example file is not included in the actual application, because
@@ -17,7 +17,6 @@
 module.exports = {
 	cronTime: '* * * * * *',
 	onTick: function() {
-		console.log('Every second');
 		this.stop();
 	},
 	onComplete: function() {

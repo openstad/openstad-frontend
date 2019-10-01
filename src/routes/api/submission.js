@@ -37,8 +37,6 @@ router.route('/')
 			userId      			: req.user.id,
 		};
 
-		console.log('data', data);
-
 		db.Submission
 			.create(data)
 			.then(result => {

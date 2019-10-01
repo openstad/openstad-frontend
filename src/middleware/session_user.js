@@ -20,7 +20,7 @@ module.exports = function getSessionUser( req, res, next ) {
 
 	req.setSessionUser   = setSessionUser.bind(req);
 	req.unsetSessionUser = unsetSessionUser.bind(req);
-	
+
 	if( !req.session ) {
 		return next(Error('express-session middleware not loaded?'));
 	}
@@ -104,7 +104,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 				let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 				let url = authServerUrl + authServerGetUserPath;
 				url = url.replace(/\[\[clientId\]\]/, authClientId);
-				
+
 				return fetch(
 					url, {
 						method: 'get',
@@ -123,7 +123,6 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 					.then(
 						json => {
 							json.role = json.role || user.role || 'member';
-							console.log('--------------------', json.role);
 							user = merge(dbuser, json)
 							return user;
 						}
@@ -156,5 +155,5 @@ function resetSessionUser(user) {
 		.then(user => {
 			return db.User.findByPk(1);
 		})
-	
+
 }

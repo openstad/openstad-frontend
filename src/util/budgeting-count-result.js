@@ -34,7 +34,7 @@ db.BudgetVote
 						noOfVotes: voteResult[idea.id],
 					}
 				});
-				console.log(voteResult);
+
 				process.exit();
 			})
 			.catch(err => {

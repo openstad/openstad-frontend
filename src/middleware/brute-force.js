@@ -47,7 +47,6 @@ let globalBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 });
 
 exports.globalMiddleware = function(req, res, next) {
-  console.log('req.ip', req.ip);
 	if ((config.ignoreBruteForce && config.ignoreBruteForce.indexOf(req.ip) != -1) || ( req.site && req.site.config && req.site.config.ignoreBruteForce && req.site.config.ignoreBruteForce.indexOf(req.ip) != -1 )) {
 		next();
 	} else {
