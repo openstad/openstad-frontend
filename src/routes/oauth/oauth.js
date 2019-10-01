@@ -186,9 +186,6 @@ router
 					// user found; update and use
 					let user = result[0];
 
-					console.log('--- UPDATE');
-					console.log(data);
-
 					user.update(data);
 					req.setSessionUser(user.id, '');
 					req.userData.id = user.id;
@@ -279,10 +276,7 @@ router
 			url = `${url}&redirectUrl=${encodeURIComponent(req.query.redirectUrl)}`;
 		}
 
-		console.log(url);
-
 		res.redirect(url);
-
 	});
 
 // translate jwt to user data
