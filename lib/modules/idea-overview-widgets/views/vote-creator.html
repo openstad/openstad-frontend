@@ -52,6 +52,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							<div class="preview-overlay" onclick="unSelectIdea(event)">
 								&times;
 							</div>
+							<div class="preview-description"></div>
 						</div>
 					</div>
 				</div>
@@ -80,7 +81,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									</a>
 								</div>
 								<div class="vote-logged-in">
-									<div class="button-stemcode geldige-code">Geldige e-mailadres</div>
+									<div class="button-stemcode geldige-code">Geldig e-mailadres</div>
 									{{data.widget.step_2_succesfull_auth | nlbr }}
 
 									{% if data.ideasVotedFor.length > 0 %}
@@ -100,16 +101,15 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 					<div class="content">
 						<div id="zipcode-and-email">
 							<div class="preview-container">
-							<div class="preview" onclick="ideaOverviewClickPreview(event)">
-								<div class="nothingYet">
-									<div class="inner-container">
-										<div class="text">
-											{{data.widget.placeholder_empty_item}}
-										</div>
-									</div>
-								</div>
-							</div>
-
+							  <div class="preview" onclick="ideaOverviewClickPreview(event)">
+								  <div class="nothingYet">
+									  <div class="inner-container">
+										  <div class="text">
+											  {{data.widget.placeholder_empty_item}}
+										  </div>
+									  </div>
+								  </div>
+							  </div>
 							</div>
 							<div class="fields">
 								<div id="email">
