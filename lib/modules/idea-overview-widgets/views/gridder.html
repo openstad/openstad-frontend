@@ -78,7 +78,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
             {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
       		</div>
           {% if data.widget.voting and not userHasVoted %}
-          <div class="button-vote" onclick="event.preventDefault();selectIdea({{idea.id}})">
+          <div class="button-vote" onclick="event.preventDefault(); selectIdea({{idea.id}})">
             {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
           </div>
           {% endif %}
@@ -143,7 +143,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
       <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
         {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
-        <a href="#" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
+        <a href="#vote-creator-anchor" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
       </div>
       {% endif %}
 
