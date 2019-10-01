@@ -23,6 +23,7 @@
     {% endif %}
   </div>
   <div class="col-xs-12 col-sm-4">
+    {% if data.widget.selectedSorting and data.widget.selectedSorting.length > 1 %}
     <div class="sort">
       {#
       <select class="default-select">
@@ -44,5 +45,6 @@
         #}
       </select>
     </div>
+    {% endif %}
   </div>
 </div>
