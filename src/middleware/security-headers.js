@@ -14,7 +14,7 @@ module.exports = function( req, res, next ) {
 	if ( !allowedDomains || allowedDomains.indexOf(domain) === -1) {
 		url = config.url || req.protocol + '://' + req.hostname;
 	}
-	
+
 	if (config.dev && config.dev['Header-Access-Control-Allow-Origin']) {
     res.header('Access-Control-Allow-Origin', config.dev['Header-Access-Control-Allow-Origin'] );
   } else {
