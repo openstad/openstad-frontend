@@ -16,6 +16,14 @@ exports.default = {
               'value': 'background-color'
             },
             {
+              'label': 'Background position',
+              'value': 'background-position'
+            },
+            {
+              'label': 'Border color',
+              'value': 'border-color'
+            },
+            {
               'label': 'Margin',
               'value': 'margin'
             },
