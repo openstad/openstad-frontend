@@ -67,7 +67,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowedDomains: {
 				type: 'arrayOfStrings',
 				default: [
-					'https://openstad-api.amsterdam.nl'
+					'openstad-api.amsterdam.nl'
 				]
 			},
 			basicAuth: {
@@ -294,6 +294,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'enum',
 						values: ['likes', 'count', 'budgeting'],
 						default: 'likes',
+					},
+
+					voteValues: {
+						type: 'arrayOfObjects',
+						default: [
+              {
+                label: 'voor',
+                value: 'yes'
+              },
+              {
+                label: 'tegen',
+                value: 'no'
+              },
+            ],
 					},
 
 					maxIdeas: {
