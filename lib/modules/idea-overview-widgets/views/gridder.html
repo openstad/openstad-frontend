@@ -45,6 +45,13 @@
  var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
 
 </script>
+{% if data.widget.gridder_open_text_vote_button %}
+<style>
+ .idea-overview-container .gridder-show .image-and-vote-button-container .vote-button-container .vote-button::before {
+   content: '{{data.widget.gridder_open_text_vote_button}}'
+ }
+</style>
+{% endif %}
 <ul
 id="ideaList"
 class="ideas-list gridder"
