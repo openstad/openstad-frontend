@@ -36,6 +36,6 @@ exports.options = [
   {
     value: 'budget,asc',
 //    label: 'Lowest amount',
-    label: 'Laatste bedrag'
+    label: 'Laagste bedrag'
   },
 ];

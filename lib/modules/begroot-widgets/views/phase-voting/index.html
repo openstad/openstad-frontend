@@ -11,7 +11,9 @@
 
 <div id="westbegroot-voting" class="begroot-container opacity-0-for-load">
 
+	{% if data.widget.voting %}
 	{{ budgeting.showBudgetWindow(data) }}
+	{% endif %}
 
 	<script>
 	 var userHasVoted = {{data.widget.userHasVoted}};
