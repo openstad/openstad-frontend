@@ -115,7 +115,6 @@ router
 				}
 			)
 			.catch(err => {
-				console.log('OAUTH DIGEST - FETCH TOKEN ERR');
 				console.log(err);
 				return next(err);
 			});
