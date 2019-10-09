@@ -77,14 +77,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							<div class="fields">
 								<div class="vote-not-logged-in">
 									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
-										{{data.widget.button_authenticating | nlbr }}
+										{{data.widget.button_authenticating }}
 									</a>
 								</div>
 								<div class="vote-logged-in">
 									<div class="button-stemcode geldige-code">Geldig e-mailadres</div>
-									{{data.widget.step_2_succesfull_auth | nlbr }}
+									{{data.widget.step_2_succesfull_auth }}
 
-									{% if data.ideasVotedFor.length > 0 %}
+									{% if data.ideasVotedFor and data.ideasVotedFor.length > 0 %}
 									<div class="info-block error warning">
 										Je hebt al gestemd. Als je nog een keer stemt<br/>
 										wordt je vorige stem overschreven
@@ -105,7 +105,6 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 								  <div class="nothingYet">
 									  <div class="inner-container">
 										  <div class="text">
-											  {{data.widget.placeholder_empty_item}}
 										  </div>
 									  </div>
 								  </div>
@@ -120,10 +119,13 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						</div>
 
 						<div class="checkmark-block-green">
-							<h4>Gelukt, je stem is opgeslagen!</h4>
+							<h4>Gelukt, je stem is opgeslagen!
+								{{data.widget.success_title  | safe}}
+							</h4>
+
 							<br />
-							Bedankt voor het stemmen. Hou deze website<br/>
-							in de gaten voor de uitslag.
+							{{data.widget.message | safe}}
+
 						</div>
 					</div>
 				</div>
@@ -174,8 +176,6 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 	</div>
 
 	{% include "vote-creator-config.html" ignore missing %}
-
-
 
 	<script>
 
