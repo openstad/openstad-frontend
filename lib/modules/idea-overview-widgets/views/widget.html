@@ -8,7 +8,9 @@
     {{ voteCreator.showVoteCreator(false, data.widget.ideas, data) }}
   {% endif %}
   <div class="ideasList">
+		{% if data.widget.displayFilterVoting %}
     {% include 'filters.html' %}
+		{% endif %}
     <br />
 		<div id="ideas-anchor"></div>
 

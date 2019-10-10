@@ -666,5 +666,6 @@
 	"Success title": "Success title",
 	"Success description": "Success description",
 	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
-	"Sorting & filtering": "Sorting & filtering"
+	"Sorting & filtering": "Sorting & filtering",
+	"Display filter & sortng?": "Display filter & sortng?"
 }

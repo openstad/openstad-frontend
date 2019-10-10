@@ -1,4 +1,10 @@
-<div class="row">
+<div class="row"
+{% if data.widget.displayFilterVoting %}
+style="display: block"
+{% else %}
+style="display: none"
+{% endif %}
+>
   <div class="col-xs-12 col-sm-8">
     {% if (data.global.areas and data.global.areas.length > 0) or (data.global.themes and data.global.themes.length > 0) %}
     <div class="tab-selector">
