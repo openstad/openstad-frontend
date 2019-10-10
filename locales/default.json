@@ -667,5 +667,10 @@
 	"Success description": "Success description",
 	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
 	"Sorting & filtering": "Sorting & filtering",
-	"Display filter & sortng?": "Display filter & sortng?"
+	"Display filter & sortng?": "Display filter & sortng?",
+	"Iframe": "Iframe",
+	"Save Iframe": "Save Iframe",
+	"Styles for the iFrame": "Styles for the iFrame",
+	"Edit Iframe": "Edit Iframe",
+	"Background position": "Background position"
 }
