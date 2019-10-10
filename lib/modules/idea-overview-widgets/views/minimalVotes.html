@@ -5,7 +5,7 @@
   {% if data.widget.defaultSorting %}
 	data-default-sort="{{data.widget.defaultSorting}}"
 	{% endif %}
->{% for idea in data.ideas %}<div
+>{% for idea in data.widget.ideas %}<div
   class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
   data-createdtime="{{idea.createdTime}}"
   data-likes="{{idea.yes}}"

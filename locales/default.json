@@ -664,5 +664,7 @@
 	"Toon dit veld bij een geselcteerde inzending": "Toon dit veld bij een geselcteerde inzending",
 	"Laagste bedrag": "Laagste bedrag",
 	"Success title": "Success title",
-	"Success description": "Success description"
+	"Success description": "Success description",
+	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
+	"Sorting & filtering": "Sorting & filtering"
 }

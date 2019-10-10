@@ -16,8 +16,6 @@
    aspect_width = 1;
    aspect_height = 1;
  }
- console.log(aspect, aspect_width, aspect_height)
-
  function doShowImage(ideaId, target) {
    var div = target.querySelector('div.image');
    if (div) {
@@ -61,7 +59,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 {% endif %}
 >
   <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
-  {% for idea in data.ideas %}
+  {% for idea in data.widget.ideas %}
   <li
   id="idea-{{idea.id}}"
   class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
@@ -91,6 +89,25 @@ data-default-sort="{{data.widget.defaultSorting}}"
           {% endif %}
         </div>
     	</div>
+      {% if idea.extraData.ranking %}
+      <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
+      {% endif %}
+
+      {% if idea.extraData.label %}
+      <div class="duration"
+        {#
+          style="
+          background-color: {{idea.extraData.label.backgroundColor}};
+          background-image: {{idea.extraData.label.b}};
+        " #}
+        >
+        {{ idea.extraData.label.text }}
+      </div>
+      {% endif %}
+
+      {#<div class="duration" style="background-color: blue;">
+       Geselecteerd
+      </div>#}
     </div>
     <div class="info">
     	<h3 class="title">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
@@ -114,7 +131,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
   </li>{% endfor %}
 </ul>
 
-{% for idea in data.ideas %}
+{% for idea in data.widget.ideas %}
 <div id="ideaContent{{idea.id}}" class="gridder-content ">
   <div class="gridder-inner-container {{idea.status}}">
     <div class="thisIdeaId this-idea-id">{{idea.id}}</div>
