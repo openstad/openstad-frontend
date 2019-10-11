@@ -452,6 +452,7 @@ function run(id, siteData, callback) {
       'idea-single-widgets': {},
       'idea-form-widgets': {},
       'date-bar-widgets': {},
+      'map-widgets': {},
       'idea-map-widgets': {},
       'iframe-widgets': {},
       'link-widgets': {},
