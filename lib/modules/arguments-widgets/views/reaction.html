@@ -1,9 +1,7 @@
 <div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
   <div class="user {{'admin' if  data.isAdmin}}">
     <strong>{{reaction.user.firstName}}
-      {% if data.widget.showLastNameForReactions == 'yes' or (data.widget.showLastNameForReactions == 'adminonly' and reaction.user.role == 'admin') %}
-        {{reaction.user.lastName}}
-      {% endif %}
+      {{ apos.arguments.showLastName('reactions', data.widget, reaction.user) }}
     </strong> | {{reaction.createdAt | date('LLL')}}
 
     {% if mayEdit %}

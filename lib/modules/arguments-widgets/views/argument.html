@@ -2,9 +2,7 @@
   <div class="user ">
 
       <strong>{{arg.user.firstName}}
-        {% if data.widget.showLastNameForArguments == 'yes' or (data.widget.showLastNameForArguments == 'adminonly' and arg.user.role == 'admin') %}
-        {{arg.user.lastName}}
-        {% endif %}
+        {{ apos.arguments.showLastName('arguments', data.widget, arg.user) }}
       </strong> | {{ arg.createdAt | date('LLL') }}
 
     {% if mayEdit %}
