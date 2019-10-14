@@ -2,7 +2,7 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-{% if data.widget.listClassName === 'numbers' %}
+{% if data.widget.listClassName === 'uk-list uk-list-numbers' %}
   {% set listType = 'ol' %}
 {% else %}
   {% set listType = 'ul' %}
@@ -12,7 +12,7 @@
   {% for item in data.widget.items %}
   <li>
     {{ item.item | safe }}
-    {% if item.subListClassName === 'numbers' %}
+    {% if item.subListClassName === 'uk-list uk-list-numbers' %}
       {% set subListType = 'ol' %}
     {% else %}
       {% set subListType = 'ul' %}
