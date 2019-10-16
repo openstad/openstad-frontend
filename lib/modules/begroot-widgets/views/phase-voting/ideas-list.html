@@ -43,6 +43,17 @@
 					{% if data.widget.voting %}
 					<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
 					{% endif %}
+
+					{% if data.widget.showVoteCount %}
+					<div class="btn--blue noOfVotes stretch ">
+						{% if idea.extraData.voteCount %}
+						{{idea.extraData.voteCount}}
+						{% else %}
+						{{idea.yes}}
+						{% endif %}
+						stemmen
+					</div>
+					{% endif %}
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}

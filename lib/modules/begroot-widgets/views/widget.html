@@ -1,9 +1,4 @@
 <div id="multiple-voting-container">
-{% if data.widget.phase === 'voting' %}
-{% include 'phase-voting/index.html' %}
-{% endif %}
+  {% include 'phase-voting/index.html' %}
 
-{% if data.widget.phase === 'finished' %}
-{% include 'phase-finished/index.html' %}
-{% endif %}
 </div>
