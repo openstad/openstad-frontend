@@ -26,7 +26,7 @@ exports.options = [
   },
   {
     value: 'ranking,asc',
-    label: 'Ranking'
+    label: 'Ranglijst'
   },
   {
     value: 'budget,desc',
