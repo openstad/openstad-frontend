@@ -10,7 +10,7 @@
 	{% for idea in runningIdeas %}
 	<li
 		id="idea-{{idea.id}}"
-		class="gridder-list idea-item {% if loop.index % 3 === 0 %} third-item {% endif %}"
+		class="gridder-list idea-item {% if loop.index % 3 === 0 %} third-item {% endif %} {{idea.status}}"
 		data-griddercontent="#idea-content-{{idea.id}}"
 		data-createdtime="{{idea.createdTime}}"
 		data-likes="{{idea.yes}}"
@@ -22,6 +22,13 @@
 			{% if idea.extraData.ranking %}
 			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 			{% endif %}
+
+			{% if data.widget['label' + idea.status] %}
+			<div class="duration {{idea.status}}">
+				{{ data.widget['label' + idea.status] }}
+			</div>
+			{% endif %}
+
 		</div>
 		<div class="info">
 			<div class="inner">
@@ -31,8 +38,11 @@
 					<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span> | <span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>
 				</div>
 				{% endif %}
+
 			</div>
 			<div class="button-read-more link-caret--blue">Lees meer</div>
+
+
 			<div class="row">
 				{% if data.widget.displayBudgetLabel %}
 				<div class="col-xs-6">
