@@ -1,16 +1,33 @@
 <style>
   {{data.widget.formattedContainerStyles}}
 </style>
+<script>
+	window.userFormValidation = {};
+</script>
 <div
 	class="vote-box"
 	id="{{data.widget.containerId}}"
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>
-	<form method="POST" action="/modules/user-form-widgets/submit">
+	{{ apos.log (req) }}
+	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form">
 	{% for field in data.widget.formFields %}
+		<input type="hidden" name="title[{{field.inputKey}}]" value="{{field.title}}" />
+
+		{% if field.validation %}
+		<script>
+			window.userFormValidation['{{field.inputKey}}'] = "{{ field.validation }}";
+		</script>
+		{% endif %}
+
 		{% include 'field-'+field.inputType+'.html' %}
 	{% endfor %}
+	<input type="hidden" name="sendMail" value="{{data.widget.sendMail}}" />
+	<input type="hidden" name="emailTemplate" value="{{data.widget.emailTemplate}}" />
+	<input type="hidden" name="emailSubject" value="{{data.widget.emailSubject}}" />
+	<input type="hidden" name="emailSubjectAdmin" value="{{data.widget.emailSubjectAdmin}}" />
+	<input type="hidden" name="redirectUrl" value="{{data.widget.redirectUrl}}" />
 	<button type="submit" class="default btn btn-primary">
 		Verstuur
 	</button>

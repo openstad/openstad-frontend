@@ -1,5 +1,6 @@
 <div class="form-group">
   <h3>{{field.title}}</h3>
+  <div class="description"><p>{{field.description | safe}}</p></div>
   {% for choice in field.choices %}
   <div>
   <label>
@@ -7,11 +8,13 @@
     <input
       type="checkbox"
       name="data[{{field.inputKey}}][]"
+      value="{{choice.value}}"
     />
     {% else %}
     <input
       type="radio"
       name="data[{{field.inputKey}}]"
+      value="{{choice.value}}"
     />
     {% endif %}
 
