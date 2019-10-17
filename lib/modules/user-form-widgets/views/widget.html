@@ -10,8 +10,7 @@
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>
-	{{ apos.log (req) }}
-	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form">
+	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form" data-form-validation="{{ data.widget.mappedValidation | dump }}">
 	{% for field in data.widget.formFields %}
 		<input type="hidden" name="title[{{field.inputKey}}]" value="{{field.title}}" />
 
