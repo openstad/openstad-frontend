@@ -115,6 +115,22 @@ Template is een nunjucks template - zie later in deze pagina. Daar zijn de volge
 
 Ik ga er vanuit dat je bevestigen en afmelden via de frontend doet, en dat daarvandaan een post request naar de API wordt gestuurd. Een directe link naar de API zou ook kunnen met een doorverwijzing naar de frontend; als je dat wilt moet je het even zeggen en bouw ik daar extra endpoints voor.
 
+## Submission templates
+Bij het insturen van de user-form widget (een submission) worden er twee e-mails verstuurd. Één van die mails gaat naar de administrator. Dit template wordt geladen vanuit `email/submission_admin.njk` en bevat slechts generieke tekst.
+Er gaat ook een e-mail naar de gebruiker ter bevestiging van de inzending. Deze wordt ingeladen vanuit `email/submission_default.njk`, maar kan overschreven worden via de site.config. Hiervoor moet er in de openstad-frontend in de user-form-widget een Form ID worden opgegeven. Dit ID bepaalt welke template er gebruikt wordt, omdat er meerdere user-forms per site mogen bestaan. Voor deze configuratie gaan we uit van het form ID `bestuurscommissie`
+
+### Configuratie
+
+```
+{
+    "config": {
+        "userFormTemplates": {
+            "bestuurscommissie": "HTML TEMPLATE"
+        }
+    }
+}
+```
+
 ## Nunjucks templates
 
 De email wordt opgemaakt met nunjucks; alle beschreven vars kunnen dus met nujucks syntax worden geinclude.
