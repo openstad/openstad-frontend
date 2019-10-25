@@ -29,6 +29,7 @@
     "express-basic-auth": "^1.2.0",
     "flash": "^1.1.0",
     "http-proxy-middleware": "^0.19.1",
+    "json2csv": "^4.5.4",
     "lodash": "^4.17.15",
     "mongodb": "^2.2.33",
     "node-file-cache": "^1.0.2",
