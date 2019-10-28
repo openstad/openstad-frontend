@@ -676,5 +676,6 @@
 	"Display filter & sorting?": "Display filter & sorting?",
 	"Show vote count?": "Show vote count?",
 	"ranking,desc": "ranking,desc",
-	"Ranglijst": "Ranglijst"
+	"Ranglijst": "Ranglijst",
+	"Show vote counter (for gridder)": "Show vote counter (for gridder)"
 }
