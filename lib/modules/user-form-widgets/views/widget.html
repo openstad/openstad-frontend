@@ -32,4 +32,11 @@
 		Verstuur
 	</button>
 	</form>
+
 </div>
+{% if data.isAdmin %}
+<a href="#overview-submissions" class="edit-button submission-overview-button" data-form-id="{{data.widget.formId}}">
+  Bekijk inzendingen
+</a>
+{% include 'includes/modal-submission-overview.html' %}
+{% endif %}
