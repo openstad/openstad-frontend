@@ -417,9 +417,8 @@
 	"Revert": "Revert",
 	"Page header": "Page header",
 	"Edit Page header": "Edit Page header",
-	"First name": "First name",
-	"Email": "Email",
-	"Sign up": "Sign up",
+	"Email": "E-mail",
+	"Sign up": "Inschrijven",
 	"Subitems": "Subitems",
 	"Subitem": "Subitem",
 	"Select appearance modus for subitems": "Select appearance modus for subitems",
@@ -443,8 +442,8 @@
 	"Ranking": "Ranking",
 	"Loading...": "Laden...",
 	"First name": "Voornaam",
-	"Email": "E-mail",
-	"Sign up": "Inschrijven",
 	"Highest amount": "Hoogste bedrag",
-	"Lowest amount": "Laagste bedrag"
+	"Lowest amount": "Laagste bedrag",
+	"Mijn account": "Mijn account",
+	"Iframe": "Iframe"
 }
