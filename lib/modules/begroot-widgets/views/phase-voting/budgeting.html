@@ -264,7 +264,7 @@
 								{% if data.widget.showNewsletterButton and data.widget.showNewsletterButton == 'yes' %}
 								<br />
 								<br />
-								<a href="#newsletter" class="outlined-button">{{ data.widget.newsletterButtonText }}</a>
+								<a href="#newsletter" class="outlined-button">{{ data.widget.newsletterButtonText or __('Sign up for the newsletter') }}</a>
 								{% endif %}
 							</div>
 						</div>
