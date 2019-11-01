@@ -121,7 +121,7 @@
 								<td style="border: solid 3px #fdc633;">
 									<div style="padding: 20px; font-size: 12px;">
 									{% for fieldKey, value in submittedData %}
-										<strong>{{ titles[fieldKey] }}</strong><br />
+										<strong>{{ fieldKey }}</strong><br />
 										{{ value | safe }}
 										<br />
 										<br />

@@ -150,7 +150,7 @@ function sendThankYouMail( idea, user, site ) {
 }
 
 // send email to user that submitted an form
-function sendSubmissionConfirmationMail( submission, formId, emailSubject, submittedData, titles, site ) {
+function sendSubmissionConfirmationMail( submission, formId, emailSubject, submittedData, site ) {
     const url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
     const hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
     const sitename = ( site && site.title ) || ( config && config.get('siteName') );
@@ -163,7 +163,6 @@ function sendSubmissionConfirmationMail( submission, formId, emailSubject, submi
         date: new Date(),
         submission: submission,
         submittedData: submittedData,
-        titles: titles,
         HOSTNAME: hostname,
         SITENAME: sitename,
         URL: url,
@@ -197,7 +196,7 @@ function sendSubmissionConfirmationMail( submission, formId, emailSubject, submi
     });
 }
 
-function sendSubmissionAdminMail( submission, emailSubject, submittedData, titles, site ) {
+function sendSubmissionAdminMail( submission, emailSubject, submittedData, site ) {
     const url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
     const hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
     const sitename = ( site && site.title ) || ( config && config.get('siteName') );
@@ -206,7 +205,6 @@ function sendSubmissionAdminMail( submission, emailSubject, submittedData, title
         date: new Date(),
         submission: submission,
         submittedData: submittedData,
-        titles: titles,
         HOSTNAME: hostname,
         SITENAME: sitename,
         URL: url,
