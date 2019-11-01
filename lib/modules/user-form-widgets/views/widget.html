@@ -12,11 +12,9 @@
 	<p>  {{data.widget.intro | nlbr}} </p>
 	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form" data-form-validation="{{ data.widget.mappedValidation | dump }}">
 	{% for field in data.widget.formFields %}
-		<input type="hidden" name="title[{{field.inputKey}}]" value="{{field.title}}" />
-
 		{% if field.validation %}
 		<script>
-			window.userFormValidation['{{field.inputKey}}'] = "{{ field.validation }}";
+			window.userFormValidation['{{field.title}}'] = "{{ field.validation }}";
 		</script>
 		{% endif %}
 

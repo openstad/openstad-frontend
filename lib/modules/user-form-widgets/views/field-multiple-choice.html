@@ -7,13 +7,13 @@
     {% if field.options.maxChoices > 1 %}
     <input
       type="checkbox"
-      name="data[{{field.inputKey}}][]"
+      name="data[{{field.title}}][]"
       value="{{choice.value}}"
     />
     {% else %}
     <input
       type="radio"
-      name="data[{{field.inputKey}}]"
+      name="data[{{field.title}}]"
       value="{{choice.value}}"
     />
     {% endif %}
