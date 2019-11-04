@@ -2,13 +2,13 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<ul id="{{data.widget.containerId}}" class="{{data.widget.listClassName}}">
+<ul id="{{data.widget.containerId}}" class="{{data.widget.listClassName}} parent-list">
   {% for item in data.widget.items %}
-  <li>
+  <li class="parent-item">
     {{ item.item | safe }}
-    <ul class="{{item.subListClassName}}">
+    <ul class="{{item.subListClassName}} child-list">
       {% for subitem in item.subitems %}
-      <li> {{ subitem.subitem | safe }} </li>
+      <li class="child-item"> {{ subitem.subitem | safe }} </li>
       {% endfor %}
     </ul>
   </li>
