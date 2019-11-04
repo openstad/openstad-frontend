@@ -3,6 +3,7 @@ const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
 const mail = require('../../lib/mail');
+const moment = require('moment-timezone');
 
 let router = express.Router({mergeParams: true});
 
@@ -45,6 +46,7 @@ router.route('/:formId([a-zA-Z0-9\-\_]*)')
 					});
 					
 					data.submittedData = orderedData;
+					data.createdAt = moment(data.createdAt).format('LLL');
 					return data;
 				});
 			})
