@@ -335,6 +335,16 @@
 				</div>
 				{% endif %}
 
+				{% if data.isAdmin %}
+				<div id="budget">
+					<h2>Budget</h2>
+					<div class="form-info" style="height: auto;">
+						Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.
+					</div>
+					<input type="number" id="budget_input" class="chars-counter" min="0" name="budget" value="{{idea.budget}}">
+				</div>
+				{% endif %}
+
 				{% if idea %}
 				<input type="hidden" name="ideaId" value="{{idea.id}}">
 				{% endif %}
