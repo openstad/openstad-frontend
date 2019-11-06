@@ -2,15 +2,27 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<ul id="{{data.widget.containerId}}" class="{{data.widget.listClassName}}">
+{% if data.widget.listClassName === 'uk-list uk-list-numbers' %}
+  {% set listType = 'ol' %}
+{% else %}
+  {% set listType = 'ul' %}
+{% endif %}
+
+<{{listType}} id="{{data.widget.containerId}}" class="{{data.widget.listClassName}}">
   {% for item in data.widget.items %}
   <li>
     {{ item.item | safe }}
-    <ul class="{{item.subListClassName}}">
+    {% if item.subListClassName === 'uk-list uk-list-numbers' %}
+      {% set subListType = 'ol' %}
+    {% else %}
+      {% set subListType = 'ul' %}
+    {% endif %}
+
+    <{{subListType}} class="{{item.subListClassName}}">
       {% for subitem in item.subitems %}
       <li> {{ subitem.subitem | safe }} </li>
       {% endfor %}
-    </ul>
+    </{{subListType}}>
   </li>
   {% endfor %}
-</ul>
+</{{listType}}>
