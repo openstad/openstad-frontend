@@ -365,6 +365,9 @@ function run(id, siteData, callback) {
             'idea-map': {},
             'idea-overview' : {},
             'idea-single' : {},
+            'ideas-on-map': {
+              addLabel: 'Ideeen op een kaart',
+            },
             'iframe' : {},
             'header' : {},
             'image' : {},
@@ -451,6 +454,7 @@ function run(id, siteData, callback) {
       'icon-section-widgets': {},
       'idea-single-widgets': {},
       'idea-form-widgets': {},
+      'ideas-on-map-widgets': {},
       'date-bar-widgets': {},
       'idea-map-widgets': {},
       'iframe-widgets': {},
