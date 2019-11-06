@@ -21,6 +21,9 @@
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+
 {% for stylesheet in data.global.stylesheets %}
 <link rel="stylesheet" href="{{stylesheet.url}}">
 {% endfor %}
@@ -58,6 +61,8 @@
 	{% if data.formToSubmit %}
 	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
 	{% endif %}
+  {# will be defined later, but will cause errors otherwise #}
+  var doShowImage;
   </script>
 </script>
 
