@@ -106,6 +106,8 @@ router.route('/')
 
 						// todo: de can dingen
 
+            
+
 						let result = createArgumentJSON(argument, req.user);
 						res.json(result);
 					});
@@ -266,9 +268,9 @@ router.route('/:argumentId(\\d+)/vote')
 function createArgumentJSON(argument, user) {
 
 	let can = {
-		// edit: user.can('arg:edit', argument.idea, argument),
-		// delete: req.user.can('arg:delete', entry.idea, entry),
-		// reply: req.user.can('arg:reply', entry.idea, entry),
+		edit: user.role == 'admin' || user.id == argument.user.id,
+		delete: user.role == 'admin' || user.id == argument.user.id,
+		reply: !argument.parentId,
 	};
 
 	let result = argument.toJSON();
