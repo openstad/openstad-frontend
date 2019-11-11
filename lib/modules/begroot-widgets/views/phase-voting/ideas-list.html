@@ -28,7 +28,7 @@
 				<h3 class="title">{{idea.title}}</h3>
 				{% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
-					<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span> | <span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>
+					<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span>{% if idea.extraData.area %} | <span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>{% endif %}
 				</div>
 				{% endif %}
 			</div>
