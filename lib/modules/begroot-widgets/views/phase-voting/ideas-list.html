@@ -140,9 +140,11 @@
 						<div class="intro">
 							{{idea.summary | safe}}
 						</div>
+						{% if idea.description %}
 						<div class="description">
 							{{idea.description | safe}}
 						</div>
+						{% endif %}
 						{% if data.isAdmin %}
 							<div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
 						{% endif %}
