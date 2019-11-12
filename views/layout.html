@@ -196,7 +196,7 @@ ga('send', 'pageview');
           <div class="navbar-menu toggle-menu">
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
               <ul class="nav navbar-left">
-                  {% if data.global.arrangeMainMenu %}
+                  {% if data.global.arrangeMainMenu and data.global.arrangeMainMenu == 'manually' %}
 
                   {% for item in data.global.mainMenuItems %}
                   <li class="nav-item">
