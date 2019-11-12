@@ -13,7 +13,7 @@
                     <div class="header-block">
                         <h1>{{data.widget.title}}</h1>
                         <span class="subtitle">{{data.widget.subtitle}}</span>
-                        <div class="intro-text">{{data.widget.introText}}</div>
+                        <div class="intro-text">{{data.widget.introText | safe}}</div>
                         {% if data.widget.showBtnIntro %}
                         <div class="button-row">
                             {% if data.widget.btn1Url %}
