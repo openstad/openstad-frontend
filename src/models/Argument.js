@@ -156,7 +156,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultScope: {
 				include: [{
 					model      : db.User,
-					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
+					attributes : ['id', 'role', 'nickName', 'firstName', 'lastName', 'email']
 				}]
 			},
 
