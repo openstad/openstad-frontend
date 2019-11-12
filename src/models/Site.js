@@ -92,7 +92,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				subset: {
 					dbName: {
 						type: 'string',
-						default: 'domainname-id',
+						default: '',
 					},
 					url: {
 						type: 'string',
@@ -203,7 +203,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 100,
 					},
-					"feedbackEmail": {
+					feedbackEmail: {
 						from: {
 							type: 'string', // todo: add type email/list of emails
 							default: 'EMAIL@NOT.DEFINED',
@@ -457,7 +457,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				if (value[key] == null) {
 					newValue[key] = value[key] = undefined;
 				}
-				
+
 				// allowNull?
 				if (!newValue[key] && options[key].allowNull === false) {
 					throw new Error(`site.config: $key must be defined`);

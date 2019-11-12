@@ -120,7 +120,8 @@ router.route('/')
 						ideaId: entry.ideaId,
 						userId: entry.userId,
 						confirmed: entry.confirmed,
-						opinion: entry.opinion
+						opinion: entry.opinion,
+						createdAt: entry.createdAt
 					};
 
 					if (req.user && req.user.role === 'admin') {
