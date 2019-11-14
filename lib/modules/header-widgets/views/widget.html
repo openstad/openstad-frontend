@@ -38,7 +38,7 @@
                         </span>
                     </a>
                     {% if data.widget.showBtn %}
-                    <a href="{{data.widget.btnUrl}}" class="link-box scroll-link margin-bottom-sm button-with-icon" style="">
+                    <a href="{{data.widget.btnUrl}}" class="link-box scroll-link margin-bottom-sm button-with-icon" style=""   {% if data.widget.targetBlank %} target="_blank" {% endif %}>
 
                         <img src="{{apos.attachments.url(data.widget.btnIcon)}}">
 
