@@ -123,14 +123,17 @@
 							{% endif %}
 						</div>
 					</div>
-					{% if data.widget.showShareButtons %}
+					{% if data.widget.showShareButtons !== false %}
 					<div class="share">
 						<h4>Deel dit voorstel</h4>
 						<ul>
-							<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>
-							<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}">Twitter</a></li>
-							<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>
-							<li><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.currentUrl | urlencode}}">WhatsApp</a></li>
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}">Twitter</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('whatsapp') > -1 or data.widget.shareChannelsSelection.length === 0 %}
+							<li class="desktop"><a class="whatsapp" target="_blank" href="https://wa.me/?text={{data.currentUrl | urlencode}}">WhatsApp</a></li>
+							<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share">WhatsApp</a></li>
+							{% endif %}
 						</ul>
 					</div>
 					{% endif %}

@@ -357,6 +357,18 @@
 						margin: 0;
 						padding: 0;
 
+						&.desktop {
+							@media only screen and (max-width: 767px) {
+								display: none;
+							}
+						}
+
+						&.mobile {
+							@media only screen and (min-width: 768px) {
+								display: none;
+							}
+						}
+
 						a {
 							background-position: center;
 							background-repeat: no-repeat;
