@@ -1,39 +1,20 @@
 <div class="form-group">
-  <h3>Afbeelding </h3>
+  <h3>{{field.title | safe}} </h3>
+    <div class="description"><p>{{field.description | safe}}</p></div>
 
-  <div class="uploader">
-    <label>
-        Sleep de afbeelding(en) naar deze plek
-        <br /> of klik hier om een afbeelding te uploaden
-    </label>
-    <div class="icon"></div>
-    <input type="file" class="preview-file-input" name="data[image]" />
-  </div>
+
+    <fieldset class="filepondUserformFieldset">
+    <input type="file" class="imageUploader filepond" {{ "required" if field.validation.indexOf('required') > -1 }} />
+
+</fieldset>
+<input type="hidden" name="validateImages" multiple />
+<input type="hidden" name="imageInputKey" value="{{ field.title }}" />
 </div>
 
+<script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
 
-<script>
-function initFilePreview() {
-  $('.preview-file-input').on('change', function(e) {
-    var reader = new FileReader();
-    var $uploader = $(this).closest('.uploader');
-    var $img = $uploader.find('img');
-
-    if ($img.length === 0) {
-      $img = $('<img class="preview-img" />');
-      $uploader.append($img);
-    }
-
-    reader.onload = function (event) {
-      $img.attr('src', event.target.result);
-      $uploader.addClass('active');
-    }
-
-    reader.readAsDataURL(e.target.files[0]);
-  });
-}
-
-(function($) {
-  initFilePreview();
-}(jQuery))
-</script>

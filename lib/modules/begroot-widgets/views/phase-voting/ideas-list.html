@@ -10,19 +10,27 @@
 	{% for idea in runningIdeas %}
 	<li
 		id="idea-{{idea.id}}"
-		class="gridder-list idea-item {% if loop.index % 3 === 0 %} third-item {% endif %}"
+		class="gridder-list idea-item {% if loop.index % 3 === 0 %} third-item {% endif %} {{idea.status}}"
 		data-griddercontent="#idea-content-{{idea.id}}"
 		data-createdtime="{{idea.createdTime}}"
 		data-likes="{{idea.yes}}"
 		data-budget="{{idea.budget}}"
 		data-ranking="{{idea.extraData.ranking}}"
-  		data-ideaid="{{idea.id}}"
+  	data-ideaid="{{idea.id}}"
+		data-ranking="{{idea.extraData.ranking if idea.extraData.ranking else 10000}}"
 	>
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
 			{% if idea.extraData.ranking %}
 			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 			{% endif %}
+
+			{% if data.widget['label' + idea.status] %}
+			<div class="duration {{idea.status}}">
+				{{ data.widget['label' + idea.status] }}
+			</div>
+			{% endif %}
+
 		</div>
 		<div class="info">
 			<div class="inner">
@@ -32,8 +40,11 @@
 					<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span>{% if idea.extraData.area %} | <span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>{% endif %}
 				</div>
 				{% endif %}
+
 			</div>
 			<div class="button-read-more link-caret--blue">Lees meer</div>
+
+
 			<div class="row">
 				{% if data.widget.displayBudgetLabel %}
 				<div class="col-xs-6">
@@ -43,6 +54,17 @@
 				<div class="col-xs-6">
 					{% if data.widget.voting %}
 					<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
+					{% endif %}
+
+					{% if data.widget.showVoteCount %}
+					<div class="btn--blue noOfVotes stretch ">
+						{% if idea.extraData.voteCount %}
+						{{idea.extraData.voteCount}}
+						{% else %}
+						{{idea.yes}}
+						{% endif %}
+						stemmen
+					</div>
 					{% endif %}
 				</div>
 			</div>
