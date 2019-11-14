@@ -19,19 +19,15 @@
 					/>
 					<div class="step-header">{{step.title}}</div>
 					<p class="step-text">
-					{#	{{step.description.items[0].content | safe }} #}
-						{% if step.linkUrl %}
-							<ul>
-								<li>
-									<a href="{{step.linkUrl}}">{{step.linkTitle}}</a>
-								</li>
-								{% if step.secondLink %}
-								<li>
-									<a href="{{step.2ndLinkUrl}}">{{step.2ndLinkTitle}}</a>
-								</li>
-								{% endif %}
-							</ul>
-						{% endif %}
+					{% if step.links %}
+						<ul>
+						{% for link in step.links %}
+							<li>
+								<a href="{{ link.url }}">{{ link.title }}</a>
+							</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
 					</p>
 				</div>
 				{% endfor %}
