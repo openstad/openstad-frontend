@@ -98,72 +98,7 @@
 
 
 
-  // Remove clock icon for some labels.
-  .duration {
-    background-repeat: no-repeat;
-    background-size: 12px 12px;
-    background-position: 8px 7px;
-  }
-  // Change color for some labels.
-  &.BUSY {
-    .duration {
-      background-size: 11px 10px;
-      background-position: 9px 8px;
-      background-image: url('/img/idea/star-border.svg');
-      background-color: #2b9ad6;
-    }
-  }
-  &.ACCEPTED {
-    .duration {
-      background-size: 10px 10px;
-      background-position: 9px 8px;
-      background-image: url('/img/idea/calendar.svg');
-      background-color: #bdd131;
-    }
-  }
-  &.OPEN {
-    .duration {
-      background-image: url('/img/idea/klok-wit.svg');
-      background-color: #164995;
-    }
-  }
-  &.DENIED {
-    opacity: 0.5;
-    .duration {
-      background-size: 6px 6px;
-      background-position: 11px 10px;
-      background-image: url('/img/idea/afgewezen.svg');
-      background-color: #434343;
-    }
-  }
-  &.CLOSED {
-    .duration {
-      background-size: 6px 6px;
-      background-position: 11px 10px;
-      background-image: url('/img/idea/tijd-afgelopen.svg');
-      background-color: #787979;
-    }
-  }
-  &.DONE {
-    .duration {
-      background-size: 10.5px 10px;
-      background-position: 9px 7px;
-      background-image: url('/img/idea/star-fill.svg');
-      background-color: #003066;
-    }
-  }
-  &.USER {
-    background-color: #F6F7F7;
-    border: solid 3px #bdd131;
 
-    .image {
-      margin-top: -3px;
-    }
-
-    .info {
-      margin-bottom: -3px;
-    }
-  }
 
   a, a:hover, a:visited {
     color: #000;
@@ -180,33 +115,6 @@
     margin: 1em 0 0.5em;
   }
 
-  .duration {
-    box-sizing: border-box;
-    position: relative;
-    margin-top: -6px;
-    width: 100%;
-    line-height: 26px;
-    font-size: 12px;
-    font-weight: 600;
-    background-color: #434343;
-    padding-left: 26px;
-    background-repeat: no-repeat;
-    background-size: 6px 6px;
-    background-position: 10px 10px;
-    background-image: url('/img/bullet.svg');
-    position: relative;
-
-    box-sizing: border-box;
-    width: 100%;
-    left: 0;
-    padding: 0 5px 0 27px;
-    top: 0px;
-
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 26px;
-    color: #FFF;
-  }
 
   .image {
     background-image: url('/img/placeholders/idea.jpg');

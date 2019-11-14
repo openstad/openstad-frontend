@@ -11,6 +11,7 @@
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
   data-ranking="{{idea.ranking}}"
+  data-ideaid="{{idea.id}}"
 >
   <a href="/{{data.global.ideaSlug}}/{{idea.id}}">
     {% if idea.status != 'DENIED' and idea.ranking %}
