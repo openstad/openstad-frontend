@@ -673,5 +673,14 @@
 	"Styles for the iFrame": "Styles for the iFrame",
 	"Edit Iframe": "Edit Iframe",
 	"Background position": "Background position",
-	"Display filter & sorting?": "Display filter & sorting?"
+	"Display filter & sorting?": "Display filter & sorting?",
+	"Select at least one locale to export to.": "Select at least one locale to export to.",
+	"Kaart applicatie": "Kaart applicatie",
+	"Save Kaart applicatie": "Save Kaart applicatie",
+	"Edit Kaart applicatie": "Edit Kaart applicatie",
+	"Export Ideas": "Export Ideas",
+	"Show vote count?": "Show vote count?",
+	"ranking,desc": "ranking,desc",
+	"Ranglijst": "Ranglijst",
+	"Show vote counter (for gridder)": "Show vote counter (for gridder)"
 }
