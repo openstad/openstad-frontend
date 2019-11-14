@@ -1,17 +1,20 @@
 <div class="form-group">
   <h3>{{field.title}}</h3>
+  <div class="description"><p>{{field.description | safe}}</p></div>
   {% for choice in field.choices %}
   <div>
   <label>
     {% if field.options.maxChoices > 1 %}
     <input
       type="checkbox"
-      name="data[{{field.inputKey}}][]"
+      name="data[{{field.title}}][]"
+      value="{{choice.value}}"
     />
     {% else %}
     <input
       type="radio"
-      name="data[{{field.inputKey}}]"
+      name="data[{{field.title}}]"
+      value="{{choice.value}}"
     />
     {% endif %}
 
