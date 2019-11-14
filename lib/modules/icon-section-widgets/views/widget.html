@@ -21,8 +21,8 @@
 					<p class="step-text">
 					{#	{{step.description.items[0].content | safe }} #}
 
-            {{step.description}}
-            
+            {{step.description | safe}}
+
 						{% if step.linkUrl %}
 						<ul>
 							<li>
