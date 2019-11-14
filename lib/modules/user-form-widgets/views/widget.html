@@ -1,18 +1,40 @@
 <style>
   {{data.widget.formattedContainerStyles}}
 </style>
+<script>
+	window.userFormValidation = {};
+</script>
 <div
 	class="vote-box"
 	id="{{data.widget.containerId}}"
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>
-	<form method="POST" action="/modules/user-form-widgets/submit">
+	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form" data-form-validation="{{ data.widget.mappedValidation | dump }}">
 	{% for field in data.widget.formFields %}
+		{% if field.validation %}
+		<script>
+			window.userFormValidation['{{field.title}}'] = "{{ field.validation }}";
+		</script>
+		{% endif %}
+
 		{% include 'field-'+field.inputType+'.html' %}
 	{% endfor %}
+	<input type="hidden" name="sendMail" value="{{data.widget.sendMail}}" />
+	<input type="hidden" name="emailTemplate" value="{{data.widget.emailTemplate}}" />
+	<input type="hidden" name="emailSubject" value="{{data.widget.emailSubject}}" />
+	<input type="hidden" name="emailSubjectAdmin" value="{{data.widget.emailSubjectAdmin}}" />
+	<input type="hidden" name="redirectUrl" value="{{data.widget.redirectUrl}}" />
+	<input type="hidden" name="formId" value="{{data.widget.formId}}" />
 	<button type="submit" class="default btn btn-primary">
 		Verstuur
 	</button>
 	</form>
+
 </div>
+{% if data.isAdmin %}
+<a href="#overview-submissions" class="edit-button submission-overview-button" data-form-id="{{data.widget.formId}}">
+  Bekijk inzendingen
+</a>
+{% include 'includes/modal-submission-overview.html' %}
+{% endif %}

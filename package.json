@@ -36,7 +36,7 @@
     "nodemon": "^1.17.5",
     "nunjucks": "^3.2.0",
     "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git#v0.0.3",
-    "openstad-component-ideas-on-map": "git+ssh://git@github.com/Amsterdam/openstad-component-ideas-on-map.git#v0.0.4",
+    "openstad-component-ideas-on-map": "git+ssh://git@github.com/Amsterdam/openstad-component-ideas-on-map.git#v0.0.6",
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6"

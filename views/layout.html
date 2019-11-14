@@ -95,11 +95,16 @@ ga('send', 'pageview');
   {{ palette.palette(data.global, 'palette') }}
 {% endif %}
     {% if not (data.query.layout === 'none') %}
+    {% if data.global.logoLink %}
+        {% set logoLink = data.global.logoLink %}
+    {% else %}
+        {% set logoLink = appUrl %}
+    {% endif %}
     <header>
         <div class="container relative">
             <div class="row">
                 <div class="col-xs-12">
-                  <a href="{{appUrl}}/" class="logo-container">
+                  <a href="{{logoLink}}/" class="logo-container">
                     {% if data.global.siteLogo %}
                     <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
 
