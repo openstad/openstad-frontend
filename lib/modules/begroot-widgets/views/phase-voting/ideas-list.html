@@ -103,9 +103,11 @@
 						<div class="intro">
 							{{idea.summary | safe}}
 						</div>
+                        {% if idea.description %}}
 						<div class="description">
 							{{idea.description | safe}}
 						</div>
+                        {% endif %}
 					</div>
 					<div class="share-buttons">
 						<table class="table-center">
