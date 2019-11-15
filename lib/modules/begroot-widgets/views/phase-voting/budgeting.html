@@ -106,7 +106,16 @@
 											</div>
 										</div>
 										<div id="vote-button-container">
-											<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+											{% set returnUrl = data.currentUrl %}
+
+											{% if data.widget.scrollBackToBudgetblock %}
+												{% if data.currentUrl.indexOf('?') == -1 %}
+													{% set returnUrl = data.currentUrl + '?stemcode' %}
+												{% else %}
+													{% set returnUrl = data.currentUrl + '&stemcode' %}
+												{% endif %}
+											{% endif %}
+											<a href="/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
 												Vul je stemcode in
 											</a>
 											<div class="error-block">
@@ -119,7 +128,7 @@
 										</div>
 										<div id="vote-registered-container">
 											<div class="button-stemcode geldige-code">Geldige stemcode</div>
-											<a href="/oauth/login?returnTo={{data.currentUrl}}" class="underline" style="margin-top:-30px;     margin-top: -15px; display: block;margin-bottom: 20px; ">
+											<a href="/oauth/login?returnTo={{returnUrl}}" class="underline" style="margin-top:-30px;     margin-top: -15px; display: block;margin-bottom: 20px; ">
 												<small>Vul een andere stemcode in</small>
 											</a>
 											<div>
@@ -332,4 +341,15 @@
 		</div>
 	</div>
 </div>
+{% if data.widget.scrollBackToBudgetblock %}
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+			if (window.location.search && window.location.search.indexOf('stemcode') !== -1) {
+				window.setTimeout(function () {
+					$('html, body').animate({scrollTop: $("#budget-block").offset().top}, 1000);
+				}, 250);
+			}
+		});
+	</script>
+{% endif %}
 {% endmacro %}
