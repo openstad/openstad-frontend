@@ -30,9 +30,9 @@
                     <a href="/plannen" class="margin-bottom-xs scroll-link block no-decoration">
                         <span class="box-blue block">
                             <span class="margin-right-s">
-                              <span class="number-plate"> 0 </span>
-                              <span class="number-plate"> 2 </span>
-                              <span class="number-plate"> 3 </span>
+                                {% for num in data.widget.ideaCountParts %}
+                                    <span class="number-plate"> {{num}} </span>
+                                {% endfor %}
                             </span>
                             plannen
                         </span>
