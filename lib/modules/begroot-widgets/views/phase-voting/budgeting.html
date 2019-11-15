@@ -108,7 +108,7 @@
 										<div id="vote-button-container">
 											{% set returnUrl = data.currentUrl %}
 
-											{% if data.widget.scrollBackToBudgetblock %}
+											{% if data.widget.scrollBackToBudgetBlock %}
 												{% if data.currentUrl.indexOf('?') == -1 %}
 													{% set returnUrl = data.currentUrl + '?stemcode' %}
 												{% else %}
@@ -341,7 +341,7 @@
 		</div>
 	</div>
 </div>
-{% if data.widget.scrollBackToBudgetblock %}
+{% if data.widget.scrollBackToBudgetBlock %}
 	<script type="text/javascript">
 		document.addEventListener("DOMContentLoaded", function() {
 			if (window.location.search && window.location.search.indexOf('stemcode') !== -1) {
