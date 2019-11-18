@@ -453,5 +453,18 @@
 	"Keuzes (enkel voor multiple choice)": "Keuzes (enkel voor multiple choice)",
 	"Key (waaronder op te slaan)": "Key (waaronder op te slaan)",
 	"Validatie (Komma gescheiden, bv: required, min:20, max:500)": "Validatie (Komma gescheiden, bv: required, min:20, max:500)",
-	"Configuratie": "Configuratie"
+	"Configuratie": "Configuratie",
+	"Export Ideas": "Export Ideas",
+	"Text color of the items in the navigation bar": "Text color of the items in the navigation bar",
+	"Text color when hovering over the items in the navigation bar": "Text color when hovering over the items in the navigation bar",
+	"Color of the underline of the items in the navigation bar": "Color of the underline of the items in the navigation bar",
+	"Color of the text in the footer": "Color of the text in the footer",
+	"Select Type Of List": "Select Type Of List",
+	"Unordered list": "Unordered list",
+	"Ordered list": "Ordered list",
+	"Numbers": "Numbers",
+	"Select type of list": "Select type of list",
+	"Subitems": "Subitems",
+	"Select appearance modus for subitems": "Select appearance modus for subitems",
+	"Subitem": "Subitem"
 }
