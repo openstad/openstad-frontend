@@ -201,17 +201,31 @@ ga('send', 'pageview');
           <div class="navbar-menu toggle-menu">
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
               <ul class="nav navbar-left">
-                <li class="nav-item">
-                  <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
-                </li>
-                {% for tab in data.home._children %}
-                <li class="nav-item">
-                  <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
-                    {{ tab.title }}
-                  </a>
-                </li>
-                {% endfor %}
-                {% if data.global.topLinks %}
+                  {% if data.global.arrangeMainMenu and data.global.arrangeMainMenu == 'manually' %}
+
+                  {% for item in data.global.mainMenuItems %}
+                  <li class="nav-item">
+                      <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
+                          {{ item.mainMenuLabel }}
+                      </a>
+                  </li>
+                  {% endfor %}
+
+                  {% else %}
+                      <li class="nav-item">
+                          <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
+                      </li>
+                      {% for tab in data.home._children %}
+                      <li class="nav-item">
+                          <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
+                              {{ tab.title }}
+                          </a>
+                      </li>
+                      {% endfor %}
+
+                  {% endif %}
+
+                  {% if data.global.topLinks %}
                 <li class="li-spacer visible-xs"></li>
                 {% for topLink in data.global.topLinks.reverse() %}
                   <li class="visible-xs">
