@@ -63,6 +63,17 @@ router.route('*')
 		return next(createError(401, 'Je mag niet stemmen op deze site'));
 	})
 
+  // scopes
+	.all(function(req, res, next) {
+
+		req.scope = [
+			{ method: ['forSiteId', req.site.id]}
+    ];
+
+    return next();
+
+  })
+
 // list all votes or all votes
 // ---------------------------
 router.route('/')
@@ -101,17 +112,12 @@ router.route('/')
     	};
 		}
 
-
-		const scopes = [
-			{ method: ['forSiteId', req.site.id]}
-		];
-
 		if (req.user && req.user.role === 'admin') {
-			scopes.push('includeUser');
+			req.scope.push('includeUser');
 		}
 
 		db.Vote
-			.scope(scopes)
+			.scope(req.scope)
 			.findAll({ where })
 			.then(function( found ) {
 				res.json(found.map(entry => {
@@ -146,6 +152,7 @@ router.route('/*')
   // heb je al gestemd
 	.post(function(req, res, next) {
 		db.Vote // get existing votes for this user
+			.scope(req.scope)
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
 				if ( req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
