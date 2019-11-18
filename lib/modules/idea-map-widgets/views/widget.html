@@ -1,100 +1,39 @@
 {% import 'numberplate.njk' as numberPlateButton %}
 
-{% if caption %}
+{% set editorInputElementId = 'map' %}
+
+{% if data.widget.mapType == 'nlmaps-openlayers' %}
+  <div id="nlmaps-holder" style="height: 400px;">
+    <div id="map-with-buttons-container">
+      <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
+      <div class="map-buttons-container">
+        {% if (data.widget.displayCtaButton) %}
+        <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
+          {{ data.widget.ctaText if data.widget.ctaText else 'Voeg een opknappunt toe' }}
+        </a>
+        {% endif %}
+        {% if (data.widget.displayCounter) %}
+        {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
 
 {% else %}
+  <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
 
-{% endif %}
-
-{% set editorInputElementId = 'map' %}
-<script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
-
-
-
-<script src="/js/openstad-map.js"></script>
-
-<div id="map-with-buttons-container">
-  <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
-  <div class="map-buttons-container">
-  {% if (data.widget.displayCtaButton) %}
-    <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
-      {{ data.widget.ctaText if data.widget.ctaText else 'Stuur je plan in!' }}
-    </a>
-  {% endif %}
-  {% if (data.widget.displayCounter) %}
-  {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
-  {% endif %}
+  <div id="map-with-buttons-container">
+    <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
+    <div class="map-buttons-container">
+      {% if (data.widget.displayCtaButton) %}
+      <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
+        {{ data.widget.ctaText if data.widget.ctaText else 'Stuur je plan in!' }}
+      </a>
+      {% endif %}
+      {% if (data.widget.displayCounter) %}
+      {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+      {% endif %}
+    </div>
   </div>
-</div>
-
-<script>
-
- var markers = [
-	  {% for idea in data.ideas %}
-	  {% if (idea.location) and (idea.status !=  'DENIED' or ideas.length == 1) %}
-    {% if (idea.location.coordinates[0]) and (idea.location.coordinates[1]) %}
-	 {
-		 position: { lat: {{idea.location.coordinates[0]}}, lng: {{idea.location.coordinates[1]}} },
-		 icon     : {
-			 url    : {% if ( idea.status == 'DONE' ) or (idea.status == 'ACCEPTED') or (idea.status == 'BUSY') %}'/img/idea/flag-blue.svg'{% elseif ( idea.status == 'CLOSED' ) or (idea.status == 'DENIED') %}'/img/idea/flag-gray.svg'{% else %}'/img/idea/flag-red.svg'{% endif %},
-			 size   : [22, 24],
-			 anchor : [ 4, 21],
-		 },
-		 href: '/{{data.global.ideaSlug}}/{{idea.id}}',
-		 status: '{{idea.status}}',
-		 endDate: '{{idea.endDate}}',
-	 },
-	  {% endif %}
-    {% endif %}
-	  {% endfor %}
- ]
-
- // delete old markers when there are too many
- var selectedMarkers = [];
- if (markers.length > 20) {
-	 markers.forEach(function(marker) {
-		 var select = true;
-		 if (marker.status ==  'CLOSED') {
-			 var datediff = new Date().getTime() - new Date(marker.endDate).getTime();
-			 if ( datediff > 1000 * 60 * 60 * 24 * 90 ) {
-				 select = false;
-			 }
-		 }
-	 selectedMarkers.push(marker);
-
-		 if (select) {
-		//	 selectedMarkers.push(marker);
-		 }
-	 });
- } else {
-	 selectedMarkers = markers
- }
-
-
-
- var openstadMapMarkerstyles = {% if config.openStadMap.markerStyle %}{{ config.openStadMap.markerStyle | dump | safe }}{% else %}null{% endif %};
-var openstadMapPolygon = {% if data.global.mapPolygons %}{{ data.global.mapPolygons | dump | safe }}{% else %}null{% endif %};
-//	 var openstadMapDefaults = null;
- var openstadPolygons = openstadMapPolygon;//{% if config.openStadMap.polygons and config.siteId and config.openStadMap.polygons[config.siteId] %}{{ config.openStadMap.polygons[config.siteId] | dump | safe }}{% else %}null{% endif %};
- var openstadMapDefaults = {
-    center           : {lat: {{data.global.mapCenterLat}}, lng: {{data.global.mapCenterLng}}},
-    zoom             : {{data.global.mapZoomLevel}},
-    zoomControl      : true,
-    minZoom					 : 12,
-    maxZoom          : 17,
-    disableDefaultUI : true,
-    styles 					 : {% if apos.settings.getOption('openStadMap').defaults.styles  %}{{ apos.settings.getOption('openStadMap').defaults.styles | dump | safe }}{% else %}null{% endif %}
-  };
-
-
-  var map = new OpenStadMap(
-    openstadMapMarkerstyles,
-    openstadMapPolygon,
-    null,
-    null
-  );
-
-  map.createMap(openstadMapDefaults, selectedMarkers, openstadPolygons);
-
-
-</script>
+{% endif %}

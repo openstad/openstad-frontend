@@ -456,6 +456,7 @@ function run(id, siteData, callback) {
       'idea-form-widgets': {},
       'ideas-on-map-widgets': {},
       'date-bar-widgets': {},
+      'map-widgets': {},
       'idea-map-widgets': {},
       'iframe-widgets': {},
       'link-widgets': {},

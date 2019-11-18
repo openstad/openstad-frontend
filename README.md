@@ -17,6 +17,7 @@ APP_URL=http://localhost:3000
 API=http://localhost:8108
 #should be defined in API config, is needed to get sensitive Site configuration
 SITE_API_KEY=xxxx
+MAP_TYPE=googlemaps
 ```
 
 #### 2. Run NPM install
@@ -46,3 +47,39 @@ npm run dev
 
 ## Running multiple sites
 It's possible to run multiple sites on this one apostrophecms installation. Soon more information on how.
+
+## Using the map-widgets
+If you want to use a map in your custom module you can extend the map-widgets in the index.js of your module. 
+```
+module.exports = {
+  extend: 'map-widgets'
+```
+Use the mapConfigBuilder on the server side to add data to your map:
+```
+widget.mapConfig = self.getMapConfigBuilder(globalData)
+     .setDefaultSettings({
+         mapCenterLat: 52.0,
+         mapCenterLng: 4.1,
+         mapZoomLevel: 16,
+         zoomControl: true,
+         disableDefaultUI : true,
+         styles: ''
+     })
+     .setMarkersByIdeas(ideas)
+     .setMarkerStyle(markerStyle)
+     .setPolygon(req.data.global.mapPolygons || null)
+     .getConfig()
+ ```
+You also need to extend the map-widgets on the client side:
+```
+apos.define('idea-single-widgets', {
+    extend: 'map-widgets',
+    construct: function(self, options) {
+        self.play = function($widget, data, options) {          
+            self.createMap(data.mapConfig);
+            self.addPolygon(data.mapConfig);
+            self.setIdeaMarker(data.mapConfig);
+        }
+    }
+});
+```
