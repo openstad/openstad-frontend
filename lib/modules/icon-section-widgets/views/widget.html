@@ -1,5 +1,5 @@
 <style>
-  {{data.widget.formattedContainerStyles}}
+ {{data.widget.formattedContainerStyles}}
 </style>
 
 <div id="{{data.widget.containerId}}" class="howDoesItWork {% if data.widget.sectionOpen %}open{% else %}closed{% endif %}"  >
@@ -13,24 +13,25 @@
 				{% for step in data.widget.steps %}
 				<div class="step">
 					<img
-						class="step-image"
-						src="{{apos.attachments.url(step.image)}}"
-						style="{% if data.widget.imageHeight %} height:	{{data.widget.imageHeight}}; {% endif %}"
+					class="step-image"
+					src="{{apos.attachments.url(step.image)}}"
+					style="{% if data.widget.imageHeight %} height:	{{data.widget.imageHeight}}; {% endif %}"
 					/>
 					<div class="step-header">{{step.title}}</div>
 					<p class="step-text">
-            		{{step.description | safe}}
+            {{step.description | safe}}
 
-					{% if step.links %}
-						{% if step.linkUrl %}
+					  {% if step.links %}
 						<ul>
-						{% for link in step.links %}
+						  {% for link in step.links %}
+						  {% if link.url %}
 							<li>
 								<a href="{{ link.url }}">{{ link.title }}</a>
 							</li>
-						{% endfor %}
+					    {% endif %}
+						  {% endfor %}
 						</ul>
-					{% endif %}
+					  {% endif %}
 					</p>
 				</div>
 				{% endfor %}
