@@ -81,8 +81,10 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									</a>
 								</div>
 								<div class="vote-logged-in">
-									<div class="button-stemcode geldige-code">Geldig e-mailadres</div>
-									{{data.widget.step_2_succesfull_auth }}
+									<div class="button-stemcode geldige-code">
+										{{data.widget.step_2_succesfull_button }}
+									</div>
+									{{data.widget.step_2_succesfull_auth | safe }}
 
 									{% if data.ideasVotedFor and data.ideasVotedFor.length > 0 %}
 									<div class="info-block error warning">
