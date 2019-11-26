@@ -240,7 +240,7 @@ router
 				}
 			} else {
 				res.status(500).json({
-					status: 'Something went wrong'
+					status: 'Redirect domain not allowed'
 				});
 			}
 		});
