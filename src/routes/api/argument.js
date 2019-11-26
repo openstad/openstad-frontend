@@ -63,6 +63,7 @@ router.route('/')
 			.findAll({ where })
 			.then( found => {
 				return found.map( entry => {
+          
 					return createArgumentJSON(entry, req.user);
 				});
 			})
@@ -266,6 +267,10 @@ router.route('/:argumentId(\\d+)/vote')
 
 // helper functions
 function createArgumentJSON(argument, user) {
+
+  console.log(argument);
+  console.log(argument.user);
+  console.log('-----', user.id, argument.user.id);
 
 	let can = {
 		edit: user.role == 'admin' || user.id == argument.user.id,
