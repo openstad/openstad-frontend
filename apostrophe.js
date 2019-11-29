@@ -1,7 +1,4 @@
-const arguments = process.argv.slice(2);
-const path = arguments[1] ? {path: arguments[1]} : undefined;
-
-require('dotenv').config(path);
+require('dotenv').config();
 
 const openstadMap = require('./config/map').default;
 const openstadMapPolygons = require('./config/map').polygons;
