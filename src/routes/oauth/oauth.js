@@ -219,7 +219,7 @@ router
 
 
 		let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
-		redirectUrl = redirectUrl || req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false;
+		redirectUrl = redirectUrl || ( req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false );
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
