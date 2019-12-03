@@ -220,7 +220,7 @@ router.route('/*')
 
 				// get existing votes for this IP
 				db.Vote
-					.findAll({ where:whereClause })
+					.findAll({ where: whereClause })
 					.then(found => {
 						if (found && found.length > 0) {
 							throw new Error('Je hebt al gestemd');
@@ -257,6 +257,30 @@ router.route('/*')
 		return next(createError(400, 'Budget klopt niet'));
 	})
 
+  // validaties voor voteType=budgeting-per-theme
+	.post(function(req, res, next) {
+		if (req.site.config.votes.voteType != 'budgeting-per-theme') return next();
+    let budget = 0;
+    let themes = req.site.config.votes.themes || [];
+		req.votes.forEach((vote) => {
+			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      let themename = idea && idea.extraData && idea.extraData.theme;
+      let theme = themes.find( theme => theme.value == themename );
+      if (theme) {
+	      theme.budget = theme.budget || 0;
+        theme.budget += idea.budget;
+      }
+		});
+    let isOk = true;
+    themes.forEach((theme) => {
+		  if (theme.budget < theme.minBudget || theme.budget > theme.maxBudget) {
+        isOk = false;
+		  }
+      console.log(theme.value, theme.budget, theme.minBudget, theme.maxBudget, theme.budget < theme.minBudget || theme.budget > theme.maxBudget);
+    });
+		return next( isOk ? null : createError(400, 'Budget klopt niet') );
+	})
+
 	.post(function(req, res, next) {
 
 		let actions = [];
@@ -284,6 +308,7 @@ router.route('/*')
 				break;
 
 			case 'budgeting':
+			case 'budgeting-per-theme':
 				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
 				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
 				break;
