@@ -25,6 +25,7 @@ module.exports = function( req, res, next ) {
   res.header('Access-Control-Allow-Credentials', 'true');
 
 	if (process.env.NODE_ENV != 'development') {
+		res.header('Content-type', 'application/json; charset=utf-8');
 		res.header('Strict-Transport-Security', 'max-age=31536000 ; includeSubDomains');
 		res.header('X-Frame-Options', 'sameorigin');
 		res.header('X-XSS-Protection', '1');
