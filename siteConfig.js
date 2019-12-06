@@ -4,6 +4,9 @@ module.exports = {
   get: (site, sampleSite, siteData, openstadMap, openstadMapPolygons) => {
 
     const siteConfig = {
+//    rootDir: getRootDir() + '/sites',
+//    npmRootDir: getRootDir(),
+      // shortName: 'localhost',
       shortName: site._id,
       modules: {
         'api-proxy': {},
@@ -27,16 +30,28 @@ module.exports = {
             }
           }
         },
-        'apostrophe-attachments': {},
+
+        'apostrophe-attachments': {
+          /*    uploadfs: {
+                prefix: '/' + site._id,
+                uploadsPath: getRootDir() + '/sites/public/uploads',
+                uploadsUrl: '/uploads',
+                tempPath: getRootDir() + '/sites/data/temp/' + site._id + '/uploadfs',
+                https: true
+              }*/
+        },
+
         'apostrophe-multisite-patch-assets': {
           construct: function (self, options) {
             // use this information until afterInit
-            if (!sampleSite) {
+            const sample = getSampleSite();
+
+            if (!sample) {
               return;
             }
 
-            self.apos.assets.generationCollection = sampleSite.assets.generationCollection;
-            self.apos.assets.generation = sampleSite.assets.generation;
+            self.apos.assets.generationCollection = sample.assets.generationCollection;
+            self.apos.assets.generation = sample.assets.generation;
           },
 
         },
@@ -54,6 +69,13 @@ module.exports = {
           contentWidgets: {
             'agenda': {},
             'accordeon': {},
+            /*    'apostrophe-images': {
+                  fields: {
+                    type: 'string',
+                    name: 'maxWidth',
+                    label: 'Max width'
+                  }
+                },*/
             'arguments': {},
             'arguments-form': {},
             'section': {
@@ -150,6 +172,7 @@ module.exports = {
         'section-widgets': {},
         'all-on-one-row-widgets': {},
         'card-widgets': {},
+        'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'header-widgets': {},
         'title-widgets': {},
@@ -163,6 +186,7 @@ module.exports = {
         'idea-form-widgets': {},
         'ideas-on-map-widgets': {},
         'date-bar-widgets': {},
+        'map-widgets': {},
         'idea-map-widgets': {},
         'iframe-widgets': {},
         'link-widgets': {},

@@ -272,6 +272,10 @@ function run(id, siteData, callback) {
     if (callback) {
       return callback(null, apos);
     }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> development
   };
 
   const apos = apostrophe(
