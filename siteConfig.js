@@ -4,9 +4,6 @@ module.exports = {
   get: (site, sampleSite, siteData, openstadMap, openstadMapPolygons) => {
 
     const siteConfig = {
-//    rootDir: getRootDir() + '/sites',
-//    npmRootDir: getRootDir(),
-      // shortName: 'localhost',
       shortName: site._id,
       modules: {
         'api-proxy': {},
@@ -32,13 +29,6 @@ module.exports = {
         },
 
         'apostrophe-attachments': {
-          /*    uploadfs: {
-                prefix: '/' + site._id,
-                uploadsPath: getRootDir() + '/sites/public/uploads',
-                uploadsUrl: '/uploads',
-                tempPath: getRootDir() + '/sites/data/temp/' + site._id + '/uploadfs',
-                https: true
-              }*/
         },
 
         'apostrophe-multisite-patch-assets': {
@@ -69,13 +59,6 @@ module.exports = {
           contentWidgets: {
             'agenda': {},
             'accordeon': {},
-            /*    'apostrophe-images': {
-                  fields: {
-                    type: 'string',
-                    name: 'maxWidth',
-                    label: 'Max width'
-                  }
-                },*/
             'arguments': {},
             'arguments-form': {},
             'section': {
@@ -172,7 +155,6 @@ module.exports = {
         'section-widgets': {},
         'all-on-one-row-widgets': {},
         'card-widgets': {},
-        'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'header-widgets': {},
         'title-widgets': {},

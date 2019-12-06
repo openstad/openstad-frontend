@@ -12,18 +12,12 @@
  */
 require('dotenv').config();
 //external libs
-const path                    = require('path');
 const express                 = require('express');
 const apostrophe              = require('apostrophe');
 const app                     = express();
 const _                       = require('lodash');
-const mongo                   = require('mongodb');
 const rp                      = require('request-promise');
-const fs                      = require('fs');
-const argv                    = require('boring')();
-const quote                   = require('shell-quote').quote;
 const Promise                 = require('bluebird');
-const basicAuth               = require('express-basic-auth');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
 
@@ -31,7 +25,6 @@ const compare                 = require('tsscmp');
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
-const contentWidgets          = require('./config/contentWidgets').default;
 const defaultSiteConfig       = require('./siteConfig');
 const configForHosts          = {};
 const aposStartingUp          = {};
@@ -42,37 +35,6 @@ var runningSampleSite = false;
 var startingUpSampleSite = false;
 
 app.use(express.static('public'));
-
-function getRoot() {
-    let _module = module;
-    let m = _module;
-    while (m.parent) {
-      // The test file is the root as far as we are concerned,
-      // not mocha itself
-      if (m.parent.filename.match(/\/node_modules\/mocha\//)) {
-        return m;
-      }
-      m = m.parent;
-      _module = m;
-    }
-    return _module;
-  }
-
-function getRootDir() {
-   const path = require('path');
-   return path.dirname(path.resolve(getRoot().filename));
- }
-
- function getNpmPath(root, type) {
-   const npmResolve = require('resolve');
-   return npmResolve.sync(type, { basedir: getRootDir() });
- }
-
- function hostnameOnly(server) {
-   return server.replace(/\:\d+$/, '');
- }
-
-
 
 function getSampleSite() {
   return sampleSite ? sampleSite : null;
@@ -171,7 +133,6 @@ app.use(function(req, res, next) {
 
 function serveSites (req, res, next) {
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
-  const hostKey = thisHost === process.env.DEFAULT_HOST ? process.env.DEFAULT_DB : thisHost.replace(/\./g, '');
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
@@ -223,10 +184,6 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
             aposStartingUp[dbName] = true;
 
-            if (aposServer[dbName]) {
-          //    aposServer[dbName].close();
-            }
-
             runner(dbName, config).then(function(apos) {
               aposStartingUp[dbName] = false;
               aposServer[dbName] = apos;
@@ -251,7 +208,6 @@ function serveSite(req, res, siteConfig, forceRestart) {
           safeStartServer();
         }
 
-    //    console.log(aposServer)
       } else {
         res.status(404).json({ error: 'Not found page or website' });
       }
@@ -272,10 +228,6 @@ function run(id, siteData, callback) {
     if (callback) {
       return callback(null, apos);
     }
-<<<<<<< HEAD
-=======
-  
->>>>>>> development
   };
 
   const apos = apostrophe(
@@ -284,9 +236,4 @@ function run(id, siteData, callback) {
 
 }
 
-/*
-process.on('uncaughtException', function (exception) {
-  console.log('here', exception);
-})
-*/
 app.listen(process.env.PORT);
