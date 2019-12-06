@@ -27,21 +27,16 @@ module.exports = {
             }
           }
         },
-
-        'apostrophe-attachments': {
-        },
-
+        'apostrophe-attachments': {},
         'apostrophe-multisite-patch-assets': {
           construct: function (self, options) {
             // use this information until afterInit
-            const sample = getSampleSite();
-
-            if (!sample) {
+            if (!sampleSite) {
               return;
             }
 
-            self.apos.assets.generationCollection = sample.assets.generationCollection;
-            self.apos.assets.generation = sample.assets.generation;
+            self.apos.assets.generationCollection = sampleSite.assets.generationCollection;
+            self.apos.assets.generation = sampleSite.assets.generation;
           },
 
         },
