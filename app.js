@@ -284,7 +284,28 @@ function run(id, siteData, callback) {
         port: process.env.DB_PORT || 27017,
       },
       'apostrophe-express': {
-        port: process.env.PORT
+        port: process.env.PORT,
+        session: {
+          resave: true,
+          rolling: true,
+          secret: process.env.SESSION_SECRET,
+          cookie: {
+            path: '/',
+            maxAge: 24 * 60 * 60 * 1000,
+            secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
+            sameSite: true,
+            httpOnly: true,
+          },
+        },
+        csrf: {
+          cookie: {
+            path: '/',
+            maxAge: 24 * 60 * 60 * 1000,
+            secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
+            sameSite: true,
+            httpOnly: false,
+          },
+        }
       },
       'apostrophe-docs': {
       },
