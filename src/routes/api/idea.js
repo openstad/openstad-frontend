@@ -99,7 +99,7 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-		filterBody(req)
+		filterBody(req);
 		req.body.siteId = parseInt(req.params.siteId);
 		req.body.userId = req.user.id;
 		req.body.startDate = new Date();
@@ -207,6 +207,19 @@ function filterBody(req) {
 			filteredBody[key] = req.body[key];
 		}
 	});
+
+	if (req.user.isAdmin()) {
+    if (filteredBody.modBreak) {
+      if ( !req.idea || req.idea.modBreak != filteredBody.modBreak ) {
+        if (!req.body.modBreakUserId) filteredBody.modBreakUserId = req.user.id;
+        if (!req.body.modBreakDate) filteredBody.modBreakDate = new Date().toString();
+      }
+    } else {
+      filteredBody.modBreak = '';
+      filteredBody.modBreakUserId = null;
+      filteredBody.modBreakDate = null;
+    }
+  }
 
 	req.body = filteredBody;
 }
