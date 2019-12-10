@@ -293,7 +293,7 @@ function run(id, siteData, callback) {
             path: '/',
             maxAge: 24 * 60 * 60 * 1000,
             secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
-            sameSite: true,
+            sameSite: false,
             httpOnly: false,
           },
         },
