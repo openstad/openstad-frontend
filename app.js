@@ -294,7 +294,7 @@ function run(id, siteData, callback) {
             maxAge: 24 * 60 * 60 * 1000,
             secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
             sameSite: true,
-            httpOnly: true,
+            httpOnly: false,
           },
         },
         csrf: {
