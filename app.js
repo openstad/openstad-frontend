@@ -285,27 +285,6 @@ function run(id, siteData, callback) {
       },
       'apostrophe-express': {
         port: process.env.PORT,
-        session: {
-          resave: true,
-          rolling: true,
-          secret: process.env.SESSION_SECRET,
-          cookie: {
-            path: '/',
-            maxAge: 24 * 60 * 60 * 1000,
-            secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
-            sameSite: false,
-            httpOnly: false,
-          },
-        },
-        csrf: {
-          cookie: {
-            path: '/',
-            maxAge: 24 * 60 * 60 * 1000,
-            secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
-            sameSite: true,
-            httpOnly: false,
-          },
-        }
       },
       'apostrophe-docs': {
       },
