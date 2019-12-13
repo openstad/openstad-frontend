@@ -440,7 +440,7 @@ function run(id, siteData, callback) {
       },
       'apostrophe-global': {},
       'section-widgets': {},
-      'custom-admin-widgets': {},
+      'admin-widgets': {},
       'all-on-one-row-widgets': {},
       'card-widgets': {},
       'iframe-widgets': {},

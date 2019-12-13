@@ -90,6 +90,7 @@ ga('send', 'pageview');
 {% endif %}
 
 {% endblock %}
+<<<<<<< HEAD
 {% block startHead %}
     {% if data.global.tagmanager %}
         <!-- Google Tag Manager -->
@@ -97,10 +98,12 @@ ga('send', 'pageview');
         <!-- End Google Tag Manager -->
     {% endif %}
 {% endblock %}
+=======
+>>>>>>> create helper to render admin bar
 
 {% block beforeMain %}
 
-{% include '../lib/modules/custom-admin-widgets/views/widget.html' %}
+{{ apos.admin.renderAdminBarTemplate() | safe }}
 
     {% if data.global.tagmanager %}
         <!-- Google Tag Manager -->
