@@ -1,4 +1,5 @@
 #budget-block {
+
 	display: block;
 	position: relative;
 	width: 100%;
@@ -89,6 +90,118 @@
 		}
 	}
 
+  #themes-bar {
+
+	  @media @phone {
+      margin-bottom: 20px;
+    }
+
+    .theme-current {
+      width: 100%;
+      height: 6px;
+    }
+
+    .theme-bars {
+      height: 6px;
+      margin: 15px 4px 15px 8px;
+      .theme-bar {
+        position: relative;
+        float: left;
+        min-width: 10px;
+        height: 6px;
+        margin-right: 4px;
+        border: 3px solid #787979;
+        border-radius: 3px;
+        background-color: #787979;
+        .theme-bar-amount-spent {
+          position: absolute;
+          top: -3px;
+          left: -3px;
+          height: 6px;
+          borderx: 3px solid transparent;
+          border-radius: 3px;
+        }
+      }
+    }
+    .theme-labels {
+      width: 100%;
+      height: 20px;
+      margin: 0 30px;
+      .theme-label {
+        .theme-label-color {
+          float: left;
+          width: 10px;
+          height: 10px;
+          margin: 5px 10px 0 0;
+        }
+        .theme-label-text {
+          float: left;
+          font-size: 14px;
+          line-height: 20px;
+          color: black;
+          margin-right: 20px;
+        }
+      }
+    }
+    
+    .theme-tabs {
+    }    
+    .theme-tab {
+      display: inline-block;
+      margin: 20px -10px 0 30px;
+      padding: 2px 8px;
+      font-weight: bold;
+      line-height: 22px;
+      cursor: pointer;
+    }
+    .theme-tab-default {
+      color: black;
+      background-color: #e6e6e6;
+    }
+  }
+
+  #themes-buttons {
+
+    margin: 0 30px 30px 30px;
+
+		@media @phone {
+      margin: 0 10px 30px 10px;
+		}
+    
+    .theme-button {
+      float: left;
+      height: 44px;
+      margin-right: 20px;
+      margin-bottom: 15px;
+      padding: 10px 10px 12px 15px;
+      background-color: white;
+      border: 1px solid @amsterdam-navyblue;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 100%;
+			@media @phone {
+        width: 100%;
+        margin-right: 0;
+			}
+      .theme-button-color {
+        float: left;
+        width: 10px;
+        height: 10px;
+        margin: 5px 10px 0 0;
+      }
+      .theme-button-text {
+        max-width: calc(100% - 40px );
+        float: left;
+        font-size: 14px;
+        line-height: 20px;
+        color: black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 20px;
+      }
+    }
+  }
+  
 	#steps-bar {
 		display: flex;
 
@@ -427,15 +540,18 @@
 			}
 
 			#budget-text {
+        padding: 15px;
 				float: left;
 				font-size: 15px;
 				font-weight: normal;
 				line-height: 1.57;
+        border: solid 1px #004699;
 
 				@media @phone {
 					width: 100%;
 					font-size: 14px;
 					font-weight: normal;
+          margin-top: 15px;
 				}
 
 			}

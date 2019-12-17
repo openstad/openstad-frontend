@@ -24,9 +24,11 @@
 						<div class="current-budget-images clearfix"></div>
 					</div>
 					<div id="steps-content">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div id="themes-bar"></div>
+            {% endif %}
 						<div id="current-step">
 							<div class="row">
-
 								<div class="col-sm-8 col-xs-12 ">
 									<div id="content">
 										<div id="text">
@@ -89,8 +91,7 @@
 										<div id="current-budget-preview">
 											<div class="current-budget-images clearfix"></div>
 											<div class="current-budget-table">
-												<h5 class="overview-title">Overzicht van mijn selectie</h5>
-												<div class="overview"></div>
+												<div class="overview-container"></div>
 											</div>
 										</div>
 										<div id="budgeting-edit-mode-container" class="hidden align-left">
@@ -109,11 +110,11 @@
 											{% set returnUrl = data.currentUrl %}
 
 											{% if data.widget.scrollBackToBudgetBlock %}
-												{% if data.currentUrl.indexOf('?') == -1 %}
-													{% set returnUrl = data.currentUrl + '?stemcode' %}
-												{% else %}
-													{% set returnUrl = data.currentUrl + '&stemcode' %}
-												{% endif %}
+											{% if data.currentUrl.indexOf('?') == -1 %}
+											{% set returnUrl = data.currentUrl + '?stemcode' %}
+											{% else %}
+											{% set returnUrl = data.currentUrl + '&stemcode' %}
+											{% endif %}
 											{% endif %}
 											<a href="/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
 												Vul je stemcode in
@@ -141,16 +142,59 @@
 								</div>
 							</div>
 						</div>
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div id="themes-buttons"></div>
+            {% endif %}
 					</div>
 					<div id="button-bar">
-						<div id="previous-button" onclick="previousStep(); calculateContainerHeight();">
+						<div id="previous-button" onclick="previousStep(); // calculateContainerHeight();">
 							Vorige
 						</div>
 						<div id="next-button" onclick="nextStep(); ">
 							Volgende
 						</div>
 					</div>
+					<div id="steps-content-0" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-bars">
+						    {% for theme in data.global.themes %}
+                <div class="theme-bar theme-{{theme.color | replace("#", "")}}"><div class="theme-bar-amount-spent theme-{{theme.color | replace("#", "")}}""></div></div>
+						    {% endfor %}
+              </div>
+              <div class="theme-labels">
+						    {% for theme in data.global.themes %}
+                <div class="theme-label">
+                  <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
+                  <div class="theme-label-text">{{theme.value}}</div>
+                </div>
+						    {% endfor %}
+              </div>
+            </div>
+						<div class="text">
+              <h4>Kies jouw favoriete plannen per thema!</h4>
+              Selecteer hieronder een thema om te beginnen. Als je alle thema’s hebt gehad kun je via de knop ‘Bekijk selectie’ doorklikken naar het overzicht van jouw geselecteerde plannen.
+					  </div>
+            <div class="themes-buttons">
+						  {% for theme in data.global.themes %}
+              <div class="theme-button theme-{{theme.color | replace("#", "")}}" onclick="setTheme('{{loop.index}}')">
+                <div class="theme-button-color theme-{{theme.color | replace("#", "")}}"></div>
+                <div class="theme-button-text">{{theme.value}}</div>
+              </div>
+						  {% endfor %}
+						  <div style="clear: both;"></div>
+            </div>
+					  {% endif %}
+					</div>
 					<div id="steps-content-1" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-current"></div>
+						  {% for theme in data.global.themes %}
+              <div class="theme-tab theme-{{theme.color | replace("#", "")}} theme-tab-default" onclick="setTheme('{{loop.index}}')">{{theme.value}}</div>
+						  {% endfor %}
+            </div>
+					  {% endif %}
 						<div class="text">
 							<div class="mobile-accordion overstretch--xs">
 								<a href="#" class="mobile-accordion-header">
@@ -181,6 +225,23 @@
 					</div>
 
 					<div id="steps-content-2" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-bars">
+						    {% for theme in data.global.themes %}
+                <div class="theme-bar theme-{{theme.color | replace("#", "")}}"><div class="theme-bar-amount-spent theme-{{theme.color | replace("#", "")}}""></div></div>
+						    {% endfor %}
+              </div>
+              <div class="theme-labels">
+						    {% for theme in data.global.themes %}
+                <div class="theme-label">
+                  <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
+                  <div class="theme-label-text">{{theme.value}}</div>
+                </div>
+						    {% endfor %}
+              </div>
+            </div>
+					  {% endif %}
 						<div class="text">
 							<div class="mobile-accordion overstretch--xs">
 								<a href="#" class="mobile-accordion-header">
@@ -199,7 +260,6 @@
 								</a>
 								<div class="mobile-accordion-body">
 									{{data.widget.step_2_intro}}
-
 								</div>
 							</div>
 							<br class="visible-xs" />
@@ -289,17 +349,17 @@
 					<div class="row">
 						{% if data.widget.votingType === 'count' %}
 						<div class="col-sm-4 col-xs-6 budget-col">
-								<label>
-									<span> Ideeën gekozen: </span>
-								</label>
-								<span class="current-ideas-count bold">0</span>
-							</div>
-							<div class="col-sm-4 col-xs-6 budget-col">
-								<label>
-									<span> Nog kiezen: </span>
-								</label>
-								<span class="available-ideas-count bold">0</span>
-							</div>
+							<label>
+								<span> Ideeën gekozen: </span>
+							</label>
+							<span class="current-ideas-count bold">0</span>
+						</div>
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<label>
+								<span> Nog kiezen: </span>
+							</label>
+							<span class="available-ideas-count bold">0</span>
+						</div>
 						{% else %}
 						<div class="col-sm-4 col-xs-6 budget-col">
 							<label>
