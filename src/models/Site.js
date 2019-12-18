@@ -292,7 +292,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					voteType: {
 						type: 'enum',
-						values: ['likes', 'count', 'budgeting'],
+						values: ['likes', 'count', 'budgeting', 'budgeting-per-theme'],
 						default: 'likes',
 					},
 
@@ -329,6 +329,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: undefined,
 					},
+
+          themes: {
+						type: 'objectList',
+            elementSubset: {
+					    minBudget: {
+						    type: 'int',
+						    default: undefined,
+					    },
+					    maxBudget: {
+						    type: 'int',
+						    default: undefined,
+					    },
+            }
+          },
 
 				},
 			},
