@@ -1,4 +1,4 @@
-# An implentation of apostrophecms for Amsterdam open democracy
+# An implementation of apostrophecms for Amsterdam open democracy
 
 ## Prerequisites
  - [Git](https://git-scm.com/)
