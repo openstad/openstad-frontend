@@ -91,7 +91,7 @@ ga('send', 'pageview');
 
 {% endblock %}
 {% block beforeMain %}
-{% if data.user %} <!-- be sure to somehow safegaurd against non-editor situations, as performance could unnecessarily suffer -->
+{% if data.user %} <!-- be sure to somehow safeguard against non-editor situations, as performance could unnecessarily suffer -->
   {{ palette.palette(data.global, 'palette') }}
 {% endif %}
     {% if not (data.query.layout === 'none') %}
