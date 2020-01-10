@@ -12,7 +12,7 @@ module.exports = {
           port: process.env.DB_PORT || 27017,
         },
         'apostrophe-express': {
-          port: process.env.PORT
+          port: process.env.PORT,
         },
         'apostrophe-docs': {},
         'auth': {},
@@ -27,16 +27,20 @@ module.exports = {
             }
           }
         },
+
         'apostrophe-attachments': {},
+
         'apostrophe-multisite-patch-assets': {
           construct: function (self, options) {
             // use this information until afterInit
-            if (!sampleSite) {
+            const sample = getSampleSite();
+
+            if (!sample) {
               return;
             }
 
-            self.apos.assets.generationCollection = sampleSite.assets.generationCollection;
-            self.apos.assets.generation = sampleSite.assets.generation;
+            self.apos.assets.generationCollection = sample.assets.generationCollection;
+            self.apos.assets.generation = sample.assets.generation;
           },
 
         },
@@ -150,6 +154,7 @@ module.exports = {
         'section-widgets': {},
         'all-on-one-row-widgets': {},
         'card-widgets': {},
+        'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'header-widgets': {},
         'title-widgets': {},
@@ -165,7 +170,6 @@ module.exports = {
         'date-bar-widgets': {},
         'map-widgets': {},
         'idea-map-widgets': {},
-        'iframe-widgets': {},
         'link-widgets': {},
         'counter-widgets': {},
         'slider-widgets': {},

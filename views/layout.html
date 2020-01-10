@@ -282,7 +282,7 @@ ga('send', 'pageview');
 
 {% block afterMain %}
 {% if not (data.query.layout === 'none') %}
-
+{% if not data.page.hideFooter %}
 <footer>
 	<div class="container">
 		<div class="row">
@@ -309,6 +309,7 @@ ga('send', 'pageview');
     </div>
   </div>
 </footer>
+{% endif %}
 
     <div class="body-background" style="display: none;"></div>
 
