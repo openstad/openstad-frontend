@@ -48,6 +48,14 @@ npm run dev
 ## Running multiple sites
 It's possible to run multiple sites on this one apostrophecms installation. Soon more information on how.
 
+- Every site is using a seperate mongodb 
+- Every site is using a different site id in the api, where you can add configuration (e.g. mongodb settings)
+
+## Apostrophe generation
+Because of the multisite setup it's not possible anymore to run `node app apostrophe:generation`. To run this task you can use the apostrophe.js file. 
+`node apostrophe apostrophe:generation` this file is using the SAMPLE_DB variable to save the generation id. 
+The multisite setup is using the SAMPLE_DB in the assets part for every website. 
+
 ## Using the map-widgets
 If you want to use a map in your custom module you can extend the map-widgets in the index.js of your module. 
 ```
