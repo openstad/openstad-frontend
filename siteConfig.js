@@ -33,7 +33,7 @@ module.exports = {
         'apostrophe-multisite-patch-assets': {
           construct: function (self, options) {
             // use this information until afterInit
-            const sample = getSampleSite();
+            const sample = sampleSite;
 
             if (!sample) {
               return;
