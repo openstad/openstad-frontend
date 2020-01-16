@@ -99,6 +99,9 @@ ga('send', 'pageview');
 {% endblock %}
 
 {% block beforeMain %}
+
+{{ apos.admin.renderAdminBarTemplate() | safe }}
+
     {% if data.global.tagmanager %}
         <!-- Google Tag Manager -->
         <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{data.global.tagmanager}}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
