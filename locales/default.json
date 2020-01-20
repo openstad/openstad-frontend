@@ -345,5 +345,9 @@
 	"Permission Group": "Permission Group",
 	"guest": "guest",
 	"admin": "admin",
-	"Login Disabled": "Login Disabled"
+	"Login Disabled": "Login Disabled",
+	"Custom admin bar": "Custom admin bar",
+	"Edit Speech Bubble": "Edit Speech Bubble",
+	"Edit Video": "Edit Video",
+	"Edit Ideas": "Edit Ideas"
 }
