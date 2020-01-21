@@ -15,6 +15,7 @@ module.exports = {
           port: process.env.PORT,
         },
         'apostrophe-docs': {},
+        'apostrophe-users': {},
         'auth': {},
         'openstad-login': {},
         'apostrophe-multisite-fake-listener': {

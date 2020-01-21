@@ -349,5 +349,13 @@
 	"Custom admin bar": "Custom admin bar",
 	"Edit Speech Bubble": "Edit Speech Bubble",
 	"Edit Video": "Edit Video",
-	"Edit Ideas": "Edit Ideas"
+	"Edit Ideas": "Edit Ideas",
+	"Progress": "Progress",
+	"Completed": "Completed",
+	"Add Image": "Add Image",
+	"Batch Revert to Live": "Batch Revert to Live",
+	"Search Images...": "Search Images...",
+	"Showing %s - %s of %s results%s": "Showing %s - %s of %s results%s",
+	"Edit": "Edit",
+	"editor": "editor"
 }
