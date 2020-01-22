@@ -1,6 +1,6 @@
 <div id="location">
   <h3>{{field.title}}</h3>
-  <div class="description"><p>{{field.description | safe}}</p></div>
+  <div class="description"><p>{{field.description | stripSafe | safe}}</p></div>
   <input
     id="locationField"
     type="hidden"
@@ -34,7 +34,7 @@
      )
 
      map.createMap(
-       {% if apos.settings.getOption('openStadMap').defaults %}{{ apos.settings.getOption('openStadMap').defaults | dump | safe }}{% else %}null{% endif %},
+       {% if apos.settings.getOption('openStadMap').defaults %}{{ apos.settings.getOption('openStadMap').defaults | dump | stripSafe | safe }}{% else %}null{% endif %},
        [],
        null
      )

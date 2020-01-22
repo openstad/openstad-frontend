@@ -176,11 +176,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
       <div class="summary">{{idea.summary}}</div>
-      <div class="description">{{idea.description | safe | nlbr}}</div>
+      <div class="description">{{idea.description | nlbr | stripSafe | safe }}</div>
 
       {% if idea.extraData.advice %}
       <b> Tip </b>
-      <div class="tip description">{{idea.extraData.advice | nlbr}}</div>
+      <div class="tip description">{{idea.extraData.advice | nlbr | stripSafe | safe}}</div>
       {% endif %}
 
       {% include 'modbreak.html' %}
@@ -209,6 +209,5 @@ data-default-sort="{{data.widget.defaultSorting}}"
       </div>
     </div>
   </div>
-
-    		</div>
-    	{% endfor %}
+</div>
+{% endfor %}

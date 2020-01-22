@@ -19,7 +19,7 @@
 					/>
 					<div class="step-header">{{step.title}}</div>
 					<p class="step-text">
-            {{step.description | safe}}
+            {{step.description | stripSafe | safe}}
 
 					  {% if step.links %}
 						<ul>
