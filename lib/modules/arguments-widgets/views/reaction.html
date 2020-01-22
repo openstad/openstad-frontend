@@ -16,7 +16,7 @@
   </div>
 
 
-  <p class="argument-content">{{reaction.description | urlize | safe}}</p>
+  <p class="argument-content">{{reaction.description | urlize | stripSafe | safe}}</p>
 
   {% if mayEdit %}
   <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}" class="editForm">

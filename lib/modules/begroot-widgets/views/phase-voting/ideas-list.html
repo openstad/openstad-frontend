@@ -101,11 +101,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					<div class="visible-xs">
 						<br />
 						<div class="intro">
-							{{idea.summary | safe}}
+							{{idea.summary | stripSafe | safe}}
 						</div>
             {% if idea.description %}
 						<div class="description">
-							{{idea.description | safe}}
+							{{idea.description | stripSafe | safe}}
 						</div>
             {% endif %}
 					</div>
@@ -165,11 +165,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					<div class="hidden-xs">
 						<h3 class="grider-title">{{idea.title}}</h3>
 						<div class="intro">
-							{{idea.summary | safe}}
+							{{idea.summary | stripSafe | safe}}
 						</div>
 						{% if idea.description %}
 						<div class="description">
-							{{idea.description | safe}}
+							{{idea.description | stripSafe | safe}}
 						</div>
 						{% endif %}
 						{% if data.isAdmin %}

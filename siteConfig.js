@@ -31,6 +31,7 @@ module.exports = {
         },
         'apostrophe-attachments': {},
         'apostrophe-multisite-patch-assets': {},
+        'openstad-nunjucks-filters': {},
         'settings': {
           // So we can write `apos.settings` in a template
           alias: 'settings',

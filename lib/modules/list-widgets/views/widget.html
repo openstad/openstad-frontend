@@ -11,7 +11,7 @@
 <{{listType}} id="{{data.widget.containerId}}" class="{{data.widget.listClassName}} parent-list">
   {% for item in data.widget.items %}
   <li class="parent-item">
-    {{ item.item | safe }}
+    {{ item.item | stripSafe | safe }}
     {% if item.subListType === 'ol' %}
       {% set subListType = 'ol' %}
     {% else %}
@@ -20,7 +20,7 @@
 
     <{{subListType}} class="{{item.subListClassName}} child-list">
       {% for subitem in item.subitems %}
-      <li class="child-item">{{ subitem.subitem | safe }}</li>
+      <li class="child-item">{{ subitem.subitem | stripSafe | safe }}</li>
       {% endfor %}
     </{{subListType}}>
   </li>
