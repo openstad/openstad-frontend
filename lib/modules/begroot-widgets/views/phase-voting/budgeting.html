@@ -171,7 +171,7 @@
 						    {% for theme in data.global.themes %}
                 <div class="theme-label">
                   <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
-                  <div class="theme-label-text">{{theme.value | safe}}</div>
+                  <div class="theme-label-text">{{theme.value | stripSafe | safe}}</div>
                 </div>
 						    {% endfor %}
               </div>
@@ -208,7 +208,7 @@
 						  {% for theme in data.global.themes %}
               <div class="theme-button theme-{{theme.color | replace("#", "")}}" onclick="setTheme('{{loop.index}}')">
                 <div class="theme-button-color theme-{{theme.color | replace("#", "")}}"></div>
-                <div class="theme-button-text">{{theme.value | safe}}</div>
+                <div class="theme-button-text">{{theme.value | stripSafe | safe}}</div>
               </div>
 						  {% endfor %}
 						  <div style="clear: both;"></div>
@@ -220,7 +220,7 @@
             <div class="themes-bar">
               <div class="theme-current"></div>
 						  {% for theme in data.global.themes %}
-              <div class="theme-tab theme-{{theme.color | replace("#", "")}} theme-tab-default" onclick="setTheme('{{loop.index}}')">{{theme.value | safe}}</div>
+              <div class="theme-tab theme-{{theme.color | replace("#", "")}} theme-tab-default" onclick="setTheme('{{loop.index}}')">{{theme.value | stripSafe | safe}}</div>
 						  {% endfor %}
             </div>
 					  {% endif %}
@@ -265,7 +265,7 @@
 						    {% for theme in data.global.themes %}
                 <div class="theme-label">
                   <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
-                  <div class="theme-label-text">{{theme.value | safe}}</div>
+                  <div class="theme-label-text">{{theme.value | stripSafe | safe}}</div>
                 </div>
 						    {% endfor %}
               </div>
@@ -358,7 +358,7 @@
 							<div class="checkmark-block-green">
 								<h4>Gelukt, je hebt gestemd!</h4>
 								<br/>
-								{{data.widget.thankyou_message | safe}}
+								{{data.widget.thankyou_message | stripSafe | safe}}
 								{% if data.widget.showNewsletterButton and data.widget.showNewsletterButton == 'yes' %}
 								<br />
 								<br />

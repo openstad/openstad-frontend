@@ -42,7 +42,7 @@
 								{{ data.widget.labelTitle if data.widget.labelTitle else 'Titel plan' }}
 							</h2>
 							<div class="form-info">
-								{{ data.widget.infoTitle | nlbr | safe if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
+								{{ data.widget.infoTitle | nlbr | stripSafe | safe if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
 							</div>
 							<input type="text" name="title" value="{{idea.title}}" {% if data.widget.requiredTitle %}required{% endif %}><br />
               <div id="charsLeftTitle" class="charsLeft">
@@ -56,7 +56,7 @@
 								{{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
 							</h2>
 							<div class="form-info">
-								{{ data.widget.infoSummary  | nlbr | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.maxSummary+' tekens iets meer over je plan.' }}
+								{{ data.widget.infoSummary  | nlbr | stripSafe | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.maxSummary+' tekens iets meer over je plan.' }}
 							</div>
 
 							{% if data.widget.typeSummary === 'text'  %}
@@ -81,7 +81,7 @@
 							{{ data.widget.labelAreas if data.widget.labelAreas else 'Gebied' }}
 						</h2>
 						<div class="form-info">
-							{{ data.widget.infoAreas  | nlbr | safe  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
+							{{ data.widget.infoAreas  | nlbr | stripSafe | safe  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
 						</div>
 						<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}"  {% if data.widget.requiredAreas %}required{% endif %}>
 							<option value="">Kies gebied</option>
@@ -98,7 +98,7 @@
 							{{ data.widget.labelThemes if data.widget.labelThemes else 'Thema' }}
 						</h2>
 						<div class="form-info">
-							{{ data.widget.infoThemes  | nlbr | safe  if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
+							{{ data.widget.infoThemes  | nlbr | stripSafe | safe  if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
 						</div>
 
 						<select id="thema" name="theme" class="default-select" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}" {% if data.widget.requiredThemes %}required{% endif %}>
@@ -117,7 +117,7 @@
 								{{ data.widget.labelImages if data.widget.labelImages else 'Plaatjes' }}
 							</h2>
 							<div class="form-info">
-							 {{ data.widget.infoImages | nlbr | safe if data.widget.infoImages else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
+							 {{ data.widget.infoImages | nlbr | stripSafe | safe if data.widget.infoImages else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
 							</div>
 							<fieldset class="filepondFieldset">
 								<!-- a list of already uploaded files -->
@@ -157,7 +157,7 @@
 								{{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
 							</h2>
 							<div class="form-info">
-								{{ data.widget.infoDescription | nlbr | safe if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
+								{{ data.widget.infoDescription | nlbr | stripSafe | safe if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
 							</div>
 
 							{% if useModernEditor %}
@@ -233,7 +233,7 @@
 								{{ data.widget.labelLocation if data.widget.labelLocation else 'Locatie' }}
 							</h2>
 							<div class="form-info" style="height: auto;">
-								{{ data.widget.infoLocation | nlbr | safe if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
+								{{ data.widget.infoLocation | nlbr | stripSafe | safe if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
 							</div>
 							<div id="mapcontainer">
 								{% set editorInputElementId = 'locationField' %}
@@ -249,7 +249,7 @@
 					<h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
 					<div class="form-info" style="height: auto;">
 						{% if data.widget.infoEstimate %}
-						{{ data.widget.infoEstimate | nlbr | safe }}
+						{{ data.widget.infoEstimate | nlbr | stripSafe | safe }}
 						{% else %}
 							Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk,
 							dan kun je ook het <a href="mailto:statenkwartierbegroot@denhaag.nl">stadsdeel</a>
@@ -282,7 +282,7 @@
 					<h2>{{ data.widget.labelRole if data.widget.labelRole else 'Welke rol ga je zelf vervullen bij de uitvoering?' }}</h2>
 					<div class="form-info" style="height: auto;">
 						{% if data.widget.infoRole %}
-						{{ data.widget.infoRole | nlbr | safe}}
+						{{ data.widget.infoRole | nlbr | stripSafe | safe}}
 						{% else %}
 						Bewoners kunnen zelf of samen met de gemeente of een andere organisatie een plan uitvoeren.
 						Geef aan welke rol je hierin wilt en kunt vervullen.
@@ -308,7 +308,7 @@
 							{{ data.widget.labelAdvice if data.widget.labelAdvice else 'Tip' }}
 						</h2>
 						<div class="form-info" style="height: auto;">
-							{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' | safe }}
+							{{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' | stripSafe | safe }}
 						</div>
 						<textarea name="advice" class="chars-counter" minlength="{{data.widget.minAdvice if data.widget.minAdvice else 20}}" maxlength="{{data.widget.maxAdvice if data.widget.maxAdvice else 200}}" {% if data.widget.requiredAdvice %}required{% endif %}>{{idea.extraData.advice}}</textarea>
 						<div id="charsLeftAdvice" class="charsLeft">
@@ -323,7 +323,7 @@
 					<h2>{{ data.widget.labelPhone if data.widget.labelPhone else 'Telefoonnummer (optioneel)' }}</h2>
 					<div class="form-info" style="height: auto;">
 						{% if data.widget.infoPhone %}
-						{{ data.widget.infoPhone | nlbr | safe}}
+						{{ data.widget.infoPhone | nlbr | stripSafe | safe}}
 						{% else %}
 						Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.
 						{% endif %}
