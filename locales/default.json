@@ -357,5 +357,6 @@
 	"Search Images...": "Search Images...",
 	"Showing %s - %s of %s results%s": "Showing %s - %s of %s results%s",
 	"Edit": "Edit",
-	"editor": "editor"
+	"editor": "editor",
+	"Save Custom admin bar": "Save Custom admin bar"
 }

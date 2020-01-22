@@ -33,7 +33,6 @@ var aposServer = {};
 
 app.use(express.static('public'));
 
-
 /**
  * Route for resetting the config of the server so the server will refetch
  * Necessary when making changes in the site config.
@@ -55,8 +54,6 @@ app.get('/login', (req, res, next) => {
 
   const basicAuthUser = process.env.LOGIN_CSM_BASIC_AUTH_USER;
   const basicAuthPassword = process.env.LOGIN_CSM_BASIC_AUTH_PASSWORD;
-
-
 
   if (basicAuthUser && basicAuthPassword) {
     var user = auth(req);
