@@ -50,7 +50,7 @@ router
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?returnTo=' + req.query.redirectUrl));
+      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?useOuth=' + which + '&returnTo=' + req.query.redirectUrl));
 
 			res.redirect(url);
 
@@ -69,7 +69,7 @@ router
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || req.session.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
@@ -123,7 +123,7 @@ router
 	.get(function( req, res, next ) {
 
 		// get the user info using the access token
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || req.session.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
@@ -213,7 +213,7 @@ router
 			.catch(next)
 	})
 	.get(function( req, res, next ) {
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || req.session.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
