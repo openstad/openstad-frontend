@@ -15,13 +15,12 @@ data-default-sort="{{data.widget.defaultSorting}}"
 	data-createdtime="{{idea.createdTime}}"
 	data-likes="{{idea.yes}}"
 	data-budget="{{idea.budget}}"
-	data-ranking="{{idea.extraData.ranking}}"
   data-ideaid="{{idea.id}}"
-	data-ranking="{{idea.extraData.ranking if idea.extraData.ranking else 10000}}"
+	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 10000}}"
 	>
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
-			{% if idea.extraData.ranking %}
+			{% if idea.extraData.ranking and data.widget.showRanking %}
 			<div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
 			{% endif %}
 
@@ -69,7 +68,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				</div>
 			</div>
 			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
-			<div class="ranking-value">{{idea.extraData.ranking}}</div>{# used by sort #}
+			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 0}}</div>
 		</div>
 
 		{# extra info for gridder-show #}
