@@ -59,7 +59,7 @@
 			<script>
 			 {% if (idea.posterImage) and (idea.posterImage.extraData) %}
 			 imageUrl[{{idea.id}}] = "{{idea.posterImageUrl}}";
-			 imageData[{{idea.id}}] = {{idea.posterImage.extraData | dump | safe}};
+			 imageData[{{idea.id}}] = {{idea.posterImage.extraData | dump | stripSafe | safe}};
 			 doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
 			 {% endif %}
 			</script>
@@ -95,7 +95,7 @@
 			<div class="content">
 				<h3 class="desktop">{{idea.title}}</h3>
 				<div class="summary">{{idea.summary}}</div>
-				<div class="description">{{idea.description | safe | nl2br}}</div>
+				<div class="description">{{idea.description | stripSafe | safe | nl2br}}</div>
 				{% if isAdmin %}
 					<div class="description"><a href="/plan/{{idea.id}}">Bewerk dit plan</a></div>
 				{% endif %}
