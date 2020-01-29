@@ -30,15 +30,9 @@ const configForHosts          = {};
 const aposStartingUp          = {};
 
 var aposServer = {};
-var sampleSite;
-var runningSampleSite = false;
-var startingUpSampleSite = false;
 
 app.use(express.static('public'));
 
-function getSampleSite() {
-  return sampleSite ? sampleSite : null;
-}
 
 /**
  * Route for resetting the config of the server so the server will refetch
@@ -97,37 +91,9 @@ app.get('/info', (req, res, next) => {
 
 app.use(function(req, res, next) {
   /**
-   * Run a sample site that create the assets
+   * Start the servers
    */
-  if (!runningSampleSite) {
-    runningSampleSite  = true;
-    startingUpSampleSite = true;
-    const defaultRunner = Promise.promisify(run);
-    const dbName = process.env.SAMPLE_DB;
-
-    run(dbName, {}, function(silly, apos) {
-        sampleSite = apos;
-        aposServer[dbName] = apos;
-        startingUpSampleSite = false;
-      });
-  }
-
-  /**
-   * Start the servers only when the sample site has finished running
-   */
-  const safeStartServers = (req, res, next) => {
-    if (startingUpSampleSite) {
-      // timeout loop //
-      setTimeout(() => {
-        safeStartServers(req, res, next);
-      }, 100);
-    } else {
-      serveSites(req, res, next);
-    }
-  }
-
-  safeStartServers(req, res, next);
-
+   serveSites(req, res, next);
 });
 
 
@@ -221,7 +187,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 function run(id, siteData, callback) {
   const site = { _id: id}
 
-  const siteConfig = defaultSiteConfig.get(site, getSampleSite(), siteData, openstadMap, openstadMapPolygons);
+  const siteConfig = defaultSiteConfig.get(site, siteData, openstadMap, openstadMapPolygons);
 
   siteConfig.afterListen = function () {
     apos._id = site._id;

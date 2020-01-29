@@ -16,7 +16,7 @@
     {% endif %}
   </div>
 
-  <p class="argument-content">{{arg.description | urlize | nlbr | safe}}</p>
+  <p class="argument-content">{{arg.description | urlize | nlbr | stripSafe | safe}}</p>
 
   {% if mayEdit %}
   <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">

@@ -7,7 +7,7 @@
 		<b>{{idea.modBreakDateNice}}</b>
 		<br>
 		<p>
-			{{idea.modBreak | safe | nlbr}}
+			{{idea.modBreak | stripSafe | safe | nlbr}}
 		</p>
 </div>
 {% endif %}

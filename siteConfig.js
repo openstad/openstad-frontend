@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  get: (site, sampleSite, siteData, openstadMap, openstadMapPolygons) => {
+  get: (site, siteData, openstadMap, openstadMapPolygons) => {
 
     const siteConfig = {
       shortName: site._id,
@@ -27,25 +27,10 @@ module.exports = {
             }
           }
         },
-
         'apostrophe-attachments': {},
-
-        'apostrophe-multisite-patch-assets': {
-          construct: function (self, options) {
-            // use this information until afterInit
-            const sample = sampleSite;
-
-            if (!sample) {
-              return;
-            }
-
-            self.apos.assets.generationCollection = sample.assets.generationCollection;
-            self.apos.assets.generation = sample.assets.generation;
-          },
-
-        },
-
-        settings: {
+        'apostrophe-multisite-patch-assets': {},
+        'openstad-nunjucks-filters': {},
+        'settings': {
           // So we can write `apos.settings` in a template
           alias: 'settings',
           apiUrl: process.env.API,

@@ -14,5 +14,5 @@
 {% endif %}
 
 	{% if editorInputElementId %}
-	<input type="hidden" id="{{editorInputElementId}}" name="location" value='{{idea.location | dump | safe}}'  {% if data.widget.requiredLocation %}required{% endif %}>
+	<input type="hidden" id="{{editorInputElementId}}" name="location" value='{{idea.location | dump | stripSafe | safe}}'  {% if data.widget.requiredLocation %}required{% endif %}>
 	{% endif %}

@@ -1,6 +1,6 @@
 <div class="form-group">
   <h3>{{field.title}}</h3>
-  <div class="description"><p>{{field.description | safe}}</p></div>
+  <div class="description"><p>{{field.description | stripSafe | safe}}</p></div>
   {% for choice in field.choices %}
   <div>
   <label>
