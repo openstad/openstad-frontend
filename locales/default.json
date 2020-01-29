@@ -375,5 +375,14 @@
 	"Show newsletter button after voting?": "Show newsletter button after voting?",
 	"Text on the newsletter button": "Text on the newsletter button",
 	"Hide the footer?": "Hide the footer?",
-	"editor": "editor"
+	"editor": "editor",
+	"Edit Gebiedsontwikkeling tool": "Edit Gebiedsontwikkeling tool",
+	"Save Ideas map": "Save Ideas map",
+	"Display CTA button": "Display CTA button",
+	"CTA url": "CTA url",
+	"CTA text": "CTA text",
+	"Display counter": "Display counter",
+	"Counter text": "Counter text",
+	"Edit Ideas map": "Edit Ideas map",
+	"You are now editing this document in another tab or window.": "You are now editing this document in another tab or window."
 }
