@@ -52,7 +52,7 @@
      },
 	   {% for theme in data.global.themes %}
      {
-       value: '{{theme.value | safe}}',
+       value: '{{theme.value | stripSafe | safe}}',
        initialAvailableBudget: parseInt({{theme.initialAvailableBudget}}) || 300000,
        minimalBudgetSpent: typeof parseInt({{theme.minimalBudgetSpent}}) == 'number' ? parseInt({{theme.minimalBudgetSpent}}) : 200000,
        availableBudgetAmount: 0,

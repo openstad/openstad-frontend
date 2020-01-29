@@ -16,9 +16,9 @@
 
                     </div>
                 </div>
-                <h4>{{ item.title | safe}}</h4>
+                <h4>{{ item.title | stripSafe | safe}}</h4>
                 <p>{{item.description}} </p>
-                {# <p>{{ item.description.items[0].content | safe}}</p> #}
+                {# <p>{{ item.description.items[0].content | stripSafe | safe}}</p> #}
 
                 {% if item.linkUrl %}
                 <a href="{{item.linkUrl}}" class="link-caret--blue block">{{item.linkTitle}}</a>

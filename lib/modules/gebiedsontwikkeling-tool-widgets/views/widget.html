@@ -80,7 +80,7 @@
  var userJWT = '{{data.widget.userJWT}}';
  var moduleBaseUrl = '{{data.widget.moduleBaseUrl}}';
  var displayType = '{{data.widget.displayType}}';
- var siteConfig = {{data.widget.siteConfig | dump | safe}};
+ var siteConfig = {{data.widget.siteConfig | dump | stripSafe | safe}};
  var editIdeaPage = '{{data.widget.editIdeaPage}}';
  var maxClusterRadius = '{{data.widget.maxClusterRadius}}' || 80;
 </script>

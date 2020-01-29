@@ -11,7 +11,7 @@
   "
 >
     <span class="info-block-message">
-      {{data.widget.message | safe}}
+      {{data.widget.message | stripSafe | safe}}
     </span>
     {% if data.widget.removable %}
     <div class="close-button"></div>
