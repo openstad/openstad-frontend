@@ -282,12 +282,12 @@ module.exports = {
 
     } else {
       
-      let locales = ['nl', 'en'];
-      let defaultLocale = 'nl';
-      
       if (process.env.FORCE_LANGUAGE) {
-        locales = [process.env.FORCE_LANGUAGE];
-        defaultLocale = process.env.FORCE_LANGUAGE;
+        const locales = [process.env.FORCE_LANGUAGE];
+        const defaultLocale = process.env.FORCE_LANGUAGE;
+      } else {
+        const locales = ['nl', 'en'];
+        const defaultLocale = 'nl';
       }
       
       siteConfig.modules['apostrophe-i18n'] = {
