@@ -18,7 +18,9 @@ module.exports = {
         'apostrophe-users': {},
         'auth': {},
         'openstad-login': {},
-
+        'apostrophe-login' : {
+          localLogin: false
+        },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware
