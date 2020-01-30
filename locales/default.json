@@ -358,5 +358,14 @@
 	"Showing %s - %s of %s results%s": "Showing %s - %s of %s results%s",
 	"Edit": "Edit",
 	"editor": "editor",
-	"Save Custom admin bar": "Save Custom admin bar"
+	"Save Custom admin bar": "Save Custom admin bar",
+	"Edit Link or button": "Edit Link or button",
+	"Google Tag Manager Property ID (like GTM-xxxxx)": "Google Tag Manager Property ID (like GTM-xxxxx)",
+	"Hide the footer?": "Hide the footer?",
+	"Submitted for Workflow": "Submitted for Workflow",
+	"Click on any document to view it. Once there you can edit or commit it.": "Click on any document to view it. Once there you can edit or commit it.",
+	"Document": "Document",
+	"Last Submitted By": "Last Submitted By",
+	"Last Submitted At": "Last Submitted At",
+	"Actions": "Actions"
 }
