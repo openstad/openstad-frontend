@@ -1,4 +1,5 @@
 const path = require('path');
+const contentWidgets = require('./contentWidgets');
 
 module.exports = {
   get: (site, siteData, openstadMap, openstadMapPolygons) => {
@@ -15,7 +16,7 @@ module.exports = {
           port: process.env.PORT,
         },
         'apostrophe-docs': {},
-        'auth': {},
+        'openstad-auth': {},
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware
@@ -40,72 +41,7 @@ module.exports = {
           openstadMapPolygons: openstadMapPolygons,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           siteConfig: siteData,
-          contentWidgets: {
-            'agenda': {},
-            'admin': {},
-            'accordeon': {},
-            'arguments': {},
-            'arguments-form': {},
-            'section': {
-              addLabel: 'Columns',
-              controls: {
-                movable: true,
-                removable: true,
-                position: 'bottom-left'
-              },
-            },
-            'slider': {},
-            'counter': {
-              addLabel: 'Counter',
-            },
-            'date-bar': {},
-            'idea-form': {},
-            'idea-map': {},
-            'idea-overview': {},
-            'idea-single': {},
-            'ideas-on-map': {
-              addLabel: 'Ideeen op een kaart',
-            },
-            'iframe': {},
-            'header': {},
-            'image': {},
-            'info-bar': {},
-            'link': {},
-            'list': {},
-            'gebiedsontwikkeling-tool': {
-              addLabel: 'Map for area development',
-            },
-            'begroot': {
-              addLabel: 'Participatory budgetting',
-            },
-            'main-image': {},
-            'apostrophe-rich-text': {
-              toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],
-              styles: [
-                {name: 'Paragraph', element: 'p'}
-              ],
-              controls: {
-                movable: true,
-                removable: true,
-                position: 'top-left'
-              }
-            },
-
-            'speech-bubble': {
-              controls: {
-                position: 'top-left'
-              },
-            },
-            'title': {},
-            'user-form': {},
-            'local-video': {
-              addLabel: 'Video (upload)',
-            },
-            'apostrophe-video': {
-              addLabel: 'Video (3d party, youtube, vimeo, etc.)',
-            },
-
-          }
+          contentWidgets: contentWidgets
         },
 
         // Apostrophe module configuration
@@ -120,22 +56,8 @@ module.exports = {
         // `views/` folder of the project
         'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, 'views')},
         'idea-pages': {},
-        'apostrophe-pages': {
-          types: [
-            {
-              name: 'default',
-              label: 'Default'
-            },
-            {
-              name: 'idea',
-              label: 'Idea'
-            },
-            {
-              name: 'home',
-              label: 'Home'
-            },
-          ]
-        },
+        'apostrophe-pages': {},
+        'openstad-load-ideas': {},
         'apostrophe-global': {},
         'section-widgets': {},
         'all-on-one-row-widgets': {},
@@ -165,7 +87,7 @@ module.exports = {
         'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
         'submissions-widgets': {},
-        'begroot-widgets': {},
+        'participatory-budgeting-widgets': {},
         'local-video-widgets': {},
         'one-row-widgets': {},
         'image-widgets': {},
