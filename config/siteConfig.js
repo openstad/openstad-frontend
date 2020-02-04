@@ -1,5 +1,6 @@
 const path = require('path');
 const contentWidgets = require('./contentWidgets');
+const palette = require('./palette');
 
 module.exports = {
   get: (site, siteData, openstadMap, openstadMapPolygons) => {
@@ -54,7 +55,7 @@ module.exports = {
 
         // If a template is not found somewhere else, serve it from the top-level
         // `views/` folder of the project
-        'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, 'views')},
+        'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'idea-pages': {},
         'apostrophe-pages': {},
         'openstad-load-ideas': {},
@@ -95,75 +96,8 @@ module.exports = {
         'apostrophe-palette': {},
         'apostrophe-video-widgets': {},
         'apostrophe-palette-global': {
-          paletteFields: [
-            {
-              name: 'backgroundNavColor',
-              label: 'Background color of the navigation bar',
-              type: 'color',
-              selector: '#navbar',
-              property: 'background-color',
-            },
-            {
-              name: 'textNavColor',
-              label: 'Text color of the items in the navigation bar',
-              type: 'color',
-              selector: '#navbar a',
-              property: 'color',
-            },
-            {
-              name: 'textHoverNavColor',
-              label: 'Text color when hovering over the items in the navigation bar',
-              type: 'color',
-              selector: '#navbar a:hover',
-              property: 'color',
-            },
-            {
-              name: 'textLineNavColor',
-              label: 'Color of the underline of the items in the navigation bar',
-              type: 'color',
-              unit: '!important',
-              selector: '#mainMenu .nav-link',
-              property: 'border-color',
-            },
-            {
-              name: 'backgroundFooterColor',
-              label: 'Background color of the footer',
-              type: 'color',
-              selector: 'footer',
-              property: 'background-color',
-            },
-            {
-              name: 'textFooterColor',
-              label: 'Color of the text in the footer',
-              type: 'color',
-              selector: ['footer .container h2', 'footer .container p', 'footer .container a'],
-              property: 'color',
-            },
-            {
-              name: 'logoWidth',
-              label: 'Logo breedte',
-              type: 'range',
-              selector: ['#logo-image'],
-              property: ['width'],
-              min: 25,
-              max: 300,
-              step: 1,
-              unit: 'px',
-              //      mediaQuery: '(max-width: 59.99em)'
-            },
-          ],
-          arrangePaletteFields: [
-            {
-              name: 'colorFields',
-              label: 'Kleuren',
-              fields: ['backgroundNavColor', 'textNavColor', 'textHoverNavColor', 'textLineNavColor', 'backgroundFooterColor', 'textFooterColor']
-            },
-            {
-              name: 'logoFields',
-              label: 'Logo instellingen',
-              fields: ['logoWidth']
-            },
-          ]
+          paletteFields: palette.fields,
+          arrangePaletteFields: palette.arrangeFields
         },
         'apostrophe-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
@@ -208,16 +142,6 @@ module.exports = {
         directory: __dirname + '/locales',
         defaultLocale: 'nl'
       }
-    }
-
-    siteConfig.configureNunjucks = function (env) {
-      env.addFilter('repeat', function (s, n) {
-        var r = '';
-        while (n--) {
-          r += s;
-        }
-        return r;
-      });
     }
 
     return siteConfig;

@@ -419,5 +419,16 @@
 	"Blue Checkmarks": "Blue Checkmarks",
 	"Stripes": "Stripes",
 	"Numbers": "Numbers",
-	"Mijn account": "Mijn account"
+	"Mijn account": "Mijn account",
+	"Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?": "Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?",
+	"Manage %s": "Manage %s",
+	"Here you can add new %s or click on existing ones to edit them.": "Here you can add new %s or click on existing ones to edit them.",
+	"Add User": "Add User",
+	"—": "—",
+	"Search Users...": "Search Users...",
+	"Showing %s - %s of %s results": "Showing %s - %s of %s results",
+	"Last Updated": "Last Updated",
+	"Last Commit": "Last Commit",
+	"MM/DD/YY[ at ]h:mma": "MM/DD/YY[ at ]h:mma",
+	"Draft": "Draft"
 }
