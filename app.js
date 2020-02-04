@@ -25,7 +25,8 @@ const compare                 = require('tsscmp');
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
-const defaultSiteConfig       = require('./siteConfig');
+const defaultSiteConfig       = require('./config/siteConfig');
+
 const configForHosts          = {};
 const aposStartingUp          = {};
 
@@ -63,28 +64,8 @@ app.get('/login', (req, res, next) => {
     } else {
       next();
     }
-
   }
-
 });
-
-
-/**
- * Info url for debugging the apostrhopheCMS server
-
-app.get('/info', (req, res, next) => {
-  let host = req.headers['x-forwarded-host'] || req.get('host');
-  host = host.replace(['http://', 'https://'], ['']);
-
-  let sample = getSampleSite();
-  res.json({
-  //  running: _.keys(aposServer),
-    host: host,
-    generation: sample.assets.generation,
-  //  configForHosts: configForHosts
-  });
-});
- */
 
 app.use(function(req, res, next) {
   /**
@@ -92,7 +73,6 @@ app.use(function(req, res, next) {
    */
    serveSites(req, res, next);
 });
-
 
 function serveSites (req, res, next) {
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
