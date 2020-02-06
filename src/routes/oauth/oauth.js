@@ -28,9 +28,6 @@ router
 	.route('(/site/:siteId)?/login')
 	.get(function( req, res, next ) {
 
-		if (req.query.redirectUrl) {
-			req.session.returnTo = req.query.redirectUrl;
-		}
 		req.session.useOauth = req.query.useOauth;
 
 		if (req.query.forceNewLogin) {
@@ -50,7 +47,7 @@ router
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?returnTo=' + req.query.redirectUrl));
+      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?useOauth=' + which + '\&returnTo=' + req.query.redirectUrl));
 
 			res.redirect(url);
 
@@ -69,7 +66,7 @@ router
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
@@ -123,7 +120,7 @@ router
 	.get(function( req, res, next ) {
 
 		// get the user info using the access token
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
@@ -213,17 +210,17 @@ router
 			.catch(next)
 	})
 	.get(function( req, res, next ) {
-		let which = req.session.useOauth || 'default';
+		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
-
-		let redirectUrl = req.session.returnTo ? req.session.returnTo + (req.session.returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
+    let returnTo = req.query.returnTo;
+    console.log('==============================');
+    console.log(returnTo);
+		let redirectUrl = returnTo ? returnTo + (returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
 		redirectUrl = redirectUrl || ( req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false );
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
-
-		req.session.returnTo = '';
 
 		req.session.save(() => {
 			//check if redirect domain is allowed
@@ -261,7 +258,7 @@ router
 			});
 		}
 
-		let which = req.query.useOauth || req.session.useOauth || 'default';
+		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-logout-path'] || config.authorization['auth-server-logout-path'];
