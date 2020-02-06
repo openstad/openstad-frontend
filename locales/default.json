@@ -490,5 +490,10 @@
 	"Edit File": "Edit File",
 	"File": "File",
 	"Credit": "Credit",
-	"Credit URL": "Credit URL"
+	"Credit URL": "Credit URL",
+	"Video": "Video",
+	"Save Video": "Save Video",
+	"Video URL": "Video URL",
+	"Embedding is not allowed for this video.": "Embedding is not allowed for this video.",
+	"That video was not found. Paste a URL to the video's page.": "That video was not found. Paste a URL to the video's page."
 }

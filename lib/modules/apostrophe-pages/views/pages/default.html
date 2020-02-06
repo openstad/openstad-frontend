@@ -2,21 +2,21 @@
 
 {% block main %}
 {{ apos.area(data.page, 'body', {
-    edit: true,
+    edit: data.userCan('add-sections'),
     widgets: {
       'section': {
         addLabel: 'Add a section',
         controls: {
-          movable: true,
-          removable: true,
+          movable: data.userCan('add-sections'),
+          removable: data.userCan('add-sections'),
           position: 'bottom-left'
         }
       },
       'icon-section': {
         addLabel: 'Add an icon section',
         controls: {
-          movable: true,
-          removable: true,
+          movable: data.userCan('add-sections'),
+          removable: data.userCan('add-sections'),
           position: 'bottom-left'
         }
       }
