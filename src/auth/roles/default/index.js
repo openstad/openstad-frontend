@@ -9,13 +9,18 @@ var auth = new RolePlay({
 var unknown   = auth.role('unknown');
 var anonymous = unknown.role('anonymous');
 var member    = anonymous.role('member');
+
+
 var admin     = member.role('admin');
+var editor    = member.role('editor');
+var moderator = member.role('moderator');
+
 
 var helpers = {
 	needsToCompleteRegistration: function( user ) {
 		return !user.hasCompletedRegistration();
 	},
-	
+
 	mayMutateIdea: function( user, idea ) {
 		if( !idea.isOpen() ) {
 			return false;
@@ -26,16 +31,16 @@ var helpers = {
 		var argCount  = idea.argumentsFor && idea.argumentsFor.length && idea.argumentsAgainst && idea.argumentsAgainst.length;
 		return isOwner && !voteCount && !argCount;
 	},
-	
+
 	mayVoteIdea: function( user, idea ) {
 		return idea.isOpen();
 	},
-	
+
 	mayMutateArgument: function( user, argument ) {
 		var isOwner   = helpers.isArgumentOwner(user, argument);
 		return isOwner;
 	},
-	
+
 	maySeeArgForm: function( user, idea ) {
 		return idea.isRunning();
 	},
@@ -43,7 +48,7 @@ var helpers = {
 	maySeeReplyForm: function( user, idea ) {
 		return idea.isRunning();
 	},
-	
+
 	mayAddArgument: function( user, idea ) {
 		if (process.NODE_ENV == 'stemtool') {
 			return idea.isRunning();
@@ -66,11 +71,11 @@ var helpers = {
 	mayVoteArgument: function( user, idea, argument ) {
 		return !argument.parentId;
 	},
-	
+
 	isIdeaOwner: function( user, idea ) {
 		return user.id === idea.userId;
 	},
-	
+
 	isArgumentOwner: function( user, argument ) {
 		return user.id === argument.userId;
 	},
@@ -81,5 +86,8 @@ require('./default-unknown')(helpers, unknown);
 require('./anonymous')(helpers, anonymous);
 require('./member')(helpers, member);
 require('./admin')(helpers, admin);
+require('./editor')(helpers, editor);
+require('./moderator')(helpers, moderator);
+
 
 module.exports = auth;

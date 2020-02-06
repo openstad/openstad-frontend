@@ -30,7 +30,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : 'anonymous',
 			validate     : {
 				isIn: {
-					args : [['unknown', 'anonymous', 'member', 'admin', 'su']],
+					args : [['unknown', 'anonymous', 'member', 'admin', 'su', 'editor', 'moderator', 'superAdmin']],
 					msg  : 'Unknown user role'
 				}
 			}
@@ -41,13 +41,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		//              after the user has completed the registration. Until
 		//              then, the 'complete registration' form should be displayed
 		//              instead of any other content.
-		
+
 		complete: {
 			type         : DataTypes.BOOLEAN,
 			allowNull    : false,
 			defaultValue : false
 		},
-		
+
 		email: {
 			type         : DataTypes.STRING(255),
 			allowNull    : true,
@@ -95,7 +95,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('passwordHash', hash);
 			}
 		},
-		
+
 		nickName: {
 			type         : DataTypes.STRING(64),
 			allowNull    : true,
@@ -166,7 +166,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('zipCode', zipCode);
 			}
 		},
-		
+
 		// signedUpForNewsletter: {
 		//  	type         : DataTypes.BOOLEAN,
 		//  	allowNull    : false,
@@ -175,12 +175,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	}, {
 		charset: 'utf8',
-		
+
 		indexes: [{
 			fields: ['email'],
 			unique: true
 		}],
-		
+
 		validate: {
 			hasValidUserRole: function() {
 				if( this.id !== 1 && this.role === 'unknown' ) {
@@ -225,7 +225,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		if( !email || !password ) {
 			return Promise.reject(createError(400, 'Incomplete credentials'));
 		}
-		
+
 		return this.findOne({where: {email: email}}).then(function( user ) {
 			if( !user || !user.authenticate(password) ) {
 				// TODO: AuthenticationError
@@ -240,12 +240,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		if( !email ) {
 			return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
 		}
-		
+
 		return this.findOne({where: {
 			email : email
 		}});
 	}
-	
+
 	User.registerAnonymous = function(values) {
 		values.role = 'anonymous';
 		return this.create(values);
@@ -258,7 +258,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			role  : 'member',
 			email : email
 		};
-		
+
 		return User.findMember(email)
 			.then(function( existingUser ) {
 				if( existingUser ) {
@@ -300,7 +300,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				throw error;
 			});
 	}
-	
+
 	User.prototype.authenticate = function( password ) {
 		var method = config.get('security.passwordHashing.currentMethod');
 		if( !this.passwordHash ) {
