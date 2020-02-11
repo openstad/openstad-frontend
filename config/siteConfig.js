@@ -9,6 +9,7 @@ module.exports = {
       shortName: site._id,
       modules: {
         'api-proxy': {},
+        'openstad-load-ideas': {},
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,
@@ -58,7 +59,6 @@ module.exports = {
         'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'idea-pages': {},
         'apostrophe-pages': {},
-        'openstad-load-ideas': {},
         'apostrophe-global': {},
         'section-widgets': {},
         'all-on-one-row-widgets': {},
