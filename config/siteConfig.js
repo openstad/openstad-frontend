@@ -58,7 +58,6 @@ module.exports = {
         'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'idea-pages': {},
         'apostrophe-pages': {},
-        'openstad-load-ideas': {},
         'apostrophe-global': {},
         'section-widgets': {},
         'all-on-one-row-widgets': {},
