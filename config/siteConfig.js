@@ -9,7 +9,6 @@ module.exports = {
       shortName: site._id,
       modules: {
         'api-proxy': {},
-        'openstad-load-ideas': {},
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,

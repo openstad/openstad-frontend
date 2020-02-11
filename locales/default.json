@@ -431,5 +431,6 @@
 	"Last Commit": "Last Commit",
 	"MM/DD/YY[ at ]h:mma": "MM/DD/YY[ at ]h:mma",
 	"Draft": "Draft",
-	"No documents were exported.": "No documents were exported."
+	"No documents were exported.": "No documents were exported.",
+	"Show ranking?": "Show ranking?"
 }
