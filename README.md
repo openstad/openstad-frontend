@@ -58,7 +58,9 @@ The multisite setup is using the SAMPLE_DB in the assets part for every website.
 
 ## Custom logging provider
 It's possible to set a custom log provider on the client side, this logger will log all errors to the provider.
-Currently only bugsnag is supported, to configure the bugsnag provider you can add these env variables:
+Currently only Bugsnag is supported, to configure the bugsnag provider you can add these env variables:
+
+**Note:** When you create a new project in Bugsnag you need to select the Native Javascript module.
 ```
 LOG_PROVIDER_CLIENT=bugsnag
 LOG_PROVIDER_BUGSNAG_URL=
