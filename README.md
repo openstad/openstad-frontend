@@ -60,9 +60,9 @@ The multisite setup is using the SAMPLE_DB in the assets part for every website.
 It's possible to set a custom log provider on the client side, this logger will log all errors to the provider.
 Currently only bugsnag is supported, to configure the bugsnag provider you can add these env variables:
 ```
-LOGGING_PROVIDER_CLIENT=bugsnag
-LOGGING_PROVIDER_BUGSNAG_URL=
-LOGGING_PROVIDER_BUGSNAG_KEY=
+LOG_PROVIDER_CLIENT=bugsnag
+LOG_PROVIDER_BUGSNAG_URL=
+LOG_PROVIDER_BUGSNAG_KEY=
 ```
 
 ## Using the map-widgets
