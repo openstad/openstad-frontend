@@ -236,6 +236,37 @@ function createIdeaJSON(idea, user) {
 	result.config = null;
 	result.site = null;
 	result.can = can;
+
+
+// Fixme: hide email in arguments and their reactions
+	function hideEmailsForNormalUsers(arguments) {
+		return arguments.map((argument) => {
+			argument.user.email = user.role === 'admin' ? argument.user.email : '';
+
+			if (argument.reactions) {
+				argument.reactions = argument.reactions.map((reaction) => {
+					reaction.user.email = user.role === 'admin' ? reaction.user.email : '';
+
+					return reaction;
+				})
+			}
+
+			return argument;
+		});
+	}
+
+	if (idea.argumentsAgainst) {
+		result.argumentsAgainst = hideEmailsForNormalUsers(result.argumentsAgainst);
+	}
+
+	if (idea.argumentsFor) {
+		result.argumentsFor = hideEmailsForNormalUsers(result.argumentsFor);
+	}
+
+	if (idea.extraData && idea.extraData.phone && user.role !== "admin") {
+		delete result.extraData.phone;
+	}
+
 	if (idea.user) {
 		result.user = {
 			firstName: idea.user.firstName,
