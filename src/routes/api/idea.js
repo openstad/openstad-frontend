@@ -239,8 +239,8 @@ function createIdeaJSON(idea, user) {
 
 
 // Fixme: hide email in arguments and their reactions
-	function hideEmailsForNormalUsers(arguments) {
-		return arguments.map((argument) => {
+	function hideEmailsForNormalUsers(args) {
+		return args.map((argument) => {
 			argument.user.email = user.role === 'admin' ? argument.user.email : '';
 
 			if (argument.reactions) {
