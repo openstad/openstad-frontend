@@ -235,13 +235,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button" >
+            <a href="/oauth/logout" class="logout-button" role="menuitem">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
               <img src="/img/avatar.svg" />
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login">
+            <a href="/oauth/login" role="menuitem">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
@@ -251,7 +251,7 @@
       </div>
       {% endif %}
       <div class="navbar-menu toggle-menu">
-        <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
+        <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light " role="menubar">
           <ul class="nav navbar-left">
             {% if data.global.arrangeMainMenu and data.global.arrangeMainMenu == 'manually' %}
 
@@ -269,6 +269,7 @@
               "
               href="{{ item.mainMenuUrl }}"
               {% if item.mainMenuTarget %} target="_blank" {% endif %}
+              role="menuitem"
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -277,11 +278,11 @@
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
+              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
                 {{ tab.title }}
               </a>
             </li>
@@ -326,12 +327,12 @@
         		<div>
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
-      				<a href="/oauth/logout" class="account logout-button">
+      				<a href="/oauth/logout" class="account logout-button" title="{{ __('Uitloggen') }}" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                 {{ __('Uitloggen') }}
               </a>
         			{% else %}
-      				<a href="/oauth/login" class="account">
+      				<a href="/oauth/login" class="account" title="{{ __('Mijn account') }}" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 <img src="/img/avatar.svg" />
                 {{ __('Mijn account') }}
@@ -340,7 +341,7 @@
               {% endif %}
 
               {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button">{{data.global.ctaButtonText}}</a>
+              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" title="{{data.global.ctaButtonText}}" role="button">{{data.global.ctaButtonText}}</a>
               {% endif %}
         		</div>
         	</nav>
@@ -379,6 +380,7 @@
               <a
               href="{{link.url}}"
               {% if link.targetBlank %} target="_blank" {% endif %}
+              title="{{link.label}}"
               >
                 {{link.label}}
               </a>

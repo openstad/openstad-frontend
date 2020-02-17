@@ -16,6 +16,8 @@
 					class="step-image"
 					src="{{apos.attachments.url(step.image)}}"
 					style="{% if data.widget.imageHeight %} height:	{{data.widget.imageHeight}}; {% endif %}"
+					title="{{ step.imageTitle }}"
+					alt="{{ step.imageAlt }}"
 					/>
 					<div class="step-header">{{step.title}}</div>
 					<p class="step-text">
@@ -26,7 +28,7 @@
 						  {% for link in step.links %}
 						  {% if link.url %}
 							<li>
-								<a href="{{ link.url }}">{{ link.title }}</a>
+								<a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
 							</li>
 					    {% endif %}
 						  {% endfor %}
