@@ -3,13 +3,12 @@ const nodemailer = require('nodemailer');
 const Promise    = require('bluebird');
 const merge = require('merge');
 const htmlToText   = require('html-to-text');
+const siteConfig = require('./siteConfig');
+const mailTransporter = require('./mailTransporter');
 
 const debug      = require('debug');
 const log        = debug('app:mail:sent');
 const logError   = debug('app:mail:error');
-
-const method     = config.get('mail.method');
-const transport  = config.get('mail.transport');
 
 // nunjucks is used when sending emails
 var nunjucks = require('nunjucks');
@@ -31,18 +30,6 @@ env.addGlobal('GLOBALS', config.get('express.rendering.globals'));
 
 env.addGlobal('config', config)
 
-let transporter;
-switch ( method ) {
-  case 'smtp':
-    transporter = nodemailer.createTransport(transport.smtp);
-    break;
-  case 'sendgrid':
-    var sendGrid = require('nodemailer-sendgrid-transport');
-    var sgConfig = sendGrid(transport.sendgrid);
-    transporter  = nodemailer.createTransport(sgConfig);
-    break;
-}
-
 // Default options for a single email.
 let defaultSendMailOptions = {
   from: config.get('mail.from'),
@@ -63,7 +50,7 @@ function sendMail( options ) {
     });
   }
 
-  transporter.sendMail(
+  mailTransporter.getTransporter().sendMail(
     merge(defaultSendMailOptions, options),
     function( error, info ) {
       if ( error ) {
@@ -96,69 +83,65 @@ function sendNotificationMail( data ) {
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail( idea, user, site ) {
-
-  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
-  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
-  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
-  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
-  if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
-
-	let inzendingPath = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.inzendingPath && site.config.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, idea.id) ) || "/" ;
-	let inzendingURL = url + inzendingPath;
-
-  let data    = {
-    date: new Date(),
-    user: user,
-    idea: idea,
+function sendThankYouMail(idea, user) {
+  
+  let url         = siteConfig.getCmsUrl();
+  let hostname    = siteConfig.getCmsHostname();
+  let sitename    = siteConfig.getTitle();
+  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
+  if (fromAddress.match(/^.+<(.+)>$/, '$1')) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
+  
+  let inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
+  let inzendingURL  = url + inzendingPath;
+  
+  let data = {
+    date:     new Date(),
+    user:     user,
+    idea:     idea,
     HOSTNAME: hostname,
     SITENAME: sitename,
-		inzendingURL,
-    URL: url,
-    EMAIL: fromAddress
+    inzendingURL,
+    URL:      url,
+    EMAIL:    fromAddress
   };
-
-	let html;
-	let template = site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.template;
-	if (template) {
-		html = nunjucks.renderString(template, data);
-	} else {
-		html = nunjucks.render('idea_created.njk', data);
-	}
-
+  
+  let html;
+  let template = siteConfig.getIdeasFeedbackEmailTemplate();
+  if (template) {
+    html = nunjucks.renderString(template, data);
+  } else {
+    html = nunjucks.render('idea_created.njk', data);
+  }
+  
   let text = htmlToText.fromString(html, {
-    ignoreImage: true,
+    ignoreImage:              true,
     hideLinkHrefIfSameAsText: true,
-    uppercaseHeadings: false
+    uppercaseHeadings:        false
   });
-
-  let attachments = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
-
+  
+  let attachments = siteConfig.getIdeasFeedbackEmailAttachments();
+  
   sendMail({
-    to: user.email,
-    from: fromAddress,
-    subject: (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je inzending',
-    html: html,
-    text: text,
-    attachments,
-  });
-
+             to:      user.email,
+             from:    fromAddress,
+             subject: siteConfig.getIdeasFeedbackEmailSubject() || 'Bedankt voor je inzending',
+             html:    html,
+             text:    text,
+             attachments,
+           });
+  
 }
 
 // send email to user that submitted an idea
-function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
+function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 
-  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
-  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
-  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
-  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
+  let url         = siteConfig.getCmsUrl();
+  let hostname    = siteConfig.getCmsHostname();
+  let sitename    = siteConfig.getTitle();
+  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
   if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
-	let confirmationUrl = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.url;
+	let confirmationUrl = siteConfig.getNewsletterSignupConfirmationEmailUrl();
 	confirmationUrl = confirmationUrl.replace(/\[\[token\]\]/, newslettersignup.confirmToken)
 
   let data    = {
@@ -172,7 +155,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
   };
 
 	let html;
-	let template = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.template;
+	let template = siteConfig.getNewsletterSignupConfirmationEmailTemplate();
 	if (template) {
 		html = nunjucks.renderString(template, data);
 	} else {
@@ -185,7 +168,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
+  let attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments() || [{
 		filename : 'logo.png',
 		path     : 'email/img/logo.png',
 		cid      : 'logo'
@@ -194,7 +177,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
   sendMail({
     to: newslettersignup.email,
     from: fromAddress,
-    subject: (site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je aanmelding',
+    subject: siteConfig.getNewsletterSignupConfirmationEmailSubject() || 'Bedankt voor je aanmelding',
     html: html,
     text: text,
     attachments,

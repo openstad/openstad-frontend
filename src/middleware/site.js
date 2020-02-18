@@ -2,6 +2,7 @@ const config = require('config');
 const db = require('../db');
 const createError = require('http-errors')
 const sessionUser = require('./session_user');
+const siteConfig = require('../lib/siteConfig');
 
 module.exports = function( req, res, next ) {
 
@@ -26,7 +27,7 @@ module.exports = function( req, res, next ) {
 		.then(function( found ) {
 			if (!found) return next(new createError('400', 'Site niet gevonden'));
 			//if (!found) return next();
-
+			siteConfig.setFromSite(found);
 			req.site = found;
 			next();
 
