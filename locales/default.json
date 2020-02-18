@@ -488,5 +488,8 @@
 	"Maximum number of characters needed for advice": "Maximum number of characters needed for advice",
 	"Text for button to submit": "Text for button to submit",
 	"Text for button to save": "Text for button to save",
-	"Edit Idea form": "Edit Idea form"
+	"Edit Idea form": "Edit Idea form",
+	"Choose if period or moment": "Choose if period or moment",
+	"Period": "Period",
+	"Moment": "Moment"
 }
