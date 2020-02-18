@@ -163,11 +163,11 @@
                 {% if data.global.displayLoginTopLink %}
                 <li>
                   {% if data.loggedIn %}
-                  <a href="/oauth/logout" class="link-caret--black">
+                  <a href="/oauth/logout" class="link-caret--black" title="{{ __('Uitloggen') }}">
                     {{ __('Uitloggen') }}
                   </a>
                   {% else %}
-                  <a href="/oauth/login" class="link-caret--black">
+                  <a href="/oauth/login" class="link-caret--black" title="{{ __('Inloggen') }}">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                     {{ __('Inloggen') }}
                   </a>
@@ -180,6 +180,7 @@
                   href="{{topLink.url}}"
                   {% if topLink.targetBlank %} target="_blank" {% endif %}
                   class="link-caret--black"
+                  title="{{topLink.label}}"
                   >
                     {{topLink.label}}
                   </a>
@@ -235,13 +236,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button" role="menuitem">
+            <a href="/oauth/logout" class="logout-button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
               <img src="/img/avatar.svg" />
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login" role="menuitem">
+            <a href="/oauth/login">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
