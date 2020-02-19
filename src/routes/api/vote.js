@@ -112,13 +112,13 @@ router.route('/')
     	};
 		}
 
-		const order = [];
-		if(req.query.sortBy) {
-			order.push([
+    const order = [];
+    if (req.query.sortBy) {
+      order.push([
         req.query.sortBy,
-				req.query.orderBy || 'ASC'
-			])
-		}
+        req.query.orderBy || 'ASC'
+      ])
+    }
 
 		if (req.user && req.user.role === 'admin') {
 			req.scope.push('includeUser');
