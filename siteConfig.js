@@ -282,13 +282,8 @@ module.exports = {
 
     } else {
       
-      if (process.env.FORCE_LANGUAGE) {
-        const locales = [process.env.FORCE_LANGUAGE];
-        const defaultLocale = process.env.FORCE_LANGUAGE;
-      } else {
-        const locales = ['nl', 'en'];
-        const defaultLocale = 'nl';
-      }
+      const locales = process.env.ALLOW_LOCALES ? process.env.ALLOW_LOCALES.split(',') : ['nl', 'en'];
+      const defaultLocale = process.env.DEFAULT_LOCALE || 'nl';
       
       siteConfig.modules['apostrophe-i18n'] = {
         locales,

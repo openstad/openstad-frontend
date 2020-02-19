@@ -92,9 +92,18 @@ apos.define('idea-single-widgets', {
 });
 ```
 
-## Forcing a language
-It's possible to force the application into a specific language by specifying the locale as the `FORCE_LANGUAGE` in the .env file.
-To force the dutch language for example:
+## Defining the allowed locales and setting the default locale
+It's possible to set one or more languages (separated by a comma) through the .env file.
+Both of these definitions are valid:
+
 ```
-FORCE_LANGUAGE=nl
+ALLOW_LOCALES=nl
+
+ALLOW_LOCALES=nl,en
+```
+
+It's also possible to set the default locale through the .env:
+
+```
+DEFAULT_LOCALE=en
 ```
