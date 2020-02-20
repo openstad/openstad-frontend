@@ -159,13 +159,15 @@ data-default-sort="{{data.widget.defaultSorting}}"
           </div>
         </div>
       </div>
+      {% if data.widget.showVoteCounter %}
+
       <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
         {% set id = 'no-of-votes-hasvoted-' + idea.id %}
-        {% if data.widget.showVoteCounter %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
-        {% endif %}
         <div class="vote-button"></div>
       </div>
+      {% endif %}
+
       <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
         {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
         {% if data.widget.showVoteCounter %}
