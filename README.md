@@ -56,6 +56,17 @@ Because of the multisite setup it's not possible anymore to run `node app apostr
 `node apostrophe apostrophe:generation` this file is using the SAMPLE_DB variable to save the generation id. 
 The multisite setup is using the SAMPLE_DB in the assets part for every website. 
 
+## Custom logging provider
+It's possible to set a custom log provider on the client side, this logger will log all errors to the provider.
+Currently only Bugsnag is supported, to configure the bugsnag provider you can add these env variables:
+
+**Note:** When you create a new project in Bugsnag you need to select the Native Javascript module.
+```
+LOG_PROVIDER_CLIENT=bugsnag
+LOG_PROVIDER_BUGSNAG_URL=
+LOG_PROVIDER_BUGSNAG_KEY=
+```
+
 ## Using the map-widgets
 If you want to use a map in your custom module you can extend the map-widgets in the index.js of your module. 
 ```

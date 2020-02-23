@@ -56,11 +56,11 @@
 								{{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
 							</h2>
 							<div class="form-info">
-								{{ data.widget.infoSummary  | nlbr | stripSafe | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.maxSummary+' tekens iets meer over je plan.' }}
+								{{ data.widget.infoSummary  | nlbr | stripSafe | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.ideas.summaryMaxLength+' tekens iets meer over je plan.' }}
 							</div>
 
 							{% if data.widget.typeSummary === 'text'  %}
-							<input type="text" name="summary" minlength="{{data.widget.minSummary}}" maxlength="{{data.widget.maxSummary}}"  {% if data.widget.requiredSummary %}required{% endif %} value="{{idea.summary}}">
+							<input type="text" name="summary" minlength="{{data.widget.siteConfig.ideas.summaryMinLength}}" maxlength="{{data.widget.siteConfig.ideas.summaryMaxLength}}"  {% if data.widget.requiredSummary %}required{% endif %} value="{{idea.summary}}">
               <div id="charsLeftSummary" class="charsLeft">
                 <div class="min">Nog minimaal <span>0</span> tekens</div>
                 <div class="max">Je hebt nog <span>0</span> tekens over.</div>
@@ -342,7 +342,7 @@
 					<div class="form-info" style="height: auto;">
 						Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.
 					</div>
-					<input type="number" id="budget_input" class="chars-counter" min="0" name="budget" value="{{idea.budget}}">
+					<input type="number" id="budget_input" min="0" name="budget" value="{{idea.budget}}">
 				</div>
 				{% endif %}
 
@@ -414,12 +414,12 @@
 	  {% endif %}
 </div>
 <script>
-	var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}') || 10;
-  var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}') || 50;
-  var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}') || 20;
-  var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}') || 140;
-  var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}') || 140;
-  var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}') || 5000;
+	var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}');
+  var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}');
+  var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}');
+  var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}');
+  var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}');
+  var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}');
 </script>
 <script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
