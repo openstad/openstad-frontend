@@ -22,7 +22,7 @@ module.exports = {
         'openstad-auth': {},
         'openstad-login': {},
         'apostrophe-login': {
-          localLogin: true
+          localLogin: false
         },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {

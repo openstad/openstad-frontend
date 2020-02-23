@@ -1,3 +1,7 @@
+/**
+ * Stylesheet to adjust the standard apostrhopeCMS styling to an openstad look
+ */
+
 .cms-admin {
   .apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
     max-height: 300px !important;
@@ -10,9 +14,21 @@
 }
 
 .apos-ui .apos-admin-bar, .apos-ui .apos-button--global, .apos-ui .apos-button--major {
-  background-color: #154995;
-  border: 2px solid #154995;
-  border-radius: 0;
+  background-color: #ffffff;
+      border: 1px solid #eeeeee;
+      border-radius: 2px;
+      color: black;
+      -webkit-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+      -moz-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+      box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+}
+
+.apos-ui .apos-admin-bar-item:hover {
+  background: #eeeeee;
+}
+
+.apos-ui .apos-admin-bar-logo {
+      padding: 15px 15px 8px 15px;
 }
 
 .apos-admin-bar-logo svg {
@@ -31,8 +47,9 @@
   max-width: 100px;
 }
 
-.apos-ui .apos-admin-bar-item:hover, .apos-ui .apos-button--global:hover {
-  background-color: #143c77
+.apos-ui .apos-button--global:hover {
+  background-color: #143c77;
+  color: white;
 }
 
 .apos-ui .apos-button {
@@ -47,4 +64,22 @@
 
 .apos-ui .apos-button--in-group {
   border: none;
+}
+
+.apos-ui .apos-button:hover {
+    -webkit-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+    -moz-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+    box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+    cursor: pointer;
+}
+
+.apos-ui .apos-field-input-text:focus, .apos-ui .apos-field-input-select:focus, .apos-ui .apos-field-input-textarea:focus {
+    outline: none;
+    -webkit-box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+    -moz-box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+    box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+}
+
+.apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
+  max-height: 280px;
 }
