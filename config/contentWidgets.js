@@ -25,7 +25,6 @@ module.exports = {
     addLabel: 'Ideeen op een kaart',
   },
   'iframe': {},
-  'header': {},
   'image': {},
   'info-bar': {},
   'link': {},
