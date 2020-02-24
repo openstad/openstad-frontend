@@ -501,5 +501,18 @@
 	"Heading 1": "Heading 1",
 	"Heading 2": "Heading 2",
 	"Heading 3": "Heading 3",
-	"Heading 4": "Heading 4"
+	"Heading 4": "Heading 4",
+	"Save Idea single": "Save Idea single",
+	"Display share buttons?": "Display share buttons?",
+	"Select which share buttons you want to display (if left empty all social buttons will be shown)": "Select which share buttons you want to display (if left empty all social buttons will be shown)",
+	"Facebook": "Facebook",
+	"Twitter": "Twitter",
+	"E-mail": "E-mail",
+	"Whatsapp": "Whatsapp",
+	"Labelfor time status: : ACCEPTED": "Labelfor time status: : ACCEPTED",
+	"Labelfor time status: : DENIED": "Labelfor time status: : DENIED",
+	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
+	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
+	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
 }
