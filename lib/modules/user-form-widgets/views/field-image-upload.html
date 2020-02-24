@@ -1,6 +1,6 @@
 <div class="form-group">
-  <h3>{{field.title | stripSafe | safe}} </h3>
-    <div class="description"><p>{{field.description | stripSafe | safe}}</p></div>
+  <h3>{{field.title | sanitize | safe}} </h3>
+    <div class="description"><p>{{field.description | sanitize | safe}}</p></div>
 
 
     <fieldset class="filepondUserformFieldset">
