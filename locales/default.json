@@ -514,5 +514,7 @@
 	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
 	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
-	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
+	"Save Accordeon": "Save Accordeon",
+	"Edit Accordeon": "Edit Accordeon"
 }
