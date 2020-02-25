@@ -29,7 +29,9 @@ module.exports = {
   'info-bar': {},
   'link': {},
   'list': {},
-  'begroot': {},
+  'begroot': {
+    addLabel: 'Begroot (deprecated, please use Participatory budgetting)',
+  },
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
   },
