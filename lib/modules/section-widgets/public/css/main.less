@@ -67,7 +67,7 @@
       display: none;
     }
 
-    .row {
+    .row, .full-width-container, .full-screen-section {
       display: block!important;
     }
 
@@ -77,7 +77,7 @@
       }
 
       &.closed {
-        .row {
+        .container, .full-width-container, .full-screen-section {
           display: none!important
         }
         .arrow {
@@ -86,7 +86,7 @@
       }
 
       &.open {
-        .row {
+        .container, .full-width-container, .full-screen-section {
           display: block!important;
         }
         .arrow {
@@ -96,9 +96,9 @@
     }
   }
 
-  &.closed {
+  &.closed:not(.mobileonly) {
 
-    .container {
+    .container, .full-width-container, .full-screen-section {
       display: none
     }
 
@@ -108,9 +108,9 @@
 
   }
 
-  &.open {
+  &.open:not(.mobileonly) {
 
-    .row {
+    .container, .full-width-container, .full-screen-section {
       display: block
     }
 
