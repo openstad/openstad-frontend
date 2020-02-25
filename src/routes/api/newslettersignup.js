@@ -34,6 +34,7 @@ router.route('/$')
             email: entry.email,
             firstName: entry.firstName,
             lastName: entry.lastName,
+            createdAt: entry.createdAt,
             externalUserId: entry.externalUserId,
             confirmed: entry.confirmed,
             confirmToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == entry.externalUserId  ? entry.confirmToken : undefined,
