@@ -1,6 +1,6 @@
 <div class="form-group">
   <h3>{{field.title}}</h3>
-  <div class="description"><p>{{field.description | safe}}</p></div>
+  <div class="description"><p>{{field.description | sanitize | safe}}</p></div>
   <textarea
     rows="8"
     name="data[{{field.title}}]"

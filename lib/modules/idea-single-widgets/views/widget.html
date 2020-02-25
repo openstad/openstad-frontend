@@ -153,9 +153,9 @@
 		{% include 'includes/modbreak.html' %}
 		<div class="userContent">
 			<p class="summary">
-				<strong>{{idea.summary | safe | nlbr}}</strong>
+				<strong>{{idea.summary | nlbr | sanitize | safe }}</strong>
 			</p>
-			{{idea.description | safe}}
+			{{idea.description | nlbr | sanitize | safe}}
 		</div>
 		{% if idea.location %}
 		<br/><br/>

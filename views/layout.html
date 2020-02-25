@@ -21,6 +21,8 @@
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
+{{ apos.logger.renderClientProvider() | safe }}
+
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 
@@ -99,15 +101,17 @@ ga('send', 'pageview');
 {% endblock %}
 
 {% block beforeMain %}
-{% if data.user %} <!-- be sure to somehow safeguard against non-editor situations, as performance could unnecessarily suffer -->
+
+    {{ apos.admin.renderAdminBarTemplate() | safe }}
+
     {% if data.global.tagmanager %}
         <!-- Google Tag Manager -->
         <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{data.global.tagmanager}}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager -->
     {% endif %}
-
-  {{ palette.palette(data.global, 'palette') }}
-{% endif %}
+    {% if data.user %} <!-- be sure to somehow safeguard against non-editor situations, as performance could unnecessarily suffer -->
+      {{ palette.palette(data.global, 'palette') }}
+    {% endif %}
     {% if not (data.query.layout === 'none') %}
     {% if data.global.logoLink %}
         {% set logoLink = data.global.logoLink %}

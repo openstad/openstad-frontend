@@ -4,10 +4,10 @@
 			<b>{{data.global.modbreakAuthor}} | </b>
 		{% endif %}
 
-		<b>{{idea.modBreakDateNice}}</b>
+		<b>{{idea.modBreakDate | date( 'D MMM YYYY, HH:mm')}}</b>
 		<br>
 		<p>
-			{{idea.modBreak | safe | nlbr}}
+			{{idea.modBreak | sanitize | safe | nlbr}}
 		</p>
 </div>
 {% endif %}

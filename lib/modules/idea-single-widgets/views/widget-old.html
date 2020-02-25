@@ -108,10 +108,10 @@
 
 	<div class="userContent">
 		<p class="summary">
-			<strong>{{idea.summary | safe | nlbr}}</strong>
+			<strong>{{idea.summary | sanitize | safe | nlbr}}</strong>
 		</p>
 
-		{{idea.description | safe}}
+		{{idea.description | sanitize | safe}}
 	</div>
 
 	{% if idea.location %}

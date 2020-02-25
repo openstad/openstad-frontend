@@ -6,7 +6,7 @@
 {% for item in data.widget.items %}
   <div class=" {{'agenda-period' if (item.period === true) or (item.period === 'period') else 'agenda-day' }}">
     <div>
-      <h3> {{item.title | safe}} </h3>
+      <h3> {{item.title | sanitize | safe}} </h3>
       {% if item.actionText %}
       {{item.actionText}}
       {% endif %}

@@ -1,0 +1,8 @@
+{% if data.isAdmin and data.global.showAdminBar %}
+<div class="custom-admin-bar">
+    <span>Admin</span>
+    <nav>
+        <a href="/ideas/download" class="btn">Export ideas</a>
+    </nav>
+</div>
+{% endif %}
