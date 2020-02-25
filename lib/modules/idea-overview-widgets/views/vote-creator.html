@@ -36,7 +36,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 				<div id="steps-content-1a" class="step active">
 					<div class="content">
-						{{data.widget.step_1_intro | stripSafe | safe}}
+						{{data.widget.step_1_intro | sanitize | safe}}
 
 						<input type="hidden" name="ideaId" value="">
 						<div class="preview-container">
@@ -44,7 +44,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 								<div class="nothingYet">
 									<div class="inner-container">
 										<div class="text">
-											{{data.widget.placeholder_empty_item | stripSafe | safe}}
+											{{data.widget.placeholder_empty_item | sanitize | safe}}
 										</div>
 									</div>
 								</div>
@@ -68,7 +68,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									<div class="nothingYet">
 										<div class="inner-container">
 											<div class="text">
-												{{data.widget.placeholder_empty_item | stripSafe | safe}}
+												{{data.widget.placeholder_empty_item | sanitize | safe}}
 											</div>
 										</div>
 									</div>
@@ -77,14 +77,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 							<div class="fields">
 								<div class="vote-not-logged-in">
 									<a href="/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
-										{{data.widget.button_authenticating | stripSafe | safe }}
+										{{data.widget.button_authenticating | sanitize | safe }}
 									</a>
 								</div>
 								<div class="vote-logged-in">
 									<div class="button-stemcode geldige-code">
 										{{data.widget.step_2_succesfull_button }}
 									</div>
-									{{data.widget.step_2_succesfull_auth | stripSafe | safe }}
+									{{data.widget.step_2_succesfull_auth | sanitize | safe }}
 
 									{% if data.ideasVotedFor and data.ideasVotedFor.length > 0 %}
 									<div class="info-block error warning">
@@ -122,11 +122,11 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 						<div class="checkmark-block-green">
 							<h4>
-								{{data.widget.success_title  | stripSafe | safe}}
+								{{data.widget.success_title  | sanitize | safe}}
 							</h4>
 
 							<br />
-							{{data.widget.message | stripSafe | safe}}
+							{{data.widget.message | sanitize | safe}}
 
 						</div>
 					</div>
@@ -147,7 +147,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 									<div class="nothingYet">
 										<div class="inner-container">
 											<div class="text">
-												{{data.widget.placeholder_empty_item | stripSafe | safe}}
+												{{data.widget.placeholder_empty_item | sanitize | safe}}
 											</div>
 										</div>
 									</div>

@@ -1,6 +1,5 @@
 module.exports = {
   'agenda': {},
-  'admin': {},
   'accordeon': {},
   'arguments': {},
   'arguments-form': {},
@@ -62,5 +61,4 @@ module.exports = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
-
 };
