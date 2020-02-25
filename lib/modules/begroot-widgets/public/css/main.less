@@ -1,0 +1,74 @@
+/* ----------------------------------------------------------------------------------------------------
+ * budgeting block */
+
+
+.budget {
+	&.unavailable {
+		opacity: .5;
+	}
+}
+
+.idea-image-mask {
+	.statustext {
+		display: none;
+		position: absolute;
+		bottom: 0px;
+		width: 100%;
+		padding-left: 26px;
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 25px;
+		color: white;
+		background-color: @amsterdam-lightgreen;
+		background-repeat: no-repeat;
+
+		&.ACCEPTED {
+			display: block;
+			background-size: 10.5px 10px;
+			background-position: 10px 6px;
+			background-color: #bdd131;
+			background-image: url('/img/star.filled.svg')
+		}
+	}
+}
+
+.ranking {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 44px;
+	height: 44px;
+	color: white;
+	background-color: #164995;
+	background-repeat: no-repeat;
+	background-size: 22px 22px;
+	background-position: 10px 5px;
+	background-image: url('/img/trophy.svg');
+	z-index: 100;
+
+	.label {
+		position: absolute;
+    top: 32px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 10px;
+    font-size: 10px;
+    color: white;
+    margin: 0;
+		padding: 0;
+	}
+}
+
+.noOfVotes, .noOfVotes:hover {
+	padding-left: 0;
+	padding-right: 0;
+  font-size: 14px;
+  font-weight: 600;
+	color: #000 !important;
+	text-align: center;
+	background-color: white;
+	border: 2px solid @amsterdam-navyblue;
+	cursor: auto;
+	padding: 7px 0px;
+}
