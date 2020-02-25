@@ -1,0 +1,170 @@
+const config = require('config');
+const merge = require('merge');
+const sanitize = require('../util/sanitize');
+
+module.exports = function( db, sequelize, DataTypes ) {
+  let ChoicesGuideChoice = sequelize.define('choicesGuideChoice', {
+
+    choicesGuideId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+    },
+
+    questionGroupId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+    },
+
+    title: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [0, 255],
+          msg: 'Titel moet tussen 2 en 255 tekens lang zijn'
+        }
+      },
+      set: function( text ) {
+        this.setDataValue('title', sanitize.title(text.trim()));
+      }
+    },
+
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [0, 5000],
+          msg: 'Beschrijving moet tussen 2 en 5000 tekens zijn'
+        },
+      },
+      set: function( text ) {
+        this.setDataValue('description', sanitize.content(text.trim()));
+      }
+    },
+
+    images: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '{}',
+      get: function() {
+        let value = this.getDataValue('images');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        return value;
+      },
+      set: function(value) {
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        this.setDataValue('images', JSON.stringify(value));
+      }
+    },
+
+    answers: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '{}',
+      get: function() {
+        let value = this.getDataValue('answers');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        return value;
+      },
+      set: function(value) {
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        this.setDataValue('answers', JSON.stringify(value));
+
+      }
+    },
+
+    seqnr: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+  }, {
+
+    hooks: {
+
+      beforeValidate: function( instance, options ) {
+
+        return new Promise((resolve, reject) => {
+
+          if (instance.choicesGuideId) {
+            db.ChoicesGuide.scope('includeSite').findByPk(instance.choicesGuideId)
+              .then( (choicesGuide) => {
+                if (!choicesGuide) throw Error('ChoicesGuide niet gevonden');
+                instance.config = merge.recursive(true, config, choicesGuide.site.config);
+                return choicesGuide;
+              })
+              .then( (choicesGuide) => {
+                return resolve();
+              }).catch((err) => {
+                throw err;
+              });
+
+          } else {
+            instance.config = config;
+            return resolve();
+          }
+
+        });
+
+      },
+
+    },
+
+    individualHooks: true,
+
+  });
+
+  ChoicesGuideChoice.scopes = function scopes() {
+
+    return {
+
+      forSiteId: function( siteId ) {
+        // TODO: dit moet of choicesGuideId of questionGroupId worden
+        return {};
+        // return {
+        //   where: {
+        //     choicesGuideId: [sequelize.literal(`select id FROM choicesGuides WHERE siteId = ${siteId}`)]
+        //   }
+        // };
+      },
+
+      includeChoicesGuide: function() {
+        return {
+          include: [{
+            model: db.ChoicesGuide,
+            attributes: ['id', '', 'status']
+          }]
+        };
+      },
+
+    };
+  };
+
+  ChoicesGuideChoice.associate = function( models ) {
+    this.belongsTo(models.ChoicesGuide);
+  };
+
+  return ChoicesGuideChoice;
+
+};

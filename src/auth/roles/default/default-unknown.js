@@ -99,6 +99,12 @@ module.exports = function( helpers, role ) {
     'choicesguidequestion:edit': false,
     'choicesguidequestion:delete': false,
 
+    'choicesguideresult:list': true,
+    'choicesguideresult:view': true,
+    'choicesguideresult:create': false,
+    'choicesguideresult:edit': false,
+    'choicesguideresult:delete': false,
+
     // submissions
     'submissions:list': true,
     'submissions:view': true,
