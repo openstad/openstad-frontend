@@ -29,6 +29,7 @@ module.exports = {
   'info-bar': {},
   'link': {},
   'list': {},
+  'begroot': {},
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
   },
