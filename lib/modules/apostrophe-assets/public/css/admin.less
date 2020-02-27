@@ -101,9 +101,15 @@
   max-height: 280px;
 }
 
+
+/*
+  For editors the section controls are empty.
+  ApostrhopeCMS still shows the controls though.
+  Everything still works but it will trigger an empty dropdown.
+  To avoid confusion this small hack hides the ui controls for dropdown.
+ */
 .hide-section-controls > .apos-area > .apos-ui > .apos-area-controls,
 .hide-section-controls > .apos-area > .apos-area-widgets > .apos-area-widget-wrapper > .apos-ui > .apos-area-controls
-
   {
   display: none !important;
 }
