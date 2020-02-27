@@ -90,7 +90,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
           {% endif %}
         </div>
     	</div>
-      {% if idea.extraData.ranking %}
+      {% if data.widget.displayRanking and idea.extraData.ranking %}
       <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
       {% endif %}
 
@@ -160,27 +160,31 @@ data-default-sort="{{data.widget.defaultSorting}}"
         </div>
       </div>
       {% if data.widget.showVoteCounter %}
+
       <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
         {% set id = 'no-of-votes-hasvoted-' + idea.id %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
         <div class="vote-button"></div>
       </div>
+      {% endif %}
+
       <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
         {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
+        {% if data.widget.showVoteCounter %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
+        {% endif %}
         <a href="#vote-creator-anchor" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
       </div>
-      {% endif %}
 
     </div>
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
       <div class="summary">{{idea.summary}}</div>
-      <div class="description">{{idea.description | nlbr | stripSafe | safe }}</div>
+      <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
 
       {% if idea.extraData.advice %}
       <b> Tip </b>
-      <div class="tip description">{{idea.extraData.advice | nlbr | stripSafe | safe}}</div>
+      <div class="tip description">{{idea.extraData.advice | nlbr | sanitize | safe}}</div>
       {% endif %}
 
       {% include 'modbreak.html' %}

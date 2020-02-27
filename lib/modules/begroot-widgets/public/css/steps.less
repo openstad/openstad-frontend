@@ -1,0 +1,45 @@
+
+
+#vote-button-container, #vote-registered-container {
+	display: none;
+}
+
+.active-step-3 {
+	#vote-button-container {
+		display: block;
+	}
+}
+
+.active-step-4 {
+	#vote-registered-container {
+		display: block;
+	}
+
+	#budget-text {
+		display: none;
+	}
+
+	#vote-registered-container {
+		margin-top: -30px;
+		margin-bottom: 20px;
+	}
+
+	@media @phone {
+		.bottom-container {
+			float: none;
+		}
+
+		#vote-registered-container {
+			margin-top: 0px;
+			margin-bottom: 20px;
+
+		}
+
+	}
+}
+
+.active-step-6 {
+	#budget-text, #current-budget-preview {
+		display: none;
+	}
+}

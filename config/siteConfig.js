@@ -95,6 +95,7 @@ module.exports = {
         'user-form-widgets': {},
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},
+        'begroot-widgets': {},
         'local-video-widgets': {},
         'one-row-widgets': {},
         'image-widgets': {},

@@ -19,7 +19,7 @@
 	 var userHasVoted = {{data.widget.userHasVoted}};
 	 var userIsLoggedIn = {{true if data.loggedIn else false}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
-	 var defaultSort = 'random'; //	{% if config.budgeting.isActive %}'random'{% else %}'ranking'{% endif %}
+	 var defaultSort = 'random';
 	 var siteId = '{{data.global.siteId}}';
 
 	 var votingType = '{{data.widget.votingType}}'; // budgeting or count
@@ -52,7 +52,7 @@
      },
 	   {% for theme in data.global.themes %}
      {
-       value: '{{theme.value | stripSafe | safe}}',
+       value: '{{theme.value | sanitize | safe}}',
        initialAvailableBudget: parseInt({{theme.initialAvailableBudget}}) || 300000,
        minimalBudgetSpent: typeof parseInt({{theme.minimalBudgetSpent}}) == 'number' ? parseInt({{theme.minimalBudgetSpent}}) : 200000,
        availableBudgetAmount: 0,
