@@ -6,6 +6,7 @@ module.exports = function( helpers, role ) {
 		},
 		'index:view'       : true,
 		'ideas:admin'      : true,
+		'idea:admin'      : true,
 		'idea:view'        : true,
 		'idea:create'      : true,
 		'idea:edit'        : true,

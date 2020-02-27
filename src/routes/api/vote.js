@@ -44,19 +44,21 @@ router.route('*')
 	.all(function(req, res, next) {
 		if (req.method == 'GET') return next(); // nvt
 
+		let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
+
 		if (!req.user) {
 			return next(createError(401, 'Geen gebruiker gevonden'));
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || hasModeratorRights )) {
 			return next();
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'member' && ( req.user.role == 'member' || req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'member' && ( req.user.role == 'member' || hasModeratorRights )) {
 			return next();
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'admin' && ( req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'admin' && ( hasModeratorRights )) {
 			return next();
 		}
 
@@ -80,7 +82,9 @@ router.route('/')
 
   // mag je de stemmen bekijken
 	.get(function(req, res, next) {
-		if (!(req.site.config.votes.isViewable || req.user.role == 'admin')) {
+		let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
+
+		if (!(req.site.config.votes.isViewable || hasModeratorRights)) {
 			return next(createError(403, 'Stemmen zijn niet zichtbaar'));
 		}
 		return next();
