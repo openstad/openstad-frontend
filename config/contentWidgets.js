@@ -1,9 +1,12 @@
-module.exports = {
+const contentWidgets = {
   'agenda': {},
-  'admin': {},
   'accordeon': {},
-  'arguments': {},
-  'arguments-form': {},
+  'arguments': {
+    adminOnly: true
+  },
+  'arguments-form': {
+    adminOnly: true
+  },
   'section': {
     addLabel: 'Columns',
     controls: {
@@ -12,17 +15,25 @@ module.exports = {
       position: 'bottom-left'
     },
   },
-  'slider': {},
+  'slider': {
+  },
   'counter': {
     addLabel: 'Counter',
   },
   'date-bar': {},
-  'idea-form': {},
-  'idea-map': {},
+  'idea-form': {
+    adminOnly: true
+  },
+  'idea-map': {
+    adminOnly: true
+  },
   'idea-overview': {},
-  'idea-single': {},
+  'idea-single': {
+    adminOnly: true
+  },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
+    adminOnly: true
   },
   'iframe': {},
   'header': {},
@@ -32,9 +43,11 @@ module.exports = {
   'list': {},
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
+    adminOnly: true
   },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
+    adminOnly: true
   },
   'main-image': {},
   'apostrophe-rich-text': {
@@ -55,7 +68,9 @@ module.exports = {
     },
   },
   'title': {},
-  'user-form': {},
+  'user-form': {
+    adminOnly: true
+  },
   'local-video': {
     addLabel: 'Video (upload)',
   },
@@ -64,3 +79,25 @@ module.exports = {
   },
 
 };
+
+exports.getAdminWidgets = () => {
+  return contentWidgets;
+}
+
+exports.getEditorWidgets = () => {
+  const filteredContentWidgets = {};
+
+  Object.keys(contentWidgets).forEach(function(key) {
+    var val = contentWidgets[key];
+    if (val.adminOnly) {
+      //readonly hides the module from the menu
+      val.readOnly = true;
+      val.edit = false;
+    }
+
+    filteredContentWidgets[key] = val;
+
+  });
+
+  return filteredContentWidgets;
+}
