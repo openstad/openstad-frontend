@@ -77,7 +77,6 @@ const contentWidgets = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
-
 };
 
 exports.getAdminWidgets = () => {
@@ -89,14 +88,18 @@ exports.getEditorWidgets = () => {
 
   Object.keys(contentWidgets).forEach(function(key) {
     var val = contentWidgets[key];
+
+    /**
+     * Edit the settings for editors, so they can only edit specific modules.
+     */
     if (val.adminOnly) {
       //readonly hides the module from the menu
       val.readOnly = true;
+      //setting edit to false removes the edit controls for this module
       val.edit = false;
     }
 
     filteredContentWidgets[key] = val;
-
   });
 
   return filteredContentWidgets;
