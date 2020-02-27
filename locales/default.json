@@ -516,5 +516,16 @@
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
 	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
 	"Save Accordeon": "Save Accordeon",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Submitted for Default": "Submitted for Default",
+	"Click on any document to view it. Once there you can edit or commit it.": "Click on any document to view it. Once there you can edit or commit it.",
+	"Document": "Document",
+	"Last Submitted By": "Last Submitted By",
+	"Last Submitted At": "Last Submitted At",
+	"Actions": "Actions",
+	"Completed": "Completed",
+	"Exporting changes for %s item(s) (%s)": "Exporting changes for %s item(s) (%s)",
+	"This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.": "This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.",
+	"Batch Export": "Batch Export",
+	"Export": "Export"
 }
