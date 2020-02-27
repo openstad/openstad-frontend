@@ -1,11 +1,23 @@
 {% extends "layout.html" %}
 
 {% block main %}
+
+
+{% if data.userCan('add-sections') %}
+{% set readOnly = false %}
+{% else %}
+{% set readOnly = true %}
+{% endif %}
+
+
+<div class="section-container {% if not data.userCan('add-sections')%} hide-section-controls {% endif %}">
 {{ apos.area(data.page, 'body', {
     edit:  true,
     widgets: {
       'section': {
         addLabel: 'Add a section',
+        readOnly:  readOnly,
+        edit: data.userCan('add-sections'),
         controls: {
           movable: data.userCan('add-sections'),
           removable: data.userCan('add-sections'),
@@ -14,6 +26,7 @@
       },
       'icon-section': {
         addLabel: 'Add an icon section',
+        readOnly: readOnly,
         controls: {
           movable: data.userCan('add-sections'),
           removable: data.userCan('add-sections'),
@@ -23,4 +36,5 @@
     }
   })
 }}
+</div>
 {% endblock %}
