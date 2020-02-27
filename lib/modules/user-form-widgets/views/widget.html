@@ -32,7 +32,7 @@
 	</form>
 
 </div>
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 <a href="#overview-submissions" class="edit-button submission-overview-button" data-form-id="{{data.widget.formId}}">
   Bekijk inzendingen
 </a>
