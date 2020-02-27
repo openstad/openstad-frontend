@@ -77,6 +77,7 @@ module.exports = {
         'idea-single-widgets': {},
         'idea-form-widgets': {},
         'ideas-on-map-widgets': {},
+        'cookie-warning-widgets': {},
         'date-bar-widgets': {},
         'map-widgets': {},
         'idea-map-widgets': {},
@@ -120,6 +121,8 @@ module.exports = {
         'apostrophe-area-structure': {},
       }
     };
+    console.log('####################');
+    console.log(siteConfig.modules['admin-widgets']);
 
     const useAposWorkflow = siteData.cms && siteData.cms.aposWorkflow;
     const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;

@@ -118,6 +118,9 @@ ga('send', 'pageview');
     {% else %}
         {% set logoLink = appUrl %}
     {% endif %}
+
+    {{ apos.cookieWarning.renderCookieWarning() | safe }}
+
     <header>
         <div class="container relative">
             <div class="row">

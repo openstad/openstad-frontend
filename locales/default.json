@@ -516,5 +516,10 @@
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
 	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
 	"Save Accordeon": "Save Accordeon",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Use a cookie warning": "Use a cookie warning",
+	"Link to 'about cookies' page": "Link to 'about cookies' page",
+	"Save Custom admin bar": "Save Custom admin bar",
+	"Edit Custom admin bar": "Edit Custom admin bar",
+	"Cookie warning": "Cookie warning"
 }

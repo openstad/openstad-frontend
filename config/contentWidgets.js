@@ -15,6 +15,7 @@ module.exports = {
   'counter': {
     addLabel: 'Counter',
   },
+  'cookie-warning': {},
   'date-bar': {},
   'idea-form': {},
   'idea-map': {},
