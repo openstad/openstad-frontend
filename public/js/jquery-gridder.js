@@ -154,7 +154,7 @@
                     var nextItem = ($(".selectedItem").next().next());
 
                     htmlcontent += "<div class=\"gridder-navigation\">";
-                    htmlcontent += "<a href=\"#\" class=\"gridder-close\">"+settings.closeText+"</a>";
+                    htmlcontent += "<a href=\"#\" class=\"gridder-close\" title=\"Uitklapper sluiten\">"+settings.closeText+"</a>";
                     htmlcontent += "<a href=\"#\" class=\"gridder-nav prev "+(!prevItem.length?"disabled":"")+"\">"+settings.prevText+"</a>";
                     htmlcontent += "<a href=\"#\" class=\"gridder-nav next "+(!nextItem.length?"disabled":"")+"\">"+settings.nextText+"</a>";
                     htmlcontent += "</div>";

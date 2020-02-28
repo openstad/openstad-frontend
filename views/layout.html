@@ -137,7 +137,7 @@
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-        <a href="{{logoLink}}/" class="logo-container">
+        <a href="{{logoLink}}/" class="logo-container" tabindex="-1">
           {% if data.global.siteLogo %}
           <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
 
@@ -271,6 +271,7 @@
               href="{{ item.mainMenuUrl }}"
               {% if item.mainMenuTarget %} target="_blank" {% endif %}
               role="menuitem"
+              title="{{ item.mainMenuLabel }}"
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -279,11 +280,11 @@
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
+              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem" title="{{ data.home.title }}">{{ data.home.title }}</a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem" title="{{ tab.title }}">
                 {{ tab.title }}
               </a>
             </li>

@@ -51,6 +51,14 @@
   }
 }
 
+.howDoesItWork {
+  .howDoesItWorkButton {
+    &:focus {
+      outline: 5px auto -webkit-focus-ring-color!important;
+    }
+  }
+}
+
 .section {
 
   .howDoesItWorkButton {
@@ -59,6 +67,10 @@
     padding: 15px 20px;
     text-align: center;
     display: block;
+
+    &:focus {
+      outline: 5px auto -webkit-focus-ring-color!important;
+    }
   }
 
   &.mobileonly {

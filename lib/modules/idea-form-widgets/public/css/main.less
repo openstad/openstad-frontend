@@ -150,6 +150,32 @@
   }
 }
 
+.geo-search-box {
+  position: absolute;
+  z-index: 99999;
+  display: flex;
+  top: 15px;
+  left: 15px;
+  flex-wrap: wrap;
+
+
+  #geo-search {
+    width: calc(100% - 40px) !important;
+  }
+
+  button.search-location {
+    width: 40px;
+  }
+}
+
+trix-editor:focus {
+  outline: -webkit-focus-ring-color auto 5px!important;
+}
+
+#nlmaps-holder {
+  position: relative;
+}
+
 .charsLeft {
 	color: #9A9A9A;
 	display: none;

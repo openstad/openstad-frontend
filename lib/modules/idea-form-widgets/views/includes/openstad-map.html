@@ -1,5 +1,9 @@
 {% if mapType == 'nlmaps-openlayers' %}
 <div id="nlmaps-holder" style="width: 100%; height: 100%;">
+	<div class="geo-search-box">
+		<input type="text" id="geo-search">
+		<button class="search-location" title="Zoeken"></button>
+	</div>
 	<div id="map-with-buttons-container">
 		<div class="map-buttons-container">
 			{% if (data.widget.displayCounter) %}
