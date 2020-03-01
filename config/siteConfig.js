@@ -77,6 +77,7 @@ module.exports = {
         'idea-single-widgets': {},
         'idea-form-widgets': {},
         'ideas-on-map-widgets': {},
+        'choices-guide-widgets': {},
         'date-bar-widgets': {},
         'map-widgets': {},
         'idea-map-widgets': {},
