@@ -23,6 +23,9 @@ module.exports = {
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
   },
+  'choices-guide': {
+    addLabel: 'Keuzewijzer',
+  },
   'iframe': {},
   'header': {},
   'image': {},
