@@ -65,7 +65,6 @@ module.exports = {
         'card-widgets': {},
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
-        'header-widgets': {},
         'title-widgets': {},
         'main-image-widgets': {},
         'list-widgets': {},
