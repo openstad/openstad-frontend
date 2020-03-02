@@ -533,5 +533,14 @@
 	"Search Images...": "Search Images...",
 	"No results for current filters%s": "No results for current filters%s",
 	"Save Slider": "Save Slider",
-	"Edit Slider": "Edit Slider"
+	"Edit Slider": "Edit Slider",
+	"Show the admin bar for oauth admin users.": "Show the admin bar for oauth admin users.",
+	"Map center Longitude": "Map center Longitude",
+	"Area Structure": "Area Structure",
+	"Widget deleted": "Widget deleted",
+	"Save Info bar": "Save Info bar",
+	"Message": "Message",
+	"Removable": "Removable",
+	"backgroundColor": "backgroundColor",
+	"Styles": "Styles"
 }
