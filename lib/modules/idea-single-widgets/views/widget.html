@@ -155,7 +155,7 @@
 			<p class="summary">
 				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
-			{{(idea.summary or '') | nlbr | sanitize | safe}}
+			{{(idea.description or '') | nlbr | sanitize | safe}}
 		</div>
 		{% if idea.location %}
 		<br/><br/>
