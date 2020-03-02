@@ -7,7 +7,7 @@
 		<b>{{idea.modBreakDate | date( 'D MMM YYYY, HH:mm')}}</b>
 		<br>
 		<p>
-			{{idea.modBreak | stripSafe | safe | nlbr}}
+			{{idea.modBreak | sanitize | safe | nlbr}}
 		</p>
 </div>
 {% endif %}

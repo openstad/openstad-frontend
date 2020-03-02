@@ -1,6 +1,5 @@
 module.exports = {
   'agenda': {},
-  'admin': {},
   'accordeon': {},
   'arguments': {},
   'arguments-form': {},
@@ -29,6 +28,9 @@ module.exports = {
   'info-bar': {},
   'link': {},
   'list': {},
+  'begroot': {
+    addLabel: 'Begroot (deprecated, please use Participatory budgetting)',
+  },
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
   },
@@ -61,5 +63,4 @@ module.exports = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
-
 };

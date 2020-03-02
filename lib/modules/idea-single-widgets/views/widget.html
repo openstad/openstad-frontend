@@ -24,7 +24,7 @@
 				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
 				{% endif %}
 
-				{% if idea.ranking %}
+				{% if data.widget.showRanking and idea.ranking %}
 				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				{% endif %}
 			</div>
@@ -153,9 +153,9 @@
 		{% include 'includes/modbreak.html' %}
 		<div class="userContent">
 			<p class="summary">
-				<strong>{{idea.summary | stripSafe | safe | nlbr}}</strong>
+				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
-			{{idea.description | stripSafe | safe}}
+			{{(idea.summary or '') | nlbr | sanitize | safe}}
 		</div>
 		{% if idea.location %}
 		<br/><br/>

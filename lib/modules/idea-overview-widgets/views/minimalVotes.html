@@ -14,9 +14,11 @@
   data-ideaid="{{idea.id}}"
 >
   <a href="/{{data.global.ideaSlug}}/{{idea.id}}">
-    {% if idea.status != 'DENIED' and idea.ranking %}
+
+    {% if data.widget.displayRanking and idea.status != 'DENIED' and idea.ranking %}
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}
+
 
     <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
 
@@ -30,7 +32,7 @@
         <div class="thema">{{idea.extraData.theme}}</div>
         <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
-      <p>{{idea.summary | stripSafe | safe | truncate(60) }}</p>
+      <p>{{idea.summary | sanitize | safe | truncate(60) }}</p>
 
       {% if data.widget.siteConfig.minimumYesVotes %}
       <div class="ideaProgress">
