@@ -36,7 +36,6 @@ const contentWidgets = {
     adminOnly: true
   },
   'iframe': {},
-  'header': {},
   'image': {},
   'info-bar': {},
   'link': {},
