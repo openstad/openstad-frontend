@@ -2,14 +2,14 @@
   <div class="col-sm-6">
     {{
       apos.area(data.widget, 'area1', {
-        widgets: apos.settings.getOption('contentWidgets')
+        widgets: data.widget.contentWidgets
       })
     }}
   </div>
   <div class="col-sm-6">
     {{
       apos.area(data.widget, 'area2', {
-        widgets: apos.settings.getOption('contentWidgets')
+        widgets: data.widget.contentWidgets
       })
     }}
   </div>
