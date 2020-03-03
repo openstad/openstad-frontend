@@ -79,7 +79,7 @@ router.route('/')
 	.post(auth.can('argument:create'))
 	.post(function(req, res, next) {
     if (!req.idea) return next( createError(400, 'Inzending niet gevonden') );
-    if (req.idea.status != 'OPEN') return next( createError(400, 'Reactie toevoegen is niet mogelijk') );
+    if (req.idea.status != 'OPEN') return next( createError(400, 'Reactie toevoegen is niet mogelijk bij planen met status: ' + req.idea.status) );
 		next();
 	})
 	.post(function(req, res, next) {
