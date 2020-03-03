@@ -75,11 +75,11 @@ module.exports = function( helpers, role ) {
 		'newslettersignup:delete'   : false,
 
 		//submissions
-		'submissions:list'    : true,
-		'submissions:view'    : true,
-		'submissions:create'  : true,
-		'submissions:edit'    : true,
-		'submissions:delete'  : true,
+		'submissions:list'    : false,
+		'submissions:view'    : false,
+		'submissions:create'  : false,
+		'submissions:edit'    : false,
+		'submissions:delete'  : false,
 		// articles
 		'article:view'     : true,
 		'article:create'   : false,
