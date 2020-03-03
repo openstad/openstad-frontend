@@ -42,6 +42,8 @@ const contentWidgets = {
   'list': {},
   'begroot': {
     addLabel: 'Begroot (deprecated, please use Participatory budgetting)',
+    adminOnly: true,
+    readOnly: true,
   },
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
@@ -82,26 +84,41 @@ const contentWidgets = {
 };
 
 exports.getAdminWidgets = () => {
-  return contentWidgets;
+  const filteredContentWidgets = {};
+
+  Object.keys(contentWidgets).forEach(function(key) {
+    filteredContentWidgets[key] = contentWidgets[key];
+
+    /**
+     * Edit the settings for admin, so they can  edit all modules.
+     */
+    if (filteredContentWidgets[key].adminOnly) {
+      //readonly = false shows the module from the menu
+      filteredContentWidgets[key].readOnly = false;
+      filteredContentWidgets[key].edit = true;
+    }
+
+  });
+
+  return filteredContentWidgets;
 }
 
 exports.getEditorWidgets = () => {
   const filteredContentWidgets = {};
 
   Object.keys(contentWidgets).forEach(function(key) {
-    var val = contentWidgets[key];
+    filteredContentWidgets[key] = contentWidgets[key];
 
     /**
      * Edit the settings for editors, so they can only edit specific modules.
      */
-    if (val.adminOnly) {
+    if (filteredContentWidgets[key].adminOnly) {
       //readonly hides the module from the menu
-      val.readOnly = true;
+      filteredContentWidgets[key].readOnly = true;
       //setting edit to false removes the edit controls for this module
-      val.edit = false;
+      filteredContentWidgets[key].edit = false;
     }
 
-    filteredContentWidgets[key] = val;
   });
 
   return filteredContentWidgets;
