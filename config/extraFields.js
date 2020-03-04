@@ -23,4 +23,24 @@ exports.fields = [
     userData: true,
     key: 'email',
   },
+  {
+    label: 'Phone number',
+    extraData: true,
+    key: 'phone',
+  },
+  {
+    label: 'Estimate',
+    extraData: true,
+    key: 'estimate',
+  },
+  {
+    label: 'Role',
+    extraData: true,
+    key: 'role',
+  },
+  {
+    label: '',
+    extraData: true,
+    key: 'advice',
+  }
 ];
