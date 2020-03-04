@@ -516,5 +516,11 @@
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
 	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
 	"Save Accordeon": "Save Accordeon",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Display ranking": "Display ranking",
+	"Edit List": "Edit List",
+	"Estimate": "Estimate",
+	"Advice": "Advice",
+	"Show the admin bar for oauth admin users.": "Show the admin bar for oauth admin users.",
+	"Map center Longitude": "Map center Longitude"
 }
