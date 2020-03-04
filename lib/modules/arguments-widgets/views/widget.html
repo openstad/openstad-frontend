@@ -22,16 +22,16 @@
 {% if arguments.length > 0 %}
 {% for arg in arguments %}
   {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
-  {% set mayEdit = (data.isAdmin or isArgumentOwner) %}
-  {% set mayDelete =  (data.isAdmin or isArgumentOwner) %}
+  {% set mayEdit = (data.hasModeratorRights or isArgumentOwner) %}
+  {% set mayDelete =  (data.hasModeratorRights or isArgumentOwner) %}
   <div id="argument-container-{{arg.id}}" class="argument-container">
     {% include 'argument.html' %}
 
     <div class="reaction-container">
     {% for reaction in arg.reactions %}
       {% set isReactionOwner = reaction.userId === data.openstadUser.id %}
-      {% set mayEdit   = (data.isAdmin or isReactionOwner) %}
-      {% set mayDelete = (data.isAdmin or isReactionOwner) %}
+      {% set mayEdit   = (data.hasModeratorRights or isReactionOwner) %}
+      {% set mayDelete = (data.hasModeratorRights or isReactionOwner) %}
 
       {% include 'reaction.html' %}
     {% endfor %}
