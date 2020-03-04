@@ -4,11 +4,6 @@ exports.fields = [
     key: 'title',
   },
   {
-    label: 'Phone number',
-    extraData: true,
-    key: 'phone',
-  },
-  {
     label: 'Firstname',
     userData: true,
     key: 'firstName',
