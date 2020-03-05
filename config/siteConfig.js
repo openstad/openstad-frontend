@@ -17,7 +17,13 @@ module.exports = {
           port: process.env.PORT,
         },
         'apostrophe-docs': {},
+        'openstad-widgets': {},
+        'openstad-users': {},
         'openstad-auth': {},
+        'openstad-login': {},
+        'apostrophe-login': {
+          localLogin: false
+        },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware
@@ -65,7 +71,6 @@ module.exports = {
         'card-widgets': {},
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
-        'header-widgets': {},
         'title-widgets': {},
         'main-image-widgets': {},
         'list-widgets': {},
@@ -122,6 +127,8 @@ module.exports = {
       }
     };
 
+    // can turn on workflow per site, but WARNING this only works for DEV sites currently,
+    // the assets generation will include or exclude certain files breaking the CMS
     const useAposWorkflow = siteData.cms && siteData.cms.aposWorkflow;
     const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;
 
@@ -134,6 +141,27 @@ module.exports = {
         // Recommended to save database space. You can still
         // export explicitly between locales
         replicateAcrossLocales: true,
+        permission: false,
+        locales: [
+          {
+            name: 'default',
+            label: 'Default',
+            private: false,
+            children: [
+            /*  {
+                name: 'nl',
+                label: 'Nederlands',
+                private: false,
+
+              },
+            {
+            name: 'en',
+                label: 'England'
+              }*/
+            ]
+          },
+        ],
+        defaultLocale: 'default'
       };
 
       siteConfig.modules['apostrophe-workflow-modified-documents'] = {};

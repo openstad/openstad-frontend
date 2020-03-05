@@ -2,7 +2,7 @@
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
 
@@ -24,7 +24,7 @@
 				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
 				{% endif %}
 
-				{% if data.widget.showRanking and idea.ranking %}
+				{% if data.widget.displayRanking and idea.ranking %}
 				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				{% endif %}
 			</div>
@@ -155,7 +155,7 @@
 			<p class="summary">
 				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
-			{{(idea.summary or '') | nlbr | sanitize | safe}}
+			{{(idea.description or '') | nlbr | sanitize | safe}}
 		</div>
 		{% if idea.location %}
 		<br/><br/>
@@ -176,12 +176,12 @@
 		{% include 'includes/crud/edit-delete.html' %}
 		{% endif %}
 
-		{% if data.isAdmin %}
+		{% if data.hasModeratorRights %}
 		{% include 'includes/crud/admin.html' %}
 		{% endif %}
 	</div>
 </div>
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
 {% include 'includes/modal-extra-info.html' %}
