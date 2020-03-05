@@ -106,11 +106,11 @@ module.exports = function( helpers, role ) {
     'choicesguideresult:delete': false,
 
     // submissions
-    'submissions:list': true,
-    'submissions:view': true,
+    'submissions:list': false,
+    'submissions:view': false,
     'submissions:create': true,
-    'submissions:edit': true,
-    'submissions:delete': true,
+    'submissions:edit': false,
+    'submissions:delete': false,
     // articles
     'article:view': true,
     'article:create': false,

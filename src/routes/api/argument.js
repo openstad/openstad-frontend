@@ -63,7 +63,7 @@ router.route('/')
 			.findAll({ where })
 			.then( found => {
 				return found.map( entry => {
-          
+
 					return createArgumentJSON(entry, req.user);
 				});
 			})
@@ -79,7 +79,7 @@ router.route('/')
 	.post(auth.can('argument:create'))
 	.post(function(req, res, next) {
     if (!req.idea) return next( createError(400, 'Inzending niet gevonden') );
-    if (req.idea.status != 'OPEN') return next( createError(400, 'Reactie toevoegen is niet mogelijk') );
+    if (req.idea.status != 'OPEN') return next( createError(400, 'Reactie toevoegen is niet mogelijk bij planen met status: ' + req.idea.status) );
 		next();
 	})
 	.post(function(req, res, next) {
@@ -107,7 +107,7 @@ router.route('/')
 
 						// todo: de can dingen
 
-            
+
 
 						let result = createArgumentJSON(argument, req.user);
 						res.json(result);
@@ -239,12 +239,13 @@ router.route('/:argumentId(\\d+)/vote')
 					.then(function( argument ) {
 
 						// todo: de can dingen
+						let hasModeratorRights = (argument.user.role === 'admin' || argument.user.role === 'editor' || argument.user.role === 'moderator');
 
 						argument = argument.toJSON();
 						argument.user = {
 							nickName: argument.user.nickName || argument.user.fullName,
-							isAdmin: argument.user.role == 'admin',
-							email: req.user.role == 'admin' ? argument.user.email : '',
+							isAdmin: hasModeratorRights,
+							email: hasModeratorRights ? argument.user.email : '',
 						};
 
 						res.json(argument);
@@ -267,10 +268,11 @@ router.route('/:argumentId(\\d+)/vote')
 
 // helper functions
 function createArgumentJSON(argument, user) {
+	let hasModeratorRights = (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
 
 	let can = {
-		edit: user.role == 'admin' || user.id == argument.user.id,
-		delete: user.role == 'admin' || user.id == argument.user.id,
+		edit: hasModeratorRights || user.id == argument.user.id,
+		delete: hasModeratorRights || user.id == argument.user.id,
 		reply: !argument.parentId,
 	};
 
@@ -281,8 +283,8 @@ function createArgumentJSON(argument, user) {
 		lastName: argument.user.lastName,
 		fullName: argument.user.fullName,
 		nickName: argument.user.nickName,
-		isAdmin: user.role == 'admin',
-		email: user.role == 'admin' ? argument.user.email : '',
+		isAdmin:  hasModeratorRights,
+		email:  hasModeratorRights ? argument.user.email : '',
 	};
 	result.createdAtText = moment(argument.createdAt).format('LLL');
 
