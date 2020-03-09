@@ -116,13 +116,21 @@ router.route('/')
     	};
 		}
 
+    const order = [];
+    if (req.query.sortBy) {
+      order.push([
+        req.query.sortBy,
+        req.query.orderBy || 'ASC'
+      ])
+    }
+
 		if (req.user && req.user.role === 'admin') {
 			req.scope.push('includeUser');
 		}
 
 		db.Vote
 			.scope(req.scope)
-			.findAll({ where })
+			.findAll({ where, order })
 			.then(function( found ) {
 				res.json(found.map(entry => {
 					let vote = {
