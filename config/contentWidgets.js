@@ -35,6 +35,9 @@ const contentWidgets = {
     addLabel: 'Ideeen op een kaart',
     adminOnly: true
   },
+  'choices-guide': {
+    addLabel: 'Keuzewijzer',
+  },
   'iframe': {},
   'image': {},
   'info-bar': {},
