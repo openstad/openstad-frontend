@@ -75,7 +75,7 @@
 	<br />
 
 	<div id="ideasList" class="pageContent {{contentClass}}">
-		{% if widget.ideas.length > 0 %}
+		{% if data.ideas.length > 0 %}
 		<div class="row">
 			<div class="col-xs-12 col-sm-8">
 				{% if (data.global.areas and data.global.areas.length > 0) or (data.global.themes and data.global.themes.length > 0) %}
@@ -114,6 +114,6 @@
 
 		<br />
 
-		{{ ideasList.showIdeasList(widget.ideas, fullHost, user, userHasVoted, isAdmin, data) }}
+		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin, data) }}
 	</div>
 </div>
