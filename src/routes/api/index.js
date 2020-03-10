@@ -26,6 +26,9 @@ router.use( '/site/:siteId(\\d+)/vote', require('./vote') );
 // newslettersignup
 router.use( '/site/:siteId(\\d+)/newslettersignup', require('./newslettersignup') );
 
+// choices-guide
+router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
+
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 
