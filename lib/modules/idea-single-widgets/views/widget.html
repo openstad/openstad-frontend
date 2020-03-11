@@ -2,7 +2,7 @@
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
 
@@ -24,7 +24,7 @@
 				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
 				{% endif %}
 
-				{% if idea.ranking %}
+				{% if data.widget.displayRanking and idea.ranking %}
 				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
 				{% endif %}
 			</div>
@@ -129,7 +129,7 @@
 						<ul>
 							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>{% endif %}
 							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}">Twitter</a></li>{% endif %}
-							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{'Idee voor West: '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>{% endif %}
 							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('whatsapp') > -1 or data.widget.shareChannelsSelection.length === 0 %}
 							<li class="desktop"><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{data.currentUrl | urlencode}}&source=&data=">WhatsApp</a></li>
 							<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share">WhatsApp</a></li>
@@ -153,9 +153,9 @@
 		{% include 'includes/modbreak.html' %}
 		<div class="userContent">
 			<p class="summary">
-				<strong>{{idea.summary | nlbr | sanitize | safe }}</strong>
+				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
-			{{idea.description | nlbr | sanitize | safe}}
+			{{(idea.description or '') | nlbr | sanitize | safe}}
 		</div>
 		{% if idea.location %}
 		<br/><br/>
@@ -176,12 +176,12 @@
 		{% include 'includes/crud/edit-delete.html' %}
 		{% endif %}
 
-		{% if data.isAdmin %}
+		{% if data.hasModeratorRights %}
 		{% include 'includes/crud/admin.html' %}
 		{% endif %}
 	</div>
 </div>
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
 {% include 'includes/modal-extra-info.html' %}

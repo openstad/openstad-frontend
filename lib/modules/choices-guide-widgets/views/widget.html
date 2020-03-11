@@ -1,0 +1,16 @@
+<style>
+ {{data.widget.formattedContainerStyles}}
+</style>
+
+<script src="/js/openstad-component.js"></script>
+
+<script>
+ window.addEventListener('load', function(e) {
+   let config = {{data.widget.config | safe}};
+   let element = document.querySelector('.openstad-component-choices-guide');
+   OpenStadComponentChoicesGuide.renderElement(element, config);
+ });
+</script>
+<div id="{{data.widget.containerId}}" class="osc-component">
+	<div class="openstad-component-choices-guide"></div>
+</div>

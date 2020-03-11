@@ -1,7 +1,7 @@
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
 
 
 {% import 'numberplatebutton.html' as numberPlateButton %}
@@ -159,21 +159,26 @@ data-default-sort="{{data.widget.defaultSorting}}"
           </div>
         </div>
       </div>
-      {% if data.widget.showVoteCounter %}
 
+      {% if data.widget.showVoteCounter %}
       <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
         {% set id = 'no-of-votes-hasvoted-' + idea.id %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+        {% if data.widget.voting %}
         <div class="vote-button"></div>
+        {% endif %}
       </div>
       {% endif %}
+
 
       <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
         {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
         {% if data.widget.showVoteCounter %}
         {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
         {% endif %}
+        {% if data.widget.voting %}
         <a href="#vote-creator-anchor" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
+        {% endif %}
       </div>
 
     </div>
@@ -189,7 +194,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
       {% include 'modbreak.html' %}
 
-      {% if data.isAdmin %}
+      {% if data.hasModeratorRights %}
       <div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
       {% endif %}
 
@@ -204,7 +209,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
               <ul class="share">
                 <li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{idea.overviewUrl}}">Facebook</a></li>
                 <li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{idea.overviewUrl}}">Twitter</a></li>
-                <li><a class="email"    target="_blank" href="mailto:?subject={{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title) | urlencode}}&body={{idea.overviewUrl | urlencode}}">Email</a></li>
+                <li><a class="email"    target="_blank" href="mailto:?subject={{(data.global.siteTitle +': '+data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)) | urlencode}}&body={{idea.overviewUrl | urlencode}}">Email</a></li>
                 <li><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{idea.overviewUrl | urlencode}}&source=&data=">WhatsApp</a></li>
               </ul>
             </td>

@@ -4,7 +4,7 @@
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
 
 
 {% if idea and isOwnerOrAdmin %}
@@ -336,7 +336,7 @@
 				</div>
 				{% endif %}
 
-				{% if data.isAdmin %}
+				{% if data.hasModeratorRights %}
 				<div id="budget">
 					<h2>Budget</h2>
 					<div class="form-info" style="height: auto;">
@@ -365,7 +365,7 @@
 				<div class="col-xs-12">
 					<h4> Beheren </h4>
 				</div>
-				{% if data.isAdmin %}
+				{% if data.hasModeratorRights %}
 				<div class="col-sm-8 col-xs-12">
 
 				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">

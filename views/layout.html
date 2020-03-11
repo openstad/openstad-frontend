@@ -57,6 +57,8 @@
   // global variables!
   var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
   var openstadUserRole = '{{data.openstadUser.role}}';
+  var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
+
   var currentPath = '{{data.currentPath}}';
   var currentPathname = '{{data.currentPathname}}';
   var ideaFormToSubmit;
@@ -128,7 +130,6 @@ ga('send', 'pageview');
                   <a href="{{logoLink}}/" class="logo-container">
                     {% if data.global.siteLogo %}
                     <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
-
                     {% else %}
                     <img src="/img/andreas.svg" alt="logo">
                     <div id="amsterdam">
@@ -176,7 +177,7 @@ ga('send', 'pageview');
         </div>
     </header>
     {% include 'partials/flash.html' %}
-    <div id="page" class="{{ 'cms-admin' if data.user }}">
+    <div id="page" class="{{ 'cms-admin' if data.editMode }}" data-workflow="{{data.workflowMode}}">
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
           <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
@@ -226,9 +227,9 @@ ga('send', 'pageview');
 
                   {% for item in data.global.mainMenuItems %}
                   <li class="nav-item">
-                      <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
-                          {{ item.mainMenuLabel }}
-                      </a>
+                    <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
+                      {{ item.mainMenuLabel }}
+                    </a>
                   </li>
                   {% endfor %}
 
@@ -238,15 +239,14 @@ ga('send', 'pageview');
                       </li>
                       {% for tab in data.home._children %}
                       <li class="nav-item">
-                          <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
-                              {{ tab.title }}
-                          </a>
+                        <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
+                          {{ tab.title }}
+                        </a>
                       </li>
                       {% endfor %}
-
                   {% endif %}
 
-                  {% if data.global.topLinks %}
+                {% if data.global.topLinks %}
                 <li class="li-spacer visible-xs"></li>
                 {% for topLink in data.global.topLinks.reverse() %}
                   <li class="visible-xs">
@@ -255,7 +255,7 @@ ga('send', 'pageview');
                       {% if link.targetBlank %} target="_blank" {% endif %}
                       class="nav-link "
                     >
-                      <b> {{topLink.label}} </b>
+                      <b>{{topLink.label}}</b>
                     </a>
                   </li>
                 {% endfor %}
@@ -331,9 +331,7 @@ ga('send', 'pageview');
   </div>
 </footer>
 {% endif %}
-
-    <div class="body-background" style="display: none;"></div>
-
+<div class="body-background" style="display: none;"></div>
 </div>
 
 {% endif %}
