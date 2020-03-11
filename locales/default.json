@@ -630,5 +630,8 @@
 	"Edit: File": "Edit: File",
 	"Admin: Document": "Admin: Document",
 	"Edit: Document": "Edit: Document",
-	"Select all %s item(s) that match this search": "Select all %s item(s) that match this search"
+	"Select all %s item(s) that match this search": "Select all %s item(s) that match this search",
+	"Create %s": "Create %s",
+	"Fill out the fields to add a new %s.": "Fill out the fields to add a new %s.",
+	"editor2": "editor2"
 }
