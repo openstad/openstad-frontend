@@ -633,5 +633,10 @@
 	"Select all %s item(s) that match this search": "Select all %s item(s) that match this search",
 	"Create %s": "Create %s",
 	"Fill out the fields to add a new %s.": "Fill out the fields to add a new %s.",
-	"editor2": "editor2"
+	"editor2": "editor2",
+	"Choose Groups": "Choose Groups",
+	"Choose Groups to associate with this item.": "Choose Groups to associate with this item.",
+	"New Group": "New Group",
+	"Save Choices": "Save Choices",
+	"Permissions Locales": "Permissions Locales"
 }
