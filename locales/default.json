@@ -638,5 +638,9 @@
 	"Choose Groups to associate with this item.": "Choose Groups to associate with this item.",
 	"New Group": "New Group",
 	"Save Choices": "Save Choices",
-	"Permissions Locales": "Permissions Locales"
+	"Permissions Locales": "Permissions Locales",
+	"Cookie warning": "Cookie warning",
+	"Use a cookie warning": "Use a cookie warning",
+	"Link to 'about cookies' page": "Link to 'about cookies' page",
+	"Cookie instellingen": "Cookie instellingen"
 }

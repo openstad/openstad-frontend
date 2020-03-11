@@ -21,6 +21,7 @@
 
 
 {% else %}
+{% if req.data.cookieConsent %}
   <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
 
   <div id="map-with-buttons-container">
@@ -36,4 +37,7 @@
       {% endif %}
     </div>
   </div>
+  {% else %}
+    <h1> TODO: cookie ot set <!-- WARNING:  --> </h1>
+  {% endif %}
 {% endif %}

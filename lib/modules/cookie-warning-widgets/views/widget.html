@@ -20,7 +20,9 @@
  }
 
  function setCookieConsent(what) {
-   document.cookie = "cookie-consent=" + (what ? '1' : '-1') + '; path=/; expires=Thu, 31 Dec 2025 23:59:00 UTC;';
+   var d = new Date();
+
+   document.cookie = "cookie-consent=" + (what ? '1' : '-1') + '; path=/; expires=Thu, 31 Dec '+(d.getFullYear() + 5)+' 23:59:00 UTC;';
    document.location.reload();
  }
 
