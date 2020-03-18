@@ -638,5 +638,14 @@
 	"Choose Groups to associate with this item.": "Choose Groups to associate with this item.",
 	"New Group": "New Group",
 	"Save Choices": "Save Choices",
-	"Permissions Locales": "Permissions Locales"
+	"Permissions Locales": "Permissions Locales",
+	"Cookie warning": "Cookie warning",
+	"Use a cookie warning": "Use a cookie warning",
+	"Link to 'about cookies' page": "Link to 'about cookies' page",
+	"Cookie instellingen": "Cookie instellingen",
+	"How to display the main menu?": "How to display the main menu?",
+	"Display pages automatically": "Display pages automatically",
+	"Arrange menu items manually": "Arrange menu items manually",
+	"Hide the menu items": "Hide the menu items",
+	"Next button": "Next button"
 }

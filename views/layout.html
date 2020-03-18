@@ -79,11 +79,12 @@
 </style>
 {% endif %}
 
-{% if data.global.analytics %}
+
+{% if req.data.cookieConsent and data.global.analytics %}
 <!-- Google Analytics -->
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*ew Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
@@ -95,7 +96,7 @@ ga('send', 'pageview');
 
 {% endblock %}
 {% block startHead %}
-    {% if data.global.tagmanager %}
+    {% if req.data.cookieConsent and data.global.tagmanager %}
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{data.global.tagmanager}}');</script>
         <!-- End Google Tag Manager -->
@@ -106,7 +107,7 @@ ga('send', 'pageview');
 
     {{ apos.admin.renderAdminBarTemplate() | safe }}
 
-    {% if data.global.tagmanager %}
+    {% if req.data.cookieConsent and data.global.tagmanager %}
         <!-- Google Tag Manager -->
         <noscript><iframe src="//www.googletagmanager.com/ns.html?id={{data.global.tagmanager}}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager -->
@@ -120,6 +121,9 @@ ga('send', 'pageview');
     {% else %}
         {% set logoLink = appUrl %}
     {% endif %}
+
+    {{ apos.cookieWarning.renderCookieWarning() | safe }}
+
     <header>
         <div class="container relative">
             <div class="row">
@@ -177,6 +181,9 @@ ga('send', 'pageview');
     <div id="page" class="{{ 'cms-admin' if data.editMode }}" data-workflow="{{data.workflowMode}}">
       <nav id="navbar" class="navbar navbar-static-top">
         <div class="container">
+
+
+          {% if not data.global.arrangeMainMenu === 'hideMenu' %}
           <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
             <span class="sr-only">Toggle navigation</span>
             <div class="visible-active">
@@ -189,6 +196,9 @@ ga('send', 'pageview');
               <img src="/img/close-icon.svg" width="14" />
             </div>
           </button>
+          {% endif  %}
+
+
           {% if data.global.displayMyAcount %}
           <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
             <div class="visible-active">
@@ -217,23 +227,25 @@ ga('send', 'pageview');
             </nav>
           </div>
           {% endif %}
+
           <div class="navbar-menu toggle-menu">
             <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
+
+              {% if not data.global.arrangeMainMenu === 'hideMenu' %}
               <ul class="nav navbar-left">
                   {% if data.global.arrangeMainMenu and data.global.arrangeMainMenu == 'manually' %}
-
-                  {% for item in data.global.mainMenuItems %}
-                  <li class="nav-item">
-                    <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
-                      {{ item.mainMenuLabel }}
-                    </a>
-                  </li>
-                  {% endfor %}
-
+                    {% for item in data.global.mainMenuItems %}
+                      <li class="nav-item">
+                        <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
+                          {{ item.mainMenuLabel }}
+                        </a>
+                      </li>
+                    {% endfor %}
                   {% else %}
                       <li class="nav-item">
                           <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
                       </li>
+
                       {% for tab in data.home._children %}
                       <li class="nav-item">
                         <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
@@ -242,7 +254,6 @@ ga('send', 'pageview');
                       </li>
                       {% endfor %}
                   {% endif %}
-
                 {% if data.global.topLinks %}
                 <li class="li-spacer visible-xs"></li>
                 {% for topLink in data.global.topLinks.reverse() %}
@@ -258,6 +269,7 @@ ga('send', 'pageview');
                 {% endfor %}
                 {% endif %}
               </ul>
+              {% endif %}
 
         			<nav id="subMenu" class="" role="navigation">
         				<div>

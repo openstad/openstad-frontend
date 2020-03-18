@@ -20,6 +20,7 @@ const contentWidgets = {
   'counter': {
     addLabel: 'Counter',
   },
+  'cookie-warning': {},
   'date-bar': {},
   'idea-form': {
     adminOnly: true
