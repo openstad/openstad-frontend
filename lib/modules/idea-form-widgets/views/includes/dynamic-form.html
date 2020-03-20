@@ -1,0 +1,33 @@
+{% include 'includes/form-header.html' %}
+<div class="dynamic-form">
+  {#
+    Fields in section
+    - title
+    - info
+    - formfields: summary, text,
+  #}
+
+
+  {% for formSection in data.widget.dynamicFormSections %}
+  <div class="form-group">
+    {% if formSection.title %}
+    <h2>
+      {{ formSection.title }}
+    </h2>
+    {% endif %}
+
+    {% if formSection.info %}
+    <div class="form-info">
+      {{ formSection.info  | nlbr | sanitize | safe }}
+    </div>
+    {% endif %}
+
+    {% if field in formSection.fields %}
+    {% include 'includes/fields/' + field.type + '.html' %}
+    {% endif %}
+    <br />
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% include 'includes/form-footer.html' %}
