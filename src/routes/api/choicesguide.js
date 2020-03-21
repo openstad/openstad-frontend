@@ -101,9 +101,6 @@ router.route('/:choicesGuideId(\\d+)$')
       .catch(next);
   })
   .get(function(req, res, next) {
-
-    console.log(JSON.stringify(req.choicesguide, null, 2));
-    
     // parse
     let json = {
       id: req.choicesguide.id,
@@ -594,8 +591,8 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
       userFingerprint: req.body.userFingerprint,
       result: req.body.result,
     };
-    console.log('++++++++++++++++++++');
-    console.log(data);
+
+
     db.ChoicesGuideResult
       .create(data)
       .then((result) => {
@@ -606,4 +603,3 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 
 
 module.exports = router;
-
