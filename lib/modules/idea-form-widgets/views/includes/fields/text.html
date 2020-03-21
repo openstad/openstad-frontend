@@ -1,14 +1,14 @@
 <input
   type="text"
-  id="{{field.key}}_input"
+  id="{{field.fieldKey}}_input"
   class="chars-counter"
-  {% if field.min %} minlength="{{field.min if field.min else 2}}" {% endif %}
-  maxlength="{{fieldt.max if field.max else 140}}"
-  name="{{field.key}}"
-  value="{{idea.extraData[field.key]}}"
-  {% if field.required %}required{% endif %}
+  minlength="{{field.fieldMin if field.fieldMin else 2}}"
+  maxlength="{{field.fieldMax if field.fieldMax else 140}}"
+  name="{{field.fieldKey}}"
+  value="{{idea.extraData[field.fieldKey]}}"
+  {% if field.fieldRequired %}required{% endif %}
 />
-<div id="charsLeft{{field.key}" class="charsLeft">
+<div id="charsLeft{{field.fieldKey}}" class="charsLeft">
   <div class="min">Nog minimaal <span>0</span> tekens</div>
   <div class="max">Je hebt nog <span>0</span> tekens over.</div>
 </div>

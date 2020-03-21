@@ -83,17 +83,13 @@
         {% include 'includes/fields/description.html' %}
       </div>
 
-
       <div id="charsLeftDescription" class="charsLeft">
         <div class="min">Nog minimaal <span>0</span> tekens</div>
         <div class="max">Je hebt nog <span>0</span> tekens over.</div>
       </div>
 
-      {% if idea.id %}
-      <input type="hidden" name="id" value="{{idea.id}}" />
-      <input type="hidden" name="_method" value="PUT" />
-      {% endif %}
-      </div>
+
+    </div>
     {% if data.widget.displayLocation %}
     <div class="form-group">
       <div id="location">
