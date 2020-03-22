@@ -63,7 +63,6 @@ module.exports  = {
 
 	_initStatics: function() {
 
-		// require('./routes/media_get')(this.app);
 
 		var headerOptions = {
 			setHeaders: function( res ) {
@@ -72,7 +71,10 @@ module.exports  = {
 				});
 			}
 		};
-		this.app.use('/js',  express.static('js', headerOptions));
+    
+    this.app.use(express.static('public'));
+
+	//	this.app.use('/js',  express.static('js', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');
