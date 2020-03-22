@@ -7,6 +7,7 @@
     - formfields: key, info, type(summary, text,)
   #}
 
+
   {% for formSection in data.widget.dynamicFormSections %}
   <div class="form-group">
     {% if formSection.title %}
@@ -27,6 +28,7 @@
       {% include 'includes/fields/' + field.type + '.html' ignore missing %}
     </div>
     <br />
+
     {% endfor %}
     <br />
   </div>

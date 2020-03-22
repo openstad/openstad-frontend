@@ -39,7 +39,7 @@
       <div class="form-info">
         {{ data.widget.infoAreas  | nlbr | sanitize | safe  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
       </div>
-      {% include 'includes/fields/area.html' %}
+      {% include 'includes/fields/neighborhood.html' %}
 
       <br />
       {% endif %}
@@ -92,7 +92,7 @@
     </div>
     {% if data.widget.displayLocation %}
     <div class="form-group">
-      <div id="location">
+      <div id="location-container">
         <h2>
           {{ data.widget.labelLocation if data.widget.labelLocation else 'Locatie' }}
         </h2>
