@@ -49,13 +49,17 @@ router
 			req.scope.push('includeUser');
 		}
 
-		if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-			req.scope.push('includeVoteCount');
-		}
+		// in case the votes are archived don't use these queries
+		// this means they can be cleaned up from the main table for performance reason
+		if (!req.site.config.archivedVotes) {
+			if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+				req.scope.push('includeVoteCount');
+			}
 
-		if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-			// ik denk dat je daar niet het hele object wilt?
-			req.scope.push({ method: ['includeUserVote', req.user.id]});
+			if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+				// ik denk dat je daar niet het hele object wilt?
+				req.scope.push({ method: ['includeUserVote', req.user.id]});
+			}
 		}
 
 		// todo? volgens mij wordt dit niet meer gebruikt
@@ -78,7 +82,7 @@ router.route('/')
 			.findAll({ where: { siteId: req.params.siteId } })
 			.then( found => {
 				return found.map( entry => {
-					return createIdeaJSON(entry, req.user);
+					return createIdeaJSON(entry, req.user, req);
 				});
 			})
 			.then(function( found ) {
@@ -111,7 +115,7 @@ router.route('/')
 		db.Idea
 			.create(req.body)
 			.then(result => {
-				res.json(createIdeaJSON(result, req.user));
+				res.json(createIdeaJSON(result, req.user, req));
 				mail.sendThankYouMail(result, req.user, req.site) // todo: optional met config?
 			})
 			.catch(function( error ) {
@@ -153,7 +157,7 @@ router.route('/:ideaId(\\d+)')
 // ---------
 	.get(auth.can('idea:view'))
 	.get(function(req, res, next) {
-		res.json(createIdeaJSON(req.idea, req.user));
+		res.json(createIdeaJSON(req.idea, req.user, req));
 	})
 
 // update idea
@@ -172,7 +176,7 @@ router.route('/:ideaId(\\d+)')
 		req.idea
 			.update(req.body)
 			.then(result => {
-				res.json(createIdeaJSON(result, req.user));
+				res.json(createIdeaJSON(result, req.user, req));
 			})
 			.catch(next);
 	})
@@ -224,7 +228,7 @@ function filterBody(req) {
 	req.body = filteredBody;
 }
 
-function createIdeaJSON(idea, user) {
+function createIdeaJSON(idea, user, req) {
 
 	let can = {
 		// edit: user.can('arg:edit', argument.idea, argument),
@@ -267,6 +271,17 @@ function createIdeaJSON(idea, user) {
 		delete result.extraData.phone;
 	}
 
+
+	/**
+	 * In case the votes isset.
+	 */
+	if (req.site.config.archivedVotes) {
+		if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+				result.yes = result.extraData.archivedYes;
+				result.no = result.extraData.archivedNo;
+		}
+	}
+
 	if (idea.user) {
 		result.user = {
 			firstName: idea.user.firstName,
@@ -281,10 +296,10 @@ function createIdeaJSON(idea, user) {
 			isAdmin: user.role == 'admin',
 		};
 	}
+
 	result.createdAtText = moment(idea.createdAt).format('LLL');
 
 	return result;
-
 }
 
 module.exports = router;
