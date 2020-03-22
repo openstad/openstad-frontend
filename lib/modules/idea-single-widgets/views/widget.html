@@ -123,7 +123,7 @@
 							{% endif %}
 						</div>
 					</div>
-					
+
 					{% if data.widget.showShareButtons !== false %}
 					<div class="share">
 						<h4>Deel dit voorstel</h4>
@@ -153,10 +153,14 @@
 		</div>
 		{% include 'includes/modbreak.html' %}
 		<div class="userContent">
+			{% if idea.summary %}
 			<p class="summary">
 				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
+			{% endif %}
+			{% if idea.description %}
 			{{(idea.description or '') | nlbr | sanitize | safe}}
+			{% endif %}
 		</div>
 		{% if idea.location %}
 		<br/><br/>

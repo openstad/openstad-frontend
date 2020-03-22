@@ -545,5 +545,16 @@
 	"Type (used for storing data)": "Type (used for storing data)",
 	"Key": "Key",
 	"Value": "Value",
-	"Key (for storing, must be unique, no spaces and special characters)": "Key (for storing, must be unique, no spaces and special characters)"
+	"Key (for storing, must be unique, no spaces and special characters)": "Key (for storing, must be unique, no spaces and special characters)",
+	"editor2": "editor2",
+	"Save Form": "Save Form",
+	"Form ID (used to match e-mail template)": "Form ID (used to match e-mail template)",
+	"Intro": "Intro",
+	"Where do we redirect the user after a successful submission?": "Where do we redirect the user after a successful submission?",
+	"Send confirmation mail": "Send confirmation mail",
+	"Email subject user": "Email subject user",
+	"Email subject admin": "Email subject admin",
+	"Neighborhood": "Neighborhood",
+	"Unpublished": "Unpublished",
+	"Publish Page": "Publish Page"
 }
