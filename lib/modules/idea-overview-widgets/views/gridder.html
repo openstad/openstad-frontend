@@ -184,8 +184,14 @@ data-default-sort="{{data.widget.defaultSorting}}"
     </div>
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
-      <div class="summary">{{idea.summary}}</div>
+
+      {% if idea.summary %}
+      <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
+      {% endif %}
+
+      {% if idea.description %}
       <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
+      {% endif %}
 
       {% if idea.extraData.advice %}
       <b> Tip </b>

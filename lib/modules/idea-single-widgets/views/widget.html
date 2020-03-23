@@ -66,17 +66,17 @@
 
 							{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
 							<button
-							class="
-							{{'selected' if idea.userVote.opinion == 'no'}}
-							role-required-{{data.global.roleToLike}}
-							idea-status-{{idea.status}}
-							"
-							data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=no"
-							data-return-to="{{data.currentPathname}}?voteOpinion=no"
-							type="submit"
-							name="opinion"
-							value="no"
-							data-count="{{idea.no}}"
+								class="
+								{{'selected' if idea.userVote.opinion == 'no'}}
+								role-required-{{data.global.roleToLike}}
+								idea-status-{{idea.status}}
+								"
+								data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=no"
+								data-return-to="{{data.currentPathname}}?voteOpinion=no"
+								type="submit"
+								name="opinion"
+								value="no"
+								data-count="{{idea.no}}"
 							>
                 {{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[0].label else 'tegen' }}
 							</button>
@@ -107,22 +107,23 @@
 					</div>
           {% endif %}
 
+
 					<div class="ideaDuration {{idea.status}}">
 						<h4>Status</h4>
 						<div class="duration">
-
-							{% if idea.status === 'OPEN' %}
+							{% if data.widget['labelTime' + idea.status] %}
+								{{data.widget['labelTime' + idea.status]}}
+							{% elseif  idea.status === 'OPEN' %}
 							<div id="nog-xxx-om-te-stemmen"></div>
 							<script>
 							 var endDate2 = new Date('{{idea.endDate}}');
 							 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
 							 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = 'Nog ' + daysLeft2 + ' dagen om te liken';
 							</script>
-							{% elseif data.widget['labelTime' + idea.status] %}
-							{{data.widget['labelTime' + idea.status]}}
 							{% endif %}
 						</div>
 					</div>
+
 					{% if data.widget.showShareButtons !== false %}
 					<div class="share">
 						<h4>Deel dit voorstel</h4>
@@ -152,10 +153,14 @@
 		</div>
 		{% include 'includes/modbreak.html' %}
 		<div class="userContent">
+			{% if idea.summary %}
 			<p class="summary">
 				<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
 			</p>
+			{% endif %}
+			{% if idea.description %}
 			{{(idea.description or '') | nlbr | sanitize | safe}}
+			{% endif %}
 		</div>
 		{% if idea.location %}
 		<br/><br/>

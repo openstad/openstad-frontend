@@ -32,7 +32,10 @@
         <div class="thema">{{idea.extraData.theme}}</div>
         <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
+
+      {% if idea.summary %}
       <p>{{idea.summary | sanitize | safe | truncate(60) }}</p>
+      {% endif %}
 
       {% if data.widget.siteConfig.minimumYesVotes %}
       <div class="ideaProgress">
