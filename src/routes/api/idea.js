@@ -233,6 +233,9 @@ function filterBody(req) {
 function createIdeaJSON(idea, user, req) {
 	let hasModeratorRights = (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
 
+	console.log('hasModeratorRights', hasModeratorRights);
+	console.log('user', user);
+
 	let can = {
 		// edit: user.can('arg:edit', argument.idea, argument),
 		// delete: req.user.can('arg:delete', entry.idea, entry),
