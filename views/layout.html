@@ -53,6 +53,7 @@
 {% endif %}
 
 
+
 <script>
   // global variables!
   var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
@@ -76,6 +77,13 @@
 }
 </style>
 {% endif %}
+
+{% if data.global.inlineCss %}
+<style>
+  {{data.global.inlineCss | safe}}
+</style>
+{% endif %}
+
 
 {% if data.global.analytics %}
 <!-- Google Analytics -->
