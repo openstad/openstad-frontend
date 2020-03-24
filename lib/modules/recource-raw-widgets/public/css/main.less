@@ -1,0 +1,576 @@
+#backToList {
+	background-image: url('/img/arrow_left_black.svg');
+	background-size: contain;
+	background-position: left center;
+	background-repeat: no-repeat;
+	color: #000;
+	padding-left: 15px;
+	text-decoration: none;
+}
+
+.pageContent .primary {
+    box-sizing: border-box;
+    float: left;
+    width: calc(75% + (20px*3/4));
+
+		@media @grid50 {
+			width: calc(66.66% + (@hMargin*2/3));
+		}
+		@media @primary100 {
+			float: none;
+			width: 100%;
+		}
+}
+
+// Title container
+// ---------------
+// Holds the idea's poster image and vote/share controls.
+#title {
+	margin-bottom: 35px;
+	overflow: hidden;
+	width: 100%;
+	display: block;
+	// Idea poster image
+	// -----------------
+	.primary {
+		height: 100%;
+		height: 375px;
+		position: relative;
+
+		@media @primary100 {
+			height: 200px;
+			margin-bottom: 0;
+		}
+
+		.image {
+			background-image: url('/img/placeholders/idea.jpg');
+			background-position: center;
+			background-size: cover;
+			bottom: 0px;
+			left: 0px;
+			margin-right: @hMargin;
+			position: absolute;
+			right: 0px;
+			top: 0px;
+			width: auto;
+
+			@media @primary100 {
+				margin-right: 0;
+			}
+		}
+
+		.statusbalk {
+			position: relative;
+			display: inline-block;
+			margin-top: 10px;
+			background-color: #164995;
+			background-repeat: no-repeat;
+			background-size: 12px 12px;
+			background-position: 11px 9px;
+			background-image: url('/img/idea/klok-wit.svg');
+			color: white;
+			padding: 6px 15px 5px 32px;
+			font-size: 14px;
+			font-weight: 600;
+			z-index: 2;
+
+			&.ACCEPTED {
+				background-image: url('/img/idea/calendar.svg');
+				background-color: #bdd131;
+			}
+
+			&.DONE {
+				background-size: 11px 10px;
+				background-position: 11px 9px;
+				background-image: url('/img/idea/star-fill.svg');
+				background-color: #003066;
+			}
+
+			&.BUSY {
+				background-size: 12px 11px;
+				background-image: url('/img/idea/star-border.svg');
+				background-color: #2b9ad6;
+			}
+
+			&.CLOSED {
+				background-color: #787979;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/tijd-afgelopen.svg');
+			}
+
+			&.DENIED {
+				background-color: #434343;
+				background-size: 8px 8px;
+				background-position: 13px 10px;
+				background-image: url('/img/idea/afgewezen.svg');
+			}
+
+		}
+
+	}
+	// Vote/share controls
+	// -------------------
+	.secondary {
+		height: 375px;
+		margin-top: 0 !important;
+		overflow: visible;
+
+		@media @primary100 {
+			height: auto;
+		}
+
+		.controls {
+			height: 375px;
+			margin-left: -21px;
+			padding: 15px;
+			border: 3px solid #e8e8e8;
+			border-left-width: 0;
+			box-sizing: border-box;
+			margin-left: -@hMargin;
+			position: relative;
+
+			@media @primary100 {
+				margin-left: 0;
+				padding-left: 10px;
+				border-left-width: 1px;
+				border-top-width: 0;
+			}
+
+			@media @phone {
+				padding: 15px 15px;
+				margin-left: 0;
+				border: 3px solid #e8e8e8;
+				border-top-width: 0;
+			}
+
+			h2:first-of-type {
+				margin-top: 0;
+			}
+
+			h4 {
+				margin-top: 0;
+				padding-top: 0;
+				padding-bottom: 0;
+				margin-bottom: 6px;
+			}
+
+			.vote {
+
+				button {
+					.appearance(none);
+
+					background: #004699;
+					background-repeat: no-repeat;
+					background-size: auto 28px;
+					background-position: center left 8px;
+					border: 0;
+					box-sizing: border-box;
+					font-size: 18px;
+					font-weight: 600;
+					color: #fff;
+					cursor: pointer;
+					display: block;
+					float: left;
+					height: 43px;
+					line-height: 43px;
+					margin: 0;
+					overflow: visible;
+					padding: 0 0 0 42px;
+					position: relative;
+					text-align: center;
+					width: calc(100% - 92px);
+
+					&:hover {
+						background-color: #003066;
+					}
+
+					&::before {
+						content: none;
+					}
+
+					&[value="yes"] {
+						background-image: url('/img/thumbsup_white.svg');
+					}
+					&[value="no"] {
+						background-image: url('/img/thumbsdown_white.svg');
+					}
+					&:disabled::before {
+						content: none;
+					}
+
+
+					&:disabled {
+  					background-color: #bebebe;
+						cursor: default;
+						&:hover {
+  						background-color: #bebebe;
+						}
+					}
+
+					&.selected[value="yes"] {
+						background-color: #bdd131;
+						&:disabled {
+  						background-color: #bebebe;
+						}
+					}
+					&.selected[value="no"] {
+						background-color: #ea1d25;
+						&:disabled {
+  						background-color: #bebebe;
+						}
+					}
+
+					&.idea-status-OPEN {
+						&:disabled {
+							background-color: #004699;
+							opacity: 0.5;
+						}
+
+						&.selected[value="yes"] {
+							&:disabled {
+								opacity: 0.5;
+								background-color: #bdd131;
+							}
+						}
+
+						&.selected[value="no"] {
+							&:disabled {
+								opacity: 0.5;
+								background-color: #ea1d25;
+							}
+						}
+					}
+
+
+				}
+
+			}
+
+			.ideaDuration {
+
+				position: relative;
+				margin: 20px 0px 20px 0px;
+				font-size: 12px;
+				line-height: 1.33;
+
+				&.BUSY {
+					margin-top: 10px;
+				}
+
+				div.duration {
+
+					position: relative;
+					padding: 0 0px 20px 25px;
+					line-height: 20px;
+
+					&:before {
+						background-image: url('/img/klok.svg');
+						background-repeat: no-repeat;
+						background-size: contain;
+						background-size: contain;
+						content: '';
+						height: 18px;
+						position: absolute;
+						left: 0px;
+						top: 0px;
+						width: 18px;
+					}
+				}
+			}
+
+			.no-of-votes-for,
+			.no-of-votes-against {
+				box-sizing: border-box;
+				text-decoration: none;
+				display: block;
+				margin-bottom: 20px;
+				height: 43px;
+				float: left;
+				margin-bottom: 4px;
+			}
+
+			.no-of-votes-for-content,
+			.no-of-votes-against-content {
+				box-sizing: border-box;
+				width: 90px;
+				padding: 7px 6px 7px 10px;
+				background: #004699;
+				font-size: 18px;
+				font-weight: 600;
+				color: #fff;
+				display: block;
+				text-decoration: none;
+				height: 43px;
+				margin-right: 2px;
+			}
+
+			.no-of-votes-for-caption,
+			.no-of-votes-against-caption {
+				display: none;
+			}
+
+			.disabled .no-of-votes-for-content,
+			.disabled .no-of-votes-against-content {
+				background-color: #bebebe;
+			}
+
+			.no-of-votes-for-content .number-plates,
+			.no-of-votes-against-content .number-plates {
+				font-size: 0px;
+				margin-right: 0px;
+			}
+
+			.no-of-votes-for-content .number-plate,
+			.no-of-votes-against-content .number-plate {
+				margin-right: 4px;
+				display: inline-block;
+				font-size: 18px;
+				background: #e8e8e8;
+				background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+				padding: 0;
+				display: inline-block;
+				height: 29px;
+				line-height: 31px;
+				width: 20px;
+				text-align: center;
+				color: black;
+				border-radius: 3px;
+				font-weight: 800;
+				vertical-align: middle;
+			}
+
+			.share {
+
+        position: absolute;
+        bottom: 15px;
+
+				ul {
+					margin: 0;
+					padding: 0;
+					list-style-type: none;
+
+					li {
+						display: inline;
+						height: 30px;
+						width: 30px;
+						margin: 0;
+						padding: 0;
+
+						&.desktop {
+							@media only screen and (max-width: 767px) {
+								display: none;
+							}
+						}
+
+						&.mobile {
+							@media only screen and (min-width: 768px) {
+								display: none;
+							}
+						}
+
+						a {
+							background-position: center;
+							background-repeat: no-repeat;
+							background-size: 30px 30px;
+							display: block;
+							float: left;
+							font-size: 0;
+							line-height: 0;
+							margin: 0 3px 0 0;
+							height: 30px;
+							width: 30px;
+
+							&.facebook {
+								background-image: url('/img/share-facebook.svg');
+							}
+							&.twitter {
+								background-image: url('/img/share-twitter.svg');
+							}
+							&.email {
+								background-image: url('/img/share-email.svg');
+							}
+							&.whatsapp {
+								background-image: url('/img/share-whatsapp.svg');
+						/*		&:link {
+									background-image: url('/img/share-whatsapp.svg');
+								}
+								&:focus, &:hover {
+									background-image: url('/img/share-whatsapp-hover.svg');
+								}
+								*/
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		.ideaProgress {
+			margin-top: 20px;
+		}
+
+	}
+
+}
+
+// Idea content
+// ---------------
+/* #content.idea >.primary { */
+.pageContent.idea .primary {
+	margin-bottom: 10px;
+	padding-right: @hMargin;
+
+	@media @primary100 {
+		padding-right: 0;
+	}
+
+	// Author information
+	// ------------------
+	#author {
+		font-size: 14px;
+		line-height: 20px;
+		font-style: normal;
+		margin-bottom: 20px;
+
+		a {
+			color: inherit;
+		}
+	}
+
+	#map {
+		height: 250px;
+	}
+
+
+	.summary {
+		font-size: 18px;
+	}
+
+}
+
+// Mod break
+// ---------
+// Always displayed below the user content.
+#modBreak, .mod-break {
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	margin: 35px 0px;
+	padding: 10px 20px 10px 20px;
+	border: 3px solid #FFE115;
+
+
+	&::before,
+	&::after {
+		border-left: 30px solid #FFE115;
+		border-top: 30px solid transparent;
+		border-bottom: 30px solid transparent;
+		border-right: 0;
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 0;
+		left: -3px;
+		bottom: -32px;
+	}
+	&::before {
+		box-sizing: border-box;
+		border: 0 none;
+		background-repeat: no-repeat;
+		background-size: 42px 24px;
+		background-position: right center;
+		background-image: url('/img/modbreak-arrow.png');
+		content: '';
+		width: calc(100% + 6px);
+		height: 24px;
+		right: 0px;
+		top: -24px;
+	}
+	&::after {
+		border: 0 none;
+		bottom: -24px;
+		left: 0;
+	}
+
+	b {
+		color: black;
+	}
+	p {
+		margin: 0.5em 0 0;
+	}
+}
+#author + #modBreak, .author + .modBreak, {
+	margin-bottom: 20px;
+	margin-top: 0px;
+}
+
+.mod-break--grey-bg {
+		&::before, &::after {
+			content: '';
+			display: block;
+			border: 1px solid;
+			position: absolute;
+			width: 0;
+			height: 0;
+			top: -60px;
+			left: auto;
+			right: -3px;
+			background-image: none;
+			border-width: 31px;
+			border-color: transparent transparent #f6f7f7 transparent;
+		}
+
+		&::before {
+			z-index: 4;
+	    border-width: 21px;
+	    top: -42px;
+	    right: 0px;
+		}
+
+		&::after {
+			border-color: transparent transparent #FFE115 transparent;
+	    border-width: 24px;
+	    z-index: 2;
+	    top: -49px;
+	    right: -3px;
+		}
+}
+
+tr.rejected, tr.rejected td {
+	background: red;
+}
+
+
+table.dataTable thead th, table.dataTable thead td {
+ 	padding: 0;
+}
+
+// Action buttons
+// --------------
+// All idea mutation buttons on the right side of the idea's content.
+.pageContent.idea >.secondary {
+	margin-top: 10px;
+
+	h2:first-of-type {
+		margin-top: 0;
+	}
+}
+
+// Votes modal
+.btn.download-votes {
+	position: absolute;
+	height: 34px;
+	line-height:34px;
+	left:50%;
+	top:10px;
+	width:200px;
+	margin-left:-100px;
+	@media @phone {
+		position: relative;
+		left:0;
+		top:0;
+		margin-left:0;
+	}
+}

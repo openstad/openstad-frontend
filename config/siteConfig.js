@@ -95,6 +95,11 @@ module.exports = {
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
         'apostrophe-video-widgets': {},
+        'location-widgets': {},
+        'share-widgets': {},
+        'recource-raw-widgets': {},
+        'recource-image-widgets': {},
+        'recource-like-widgets': {},
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields

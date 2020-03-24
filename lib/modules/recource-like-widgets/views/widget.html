@@ -1,0 +1,15 @@
+{% set idea = data.idea %}
+{% import 'includes/numberplatebutton.html' as numberPlateButton %}
+
+
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+<div id="{{data.widget.containerId}}">
+{% if (data.widget.type) %}
+{% include 'includes/'+data.widget.displayType+'.html' %}
+{% else %}
+{% include 'includes/numberplate.html' %}
+{% endif %}
+</div>
