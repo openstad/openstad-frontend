@@ -27,6 +27,7 @@
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
+    "express-cache-on-demand": "^1.0.2",
     "flash": "^1.1.0",
     "http-proxy-middleware": "^0.19.1",
     "json2csv": "^4.5.4",
@@ -35,8 +36,8 @@
     "node-file-cache": "^1.0.2",
     "nodemon": "^1.17.5",
     "nunjucks": "^3.2.0",
-    "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git#v0.0.9",
     "openstad-component-ideas-on-map": "git+ssh://git@github.com/Amsterdam/openstad-component-ideas-on-map.git#v0.0.16",
+    "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git#v0.0.9",
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6"
