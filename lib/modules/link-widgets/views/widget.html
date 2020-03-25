@@ -5,7 +5,12 @@
 <a
   id="{{data.widget.containerId}}"
   href="{{ data.widget.url }}"
-  class="{{data.widget.style}} scroll-link margin-bottom-sm {{ 'button-with-icon' if data.widget.icon else  'button-without-icon'}}"
+  class="
+    {{data.widget.style}}
+    scroll-link margin-bottom-sm
+    {{ 'button-with-icon' if data.widget.icon else  'button-without-icon'}}
+    {{data.widget.classNameCustom}}
+    "
   {% if data.widget.targetBlank %} target="_blank" {% endif %}
   style=""
 >

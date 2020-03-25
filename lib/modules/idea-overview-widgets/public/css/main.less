@@ -388,3 +388,33 @@
   	}
   }
 }
+
+.filterClean {
+  .tab-selector, .sort {
+    background: white;
+    padding: 0;
+    justify-content: space-between;
+
+    .no-button {
+      display: none;
+    }
+
+    .default-select {
+      border-color: transparent;
+      padding-left: 0;
+      margin-left: 0;
+
+      &.active{
+        color: black !important;
+        background-color: white !important;
+        background-image: url(/img/arrow_down_black.svg) !important;
+        font-weight: bold !important;
+        border-bottom: 2px solid black !important;
+      }
+    }
+  }
+
+   .sort::before {
+     content:'' !important;
+   }
+}

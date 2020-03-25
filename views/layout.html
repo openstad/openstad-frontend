@@ -231,7 +231,19 @@ ga('send', 'pageview');
 
                   {% for item in data.global.mainMenuItems %}
                   <li class="nav-item">
-                      <a class="nav-link {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}" href="{{ item.mainMenuUrl }}" {% if item.mainMenuTarget %} target="_blank" {% endif %}>
+                      <a
+                        class="
+                          nav-link
+                          {% if item.mainMenuUrl === '\/' %}
+                             {% if data.currentPath === '\/' %}  active {% endif %}
+                          {% else %}
+                          {% if data.currentPath.startsWith(item.mainMenuUrl) %} active {% endif %}
+                          {% endif %}
+
+                        "
+                        href="{{ item.mainMenuUrl }}"
+                        {% if item.mainMenuTarget %} target="_blank" {% endif %}
+                        >
                           {{ item.mainMenuLabel }}
                       </a>
                   </li>
@@ -244,7 +256,7 @@ ga('send', 'pageview');
                       {% for tab in data.home._children %}
                       <li class="nav-item">
                           <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
-                              {{ tab.title }}
+                              {{data.currentPath}} :{{ tab.title }}
                           </a>
                       </li>
                       {% endfor %}
