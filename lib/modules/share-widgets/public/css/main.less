@@ -5,6 +5,15 @@
 			padding: 0;
 			list-style-type: none;
 
+			&::after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
 			li {
 				display: inline;
 				height: 30px;
@@ -59,4 +68,54 @@
 			}
 		}
 	}
+}
+
+
+.share-round {
+	.share{
+		ul {
+
+			li {
+				width: 60px;
+				height: 60px;
+				margin-right: 5px;
+				display: inline-block;
+
+				a {
+					border-radius: 50%;
+					width: 60px;
+					height: 60px;
+					background-size: 100%;
+					overflow: hidden;
+
+				&.facebook {
+					background-color: #3b5998;
+					background-image: url('/img/facebook-round.svg');
+
+				}
+				&.twitter {
+					background-color: #55acee;
+					background-image: url('/img/twitter-round.svg');
+
+				}
+				&.email {
+					background-color: #ed0000;
+				}
+				&.whatsapp {
+					background-color: #25d466;
+					background-image: url('/img/whatsapp-round.svg');
+				}
+				&.linkedin {
+					background-color: #25d466;
+					background-image: url('/img/linkedin-round.svg');
+				}
+
+
+
+			}
+
+			}
+		}
+	}
+
 }

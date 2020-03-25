@@ -4,7 +4,7 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<div id="{{data.widget.containerId}}" class="share-widget-container">
+<div id="{{data.widget.containerId}}" class="share-widget-container {{data.widget.displayType}}">
 	<div class="share">
 		<ul>
 			{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>{% endif %}
@@ -15,5 +15,6 @@
 			<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share">WhatsApp</a></li>
       {% endif %}
 		</ul>
+    <div style="clear:both"> </div>
 	</div>
 </div>
