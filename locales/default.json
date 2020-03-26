@@ -628,5 +628,6 @@
 	"Image Height (used for resizing dynamic image and map, not default, for performance reasons)": "Image Height (used for resizing dynamic image and map, not default, for performance reasons)",
 	"Image Width (used for resizing dynamic image and map, not default, for performance reasons)": "Image Width (used for resizing dynamic image and map, not default, for performance reasons)",
 	"Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)": "Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)",
-	"Hide the site title in the header?": "Hide the site title in the header?"
+	"Hide the site title in the header?": "Hide the site title in the header?",
+	"Amount of characters for the summary": "Amount of characters for the summary"
 }

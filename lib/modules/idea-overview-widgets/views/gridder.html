@@ -126,7 +126,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
       {% endif %}
     </div>
     <script>
-     imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location)}}";
+     imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(image, idea.location, data.widget, 500, 500, true)}}";
      doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
     </script>
   </li>{% endfor %}
@@ -152,7 +152,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
             >
               {% if (idea.extraData) and (idea.extraData.images) %}
               {% for image in idea.extraData.images %}
-              <a href="{{data.widget.formatImageUrl(image, 1200, 1200, false)}}"></a>
+              <a href="{{data.widget.formatImageUrl(image, idea.location, data.widget, 1200, 1200, false)}}"></a>
               {% endfor %}
               {% endif %}
             </div>
