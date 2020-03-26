@@ -157,7 +157,6 @@ function serveSite(req, res, siteConfig, forceRestart) {
       }
     })
   .catch((e) => {
-    console.log('err: ', e);
     res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
   });
 }
