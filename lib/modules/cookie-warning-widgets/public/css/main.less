@@ -1,0 +1,141 @@
+#cookiewarning-container {
+	box-sizing: border-box;
+	width: 100%;
+  width: 100%;
+  height: 193px;
+  background-color: white;
+  border-bottom: 4px solid  #787979;
+
+	@media @phone {
+    height: 285px;
+  }
+
+  &.hidden {
+    display: none;
+  }
+
+}
+
+.cookie-consent {
+
+  font-size: 16px;
+  line-height: 1.38;
+
+  a {
+    color: #164995;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  #cookiewarning {
+    max-width: 570px;
+    margin: 0 auto;
+
+	  @media @phone {
+      padding: 0 12px;
+    }
+
+  }
+
+  h3 {
+    margin: 0;
+    padding: 16px 0 13px 0;
+
+	  @media @phone {
+      margin: 0;
+      padding: 16px 0 13px 0;
+    }
+
+  }
+
+	a.cookie-button {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 10px;
+    margin: 15px 15px 0 0;
+    font-size: 16px;
+    padding: 12px 15px;
+    line-height: 1.1;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.cookie-button-blue {
+      color: white;
+      background-color: #164995;
+      border: 2px solid #164995;
+
+      &:hover {
+        background-color: #004699;
+        border: 2px solid #004699;
+      }
+    }
+
+    &.cookie-button-gray {
+      color: white;
+      background-color: #787979;
+      border: 2px solid #787979;
+    }
+
+    &.cookie-button-white {
+      color: #004699;
+      background-color: white;
+      border: 2px solid #164995;
+
+      &:hover {
+        border: 2px solid #004699;
+      }
+      
+    }
+
+	}
+
+  &.placeholder-no-cookie-consent {
+    width: 100%;
+    height: 100%;
+    border: solid 3px #434444;
+
+    &.placeholder-type-default,
+    &.placeholder-type-video {
+      background: repeating-linear-gradient(135deg,#eee,#eee 20px,#fcfcfc 20px,#fcfcfc 40px);
+    }
+
+    &.placeholder-type-map {
+      background-size: cover;
+      Background-image: url(/img/placeholders/kaart-blur-image@3x.png)
+    }
+
+    .placeholder-content {
+      margin-top: 20px;
+      padding: 20px;
+      width: 100%;
+      background-color: white;
+
+      .placeholder-text {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      h3 {
+        margin-top: 0;
+        padding-top: 0;
+      }
+      
+    }
+        
+  }
+
+  .cookie-consent-change-container {
+    padding: 12px 20px 20px 20px;
+    max-width: 580px;
+    border: solid 2px #004699;
+    line-height: 2.5;
+
+    a.cookie-button {
+    }
+  }
+
+}

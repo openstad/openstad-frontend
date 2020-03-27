@@ -17,8 +17,7 @@
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}
 
-
-    <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true) }}')"></div>
+    <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
 
     <div class="duration">
       {{ data.widget['label' + idea.status] }}

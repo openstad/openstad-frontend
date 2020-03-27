@@ -82,6 +82,7 @@ module.exports = {
         'link-widgets': {},
         'counter-widgets': {},
         'slider-widgets': {},
+        'cookie-warning-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
         'gebiedsontwikkeling-tool-widgets': {},

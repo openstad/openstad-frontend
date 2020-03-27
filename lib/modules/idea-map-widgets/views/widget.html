@@ -20,7 +20,8 @@
   </div>
 
 
-{% else %}
+  {% else %}
+  {% if data.cookieConsent %}
   <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
 
   <div id="map-with-buttons-container">
@@ -36,4 +37,9 @@
       {% endif %}
     </div>
   </div>
+  {% else %}
+  <div style="width: 100%; height: 400px;">
+    {% include "partials/placeholder-no-cookie-consent-map.html" ignore missing %}
+  </div>
+  {% endif %}
 {% endif %}
