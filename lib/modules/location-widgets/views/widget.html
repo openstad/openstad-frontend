@@ -1,5 +1,11 @@
 {% set idea = data.idea %}
 
+{% if idea.location %}
+{{
+apos.area(data.widget, 'contentArea', {
+widgets: apos.settings.getOption('contentWidgets')
+})
+}}
 <div id="mapcontainer">
 	{% set editorInputElementId = 'map' %}
 	{% if data.widget.mapType == 'nlmaps-openlayers' %}
@@ -17,3 +23,4 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
 	{% endif %}
 </div>
+{% endif %}
