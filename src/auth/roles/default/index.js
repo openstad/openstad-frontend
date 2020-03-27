@@ -27,9 +27,10 @@ var helpers = {
 		}
 		// TODO: Time sensitivity?
 		var isOwner   = helpers.isIdeaOwner(user, idea);
+		var canEditAfterFirstLikeOrArg = idea.site.config.ideas.canEditAfterFirstLikeOrArg;
 		var voteCount = idea.no + idea.yes;
 		var argCount  = idea.argumentsFor && idea.argumentsFor.length && idea.argumentsAgainst && idea.argumentsAgainst.length;
-		return isOwner && !voteCount && !argCount;
+		return isOwner && ( canEditAfterFirstLikeOrArg || ( !voteCount && !argCount ) );
 	},
 
 	mayVoteIdea: function( user, idea ) {

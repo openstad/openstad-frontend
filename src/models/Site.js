@@ -203,6 +203,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 100,
 					},
+					canEditAfterFirstLikeOrArg: {
+						type: 'boolean',
+						default: false,
+					},
 					feedbackEmail: {
 						from: {
 							type: 'string', // todo: add type email/list of emails
