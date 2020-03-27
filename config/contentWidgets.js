@@ -67,5 +67,6 @@ module.exports = {
   'share': {},
   'recource-raw': {},
   'recource-image': {},
-  'recource-like': {}
+  'recource-like': {},
+  'recource-admin': {}
 };

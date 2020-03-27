@@ -100,6 +100,7 @@ module.exports = {
         'recource-raw-widgets': {},
         'recource-image-widgets': {},
         'recource-like-widgets': {},
+        'recource-admin-widgets' : {},
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields

@@ -1,0 +1,15 @@
+{% set editorInputElementId = 'map' %}
+{% if data.widget.mapType == 'nlmaps-openlayers' %}
+<div id="nlmaps-holder" style="width: 100%; height: 100%;">
+    <div id="map-with-buttons-container">
+        <div class="map-buttons-container">
+            {% if (data.widget.displayCounter) %}
+            {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div id="map" style="width: 100%; height: 300px; margin: 10px 0;"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
+{% endif %}
