@@ -151,8 +151,22 @@ ga('send', 'pageview');
                         {% endif %}
                       </div>
                       <div class="col-sm-5 col-md-6 hidden-xs">
-                        {% if data.global.topLinks %}
+                        {% if data.global.topLinks or data.global.displayLoginTopLink %}
                         <ul class="top-links">
+                          {% if data.global.displayLoginTopLink %}
+                          <li>
+                          {% if data.loggedIn %}
+                            <a href="/oauth/logout" class="link-caret--black">
+                               {{ __('Uitloggen') }}
+                            </a>
+                            {% else %}
+                             <a href="/oauth/login" class="link-caret--black">
+                              <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+                               {{ __('Inloggen') }}
+                             </a>
+                          {% endif %}
+                          </li>
+                          {% endif %}
                         {% for topLink in data.global.topLinks.reverse() %}
                           <li>
                             <a
@@ -163,7 +177,9 @@ ga('send', 'pageview');
                               {{topLink.label}}
                             </a>
                           </li>
+
                         {% endfor %}
+
                         </ul>
                         {% endif %}
                       </div>
@@ -265,7 +281,7 @@ ga('send', 'pageview');
 
                   {% endif %}
 
-                  {% if data.global.topLinks %}
+                  {% if data.global.topLinks or data.global.displayLoginTopLink %}
                 <li class="li-spacer visible-xs"></li>
                 {% for topLink in data.global.topLinks.reverse() %}
                   <li class="visible-xs">
@@ -277,7 +293,24 @@ ga('send', 'pageview');
                       <b> {{topLink.label}} </b>
                     </a>
                   </li>
+
                 {% endfor %}
+
+                {% if data.global.displayLoginTopLink %}
+                <li class="visible-xs">
+                {% if data.loggedIn %}
+                <a href="/oauth/logout"                       class="nav-link ">
+                   {{ __('Uitloggen') }}
+                </a>
+                {% else %}
+                 <a href="/oauth/login"                       class="nav-link ">
+                  <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+                   {{ __('Inloggen') }}
+                 </a>
+                {% endif %}
+                </li>
+                {% endif %}
+
                 {% endif %}
               </ul>
 

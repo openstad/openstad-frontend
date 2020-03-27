@@ -633,5 +633,7 @@
 	"Recource admin buttons": "Recource admin buttons",
 	"Save Recource admin buttons": "Save Recource admin buttons",
 	"Hide admin after first public action? (not yet connected to the API)": "Hide admin after first public action? (not yet connected to the API)",
-	"Edit Recource admin buttons": "Edit Recource admin buttons"
+	"Edit Recource admin buttons": "Edit Recource admin buttons",
+	"Display login and logout link in top links?": "Display login and logout link in top links?",
+	"Inloggen": "Inloggen"
 }
