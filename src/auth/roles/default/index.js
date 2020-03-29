@@ -25,6 +25,7 @@ var helpers = {
 		if( !idea.isOpen() ) {
 			return false;
 		}
+
 		// TODO: Time sensitivity?
 		var isOwner   = helpers.isIdeaOwner(user, idea);
 		var canEditAfterFirstLikeOrArg = idea.site && idea.site.config && idea.site.config.ideas ? idea.site.config.ideas.canEditAfterFirstLikeOrArg : false;

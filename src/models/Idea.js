@@ -414,7 +414,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					});
 				} else {
-          console.log('Idea site config not defined!');
+          //console.log('Idea site config not defined!');
         }
 
         // TODO: wat als niet defined?

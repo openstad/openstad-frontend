@@ -126,7 +126,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						notifications.addToQueue({ type: 'argument', action: 'update', siteId: idea.siteId, instanceId: instance.id });
 					})
 			},
-			
+
 		},
 
 		individualHooks: true,
@@ -150,7 +150,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					av.opinion    = "${opinion}")
 			`), opinion];
 		}
-		
+
 		return {
 
 			defaultScope: {
@@ -209,7 +209,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			withUserVote: function( tableName, userId ) {
 				userId = Number(userId);
 				if( !userId ) return {};
-				
+
 				return {
 					attributes: Object.keys(this.rawAttributes).concat([
 						[sequelize.literal(`
@@ -259,7 +259,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			as         : 'reactions'
 		});
 	}
-	
+
 	Argument.prototype.addUserVote = function( user, opinion, ip ) {
 		var data = {
 			argumentId : this.id,
@@ -267,16 +267,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			opinion    : opinion,
 			ip         : ip
 		};
-		
+
 		// See `Idea.addUserVote` for an explanation of the logic below.
 		return db.ArgumentVote.findOne({where: data})
 			.then(function( vote ) {
 				if( vote ) {
-          console.log('Found', data, vote);
+          //console.log('Found', data, vote);
 					return vote.destroy();
 				} else {
 					// HACK: See `Idea.addUserVote`.
-          console.log('Create', data);
+          //console.log('Create', data);
 					data.deletedAt = null;
 					return db.ArgumentVote.upsert(data);
 				}
@@ -285,7 +285,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return result && !!result.deletedAt;
 			});
 	}
-	
+
 	return Argument;
 
 }

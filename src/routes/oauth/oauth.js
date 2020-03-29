@@ -97,7 +97,7 @@ router
 					throw createError('Login niet gelukt');
 				},
 				error => {
-					console.log('ERR');
+					//console.log('ERR');
 				}
 			)
 			.then(
@@ -112,7 +112,7 @@ router
 				}
 			)
 			.catch(err => {
-				console.log(err);
+				// console.log(err);
 				return next(err);
 			});
 
@@ -147,8 +147,8 @@ router
 				}
 			)
 			.catch(err => {
-				console.log('OAUTH DIGEST - GET USER ERROR');
-				console.log(err);
+				//console.log('OAUTH DIGEST - GET USER ERROR');
+				//console.log(err);
 				next(err);
 			})
 
@@ -201,8 +201,8 @@ router
 							return next();
 						})
 						.catch(err => {
-							console.log('OAUTH DIGEST - CREATE USER ERROR');
-							console.log(err);
+							//console.log('OAUTH DIGEST - CREATE USER ERROR');
+							//console.log(err);
 							next(err);
 						})
 				}
@@ -215,8 +215,6 @@ router
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
     let returnTo = req.query.returnTo;
-    console.log('==============================');
-    console.log(returnTo);
 		let redirectUrl = returnTo ? returnTo + (returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
 		redirectUrl = redirectUrl || ( req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false );
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
