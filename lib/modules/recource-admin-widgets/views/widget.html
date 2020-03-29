@@ -2,8 +2,8 @@
 {% set idea = data.idea %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
-{% set notReactedTo =  not isReactedTo and data.widget.hideAdminAfterPublicAction %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.isAdmin %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = ((notReactedTo or not data.widget.hideAdminAfterPublicAction) and isOwner) or data.isAdmin %}
 
 <div class="recource-admin-edit-container">
 {% if isOwnerOrAdmin %}
