@@ -4,7 +4,7 @@
 	data-default-sort="{{data.widget.defaultSorting}}"
 	{% endif %}
 >{% for idea in data.widget.ideas %}<div
-  class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
+  class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}}"
   data-createdtime="{{idea.createdTime}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
