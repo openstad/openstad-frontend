@@ -225,6 +225,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 							default: undefined,
 						},
 					},
+          extraDataMustBeDefined: {
+						type: 'boolean',
+            default: false,
+					},
+          extraData: {
+						type: 'object',
+          }
 				}
 			},
 			arguments: {
@@ -453,6 +460,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 					if (options[key].type && options[key].type === 'boolean' && typeof value[key] !== 'boolean') {
 						throw new Error(`site.config: ${key} must be an boolean`);
+					}
+					if (options[key].type && options[key].type === 'object' && typeof value[key] !== 'object') {
+						throw new Error(`site.config: ${key} must be an object`);
 					}
 					if (options[key].type && options[key].type === 'arrayOfStrings' && !(typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'string'))) {
 						throw new Error(`site.config: ${key} must be an array of strings`);

@@ -222,12 +222,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				} catch(err) {}
 
-				oldValue = oldValue || {}
-				Object.keys(oldValue).forEach((key) => {
-					if (!value[key]) {
-						value[key] = oldValue[key];
-					}
-				});
+        function fillValue(old, val) {
+          old = old || {};
+				  Object.keys(old).forEach((key) => {
+            if ( val[key] && typeof val[key] == 'object' ) {
+              return fillValue(old[key], val[key]);
+            }
+            if ( val[key] === null ) {
+              // send null to delete fields
+              delete val[key];
+            } else if (!val[key]) {
+              // not defined in put data; use old val
+						  val[key] = old[key];
+					  }
+				  });
+        }
+        fillValue(oldValue, value);
 
 				this.setDataValue('extraData', JSON.stringify(value));
 			}
@@ -389,36 +399,111 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 			validExtraData: function(next) {
 
-				let error = false
-				let value = this.extraData || {}
-				let newValue = {};
+        let self = this;
+				let errors = [];
+				let value = self.extraData || {}
+        let validated = {};
 
-				let configExtraData = this.config && this.config.ideas && this.config.ideas.extraData;
-				if (configExtraData) {
-					Object.keys(configExtraData).forEach((key) => {
+				let configExtraData = self.config && self.config.ideas && self.config.ideas.extraData;
 
-						if (value[key]) {
-							if ( configExtraData[key].type == 'enum' && configExtraData[key].values.indexOf(value[key]) == -1) {
-								error = `Ongeldige waarde voor ${key}`;
-							}
-							if ( configExtraData[key].type == 'string' && typeof value[key] != 'string' ) {
-								error = `Ongeldige waarde voor ${key}`;
-							}
-							if ( configExtraData[key].type === 'arrayOfStrings' && (typeof value[key] !== 'object' || !Array.isArray(value[key]) || value[key].find(val => typeof val !== 'string') ) ) {
-								error = `Ongeldige waarde voor ${key}`;
-							}
-						}
-						if (configExtraData[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) { // TODO: dit wordt niet gechecked als je het veld helemaal niet meestuurt
-							error = `${key} is niet ingevuld`;
-						}
+        function checkValue(value, config) {
 
-					});
-				} else {
-          //console.log('Idea site config not defined!');
+				  if (config) {
+
+            let key;
+					  Object.keys(config).forEach((key) => {
+
+              let error = false;
+
+              // recursion on sub objects
+              if (typeof value[key] == 'object' && config[key].type == 'object') {
+                if (config[key].subset) {
+                  checkValue(value[key], config[key].subset);
+                } else {
+                  errors.push(`Configuration for ${key} is incomplete`);
+                }
+              }
+
+              // allowNull
+						  if (config[key].allowNull === false && (typeof value[key] === 'undefined' || value[key] === '')) {
+							  error = `${key} is niet ingevuld`;
+						  }
+
+              // checks op type
+              if (value[key]) {
+                switch (config[key].type) {
+
+                  case 'boolean':
+							      if ( typeof value[key] != 'boolean' ) {
+								      error = `De waarde van ${key} is geen boolean`;
+							      }
+                    break;
+
+                  case 'int':
+							      if ( parseInt(value[key]) !== value[key] ) {
+								      error = `De waarde van ${key} is geen int`;
+							      }
+                    break;
+
+                  case 'string':
+							      if ( typeof value[key] != 'string' ) {
+								      error = `De waarde van ${key} is geen string`;
+							      }
+                    break;
+
+                  case 'object':
+							      if ( typeof value[key] != 'object' ) {
+								      error = `De waarde van ${key} is geen object`;
+							      }
+                    break;
+
+                  case 'arrayOfStrings':
+							      if ( typeof value[key] !== 'object' || !Array.isArray(value[key]) || value[key].find(val => typeof val !== 'string') ) {
+								      error = `Ongeldige waarde voor ${key}`;
+							      }
+                    break;
+
+                  case 'enum':
+							      if ( config[key].values.indexOf(value[key]) == -1) {
+								      error = `Ongeldige waarde voor ${key}`;
+							      }
+                    break;
+
+                  default:
+                }
+              }
+
+              if (error) {
+                validated[key] = false;
+                errors.push(error)
+              } else {
+                validated[key] = true;
+              }
+              
+					  });
+
+            Object.keys(value).forEach((key) => {
+              if (typeof validated[key] == 'undefined') {
+                errors.push(`${key} is niet gedefinieerd in site.config`)
+              }
+            });
+            
+				  } else {
+            // extra data not defined in the config
+            if (!( self.config && self.config.ideas && self.config.ideas.extraDataMustBeDefined === false )) {
+              errors.push(`idea.extraData is not configured in site.config`)
+            }
+          }
         }
 
-        // TODO: wat als niet defined?
-				return next(error);
+        checkValue(value, configExtraData);
+
+        if (errors.length) {
+          console.log('Idea validation error:', errors);
+          throw Error(errors.join('\n'));
+        }
+
+				return next();
 
 			}
 		},
