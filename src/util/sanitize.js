@@ -32,7 +32,7 @@ var allSafeTags = {
 	// allowedClasses: {
 	// 	'p': [ 'fancy', 'simple' ]
 	// },
-	allowedSchemes: ['http', 'https', 'ftp', 'mailto'],
+	allowedSchemes: ['http', 'https', 'ftp', 'mailto', 'tel'],
 	transformTags: {
 		a: function( tagName, attrs ) {
 			if( attrs.href && remoteURL.test(attrs.href) ) {
@@ -55,11 +55,11 @@ module.exports = {
 	content: function( text ) {
 		return sanitize(text, allSafeTags);
 	},
-	
+
 	argument: function( text ) {
 		return sanitize(text, noTags);
 	},
-	
+
 	// TODO: Transform all call to these two options, instead
 	//       of the content-type-named versions above.
 	safeTags: function( text ) {
