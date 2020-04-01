@@ -111,10 +111,10 @@ module.exports = {
           // we set the option te lean, this means a lot of the JS libraries ApostrhopeCMS assumes exists are turned off
           // we manually included a few libs with Apos needs to functional
           // in future in might make sense to make a further seperate for admin users and normal users
-          lean: false,
+        //  lean: false,
           jQuery: 3,
           scripts: [
-    //        {name: 'jquery'},
+          //  {name: 'jquery'},
         //    {name: 'react'},
         //    {name: 'react.dom'},
             /* Apos script */
