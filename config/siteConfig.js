@@ -115,8 +115,8 @@ module.exports = {
           jQuery: 3,
           scripts: [
     //        {name: 'jquery'},
-            {name: 'react'},
-            {name: 'react.dom'},
+        //    {name: 'react'},
+        //    {name: 'react.dom'},
             /* Apos script */
     //        {name: 'apos/jquery.cookie'},
     //        {name: 'apos/jquery.json-call'},
@@ -124,7 +124,7 @@ module.exports = {
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-            {name: 'jquery.dataTables.min'},
+      //      {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
           ],
