@@ -111,6 +111,10 @@ exports.default = {
               'label': 'Display',
               'value': 'display'
             },
+            {
+              'label': 'Box shadow',
+              'value': 'box-shadow'
+            },
           ]
         },
         {
