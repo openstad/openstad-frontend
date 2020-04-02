@@ -358,6 +358,73 @@ module.exports = function( db, sequelize, DataTypes ) {
 				},
 			},
 
+			articles: {
+				type: 'object',
+				subset: {
+					canAddNewArticles: {
+						type: 'boolean',
+						default: true,
+					},
+          titleMinLength: {
+						type: 'int',
+						default: 10,
+          },
+          titleMaxLength: {
+						type: 'int',
+						default: 50,
+          },
+          summaryMinLength: {
+						type: 'int',
+						default: 20,
+          },
+          summaryMaxLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMinLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMaxLength: {
+						type: 'int',
+						default: 5000,
+          },
+					minimumYesVotes: {
+						type: 'int',
+						default: 100,
+					},
+					canEditAfterFirstLikeOrArg: {
+						type: 'boolean',
+						default: false,
+					},
+					feedbackEmail: {
+						from: {
+							type: 'string', // todo: add type email/list of emails
+							default: 'EMAIL@NOT.DEFINED',
+						},
+						subject: {
+							type: 'string',
+							default: 'Bedankt voor je artikel',
+						},
+						inzendingPath: {
+							type: 'string',
+							default: "/PATH/TO/ARTICLE/[[articleId]]",
+						},
+						template: {
+							type: 'string',
+							default: undefined,
+						},
+					},
+          extraDataMustBeDefined: {
+						type: 'boolean',
+            default: false,
+					},
+          extraData: {
+						type: 'object',
+          }
+				}
+			},
+
 			newslettersignup: {
 				type: 'object',
 				subset: {

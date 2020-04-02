@@ -43,6 +43,22 @@ module.exports = function( helpers, role ) {
       resource: 'idea'
     },
 
+    'articles:admin': false,
+    'articles:list': true,
+    'articles:archive': true,
+    'article:admin': false,
+    'article:view': true,
+    'article:create': false,
+    'article:edit': {
+      allow: false,
+      resource: 'article',
+      message: 'Artikel bewerken niet toegestaan'
+    },
+    'article:delete': {
+      allow: false,
+      resource: 'article'
+    },
+
     'image:upload': {
       allow: false,
       message: 'Afbeelding uploaden niet toegestaan'

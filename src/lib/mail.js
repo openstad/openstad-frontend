@@ -96,21 +96,33 @@ function sendNotificationMail( data ) {
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail( idea, user, site ) {
+function sendThankYouMail( resource, user, site ) {
+
+  let resourceType;
+  let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
+  if (match) resourceType = match[1];
+  
+  if (!resourceType) return console.log('sendThankYouMail error: resourceType not found');
+
+  let resourceTypeSiteConfig = site && site.config && site.config[`${resourceType}s`] || {};
+  let resourceTypeApiConfig = config && config[`${resourceType}s`] || {};
+  let resourceTypeConfig = merge.recursive({}, resourceTypeApiConfig, resourceTypeSiteConfig);
 
   let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
   let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
   let sitename = ( site && site.title ) || ( config && config.get('siteName') );
-  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
-  if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
+  let fromAddress = (resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.from) || config.email || ( config.mail && config.mail.from ) || 'unknown@no.where';
+  if ( fromAddress && fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
-	let inzendingPath = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.inzendingPath && site.config.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, idea.id) ) || "/" ;
+	let inzendingPath = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.inzendingPath && resourceTypeConfig.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, resource.id) ) || "/" ;
+	inzendingPath = inzendingPath.replace(/\[\[articleId\]\]/, resource.id);
 	let inzendingURL = url + inzendingPath;
 
   let data    = {
     date: new Date(),
     user: user,
-    idea: idea,
+    idea: resource,
+    article: resource,
     HOSTNAME: hostname,
     SITENAME: sitename,
 		inzendingURL,
@@ -119,11 +131,11 @@ function sendThankYouMail( idea, user, site ) {
   };
 
 	let html;
-	let template = site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.template;
+	let template = resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.template;
 	if (template) {
 		html = nunjucks.renderString(template, data);
 	} else {
-		html = nunjucks.render('idea_created.njk', data);
+		html = nunjucks.render(`${resourceType}_created.njk`, data);
 	}
 
   let text = htmlToText.fromString(html, {
@@ -132,20 +144,20 @@ function sendThankYouMail( idea, user, site ) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
+  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || ['logo.png'];
 
+  try {
   sendMail({
     to: user.email,
     from: fromAddress,
-    subject: (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je inzending',
+    subject: (resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.subject) || 'Bedankt voor je inzending',
     html: html,
     text: text,
     attachments,
   });
+  } catch(err) {
+    console.log(err);
+  }
 
 }
 

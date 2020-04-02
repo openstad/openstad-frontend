@@ -216,6 +216,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 
 	User.associate = function( models ) {
+		this.hasMany(models.Article);
 		this.hasMany(models.Idea);
 		this.hasMany(models.Vote);
 		this.hasMany(models.Argument);

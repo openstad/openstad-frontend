@@ -10,19 +10,33 @@ var unknown   = auth.role('unknown');
 var anonymous = unknown.role('anonymous');
 var member    = anonymous.role('member');
 
-
 var admin     = member.role('admin');
 var editor    = member.role('editor');
 var moderator = member.role('moderator');
 
-
 var helpers = {
+
 	needsToCompleteRegistration: function( user ) {
 		return !user.hasCompletedRegistration();
 	},
 
+	mayMutateArticle: function( user, article ) {
+
+		if( !article.isOpen() ) {
+			return false;
+		}
+
+		// TODO: Time sensitivity?
+		var isOwner   = helpers.isArticleOwner(user, article);
+		var canEditAfterFirstLikeOrArg = article.site && article.site.config && article.site.config.articles ? article.site.config.articles.canEditAfterFirstLikeOrArg : false;
+		var voteCount = article.no + article.yes;
+		var argCount  = article.argumentsFor && article.argumentsFor.length && article.argumentsAgainst && article.argumentsAgainst.length;
+		return isOwner && ( canEditAfterFirstLikeOrArg || ( !voteCount && !argCount ) );
+	},
+
 	mayMutateIdea: function( user, idea ) {
-		if( !idea.isOpen() ) {
+
+    if( !idea.isOpen() ) {
 			return false;
 		}
 
@@ -76,6 +90,10 @@ var helpers = {
 
 	isIdeaOwner: function( user, idea ) {
 		return user.id === idea.userId;
+	},
+
+	isArticleOwner: function( user, article ) {
+		return user.id === article.userId;
 	},
 
 	isArgumentOwner: function( user, argument ) {
