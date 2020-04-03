@@ -1,0 +1,61 @@
+{% import 'vote-creator.html' as voteCreator %}
+
+<div id="ideas-overview" class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+	{{ __('Loading...') }}
+</div>
+<div id="idea-overview-container" class="idea-overview-container opacity-0-for-load">
+  <div class="ideasList">
+    {% include 'filters.html' %}
+    <br />
+		<div id="ideas-anchor"></div>
+
+    <div id="ideas" class="primary">
+
+      {% if not data.widget.ideas or data.widget.ideas.length === 0 %}
+      <h3 style="text-align: center;"> <em> Nog geen inzendingen </em> </h3>
+      {% else %}
+
+      {% if data.widget.displayType === 'minimalVotes' %}
+      {% include 'display-types/minimalVotes.html' %}
+      {% endif %}
+
+      {% if data.widget.displayType === 'gridder' %}
+      {% include 'display-types/gridder.html' %}
+      {% endif %}
+
+			{% if data.widget.displayType === 'raw' %}
+			{% include 'display-types/raw.html' %}
+			{% endif %}
+
+			{% if data.widget.displayType === 'row' %}
+			{% include 'display-types/row.html' %}
+			{% endif %}
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+<!--
+<script src="/js/fotorama-4.6.4.min.js"></script>
+!-->
+
+<script>
+ // tab selector functions
+ // var activeTab = getCookie('plannenActiveTab') || 0;
+
+ // function activateIdeaOverviewTab(which) {
+ //  	 document.getElementById('themaSelector' + activeTab).className = document.getElementById('themaSelector' + activeTab).className.replace(/ ?active/, '');
+ //  	 activeTab = which;
+ //  	 document.cookie = 'plannenActiveTab=' + activeTab;
+ //  	 document.getElementById('themaSelector' + activeTab).className += ' active';
+ //  	 updateDisplay();
+ // }
+
+
+
+
+
+
+</script>
