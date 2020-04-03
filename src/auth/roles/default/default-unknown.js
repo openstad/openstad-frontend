@@ -159,6 +159,13 @@ module.exports = function( helpers, role ) {
       message: 'Stemmen kan enkel als geregistreerde gebruiker'
     },
 
+    // tags
+    'tags:list': true,
+    'tags:view': true,
+    'tags:create': false,
+    'tags:edit': false,
+    'tags:delete': false,
+
     'user:mail': false
   });
 };
