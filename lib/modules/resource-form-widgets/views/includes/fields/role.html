@@ -1,0 +1,9 @@
+{% if data.widget.typeRole === 'text'  %}
+<input id="role_input" class="chars-counter" minlength="{{data.widget.minRole if data.widget.minRole else 20 }}" maxlength="{{data.widget.maxRole  if data.widget.maxRole else 200}}" name="role" type="text" value="{{idea.extraData.role}}" {% if data.widget.requiredRole %}required{% endif %} />
+{% else %}
+<textarea id="role_input" class="chars-counter" minlength="{{data.widget.minRole if data.widget.minRole else 20}}" maxlength="{{data.widget.maxRole if data.widget.maxRole else 200}}" name="role" {% if data.widget.requiredRole %}required{% endif %}>{{idea.extraData.role}}</textarea>
+{% endif %}
+<div id="charsLeftRole" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>

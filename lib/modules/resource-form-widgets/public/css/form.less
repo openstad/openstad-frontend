@@ -1,0 +1,177 @@
+#content.newArticle,
+#content.newIdea {
+	input[type="text"],
+	input[type="date"],
+	input[type="phone"],
+	input[type="email"],
+	input[type="number"],
+	textarea,
+	trix-editor{
+		border: 1px solid #767676;
+    border-radius: 0;
+    box-sizing: border-box;
+    font: inherit;
+    padding: .4em .6em;
+    width: 100%;
+	}
+
+	textarea,
+	trix-editor{
+		resize: vertical;
+		overflow: auto;
+		min-height: 80px;
+	}
+
+	trix-editor {
+		min-height: 170px;
+	}
+
+	input[type="submit"] {
+		float: right;
+		margin: 20px 0;
+	}
+
+	#modBreak {
+		border: 3px solid #FFE115;
+		margin: 35px 0px;
+		padding: 10px 20px;
+		position: relative;
+
+		&::before,
+		&::after {
+			border-left: 30px solid #FFE115;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-right: 0;
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: -3px;
+			bottom: -32px;
+		}
+		&::after {
+			border-left: 30px solid #FFF;
+			bottom: -24px;
+			left: 0;
+		}
+
+		b {
+			color: #164995;
+		}
+		p {
+			margin: 0.5em 0 0;
+		}
+	}
+  .primary {
+		padding-right: @hMargin;
+
+		@media @primary100 {
+			padding-right: 0;
+		}
+
+		#titleAndSummary, #location {
+			h2:first-of-type {
+				margin-top: 0;
+			}
+			em {
+				color: rgba(0,0,0,0.3);
+			}
+		}
+
+		#titleAndSummary {
+			input {
+				box-sizing: border-box;
+				width: 100%;
+			}
+			textarea {
+				height: 100px;
+			}
+		}
+
+		#location {
+			margin-bottom: 20px;
+		}
+
+		#description {
+			clear: both;
+
+			#trixToolbar {
+				.button_row {
+					justify-content: flex-start;
+
+					.button_group {
+						margin-right: 10px;
+					}
+				}
+				button.attach::before {
+					background-image: url('/img/camera.svg');
+				}
+			}
+			textarea,
+			trix-editor {
+				min-height: 200px;
+			}
+		}
+	}
+
+	.secondary {
+		@media @primary100 {
+			display: none;
+		}
+	}
+}
+
+
+
+#description-textarea {
+	height: 145px;
+}
+
+
+
+.radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+.radio .radio-label {
+  padding: 0;
+  font-size: 14px;
+  font-family: 'Avenir_Custom';
+}
+.radio input[type="radio"] + .radio-label:before {
+  content: '';
+  background: #ffffff;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: -0.2em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+  background-color: #010101;
+  box-shadow: inset 0 0 0 5px #ffffff;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.radio input[type="radio"]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type="radio"] + .radio-label:empty:before {
+  margin-right: 0;
+}
+textarea:disabled {
+  background: #efefef;
+  border: none;
+}

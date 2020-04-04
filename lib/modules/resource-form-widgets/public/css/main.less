@@ -1,0 +1,185 @@
+//standard filepond is done in absolute styling, but this collides with draggable
+.filepond--root {
+  max-width: none;
+}
+
+.filepond--list{
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+
+  .filepond--item {
+    position: relative !important;
+    transform: none !important;
+    height: 108px !important;
+    width:  auto !important;
+    display: block;
+    margin: 4px;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+}
+
+.filepond--panel-top, .filepond--panel-bottom {
+  border-radius: 0;
+}
+
+.idea-form .default-select {
+  width: 100%;
+  max-width: 350px;
+  margin-left: 1px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.filepond--file-info-main,.filepond--file-info-sub, .filepond--file-status, .filepond--file-status-main {
+  font-size: 13px !important;
+}
+
+.filepond--file-info-sub {
+  display: none;
+}
+
+/*
+ .filepond--drop-label{
+  border-radius: 0;
+  background: white;
+  border: 1px dashed #767676;
+}
+*/
+
+.filepond--file-status-sub {
+  display: none !important;
+}
+
+
+.filepond--image-preview-overlay-idle,
+.filepond--image-preview-overlay-success
+ {
+   position: absolute;
+   top: 4px;
+   left: 4px;
+   right:  4px;
+   bottom:  4px;
+}
+
+.filepond--image-preview-overlay-idle svg {
+  display: none;
+}
+
+
+.filepond--image-preview-overlay-success svg{
+  display: none;
+}
+
+.filepond--file .filepond--file-status {
+    margin-left: -5px;
+}
+
+.filepond--file-info {
+    margin-left: 120px;
+}
+
+.filepond--image-canvas-wrapper {
+  transform: none !important;
+  width: 100% !important;
+  height: auto  !important;
+}
+
+.filepond--image-canvas-wrapper canvas {
+  width: 100% !important;
+}
+
+
+.filepond--image-preview-overlay-failure svg {
+  visibility: hidden;
+}
+
+.filepond--image-clip {
+  height: 100px !important;
+  width: 100px !important;
+  overflow: hidden;
+}
+
+.filepond--image-preview {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right:  4px;
+  bottom:  4px;
+}
+
+.filepond--file-poster-wrapper {
+    height: 100px !important;
+    width: 100px !important;
+    overflow: hidden;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+
+    img {
+      width: 100%;
+    }
+
+    .filepond--file-poster-overlay,
+    .filepond--file-poster-overlay {
+      display: none;
+    }
+  }
+
+.idea-form {
+  .form-info:before, .form-warning:before {
+    position: absolute;
+    top: 0px;
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    content: "";
+    background-position: 0px 0px;
+    background-size: 20px 22px;
+    background-repeat: no-repeat;
+    background-image: url(/img/info-pin.svg);
+  }
+
+  .form-info, .form-warning {
+      position: relative;
+      margin: -16px 0 10px 30px;
+      padding: 0;
+  }
+}
+
+.charsLeft {
+	color: #9A9A9A;
+	display: none;
+  float: none !important;
+	font-size: 12px;
+  margin-bottom: -24px;
+	
+	&.visible {
+		display: block;
+	}
+	
+	.min, .max {
+	}
+	.ok {
+		color: #9A9A9A;
+	}
+	.error {
+		color: #EC0000;
+	}
+	.visible {
+		display: block;
+	}
+}
+
+/*
+.filepond--image-preview-overlay {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right:  4px;
+  bottom:  4px;
+}
+*/

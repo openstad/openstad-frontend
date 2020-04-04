@@ -1,0 +1,17 @@
+
+{% if data.widget.typeEstimate === 'textarea'  %}
+<textarea id="estimate_input" class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}" name="estimate" {% if data.widget.requiredEstimate %}required{% endif %} >{{idea.extraData.estimate}}</textarea>
+{% else %}
+
+<input type="text" id="estimate_input" name="estimate"
+     class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}"
+     {% if idea.extraData.estimate %}
+     value="{{idea.extraData.estimate}}"
+     {% endif %}
+     {% if data.widget.requiredEstimate %}required{% endif %}
+>
+{% endif %}
+<div id="charsLeftEstimate" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>
