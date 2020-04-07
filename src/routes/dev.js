@@ -85,7 +85,7 @@ module.exports = function( app ) {
 				)
 				.catch(err => {
 				//	console.log('DEV GET USER CATCH ERROR');
-					console.log(err);
+					// console.log(err);
 					next(err);
 				})
 		})

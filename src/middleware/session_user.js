@@ -128,7 +128,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 						}
 					)
 					.catch(err => {
-						console.log(err);
+					//	console.log(err);
 						return resetSessionUser(user);
 					})
 

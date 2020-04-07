@@ -25,11 +25,13 @@ var helpers = {
 		if( !idea.isOpen() ) {
 			return false;
 		}
+
 		// TODO: Time sensitivity?
 		var isOwner   = helpers.isIdeaOwner(user, idea);
+		var canEditAfterFirstLikeOrArg = idea.site && idea.site.config && idea.site.config.ideas ? idea.site.config.ideas.canEditAfterFirstLikeOrArg : false;
 		var voteCount = idea.no + idea.yes;
 		var argCount  = idea.argumentsFor && idea.argumentsFor.length && idea.argumentsAgainst && idea.argumentsAgainst.length;
-		return isOwner && !voteCount && !argCount;
+		return isOwner && ( canEditAfterFirstLikeOrArg || ( !voteCount && !argCount ) );
 	},
 
 	mayVoteIdea: function( user, idea ) {

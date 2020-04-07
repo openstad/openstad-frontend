@@ -288,7 +288,7 @@ router.route('/*')
 		  if (theme.budget < theme.minBudget || theme.budget > theme.maxBudget) {
         isOk = false;
 		  }
-      console.log(theme.value, theme.budget, theme.minBudget, theme.maxBudget, theme.budget < theme.minBudget || theme.budget > theme.maxBudget);
+  //    console.log(theme.value, theme.budget, theme.minBudget, theme.maxBudget, theme.budget < theme.minBudget || theme.budget > theme.maxBudget);
     });
 		return next( isOk ? null : createError(400, 'Budget klopt niet') );
 	})
