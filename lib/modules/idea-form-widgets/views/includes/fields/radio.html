@@ -7,6 +7,7 @@
       value="{{option.value}}"
       id="radio-{{loop.index}}-{{option.value}}"
       {% if field.fieldRequired %}required{% endif %}
+      {% if idea.extraData[field.fieldKey] === option.value %}checked{% endif %}
     />
 
     <label for="radio-{{loop.index}}-{{option.value}}" class="radio-label">

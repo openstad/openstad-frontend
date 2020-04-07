@@ -1,5 +1,7 @@
 {
 	"Server error, please try again.": "Server error, please try again.",
 	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
-	"Select all %s item(s) that match this search": "Select all %s item(s) that match this search"
+	"Select all %s item(s) that match this search": "Select all %s item(s) that match this search",
+	"Idea": "Idea",
+	"The slug you want to use is currently claimed by the %s %s. Do you want to edit that document in order to change its slug?": "The slug you want to use is currently claimed by the %s %s. Do you want to edit that document in order to change its slug?"
 }

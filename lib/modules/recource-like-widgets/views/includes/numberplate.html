@@ -1,0 +1,43 @@
+<div class="numberplate-container">
+{% if (idea.status === 'OPEN') %}
+<div class="vote">
+	<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
+		laden...
+	</div>
+	<form id="idea-vote-form-yes" method="POST" action="/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
+		<input type="hidden" name="ideaId" value="{{idea.id}}" />
+		<input type="hidden" name="opinion" value="yes" />
+		<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
+
+		<button
+		class="
+		{{'selected' if idea.userVote.opinion == 'yes'}}
+		role-required-{{data.global.roleToLike}}
+		idea-status-{{idea.status}}
+		"
+		data-modal-text="Log in om een plan te liken."
+		data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=yes"
+		data-return-to="{{data.currentPathname}}?voteOpinion=yes"
+		type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+		</button>
+	</form>
+
+	<div style="clear: both;"></div>
+</div>
+{% else %}
+<div class="vote disabled">
+	{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
+	<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}} idea-status-{{idea.status}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
+		{{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
+	</button>
+	<div style="clear: both;"></div>
+	{% if data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
+	{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
+	<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}} idea-status-{{idea.status}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
+		{{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[0].label else 'tegen' }}
+	</button>
+	<div style="clear: both;"></div>
+	{% endif %}
+</div>
+{% endif %}
+</div>

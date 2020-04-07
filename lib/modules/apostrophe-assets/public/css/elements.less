@@ -92,6 +92,7 @@ ul.links-list {
 .default-select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
+
 	appearance: none;
 	height: 44px;
 	padding: 0 20px;
@@ -107,6 +108,9 @@ ul.links-list {
 	background-repeat: no-repeat;
 	background-size: 13px auto;
 
+	&::-ms-expand {
+    display: none;
+	}
 }
 
 /* links met een arrow-right er voor */

@@ -1,10 +1,15 @@
 <style>
   {{data.widget.formattedContainerStyles}}
+
+  .heavyBold {
+    font-weight: 900;
+  }
 </style>
 
 {% if data.widget.mode === 'h1' %}
 <h1
   id="{{data.widget.containerId}}"
+  class="{{data.widget.className}} {{data.widget.classNameCustom}}"
 >
   {{data.widget.title}}
 </h1>
@@ -13,6 +18,7 @@
 {% if data.widget.mode === 'h2' %}
 <h2
   id="{{data.widget.containerId}}"
+  class="{{data.widget.className}} {{data.widget.classNameCustom}}"
 >
   {{data.widget.title}}
 </h2>
@@ -21,6 +27,7 @@
 {% if data.widget.mode === 'h3' %}
 <h3
   id="{{data.widget.containerId}}"
+  class="{{data.widget.className}} {{data.widget.classNameCustom}}"
 >
   {{data.widget.title}}
 </h3>
@@ -29,6 +36,7 @@
 {% if data.widget.mode === 'h4' %}
 <h4
   id="{{data.widget.containerId}}"
+  class="{{data.widget.className}} {{data.widget.classNameCustom}}"
 >
   {{data.widget.title}}
 </h4>

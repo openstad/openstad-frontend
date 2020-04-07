@@ -4,7 +4,7 @@
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
+{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hideAdminAfterPublicAction and isOwner) or data.isAdmin %}
 
 
 {% if idea and isOwnerOrAdmin %}
@@ -29,7 +29,6 @@
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
-
 			{% if data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}
@@ -44,7 +43,7 @@
 				<div class="col-xs-12">
 					<h4> Beheren </h4>
 				</div>
-				{% if data.hasModeratorRights %}
+				{% if data.isAdmin %}
 				<div class="col-sm-8 col-xs-12">
 
 				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
@@ -100,9 +99,14 @@
   var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}');
   var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}');
 </script>
-<script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
-<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+
+<script src="/js/vendor/trix.js"></script>
+<script src="/js/vendor/browser-polyfill.min.js"></script>
+<script src="/js/vendor/filepond-polyfill.min.js"></script>
+<script src="/js/vendor/filepond.js"></script>
+
+<script src="/js/vendor/filepond-plugin-image-preview.js"></script>
+<script src="/js/vendor/filepond-plugin-file-validate-type.js"></script>
+<script src="/js/vendor/filepond-plugin-file-validate-size.js"></script>
+<script src="/js/vendor/filepond-plugin-file-poster.js"></script>
+<script src="/js/vendor/filepond-plugin-image-exif-orientation.js"></script>

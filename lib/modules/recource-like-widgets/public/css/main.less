@@ -1,0 +1,102 @@
+.numberplate-container {
+  .vote {
+
+    button {
+      .appearance(none);
+
+      background: #004699;
+      background-repeat: no-repeat;
+      background-size: auto 28px;
+      background-position: center left 8px;
+      border: 0;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      display: block;
+      float: left;
+      height: 43px;
+      line-height: 43px;
+      margin: 0;
+      overflow: visible;
+      padding: 0 0 0 42px;
+      position: relative;
+      text-align: center;
+      width: calc(100% - 92px);
+
+      &:hover {
+        background-color: #003066;
+      }
+
+      &::before {
+        content: none;
+      }
+
+      &[value="yes"] {
+        background-image: url('/img/thumbsup_white.svg');
+      }
+      &[value="no"] {
+        background-image: url('/img/thumbsdown_white.svg');
+      }
+      &:disabled::before {
+        content: none;
+      }
+
+
+      &:disabled {
+        background-color: #bebebe;
+        cursor: default;
+        &:hover {
+          background-color: #bebebe;
+        }
+      }
+
+      &.selected[value="yes"] {
+        background-color: #bdd131;
+        &:disabled {
+          background-color: #bebebe;
+        }
+      }
+      &.selected[value="no"] {
+        background-color: #ea1d25;
+        &:disabled {
+          background-color: #bebebe;
+        }
+      }
+
+      &.idea-status-OPEN {
+        &:disabled {
+          background-color: #004699;
+          opacity: 0.5;
+        }
+
+        &.selected[value="yes"] {
+          &:disabled {
+            opacity: 0.5;
+            background-color: #bdd131;
+          }
+        }
+
+        &.selected[value="no"] {
+          &:disabled {
+            opacity: 0.5;
+            background-color: #ea1d25;
+          }
+        }
+      }
+    }
+  }
+}
+
+.claps-container {
+  button {
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+    border: 0;
+    text-align: left;
+    background: transparent;
+  }
+
+}

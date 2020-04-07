@@ -1,0 +1,54 @@
+  <h2 class="edit-header">Beheren</h2>
+
+  <form method="POST" class="idea-status-form ajax-form" action="/modules/idea-form-widgets/submit">
+    <input type="hidden" name="action" value="UPDATE_STATUS">
+
+    <select name="status" onchange="$(this).closest('form').submit();" class="button status">
+      <option {{'selected' if idea.status==='OPEN'}}     value="OPEN">    Status: Open</option>
+      <option {{'selected' if idea.status==='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
+      <option {{'selected' if idea.status==='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+      <option {{'selected' if idea.status==='ACCEPTED'}} value="ACCEPTED">Status: Wordt besproken</option>
+      <option {{'selected' if idea.status==='BUSY'}}     value="BUSY">    Status: In behandeling</option>
+      <option {{'selected' if idea.status==='DONE'}}     value="DONE">    Status: Afgerond</option>
+    </select>
+    <input type="hidden" name="ideaId" value="{{idea.id}}">
+    <input type="hidden" name="_method" value="PUT">
+  </form>
+
+{#
+  <form method="POST" action="/plan/{{idea.id}}/meeting">
+    <select name="meetingId" onchange="$(this).closest('form').submit();" class="button calendar" {{'disabled' if idea.status!='ACCEPTED'}}>
+      <option value="0">Niet geagendeerd</option>
+      {% for meeting in selectableMeetings %}
+        <option {{'selected' if idea.meetingId==meeting.id}} value="{{meeting.id}}">{{meeting.date | date('D MMMM YYYY')}}</option>
+      {% endfor %}
+    </select>
+    <input type="hidden" name="_method" value="PUT">
+  </form>
+#}
+
+
+{#
+<form method="GET" action="/plan/{{idea.id}}/mod_break">
+  <button type="submit" class="modBreak">Moderator reactie</button>
+</form>
+#}
+
+<a href="#modbreak" class="edit-button modbreak-button">
+  Moderator reactie
+</a>
+
+<a href="#extra-info" class="edit-button extra-info-button">
+  {{ __('Extra info') }}
+</a>
+
+
+{#
+<form method="GET" action="/plan/{{idea.id}}/votes">
+  <button type="submit" class="votes">Stemoverzicht</button>
+</form>
+#}
+
+<a href="#overview-votes" class="edit-button votes-overview-button">
+  Stemoverzicht
+</a>

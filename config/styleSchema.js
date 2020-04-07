@@ -24,6 +24,10 @@ exports.default = {
               'value': 'border-color'
             },
             {
+              'label': 'Border radius',
+              'value': 'border-radius'
+            },
+            {
               'label': 'Margin',
               'value': 'margin'
             },
@@ -68,6 +72,10 @@ exports.default = {
               'value': 'font-size'
             },
             {
+              'label': 'Font weight',
+              'value': 'font-weight'
+            },
+            {
               'label': 'Font color',
               'value': 'color'
             },
@@ -102,6 +110,10 @@ exports.default = {
             {
               'label': 'Display',
               'value': 'display'
+            },
+            {
+              'label': 'Box shadow',
+              'value': 'box-shadow'
             },
           ]
         },

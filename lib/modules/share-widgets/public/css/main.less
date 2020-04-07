@@ -1,0 +1,121 @@
+.share-widget-container {
+	.share {
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+
+			&::after {
+				visibility: hidden;
+				display: block;
+				font-size: 0;
+				content: " ";
+				clear: both;
+				height: 0;
+			}
+
+			li {
+				display: inline;
+				height: 30px;
+				width: 30px;
+				margin: 0;
+				padding: 0;
+
+				&.desktop {
+					@media only screen and (max-width: 767px) {
+						display: none;
+					}
+				}
+
+				&.mobile {
+					@media only screen and (min-width: 768px) {
+						display: none;
+					}
+				}
+
+				a {
+					background-position: center;
+					background-repeat: no-repeat;
+					background-size: 30px 30px;
+					display: block;
+					float: left;
+					font-size: 0;
+					line-height: 0;
+					margin: 0 3px 0 0;
+					height: 30px;
+					width: 30px;
+
+					&.facebook {
+						background-image: url('/img/share-facebook.svg');
+					}
+					&.twitter {
+						background-image: url('/img/share-twitter.svg');
+					}
+					&.email {
+						background-image: url('/img/share-email.svg');
+					}
+					&.whatsapp {
+						background-image: url('/img/share-whatsapp.svg');
+				/*		&:link {
+							background-image: url('/img/share-whatsapp.svg');
+						}
+						&:focus, &:hover {
+							background-image: url('/img/share-whatsapp-hover.svg');
+						}
+						*/
+					}
+				}
+			}
+		}
+	}
+}
+
+
+.share-round {
+	.share{
+		ul {
+
+			li {
+				width: 60px;
+				height: 60px;
+				margin-right: 5px;
+				display: inline-block;
+
+				a {
+					border-radius: 50%;
+					width: 60px;
+					height: 60px;
+					background-size: 100%;
+					overflow: hidden;
+
+				&.facebook {
+					background-color: #3b5998;
+					background-image: url('/img/facebook-round.svg');
+
+				}
+				&.twitter {
+					background-color: #55acee;
+					background-image: url('/img/twitter-round.svg');
+
+				}
+				&.email {
+					background-color: #ed0000;
+				}
+				&.whatsapp {
+					background-color: #25d466;
+					background-image: url('/img/whatsapp-round.svg');
+				}
+				&.linkedin {
+					background-color: #25d466;
+					background-image: url('/img/linkedin-round.svg');
+				}
+
+
+
+			}
+
+			}
+		}
+	}
+
+}

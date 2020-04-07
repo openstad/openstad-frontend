@@ -85,6 +85,12 @@ const contentWidgets = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
+  'location': {},
+  'share': {},
+  'recource-raw': {},
+  'recource-image': {},
+  'recource-like': {},
+  'recource-admin': {}
 };
 
 exports.getAdminWidgets = () => {

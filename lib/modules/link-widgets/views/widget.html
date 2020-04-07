@@ -2,15 +2,24 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
+{% set protocol = '' %}
+{% if data.widget.addTelephoneProtocol %}
+{% set protocol = 'tel:' %}
+{% endif %}
 <a
   id="{{data.widget.containerId}}"
-  href="{{ data.widget.url }}"
-  class="{{data.widget.style}} scroll-link margin-bottom-sm {{ 'button-with-icon' if data.widget.icon else  'button-without-icon'}}"
+  href="{{protocol}}{{ data.widget.url }}"
+  class="
+    {{data.widget.style}}
+    scroll-link margin-bottom-sm
+    {{ 'button-with-icon' if data.widget.icon else  'button-without-icon'}}
+    {{data.widget.classNameCustom}}
+    "
   {% if data.widget.targetBlank %} target="_blank" {% endif %}
   style=""
 >
   {% if data.widget.icon %}
 	<img src="{{apos.attachments.url(data.widget.icon)}}" />
   {% endif %}
-   {{ data.widget.label }}
+   {{ data.widget.label  }}
 </a>

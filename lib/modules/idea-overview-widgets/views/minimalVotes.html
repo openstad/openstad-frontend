@@ -1,12 +1,10 @@
-
-
 <div
   class="tile-list ideas-list"
   {% if data.widget.defaultSorting %}
 	data-default-sort="{{data.widget.defaultSorting}}"
 	{% endif %}
 >{% for idea in data.widget.ideas %}<div
-  class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}}"
+  class="tile idea-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}}"
   data-createdtime="{{idea.createdTime}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
@@ -19,8 +17,7 @@
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}
 
-
-    <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
+    <div class="image"   style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
 
     <div class="duration">
       {{ data.widget['label' + idea.status] }}
@@ -34,7 +31,7 @@
       {% endif %}
 
       {% if idea.summary %}
-      <p>{{idea.summary | sanitize | safe | truncate(60) }}</p>
+      <p>{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
       {% endif %}
 
       {% if data.widget.siteConfig.minimumYesVotes %}

@@ -27,6 +27,7 @@
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
+    "express-cache-on-demand": "^1.0.2",
     "flash": "^1.1.0",
     "http-proxy-middleware": "^0.19.1",
     "json2csv": "^4.5.4",
