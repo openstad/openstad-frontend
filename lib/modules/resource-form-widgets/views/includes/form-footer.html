@@ -1,13 +1,13 @@
-{% if idea %}
-<input type="hidden" name="recourceId" value="{{idea.id}}">
-<input type="hidden" name="id" value="{{idea.id}}" />
+{% if activeResource %}
+<input type="hidden" name="resourceId" value="{{activeResource.id}}">
+<input type="hidden" name="id" value="{{activeResource.id}}" />
 <input type="hidden" name="_method" value="PUT" />
 {% endif %}
 
-<input class="idea-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
+<input class="activeResource-form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
 <input type="hidden" name="resourceType" value="{{data.widget.resourceType}}" />
 
-{% if idea %}
+{% if activeResource %}
 <input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
 {% else %}
 <input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">

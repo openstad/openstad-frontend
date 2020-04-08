@@ -1,4 +1,7 @@
 module.exports = {
+  'resource-overview': {},
+  'resource-form': {},
+  'resource-representation': {},
   'agenda': {},
   'accordeon': {},
   'arguments': {},
@@ -19,7 +22,9 @@ module.exports = {
   'date-bar': {},
   'idea-form': {},
   'idea-map': {},
-  'idea-overview': {},
+  'idea-overview': {
+    addLabel: 'Ideas overview',
+  },
   'idea-single': {},
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',

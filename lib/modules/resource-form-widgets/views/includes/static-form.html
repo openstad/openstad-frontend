@@ -21,7 +21,7 @@
           {{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
         </h2>
         <div class="form-info">
-          {{ data.widget.infoSummary  | nlbr | sanitize | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.ideas.summaryMaxLength+' tekens iets meer over je plan.' }}
+          {{ data.widget.infoSummary  | nlbr | sanitize | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.activeResources.summaryMaxLength+' tekens iets meer over je plan.' }}
         </div>
 
         {% include 'includes/fields/summary.html' %}

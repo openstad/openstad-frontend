@@ -5,7 +5,7 @@
   minlength="{{data.widget.minPhone if data.widget.minPhone else 3}}"
   maxlength="{{data.widget.maxPhone if data.widget.maxPhone else 20}}"
   name="phone"
-  value="{{idea.extraData.phone}}"
+  value="{{activeResource.extraData.phone}}"
   {% if data.widget.requiredPhone %}required{% endif %}
 />
 <div id="charsLeftPhone" class="charsLeft">

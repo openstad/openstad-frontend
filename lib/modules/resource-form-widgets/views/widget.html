@@ -1,15 +1,15 @@
 {% set pageTitle = 'Jouw plan insturen' %}
 {% set showForm = true %}
-{% set idea = data.idea %}
-{% set isOwner = data.openstadUser.id === idea.userId %}
-{% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
+{% set activeResource = data.activeResource %}
+{% set isOwner = data.openstadUser.id === activeResource.userId %}
+{% set isReactedTo = (activeResource.yes > 0 or activeResource.no > 0 or activeResource.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hideAdminAfterPublicAction and isOwner) or data.isAdmin %}
+{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hactiveResourcedminAfterPublicAction and isOwner) or data.isAdmin %}
 
 
-{% if idea and isOwnerOrAdmin %}
+{% if activeResource and isOwnerOrAdmin %}
 {% set showForm = true %}
-{% elseif (not idea) and data.openstadUser and data.openstadUser.id %}
+{% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
 {% set showForm = true %}
 {% else %}
 {% set showForm = false %}
@@ -21,7 +21,7 @@
 {% set useModernEditor = false %}
 {% endif %}
 
-<div class="pageContent newIdea" id="content">
+<div class="pageContent newactiveResource" id="content">
 	{% if not showForm %}
 	<div class="box-grey">
 		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
@@ -36,7 +36,7 @@
 			{% endif %}
 		</div>
 
-		{% if idea %}
+		{% if activeResource %}
 		<br />
 		<div style="background: #efefef; padding: 5px 30px; margin: 60px 0 20px;">
 			<div class="row">
@@ -46,14 +46,14 @@
 				{% if data.isAdmin %}
 				<div class="col-sm-8 col-xs-12">
 
-				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
+				<form method="POST" class="activeResource-status-form" action="/modules/activeResource-form-widgets/submit">
 					<input type="hidden" name="action" value="UPDATE_STATUS">
 					<div class="row">
 						<div class="col-xs-6">
 							<select name="status"  class="button status default-select">
-								<option {{'selected' if idea.status=='OPEN'}}     value="OPEN">    Status: Open</option>
-								<option {{'selected' if idea.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
-								<option {{'selected' if idea.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+								<option {{'selected' if activeResource.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+								<option {{'selected' if activeResource.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
+								<option {{'selected' if activeResource.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
 							</select>
 						</div>
 						<div class="col-xs-6">
@@ -62,23 +62,23 @@
 					</div>
 
 
-					<input type="hidden" name="recourceId" value="{{idea.id}}">
+					<input type="hidden" name="resourceId" value="{{activeResource.id}}">
 					<input type="hidden" name="_method" value="PUT">
 				</form>
 				</div>
 				{% endif %}
 				<div class="col-sm-4 col-xs-12">
-				  <form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
-					  <input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
+				  <form method="post" class="activeResource-delete-form" action="/modules/activeResource-form-widgets/submit" >
+					  <input type="hidden" name="activeResource-delete-redirect-uri" class="activeResource-delete-redirect-uri"  value="/{{data.global.activeResourceOverviewSlug}}" />
 
-					  <input type="hidden" name="recourceId" value="{{idea.id}}">
+					  <input type="hidden" name="resourceId" value="{{activeResource.id}}">
 					  <input type="hidden" name="action" value="DELETE">
 					  <input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
 				  </form>
 				</div>
 
 
-		    <!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
+		    <!--		<form method="GET" action="/plan/{{activeResource.id}}/mod_break">
 					   <button type="submit" class="modBreak">Moderator reactie</button>
 				     </form>
 	           !-->
@@ -92,12 +92,12 @@
 	  {% endif %}
 </div>
 <script>
-	var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}');
-  var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}');
-  var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}');
-  var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}');
-  var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}');
-  var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}');
+	var titleMinLength = parseInt('{{data.widget.resourceConfig.titleMinLength}}');
+  var titleMaxLength = parseInt('{{data.widget.resourceConfig.titleMaxLength}}');
+  var summaryMinLength = parseInt('{{data.widget.resourceConfig.summaryMinLength}}');
+  var summaryMaxLength = parseInt('{{data.widget.resourceConfig.summaryMaxLength}}');
+  var descriptionMinLength = parseInt('{{data.widget.resourceConfig.descriptionMinLength}}');
+  var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
 </script>
 
 <script src="/js/vendor/trix.js"></script>

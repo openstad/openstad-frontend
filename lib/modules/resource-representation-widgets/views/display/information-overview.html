@@ -1,0 +1,31 @@
+<div class="resource-information-overview">
+  <h1>
+      {{data.activeResource.title}}
+  </h1>
+
+    <div class="hr-colored"></div>
+
+    {% if data.activeResource.extraData.theme %}
+    <div class="initiative-metadata"><strong>Categorie:</strong>{{ data.activeResource.extraData.theme }}</div>
+    {% endif %}
+
+    {% if data.activeResource.extraData.area %}
+    <div class="initiative-metadata"><strong>Gebied:</strong>{{ data.activeResource.extraData.area }}</div>
+    {% endif %}
+
+  <p>
+    <em>Toegevoegd op {{data.activeResource.createdAt | date('LL')}}</em>
+  </p>
+    <div class="">
+      {% if data.activeResource.summary %}
+      <p>
+        <b> {{data.activeResource.summary}}</b>
+      </p>
+      {% endif %}
+      {% if data.activeResource.description %}
+      <p>
+        {{data.activeResource.description | sanitize | safe}}
+      </p>
+      {% endif %}
+    </div>
+</div>

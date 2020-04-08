@@ -3,7 +3,7 @@
 	<div id="map-with-buttons-container">
 		<div class="map-buttons-container">
 			{% if (data.widget.displayCounter) %}
-			{{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
+			{{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.activeResources.length, '#')}}
 			{% endif %}
 		</div>
 	</div>
@@ -19,5 +19,5 @@
 {% endif %}
 
 {% if editorInputElementId %}
-<input type="hidden" id="{{editorInputElementId}}" name="location" value='{{idea.location | dump | sanitize | safe}}'  {% if data.widget.requiredLocation %}required{% endif %}>
+<input type="hidden" id="{{editorInputElementId}}" name="location" value='{{activeResource.location | dump | sanitize | safe}}'  {% if data.widget.requiredLocation %}required{% endif %}>
 {% endif %}

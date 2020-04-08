@@ -102,6 +102,10 @@ module.exports = {
         'recource-image-widgets': {},
         'recource-like-widgets': {},
         'recource-admin-widgets' : {},
+        'resource-pages' : {},
+        'resource-representation-widgets' : {},
+        'resource-overview-widgets' : {},
+        'resource-form-widgets' : {},
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields

@@ -41,11 +41,11 @@
     type="hidden"
     id="js-description"
     name="description"
-    value="{{idea.description}}"
+    value="{{activeResource.description}}"
     required
     minlength="{{data.widget.minDescription}}"
     maxlength="{{data.widget.maxDescription}}"
   />
 {% else %}
-  <textarea name="description" id="description-textarea" {% if data.widget.requiredDescription %}required{% endif %}>{{idea.description}}</textarea>
+  <textarea name="description" id="description-textarea" {% if data.widget.requiredDescription %}required{% endif %}>{{activeResource.description}}</textarea>
 {% endif %}
