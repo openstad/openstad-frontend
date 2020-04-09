@@ -1,11 +1,11 @@
 <fieldset class="filepondFieldset">
   <!-- a list of already uploaded files -->
   <script>
-    var activeResourceFiles = [];
+    var uploadedFiles = [];
     <!-- a list of already uploaded files -->
     {% if activeResource.extraData.images %}
     {% for image in activeResource.extraData.images %}
-    activeResourceFiles.push({
+    uploadedFiles.push({
       source: '{"url":"{{image}}"}',
       options : {
         type: 'local',
