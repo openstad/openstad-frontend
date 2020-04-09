@@ -9,6 +9,19 @@ module.exports = function( helpers, role ) {
 		'idea:create'      : true,
 		'idea:edit'        : helpers.mayMutateIdea,
 		'idea:delete'      : helpers.mayMutateIdea,
+		
+		'article:view'     : true,
+		'article:create'	 : true,
+		'article:edit'		 : {
+      allow: helpers.mayMutateArticle,
+			resource : ['article'],
+			message  : 'Je kunt dit artikel niet bewerken'
+    },
+		'article:delete'	 : {
+      allow: helpers.mayMutateArticle,
+			resource : ['article'],
+			message  : 'Je kunt dit artikel niet verijderen'
+    },
 
 		'argument:view'    : true,
 		'argument:create'	 : true,

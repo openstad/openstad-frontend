@@ -11,20 +11,13 @@ var notifications = require('../notifications');
 
 const merge = require('merge');
 
-var argVoteThreshold =  config.ideas && config.ideas.argumentVoteThreshold;
-
 module.exports = function( db, sequelize, DataTypes ) {
 
-	var Idea = sequelize.define('idea', {
+	var Article = sequelize.define('article', {
 
 		siteId: {
 			type         : DataTypes.INTEGER,
 			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
-		},
-
-		meetingId: {
-			type         : DataTypes.INTEGER,
-			allowNull    : true
 		},
 
 		userId: {
@@ -57,11 +50,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : true,
 			get          : function() {
 				var date = this.getDataValue('endDate');
-        if (this.site && this.site.config && this.site.config.votes && this.site.config.votes.isActiveTo) {
-          return this.site.config.votes.isActiveTo;
-        } else {
-          return date;
-        }
       },
 		},
 
@@ -108,14 +96,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(255),
 			allowNull    : false,
 			validate     : {
-				// len: {
-				//   args : [titleMinLength,titleMaxLength],
-				//   msg  : `Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens lang zijn`
-				// }
 				textLength(value) {
 				 	let len = sanitize.title(value.trim()).length;
-					let titleMinLength = ( this.config && this.config.ideas && this.config.ideas.titleMinLength || 10 )
-					let titleMaxLength = ( this.config && this.config.ideas && this.config.ideas.titleMaxLength || 50 )
+					let titleMinLength = ( this.config && this.config.articles && this.config.articles.titleMinLength || 10 )
+					let titleMaxLength = ( this.config && this.config.articles && this.config.articles.titleMaxLength || 50 )
 					if (len < titleMinLength || len > titleMaxLength)
 					throw new Error(`Titel moet tussen ${titleMinLength} en ${titleMaxLength} tekens zijn`);
 				}
@@ -151,14 +135,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
 			validate     : {
-				// len: {
-				//   args : [summaryMinLength,summaryMaxLength],
-				//   msg  : `Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`
-				// }
 				textLength(value) {
 				 	let len = sanitize.summary(value.trim()).length;
-					let summaryMinLength = ( this.config && this.config.ideas && this.config.ideas.summaryMinLength || 20 )
-					let summaryMaxLength = ( this.config && this.config.ideas && this.config.ideas.summaryMaxLength || 140 )
+					let summaryMinLength = ( this.config && this.config.articles && this.config.articles.summaryMinLength || 20 )
+					let summaryMaxLength = ( this.config && this.config.articles && this.config.articles.summaryMaxLength || 140 )
 					if (len < summaryMinLength || len > summaryMaxLength)
 					throw new Error(`Samenvatting moet tussen ${summaryMinLength} en ${summaryMaxLength} tekens zijn`);
 				}
@@ -172,14 +152,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.TEXT,
 			allowNull    : false,
 			validate     : {
-				// len: {
-				//  	args : [( this.config && this.config.ideas && config.ideas.descriptionMinLength || 140 ) ,descriptionMaxLength],
-				//  	msg  : `Beschrijving moet  tussen ${this.config && this.config.ideas && config.ideas.descriptionMinLength || 140} en ${descriptionMaxLength} tekens zijn`
-				// },
 				textLength(value) {
 				 	let len = sanitize.summary(value.trim()).length;
-					let descriptionMinLength = ( this.config && this.config.ideas && this.config.ideas.descriptionMinLength || 140 )
-					let descriptionMaxLength = ( this.config && this.config.ideas && this.config.ideas.descriptionMaxLength || 5000 )
+					let descriptionMinLength = ( this.config && this.config.articles && this.config.articles.descriptionMinLength || 140 )
+					let descriptionMaxLength = ( this.config && this.config.articles && this.config.articles.descriptionMaxLength || 5000 )
 					if (len < descriptionMinLength || len > descriptionMaxLength)
 					throw new Error(`Beschrijving moet tussen ${descriptionMinLength} en ${descriptionMaxLength} tekens zijn`);
 				}
@@ -187,11 +163,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( text ) {
 				this.setDataValue('description', sanitize.content(text.trim()));
 			}
-		},
-
-		budget: {
-			type         : DataTypes.INTEGER,
-			allowNull    : true
 		},
 
 		extraData: {
@@ -245,7 +216,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
-			allowNull    : !(config.ideas && config.ideas.location && config.ideas.location.isMandatory),
+			allowNull    : !(config.articles && config.articles.location && config.articles.location.isMandatory),
 		},
 
 		position: {
@@ -295,30 +266,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
-		// Counts set in `summary`/`withVoteCount` scope.
-		no: {
-			type         : DataTypes.VIRTUAL
-		},
-
-		yes: {
-			type         : DataTypes.VIRTUAL
-		},
-
-		progress: {
-			type         : DataTypes.VIRTUAL,
-			get          : function() {
-				var minimumYesVotes = (this.site && this.site.config && this.site.config.ideas && this.site.config.ideas.minimumYesVotes) || config.get('ideas.minimumYesVotes');
-				var yes             = this.getDataValue('yes');
-				return yes !== undefined ?
-				       Number((Math.min(1, (yes / minimumYesVotes)) * 100).toFixed(2)) :
-				       undefined;
-			}
-		},
-
-		argCount: {
-			type         : DataTypes.VIRTUAL
-		},
-
 		createDateHumanized: {
 			type         : DataTypes.VIRTUAL,
 			get          : function() {
@@ -342,15 +289,15 @@ module.exports = function( db, sequelize, DataTypes ) {
       beforeDestroy: beforeValidateHook,
 
 			afterCreate: function(instance, options) {
-				notifications.addToQueue({ type: 'idea', action: 'create', siteId: instance.siteId, instanceId: instance.id });
+				notifications.addToQueue({ type: 'article', action: 'create', siteId: instance.siteId, instanceId: instance.id });
 				// TODO: wat te doen met images
-				// idea.updateImages(imageKeys, data.imageExtraData);
+				// article.updateImages(imageKeys, data.imageExtraData);
 			},
 
 			afterUpdate: function(instance, options) {
-				notifications.addToQueue({ type: 'idea', action: 'update', siteId: instance.siteId, instanceId: instance.id });
+				notifications.addToQueue({ type: 'article', action: 'update', siteId: instance.siteId, instanceId: instance.id });
 				// TODO: wat te doen met images
-				// idea.updateImages(imageKeys, data.imageExtraData);
+				// article.updateImages(imageKeys, data.imageExtraData);
 			},
 
 		},
@@ -360,7 +307,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		validate: {
 			validDeadline: function() {
 				if( this.endDate - this.startDate < 43200000 ) {
-					throw Error('An idea must run at least 1 day');
+					throw Error('An article must run at least 1 day');
 				}
 			},
 			validModBreak: function() {
@@ -375,7 +322,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				let value = self.extraData || {}
         let validated = {};
 
-				let configExtraData = self.config && self.config.ideas && self.config.ideas.extraData;
+				let configExtraData = self.config && self.config.articles && self.config.articles.extraData;
 
         function checkValue(value, config) {
 
@@ -461,8 +408,8 @@ module.exports = function( db, sequelize, DataTypes ) {
             
 				  } else {
             // extra data not defined in the config
-            if (!( self.config && self.config.ideas && self.config.ideas.extraDataMustBeDefined === false )) {
-              errors.push(`idea.extraData is not configured in site.config`)
+            if (!( self.config && self.config.articles && self.config.articles.extraDataMustBeDefined === false )) {
+              errors.push(`article.extraData is not configured in site.config`)
             }
           }
         }
@@ -470,7 +417,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         checkValue(value, configExtraData);
 
         if (errors.length) {
-          console.log('Idea validation error:', errors);
+          console.log('Article validation error:', errors);
           throw Error(errors.join('\n'));
         }
 
@@ -481,51 +428,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	});
 
-	Idea.scopes = function scopes() {
-		// Helper function used in `withVoteCount` scope.
-		function voteCount( opinion ) {
-			if (config.votes && config.votes.confirmationRequired) {
-				return [sequelize.literal(`
-				(SELECT
-					COUNT(*)
-				FROM
-					votes v
-				WHERE
-          v.confirmed = 1 AND
-					v.deletedAt IS NULL AND (
-						v.checked IS NULL OR
-						v.checked  = 1
-					) AND
-					v.ideaId     = idea.id AND
-					v.opinion    = "${opinion}")
-			`), opinion];
-			} else {
-				return [sequelize.literal(`
-				(SELECT
-					COUNT(*)
-				FROM
-					votes v
-				WHERE
-					v.deletedAt IS NULL AND (
-						v.checked IS NULL OR
-						v.checked  = 1
-					) AND
-					v.ideaId     = idea.id AND
-					v.opinion    = "${opinion}")
-			`), opinion];
-			}
-		}
-		function argCount( fieldName ) {
-			return [sequelize.literal(`
-				(SELECT
-					COUNT(*)
-				FROM
-					arguments a
-				WHERE
-					a.deletedAt IS NULL AND
-					a.ideaId = idea.id)
-			`), fieldName];
-		}
+	Article.scopes = function scopes() {
 
 		return {
 
@@ -556,7 +459,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 					sequelize.and(
 						{status: 'CLOSED'},
-						sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 90`)
+						sequelize.literal(`DATEDIFF(NOW(), article.updatedAt) <= 90`)
 					)
 				)
 			},
@@ -569,56 +472,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 					sequelize.and(
 						{status: 'DENIED'},
-						sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 7`)
+						sequelize.literal(`DATEDIFF(NOW(), article.updatedAt) <= 7`)
 					)
 				)
-			},
-
-			includeArguments: function( userId ) {
-				return {
-					include: [{
-						model    : db.Argument.scope(
-							'defaultScope',
-							{method: ['withVoteCount', 'argumentsAgainst']},
-							{method: ['withUserVote', 'argumentsAgainst', userId]},
-							'withReactions'
-						),
-						as       : 'argumentsAgainst',
-						required : false,
-						where    : {
-							sentiment: 'against',
-							parentId : null
-						}
-					}, {
-						model    : db.Argument.scope(
-							'defaultScope',
-							{method: ['withVoteCount', 'argumentsFor']},
-							{method: ['withUserVote', 'argumentsFor', userId]},
-							'withReactions'
-						),
-						as       : 'argumentsFor',
-						required : false,
-						where    : {
-							sentiment: 'for',
-							parentId : null
-						}
-					}],
-					// HACK: Inelegant?
-					order: [
-						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
-						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
-						sequelize.literal('argumentsAgainst.parentId'),
-						sequelize.literal('argumentsFor.parentId'),
-						sequelize.literal('argumentsAgainst.createdAt'),
-						sequelize.literal('argumentsFor.createdAt')
-					]
-				};
-			},
-
-			includeMeeting: {
-				include : [{
-					model: db.Meeting,
-				}]
 			},
 
 			includePosterImage: {
@@ -633,19 +489,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 			},
 
 			includeRanking: {
-// 				}).then((ideas) => {
+// 				}).then((articles) => {
 // 					// add ranking
-// 					let ranked = ideas.slice();
-// 					ranked.forEach(idea => {
-// 						idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
+// 					let ranked = articles.slice();
+// 					ranked.forEach(article => {
+// 						article.ranking = article.status == 'DENIED' ? -10000 : article.yes - article.no;
 // 					});
 // 					ranked.sort( (a, b) => a.ranking < b.ranking );
 // 					let rank = 1;
-// 					ranked.forEach(idea => {
-// 						idea.ranking = rank;
+// 					ranked.forEach(article => {
+// 						article.ranking = rank;
 // 						rank++;
 // 					});
-// 					return sort == 'ranking' ? ranked : ideas;
+// 					return sort == 'ranking' ? ranked : articles;
 // 				});
 			},
 
@@ -655,39 +511,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}]
 			},
 
-			includeVoteCount: {
-				include : [{
-					model: db.Site,
-				}],
-				attributes: {
-					include: [
-						voteCount('yes'),
-						voteCount('no'),
-						argCount('argCount')
-					]
-				}
-			},
-
 			includeUser: {
 				include: [{
 					model      : db.User,
 					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
 				}]
-			},
-
-			includeUserVote: function(userId) {
-				//this.hasOne(db.Vote, {as: 'userVote' });
-				let result = {
-					include: [{
-						model    : db.Vote,
-						as       : 'userVote',
-						required : false,
-						where    : {
-							userId : userId
-						}
-					}]
-				};
-				return result;
 			},
 
 			// vergelijk getRunning()
@@ -697,14 +525,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 				var order;
 				switch( sort ) {
-					case 'votes_desc':
-						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-						order = sequelize.literal('yes DESC');
-						break;
-					case 'votes_asc':
-						// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-						order = sequelize.literal('yes ASC');
-						break;
 					case 'createdate_asc':
 						order = [['createdAt', 'ASC']];
 						break;
@@ -738,13 +558,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			// oude scopes
 			// -----------
 
-
 			summary: {
 				attributes: {
 					include: [
-						voteCount('yes'),
-						voteCount('no'),
-						argCount('argCount')
 					],
 					exclude: ['modBreak']
 				}
@@ -754,22 +570,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 					model      : db.User,
 					attributes : ['role', 'nickName', 'firstName', 'lastName', 'email']
 				}]
-			},
-			withVoteCount: {
-				attributes: Object.keys(this.rawAttributes).concat([
-					voteCount('yes'),
-					voteCount('no')
-				])
-			},
-			withVotes: {
-				include: [{
-					model: db.Vote,
-					include: [{
-						model      : db.User,
-						attributes : ['id', 'zipCode', 'email']
-					}]
-				}],
-				order: 'createdAt'
 			},
 			withPosterImage: {
 				include: [{
@@ -782,93 +582,21 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				}]
 			},
-			withArguments: function( userId ) {
-				return {
-					include: [{
-						model    : db.Argument.scope(
-							'defaultScope',
-							{method: ['withVoteCount', 'argumentsAgainst']},
-							{method: ['withUserVote', 'argumentsAgainst', userId]},
-							'withReactions'
-						),
-						as       : 'argumentsAgainst',
-						required : false,
-						where    : {
-							sentiment: 'against',
-							parentId : null,
-						}
-					}, {
-						model    : db.Argument.scope(
-							'defaultScope',
-							{method: ['withVoteCount', 'argumentsFor']},
-							{method: ['withUserVote', 'argumentsFor', userId]},
-							'withReactions'
-						),
-						as       : 'argumentsFor',
-						required : false,
-						where    : {
-							sentiment: 'for',
-							parentId : null,
-						}
-					}],
-					// HACK: Inelegant?
-					order: [
-						sequelize.literal(`GREATEST(0, \`argumentsAgainst.yes\` - ${argVoteThreshold}) DESC`),
-						sequelize.literal(`GREATEST(0, \`argumentsFor.yes\` - ${argVoteThreshold}) DESC`),
-						'argumentsAgainst.parentId',
-						'argumentsFor.parentId',
-						'argumentsAgainst.createdAt',
-						'argumentsFor.createdAt'
-					]
-				};
-			},
-			withPoll: {
-				include: [{
-					model      : db.Poll,
-					attributes : ['id', 'title', 'description'],
-					required   : false
-				}]
-			},
-			withAgenda: {
-				include: [{
-					model      : db.AgendaItem,
-					as         : 'agenda',
-					required   : false,
-					separate   : true,
-					order      : [
-            ['startDate', 'ASC']
-					]
-				}]
-			}
 		}
 	}
 
-	Idea.associate = function( models ) {
-		this.belongsTo(models.Meeting);
+	Article.associate = function( models ) {
 		this.belongsTo(models.User);
-		this.hasMany(models.Vote);
-		this.hasMany(models.Argument, {as: 'argumentsAgainst'});
-		// this.hasOne(models.Vote, {as: 'userVote', });
-		this.hasMany(models.Argument, {as: 'argumentsFor'});
 		this.hasMany(models.Image);
 		// this.hasOne(models.Image, {as: 'posterImage'});
 		this.hasMany(models.Image, {as: 'posterImage'});
-		this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId' });
 		this.belongsTo(models.Site);
 	}
 
-	Idea.getRunning = function( sort, extraScopes ) {
+	Article.getRunning = function( sort, extraScopes ) {
 
 		var order;
 		switch( sort ) {
-			case 'votes_desc':
-				// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-				order = sequelize.literal('yes DESC');
-				break;
-			case 'votes_asc':
-				// TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
-				order = sequelize.literal('yes ASC');
-				break;
 			case 'createdate_asc':
 				order = [['createdAt', 'ASC']];
 				break;
@@ -892,8 +620,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 						`);
 		}
 
-		// Get all running ideas.
-		// TODO: Ideas with status CLOSED should automatically
+		// Get all running articles.
+		// TODO: Articles with status CLOSED should automatically
 		//       become DENIED at a certain point.
 		let scopes = ['summary', 'withPosterImage'];
 		if (extraScopes)  {
@@ -905,12 +633,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 				status: ['OPEN', 'CLOSED', 'ACCEPTED', 'BUSY', 'DONE']
 			},
 			sequelize.and(
-				{status: {[Sequelize.Op.not]: 'DENIED'}},
-				sequelize.where(db.Meeting.rawAttributes.date, '>=', new Date())
-			),
-			sequelize.and(
 				{status: 'DENIED'},
-				sequelize.literal(`DATEDIFF(NOW(), idea.updatedAt) <= 7`)
+				sequelize.literal(`DATEDIFF(NOW(), article.updatedAt) <= 7`)
 			)
 		);
 
@@ -928,34 +652,33 @@ module.exports = function( db, sequelize, DataTypes ) {
 			where,
 			order   : order,
 			include : [{
-				model: db.Meeting,
 				attributes: []
 			}]
-		}).then((ideas) => {
+		}).then((articles) => {
 			// add ranking
-			let ranked = ideas.slice();
-			ranked.forEach(idea => {
-				idea.ranking = idea.status == 'DENIED' ? -10000 : idea.yes - idea.no;
+			let ranked = articles.slice();
+			ranked.forEach(article => {
+				article.ranking = article.status == 'DENIED' ? -10000 : article.yes - article.no;
 			});
 			ranked.sort( (a, b) => b.ranking - a.ranking );
 			let rank = 1;
-			ranked.forEach(idea => {
-				idea.ranking = rank;
+			ranked.forEach(article => {
+				article.ranking = rank;
 				rank++;
 			});
-			return sort == 'ranking' ? ranked : ( sort == 'rankinginverse' ? ranked.reverse() : ideas );
-		}).then((ideas) => {
-			if (sort != 'random') return ideas;
-			let randomized = ideas.slice();
-			randomized.forEach(idea => {
-				idea.random = Math.random();
+			return sort == 'ranking' ? ranked : ( sort == 'rankinginverse' ? ranked.reverse() : articles );
+		}).then((articles) => {
+			if (sort != 'random') return articles;
+			let randomized = articles.slice();
+			randomized.forEach(article => {
+				article.random = Math.random();
 			});
 			randomized.sort( (a, b) => b.random - a.random );
 			return randomized;
 		})
 	}
 
-	Idea.getHistoric = function() {
+	Article.getHistoric = function() {
 		return this.scope('summary').findAll({
 			where: {
 				status: {[Sequelize.Op.not]: ['OPEN', 'CLOSED']}
@@ -964,109 +687,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		});
 	}
 
-	Idea.prototype.getUserVote = function( user ) {
-		return db.Vote.findOne({
-			attributes: ['opinion'],
-			where: {
-				ideaId : this.id,
-				userId : user.id
-			}
-		});
-	}
-
-	Idea.prototype.isOpen = function() {
+	Article.prototype.isOpen = function() {
 		return this.status === 'OPEN';
 	}
 
-	Idea.prototype.isRunning = function() {
+	Article.prototype.isRunning = function() {
 		return this.status === 'OPEN'     ||
 			this.status === 'CLOSED'   ||
 			this.status === 'ACCEPTED' ||
 			this.status === 'BUSY'
 	}
 
-	// standaard stemvan
-	Idea.prototype.addUserVote = function( user, opinion, ip, extended ) {
-
-		var data = {
-			ideaId  : this.id,
-			userId  : user.id,
-			opinion : opinion,
-			ip      : ip
-		};
-
-		var found;
-
-		return db.Vote.findOne({where: data})
-			.then(function( vote ) {
-				if (vote) {
-					found = true;
-				}
-				if( vote && vote.opinion === opinion ) {
-					return vote.destroy();
-				} else {
-					// HACK: `upsert` on paranoid deleted row doesn't unset
-					//        `deletedAt`.
-					// TODO: Pull request?
-					data.deletedAt = null;
-					data.opinion = opinion;
-					return db.Vote.upsert(data);
-				}
-			})
-			.then(function( result ) {
-				if (extended) {
-					// nieuwe versie, gebruikt door de api server
-					if (found) {
-						if (result && !!result.deletedAt) {
-							return 'cancelled';
-						} else {
-							return 'replaced';
-						}
-					} else {
-						return 'new';
-					}
-				} else {
-					// oude versie
-					// When the user double-voted with the same opinion, the vote
-					// is removed: return `true`. Otherwise return `false`.
-					//
-					// `vote.destroy` returns model when `paranoid` is `true`.
-					return result && !!result.deletedAt;
-				}
-			});
-	}
-
-	// stemtool stijl, voor eberhard3 - TODO: werkt nu alleen voor maxChoices = 1;
-	Idea.prototype.setUserVote = function( user, opinion, ip ) {
-		let self = this;
-		if (config.votes && config.votes.maxChoices) {
-
-			return db.Vote.findAll({ where: { userId: user.id } })
-				.then( vote => {
-					if (vote) {
-						if (config.votes.switchOrError == 'error') throw new Error('Je hebt al gestemd'); // waarmee de default dus switch is
-						return vote
-							.update({ ip, confirmIdeaId: self.id })
-							.then(vote => true)
-					} else {
-						return db.Vote.create({
-							ideaId  : self.id,
-							userId  : user.id,
-							opinion : opinion,
-							ip      : ip
-						})
-							.then(vote => { return false })
-					}
-				})
-				.catch( err => { throw err } )
-
-		} else {
-			throw new Error('Idea.setUserVote: missing params');
-		}
-
-	}
-
-	Idea.prototype.setModBreak = function( user, modBreak ) {
+	Article.prototype.setModBreak = function( user, modBreak ) {
 		return this.update({
 			modBreak       : modBreak,
 			modBreakUserId : user.id,
@@ -1074,49 +706,28 @@ module.exports = function( db, sequelize, DataTypes ) {
 		});
 	}
 
-	Idea.prototype.setStatus = function( status ) {
+	Article.prototype.setStatus = function( status ) {
 		return this.update({status: status});
 	}
 
-	Idea.prototype.setMeetingId = function( meetingId ) {
-		meetingId = ~~meetingId || null;
-
-		return db.Meeting.findByPk(meetingId)
-			.bind(this)
-			.tap(function( meeting ) {
-				if( !meetingId ) {
-					return;
-				} else if( !meeting ) {
-					throw Error('Vergadering niet gevonden');
-				} else if( meeting.finished ) {
-					throw Error('Vergadering ligt in het verleden');
-				} else if( meeting.type == 'selection' ) {
-					throw Error('Agenderen op een peildatum is niet mogelijk');
-				}
-			})
-			.then(function() {
-				return this.update({meetingId});
-			});
-	}
-
-	Idea.prototype.updateImages = function( imageKeys, extraData ) {
+	Article.prototype.updateImages = function( imageKeys, extraData ) {
 		var self = this;
 		if( !imageKeys || !imageKeys.length ) {
 			imageKeys = [''];
 		}
 
-		var ideaId  = this.id;
+		var articleId  = this.id;
 		var queries = [
 			db.Image.destroy({
 				where: {
-					ideaId : ideaId,
+					articleId : articleId,
 					key    : {[Sequelize.Op.not]: imageKeys}
 				}
 			})
 		].concat(
 			imageKeys.map(function( imageKey, sort ) {
 				return db.Image.update({
-					ideaId : ideaId,
+					articleId : articleId,
 					extraData : extraData || null,
 					sort   : sort
 				}, {
@@ -1126,12 +737,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 		);
 
 		return Promise.all(queries).then(function() {
-			// ImageOptim.processIdea(self.id);
+			// ImageOptim.processArticle(self.id);
 			return self;
 		});
 	}
 
-	return Idea;
+	return Article;
 
   function beforeValidateHook( instance, options ) {
 
@@ -1147,7 +758,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 						// Automatically determine `endDate`
 						if( instance.changed('startDate') ) {
-							var duration = ( instance.config && instance.config.ideas && instance.config.ideas.duration ) || 90;
+							var duration = ( instance.config && instance.config.articles && instance.config.articles.duration ) || 90;
 							var endDate  = moment(instance.startDate).add(duration, 'days').toDate();
 							instance.setDataValue('endDate', endDate);
 						}
@@ -1167,3 +778,4 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 };
+

@@ -56,7 +56,6 @@ extend(RolePlay.prototype, {
 			if( !req.user ) {
 				return next(createError(403, 'No authenticated user found'));
 			}
-			
 			var user    = self.user(req.user);
 			var allowed = actionNames.map(function( actionName ) {
 				return user.can(actionName, req);
@@ -304,11 +303,12 @@ extend(Play.prototype, {
 	resource : undefined,
 	
 	can: function( actionName /* [, resource...] */ ) {
+
 		var action = this.get(actionName);
 		if( !action ) {
 			throw new Error('Action not found: '+actionName);
 		}
-		
+    
 		if( action.resource ) {
 			var resourceArgs = Array.prototype.slice.call(arguments, 1);
 			var resources    = action.resource.apply(action, resourceArgs);
