@@ -1,9 +1,12 @@
 const path = require('path');
 const contentWidgets = require('./contentWidgets');
 const palette = require('./palette');
+const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (site, siteData, openstadMap, openstadMapPolygons) => {
+
+    const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
       shortName: site._id,
@@ -102,10 +105,18 @@ module.exports = {
         'recource-image-widgets': {},
         'recource-like-widgets': {},
         'recource-admin-widgets' : {},
-        'resource-pages' : {},
-        'resource-representation-widgets' : {},
-        'resource-overview-widgets' : {},
-        'resource-form-widgets' : {},
+        'resource-pages' : {
+          resources: resources
+        },
+        'resource-representation-widgets' : {
+          resources: resources
+        },
+        'resource-overview-widgets' : {
+          resources: resources
+        },
+        'resource-form-widgets' : {
+          resources: resources
+        },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields

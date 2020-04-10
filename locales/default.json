@@ -679,5 +679,7 @@
 	"Save Resource form": "Save Resource form",
 	"resource ": "resource ",
 	"Articles": "Articles",
-	"Edit Resource form": "Edit Resource form"
+	"Edit Resource form": "Edit Resource form",
+	"Author": "Author",
+	"Resource (from config)": "Resource (from config)"
 }
