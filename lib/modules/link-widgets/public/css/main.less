@@ -18,7 +18,7 @@
     }
 }
 
-.filled-button, .outlined-button {
+.filled-button, .outlined-button, .next-button {
   background-color: #164995;
   color: white;
   display: inline-block;
@@ -46,6 +46,24 @@
    width: auto;
   }
 }
+
+.next-button {
+  position: relative;
+
+    &:before {
+      position: absolute;
+      border-left: 15px solid #164995;
+      border-top: 22px solid transparent;
+      border-bottom: 23px solid transparent;
+      border-right: 0;
+      top: -2px;
+      right: -17px;
+      width: 0px;
+      height: 0px;
+      content: '';
+    }
+}
+
 
 .outlined-button {
   background: white;

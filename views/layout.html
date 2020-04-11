@@ -57,17 +57,20 @@
 
 
 <script>
- // global variables!
- var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
- var openstadUserRole = '{{data.openstadUser.role}}';
- var currentPath = '{{data.currentPath}}';
- var currentPathname = '{{data.currentPathname}}';
- var ideaFormToSubmit;
- {% if data.formToSubmit %}
- ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
- {% endif %}
- {# will be defined later, but will cause errors otherwise #}
- var doShowImage;
+  // global variables!
+  var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
+  var openstadUserRole = '{{data.openstadUser.role}}';
+  var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
+
+  var currentPath = '{{data.currentPath}}';
+  var currentPathname = '{{data.currentPathname}}';
+  var ideaFormToSubmit;
+	{% if data.formToSubmit %}
+	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
+	{% endif %}
+  {# will be defined later, but will cause errors otherwise #}
+  var doShowImage;
+  </script>
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}
