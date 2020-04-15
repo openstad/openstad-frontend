@@ -12,6 +12,8 @@ Dit is een JSON API server
 [Email](/doc/email)
 [Newsletter Signup](/doc/newslettersignup)
 
+[Pagineren en zoeken](/doc/pagination-and-search)
+
 
 
 
