@@ -270,7 +270,7 @@ function createIdeaJSON(idea, user, req) {
 		result.argumentsFor = hideEmailsForNormalUsers(result.argumentsFor);
 	}
 
-	if (idea.extraData && idea.extraData.phone && hasModeratorRights) {
+	if (idea.extraData && idea.extraData.phone && !hasModeratorRights) {
 		delete result.extraData.phone;
 	}
 
