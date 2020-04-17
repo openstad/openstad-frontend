@@ -653,5 +653,15 @@
 	"Gevoeligheid van clusering": "Gevoeligheid van clusering",
 	"Bewerk plan pagina": "Bewerk plan pagina",
 	"Add telephone protocol to link (tel:)": "Add telephone protocol to link (tel:)",
-	"Edit Keuzewijzer": "Edit Keuzewijzer"
+	"Edit Keuzewijzer": "Edit Keuzewijzer",
+	"Keuzewijzer": "Keuzewijzer",
+	"Save Keuzewijzer": "Save Keuzewijzer",
+	"Id van de Keuzewijzer": "Id van de Keuzewijzer",
+	"Aantal vragen per pagina": "Aantal vragen per pagina",
+	"Begin met alle vragen beantwoord op 50%": "Begin met alle vragen beantwoord op 50%",
+	"Weergave van de voorkeuren": "Weergave van de voorkeuren",
+	"Standaard": "Standaard",
+	"In een vlak": "In een vlak",
+	"URL van de inleidende pagina": "URL van de inleidende pagina",
+	"URL van de afsluitende pagina pagina": "URL van de afsluitende pagina pagina"
 }
