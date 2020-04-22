@@ -681,5 +681,7 @@
 	"Articles": "Articles",
 	"Edit Resource form": "Edit Resource form",
 	"Author": "Author",
-	"Resource (from config)": "Resource (from config)"
+	"Resource (from config)": "Resource (from config)",
+	"Exclude ideas with this theme: (theme names, comma seperated)": "Exclude ideas with this theme: (theme names, comma seperated)",
+	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)"
 }
