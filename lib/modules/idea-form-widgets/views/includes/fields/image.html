@@ -1,11 +1,11 @@
 <fieldset class="filepondFieldset">
   <!-- a list of already uploaded files -->
   <script>
-    var ideaFiles = [];
+    var uploadedFiles = [];
     <!-- a list of already uploaded files -->
     {% if idea.extraData.images %}
     {% for image in idea.extraData.images %}
-    ideaFiles.push({
+    uploadedFiles.push({
       source: '{"url":"{{image}}"}',
       options : {
         type: 'local',
