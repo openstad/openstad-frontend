@@ -36,8 +36,8 @@ const contentWidgets = {
     addLabel: 'Ideeen op een kaart',
     adminOnly: true
   },
-  'choices-guide': {
-    addLabel: 'Keuzewijzer',
+  'previous-next-button-block': {
+    addLabel: 'Vorige volgende knoppen',
   },
   'iframe': {},
   'image': {},
@@ -57,6 +57,12 @@ const contentWidgets = {
     addLabel: 'Participatory budgetting',
     adminOnly: true
   },
+  'choices-guide': {
+    addLabel: 'Keuzewijzer',
+  },
+  'choices-guide-result': {
+    addLabel: 'Keuzewijzer resultaten',
+  },
   'main-image': {},
   'apostrophe-rich-text': {
     toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],
@@ -69,7 +75,6 @@ const contentWidgets = {
       position: 'top-left'
     }
   },
-
   'speech-bubble': {
     controls: {
       position: 'top-left'
