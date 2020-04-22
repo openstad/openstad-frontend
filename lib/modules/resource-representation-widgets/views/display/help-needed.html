@@ -1,0 +1,29 @@
+{% if data.activeResource.extraData.helpNeededQuestion === 'helpNeededTrue'  %}
+<div style="
+    background-color: #009dec;
+    padding: 30px;
+    margin-top: 60px;
+">
+    <h3 style="
+            font-size: 24px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.17;
+            letter-spacing: normal;
+            color: #ffffff;
+            border-bottom: white 1px solid;
+            padding-bottom: 12px;
+    ">Dit initiatief kan jouw hulp gebruiken!</h3>
+
+    {% if data.activeResource.extraData.helpNeededDescription %}
+    <h4 class="help-needed-subtitle">Wat</h4>
+    <p class="help-needed-description">{{ data.activeResource.extraData.helpNeededDescription }}</p>
+    {% endif %}
+
+    {% if data.activeResource.extraData.helpNeededApply %}
+    <h4 class="help-needed-subtitle">Hoe</h4>
+    <p class="help-needed-description">{{ data.activeResource.extraData.helpNeededApply }}</p>
+    {% endif %}
+</div>
+{% endif %}

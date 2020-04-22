@@ -1,0 +1,1 @@
+../../node_modules/openstad-component-choices-guide/dist/index.js

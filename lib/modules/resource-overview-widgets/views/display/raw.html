@@ -1,0 +1,5 @@
+<div class="resource-overview-container">
+  {% for activeResource in data.widget.activeResources %}
+  {{data.widget.renderString(data, activeResource) | safe}}
+  {% endfor %}
+</div>

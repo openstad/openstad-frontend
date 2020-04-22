@@ -1,11 +1,11 @@
 <fieldset class="filepondFieldset">
   <!-- a list of already uploaded files -->
   <script>
-    var ideaFiles = [];
+    var uploadedFiles = [];
     <!-- a list of already uploaded files -->
     {% if idea.extraData.images %}
     {% for image in idea.extraData.images %}
-    ideaFiles.push({
+    uploadedFiles.push({
       source: '{"url":"{{image}}"}',
       options : {
         type: 'local',
@@ -24,7 +24,7 @@
     {% endfor %}
     {% endif %}
   </script>
-  <input type="file" class="imageUploader filepond" {% if data.widget.uploadMultiple %} multiple {% endif %} {% if data.widget.requiredImages %}required{% endif %}/ >
+  <input type="file" class="imageUploader filepond" {% if data.widget.uploadMultiple %} multiple {% endif %} {% if data.widget.requiredImages %}required{% endif %} />
 
 </fieldset>
 <input type="hidden" name="validateImages" multiple />

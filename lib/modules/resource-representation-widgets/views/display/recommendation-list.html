@@ -1,0 +1,22 @@
+<div class="resource-recommendations">
+{% for recommendation in data.activeResource.extraData.recommendations %}
+  <div class="resource-recommendation">
+      <h3 class="headerDefault">
+        {{recommendation.title}}
+      </h3>
+      <p>
+          {{recommendation.description}}
+      </p>
+      <a
+        href="{{recommendation.url}}"
+        class="
+          filled-button
+          scroll-link margin-bottom-sm
+          button-without-icon
+        "
+       >
+         Lees meer
+      </a>
+  </div>
+{% endfor %}
+</div>

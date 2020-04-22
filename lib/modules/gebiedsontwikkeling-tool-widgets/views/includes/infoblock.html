@@ -40,7 +40,7 @@
 					Heb je een acute melding over het afval	op straat? Maak dan een <a href="https://www.amsterdam.nl/wonen-leefomgeving/melding-openbare/" target="_blank">MORA melding</a>.
 				</div>
 			</div>
-			
+
 			<div id="step-0" class="step open">
 
 				<h3>1. Om welke plek gaat het</h3>
@@ -121,7 +121,7 @@
 					<p>
 						Is er een specifiek moment dat dit gebeurt? Klik op een dag om deze te selecteren.<br/>
 						<br/>
-						
+
 						<h4>Dag van de week:</h4>
 						<input id="weekday" type="hidden" value="" onchange="currentInput.weekday = this.value;"/>
 						<div id="click-selector-weekday" class="click-selector">
@@ -149,7 +149,7 @@
 						<span id="form-warning-time" class="form-warning">Je moet nog een tijdstip kiezen</span>
 					</p>
 				</div>
-				
+
 			</div>
 			<div id="step-3" class="step">
 
@@ -212,11 +212,16 @@
 						</div>
 					</div>
 
-					<script src="https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js"></script>
-					<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-					<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-					<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-					<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
+					<script src="/js/vendor/browser-polyfill.min.js"></script>
+					<script src="/js/vendor/filepond-polyfill.min.js"></script>
+					<script src="/js/vendor/filepond.js"></script>
+
+					<script src="/js/vendor/filepond-plugin-image-preview.js"></script>
+					<script src="/js/vendor/filepond-plugin-file-validate-type.js"></script>
+					<script src="/js/vendor/filepond-plugin-file-validate-size.js"></script>
+					<script src="/js/vendor/filepond-plugin-file-poster.js"></script>
+					<script src="/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
+					
 					<script>
 
 					 var imageuploader;
@@ -276,18 +281,18 @@
 								 labelButtonRetryItemProcessing: "Retry",
 								 labelButtonProcessItem: "Upload"
 							 }
-							 
+
 							 imageuploader = FilePond.create(fieldsetElement, filePondSettings);
 							 var sortableInstance;
 							 var pondEl = document.querySelector('.filepond--root');
-							 
+
 							 document.querySelector('.filepond--root').addEventListener('FilePond:processfile', e => {
 								 if (e.detail) {
 									 console.log('Error uploding file: ', e.detail);
 								 }
 								 updateCurrentInput()
 							 });
-							 
+
 							 document.querySelector('.filepond--root').addEventListener('FilePond:removefile', e => {
 								 if (e.detail && e.detail.error) {
 									 console.log('Error uploding file: ', e.detail);
@@ -301,7 +306,7 @@
 
 						 }
 					 }
-					 
+
 
 					 function updateCurrentInput() {
 						 if (currentInput) {
@@ -328,9 +333,9 @@
 
 					</script>
 
-					
+
 				</div>
-				
+
 			</div>
 		</div>
 		<div id="step-buttons" class="step-buttons">
@@ -338,11 +343,11 @@
 			<a href="javascript: void cancelNewIdea(document.querySelector('#new-idea-form'));" class="button-as-text with-close-button">
 				Annuleren
 			</a>
-			
+
 			<a id="nextButton" href="javascript: openNextStep();" class="button-blue float-right with-arrow-right">
 				Volgende
 			</a>
-			
+
 			<a id="submitButton" href="javascript: void submitNewIdea(document.querySelector('#new-idea-form'));" class="button-blue float-right hidden">
 				Nu verzenden
 			</a>

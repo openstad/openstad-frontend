@@ -1,0 +1,13 @@
+{% if data.widget.typeSummary === 'text'  %}
+<input type="text" name="summary" minlength="{{data.widget.resourceConfig.summaryMinLength}}" maxlength="{{data.widget.siteConfig.activeResources.summaryMaxLength}}"  {% if data.widget.requiredSummary %}required{% endif %} value="{{activeResource.summary}}">
+<div id="charsLeftSummary" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>
+{% else %}
+<textarea name="summary" minlength="{{data.widget.minSummary}}" maxlength="{{data.widget.maxSummary}}"  {% if data.widget.requiredSummary %}required{% endif %}>{{activeResource.summary}}</textarea>
+<div id="charsLeftSummary" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>
+{% endif %}

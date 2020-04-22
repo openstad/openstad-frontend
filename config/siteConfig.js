@@ -1,9 +1,12 @@
 const path = require('path');
 const contentWidgets = require('./contentWidgets');
 const palette = require('./palette');
+const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (site, siteData, openstadMap, openstadMapPolygons) => {
+
+    const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
       shortName: site._id,
@@ -17,7 +20,13 @@ module.exports = {
           port: process.env.PORT,
         },
         'apostrophe-docs': {},
+        'openstad-widgets': {},
+        'openstad-users': {},
         'openstad-auth': {},
+        'openstad-login': {},
+        'apostrophe-login': {
+          localLogin: false
+        },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware
@@ -76,6 +85,8 @@ module.exports = {
         'idea-single-widgets': {},
         'idea-form-widgets': {},
         'ideas-on-map-widgets': {},
+        'cookie-warning-widgets': {},
+        'choices-guide-widgets': {},
         'date-bar-widgets': {},
         'map-widgets': {},
         'idea-map-widgets': {},
@@ -102,19 +113,41 @@ module.exports = {
         'recource-image-widgets': {},
         'recource-like-widgets': {},
         'recource-admin-widgets' : {},
+        'resource-pages' : {
+          resources: resources
+        },
+        'resource-representation-widgets' : {
+          resources: resources
+        },
+        'resource-overview-widgets' : {
+          resources: resources
+        },
+        'resource-form-widgets' : {
+          resources: resources
+        },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields
         },
         'apostrophe-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
+          // we set the option te lean, this means a lot of the JS libraries ApostrhopeCMS assumes exists are turned off
+          // we manually included a few libs with Apos needs to functional
+          // in future in might make sense to make a further seperate for admin users and normal users
+        //  lean: false,
+          jQuery: 3,
           scripts: [
+          //  {name: 'jquery'},
+        //    {name: 'react'},
+        //    {name: 'react.dom'},
+            /* Apos script */
+    //        {name: 'apos/jquery.cookie'},
+    //        {name: 'apos/jquery.json-call'},
             {name: 'cookies'},
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-            {name: 'jquery.validate.min'},
-            {name: 'jquery.dataTables.min'},
+      //      {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
           ],
@@ -126,7 +159,11 @@ module.exports = {
         'apostrophe-area-structure': {},
       }
     };
+    console.log('####################');
+    console.log(siteConfig.modules['admin-widgets']);
 
+    // can turn on workflow per site, but WARNING this only works for DEV sites currently,
+    // the assets generation will include or exclude certain files breaking the CMS
     const useAposWorkflow = siteData.cms && siteData.cms.aposWorkflow;
     const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;
 
@@ -139,6 +176,27 @@ module.exports = {
         // Recommended to save database space. You can still
         // export explicitly between locales
         replicateAcrossLocales: true,
+        permission: false,
+        locales: [
+          {
+            name: 'default',
+            label: 'Default',
+            private: false,
+            children: [
+            /*  {
+                name: 'nl',
+                label: 'Nederlands',
+                private: false,
+
+              },
+            {
+            name: 'en',
+                label: 'England'
+              }*/
+            ]
+          },
+        ],
+        defaultLocale: 'default'
       };
 
       siteConfig.modules['apostrophe-workflow-modified-documents'] = {};

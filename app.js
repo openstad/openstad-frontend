@@ -34,7 +34,6 @@ var aposServer = {};
 
 app.use(express.static('public'));
 
-
 /**
  * Route for resetting the config of the server so the server will refetch
  * Necessary when making changes in the site config.
@@ -140,7 +139,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
           const safeStartServer = () => {
             if (aposStartingUp[dbName]) {
-              // timeout loop //
+              // old schotimeout loop to make sure we dont start multiple servers of the same site
               setTimeout(() => {
                 safeStartServer();
               }, 100);

@@ -10,6 +10,16 @@
 >
 	<h2> {{data.widget.title}} </h2>
 	<p>  {{data.widget.intro | nlbr}} </p>
+
+  <script src="/js/vendor/filepond-polyfill.min.js"></script>
+  <script src="/js/vendor/filepond.js"></script>
+
+  <script src="/js/vendor/filepond-plugin-image-preview.js"></script>
+  <script src="/js/vendor/filepond-plugin-file-validate-type.js"></script>
+  <script src="/js/vendor/filepond-plugin-file-validate-size.js"></script>
+  <script src="/js/vendor/filepond-plugin-file-poster.js"></script>
+  <script src="/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
+
 	<form method="POST" action="/modules/user-form-widgets/submit" class="user-form" data-form-validation="{{ data.widget.mappedValidation | dump }}">
 	{% for field in data.widget.formFields %}
 		{% if field.validation %}
@@ -32,7 +42,7 @@
 	</form>
 
 </div>
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 <a href="#overview-submissions" class="edit-button submission-overview-button" data-form-id="{{data.widget.formId}}">
   Bekijk inzendingen
 </a>

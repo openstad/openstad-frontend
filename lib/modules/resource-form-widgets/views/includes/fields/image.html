@@ -1,0 +1,30 @@
+<fieldset class="filepondFieldset">
+  <!-- a list of already uploaded files -->
+  <script>
+    var uploadedFiles = [];
+    <!-- a list of already uploaded files -->
+    {% if activeResource.extraData.images %}
+    {% for image in activeResource.extraData.images %}
+    uploadedFiles.push({
+      source: '{"url":"{{image}}"}',
+      options : {
+        type: 'local',
+            // mock file information
+         file: {
+             name: '{{image}}',
+        //		 size: 3001025,
+          //	 type: 'image/png'
+        },
+        metadata: {
+          poster: '{{image}}',
+        }
+      }
+
+    });
+    {% endfor %}
+    {% endif %}
+  </script>
+  <input type="file" class="imageUploader filepond" {% if data.widget.uploadMultiple %} multiple {% endif %} {% if data.widget.requiredImages %}required{% endif %} />
+
+</fieldset>
+<input type="hidden" name="validateImages" multiple />

@@ -1,8 +1,15 @@
-module.exports = {
+const contentWidgets = {
+  'resource-overview': {},
+  'resource-form': {},
+  'resource-representation': {},
   'agenda': {},
   'accordeon': {},
-  'arguments': {},
-  'arguments-form': {},
+  'arguments': {
+    adminOnly: true
+  },
+  'arguments-form': {
+    adminOnly: true
+  },
   'section': {
     addLabel: 'Columns',
     controls: {
@@ -11,18 +18,29 @@ module.exports = {
       position: 'bottom-left'
     },
   },
-  'slider': {},
+  'slider': {
+  },
   'counter': {
     addLabel: 'Counter',
   },
   'cookie-warning': {},
   'date-bar': {},
-  'idea-form': {},
-  'idea-map': {},
+  'idea-form': {
+    adminOnly: true
+  },
+  'idea-map': {
+    adminOnly: true
+  },
   'idea-overview': {},
-  'idea-single': {},
+  'idea-single': {
+    adminOnly: true
+  },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
+    adminOnly: true
+  },
+  'choices-guide': {
+    addLabel: 'Keuzewijzer',
   },
   'iframe': {},
   'image': {},
@@ -31,12 +49,16 @@ module.exports = {
   'list': {},
   'begroot': {
     addLabel: 'Begroot (deprecated, please use Participatory budgetting)',
+    adminOnly: true,
+    readOnly: true,
   },
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
+    adminOnly: true
   },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
+    adminOnly: true
   },
   'main-image': {},
   'apostrophe-rich-text': {
@@ -57,7 +79,9 @@ module.exports = {
     },
   },
   'title': {},
-  'user-form': {},
+  'user-form': {
+    adminOnly: true
+  },
   'local-video': {
     addLabel: 'Video (upload)',
   },
@@ -69,5 +93,46 @@ module.exports = {
   'recource-raw': {},
   'recource-image': {},
   'recource-like': {},
-  'recource-admin': {}
+  'resource-admin': {}
 };
+
+exports.getAdminWidgets = () => {
+  const filteredContentWidgets = {};
+
+  Object.keys(contentWidgets).forEach(function(key) {
+    filteredContentWidgets[key] = contentWidgets[key];
+
+    /**
+     * Edit the settings for admin, so they can  edit all modules.
+     */
+    if (filteredContentWidgets[key].adminOnly) {
+      //readonly = false shows the module from the menu
+      filteredContentWidgets[key].readOnly = false;
+      filteredContentWidgets[key].edit = true;
+    }
+
+  });
+
+  return filteredContentWidgets;
+}
+
+exports.getEditorWidgets = () => {
+  const filteredContentWidgets = {};
+
+  Object.keys(contentWidgets).forEach(function(key) {
+    filteredContentWidgets[key] = contentWidgets[key];
+
+    /**
+     * Edit the settings for editors, so they can only edit specific modules.
+     */
+    if (filteredContentWidgets[key].adminOnly) {
+      //readonly hides the module from the menu
+      filteredContentWidgets[key].readOnly = true;
+      //setting edit to false removes the edit controls for this module
+      filteredContentWidgets[key].edit = false;
+    }
+
+  });
+
+  return filteredContentWidgets;
+}
