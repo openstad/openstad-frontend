@@ -93,7 +93,7 @@ const contentWidgets = {
   'recource-raw': {},
   'recource-image': {},
   'recource-like': {},
-  'recource-admin': {}
+  'resource-admin': {}
 };
 
 exports.getAdminWidgets = () => {
