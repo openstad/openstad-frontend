@@ -1,7 +1,7 @@
 <style>
   {{data.widget.formattedIframeStyles}}
 </style>
-{% if req.data.cookieConsent %}
+{% if data.cookieConsent %}
 <iframe
   id="{{data.widget.iframeId}}"
   src="{{ data.widget.url }}"
