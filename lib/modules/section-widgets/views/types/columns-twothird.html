@@ -2,7 +2,7 @@
   <div class="col-sm-8 col-lg-9 col-xs-12">
       {{
         apos.area(data.widget, 'area1', {
-          widgets: apos.settings.getOption('contentWidgets')
+          widgets: data.widget.contentWidgets
         })
       }}
     </div>
@@ -10,7 +10,7 @@
     <div class="col-sm-4 col-lg-3 col-xs-12">
       {{
         apos.area(data.widget, 'area2', {
-          widgets: apos.settings.getOption('contentWidgets')
+          widgets: data.widget.contentWidgets
         })
       }}
     </div>
