@@ -663,5 +663,16 @@
 	"Standaard": "Standaard",
 	"In een vlak": "In een vlak",
 	"URL van de inleidende pagina": "URL van de inleidende pagina",
-	"URL van de afsluitende pagina pagina": "URL van de afsluitende pagina pagina"
+	"URL van de afsluitende pagina pagina": "URL van de afsluitende pagina pagina",
+	"Keuzewijzer resultaat": "Keuzewijzer resultaat",
+	"Save Keuzewijzer resultaat": "Save Keuzewijzer resultaat",
+	"Id van de vragen groep": "Id van de vragen groep",
+	"Edit Keuzewijzer resultaat": "Edit Keuzewijzer resultaat",
+	"Vorige volgende knoppen": "Vorige volgende knoppen",
+	"Save Vorige volgende knoppen": "Save Vorige volgende knoppen",
+	"Url achter de 'vorige' knop": "Url achter de 'vorige' knop",
+	"Tekst op de 'vorige' knop": "Tekst op de 'vorige' knop",
+	"Url achter de 'volgende' knop": "Url achter de 'volgende' knop",
+	"Tekst op de 'volgende' knop": "Tekst op de 'volgende' knop",
+	"Edit Vorige volgende knoppen": "Edit Vorige volgende knoppen"
 }
