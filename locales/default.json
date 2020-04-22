@@ -54,5 +54,12 @@
 	"Sign up": "Sign up",
 	"Cancel": "Cancel",
 	"Tags": "Tags",
-	"Edit undefined": "Edit undefined"
+	"Edit undefined": "Edit undefined",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"Click Commit to make these changes live.": "Click Commit to make these changes live.",
+	"%s was committed successfully.": "%s was committed successfully.",
+	"Server error, please try again.": "Server error, please try again.",
+	"Inloggen": "Inloggen",
+	"Mijn account": "Mijn account",
+	"Use the Add Content button to get started.": "Use the Add Content button to get started."
 }
