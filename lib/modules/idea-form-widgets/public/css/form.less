@@ -177,14 +177,72 @@ textarea:disabled {
   background: #efefef;
   border: none;
 }
-#drop_zone {
-	 border: 2px dashed #bbb;
-	 -moz-border-radius: 5px;
-	 -webkit-border-radius: 5px;
-	 border-radius: 5px;
-	 padding-top: 60px;
-	 text-align: center;
-	 font: 20pt bold 'Helvetica';
-	 color: #bbb;
-	 height:140px;
+
+#vimeo-dropzone-container{
+	border: none;
+	padding: 25px 25px 30px;
+	text-align: center;
+	color: #626262;
+	background: #f1f0ef;
+	font-size: 10px;
+
+	.glyphicon{
+		font-size: 30px;
+		color: green;
+	}
+
+}
+
+
+#vimeo-upload-text {
+
+}
+
+#vimeo-upload-again-text, #vimeo-uploading-local, #vimeo-upload-again-text, #vimeo-uploading-vimeo, #vimeo-error {
+	display: none;
+}
+
+.vimeo-processing {
+	#vimeo-upload-text {
+		display: none;
+	}
+
+	 #vimeo-uploading-local {
+		 display: block;
+	 }
+}
+
+.vimeo-processed {
+	#vimeo-upload-text {
+		display: none;
+	}
+
+	#vimeo-upload-again-text {
+		display: block;
+	}
+}
+
+.vimeo-error #vimeo-error{
+	display: block;
+}
+
+.vimeo-url iframe {
+	border: 0;
+	width: 320px;
+	height: 240px;
+}
+
+.loader-spinner{
+-webkit-animation:spin 2s linear infinite;
+-moz-animation:spin 2s linear infinite;
+animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.vimeo-video iframe {
+	border: 0;
+  width: 320px;
+  height: 180px;
 }

@@ -157,6 +157,7 @@ module.exports = {
         },
         'info-bar-widgets': {},
         'apostrophe-area-structure': {},
+        'vimeo-upload': {}
       }
     };
     console.log('####################');
