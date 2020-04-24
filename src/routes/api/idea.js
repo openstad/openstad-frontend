@@ -270,10 +270,14 @@ function createIdeaJSON(idea, user, req) {
 		result.argumentsFor = hideEmailsForNormalUsers(result.argumentsFor);
 	}
 
+
 	if (idea.extraData && idea.extraData.phone) {
-		delete result.extraData.phone; 
+		delete result.extraData.phone;
 	}
 
+	if (result.extraData) {
+		result.extraData.phone =  '';
+	}
 
 	/**
 	 * In case the votes isset.
