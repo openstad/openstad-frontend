@@ -271,7 +271,7 @@ function createIdeaJSON(idea, user, req) {
 	}
 
 	if (idea.extraData && idea.extraData.phone) {
-		delete result.extraData.phone;
+		delete result.extraData.phone; 
 	}
 
 
