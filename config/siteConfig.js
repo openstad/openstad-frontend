@@ -112,7 +112,7 @@ module.exports = {
         'recource-raw-widgets': {},
         'recource-image-widgets': {},
         'recource-like-widgets': {},
-        'recource-admin-widgets' : {},
+        'resource-admin-widgets' : {},
         'resource-pages' : {
           resources: resources
         },
