@@ -160,8 +160,6 @@ module.exports = {
         'vimeo-upload': {}
       }
     };
-    console.log('####################');
-    console.log(siteConfig.modules['admin-widgets']);
 
     // can turn on workflow per site, but WARNING this only works for DEV sites currently,
     // the assets generation will include or exclude certain files breaking the CMS
