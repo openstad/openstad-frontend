@@ -29,7 +29,7 @@
     "express-basic-auth": "^1.2.0",
     "express-cache-on-demand": "^1.0.2",
     "flash": "^1.1.0",
-    "http-proxy-middleware": "^0.19.1",
+    "http-proxy-middleware": "^0.21.0",
     "install": "^0.13.0",
     "json2csv": "^4.5.4",
     "lodash": "^4.17.15",
