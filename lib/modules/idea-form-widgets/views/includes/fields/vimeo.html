@@ -1,6 +1,9 @@
+{% set maxFileSize = 120 %}
 <script src="/modules/idea-form-widgets/js/vimeo-init.js"></script>
 
+<div class="vimeo-status">
 
+</div>
 <div id="vimeo-video">
   {% if idea.extraData.vimeoId %}
   <iframe src="https://player.vimeo.com/video/{{idea.extraData.vimeoId}}" width="" height=""></iframe>
@@ -15,8 +18,11 @@
       <label class="btn btn-primary">
         blader
         <br />
-        <input id="browse" type="file" style="display: none;">
+        <input id="vimeo-browse" type="file" style="display: none;">
       </label>
+      <br />
+
+      <small> Max {{maxFileSize}}mb </small>
     </span>
     <span id="vimeo-upload-again-text">
       <span class="success-text">
@@ -32,8 +38,10 @@
       <br />
 
       <label class="btn btn-primary">
-          blader <input id="browse" type="file" style="display: none;">
+          blader <input id="vimeo-browse" type="file" style="display: none;" data-max-filesize="{{maxFileSize}}">
       </label>
+      <br />
+      <small> Max {{maxFileSize}}mb </small>
     </span>
 
   </div>
