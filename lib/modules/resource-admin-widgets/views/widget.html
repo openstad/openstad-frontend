@@ -5,7 +5,7 @@
 {% set notReactedTo =  not isReactedTo %}
 {% set isOwnerOrAdmin = ((notReactedTo or not data.widget.hideAdminAfterPublicAction) and isOwner) or data.hasModeratorRights %}
 
-<div class="recource-admin-edit-container">
+<div class="resource-admin-edit-container">
 {% if isOwnerOrAdmin %}
 {% include 'includes/crud/edit-delete.html' %}
 {% endif %}
