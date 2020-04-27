@@ -330,5 +330,6 @@
 	"Commit all like this": "Commit all like this",
 	"Skip all like this": "Skip all like this",
 	"Modified fields: %s": "Modified fields: %s",
-	"The document was committed successfully.": "The document was committed successfully."
+	"The document was committed successfully.": "The document was committed successfully.",
+	"Recource admin buttons": "Recource admin buttons"
 }
