@@ -1,9 +1,7 @@
 {% set maxFileSize = 120 %}
 <script src="/modules/idea-form-widgets/js/vimeo-init.js"></script>
 
-<div class="vimeo-status">
 
-</div>
 <div id="vimeo-video">
   {% if idea.extraData.vimeoId %}
   <iframe src="https://player.vimeo.com/video/{{idea.extraData.vimeoId}}" width="" height=""></iframe>
@@ -27,12 +25,9 @@
     <span id="vimeo-upload-again-text">
       <span class="success-text">
         <span class="glyphicon glyphicon-ok-circle"></span>
-        <h3> Succesvol upgeload !</h3>
-        <br />
+        <h3> Succesvol upgeload ! <br /> <small id="video-file-name"> </small></h3>
         Het kan even duren voor de video daadwerkelijk beschikbaar is via Vimeo.
       </span>
-      <br />
-
       Om uw video te wijzigen kunt uw een nieuwe video hiernaar toe slepen of
       <br />
       <br />
@@ -43,7 +38,6 @@
       <br />
       <small> Max {{maxFileSize}}mb </small>
     </span>
-
   </div>
   <div id="vimeo-uploading-local">
     <img src="/img/loader.svg" class="loader-spinner" width="25" height="25" />
@@ -53,10 +47,7 @@
   <div id="vimeo-uploading-vimeo">
     Uw video wordt verwerkt door vimeo, bij grote bestanden kan dit enkele minuten duren.
   </div>
-  <div id="vimeo-error">
-    Er is iets misgegaan. Probeer het opnieuw.
-  </div>
-
-
+  <label id="vimeo-status" class="error"> </label>
 </div>
+<br />
 <input type="hidden" id="vimeo-id" name="vimeoId" value="{{idea.extraData.vimeoId}}" {% if field.fieldRequired %}required{% endif %} />
