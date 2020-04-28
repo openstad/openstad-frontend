@@ -180,11 +180,11 @@ textarea:disabled {
 
 #vimeo-dropzone-container{
 	border: none;
-	padding: 25px 25px 30px;
+	padding: 30px 25px 30px;
 	text-align: center;
-	color: #626262;
-	background: #f1f0ef;
-	font-size: 10px;
+	background: #edf4f7;
+	color: #000000;
+	font-size: 14px;
 
 	.glyphicon{
 		font-size: 30px;
@@ -193,6 +193,20 @@ textarea:disabled {
 
 }
 
+.vimeo-upload-button {
+	width: 130px;
+  height: 40px;
+  border-radius: 30px;
+  border: solid 1px #004699;
+  background-color: #ffffff;
+  font-size: 16px;
+  color: #004699;
+	-webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 12px 0 0;
+
+}
 
 #vimeo-upload-text {
 
@@ -219,11 +233,25 @@ textarea:disabled {
 
 	#vimeo-upload-again-text {
 		display: block;
+    max-width: 560px;
+    margin: 0 auto 29px;
 	}
 }
 
 .vimeo-error #vimeo-error{
 	display: block;
+}
+
+#vimeo-status {
+	display: block;
+	color: red;
+	margin: 0 0 20px;
+	line-height: 1.2;
+
+	b {
+		color: red;
+
+	}
 }
 
 .vimeo-url iframe {
@@ -232,10 +260,28 @@ textarea:disabled {
 	height: 240px;
 }
 
+.label-as-link {
+	font-weight: normal;
+	text-decoration: underline;
+	font-style: italic;
+
+	&:hover {
+		cursor: pointer;;
+	}
+}
+
+#video-file-name {
+	font-size: 14px;
+	font-weight: bold;
+	color: #004699;
+	margin: 20px 0;
+	display: block;
+}
+
 .loader-spinner{
--webkit-animation:spin 2s linear infinite;
--moz-animation:spin 2s linear infinite;
-animation:spin 2s linear infinite;
+	-webkit-animation:spin 2s linear infinite;
+	-moz-animation:spin 2s linear infinite;
+	animation:spin 2s linear infinite;
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }

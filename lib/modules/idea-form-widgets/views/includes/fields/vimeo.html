@@ -1,7 +1,6 @@
 {% set maxFileSize = 120 %}
 <script src="/modules/idea-form-widgets/js/vimeo-init.js"></script>
 
-
 <div id="vimeo-video">
   {% if idea.extraData.vimeoId %}
   <iframe src="https://player.vimeo.com/video/{{idea.extraData.vimeoId}}" width="" height=""></iframe>
@@ -10,44 +9,40 @@
 <div id="vimeo-dropzone-container">
 
   <div id="vimeo-dropzone">
+    <div id="vimeo-status" > </div>
+
     <span id="vimeo-upload-text">
-      Sleep een video naar deze plek of
-      <br />
-      <label class="btn btn-primary">
+      <label class="vimeo-upload-button">
         blader
         <br />
         <input id="vimeo-browse" type="file" style="display: none;">
       </label>
       <br />
-
-      <small> Max {{maxFileSize}}mb </small>
+      Of sleep het bestand hierheen om te uploaden (max 120 MB).
     </span>
     <span id="vimeo-upload-again-text">
       <span class="success-text">
         <span class="glyphicon glyphicon-ok-circle"></span>
         <h3> Succesvol upgeload ! <br /> <small id="video-file-name"> </small></h3>
-        Het kan even duren voor de video daadwerkelijk beschikbaar is via Vimeo.
-      </span>
-      Om uw video te wijzigen kunt uw een nieuwe video hiernaar toe slepen of
-      <br />
-      <br />
 
-      <label class="btn btn-primary">
-          blader <input id="vimeo-browse" type="file" style="display: none;" data-max-filesize="{{maxFileSize}}">
-      </label>
-      <br />
-      <small> Max {{maxFileSize}}mb </small>
+        <em>
+          Je video is na het insturen over maximaal 15 minuten zichtbaar op de site.
+          Om een andere video te kiezen, sleep je het bestand (max 120 MB) hierheen om te uploaden of
+        </em>
+        <br />
+        <label class="label-as-link">
+          klik hier om een ander bestand te kiezen. <input id="vimeo-browse" type="file" style="display: none;" data-max-filesize="{{maxFileSize}}">
+        </label>
+      </span>
     </span>
   </div>
   <div id="vimeo-uploading-local">
     <img src="/img/loader.svg" class="loader-spinner" width="25" height="25" />
     <br />
-    Uw video is aan het uploaden, bij grote bestanden kan dit enkele minuten duren.
+    <br />
+    Je video is aan het uploaden. Bij grotere bestanden kan dit enkele minuten duren.
   </div>
-  <div id="vimeo-uploading-vimeo">
-    Uw video wordt verwerkt door vimeo, bij grote bestanden kan dit enkele minuten duren.
-  </div>
-  <label id="vimeo-status" class="error"> </label>
+
 </div>
 <br />
 <input type="hidden" id="vimeo-id" name="vimeoId" value="{{idea.extraData.vimeoId}}" {% if field.fieldRequired %}required{% endif %} />
