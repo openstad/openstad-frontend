@@ -331,5 +331,15 @@
 	"Skip all like this": "Skip all like this",
 	"Modified fields: %s": "Modified fields: %s",
 	"The document was committed successfully.": "The document was committed successfully.",
-	"Recource admin buttons": "Recource admin buttons"
+	"Recource admin buttons": "Recource admin buttons",
+	"Save Resource overview": "Save Resource overview",
+	"Resource (from config)": "Resource (from config)",
+	"Idea": "Idea",
+	"Article": "Article",
+	"Row": "Row",
+	"Raw (activeResource is the variable)": "Raw (activeResource is the variable)",
+	"Raw input": "Raw input",
+	"Url structure for the resource (for instance /article, the code turns that into /article/10)": "Url structure for the resource (for instance /article, the code turns that into /article/10)",
+	"Display ranking": "Display ranking",
+	"Edit Resource overview": "Edit Resource overview"
 }
