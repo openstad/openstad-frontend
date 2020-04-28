@@ -18,6 +18,7 @@ API=http://localhost:8108
 #should be defined in API config, is needed to get sensitive Site configuration
 SITE_API_KEY=xxxx
 MAP_TYPE=googlemaps
+OPENSTAD_COMPONENTS_URL=https://CDNURL
 ```
 
 #### 2. Run NPM install
