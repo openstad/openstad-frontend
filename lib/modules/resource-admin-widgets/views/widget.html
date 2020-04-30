@@ -10,11 +10,11 @@
 {% include 'includes/crud/edit-delete.html' %}
 {% endif %}
 
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 {% include 'includes/crud/admin.html' %}
 {% endif %}
 
-{% if data.isAdmin %}
+{% if data.hasModeratorRights %}
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
 {% include 'includes/modal-extra-info.html' %}
