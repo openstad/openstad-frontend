@@ -1,5 +1,7 @@
 const config = require('config');
 
+console.log(config.authorization);
+
 // Env variable used by npm's `debug` package.
 process.env.DEBUG = config.logging;
 
