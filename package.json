@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js "
+    "dev": "nodemon app.js ",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,8 @@
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
-    "vimeo": "^2.1.1"
-  }
+    "vimeo": "^2.1.1",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
