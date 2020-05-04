@@ -82,7 +82,7 @@
 				<div class="tab-selector">
 					{% if (data.global.themes and data.global.themes.length > 0) %}
 					<select id="themaSelector" class="default-select" onchange="{% if data.widget.votingType == 'budgeting-per-theme' %}setTheme(this.selectedIndex){% else %}activateTab(this.selectedIndex){% endif %}">
-						<option value="0">Alle thema's</option>
+						<option value="0" selected disabled>Alle thema's</option>
 						{% for theme in data.global.themes %}
 						<option value="{{theme.value}}">{{theme.value}}</option>
 						{% endfor %}
@@ -90,7 +90,7 @@
 					{% endif %}
 					{% if (data.global.areas and data.global.areas.length) > 0 %}
 					<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
-						<option value="0">Alle gebieden</option>
+						<option value="0" selected disabled>Alle gebieden</option>
 						{% for area in data.global.areas %}
 						<option value="{{area.value}}">{{area.value}}</option>
 						{% endfor %}

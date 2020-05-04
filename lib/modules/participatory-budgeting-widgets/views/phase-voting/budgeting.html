@@ -5,7 +5,8 @@
 			<div id="budget-block" >
 				<div id="budget-block">
 
-					<div id="steps-bar">
+					<div id="steps-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4">
+
 						<div id="steps-bar-1" class="step active">
 							<div class="content">1. Kies</div>
 						</div>
@@ -56,7 +57,7 @@
 									</div>
 								</div>
 								<div class="col-sm-4  col-xs-12 ">
-									<div id="budget-text" class="stretch">
+									<div id="budget-text" class="stretch" tabindex="0">
 										<div>
 											{% if data.widget.votingType === 'count' %}
 											<table class="primary-color stretch table-reset">
@@ -152,12 +153,12 @@
             {% endif %}
 					</div>
 					<div id="button-bar">
-						<div id="previous-button" onclick="previousStep(); // calculateContainerHeight();">
+						<button id="previous-button" onclick="previousStep(); // calculateContainerHeight();" tabindex="0" title="Vorige">
 							Vorige
-						</div>
-						<div id="next-button" onclick="nextStep(); ">
+						</button>
+						<button id="next-button" onclick="nextStep();" tabindex="0" title="Volgende">
 							Volgende
-						</div>
+						</button>
 					</div>
 					<div id="steps-content-0" class="step">
 					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
@@ -192,7 +193,7 @@
 										</h3>
 									</div>
 								</a>
-								<div class="mobile-accordion-body">
+								<div class="mobile-accordion-body" tabindex="0">
                   <h4 style="padding-top: 10px;">Kies jouw favoriete plannen per thema!</h4>
                   <ol type="1">
                     <li>Selecteer hieronder een thema om de plannen voor dat thema te bekijken</li>
