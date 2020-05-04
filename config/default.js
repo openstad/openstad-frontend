@@ -1,7 +1,7 @@
 // at the bootom of this file some values are overwritten with env vars
 
 let defaultConfig = {
-  
+
 	"siteName": "OpenStad API",
 
 	"url"             : "https://www.amsterdam.nl",
@@ -14,7 +14,7 @@ let defaultConfig = {
 	"timeZone" : "Europe/Amsterdam",
 
   database   : {
-    "dialect": "mariadb",
+    "dialect": "mysql",
     "multipleStatements": true
   },
 
@@ -37,11 +37,11 @@ let defaultConfig = {
 			{ "route": "/", "router": "./routes/doc" }
 		]
 	},
-	
+
 	"mail": {
 		"from": "from@localhost",
 		"method": "smtp",
-		
+
 		"transport": {
 			"smtp": {
 				"pool": false,
@@ -58,7 +58,7 @@ let defaultConfig = {
 
 		}
 	},
-	
+
 	"notifications": {
 		"admin": {
 			// Special high-frequency email notifications for site administrators.
@@ -253,7 +253,7 @@ let defaultConfig = {
     }
 
 	},
-	
+
 	"security": {
 		"passwordHashing": {
 			"currentMethod": "bcrypt",
@@ -312,8 +312,11 @@ defaultConfig.notifications.admin.emailAddress = process.env.API_NOTIFICATIONS_A
 defaultConfig.security.sessions.cookieName = process.env.API_SECURITY_SESSIONS_COOKIENAME || defaultConfig.security.sessions.cookieName;
 defaultConfig.security.sessions.onlySecure = process.env.API_SECURITY_SESSIONS_ONLYSECURE || defaultConfig.security.sessions.onlySecure;
 defaultConfig.authorization['jwt-secret'] = process.env.API_AUTHORIZATION_JWTSECRET || defaultConfig.authorization['jwt-secret'];
+
 try {
   defaultConfig.authorization['fixed-auth-tokens'] = JSON.parse(process.env.API_AUTHORIZATION_FIXEDAUTHTOKENS) || defaultConfig.authorization['fixed-auth-tokens'];
-} catch (err) {};
+} catch (err) {
+	//console.log('err', err);
+};
 
 module.exports = defaultConfig;

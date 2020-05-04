@@ -30,6 +30,7 @@
     "method-override": "^3.0.0",
     "mysql2": "^1.6.5",
     "nodemailer": "^6.0.0",
+    "nodemon": "^1.17.5",
     "nunjucks": "^3.2.0",
     "pmx": "^1.6.7",
     "sanitize-html": "^1.20.0",

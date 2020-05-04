@@ -92,7 +92,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				subset: {
 					dbName: {
 						type: 'string',
-						default: '',
+						default: 'default_db', //the mongodb database
 					},
 					url: {
 						type: 'string',

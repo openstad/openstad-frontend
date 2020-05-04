@@ -5,6 +5,7 @@ const log = require('debug')('app:db');
 module.exports = co.wrap(function*( db ) {
 
 	log('Creating sites');
+
 	yield sites.map(function( siteData ) {
 		return db.Site.create(siteData);
 	});
@@ -34,7 +35,7 @@ module.exports = co.wrap(function*( db ) {
 var today = moment().endOf('day');
 
 var sites = [
-	{id: 1, name: 'site-one', title: 'OpenStad Development Site', config: {}},
+	{id: 1, name: 'site-one', domain: process.env.DEV_SITE_DOMAIN, title: 'OpenStad Development Site', config: {}},
 ];
 
 var users = [
