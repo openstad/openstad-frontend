@@ -89,7 +89,7 @@ function serveSites (req, res, next) {
      */
     const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
     const siteOptions = {
-        uri:`${api}/api/site/${thisHost}`, //,
+        uri:`${apiUrl}/api/site/${thisHost}`, //,
         headers: {
             'Accept': 'application/json',
             "Cache-Control": "no-cache"
