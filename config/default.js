@@ -68,7 +68,12 @@ let defaultConfig = {
 	},
 
 	"authorization": {
-		"jwt-secret": "QTG6EPehO6NKfJm6bSV9NYVbFj973ezT"
+		"jwt-secret": "QTG6EPehO6NKfJm6bSV9NYVbFj973ezT",
+		"auth-server-login-path": "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline",
+		"auth-server-exchange-code-path": "/oauth/token",
+		"auth-server-get-user-path": "/api/userinfo?client_id=[[clientId]]",
+		"auth-server-logout-path": "/logout?clientId=[[clientId]]",
+		"after-login-redirect-uri": "/?jwt=[[jwt]]"
 	},
 
 	"ideas": {

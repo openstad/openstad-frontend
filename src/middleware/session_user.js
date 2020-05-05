@@ -34,7 +34,8 @@ module.exports = function getSessionUser( req, res, next ) {
 		if (req.headers['x-authorization'].match(/^bearer /i)) {
 			// jwt overrules other settings
 			let token = req.headers['x-authorization'].replace(/^bearer /i, '');
-			let data = jwt.verify(token, config.authorization['jwt-secret'])
+			let data = jwt.verify(token, config.authorization['jwt-secret']);
+
 			if (data && data.userId) {
 				userId = data.userId
 			}
@@ -50,11 +51,11 @@ module.exports = function getSessionUser( req, res, next ) {
 				}
 			});
 		}
-
 	}
 
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+
 	getUserInstance(userId || 1, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
 			req.user = user;
@@ -99,7 +100,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 			if (dbuser && dbuser.externalUserId && dbuser.externalAccessToken) {
 
 				// get the user info using the access token
-				let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+				let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 				let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
 				let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 				let url = authServerUrl + authServerGetUserPath;
