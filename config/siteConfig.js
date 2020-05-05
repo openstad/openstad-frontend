@@ -13,7 +13,7 @@ module.exports = {
       modules: {
         'api-proxy': {},
         'apostrophe-db': {
-          host: process.env.DB_HOST || 'localhost',
+          host: process.env.DB_HOST  || 'localhost',
           port: process.env.DB_PORT || 27017,
         },
         'apostrophe-express': {
@@ -84,9 +84,9 @@ module.exports = {
         'icon-section-widgets': {},
         'idea-single-widgets': {},
         'idea-form-widgets': {},
-        'ideas-on-map-widgets': {},
+      //  'ideas-on-map-widgets': {},
         'cookie-warning-widgets': {},
-        'choices-guide-widgets': {},
+      //  'choices-guide-widgets': {},
         'date-bar-widgets': {},
         'map-widgets': {},
         'idea-map-widgets': {},
@@ -96,7 +96,7 @@ module.exports = {
         'cookie-warning-widgets': {},
         'arguments-widgets': {},
         'arguments-form-widgets': {},
-        'gebiedsontwikkeling-tool-widgets': {},
+      //  'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},

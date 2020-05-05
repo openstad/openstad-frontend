@@ -85,10 +85,11 @@ function serveSites (req, res, next) {
   } else {
 
     /**
-     * Fetch the config for sites
+     * Fetch the config for site by making a call with the domain
      */
+    const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
     const siteOptions = {
-        uri:`${process.env.API}/api/site/${thisHost}`, //,
+        uri:`${api}/api/site/${thisHost}`, //,
         headers: {
             'Accept': 'application/json',
             "Cache-Control": "no-cache"
@@ -96,6 +97,7 @@ function serveSites (req, res, next) {
         json: true // Automatically parses the JSON string in the response
     };
 
+    // ADD site key if set, necessary for sensitive admin info
     if (process.env.SITE_API_KEY) {
       siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
     }
@@ -120,7 +122,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
-            //format sitedatat so it makes more sense
+            //reorganise the loaded config
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
@@ -139,7 +141,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
           const safeStartServer = () => {
             if (aposStartingUp[dbName]) {
-              // old schotimeout loop to make sure we dont start multiple servers of the same site
+              // old school timeout loop to make sure we dont start multiple servers of the same site
               setTimeout(() => {
                 safeStartServer();
               }, 100);
