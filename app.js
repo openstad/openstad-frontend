@@ -45,7 +45,6 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-
 app.get('/login', (req, res, next) => {
   const unauthorized = (req, res) => {
       var challengeString = 'Basic realm=Openstad';
