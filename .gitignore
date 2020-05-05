@@ -1,4 +1,7 @@
 /node_modules
 /config/local.*
+/config/test.*
 /html/stemvanniels
 *.css
+coverage/
+
