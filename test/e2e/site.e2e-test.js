@@ -1,9 +1,8 @@
-const http = require('http');
 const db = require('../../src/db');
 const supertest = require('supertest');
 const appServer = require("./../../src/Server");
 
-let server, request, app, agent, testServer;
+let server, request;
 
 describe('Site endpoints', () => {
 
@@ -17,7 +16,6 @@ describe('Site endpoints', () => {
     });
 
     afterAll(async (done) => {
-
         // Todo: fix open handles
         await server.close();
         await db.sequelize.close();

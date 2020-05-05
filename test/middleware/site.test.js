@@ -1,7 +1,5 @@
 const siteMiddleware = require('../../src/middleware/site.js');
 const createError = require('http-errors');
-//const site = require('../../models/Site');
-//const db = require('../../src/db');
 
 const mockRequest = (path) => ({
     path: path,
