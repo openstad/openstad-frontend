@@ -8,7 +8,8 @@ const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
 const {Op} = require('sequelize');
-
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
@@ -80,7 +81,7 @@ router.route('*')
 // ---------------------------
 router.route('/')
 
-  // mag je de stemmen bekijken
+// mag je de stemmen bekijken
 	.get(function(req, res, next) {
 		let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
 
@@ -89,6 +90,7 @@ router.route('/')
 		}
 		return next();
 	})
+	.get(pagination.init)
 	.get(function(req, res, next) {
 
 		let where = {};
@@ -130,30 +132,38 @@ router.route('/')
 
 		db.Vote
 			.scope(req.scope)
-			.findAll({ where, order })
-			.then(function( found ) {
-				res.json(found.map(entry => {
-					let vote = {
-						id: entry.id,
-						ideaId: entry.ideaId,
-						userId: entry.userId,
-						confirmed: entry.confirmed,
-						opinion: entry.opinion,
-						createdAt: entry.createdAt
-					};
-
-					if (req.user && req.user.role === 'admin') {
-						vote.ip = entry.ip;
-						vote.createdAt = entry.createdAt;
-						vote.checked =  entry.checked;
-						vote.user = entry.user;
-					}
-
-					return vote;
-				}));
+			.findAndCountAll({ where, order, offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(function( result ) {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.catch(next);
-	});
+	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((entry, i) => {
+			let vote = {
+				id: entry.id,
+				ideaId: entry.ideaId,
+				userId: entry.userId,
+				confirmed: entry.confirmed,
+				opinion: entry.opinion,
+				createdAt: entry.createdAt
+			};
+
+			if (req.user && req.user.role === 'admin') {
+				vote.ip = entry.ip;
+				vote.createdAt = entry.createdAt;
+				vote.checked =  entry.checked;
+				vote.user = entry.user;
+			}
+      records[i] = vote
+		});
+		res.json(req.results);
+  });
 
 // create votes
 // ------------

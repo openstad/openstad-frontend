@@ -4,6 +4,8 @@ const db = require('../../db');
 const auth = require('../../auth');
 const mail = require('../../lib/mail');
 const generateToken = require('../../util/generate-token');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({ mergeParams: true });
 
@@ -19,34 +21,41 @@ router.route('/$')
 // list newslettersignups
 // ----------------------
   .get(auth.can('newslettersignup:list'))
+	.get(pagination.init)
   .get(function(req, res, next) {
     let where = { siteId: req.site.id };
     let confirmed = req.query.confirmed;
     if ( typeof confirmed !== 'undefined' ) where.confirmed = !( confirmed == 'false' || confirmed == '0' );
     db.NewsletterSignup
       .scope(...req.scope)
-      .findAll({ where })
-      .then( (found) => {
-        return found.map( (entry) => {
-          let json = {
-            id: entry.id,
-            siteId: entry.siteId,
-            email: entry.email,
-            firstName: entry.firstName,
-            lastName: entry.lastName,
-            createdAt: entry.createdAt,
-            externalUserId: entry.externalUserId,
-            confirmed: entry.confirmed,
-            confirmToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == entry.externalUserId  ? entry.confirmToken : undefined,
-            signoutToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == entry.externalUserId  ? entry.signoutToken : undefined,
-          };
-          return json;
-        });
-      })
-      .then(function( found ) {
-        res.json(found);
+			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+      .then( (result) => {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
       })
       .catch(next);
+  })
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((record, i) => {
+      let json = {
+        id: record.id,
+        siteId: record.siteId,
+        email: record.email,
+        firstName: record.firstName,
+        lastName: record.lastName,
+        createdAt: record.createdAt,
+        externalUserId: record.externalUserId,
+        confirmed: record.confirmed,
+        confirmToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == record.externalUserId  ? record.confirmToken : undefined,
+        signoutToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == record.externalUserId  ? record.signoutToken : undefined,
+      };
+      records[i] = json;
+		});
+		res.json(req.results);
   })
 
 // create newslettersignup
