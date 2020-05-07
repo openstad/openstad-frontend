@@ -37,6 +37,16 @@ router
 			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
 
+		if (req.query.includeTags) {
+			req.scope.push('includeTags');
+		}
+
+		if (req.query.selectTags) {
+      let tags = req.query.selectTags;
+			req.scope.push({ method: ['selectTags', tags]});
+			req.scope.push('includeTags');
+		}
+
 		if (req.query.includeMeeting) {
 			req.scope.push('includeMeeting');
 		}
@@ -112,11 +122,49 @@ router.route('/')
 			req.body.location = JSON.parse(req.body.location || null);
 		} catch(err) {}
 
+    let responseData;
 		db.Idea
 			.create(req.body)
-			.then(result => {
-				res.json(createIdeaJSON(result, req.user, req));
-				mail.sendThankYouMail(result, req.user, req.site) // todo: optional met config?
+			.then(ideaInstance => {
+				responseData = createIdeaJSON(ideaInstance, req.user, req);
+        return ideaInstance;
+			})
+			.then(ideaInstance => {
+        // tags
+        if (!req.body.tags) return ideaInstance;
+        let tagIds = [];
+        return db.Tag
+          .scope(['defaultScope', {method: ['forSiteId', req.params.siteId]}])
+          .findAll({ where: { name: req.body.tags } })
+			    .then(tags => {
+            tags.forEach((tag) => {
+              tagIds.push(tag.id);
+            });
+            return ideaInstance
+              .setTags(tagIds)
+              .then(() => {
+                return ideaInstance;
+              })
+			    })
+			    .then(ideaInstance => {
+            // refetch. now with tags
+            let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+		        return db.Idea
+			        .scope(...scope)
+			        .findOne({
+				        where: { id: ideaInstance.id, siteId: req.params.siteId }
+			        })
+			        .then(found => {
+				        if ( !found ) throw new Error('Idea not found');
+				        responseData = createIdeaJSON(found, req.user, req);
+                return found;
+			        })
+			        .catch(next);
+	        })
+			})
+			.then(ideaInstance => {
+				res.json(responseData);
+				mail.sendThankYouMail(ideaInstance, req.user, req.site) // todo: optional met config?
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -173,10 +221,47 @@ router.route('/:ideaId(\\d+)')
 			req.body.location = JSON.parse(null);
 		}
 
+    let responseData;
 		req.idea
 			.update(req.body)
-			.then(result => {
-				res.json(createIdeaJSON(result, req.user, req));
+			.then(ideaInstance => {
+				responseData = createIdeaJSON(ideaInstance, req.user, req);
+        return ideaInstance;
+			})
+			.then(ideaInstance => {
+        // tags
+        if (!req.body.tags) return;
+        let tagIds = [];
+        return db.Tag
+          .scope(['defaultScope', {method: ['forSiteId', req.params.siteId]}])
+          .findAll({ where: { name: req.body.tags } })
+			    .then(tags => {
+            tags.forEach((tag) => {
+              tagIds.push(tag.id);
+            });
+            return ideaInstance
+              .setTags(tagIds)
+              .then(() => {
+                return ideaInstance;
+              })
+			    })
+			    .then(ideaInstance => {
+            // refetch. now with tags
+            let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+		        return db.Idea
+			        .scope(...scope)
+			        .findOne({
+				        where: { id: ideaInstance.id, siteId: req.params.siteId }
+			        })
+			        .then(found => {
+				        if ( !found ) throw new Error('Idea not found');
+				        responseData = createIdeaJSON(found, req.user, req);
+			        })
+			        .catch(next);
+	        })
+			})
+			.then(() => {
+				res.json(responseData);
 			})
 			.catch(next);
 	})
@@ -203,9 +288,9 @@ function filterBody(req) {
 	let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
 
 	if (hasModeratorRights) {
-		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
+		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate', 'tags' ];
 	} else {
-		keys = [ 'title', 'summary', 'description', 'extraData', 'location' ];
+		keys = [ 'title', 'summary', 'description', 'extraData', 'location', 'tags' ];
 	}
 
 	keys.forEach((key) => {
@@ -231,6 +316,7 @@ function filterBody(req) {
 }
 
 function createIdeaJSON(idea, user, req) {
+
 	let hasModeratorRights = (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
 
 	let can = {
@@ -244,8 +330,7 @@ function createIdeaJSON(idea, user, req) {
 	result.site = null;
 	result.can = can;
 
-
-// Fixme: hide email in arguments and their reactions
+  // Fixme: hide email in arguments and their reactions
 	function hideEmailsForNormalUsers(args) {
 		return args.map((argument) => {
 			argument.user.email = hasModeratorRights ? argument.user.email : '';
@@ -274,6 +359,12 @@ function createIdeaJSON(idea, user, req) {
 		delete result.extraData.phone;
 	}
 
+  // tags
+  if (result.tags) {
+    result.tags.forEach((tag, i) => {
+      result.tags[i] = result.tags[i].name
+    });
+  }
 
 	/**
 	 * In case the votes isset.

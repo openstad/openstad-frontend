@@ -621,6 +621,27 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}]
 			},
 
+			includeTags: {
+				include : [{
+					model: db.Tag,
+					attributes : ['id', 'name'],
+          through: { attributes: [] },
+				}]
+			},
+
+			selectTags: function( tags ) {
+	      return {
+          include : [{
+					  model: db.Tag,
+					  attributes : ['id', 'name'],
+            through: { attributes: [] },
+            where: {
+              name: tags
+            }
+				  }],
+        }
+			},
+
 			includePosterImage: {
 				include: [{
 					model      : db.Image,
@@ -855,6 +876,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		this.hasMany(models.Image, {as: 'posterImage'});
 		this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId' });
 		this.belongsTo(models.Site);
+		this.belongsToMany(models.Tag, { through: 'ideaTags' });
 	}
 
 	Idea.getRunning = function( sort, extraScopes ) {
