@@ -67,16 +67,13 @@ module.exports = {
     if (currentPage < pageCount - 1) {
       metadata.links.next = url.replace(/(\?|&)page=.*?(&|$)/, `$1page=${currentPage + 1}$2`);
     }
-    
+
     req.results = {
       metadata,
       records: list
     };
 
     return next();
-
   }
 
 }
-
-  

@@ -31,6 +31,10 @@ router
 			req.scope.push('mapMarkers');
 		}
 
+		if (req.query.filters) {
+			req.scope.push({ method: ['filter', req.query.filters]});
+		}
+
 		if (req.query.running) {
 			req.scope.push('selectRunning');
 		}
@@ -43,8 +47,8 @@ router
 			req.scope.push('includeTags');
 		}
 
-		if (req.query.selectTags) {
-      let tags = req.query.selectTags;
+		if (req.query.tags) {
+      		let tags = req.query.tags;
 			req.scope.push({ method: ['selectTags', tags]});
 			req.scope.push('includeTags');
 		}
@@ -89,10 +93,15 @@ router.route('/')
 // ----------
 	.get(auth.can('ideas:list'))
 	.get(pagination.init)
+	// add filters
 	.get(function(req, res, next) {
+
+		let queryConditions = req.queryConditions ? req.queryConditions : {};
+		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+
 		db.Idea
 			.scope(...req.scope)
-			.findAndCountAll({ where: { siteId: req.params.siteId }, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(function( result ) {
         req.results = result.rows;
         req.pagination.count = result.count;

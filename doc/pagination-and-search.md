@@ -77,7 +77,6 @@ Het zoeken zelf gebeurd door een module [fuzzysort](https://github.com/farzher/f
 Je resultaten worden gesorteerd op die score; een arbitraire hardcoded minimum score bepaalt of je een resultaat uberhaubt terug krijgt.
 
 ## TODO
-- Testen fuzzy search: vodoet dit?
+- Testen fuzzy search: voldoet dit?
 - Bepalen van de minimum score om in de resultaten terrecht te komen; wellicht configureerbaar.
 - Meer zoekopties, waarschijnlijk ook dingen als zoeken op tags
-
