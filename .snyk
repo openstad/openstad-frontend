@@ -1,0 +1,40 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-blog > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-palette > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - express-cache-on-demand > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - http-proxy-middleware > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe > joinr > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe > moog-require > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe > uploadfs > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-area-structure > cheerio > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-palette > async > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-palette > node-cache > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - express-cache-on-demand > cache-on-demand > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - node-file-cache > lowdb > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - request-promise > request-promise-core > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe > moog-require > moog > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe > request-promise > request-promise-core > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
+    - apostrophe-workflow > request-promise > request-promise-core > lodash:
+        patched: '2020-05-01T07:38:21.952Z'
