@@ -690,5 +690,18 @@
 	"Display pagination": "Display pagination",
 	"Amount of items per page": "Amount of items per page",
 	"There is a max of 100 per page": "There is a max of 100 per page",
-	"Display new filter & sorting?": "Display new filter & sorting?"
+	"Display new filter & sorting?": "Display new filter & sorting?",
+	"Edit Resource form": "Edit Resource form",
+	"Save Resource form": "Save Resource form",
+	"You were unable to take control of the document.": "You were unable to take control of the document.",
+	"Vimeo": "Vimeo",
+	"How to display the main menu?": "How to display the main menu?",
+	"Display pages automatically": "Display pages automatically",
+	"Arrange menu items manually": "Arrange menu items manually",
+	"Hide the menu items": "Hide the menu items",
+	"Vimeo client id": "Vimeo client id",
+	"Vimeo secret id": "Vimeo secret id",
+	"Vimeo Accces Token": "Vimeo Accces Token",
+	"Vimeo Embed Settings": "Vimeo Embed Settings",
+	"Vimeo View Settings": "Vimeo View Settings"
 }

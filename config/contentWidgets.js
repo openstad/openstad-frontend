@@ -1,7 +1,13 @@
 const contentWidgets = {
-  'resource-overview': {},
-  'resource-form': {},
-  'resource-representation': {},
+  'resource-overview': {
+    adminOnly: true
+  },
+  'resource-form': {
+    adminOnly: true
+  },
+  'resource-representation': {
+    adminOnly: true
+  },
   'agenda': {},
   'accordeon': {},
   'arguments': {
@@ -23,7 +29,9 @@ const contentWidgets = {
   'counter': {
     addLabel: 'Counter',
   },
-  'cookie-warning': {},
+  'cookie-warning': {
+    adminOnly: true
+  },
   'date-bar': {},
   'idea-form': {
     adminOnly: true
@@ -31,7 +39,9 @@ const contentWidgets = {
   'idea-map': {
     adminOnly: true
   },
-  'idea-overview': {},
+  'idea-overview': {
+    adminOnly: true
+  },
   'idea-single': {
     adminOnly: true
   },
@@ -42,7 +52,9 @@ const contentWidgets = {
   'previous-next-button-block': {
     addLabel: 'Vorige volgende knoppen',
   },
-  'iframe': {},
+  'iframe': {
+    adminOnly: true
+  },
   'image': {},
   'info-bar': {},
   'link': {},
@@ -66,7 +78,9 @@ const contentWidgets = {
   'choices-guide-result': {
     addLabel: 'Keuzewijzer resultaten',
   },
-  'main-image': {},
+  'main-image': {
+    adminOnly: true
+  },
   'apostrophe-rich-text': {
     toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],
     styles: [
@@ -93,12 +107,25 @@ const contentWidgets = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
-  'location': {},
-  'share': {},
-  'recource-raw': {},
-  'recource-image': {},
-  'recource-like': {},
-  'resource-admin': {}
+  'location': {
+    adminOnly: true
+
+  },
+  'share': {
+    adminOnly: true
+  },
+  'recource-raw': {
+    adminOnly: true
+  },
+  'recource-image': {
+    adminOnly: true
+  },
+  'recource-like': {
+    adminOnly: true
+  },
+  'resource-admin': {
+    adminOnly: true
+  }
 };
 
 exports.getAdminWidgets = () => {
