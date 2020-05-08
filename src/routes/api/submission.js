@@ -2,6 +2,8 @@ const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
@@ -10,22 +12,29 @@ router.route('/')
 // list submissions
 // --------------
 	.get(auth.can('submissions:list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
 		let where = {};
 		req.scope = ['defaultScope'];
-	//	req.scope.push({method: ['forSiteId', req.params.siteId]});
-
 		db.Submission
 			.scope(...req.scope)
-			.findAll({ where })
-			.then( found => {
-				return found.map( entry => entry.toJSON() );
-			})
-			.then(function( found ) {
-				res.json(found);
+			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(function( result ) {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.catch(next);
 	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((record, i) => {
+      records[i] = record.toJSON();
+		});
+		res.json(req.results);
+  })
 
 // create submission
 // ---------------

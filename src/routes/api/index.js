@@ -20,6 +20,9 @@ router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 // articles
 router.use( '/site/:siteId(\\d+)/article', require('./article') );
 
+// tags
+router.use( '/site/:siteId(\\d+)/tag', require('./tag') );
+
 // submissions
 router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
 

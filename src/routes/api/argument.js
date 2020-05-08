@@ -3,6 +3,8 @@ const moment			= require('moment');
 const createError = require('http-errors')
 const db          = require('../../db');
 const auth        = require('../../auth');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = require('express-promise-router')({mergeParams: true});
 
@@ -46,6 +48,7 @@ router.route('/')
 // list arguments
 // --------------
 	.get(auth.can('arguments:list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
 
 		let ideaId = parseInt(req.params.ideaId) || 0;
@@ -60,19 +63,24 @@ router.route('/')
 
 		return db.Argument
 			.scope(...req.scope)
-			.findAll({ where })
-			.then( found => {
-				return found.map( entry => {
-
-					return createArgumentJSON(entry, req.user);
-				});
-			})
-			.then(function( found ) {
-				res.json(found);
+			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(function( result ) {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.catch(next);
 
 	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((record, i) => {
+      records[i] = createArgumentJSON(record, req.user);
+		});
+		res.json(req.results);
+  })
 
 // create argument
 // ---------------
