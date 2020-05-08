@@ -1,6 +1,6 @@
 <h2 class="edit-header">Bewerken</h2>
 
-<form action="{{data.global.editIdeaUrl}}" method="GET">
+<form action="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}" method="GET">
   <input type="hidden" name="ideaId" value="{{idea.id}}" />
   <button type="submit" class="edit">Bewerk idee</button>
 </form>
@@ -9,5 +9,5 @@
   <input type="hidden" name="ideaId" value="{{idea.id}}" />
   <input type="hidden" name="action" value="DELETE" />
   <button type="submit" class="delete" onclick="return confirm('Zeker?')">Verwijder idee</button>
-  <input type="hidden" name="redirect-url" class="redirect-url"  value="/{{data.global.ideaOverviewSlug}}"  />
+  <input type="hidden" name="redirect-url" class="redirect-url"  value="{{data.widget.redirectUrlAfterDelete}}"  />
 </form>
