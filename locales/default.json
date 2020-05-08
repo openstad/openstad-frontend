@@ -675,5 +675,20 @@
 	"Url achter de 'volgende' knop": "Url achter de 'volgende' knop",
 	"Tekst op de 'volgende' knop": "Tekst op de 'volgende' knop",
 	"Edit Vorige volgende knoppen": "Edit Vorige volgende knoppen",
-	"URL van de reultaat pagina": "URL van de reultaat pagina"
+	"URL van de reultaat pagina": "URL van de reultaat pagina",
+	"Resource overview": "Resource overview",
+	"Resource form": "Resource form",
+	"Resource representation": "Resource representation",
+	"Edit Resource overview": "Edit Resource overview",
+	"Save Resource overview": "Save Resource overview",
+	"Resource (from config)": "Resource (from config)",
+	"Article": "Article",
+	"Row": "Row",
+	"Raw (activeResource is the variable)": "Raw (activeResource is the variable)",
+	"Raw input": "Raw input",
+	"Url structure for the resource (for instance /article, the code turns that into /article/10)": "Url structure for the resource (for instance /article, the code turns that into /article/10)",
+	"Display pagination": "Display pagination",
+	"Amount of items per page": "Amount of items per page",
+	"There is a max of 100 per page": "There is a max of 100 per page",
+	"Display new filter & sorting?": "Display new filter & sorting?"
 }
