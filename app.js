@@ -45,28 +45,6 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-
-app.get('/login', (req, res, next) => {
-  const unauthorized = (req, res) => {
-      var challengeString = 'Basic realm=Openstad';
-      res.set('WWW-Authenticate', challengeString);
-      return res.status(401).send('Authentication required.');
-  }
-
-  const basicAuthUser = process.env.LOGIN_CSM_BASIC_AUTH_USER;
-  const basicAuthPassword = process.env.LOGIN_CSM_BASIC_AUTH_PASSWORD;
-
-  if (basicAuthUser && basicAuthPassword) {
-    var user = auth(req);
-
-    if (!user || !compare(user.name, basicAuthUser) || ! compare(user.pass, basicAuthPassword)) {
-      unauthorized(req, res);
-    } else {
-      next();
-    }
-  }
-});
-
 app.use(function(req, res, next) {
   /**
    * Start the servers
