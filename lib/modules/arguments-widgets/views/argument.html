@@ -1,5 +1,5 @@
 <div class="argument argument-variant-{{arg.label}} argument-action-form " data-id="{{arg.id}}" id="arg{{arg.id}}">
-  <div class="user {{'admin' if (arg.user.role === 'moderator') || (arg.user.role === 'admin') }}">
+  <div class="user {{'admin' if (arg.user.role === 'moderator') or (arg.user.role === 'admin') }}">
     <strong>
       {{arg.user.firstName}}
       {{ apos.arguments.showLastName('arguments', data.widget, arg.user) }}
