@@ -341,5 +341,8 @@
 	"Raw input": "Raw input",
 	"Url structure for the resource (for instance /article, the code turns that into /article/10)": "Url structure for the resource (for instance /article, the code turns that into /article/10)",
 	"Display ranking": "Display ranking",
-	"Edit Resource overview": "Edit Resource overview"
+	"Edit Resource overview": "Edit Resource overview",
+	"Save Resource form": "Save Resource form",
+	"Edit Resource form": "Edit Resource form",
+	"Display pagination": "Display pagination"
 }
