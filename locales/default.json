@@ -705,5 +705,12 @@
 	"Vimeo Embed Settings": "Vimeo Embed Settings",
 	"Vimeo View Settings": "Vimeo View Settings",
 	"Box shadow": "Box shadow",
-	"A server error occurred.": "A server error occurred."
+	"A server error occurred.": "A server error occurred.",
+	"Add Image": "Add Image",
+	"Batch Revert to Live": "Batch Revert to Live",
+	"Search Images...": "Search Images...",
+	"No results for current filters%s": "No results for current filters%s",
+	"Add File": "Add File",
+	"Search Files...": "Search Files...",
+	"No results for current filters.": "No results for current filters."
 }
