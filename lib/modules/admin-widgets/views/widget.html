@@ -1,8 +1,46 @@
-{% if data.hasModeratorRights and data.global.showAdminBar %}
-<div class="custom-admin-bar">
-    <span>Admin</span>
-    <nav>
-        <a href="/ideas/download" class="btn">Export ideas</a>
-    </nav>
+{% if data.hasModeratorRights %}
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<link rel="stylesheet" href="/modules/admin-widgets/css/main.css">
+<script src="/modules/admin-widgets/js/index.js"></script>
+<div id="{{data.widget.containerId}}" class="osc-component">
+	<div id="admin-root"></div>
 </div>
+<script>
+  var appProps = {
+    user: {
+      id: {{data.openstadUser.id}}
+    },
+    imageApi: {
+      url: '/image'
+    },
+    restApi: {
+      url: '/api/site/{{data.siteId}}'
+    },
+    jwt: "{{req.session.jwt}}",
+    resources: {
+      idea: {
+        active: true
+      },
+      user: {
+        active: true
+      },
+      product: {
+        active: true
+      },
+      order: {
+        active: true
+      },
+      settings: {
+        active: true
+      }
+    }
+  };
+
+  ReactDOM.render(React.createElement(OpenstadReactAdmin, appProps), document.getElementById('admin-root'));
+</script>
 {% endif %}

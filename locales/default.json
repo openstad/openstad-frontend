@@ -712,5 +712,9 @@
 	"No results for current filters%s": "No results for current filters%s",
 	"Add File": "Add File",
 	"Search Files...": "Search Files...",
-	"No results for current filters.": "No results for current filters."
+	"No results for current filters.": "No results for current filters.",
+	"Resource": "Resource",
+	"Admin panel": "Admin panel",
+	"Save Admin panel": "Save Admin panel",
+	"Edit Admin panel": "Edit Admin panel"
 }
