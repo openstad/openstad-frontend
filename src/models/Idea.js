@@ -469,7 +469,9 @@ module.exports = function (db, sequelize, DataTypes) {
 
                         Object.keys(value).forEach((key) => {
                             if (typeof validated[key] == 'undefined') {
+                              if (!( self.config && self.config.ideas && self.config.ideas.extraDataMustBeDefined === false )) {
                                 errors.push(`${key} is niet gedefinieerd in site.config`)
+                              }
                             }
                         });
 
