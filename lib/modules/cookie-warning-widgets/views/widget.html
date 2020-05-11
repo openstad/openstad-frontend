@@ -1,3 +1,8 @@
 <div id="cookiewarning-container" class="cookie-consent">
-  {% include "cookie-warning.html" %}
+  <div class="cookie-consent-change-container">
+    <strong>{{ data.widget.statusText }}</strong> {%if data.cookieConsent %}{{ data.widget.statusAllowText }}{% else %}{{ data.widget.statusDenyText }}{% endif %}<br>
+    <strong>{{ data.widget.description }}</strong><br>
+    <a href="#" class="cookie-button cookie-button-{%if data.cookieConsent %}gray{% else %}blue{% endif %}" data-allow="true">{{ data.widget.buttonAllowText }}</a>
+    <a href="#" class="cookie-button cookie-button-{%if data.cookieConsent %}white{% else %}gray{% endif %}" data-allow="false">{{ data.widget.buttonDenyText }}</a>
+  </div>
 </div>
