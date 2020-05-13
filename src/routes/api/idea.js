@@ -51,7 +51,6 @@ router
 
 		if (req.query.tags) {
       let tags = req.query.tags;
-			console.log(tags)
 			req.scope.push({ method: ['selectTags', tags]});
 			req.scope.push('includeTags');
 		}
@@ -152,36 +151,28 @@ router.route('/')
 			})
 			.then(ideaInstance => {
         // tags
+        console.log('req.body.tags', req.body.tags, req.body)
         if (!req.body.tags) return ideaInstance;
-        let tagIds = [];
-        return db.Tag
-          .scope(['defaultScope', {method: ['forSiteId', req.params.siteId]}])
-          .findAll({ where: { id: req.body.tags } })
-			    .then(tags => {
-            tags.forEach((tag) => {
-              tagIds.push(tag.id);
-            });
-            return ideaInstance
-              .setTags(tagIds)
-              .then(() => {
-                return ideaInstance;
-              })
-			    })
-			    .then(ideaInstance => {
-            // refetch. now with tags
-            let scope = [...req.scope, 'includeVoteCount', 'includeTags']
-		        return db.Idea
-			        .scope(...scope)
-			        .findOne({
-				        where: { id: ideaInstance.id, siteId: req.params.siteId }
-			        })
-			        .then(found => {
-				        if ( !found ) throw new Error('Idea not found');
-				        responseData = createIdeaJSON(found, req.user, req);
-                return found;
-			        })
-			        .catch(next);
-	        })
+		      return ideaInstance
+		        .setTags(req.body.tags)
+		        .then(() => {
+		          return ideaInstance;
+		        })
+				    .then(ideaInstance => {
+		          // refetch. now with tags
+		          let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+			        return db.Idea
+				        .scope(...scope)
+				        .findOne({
+					        where: { id: ideaInstance.id, siteId: req.params.siteId }
+				        })
+				        .then(found => {
+					        if ( !found ) throw new Error('Idea not found');
+					        responseData = createIdeaJSON(found, req.user, req);
+		              return found;
+				        })
+				        .catch(next);
+		        })
 			})
 			.then(ideaInstance => {
 				res.json(responseData);
@@ -380,12 +371,6 @@ function createIdeaJSON(idea, user, req) {
 		delete result.extraData.phone;
 	}
 
-  // tags
-  if (result.tags) {
-    result.tags.forEach((tag, i) => {
-      result.tags[i] = result.tags[i].name
-    });
-  }
 
 	/**
 	 * In case the votes isset.
