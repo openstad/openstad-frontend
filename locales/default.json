@@ -738,5 +738,10 @@
 	"Select dynamic counter": "Select dynamic counter",
 	"Idea count": "Idea count",
 	"Static count": "Static count",
-	"Edit Counter": "Edit Counter"
+	"Edit Counter": "Edit Counter",
+	"Tags (currently only works for ideas)": "Tags (currently only works for ideas)",
+	"Save Speech Bubble": "Save Speech Bubble",
+	"Styles for the speech bubble": "Styles for the speech bubble",
+	"Hidden": "Hidden",
+	"Value (for fixed values)": "Value (for fixed values)"
 }
