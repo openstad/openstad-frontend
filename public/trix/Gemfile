@@ -13,5 +13,5 @@ gem 'uglifier', '>= 2.5.1'
 gem 'blade', '~> 0.7.0'
 gem 'blade-sauce_labs_plugin'
 
-gem 'github_api'
+gem 'github_api', '>= 0.13.0'
 gem 'aws-sdk'
