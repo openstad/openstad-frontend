@@ -694,7 +694,7 @@ module.exports = function (db, sequelize, DataTypes) {
                         attributes: ['id', 'name'],
                         through: {attributes: []},
                         where: {
-                            name: tags
+                            id: tags
                         }
                     }],
                 }

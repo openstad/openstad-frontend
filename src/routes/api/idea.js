@@ -43,12 +43,15 @@ router
 			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
 
+
+
 		if (req.query.includeTags) {
 			req.scope.push('includeTags');
 		}
 
 		if (req.query.tags) {
-      		let tags = req.query.tags;
+      let tags = req.query.tags;
+			console.log(tags)
 			req.scope.push({ method: ['selectTags', tags]});
 			req.scope.push('includeTags');
 		}
@@ -153,7 +156,7 @@ router.route('/')
         let tagIds = [];
         return db.Tag
           .scope(['defaultScope', {method: ['forSiteId', req.params.siteId]}])
-          .findAll({ where: { name: req.body.tags } })
+          .findAll({ where: { id: req.body.tags } })
 			    .then(tags => {
             tags.forEach((tag) => {
               tagIds.push(tag.id);
