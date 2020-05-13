@@ -1,0 +1,54 @@
+{% macro numberPlateButton(id, class, caption, value, href, color="#004699") %}
+	{% if not value %}
+	{% set value = 0 %}
+	{% endif %}
+
+	{% if href %}
+		<a href="/plannen" class="{{class}}">
+	{% else %}
+			<div class="{{class}}">
+	{% endif %}
+	<div id="{{id}}-content" class="{{class}}-content" style="background-color: {{color}}">
+		<div class="number-plates">
+			<div id="{{id}}-number-plate-00000" class="number-plate"> 0 </div>
+			<div id="{{id}}-number-plate-0000" class="number-plate"> 0 </div>
+			<div id="{{id}}-number-plate-000" class="number-plate"> 0 </div>
+			<div id="{{id}}-number-plate-00" class="number-plate"> 0 </div>
+			<div id="{{id}}-number-plate-0" class="number-plate"> 0 </div>
+		</div><div class="{{id}}-caption">
+			{{caption}}
+		</div>
+	</div>
+	<script>
+	 var value = parseInt('{{value}}', 10);
+
+	 if (value > 10000) {
+		 var value00000 = parseInt(value/10000) || 0
+		 document.getElementById('{{id}}-number-plate-00000').innerHTML = value00000;
+		 value = value - value00000 * 10000;
+	 } else {
+		 document.getElementById('{{id}}-number-plate-00000').style.display = 'none';
+	 }
+
+	 if (value > 1000) {
+		 var value0000 = parseInt(value/1000) || 0
+		 document.getElementById('{{id}}-number-plate-0000').innerHTML = value0000;
+		 value = value - value0000 * 1000;
+	 } else {
+		 document.getElementById('{{id}}-number-plate-0000').style.display = 'none';
+	 }
+
+	 var value000 = parseInt(value/100) || 0;
+	 var value00  = parseInt(( value - 100 * value000 )/10) || 0;
+	 var value0   = value === 0 ? 0 : value - value000 * 100 - value00 * 10;
+
+	 document.getElementById('{{id}}-number-plate-000').innerHTML = value000;
+	 document.getElementById('{{id}}-number-plate-00').innerHTML = value00;
+	 document.getElementById('{{id}}-number-plate-0').innerHTML = value0;
+	</script>
+	{% if href %}
+		</a>
+	{% else %}
+			</div>
+	{% endif %}
+{% endmacro %}

@@ -1,0 +1,228 @@
+{% set isOwner = data.openstadUser.id === idea.userId %}
+{% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
+
+
+{% import 'includes/numberplatebutton.html' as numberPlateButton %}
+
+<script>
+ var imageUrl = {};
+ var aspect = '{{data.widget.gridder_tile_image_aspect_ratio}}' || '1:1';
+ aspect = aspect.split(':');
+ var aspect_width = aspect[0];
+ var aspect_height = aspect[1];
+ if (!aspect_width || !aspect_height) {
+   aspect_width = 1;
+   aspect_height = 1;
+ }
+ function doShowImage(ideaId, target) {
+   var div = target.querySelector('div.image');
+   if (div) {
+     div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
+     var img = div.querySelector('div.image-upload');
+     img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
+     /*
+    		var factor = target.offsetWidth / 300;
+    		img.style.top    = Math.round( 23 * factor ) + 'px';
+    		img.style.left   = Math.round( 46 * factor ) + 'px';
+    		img.style.width  = Math.round( 210 * factor ) + 'px';
+    		img.style.height = Math.round( 263 * factor ) + 'px';
+    		img.style.backgroundSize = Math.round( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
+    		//	 img.style.backgroundPosition = Math.round( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
+      */
+     img.style.top    = '0px';
+     img.style.left   = '0px';
+     img.style.width  = '100%';
+     img.style.height = '100%';
+     img.style.backgroundPosition = 'center';
+     img.style.backgroundSize = 'cover';
+   }
+ }
+
+ var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+
+</script>
+{% if data.widget.gridder_open_text_vote_button %}
+<style>
+ .idea-overview-container .gridder-show .image-and-vote-button-container .vote-button-container .vote-button::before {
+   content: '{{data.widget.gridder_open_text_vote_button}}'
+ }
+</style>
+{% endif %}
+<ul
+id="ideaList"
+class="ideas-list gridder"
+onclick="ideaListClick(event);"
+{% if data.widget.defaultSorting %}
+data-default-sort="{{data.widget.defaultSorting}}"
+{% endif %}
+>
+  <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
+  {% for idea in data.widget.activeResources %}
+  <li
+  id="idea-{{idea.id}}"
+  class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
+  data-griddercontent="#ideaContent{{idea.id}}"
+  onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
+  onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
+  data-createdtime="{{idea.createdTime}}"
+  data-likes="{{idea.yes}}"
+  data-budget="{{idea.budget}}"
+  data-ranking="{{idea.extraData.ranking}}"
+  data-ideaid="{{idea.id}}"
+  >
+    <div class="image-container" style="position: relative;">
+    	<div class="image">
+    		<div class="image-upload"></div>
+    	</div>
+    	<div class="gridder-mouse-over">
+    		<div class="background">
+    		</div>
+        <div class="vertically-centered">
+      		<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
+            {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
+      		</div>
+          {% if data.widget.voting and not userHasVoted %}
+          <div class="button-vote" onclick="event.preventDefault(); selectIdea({{idea.id}})">
+            {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
+          </div>
+          {% endif %}
+        </div>
+    	</div>
+      {% if data.widget.displayRanking and idea.extraData.ranking %}
+      <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
+      {% endif %}
+
+      {% if idea.extraData.label %}
+      <div class="duration"
+        {#
+          style="
+          background-color: {{idea.extraData.label.backgroundColor}};
+          background-image: {{idea.extraData.label.b}};
+        " #}
+        >
+        {{ idea.extraData.label.text }}
+      </div>
+      {% endif %}
+
+      {#<div class="duration" style="background-color: blue;">
+       Geselecteerd
+      </div>#}
+    </div>
+    <div class="info">
+    	<h3 class="title">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+    </div>
+    <div style="display:none">
+      {% if idea.extraData %}
+      <div class="thema">{{idea.extraData.theme}}</div>
+      <div class="gebied">{{idea.extraData.area}}</div>
+			{% endif %}
+			{% if data.widget.useVoteBlockDescription and ( data.widget.vote_block_show_text_1 or data.widget.vote_block_show_text_2 ) %}
+      <div class="voteblock-description">
+        <div class="line-1">{{data.widget.vote_block_show_text_1 and data.widget.getTitleText(idea, data.widget.vote_block_show_text_1)}}</div>
+        <div class="line-1">{{data.widget.vote_block_show_text_2 and data.widget.getTitleText(idea, data.widget.vote_block_show_text_2)}}</div>
+      </div>
+      {% endif %}
+    </div>
+    <script>
+     imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent)}}";
+     doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+    </script>
+  </li>{% endfor %}
+</ul>
+
+{% for idea in data.widget.activeResources %}
+<div id="ideaContent{{idea.id}}" class="gridder-content ">
+  <div class="gridder-inner-container {{idea.status}}">
+    <div class="thisIdeaId this-idea-id">{{idea.id}}</div>
+    <h3 class="phone">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+    <div class="image-and-vote-button-container">
+      <div class="image-mask">
+        <div class="image-container">
+          <div class="image" style="/*cursor: url('/img/vergrootglas.png'), pointer;*/">
+            <div class="fotorama"
+            data-nav="thumbs"
+            data-allowfullscreen="true"
+            data-ratio="400/300"
+            data-fit="cover"
+            data-thumbwidth="105"
+            data-thumbheight="105"
+            data-auto="true"
+            >
+              {% if (idea.extraData) and (idea.extraData.images) %}
+              {% for image in idea.extraData.images %}
+              <a href="{{data.widget.formatImageUrl(image, idea.location, data.widget, 1200, 1200, false, data.cookieConsent)}}"></a>
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% if data.widget.showVoteCounter %}
+      <div class="vote-button-container hasVoted{% if userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}">
+        {% set id = 'no-of-votes-hasvoted-' + idea.id %}
+        {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasvoted', '', idea.yes, '', 'transparent')}}
+        {% if data.widget.voting %}
+        <div class="vote-button"></div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+
+      <div class="vote-button-container hasNotVoted{% if not userHasVoted %} active{% endif %}{% if idea.yes > 10000 %} gt10000{% elif idea.yes > 1000 %} gt1000{% endif %}" >
+        {% set id = 'no-of-votes-hasnotvoted-' + idea.id %}
+        {% if data.widget.showVoteCounter %}
+        {{numberPlateButton.numberPlateButton(id, 'no-of-votes-hasnotvoted', '', idea.yes, '', 'transparent')}}
+        {% endif %}
+        {% if data.widget.voting %}
+        <a href="#vote-creator-anchor" class="vote-button" onclick="selectIdea({{idea.id}})"></a>
+        {% endif %}
+      </div>
+
+    </div>
+    <div class="content">
+      <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+
+      {% if idea.summary %}
+      <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
+      {% endif %}
+
+      {% if idea.description %}
+      <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
+      {% endif %}
+
+      {% if idea.extraData.advice %}
+      <b> Tip </b>
+      <div class="tip description">{{idea.extraData.advice | nlbr | sanitize | safe}}</div>
+      {% endif %}
+
+      {% include 'includes/modbreak.html' %}
+
+      {% if data.hasModeratorRights %}
+      <div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
+      {% endif %}
+
+      <div class="share-spacer"></div>
+      <div class="share-buttons">
+        <table class="table-center">
+          <tr>
+            <td>
+          		<b class="text">Deel dit:</b>
+            </td>
+            <td>
+              <ul class="share">
+                <li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{idea.overviewUrl}}">Facebook</a></li>
+                <li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{idea.overviewUrl}}">Twitter</a></li>
+                <li><a class="email"    target="_blank" href="mailto:?subject={{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title) | urlencode}}&body={{idea.overviewUrl | urlencode}}">Email</a></li>
+                <li><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{idea.overviewUrl | urlencode}}&source=&data=">WhatsApp</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

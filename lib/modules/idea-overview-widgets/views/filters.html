@@ -6,20 +6,20 @@ style="display: none"
 {% endif %}
 >
   <div class="col-xs-12 col-sm-8">
-    {% if (data.global.areas and data.global.areas.length > 0) or (data.global.themes and data.global.themes.length > 0) %}
+    {% if (data.widget.areas and data.widget.areas.length > 0) or (data.widget.themes and data.widget.themes.length > 0) %}
     <div class="tab-selector">
-      {% if (data.global.themes and data.global.themes.length > 0) %}
+      {% if (data.widget.themes and data.widget.themes.length > 0) %}
       <select id="themaSelector" class="default-select" onchange="activateIdeaOverviewTab(this.selectedIndex)">
         <option value="0">Alle thema's</option>
-        {% for theme in data.global.themes %}
+        {% for theme in data.widget.themes %}
         <option value="{{theme.value}}">{{theme.value}}</option>
         {% endfor %}
       </select>
       {% endif %}
-      {% if (data.global.areas and data.global.areas.length > 0) %}
+      {% if (data.widget.areas and data.widget.areas.length > 0) %}
       <select id="filterSelector" class="default-select" onchange="activateIdeaOverviewFilter(this.selectedIndex)">
         <option value="0">Alle gebieden</option>
-        {% for area in data.global.areas %}
+        {% for area in data.widget.areas %}
         <option value="{{area.value}}">{{area.value}}</option>
         {% endfor %}
       </select>

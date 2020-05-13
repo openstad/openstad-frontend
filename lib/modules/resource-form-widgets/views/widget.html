@@ -1,0 +1,112 @@
+{% set pageTitle = 'Jouw plan insturen' %}
+{% set showForm = true %}
+{% set activeResource = data.activeResource %}
+{% set isOwner = data.openstadUser.id === activeResource.userId %}
+{% set isReactedTo = (activeResource.yes > 0 or activeResource.no > 0 or activeResource.argumentCount > 0) %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hactiveResourcedminAfterPublicAction and isOwner) or data.isAdmin %}
+
+
+{% if activeResource and isOwnerOrAdmin %}
+{% set showForm = true %}
+{% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
+{% set showForm = true %}
+{% else %}
+{% set showForm = false %}
+{% endif %}
+
+{% if data.widget.editorDescription %}
+{% set useModernEditor = true %}
+{% else %}
+{% set useModernEditor = false %}
+{% endif %}
+
+<div class="pageContent newactiveResource" id="content">
+	{% if not showForm %}
+	<div class="box-grey">
+		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
+		<p>Klik <a href="/oauth/login">hier</a> om in te loggen.</p>
+	</div>
+	{% elseif showForm %}
+		<div  id="formulier-block">
+			{% if data.widget.formType === 'dynamic' %}
+			{% include 'includes/dynamic-form.html' %}
+			{% else %}
+			{% include 'includes/static-form.html' %}
+			{% endif %}
+		</div>
+
+		{% if activeResource %}
+		<br />
+		<div style="background: #efefef; padding: 5px 30px; margin: 60px 0 20px;">
+			<div class="row">
+				<div class="col-xs-12">
+					<h4> Beheren </h4>
+				</div>
+				{% if data.hasModeratorRights %}
+				<div class="col-sm-8 col-xs-12">
+
+				<form method="POST" class="activeResource-status-form" action="/modules/activeResource-form-widgets/submit">
+					<input type="hidden" name="action" value="UPDATE_STATUS">
+					<div class="row">
+						<div class="col-xs-6">
+							<select name="status"  class="button status default-select">
+								<option {{'selected' if activeResource.status=='OPEN'}}     value="OPEN">    Status: Open</option>
+								<option {{'selected' if activeResource.status=='CLOSED'}}     value="CLOSED">    Status: Gesloten</option>
+								<option {{'selected' if activeResource.status=='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+							</select>
+						</div>
+						<div class="col-xs-6">
+							<input type="submit" value="Opslaan" style=" float: none;" onclick="return confirm('Zeker?')">
+						</div>
+					</div>
+
+
+					<input type="hidden" name="resourceId" value="{{activeResource.id}}">
+					<input type="hidden" name="_method" value="PUT">
+				</form>
+				</div>
+				{% endif %}
+				<div class="col-sm-4 col-xs-12">
+				  <form method="post" class="activeResource-delete-form" action="/modules/activeResource-form-widgets/submit" >
+					  <input type="hidden" name="activeResource-delete-redirect-uri" class="activeResource-delete-redirect-uri"  value="/{{data.global.activeResourceOverviewSlug}}" />
+
+					  <input type="hidden" name="resourceId" value="{{activeResource.id}}">
+					  <input type="hidden" name="action" value="DELETE">
+					  <input type="submit" value="Plan verwijderen" style="background: red; float: none;" onclick="return confirm('Zeker?')">
+				  </form>
+				</div>
+
+
+		    <!--		<form method="GET" action="/plan/{{activeResource.id}}/mod_break">
+					   <button type="submit" class="modBreak">Moderator reactie</button>
+				     </form>
+	           !-->
+			</div>
+
+		</div>
+		{% endif %}
+
+
+
+	  {% endif %}
+</div>
+<script>
+	var titleMinLength = parseInt('{{data.widget.resourceConfig.titleMinLength}}');
+  var titleMaxLength = parseInt('{{data.widget.resourceConfig.titleMaxLength}}');
+  var summaryMinLength = parseInt('{{data.widget.resourceConfig.summaryMinLength}}');
+  var summaryMaxLength = parseInt('{{data.widget.resourceConfig.summaryMaxLength}}');
+  var descriptionMinLength = parseInt('{{data.widget.resourceConfig.descriptionMinLength}}');
+  var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
+</script>
+
+<script src="/js/vendor/trix.js"></script>
+<script src="/js/vendor/browser-polyfill.min.js"></script>
+<script src="/js/vendor/filepond-polyfill.min.js"></script>
+<script src="/js/vendor/filepond.js"></script>
+
+<script src="/js/vendor/filepond-plugin-image-preview.js"></script>
+<script src="/js/vendor/filepond-plugin-file-validate-type.js"></script>
+<script src="/js/vendor/filepond-plugin-file-validate-size.js"></script>
+<script src="/js/vendor/filepond-plugin-file-poster.js"></script>
+<script src="/js/vendor/filepond-plugin-image-exif-orientation.js"></script>

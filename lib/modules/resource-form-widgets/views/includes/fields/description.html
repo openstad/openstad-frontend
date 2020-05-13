@@ -1,0 +1,51 @@
+{% if useModernEditor %}
+<trix-toolbar id="trixToolbar">
+  <div class="button_row">
+    <span class="button_group text_tools">
+      <button type="button" class="icon heading-1" data-trix-attribute="heading1" title="Titel">Heading</button>
+      <button type="button" class="icon bold" data-trix-attribute="bold" data-trix-key="b" title="Vetgedrukt">Bold</button>
+      <button type="button" class="icon italic" data-trix-attribute="italic" data-trix-key="i" title="Cursief">Italic</button>
+      {# <button type="button" class="icon strike" data-trix-attribute="strike" title="Doorstrepen">Strikethrough</button> #}
+      <button type="button" class="icon link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="Link">Link</button>
+    </span>
+
+    <span class="button_group text_tools">
+      {# <button type="button" class="icon quote" data-trix-attribute="quote" title="Quote">Quote</button>
+      <button type="button" class="icon code" data-trix-attribute="code" title="Code">Code</button> #}
+      <button type="button" class="icon list bullets" data-trix-attribute="bullet" title="Opsomming">Bullets</button>
+      <button type="button" class="icon list numbers" data-trix-attribute="number" title="Genummerde lijst">Numbers</button>
+      <button type="button" class="icon nesting-level decrease" data-trix-action="decreaseNestingLevel" title="Inspringen vergroten" disabled="">Decrease Level</button>
+      <button type="button" class="icon nesting-level increase" data-trix-action="increaseNestingLevel" title="Inspringen verkleinen" disabled="">Increase Level</button>
+    </span>
+
+    {# <span class="button_group history_tools">
+    <button type="button" class="icon undo" data-trix-action="undo" data-trix-key="z" title="Undo" disabled="">Undo</button>
+    <button type="button" class="icon redo" data-trix-action="redo" data-trix-key="shift+z" title="Redo" disabled="">Redo</button>
+    </span> #}
+  </div>
+
+  <div class="dialogs">
+    <div class="dialog link_dialog" data-trix-attribute="href" data-trix-dialog="href">
+      <div class="link_url_fields">
+        <input type="url" required="" name="href" placeholder="Enter a URL…">
+        <div class="button_group">
+          <input type="button" value="Link" data-trix-method="setAttribute">
+          <input type="button" value="Unlink" data-trix-method="removeAttribute">
+        </div>
+      </div>
+    </div>
+  </div>
+</trix-toolbar>
+<trix-editor id="js-editor" class="userContentEditor" input="js-description" toolbar="trixToolbar"></trix-editor>
+  <input
+    type="hidden"
+    id="js-description"
+    name="description"
+    value="{{activeResource.description}}"
+    required
+    minlength="{{data.widget.minDescription}}"
+    maxlength="{{data.widget.maxDescription}}"
+  />
+{% else %}
+  <textarea name="description" id="description-textarea" {% if data.widget.requiredDescription %}required{% endif %}>{{activeResource.description}}</textarea>
+{% endif %}

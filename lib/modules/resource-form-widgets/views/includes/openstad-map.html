@@ -1,0 +1,23 @@
+{% if mapType == 'nlmaps-openlayers' %}
+<div id="nlmaps-holder" style="width: 100%; height: 100%;">
+	<div id="map-with-buttons-container">
+		<div class="map-buttons-container">
+			{% if (data.widget.displayCounter) %}
+			{{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.activeResources.length, '#')}}
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% else %}
+{% if data.cookieConsent %}
+<div id="map" style="width: 100%; height: 100%;"></div>
+{% else %}
+<div style="width: 100%; height: 300px; margin: 10px 0;">
+  {% include "partials/placeholder-no-cookie-consent-map.html" ignore missing %}
+</div>
+{% endif %}
+{% endif %}
+
+{% if editorInputElementId %}
+<input type="hidden" id="{{editorInputElementId}}" name="location" value='{{activeResource.location | dump | sanitize | safe}}'  {% if data.widget.requiredLocation %}required{% endif %}>
+{% endif %}

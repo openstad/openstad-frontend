@@ -1,13 +1,13 @@
-{% set idea = data.idea %}
+{% set activeResource = data.activeResource %}
 
 <div
   id="{{data.widget.containerId}}"
   class="main-cover-image"
-{% if idea.extraData.images[0] %}
-  style="background-image: url('{{idea.extraData.images[0]}}/:/rs=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}};cp=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}}');"
-{% elif idea.location and data.widget.fallBackToMapImage %}
+{% if activeResource.extraData.images[0] %}
+  style="background-image: url('{{activeResource.extraData.images[0]}}/:/rs=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}};cp=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}}');"
+{% elif activeResource.location and data.widget.fallBackToMapImage %}
   style="background-image: url(
-  'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{apos.settings.getOption('googleMapsApiKey')}}'
+  'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{activeResource.location.coordinates[0]}},{{activeResource.location.coordinates[1]}}&heading=151.78&key={{apos.settings.getOption('googleMapsApiKey')}}'
   );"
 {% elif data.widget.defaultImage %}
   style="background-image:url('{{apos.attachments.url(data.widget.defaultImage)}}');"

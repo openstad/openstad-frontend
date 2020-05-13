@@ -1,15 +1,7 @@
-{% if req.data.cookieConsent %}
-<div id="mapcontainer">
-  {% set editorInputElementId = 'locationField' %}
-  {% set mapType = data.widget.mapType %}
-  {% include 'includes/openstad-map.html'  %}
-</div>
-{% else %}
-  <h1> TODO: cookie ot set <!-- WARNING:  --> </h1>
-{% endif %}
 <style>
   {{data.widget.formattedIframeStyles}}
 </style>
+{% if data.cookieConsent %}
 <iframe
   id="{{data.widget.iframeId}}"
   src="{{ data.widget.url }}"
@@ -20,5 +12,5 @@
   allowfullscree
 ></iframe>
 {% else %}
-  <h1> TODO: cookie ot set <!-- WARNING:  --> </h1>
+{% include "partials/placeholder-no-cookie-general.html" ignore missing %}
 {% endif %}

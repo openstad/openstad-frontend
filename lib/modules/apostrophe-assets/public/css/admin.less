@@ -1,26 +1,25 @@
 /**
  * Stylesheet to adjust the standard apostrhopeCMS styling to an openstad look
  */
-
-.cms-admin {
+.apos-workflow-draft-page .cms-admin {
   .apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
     max-height: 300px !important;
     overflow: scroll !important;
   }
 
   .apos-area-widget.hover {
-    outline: 3px dotted #00BF9A;
+    outline: 2px dotted #154995;
   }
 }
 
 .apos-ui .apos-admin-bar, .apos-ui .apos-button--global, .apos-ui .apos-button--major {
   background-color: #ffffff;
-      border: 1px solid #eeeeee;
-      border-radius: 2px;
-      color: black;
-      -webkit-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
-      -moz-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
-      box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+  border: 1px solid #eeeeee;
+  border-radius: 2px;
+  color: black;
+  -webkit-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+  -moz-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+  box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
 }
 
 .apos-ui .apos-admin-bar-item:hover {
@@ -28,7 +27,7 @@
 }
 
 .apos-ui .apos-admin-bar-logo {
-      padding: 15px 15px 8px 15px;
+  padding: 15px 15px 8px 15px;
 }
 
 .apos-admin-bar-logo svg {
@@ -68,10 +67,10 @@
 }
 
 .apos-ui .apos-button:hover {
-    -webkit-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
-    -moz-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
-    box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
-    cursor: pointer;
+  -webkit-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+  -moz-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+  box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+  cursor: pointer;
 }
 
 .apos-ui .apos-button--in-group:hover {
@@ -83,7 +82,6 @@
 
 .apos-required label:first-of-type::after {
   color: #154995;
-
 }
 
 .apos-ui.apos-modal .apos-modal-breadcrumb .apos-modal-breadcrumb-item {
@@ -101,7 +99,6 @@
   max-height: 280px;
 }
 
-
 /*
   For editors the section controls are empty.
   ApostrhopeCMS still shows the controls though.
@@ -114,7 +111,26 @@
   display: none !important;
 }
 
-
 .apos-modal .apos-schema-tabs {
   padding-bottom: 120px;
+}
+
+.apos-field-input-textarea {
+  min-height: 200px;
+}
+
+.apos-ui .apos-field {
+    max-width: 700px;
+}
+
+.apos-ui .apos-admin-bar-inner {
+  @media only screen and (min-width: 1450px) {
+    max-width: 125px;
+  }
+}
+
+.apos-ui .apos-admin-bar-logo {
+  @media only screen and (min-width: 1450px) {
+    padding: 25px 20px 20px;
+  }
 }

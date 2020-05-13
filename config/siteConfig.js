@@ -1,9 +1,12 @@
 const path = require('path');
 const contentWidgets = require('./contentWidgets');
 const palette = require('./palette');
+const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (site, siteData, openstadMap, openstadMapPolygons) => {
+
+    const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
       shortName: site._id,
@@ -112,7 +115,19 @@ module.exports = {
         'recource-raw-widgets': {},
         'recource-image-widgets': {},
         'recource-like-widgets': {},
-        'recource-admin-widgets' : {},
+        'resource-admin-widgets' : {},
+        'resource-pages' : {
+          resources: resources
+        },
+        'resource-representation-widgets' : {
+          resources: resources
+        },
+        'resource-overview-widgets' : {
+          resources: resources
+        },
+        'resource-form-widgets' : {
+          resources: resources
+        },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields
@@ -145,10 +160,9 @@ module.exports = {
         },
         'info-bar-widgets': {},
         'apostrophe-area-structure': {},
+        'vimeo-upload': {}
       }
     };
-    console.log('####################');
-    console.log(siteConfig.modules['admin-widgets']);
 
     // can turn on workflow per site, but WARNING this only works for DEV sites currently,
     // the assets generation will include or exclude certain files breaking the CMS

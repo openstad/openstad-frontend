@@ -1,0 +1,41 @@
+<div id="ideas-overview" class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+	{{ __('Loading...') }}
+</div>
+<div id="idea-overview-container" class="idea-overview-container opacity-0-for-load dynamic-list resource-overview-container">
+  <div class="ideasList">
+
+    {% include 'includes/filters.html' %}
+		{% if data.widget.displayNewFilters %}
+		{% include 'includes/new-filters.html' %}
+		{% endif %}
+    <br />
+		<div id="ideas-anchor"></div>
+
+    <div id="ideas" class="primary">
+      {% if not data.widget.activeResources or data.widget.activeResources.length === 0 %}
+      <h3 style="text-align: center;"> <em> Nog geen resultaten </em> </h3>
+      {% else %}
+
+      {% if data.widget.displayType === 'minimalVotes' %}
+      {% include 'display/minimalVotes.html' %}
+      {% endif %}
+
+      {% if data.widget.displayType === 'gridder' %}
+      {% include 'display/gridder.html' %}
+      {% endif %}
+
+			{% if data.widget.displayType === 'raw' %}
+			{% include 'display/raw.html' %}
+			{% endif %}
+
+			{% if data.widget.displayType === 'row' %}
+			{% include 'display/row.html' %}
+			{% endif %}
+
+			{% if data.widget.displayPagination %}
+			{% include 'includes/pagination.html' %}
+      {% endif %}
+			{% endif %}
+    </div>
+  </div>
+</div>

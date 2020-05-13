@@ -68,7 +68,7 @@
 				<h3 class="desktop">{{idea.submittedData.title}}</h3>
 				<div class="summary">{{idea.submittedData.summary}}</div>
 				<div class="description">{{idea.submittedData.description | sanitize | safe | nlbr}}</div>
-				{% if isAdmin %}
+				{% if data.hasModeratorRights %}
 					<div class="description"><a href="/plan/{{idea.id}}">Bewerk dit plan</a></div>
 				{% endif %}
 				<div class="share-spacer"></div>

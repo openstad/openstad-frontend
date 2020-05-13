@@ -17,3 +17,5 @@ node_modules
 .env
 .idea/
 store.json
+tmp
+ecosystem*

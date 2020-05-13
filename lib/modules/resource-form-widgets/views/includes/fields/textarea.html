@@ -1,0 +1,12 @@
+<textarea
+  id="{{field.fieldKey}}_input"
+  class="chars-counter"
+  minlength="{{field.fieldMin if field.fieldMin else 2}}"
+  maxlength="{{field.fieldMax if field.fieldMax else 140}}"
+  name="{{field.fieldKey}}"
+  {% if field.fieldRequired %}required{% endif %}
+>{{activeResource.extraData[field.fieldKey]}}</textarea>
+<div id="charsLeft{{field.fieldKey}}" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>

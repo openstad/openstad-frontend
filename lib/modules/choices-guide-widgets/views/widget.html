@@ -1,34 +1,99 @@
-<link rel="stylesheet" type="text/css" href="{{data.widget.openstadComponentsUrl}}/css/all.css?{{data.widget.assetsGeneration}}"/>
+<link rel="stylesheet" type="text/css" href="{{data.widget.openstadComponentsUrl}}/css/all.css?{{data.assetsGeneration}}"/>
 
 <style>
  {{data.widget.formattedContainerStyles}}
+ @media only screen and (max-width: 940px) {     
+   .sticky-placeholder {
+     margin-top: 64px;
+   }
+ }
 </style>
 
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script src="{{data.widget.openstadComponentsUrl}}/all.js?{{data.widget.assetsGeneration}}"></script>
+<script src="{{data.widget.openstadComponentsUrl}}/all.js?{{data.assetsGeneration}}"></script>
 
 <script>
+
  window.addEventListener('load', function(e) {
    let config = {{data.widget.config | safe}};
    let element = document.querySelector('.openstad-component-choices-guide');
    OpenStadComponents.ChoicesGuide.renderElement(element, config);
-
-   // accordeons in content
-	 document.addEventListener('osc-choices-guide-is-ready', function(event) {
-     var elements = document.querySelectorAll('.osc-accordeon-item .osc-title');
-     for ( var i=0; i<elements.length; i++) {
-       elements[i].addEventListener('click', function() {
-         if( this.parentNode.className.match(' osc-closed') ) {
-           this.parentNode.className = this.parentNode.className.replace(' osc-closed', ' osc-open');
-         } else {
-           this.parentNode.className = this.parentNode.className.replace(' osc-open', ' osc-closed');
-         }
-       })
-     }
-   });
-   
  });
+
+ // sticky
+ document.addEventListener('osc-choices-guide-is-ready', function(event) {
+   console.log('==');
+   setupStickyChoices()
+ });
+ function setupStickyChoices() {
+   // it is using js, because plain css sticky only works when you scroll the direct container
+   var element = document.getElementById('osc-choices-container-choices-guide')
+
+   if ( element ) {
+     var elemRect = element.getBoundingClientRect();
+     var absTop   = elemRect.top;
+     var absLeft  = elemRect.left;
+     var orgPos   = element.style.position;
+     var orgTop   = element.style.top;
+     var orgLeft  = element.style.left;
+     var threshold = absTop - 10;
+
+		 window.addEventListener('scroll', function(event) {
+       if (element) {
+         if (window.pageYOffset >= threshold) {
+           if (!element.className.match(/\ ?sticky/)) {
+             element.classList += ' sticky';
+             document.querySelector('.osc-question-group').className += ' sticky-placeholder';
+           }
+           element.style.left = absLeft + 'px'
+         } else {
+           element.className = element.className.replace(/\ ?sticky/, '')
+           document.querySelector('.osc-question-group').className = document.querySelector('.osc-question-group').className.replace(/ ?sticky-placeholder/, '');
+           element.style.position = orgPos;
+           element.style.top = orgTop;
+           element.style.left = orgLeft;
+         }
+       }
+     });
+
+		 window.addEventListener('resize', function(event) {
+       if (element) {
+         var isSticky = false;
+         if (element.className.match(/\ ?sticky/)){
+           isSticky = true;
+           element.className = element.className.replace(/\ ?sticky/, '')
+         }
+         element.style.position = orgPos;
+         element.style.top = orgTop;
+         element.style.left = orgLeft;
+         var elemRect = element.getBoundingClientRect();
+         absTop   = elemRect.top;
+         absLeft  = elemRect.left;
+         if (isSticky) {
+           element.className += ' sticky';
+           element.style.left = absLeft + 'px'
+         }
+       }
+     });
+
+   }
+ }
+ 
+ // accordeons in content
+ document.addEventListener('osc-choices-guide-is-ready', function(event) {
+   var elements = document.querySelectorAll('.osc-accordeon-item .osc-title');
+   for ( var i=0; i<elements.length; i++) {
+     elements[i].addEventListener('click', function() {
+       if( this.parentNode.className.match(' osc-closed') ) {
+         this.parentNode.className = this.parentNode.className.replace(' osc-closed', ' osc-open');
+       } else {
+         this.parentNode.className = this.parentNode.className.replace(' osc-open', ' osc-closed');
+       }
+     })
+   }
+ });
+
 </script>
 <div id="{{data.widget.containerId}}" class="osc-component">
 	<div class="openstad-component-choices-guide"></div>

@@ -1,0 +1,262 @@
+.resource-admin-edit-container{
+	max-width: 300px;
+	float: none;
+
+	h2:first-of-type {
+		margin-top: 0;
+	}
+	h2.edit-header {
+		font-size: 20px;
+	}
+
+	// Action buttons
+	// --------------
+	// All action buttons on the right side of the primary content.
+	// Think of buttons like 'edit idea', 'add article', etc.
+	.edit-button,
+	button[type="submit"],
+	select.button {
+		.appearance(none);
+
+		border: 0;
+		border-right: 2px solid #e8e8e8;
+		border-bottom: 2px solid #e8e8e8;
+		background-color: whitesmoke;
+		background-position: 5px 5px;
+		background-repeat : no-repeat;
+		background-size: 36px 36px;
+		color: black;
+		cursor: pointer;
+		display: block;
+		font-size: 16px;
+		font-weight: 600;
+		height: 46px;
+		margin-bottom: 10px;
+		margin-left: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		padding-left: 46px;
+		padding-right: 3px;
+		padding-top: 5px;
+		position: relative;
+		text-align: center;
+		width: 100%;
+		line-height: 38px;
+
+		&.edit {
+			background-image: url('/img/edit-buttons/edit.svg');
+		}
+		&.publish {
+			background-image: url('/img/edit-buttons/publish.svg');
+		}
+		&.extra-info-button {
+			background-image: url('/img/edit-buttons/calendar.svg');
+		}
+		&.delete {
+			background-image: url('/img/edit-buttons/delete.svg');
+		}
+
+		&.modBreak, &.modbreak-button {
+			background-image: url('/img/edit-buttons/modbreak.svg');
+		}
+		&.calendar {
+			background-image: url('/img/edit-buttons/calendar.svg');
+		}
+		&.status {
+			background-image: url('/img/edit-buttons/status.svg');
+		}
+		&.votes, &.votes-overview-button {
+			background-image: url('/img/edit-buttons/votes.svg');
+		}
+	}
+	select.button:disabled {
+		opacity: 0.4;
+	}
+
+	// Secondary 'widgets'
+	// -------------------
+	// `.speechBubble`s, `#highlightedIdeas`, `#agenda`, etc...
+	>.widget {
+		margin-bottom: 30px;
+
+		@media @primary100 {
+			float: left;
+			margin-top: 0 !important;
+			vertical-align: top;
+			width: calc(50% - (@hMargin/2));
+
+			&:nth-of-type(odd) {
+				margin-right: @hMargin;
+			}
+		}
+		@media @phone {
+			float: none;
+			width: 100%;
+			margin-right: 0 !important;
+		}
+
+		h2 {
+			margin-top: 0;
+		}
+	}
+	// Speech bubble
+	// -------------
+	.newIdeaBubble {
+		display: block;
+
+		@media @grid50 {
+			display: none;
+		}
+	}
+	// Highlighted ideas
+	// -----------------
+	#highlightedIdeas {
+		ul {
+			list-style-image: none;
+			list-style-position: inside;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		li {
+			background-color: #EC0000;
+			color: #FFF;
+			padding: 10px 10px 10px 20px;
+			position: relative;
+
+			&:before {
+				background-image: url('/img/arrow_right_white.svg');
+				background-position: top center;
+				background-repeat: no-repeat;
+				background-size: contain;
+				content: '';
+				height: 1em;
+				position: absolute;
+				top: 12px; // 10px padding-top + 2px for nice.
+				left: 0px;
+				width: 20px;
+			}
+			&:nth-last-of-type(n+2) {
+				margin-bottom: 15px;
+			}
+			a {
+				color: #FFF;
+				text-decoration: none;
+			}
+			p {
+				margin: 0;
+				max-height: 3em;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.ideaStats {
+				margin: 5px 0 0;
+				text-align: left;
+			}
+		}
+	}
+	// Upcoming meetings
+	// -----------------
+	#agenda {
+		.timeline {
+			background-color: whitesmoke;
+			font-size: 0.75rem;
+			hyphens: auto;
+			-webkit-hyphens: auto;
+			-moz-hyphens: auto;
+			margin-bottom: 20px;
+			margin-top: 10px;
+			padding: 1em 0;
+			position: relative;
+
+			// Vertical line.
+			&::before {
+				background-color: #333;
+				content: '';
+				height: 100%;
+				left: 12px;
+				position: absolute;
+				top: 0px;
+				width: 14px;
+			}
+
+			// Selection/Meeting events.
+			>div {
+				box-sizing: border-box;
+				margin-left: 35px;
+				padding-left: 10px;
+				position: relative;
+				vertical-align: top;
+				white-space: nowrap;
+
+				&:not(:last-child) {
+					margin-bottom: 20px;
+				}
+				// Circle
+				&::before {
+					border-radius: 16px;
+					box-sizing: border-box;
+					content: '';
+					height: 32px;
+					position: absolute;
+					right: 100%;
+					top: -0.5rem;
+					width: 32px;
+				}
+				&.selection::before {
+					background-color: #FFF;
+					border: 6px solid #EC0000;
+				}
+				&.meeting::before {
+					background-clip: content-box;
+					background-color: #333;
+					border: 5px solid transparent;
+				}
+
+				// Information
+				b.date {
+					display: block;
+					font-size: 1rem;
+				}
+				em {
+					display: block;
+					font-style: normal;
+					font-weight: bold;
+				}
+				ul {
+					list-style: none;
+					margin: 0;
+					padding: 0;
+
+					li {
+						background-image: url('/img/arrow_right_red.svg');
+						background-position: top 2px left;
+						background-repeat: no-repeat;
+						background-size: auto 1em;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						padding-left: 15px;
+
+						a {
+							color: #000;
+							text-decoration: none;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+				}
+			}
+			// 'no meetings' error message.
+			>i {
+				margin-left: 35px;
+			}
+		}
+	}
+
+	.grey-text-block {
+		font-size: 14px;
+	}
+
+}

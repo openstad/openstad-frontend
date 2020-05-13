@@ -7,6 +7,7 @@ myEmitter.on('clearCache',  clearCache);
 myEmitter.on('apiPost', clearCache);
 myEmitter.on('voted', clearCache);
 myEmitter.on('ideaCrud', clearCache);
+myEmitter.on('resourceCrud', clearCache);
 myEmitter.on('postArgument', clearCache);
 
 exports.emitter = myEmitter;
