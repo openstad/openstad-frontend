@@ -1,0 +1,9 @@
+{% if data.widget.displaySorting %}
+<div class="sort">
+  <select class="default-select ideas-sort-select">
+    {% for selectedSorting in data.widget.selectedSorting %}
+    <option value="{{selectedSorting.value}}">Sorteren: {{ __(selectedSorting.label) }}</option>
+    {% endfor %}
+  </select>
+</div>
+{% endif %}

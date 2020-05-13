@@ -1,0 +1,12 @@
+{% if data.widget.displaySearch %}
+<div class="search-wrapper">
+  <input type="text" placeholder="Zoeken" name="search" value="{{data.query.search}}" class="search openstad-ajax-refresh-input">
+  <button type="submit" class="visible-xs">
+    <img src="{{appUrl}}/img/search.svg" />
+  </button>
+
+  {#<a href="" class="search-erase hidden-xs">
+    Wissen
+  </a>#}
+</div>
+{% endif %}
