@@ -784,12 +784,23 @@ module.exports = function (db, sequelize, DataTypes) {
                         // TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
                         order = sequelize.literal('yes ASC');
                         break;
+                    case 'random':
+                        // TODO: zou dat niet op diff moeten, of eigenlijk configureerbaar
+                        order = sequelize.random();
+                        break;
                     case 'createdate_asc':
                         order = [['createdAt', 'ASC']];
                         break;
                     case 'createdate_desc':
                         order = [['createdAt', 'DESC']];
                         break;
+                    case 'budget_asc':
+                        order = [['createdAt', 'ASC']];
+                        break;
+                    case 'budget_desc':
+                        order = [['createdAt', 'DESC']];
+                        break;
+
                     case 'date_asc':
                         order = [['endDate', 'ASC']];
                         break;

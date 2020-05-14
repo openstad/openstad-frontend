@@ -11,7 +11,7 @@ const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
-
+ 
 // scopes: for all get requests
 router
 	.all('*', function(req, res, next) {
@@ -20,7 +20,8 @@ router
 
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
 		if (sort) {
-			res.cookie('idea_sort', sort, { expires: 0 });
+			//res.cookie('idea_sort', sort, { expires: 0 });
+
 			if (sort == 'votes_desc' || sort == 'votes_asc') {
 				req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
 			}
