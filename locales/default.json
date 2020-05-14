@@ -748,5 +748,7 @@
 	"Pagination": "Pagination",
 	"createdtime,desc": "createdtime,desc",
 	"createdtime,asc": "createdtime,asc",
-	"likes,desc": "likes,desc"
+	"likes,desc": "likes,desc",
+	"Warning: This currently doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated": "Warning: This currently doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated",
+	"Warning: This currently  doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated": "Warning: This currently  doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated"
 }
