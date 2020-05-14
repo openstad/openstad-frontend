@@ -743,5 +743,10 @@
 	"Save Speech Bubble": "Save Speech Bubble",
 	"Styles for the speech bubble": "Styles for the speech bubble",
 	"Hidden": "Hidden",
-	"Value (for fixed values)": "Value (for fixed values)"
+	"Value (for fixed values)": "Value (for fixed values)",
+	"On page opening": "On page opening",
+	"Pagination": "Pagination",
+	"createdtime,desc": "createdtime,desc",
+	"createdtime,asc": "createdtime,asc",
+	"likes,desc": "likes,desc"
 }

@@ -8,22 +8,10 @@ input.search {
   padding-left: 15px;
   font-size: 17px;
   border: 1px solid grey;
-  float: left;
   height: 44px;
   line-height: 44px;
   background: white;
   border: 1px solid #323232;
-}
-
-.search-erase {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  opacity: 0.2;
-  color: #00539e;
-  text-decoration: underline;
 }
 
 
@@ -47,16 +35,21 @@ input.search {
   justify-content: space-between;
   align-items: center;
 
+  @media @phone {
+    display: block;
+  }
+
   .default-select, input.search {
     box-shadow: 0 4px 20px 0 rgba(42, 18, 18, 0.12);
     background-color: #ffffff;
     border: 0;
     color: #000;
-    font-weight: bold;
+    padding: 0 20px;
+    font-weight: 600;
 
     &::placeholder {
+      font-weight: 600;
       color: #000;
-      font-weight: bold;
     }
   }
 
@@ -66,7 +59,7 @@ input.search {
 
     @media @phone {
       width: 100% !important;
-      margin: 10px 0;
+      margin: 5px 0;
     }
   }
 }
@@ -91,6 +84,7 @@ input.search {
 .resource-tag {
   padding: 0 20px;
   height: 40px;
+  margin: 5px 0;
   border-radius: 20px;
   border: solid 2px #ec0000;
   display: inline-block;
@@ -133,5 +127,31 @@ input.search {
       line-height: 1;
       left: auto;
     }
+  }
+}
+
+.search-wrapper button[type="submit"]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  width: 44px;
+  bottom: 0;
+  padding: 10px;
+  display: block;
+  text-align: right;
+  padding-right: 10px;
+  background: transparent;
+
+  &:focus {
+    outline: 0;
+  }
+
+  img {
+    width: 14px;
+    height: 14px;
   }
 }

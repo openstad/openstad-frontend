@@ -20,9 +20,11 @@
   </div>
   <div class="resource-filter-row">
     {% include 'includes/controls/sort.html' %}
+    {% if data.query.oTags or data.query.theme or data.query.area or data.query.search  %}
     <a href="{{data.currentPathname}}" class="resource-filter-erase openstad-ajax-refresh-link">
       <img src="/img/eye.svg" width="23" height="16" />
       Laat alles zien
     </a>
+    {% endif %}
   </div>
 </form>
