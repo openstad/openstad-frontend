@@ -103,5 +103,10 @@
 	"Keuzes (enkel voor multiple choice of select)": "Keuzes (enkel voor multiple choice of select)",
 	"Validatie (Komma gescheiden, bv: required, minlength:20, maxlength:500)": "Validatie (Komma gescheiden, bv: required, minlength:20, maxlength:500)",
 	"Configuratie": "Configuratie",
-	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?"
+	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?",
+	"Inloggen": "Inloggen",
+	"Mijn account": "Mijn account",
+	"Loading...": "Loading...",
+	"createdtime,desc": "createdtime,desc",
+	"createdtime,asc": "createdtime,asc"
 }
