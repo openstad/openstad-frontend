@@ -14,6 +14,33 @@ module.exports = function( db, sequelize, DataTypes ) {
       allowNull: true,
     },
 
+    extraData: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '{}',
+      get: function () {
+        let value = this.getDataValue('extraData');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {
+        }
+        return value;
+      },
+      set: function (value) {
+
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {
+        }
+
+        this.setDataValue('extraData', JSON.stringify(value));
+      }
+    },
+
     userFingerprint: {
       type: DataTypes.TEXT,
       allowNull: true,

@@ -80,7 +80,7 @@ PUT :HOSTNAME/api/site/:SITE_ID/idea/:IDEA_ID
 
 {
   "title": "Updated title",
-  "tags": ["Rode fietsen", "Gele auto's"],
+  "tags": [1, 2],
   ...more idea fields
 }
 
@@ -88,11 +88,10 @@ PUT :HOSTNAME/api/site/:SITE_ID/idea/:IDEA_ID
 
 Zoeken van ideas op tags doe je ook met een query parameter:
 ```
-GET :HOSTNAME/api/site/:SITE_ID/idea?selectTags=Rode%20fietsen&selectTags=Gele%20auto's
+GET :HOSTNAME/api/site/:SITE_ID/idea?tags[]=Rode%20fietsen&tags[]=Gele%20auto's
 ```
 
 ## TODO
-- deze pagina opnemen in de inhoudsopgave, maar als ik dat nu doe dan krijg je merge conflicts met hotfix/002 en 003
 - na merge van hotfix/003 moet deze functionaliteit vermoedelijk ook naar articles
-- selectTags is eeen OR; ik zie zo geen toepassing voor een AND, maar wellicht moet er dus nog een selectAllTags komen
+- tags is eeen OR; ik zie zo geen toepassing voor een AND, maar wellicht moet er dus nog een komen
 - ik kan me nog voorstellen dat je tags in tags wilt kunnen hangen, dat zou dan ook een todo zijn

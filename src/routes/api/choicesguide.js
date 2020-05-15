@@ -588,6 +588,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
     let data = {
       choicesGuideId,
       userId: req.body.userId,
+      extraData: req.body.extraData,
       userFingerprint: req.body.userFingerprint,
       result: req.body.result,
     };

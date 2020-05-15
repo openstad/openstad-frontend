@@ -43,13 +43,13 @@ Pagineren kun je dan dus ook pas achteraf doen; pagineren en zoeken samen kan du
 
 ## Zoeken
 
-Zoekvragen stuur je mee als query paramter `search`. De zoekopdracht geef je op als JSON object:
+Zoekvragen stuur je mee als query paramter `search`. De zoekopdracht bouw je op als object in de url:
 
 ```
-?search=%7B%22criteria%22%3A%5B%7B%22text%22%3A%22openstad%22%7D%2C%7B%22title%22%3A%22goed%20idee%22%7D%5D%2C%22options%22%3A%7B%22andOr%22%3A%22and%22%7D%7D
+?search[text][criteria]=openstad&search[title][criteria]=goed&search[options][andOr]=and"
 ```
 
-of leesbaarder:
+Een npm module als ns zet nested object automatisch om naar een bovenstaande url.
 
 ```
 {
