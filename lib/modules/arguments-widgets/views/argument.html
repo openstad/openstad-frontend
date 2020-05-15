@@ -1,5 +1,5 @@
 <div class="argument argument-variant-{{arg.label}} argument-action-form " data-id="{{arg.id}}" id="arg{{arg.id}}">
-  <div class="user">
+  <div class="user {{'admin' if (arg.user.role === 'moderator') or (arg.user.role === 'admin') }}">
     <strong>
       {{arg.user.firstName}}
       {{ apos.arguments.showLastName('arguments', data.widget, arg.user) }}
@@ -8,7 +8,7 @@
     {% if mayEdit %}
     <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
-    
+
     {% if mayDelete %}
     <form class="action delete argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
       <input type="hidden" name="_method" value="DELETE">

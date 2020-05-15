@@ -11,10 +11,10 @@
 <script>
  window.addEventListener('load', function(e) {
    let config = {{data.widget.config | safe}};
-   let element = document.querySelector('.openstad-component-ideas-on-map');
-   OpenStadComponents.IdeasOnMap.renderElement(element, config);
+   let element = document.querySelector('.openstad-component-previous-next-button-block');
+   OpenStadComponents.PreviousNextButtonBlock.renderElement(element, config);
  });
 </script>
-<div id="{{data.widget.containerId}}" class="osc-component" style="width: 100%; height: 100%;">
-	<div class="openstad-component-ideas-on-map" style="width: 100%; height: 100%;"></div>
+<div id="{{data.widget.containerId}}" class="osc-component">
+	<div class="openstad-component-previous-next-button-block"></div>
 </div>
