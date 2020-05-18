@@ -20,7 +20,7 @@ module.exports = {
           port: process.env.PORT,
         },
         'apostrophe-docs': {
-          advisoryLockTimeout: 2
+          //advisoryLockTimeout: 2
         },
         'openstad-widgets': {},
         'openstad-users': {},
