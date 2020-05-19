@@ -162,6 +162,10 @@ router.route('/')
 
 		      return ideaInstance
 		        .setTags(tags)
+						.catch((e) => {
+							console.log('erererer', e);
+							next();
+						})
 		        .then((param) => {
 							console.log('param', param);
 							console.log('ideaInstance333', ideaInstance);
@@ -191,6 +195,10 @@ router.route('/')
 									next();
 								});
 		        })
+						.catch((e) => {
+							console.log('erererer', e);
+							next();
+						});
 			})
 			.then(ideaInstance => {
 				res.json(responseData);
