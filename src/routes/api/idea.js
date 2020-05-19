@@ -150,22 +150,32 @@ router.route('/')
 			})
 			.then(ideaInstance => {
         // tags
-        console.log('req.body.tags', req.body.tags, req.body)
+        console.log('req.body.tags', req.body.tags, req.body);
+
+
         if (!req.body.tags) return ideaInstance;
+
+				const tags = req.body.tags ? req.body.tags.map(tagId => parseInt(tagId)) : [];
+
 		      return ideaInstance
-		        .setTags(req.body.tags)
+		        .setTags(tags)
 		        .then(() => {
 		          return ideaInstance;
 		        })
 				    .then(ideaInstance => {
 		          // refetch. now with tags
 		          let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+
+							console.log('ideaInstance', ideaInstance);
+
 			        return db.Idea
 				        .scope(...scope)
 				        .findOne({
 					        where: { id: ideaInstance.id, siteId: req.params.siteId }
 				        })
 				        .then(found => {
+									console.log('found', found.id);
+
 					        if ( !found ) throw new Error('Idea not found');
 					        responseData = createIdeaJSON(found, req.user, req);
 		              return found;
