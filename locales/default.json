@@ -108,5 +108,8 @@
 	"Mijn account": "Mijn account",
 	"Loading...": "Loading...",
 	"createdtime,desc": "createdtime,desc",
-	"createdtime,asc": "createdtime,asc"
+	"createdtime,asc": "createdtime,asc",
+	"Is verplicht": "Is verplicht",
+	"Ja": "Ja",
+	"Nee": "Nee"
 }
