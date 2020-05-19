@@ -150,12 +150,15 @@ router.route('/')
 			})
 			.then(ideaInstance => {
         // tags
-        console.log('req.body.tags', req.body.tags, req.body);
+        console.log('req.body.tags 2', req.body.tags, req.body);
 
 
-        if (!req.body.tags) return ideaInstance;
+        if (!req.body.tags) {
+					return ideaInstance;
+				}
 
 				const tags = req.body.tags ? req.body.tags.map(tagId => parseInt(tagId)) : [];
+				console.log('tagstags', tags);
 
 		      return ideaInstance
 		        .setTags(tags)
