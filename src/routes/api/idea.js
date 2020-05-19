@@ -44,8 +44,6 @@ router
 			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
 
-
-
 		if (req.query.includeTags) {
 			req.scope.push('includeTags');
 		}
@@ -172,7 +170,10 @@ router.route('/')
 					        responseData = createIdeaJSON(found, req.user, req);
 		              return found;
 				        })
-				        .catch(next);
+				        .catch((e) => {
+									console.log('erererer', e);
+									next();
+								});
 		        })
 			})
 			.then(ideaInstance => {
