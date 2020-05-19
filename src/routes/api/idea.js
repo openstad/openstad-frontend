@@ -162,7 +162,10 @@ router.route('/')
 
 		      return ideaInstance
 		        .setTags(tags)
-		        .then(() => {
+		        .then((param) => {
+							console.log('param', param);
+							console.log('ideaInstance333', ideaInstance);
+
 		          return ideaInstance;
 		        })
 				    .then(ideaInstance => {
