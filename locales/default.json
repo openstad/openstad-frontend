@@ -111,5 +111,9 @@
 	"createdtime,asc": "createdtime,asc",
 	"Is verplicht": "Is verplicht",
 	"Ja": "Ja",
-	"Nee": "Nee"
+	"Nee": "Nee",
+	"Edit Counter": "Edit Counter",
+	"Vorige volgende knoppen": "Vorige volgende knoppen",
+	"Save Vorige volgende knoppen": "Save Vorige volgende knoppen",
+	"Edit Vorige volgende knoppen": "Edit Vorige volgende knoppen"
 }
