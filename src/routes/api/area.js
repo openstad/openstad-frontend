@@ -3,7 +3,7 @@ const auth        = require('../../auth');
 const pagination = require('../../middleware/pagination');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 
-let router = require('express-promise-router')({mergeParams: true});
+const router = require('express-promise-router')({mergeParams: true});
 
 router.route('/')
   .get(auth.can('area:list'))
