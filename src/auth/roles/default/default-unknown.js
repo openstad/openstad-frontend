@@ -183,7 +183,7 @@ module.exports = function( helpers, role ) {
     'tags:delete': false,
     
     // area
-    'area:list': true,
+    'area:list': false,
     'area:create': false,
 
     'user:mail': false
