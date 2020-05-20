@@ -1,0 +1,26 @@
+{
+  "name": "openstad-frontend",
+  "version": "1.0.0",
+  "description": "Openstad frontent project including openstad frontend packages\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amsterdam/openstad-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amsterdam/openstad-frontend/issues"
+  },
+  "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    
+  },
+  "devDependencies": {
+    "lerna": "^3.21.0"
+  }
+}
