@@ -18,7 +18,6 @@ router.route('/')
       .catch(next)
   })
   .get(function (req, res, next) {
-    
     req.areas = req.areas.map((area) => {
       area.polygon = convertDbPolygonToLatLng(area.polygon);
       return area;
@@ -38,8 +37,6 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-
-    let responseData;
 		db.Area
 			.create(req.body)
 			.catch(next)
