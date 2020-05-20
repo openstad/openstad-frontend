@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    
+    "@openstad/cms": "file:packages/cms",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "lerna": "^3.21.0"
