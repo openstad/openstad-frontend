@@ -9,6 +9,6 @@ var apos = openstadCms.site({
   // configuring user accounts.
 
   modules: {
-    //'custom-title-widgets': {},
+    'custom-title-widgets': {},
   }
 });

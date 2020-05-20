@@ -233,11 +233,15 @@ module.exports = {
           if (widget.containerStyles) {
             widget.containerId = widget.containerId ? widget.containerId : styleSchema.generateId();
             widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
-            widget.contentWidgets = req.data.isAdmin ? contentWidgets.getAdminWidgets() : contentWidgets.getEditorWidgets();
+            widget.contentWidgets = self.getContentWidgets(req);
           }
         });
         return callback(null);
       });
+    };
+
+    self.getContentWidgets = (req) => {
+      return req.data.isAdmin ? contentWidgets.getAdminWidgets() : contentWidgets.getEditorWidgets();
     };
 
   }
