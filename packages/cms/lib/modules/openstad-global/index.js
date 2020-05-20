@@ -75,6 +75,7 @@ function unauthorized(req, res) {
 }
 
 module.exports = {
+  improve: 'apostrophe-global',
   addFields: [
     {
       type: 'string',

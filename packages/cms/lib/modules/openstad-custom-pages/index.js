@@ -1,6 +1,7 @@
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 
 module.exports = {
+  improve: 'apostrophe-custom-pages',
   beforeConstruct: function(self, options) {
 
     options.addFields = [

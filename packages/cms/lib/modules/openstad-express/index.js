@@ -1,4 +1,5 @@
 module.exports = {
+  improve: 'apostrophe-express',
   session: {
     // If this still says `undefined`, set a real secret!
     secret: process.env.SESSION_SECRET

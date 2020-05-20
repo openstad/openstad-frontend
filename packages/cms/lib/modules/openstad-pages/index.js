@@ -11,6 +11,7 @@ const eventEmitter    = require('../../../events').emitter;
 const internalApiUrl  = process.env.INTERNAL_API_URL;
 
 module.exports = {
+  improve: 'apostrophe-pages',
     types: [
       {
         name: 'default',

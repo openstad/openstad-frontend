@@ -9,6 +9,7 @@
  */
 
 module.exports = {
+  improve: 'apostrophe-users',
   groups: [
    {
       title: 'guest',
@@ -32,7 +33,7 @@ module.exports = {
        'edit-apostrophe-page': { default: true, 'default-draft': true },
        'edit-apostrophe-file': {},
        'edit-workflow-document': {}
-       
+
      }
     },
     {

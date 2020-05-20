@@ -1,8 +1,8 @@
 {
-  "name": "test-project",
+  "name": "@openstad/cms",
   "version": "2.0.0",
-  "description": "Minimal Apostrophe Boilerplate",
-  "main": "app.js",
+  "description": "Openstad cms based on apostrophe",
+  "main": "index.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js "

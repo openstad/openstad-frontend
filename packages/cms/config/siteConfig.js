@@ -23,10 +23,15 @@ module.exports = {
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
+        'openstad-global': {},
+        'openstad-logger': {},
         'openstad-login': {},
         'apostrophe-login': {
           localLogin: false
         },
+        'openstad-custom-pages': {},
+        'openstad-pages': {},
+        'openstad-docs': {},
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware
@@ -38,7 +43,7 @@ module.exports = {
             }
           }
         },
-        'apostrophe-attachments': {},
+        'openstad-attachments': {},
         'apostrophe-multisite-patch-assets': {},
         'openstad-nunjucks-filters': {},
         'settings': {
@@ -64,11 +69,8 @@ module.exports = {
 
         // If a template is not found somewhere else, serve it from the top-level
         // `views/` folder of the project
-        'apostrophe-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
-        'apostrophe-logger': {},
+        'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'idea-pages': {},
-        'apostrophe-pages': {},
-        'apostrophe-global': {},
         'section-widgets': {},
         'all-on-one-row-widgets': {},
         'card-widgets': {},
@@ -101,7 +103,6 @@ module.exports = {
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},
         'begroot-widgets': {},
-        'cookie-warning-widgets': {},
         'choices-guide-widgets': {},
         'local-video-widgets': {},
         'one-row-widgets': {},
@@ -131,7 +132,7 @@ module.exports = {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields
         },
-        'apostrophe-assets': {
+        'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           // we set the option te lean, this means a lot of the JS libraries ApostrhopeCMS assumes exists are turned off
           // we manually included a few libs with Apos needs to functional

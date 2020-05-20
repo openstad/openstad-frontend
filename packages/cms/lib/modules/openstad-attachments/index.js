@@ -1,4 +1,5 @@
 module.exports = {
+  improve: 'apostrophe-attachments',
   fileGroups: [
       {
         name: 'images',

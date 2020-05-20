@@ -2,6 +2,7 @@
 // stylesheet by default, and to use jQuery 3.x
 
 module.exports = {
+  improve: 'apostrophe-assets',
   stylesheets: [
     {
         name: 'site'

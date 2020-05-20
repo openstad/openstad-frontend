@@ -18,8 +18,6 @@ const app                     = express();
 const _                       = require('lodash');
 const rp                      = require('request-promise');
 const Promise                 = require('bluebird');
-const auth                    = require('basic-auth');
-const compare                 = require('tsscmp');
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
@@ -45,13 +43,6 @@ app.get('/config-reset', (req, res, next) => {
   res.json({ message: 'Ok'});
 });
 
-app.use(function(req, res, next) {
-  /**
-   * Start the servers
-   */
-   serveSites(req, res, next);
-});
-
 function serveSites (req, res, next) {
   let thisHost = req.headers['x-forwarded-host'] || req.get('host');
 
@@ -66,12 +57,12 @@ function serveSites (req, res, next) {
      * Fetch the config for sites
      */
     const siteOptions = {
-        uri:`${process.env.API}/api/site/${thisHost}`, //,
-        headers: {
-            'Accept': 'application/json',
-            "Cache-Control": "no-cache"
-        },
-        json: true // Automatically parses the JSON string in the response
+      uri:`${process.env.API}/api/site/${thisHost}`, //,
+      headers: {
+        'Accept': 'application/json',
+        "Cache-Control": "no-cache"
+      },
+      json: true // Automatically parses the JSON string in the response
     };
 
     if (process.env.SITE_API_KEY) {
@@ -83,8 +74,8 @@ function serveSites (req, res, next) {
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
-          res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
-      });
+      res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
+    });
   }
 }
 
@@ -94,54 +85,55 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
   // check if the mongodb database exist. The name for databse
   return dbExists(dbName).then((exists) => {
-      // if default DB is set
-      if (exists || dbName === process.env.DEFAULT_DB)  {
+    // if default DB is set
+    if (exists || dbName === process.env.DEFAULT_DB)  {
 
-        if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
-            //format sitedatat so it makes more sense
-            var config = siteConfig.config;
-            config.id = siteConfig.id;
-            config.title = siteConfig.title;
+      if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
+        //format sitedatat so it makes more sense
+        var config = siteConfig.config;
+        config.id = siteConfig.id;
+        config.title = siteConfig.title;
 
-            aposStartingUp[dbName] = true;
+        aposStartingUp[dbName] = true;
 
-            runner(dbName, config).then(function(apos) {
-              aposStartingUp[dbName] = false;
-              aposServer[dbName] = apos;
-              aposServer[dbName].app(req, res);
-            });
-        } else {
-          const startServer = (server, req, res) => {
-            server.app(req, res);
-          }
-
-          const safeStartServer = () => {
-            if (aposStartingUp[dbName]) {
-              // old schotimeout loop to make sure we dont start multiple servers of the same site
-              setTimeout(() => {
-                safeStartServer();
-              }, 100);
-            } else {
-              startServer(aposServer[dbName], req, res)
-            }
-          }
-
-          safeStartServer();
+        runner(dbName, config, req.options).then(function(apos) {
+          aposStartingUp[dbName] = false;
+          aposServer[dbName] = apos;
+          aposServer[dbName].app(req, res);
+        });
+      } else {
+        const startServer = (server, req, res) => {
+          server.app(req, res);
         }
 
-      } else {
-        res.status(404).json({ error: 'Not found page or website' });
+        const safeStartServer = () => {
+          if (aposStartingUp[dbName]) {
+            // old schotimeout loop to make sure we dont start multiple servers of the same site
+            setTimeout(() => {
+              safeStartServer();
+            }, 100);
+          } else {
+            startServer(aposServer[dbName], req, res)
+          }
+        }
+
+        safeStartServer();
       }
-    })
-  .catch((e) => {
-    res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
-  });
+
+    } else {
+      res.status(404).json({ error: 'Not found page or website' });
+    }
+  })
+    .catch((e) => {
+      res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
+    });
 }
 
-function run(id, siteData, callback) {
+function run(id, siteData, options, callback) {
   const site = { _id: id}
+  const config = _.merge(siteData, options);
 
-  const siteConfig = defaultSiteConfig.get(site, siteData, openstadMap, openstadMapPolygons);
+  const siteConfig = defaultSiteConfig.get(site, config, openstadMap, openstadMapPolygons);
 
   siteConfig.afterListen = function () {
     apos._id = site._id;
@@ -156,4 +148,14 @@ function run(id, siteData, callback) {
 
 }
 
-app.listen(process.env.PORT);
+module.exports.getMultiSiteApp = (options) => {
+  app.use(function(req, res, next) {
+    /**
+     * Start the servers
+     */
+    req.options = options;
+    serveSites(req, res, next);
+  });
+
+  return app;
+};

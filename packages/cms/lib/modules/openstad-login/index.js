@@ -9,6 +9,7 @@ const generateRandomPassword = () => {
 }
 
 module.exports = {
+  improve: 'apostrophe-login',
   construct: function(self, options) {
     self.apos.app.get('/login',  (req, res, next) => {
       res.redirect('/oauth/login');
