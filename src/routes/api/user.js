@@ -31,7 +31,8 @@ router.route('/')
 	.get(auth.can('users:list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
-		let queryConditions = { where: { siteId: req.params.siteId } };
+		let queryConditions = req.queryConditions ? req.queryConditions : {};
+		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
 		db.User
 			//.scope(...req.scope)
@@ -97,14 +98,14 @@ router.route('/')
 // --------
 router.route('/:userId(\\d+)')
 	.all(function(req, res, next) {
-		var userId = parseInt(req.params.userId) || 1;
+		const userId = parseInt(req.params.userId) || 1;
 
 		console.log('userId', userId)
 
 		db.User
 			.findOne({
-		//		where: { id: userId, siteId: req.params.siteId }
-					where: { id: userId }
+					where: { id: userId, siteId: req.params.siteId }
+					//where: { id: userId }
 			})
 			.then(found => {
 				if ( !found ) throw new Error('User not found');
@@ -126,6 +127,8 @@ router.route('/:userId(\\d+)')
 	.put(auth.can('user:edit'))
 	.put(function(req, res, next) {
 		filterBody(req)
+		const userId = parseInt(req.params.userId) || 1;
+
 		/**
 		 * Update the user API first
 		 */
@@ -164,8 +167,8 @@ router.route('/:userId(\\d+)')
 				.then( (result) => {
 					return db.User
 						.findOne({
-					//		where: { id: userId, siteId: req.params.siteId }
-								where: { id: parseInt(req.params.userId) }
+					 			where: { id: userId, siteId: req.params.siteId }
+								//where: { id: parseInt(req.params.userId) }
 						})
 				})
 				.then(found => {

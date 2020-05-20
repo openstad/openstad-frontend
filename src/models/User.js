@@ -11,7 +11,11 @@ var emailBlackList = require('../../config/mail_blacklist')
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
-
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
+		},
+		
     externalUserId: {
       type         : DataTypes.INTEGER,
 			allowNull    : true,
@@ -176,10 +180,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}, {
 		charset: 'utf8',
 
-		indexes: [{
+	/*	indexes: [{
 			fields: ['email'],
 			unique: true
-		}],
+		}],*/
 
 		validate: {
 			hasValidUserRole: function() {
