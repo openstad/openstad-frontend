@@ -8,7 +8,7 @@ module.exports = function( req, res, next ) {
 	let siteId;
 
 	// deze paden mogen dit overslaan
-	if (req.path.match('^(/doc|/dev|/accepteer-cookies|/$)')) return next();
+	if (req.path.match('^(/doc|/dev|/accepteer-cookies|/api/area|/$)')) return next();
 	if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
 
 	let match = req.path.match(/\/site\/(\d+)?\//);
