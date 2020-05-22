@@ -116,9 +116,11 @@ router.route('/')
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
     let records = req.results.records || req.results
-		records.forEach((record, i) => {
-      records[i] = createIdeaJSON(record, req.user, req);
+
+		req.results.records = records.map((record) => {
+      return createIdeaJSON(record, req.user, req);
 		});
+
 		res.json(req.results);
   })
 
@@ -245,20 +247,12 @@ router.route('/:ideaId(\\d+)')
         // tags
         if (!req.body.tags) return;
         let tagIds = [];
-        return db.Tag
-          .scope(['defaultScope', {method: ['forSiteId', req.params.siteId]}])
-          .findAll({ where: { name: req.body.tags } })
-			    .then(tags => {
-            tags.forEach((tag) => {
-              tagIds.push(tag.id);
-            });
-            return ideaInstance
-              .setTags(tagIds)
+				return ideaInstance
+						.setTags(req.body.tags)
               .then(() => {
                 return ideaInstance;
               })
-			    })
-			    .then(ideaInstance => {
+						.then(ideaInstance => {
             // refetch. now with tags
             let scope = [...req.scope, 'includeVoteCount', 'includeTags']
 		        return db.Idea
@@ -377,11 +371,11 @@ function createIdeaJSON(idea, user, req) {
 	}
 
   // tags
-  if (result.tags) {
+/*  if (result.tags) {
     result.tags.forEach((tag, i) => {
       result.tags[i] = result.tags[i].name
     });
-  }
+  }*/
 
 
 	/**

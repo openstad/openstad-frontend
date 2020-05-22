@@ -23,6 +23,9 @@ router.use( '/site/:siteId(\\d+)/article', require('./article') );
 // tags
 router.use( '/site/:siteId(\\d+)/tag', require('./tag') );
 
+// users
+router.use( '/site/:siteId(\\d+)/user', require('./user') );
+
 // submissions
 router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
 

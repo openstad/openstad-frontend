@@ -23,6 +23,13 @@ module.exports = function( helpers, role ) {
       resource: 'site'
     },
 
+    'users:list': false,
+    'user:view': false,
+    // creating is done trough loggin in, not REST api
+    'user:create': false,
+    'user:edit': false,
+    'user:delete': false,
+
     'ideas:admin': false,
     'ideas:list': true,
     'ideas:archive': true,

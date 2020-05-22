@@ -9,9 +9,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 
 	IdeaTag.scopes = function scopes() {
-
 		return {
-
 			defaultScope: {
 			},
 

@@ -33,7 +33,6 @@ exports.postMiddleware = function(req, res, next) {
 	}
 }
 
-
 //CONFIGURE BRUTE FORCE PROTECT
 let globalBruteForce = new ExpressBrute(new ExpressBrute.MemoryStore(), {
 	freeRetries: 1000,
