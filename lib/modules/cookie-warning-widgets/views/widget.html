@@ -1,35 +1,8 @@
-{% if data.global.useCookieWarning %}
-
-<div id="cookiewarning-container" class="cookie-consent hidden">
-  <div id="cookiewarning">
-    <h3>Cookies op deze site</h3>
-    Wij plaatsen <a href="{{data.global.cookiePageLink}}">cookies</a> zodat de site goed werkt en het gebruik te meten is.<br/>
-    Voor het plaatsen van cookies van derden hebben wij uw toestemming nodig.
-    <a href="javascript: void setCookieConsent(true)" class="cookie-button cookie-button-blue">Cookies van derden toestaan</a>
-    <a href="javascript: void setCookieConsent(false)" class="cookie-button cookie-button-white">Cookies van derden weigeren</a>
+<div id="cookiewarning-container" class="cookie-consent">
+  <div class="cookie-consent-change-container">
+    <strong>{{ data.widget.statusText }}</strong> {%if data.cookieConsent %}{{ data.widget.statusAllowText }}{% else %}{{ data.widget.statusDenyText }}{% endif %}<br>
+    <strong>{{ data.widget.description }}</strong><br>
+    <a href="#" class="cookie-button cookie-button-{%if data.cookieConsent %}gray{% else %}blue{% endif %}" data-allow="true">{{ data.widget.buttonAllowText }}</a>
+    <a href="#" class="cookie-button cookie-button-{%if data.cookieConsent %}white{% else %}gray{% endif %}" data-allow="false">{{ data.widget.buttonDenyText }}</a>
   </div>
 </div>
-
-<script>
-
- let cookieConsent = getCookieConsent()
- if (typeof cookieConsent == 'undefined') {
-   document.getElementById('cookiewarning-container').classList.remove("hidden")
- } else {
-   document.getElementById('cookiewarning-container').classList.add("hidden")
- }
-
- function setCookieConsent(what) {
-   var d = new Date();
-   document.cookie = "cookie-consent=" + (what ? '1' : '-1') + '; path=/; expires=Thu, 31 Dec '+(d.getFullYear() + 5)+' 23:59:00 UTC;';
-   document.location.reload();
- }
-
- function getCookieConsent() {
-   var match = document.cookie.match('cookie-consent=(1|-1)');
-   if (match) return match && match[1] === '1';
- }
-
-</script>
-
-{% endif %}

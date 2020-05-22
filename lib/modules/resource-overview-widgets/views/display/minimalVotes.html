@@ -5,7 +5,7 @@
 	{% endif %}
 >{% for idea in data.widget.activeResources %}<div
   class="tile idea-item list-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}}"
-  data-createdtime="{{idea.createdTime}}"
+  data-createdtime="{{data.widget.parseDateToTime(idea.createdAt)}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
   data-ranking="{{idea.ranking}}"

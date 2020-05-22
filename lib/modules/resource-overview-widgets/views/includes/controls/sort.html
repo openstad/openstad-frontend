@@ -1,0 +1,11 @@
+{% if data.widget.displaySorting %}
+<div class="sort">
+  <select class="default-select ideas-sort-select openstad-ajax-refresh-input" name="sort" data-reset-pagination="1">
+    {% for selectedSorting in data.widget.selectedSorting %}
+    <option value="{{selectedSorting.value}}" {{ 'selected' if data.query.sort === selectedSorting.value or (not data.query.sort and data.widget.defaultSort === selectedSorting.value) }} >
+      Sorteren: {{ __(selectedSorting.label) }}
+    </option>
+    {% endfor %}
+  </select>
+</div>
+{% endif %}
