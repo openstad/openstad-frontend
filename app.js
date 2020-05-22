@@ -102,6 +102,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
+            config.area = siteConfig.area;
 
             aposStartingUp[dbName] = true;
 
