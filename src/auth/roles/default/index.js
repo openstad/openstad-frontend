@@ -34,6 +34,16 @@ var helpers = {
 		return isOwner && ( canEditAfterFirstLikeOrArg || ( !voteCount && !argCount ) );
 	},
 
+
+	// check if same user editing it's own data
+	// 	//WARNING: this currently doesnt work
+	// 	user resource is always logged in user
+
+	//mayMutateUser: function(user, editUser) {
+	//	return user.id === editUser.id;
+	//},
+
+
 	mayMutateIdea: function( user, idea ) {
 
     if( !idea.isOpen() ) {

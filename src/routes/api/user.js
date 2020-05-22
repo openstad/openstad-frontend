@@ -99,9 +99,6 @@ router.route('/')
 router.route('/:userId(\\d+)')
 	.all(function(req, res, next) {
 		const userId = parseInt(req.params.userId) || 1;
-
-		console.log('userId', userId)
-
 		db.User
 			.findOne({
 					where: { id: userId, siteId: req.params.siteId }
@@ -128,6 +125,11 @@ router.route('/:userId(\\d+)')
 	.put(function(req, res, next) {
 		filterBody(req)
 		const userId = parseInt(req.params.userId) || 1;
+
+		//TODO: find a way to move this to role system (rest user object is loaded as logged in user)
+		if (!userhasModeratorRights(req.user) && userId !== req.user.id) {
+			return next(createError(403, 'Not allowed'));
+		}
 
 		/**
 		 * Update the user API first
