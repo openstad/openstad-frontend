@@ -44,6 +44,12 @@ router
 			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
+			let authServerAdminLoginPath = siteOauthConfig['auth-server-admin-login-path'] || config.authorization['auth-server-admin-login-path'];
+
+
+
+			authServerLoginPath = req.query.loginPriviliged ? authServerAdminLoginPath : authServerLoginPath;
+
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
