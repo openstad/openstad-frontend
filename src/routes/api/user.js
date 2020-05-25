@@ -145,17 +145,21 @@ router.route('/:userId(\\d+)')
 			 client_id: authClientId,
 			 client_secret: authClientSecret,
 		 }
+		 const options = {
+			 method: 'post',
+			 headers: {
+				 'Content-Type': 'application/json',
+			 },
+			 mode: 'cors',
+			 body: JSON.stringify(Object.assign(apiCredentials, req.body))
+		 }
 
-		 fetch(
-			 authUpdateUrl, {
-				 method: 'post',
-				 headers: {
-					 'Content-Type': 'application/json',
-				 },
-				 mode: 'cors',
-				 body: JSON.stringify(Object.assign(apiCredentials, req.body))
-			 })
+		 console.log('apiCredentials', apiCredentials);
+		 console.log('options', options);
+
+		 fetch(authUpdateUrl, options)
 			 .then((response) => {
+				 	console.log('response', response);
 					 if (response.ok) {
 						 return response.json()
 					 }
