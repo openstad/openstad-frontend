@@ -5,7 +5,7 @@
   minlength="{{field.fieldMin if field.fieldMin else 2}}"
   maxlength="{{field.fieldMax if field.fieldMax else 140}}"
   name="lastName"
-  value="{{activeResource.extraData[field.fieldKey]}}"
+  value="{{activeResource.lastName}}"
   {% if field.fieldRequired %}required{% endif %}
 />
 <div id="charsLeftlastName" class="charsLeft">
