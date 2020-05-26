@@ -51,6 +51,11 @@ input.search {
       font-weight: 600;
       color: #000;
     }
+
+    &:focus::placeholder{
+      font-weight: normal;
+      color: #B4B4B4;
+    }
   }
 
   .search-wrapper, .default-select {
@@ -130,7 +135,7 @@ input.search {
   }
 }
 
-.search-wrapper button[type="submit"]{
+.search-wrapper button[type="submit"],.search-wrapper .search-reset {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -150,8 +155,17 @@ input.search {
     outline: 0;
   }
 
+  &:hover {
+    cursor: pointer;
+  }
+
   img {
     width: 14px;
     height: 14px;
   }
+}
+
+
+.search-wrapper .search-reset {
+  display: none;
 }
