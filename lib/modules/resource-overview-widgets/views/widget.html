@@ -6,6 +6,10 @@
 	  <div class="ideasList" >
 	    {% include 'includes/filters.html' %}
 
+			{% if data.widget.resultCountText %}
+				{{data.widget.resultCountText | sanitize | safe}}
+			{% endif %}
+
 	    <br />
 			<div id="ideas-anchor"></div>
 
