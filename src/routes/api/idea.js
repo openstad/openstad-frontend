@@ -36,6 +36,10 @@ router
 			req.scope.push({ method: ['filter', req.query.filters]});
 		}
 
+		if (req.query.exclude) {
+			req.scope.push({ method: ['exclude', req.query.exclude]});
+		}
+
 		if (req.query.running) {
 			req.scope.push('selectRunning');
 		}
@@ -43,8 +47,6 @@ router
 		if (req.query.includeArguments) {
 			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
-
-
 
 		if (req.query.includeTags) {
 			req.scope.push('includeTags');
