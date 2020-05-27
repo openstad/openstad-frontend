@@ -12,6 +12,12 @@
 			</div>
 			{% endif %}
 
+			{% if data.widget.formattedSearchText %}
+			<div class="resource-overview-counter-text ">
+				{{data.widget.formattedSearchText | sanitize | safe}}
+			</div>
+			{% endif %}
+
 	    <br />
 			<div id="ideas-anchor"></div>
 

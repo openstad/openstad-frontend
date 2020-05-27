@@ -3,10 +3,10 @@
   <form class="search-form" action="{{site.fullUrl}}">
       <div class="search-wrapper">
         <input type="text" placeholder="Waar bent u naar op zoek?" name="search" class="search">
-        <a href="" class="search-erase hidden-xs">
-          Wissen
+        <a href="" class="search-erase {{'active' if data.search.query}}">
+          <img src="{{appUrl}}/img/close.svg" />
         </a>
-        <button type="submit" class="visible-xs">
+        <button type="submit" class="{{'active' if not data.search.query}}" onkeyup="$(this).addClass('active'); $(this).siblings('.search-erase').removeClass('active');">
           <img src="{{appUrl}}/img/search.svg" />
         </button>
       </div>

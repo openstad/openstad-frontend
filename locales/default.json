@@ -238,5 +238,7 @@
 	"Text for amount of results": "Text for amount of results",
 	"Exampe: You are seeing [visibleCount] of in total [totalCount] articles": "Exampe: You are seeing [visibleCount] of in total [totalCount] articles",
 	"You are now editing this document in another tab or window.": "You are now editing this document in another tab or window.",
-	"Exampe: You are seeing <b>[visibleCount]</b> of in total [totalCount] articles": "Exampe: You are seeing <b>[visibleCount]</b> of in total [totalCount] articles"
+	"Exampe: You are seeing <b>[visibleCount]</b> of in total [totalCount] articles": "Exampe: You are seeing <b>[visibleCount]</b> of in total [totalCount] articles",
+	"Text for active search result": "Text for active search result",
+	"Exampe: You are seeing search results [searchTerm]": "Exampe: You are seeing search results [searchTerm]"
 }
