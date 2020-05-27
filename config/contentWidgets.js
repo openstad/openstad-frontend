@@ -1,4 +1,7 @@
 const contentWidgets = {
+  'admin': {
+    adminOnly: true
+  },
   'resource-overview': {
     adminOnly: true
   },
@@ -40,7 +43,6 @@ const contentWidgets = {
     adminOnly: true
   },
   'idea-overview': {
-    adminOnly: true
   },
   'idea-single': {
     adminOnly: true
@@ -109,7 +111,6 @@ const contentWidgets = {
   },
   'location': {
     adminOnly: true
-
   },
   'share': {
     adminOnly: true
