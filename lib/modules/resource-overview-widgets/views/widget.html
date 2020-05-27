@@ -6,8 +6,10 @@
 	  <div class="ideasList" >
 	    {% include 'includes/filters.html' %}
 
-			{% if data.widget.resultCountText %}
-				{{data.widget.resultCountText | sanitize | safe}}
+			{% if data.widget.formattedResultCountText %}
+			<div class="resource-overview-counter-text ">
+				{{data.widget.formattedResultCountText | sanitize | safe}}
+			</div>
 			{% endif %}
 
 	    <br />
