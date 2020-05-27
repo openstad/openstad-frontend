@@ -19,3 +19,8 @@ node_modules
 store.json
 tmp
 ecosystem*
+
+test/data/
+test/locales/
+test/node_modules/
+test/public/
