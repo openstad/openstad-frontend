@@ -576,19 +576,19 @@ module.exports = function (db, sequelize, DataTypes) {
                     )
                 )
             },
-
+/*
             //allow queries to exclude keys
             exclude: function (filters) {
-              let conditions = {};
+              let conditions = [];
 
               //todo standardise keys
               const filterKeys = [
-                /*{
+                {
                   'key': 'id'
                 },
                 {
                   'key': 'title'
-                },*/
+                },
                 {
                   'key': 'theme',
                   'extraData': true
@@ -615,34 +615,34 @@ module.exports = function (db, sequelize, DataTypes) {
 
                   if (filter.extraData) {
                     filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
-                    conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
+                  //  conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
 
                     //filter out multiple conditions
                     filterValue.forEach((value, key)=>{
-                      conditions[Sequelize.Op.and].push({
-                        [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                      conditions.push({
+                        [Sequelize.Op.and]: sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
                       });
                     })
 
                   } else {
-                    /*
-                    TODO
+\\                    TODO
                     conditions[filter.key] =  {
                       [Sequelize.Op.not]: filterValue
                     }
-                    */
-                  }
+\                  }
                 }
               });
 
+              console.log('filters', filters, conditions)
+
               return {
-                where: conditions
+                where: sequelize.and(conditions[0])
               }
             },
 
             filter: function (filters) {
-              let conditions = {};
-              conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
+              let conditions = [];
+              //conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
 
               const filterKeys = [
                 {
@@ -676,24 +676,110 @@ module.exports = function (db, sequelize, DataTypes) {
                     filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
 
                     filterValue.forEach((value, key)=>{
-                      conditions[Sequelize.Op.and].push({
-                        [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
-                      });
+                      conditions.push(
+                        sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                      );
                     });
 
                   } else {
-                    conditions[Sequelize.Op.and].push({
+                    conditions.push({
                       [filter.key] : filterValue
                     });
                   }
                 }
               });
 
+              console.log('fiter',conditions);
+
               return {
-                where: conditions
+                where: sequelize.and(conditions[0])
               }
             },
+*/
 
+            filter: function (filtersInclude, filtersExclude) {
+              let conditions = {
+                [Sequelize.Op.and]:[]
+              };
+
+              const filterKeys = [
+                {
+                  'key': 'id'
+                },
+                {
+                  'key': 'title'
+                },
+                {
+                  'key': 'theme',
+                  'extraData': true
+                },
+                {
+                  'key': 'area',
+                  'extraData': true
+                },
+                {
+                  'key': 'vimeoId',
+                  'extraData': true
+                },
+              ];
+
+              filterKeys.forEach((filter, i) => {
+                //first add include filters
+                if (filtersInclude) {
+                  let filterValue = filtersInclude[filter.key];
+
+                  if (filtersInclude[filter.key]) {
+                    if (filter.extraData) {
+                      filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+                      filterValue.forEach((value, key)=>{
+                        conditions[Sequelize.Op.and].push({
+                          [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                        });
+                      });
+
+                    } else {
+                      conditions[Sequelize.Op.and].push({
+                        [filter.key] : filterValue
+                      });
+                    }
+                  }
+                }
+
+                //add exclude filters
+                if (filtersExclude) {
+                  let excludeFilterValue = filtersExclude[filter.key];
+
+                  if (excludeFilterValue) {
+                    if (filter.extraData) {
+                      excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
+
+                      //filter out multiple conditions
+                      excludeFilterValue.forEach((value, key)=>{
+                        conditions[Sequelize.Op.and].push({
+                          [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                        });
+
+
+                      })
+
+                    } else {
+                      /*
+                      TODO
+                      conditions[Sequelize.Op.and].push({
+                        [filter.key] : filterValue
+                      });
+                      */
+                    }
+                  }
+                }
+              });
+
+              return {
+                where: sequelize.and(conditions)
+                //where: sequelize.and(conditions)
+              }
+            },
 
             // vergelijk getRunning()
             selectRunning: {
@@ -1234,7 +1320,6 @@ module.exports = function (db, sequelize, DataTypes) {
         } else {
             throw new Error('Idea.setUserVote: missing params');
         }
-
     }
 
     Idea.prototype.setModBreak = function (user, modBreak) {

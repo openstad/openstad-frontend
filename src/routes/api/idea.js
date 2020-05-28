@@ -32,12 +32,9 @@ router
 			req.scope.push('mapMarkers');
 		}
 
-		if (req.query.filters) {
-			req.scope.push({ method: ['filter', req.query.filters]});
-		}
-
-		if (req.query.exclude) {
-			req.scope.push({ method: ['exclude', req.query.exclude]});
+		if (req.query.filters || req.query.exclude) {
+			console.log('=>>> filter')
+			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
 		}
 
 		if (req.query.running) {
@@ -112,7 +109,10 @@ router.route('/')
         req.pagination.count = result.count;
         return next();
 			})
-			.catch(next);
+			.catch((err)=>{
+				console.log('err',err);
+				next(err)
+			});
 	})
 	.get(searchResults)
 	.get(pagination.paginateResults)
@@ -156,15 +156,12 @@ router.route('/')
 			})
 			.then(ideaInstance => {
         // tags
-        console.log('req.body.tags 2', req.body.tags, req.body);
-
 
         if (!req.body.tags) {
 					return ideaInstance;
 				}
 
 				const tags = req.body.tags ? req.body.tags.map(tagId => parseInt(tagId)) : [];
-				console.log('tagstags', tags);
 
 		      return ideaInstance
 		        .setTags(tags)
@@ -173,8 +170,6 @@ router.route('/')
 							next();
 						})
 		        .then((param) => {
-							console.log('param', param);
-							console.log('ideaInstance333', ideaInstance);
 
 		          return ideaInstance;
 		        })
@@ -182,15 +177,12 @@ router.route('/')
 		          // refetch. now with tags
 		          let scope = [...req.scope, 'includeVoteCount', 'includeTags']
 
-							console.log('ideaInstance', ideaInstance);
-
 			        return db.Idea
 				        .scope(...scope)
 				        .findOne({
 					        where: { id: ideaInstance.id, siteId: req.params.siteId }
 				        })
 				        .then(found => {
-									console.log('found', found.id);
 
 					        if ( !found ) throw new Error('Idea not found');
 					        responseData = createIdeaJSON(found, req.user, req);
