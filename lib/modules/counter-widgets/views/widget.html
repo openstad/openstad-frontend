@@ -1,23 +1,51 @@
 {% from 'number-plate.njk' import numberPlate %}
 
 <style>
-  {{data.widget.formattedContainerStyles}}
+ {{data.widget.formattedContainerStyles}}
 </style>
 
 {% if data.widget.url %}
 <a href="{{data.widget.url}}"
 {% else %}
-<span
-{% endif %}
+  <span
+  {% endif %}
   id="{{data.widget.containerId}}"
   class="margin-bottom-xs scroll-link block no-decoration"
->
-	<span class="box-blue block">
-		{{numberPlate(data.widget.count)}}
-    {{data.widget.label}}
-	</span>
-{% if data.widget.url %}
+  >
+	  <span class="box-blue block">
+		  {{numberPlate(data.widget.count)}}
+      {{data.widget.label}}
+	  </span>
+    {% if data.widget.url %}
 </a>
 {% else %}
-</span>
-{% endif %}
+  </span>
+  {% endif %}
+
+
+  {% if data.widget.statsUrl %}
+  <script>
+   function fetchStats() {
+
+     let url = '{{data.widget.statsUrl}}';
+     fetch(url, {
+	     headers: { "Content-type": "application/json" },
+     })
+	     .then((response) => {
+		     if (!response.ok) throw Error(response)
+		     return response.json();
+	     })
+	     .then( json => {
+         count = ('000' + json.count).slice(-3);
+         document.getElementById('counter-number-plate-0').innerHTML = count[0];
+         document.getElementById('counter-number-plate-1').innerHTML = count[1];
+         document.getElementById('counter-number-plate-2').innerHTML = count[2];
+	     })
+	     .catch((err) => {
+		     console.log('Niet goed');
+		     console.log(err);
+	     });
+   }
+   fetchStats()
+  </script>
+  {% endif %}

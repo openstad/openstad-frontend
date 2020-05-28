@@ -1,8 +1,83 @@
-{% if data.hasModeratorRights and data.global.showAdminBar %}
-<div class="custom-admin-bar">
-    <span>Admin</span>
-    <nav>
-        <a href="/ideas/download" class="btn">Export ideas</a>
-    </nav>
+{% if data.hasModeratorRights %}
+<style>
+  {{data.widget.formattedContainerStyles}}
+
+  .layout header {
+    position: relative !important;
+    transform: none !important;
+    visibility: visible !important;
+    padding: 0 !important;
+    height: 48px;
+    background-color: rgb(255, 255, 255) !important;
+    color: black !important;
+    margin-top: -20px;
+    box-shadow: none;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  .RaLayout-root-1 {
+    background: white;
+  }
+
+  .RaLayout-appFrame-2 {
+      margin-top: 0;
+  }
+</style>
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<link rel="stylesheet" href="/modules/admin-widgets/css/main.css">
+<script src="/modules/admin-widgets/js/index.js"></script>
+<div id="{{data.widget.containerId}}" class="osc-component">
+	<div id="admin-root"></div>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var appProps = {
+      user: {
+        id: {{data.openstadUser.id}}
+      },
+      site: {
+        id: {{data.global.siteId}}
+      },
+      imageApi: {
+        url: '/image'
+      },
+      restApi: {
+        url: '/api/site/{{data.global.siteId}}'
+      },
+      csrf: $.cookie(apos.csrfCookieName),
+      resources: {
+        idea: {
+          active: true
+        },
+        user: {
+          active: true
+        },
+        order: {
+          active: false
+        },
+        vote: {
+          active: true
+        },
+        article: {
+          active: false
+        },
+        argument: {
+          active: true
+        },
+        site: {
+          active: true
+        },
+        newsletterSignup: {
+          active: true
+        },
+        tag: {
+          active: true
+        },
+      }
+    };
+
+    ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+  });
+</script>
 {% endif %}
