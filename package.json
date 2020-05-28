@@ -1,7 +1,7 @@
 {
-  "name": "test-project",
-  "version": "2.0.0",
-  "description": "Minimal Apostrophe Boilerplate",
+  "name": "openstad-frontend",
+  "version": "0.0.1",
+  "description": "Openstad frontend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "P'unk Avenue",
+  "author": "Team Openstad: Niels Denes & Tosh Koevoets",
   "license": "MIT",
   "dependencies": {
     "apostrophe": "2.102.2",
