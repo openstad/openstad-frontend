@@ -357,5 +357,6 @@
 	"This related item may also be visible on the page. Please consider it first so that your final commit is more complete.": "This related item may also be visible on the page. Please consider it first so that your final commit is more complete.",
 	"Commit all like this": "Commit all like this",
 	"Skip all like this": "Skip all like this",
-	"The document was committed successfully.": "The document was committed successfully."
+	"The document was committed successfully.": "The document was committed successfully.",
+	"Control of this document has been taken by another user.": "Control of this document has been taken by another user."
 }
