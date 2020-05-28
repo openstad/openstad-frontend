@@ -1,3 +1,5 @@
+const convertDbPolygonToLatLng = require ('../util/convert-db-polygon-to-lat-lng');
+
 module.exports = function( db, sequelize, DataTypes ) {
   var Area = sequelize.define('area', {
     
@@ -8,7 +10,10 @@ module.exports = function( db, sequelize, DataTypes ) {
     
     polygon: {
       type: DataTypes.GEOMETRY,
-      allowNull: false
+      allowNull: false,
+      get: function () {
+        return convertDbPolygonToLatLng(this.getDataValue('polygon'));
+      }
     },
     
   });
