@@ -577,8 +577,72 @@ module.exports = function (db, sequelize, DataTypes) {
                 )
             },
 
+            //allow queries to exclude keys
+            exclude: function (filters) {
+              let conditions = {};
+
+              //todo standardise keys
+              const filterKeys = [
+                /*{
+                  'key': 'id'
+                },
+                {
+                  'key': 'title'
+                },*/
+                {
+                  'key': 'theme',
+                  'extraData': true
+                },
+                {
+                  'key': 'area',
+                  'extraData': true
+                },
+                {
+                  'key': 'vimeoId',
+                  'extraData': true
+                },
+              ];
+
+              console.log('filters', filters)
+
+
+              filterKeys.forEach((filter, i) => {
+                let filterValue = filters[filter.key]
+
+
+                if (filters[filter.key]) {
+                  filters[filter.key] = [];
+
+                  if (filter.extraData) {
+                    filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+                    conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
+
+                    //filter out multiple conditions
+                    filterValue.forEach((value, key)=>{
+                      conditions[Sequelize.Op.and].push({
+                        [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                      });
+                    })
+
+                  } else {
+                    /*
+                    TODO
+                    conditions[filter.key] =  {
+                      [Sequelize.Op.not]: filterValue
+                    }
+                    */
+                  }
+                }
+              });
+
+              return {
+                where: conditions
+              }
+            },
+
             filter: function (filters) {
               let conditions = {};
+              conditions[Sequelize.Op.and] = conditions[Sequelize.Op.and] ? conditions[Sequelize.Op.and] : [];
 
               const filterKeys = [
                 {
@@ -603,12 +667,24 @@ module.exports = function (db, sequelize, DataTypes) {
 
 
               filterKeys.forEach((filter, i) => {
-                const filterValue = filters[filter.key]
+                let filterValue = filters[filter.key];
+
+
                 if (filters[filter.key]) {
+
                   if (filter.extraData) {
-                    conditions[Sequelize.Op.and] = sequelize.literal(`extraData->"$.${filter.key}"='${filterValue}'`)
+                    filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+                    filterValue.forEach((value, key)=>{
+                      conditions[Sequelize.Op.and].push({
+                        [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                      });
+                    });
+
                   } else {
-                    conditions[filter.key] = filterValue;
+                    conditions[Sequelize.Op.and].push({
+                      [filter.key] : filterValue
+                    });
                   }
                 }
               });
