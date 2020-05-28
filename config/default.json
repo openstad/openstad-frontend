@@ -31,11 +31,11 @@
 			{ "route": "/", "router": "./routes/doc" }
 		]
 	},
-	
+
 	"mail": {
 		"from": "from@localhost",
 		"method": "smtp",
-		
+
 		"transport": {
 			"smtp": {
 				"pool": false,
@@ -52,7 +52,7 @@
 
 		}
 	},
-	
+
 	"notifications": {
 		"admin": {
 			// Special high-frequency email notifications for site administrators.
@@ -62,7 +62,13 @@
 	},
 
 	"authorization": {
-		"jwt-secret": "QTG6EPehO6NKfJm6bSV9NYVbFj973ezT"
+		"jwt-secret": "xxxxx",
+    "auth-server-login-path": "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline",
+    "auth-server-admin-login-path":"/auth/admin/login?redirect_uri=[[redirectUrl]]&response_type=code&clientId=[[clientId]]&scope=offline",
+    "auth-server-exchange-code-path": "/oauth/token",
+    "auth-server-get-user-path": "/api/userinfo?client_id=[[clientId]]",
+    "auth-server-logout-path": "/logout?clientId=[[clientId]]",
+    "after-login-redirect-uri": "/?jwt=[[jwt]]"
 	},
 
 	"ideas": {
@@ -247,7 +253,7 @@
     }
 
 	},
-	
+
 	"security": {
 		"passwordHashing": {
 			"currentMethod": "bcrypt",

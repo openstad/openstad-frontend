@@ -2,6 +2,7 @@ const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
+const pagination = require('../../middleware/pagination');
 
 let router = express.Router({mergeParams: true});
 
@@ -10,22 +11,26 @@ router.route('/')
 // list tags
 // --------------
 	.get(auth.can('tags:list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
-		let where = {};
 		req.scope = ['defaultScope'];
     req.scope.push({method: ['forSiteId', req.params.siteId]});
 
 		db.Tag
 			.scope(...req.scope)
-			.findAll({ where })
-			.then( found => {
-				return found.map( entry => entry.toJSON() );
-			})
-			.then(function( found ) {
-				res.json(found);
+			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(result => {
+				req.results = result.rows;
+				req.pagination.count = result.count;
+				next();
 			})
 			.catch(next);
 	})
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		res.json(req.results);
+  })
 
 // create tag
 // ---------------

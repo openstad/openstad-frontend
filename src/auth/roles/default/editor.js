@@ -29,6 +29,12 @@ module.exports = function( helpers, role ) {
 		'arg:edit'         : true,
 		'arg:reply'        : true,
 		'arg:delete'       : true,
+		'users:list'			 : true,
+		'user:view'        : true,
+		'user:create'      : true,
+		'user:edit'        : true,
+		'user:delete'			 : true,
+
 		'newslettersignup:list'     : true,
 		'newslettersignup:view'	 	  : true,
 	});

@@ -5,6 +5,25 @@ var util      = require('./util');
 var config    = require('config');
 var dbConfig  = config.get('database');
 
+// newer versions of mysql (8+) have changed GeomFromText to ST_GeomFromText
+// this is a fix for sequalize
+if (dbConfig.mysqlSTGeoMode) {
+	const wkx = require('wkx')
+	Sequelize.GEOMETRY.prototype._stringify = function _stringify(value, options) {
+	  return `ST_GeomFromText(${options.escape(wkx.Geometry.parseGeoJSON(value).toWkt())})`;
+	}
+	Sequelize.GEOMETRY.prototype._bindParam = function _bindParam(value, options) {
+	  return `ST_GeomFromText(${options.bindParam(wkx.Geometry.parseGeoJSON(value).toWkt())})`;
+	}
+	Sequelize.GEOGRAPHY.prototype._stringify = function _stringify(value, options) {
+	  return `ST_GeomFromText(${options.escape(wkx.Geometry.parseGeoJSON(value).toWkt())})`;
+	}
+	Sequelize.GEOGRAPHY.prototype._bindParam = function _bindParam(value, options) {
+	  return `ST_GeomFromText(${options.bindParam(wkx.Geometry.parseGeoJSON(value).toWkt())})`;
+	}
+}
+
+
 var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
@@ -30,6 +49,7 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 		idle : 10000
 	},
 });
+
 
 // Define models.
 var db     = {sequelize: sequelize};
