@@ -1,4 +1,4 @@
-<select id="thema" name="theme" class="default-select" value="{% if activeResource.extraData %}{{activeResource.extraData.theme}}{% endif %}" {% if data.widget.requiredThemes %}required{% endif %}>
+<select id="thema" name="extraData[theme]" class="default-select" value="{% if activeResource.extraData %}{{activeResource.extraData.theme}}{% endif %}" {% if data.widget.requiredThemes %}required{% endif %}>
   <option value="">Kies thema</option>
   {% for theme in data.global.themes %}
   <option value="{{theme.value}}" {% if (activeResource.extraData) and (activeResource.extraData.theme === theme.value) %}selected{% endif %}>{{theme.value}}</option>

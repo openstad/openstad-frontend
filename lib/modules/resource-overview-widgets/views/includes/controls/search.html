@@ -1,12 +1,12 @@
 {% if data.widget.displaySearch %}
 <div class="search-wrapper">
-  <input type="text" placeholder="Zoeken" name="search" value="{{data.query.search}}" class="search openstad-ajax-refresh-input">
-  <button type="submit">
+  <input type="text" placeholder="Zoeken" name="search" value="{{data.query.search}}" class="search openstad-ajax-refresh-input" onkeyup="console.log(this); $(this).siblings('button').addClass('active'); $(this).siblings('.search-reset').removeClass('active');">
+
+  <a type="submit" class="search-reset openstad-ajax-refresh-click {{'active' if data.query.search}}" data-reset-search="1">
+    <img src="{{appUrl}}/img/close.svg" width="16" height="16" />
+  </a>
+  <button type="submit"  class="{{'active' if not data.query.search}}" >
     <img src="{{appUrl}}/img/search.svg" width="16" height="16" />
   </button>
-
-  {#<a href="" class="search-erase hidden-xs">
-    Wissen
-  </a>#}
 </div>
 {% endif %}
