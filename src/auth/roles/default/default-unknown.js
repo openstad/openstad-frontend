@@ -23,6 +23,13 @@ module.exports = function( helpers, role ) {
       resource: 'site'
     },
 
+    'users:list': false,
+    'user:view': false,
+    // creating is done trough loggin in, not REST api
+    'user:create': false,
+    'user:edit': false,
+    'user:delete': false,
+
     'ideas:admin': false,
     'ideas:list': true,
     'ideas:archive': true,
@@ -174,6 +181,13 @@ module.exports = function( helpers, role ) {
       resource: ['idea', 'argument'],
       message: 'Stemmen kan enkel als geregistreerde gebruiker'
     },
+
+    // tags
+    'tags:list': true,
+    'tags:view': true,
+    'tags:create': false,
+    'tags:edit': false,
+    'tags:delete': false,
 
     'user:mail': false
   });

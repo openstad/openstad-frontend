@@ -7,6 +7,8 @@ const config = require('config');
 const db = require('../../db');
 const auth = require('../../auth');
 const mail = require('../../lib/mail');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
@@ -47,20 +49,30 @@ router.route('/')
 // list articles
 // ----------
 	.get(auth.can('articles:list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
 		db.Article
 			.scope(...req.scope)
-			.findAll({ where: { siteId: req.params.siteId } })
-			.then( found => {
-				return found.map( entry => {
-					return createArticleJSON(entry, req.user, req);
-				});
+			.findAndCountAll({ where: { siteId: req.params.siteId }, offset: req.pagination.offset, limit: req.pagination.limit })
+			.then( result => {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.then(function( found ) {
 				res.json(found);
 			})
 			.catch(next);
 	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((record, i) => {
+      records[i] = createArticleJSON(record, req.user, req);
+		});
+		res.json(req.results);
+  })
 
 // create article
 // -----------

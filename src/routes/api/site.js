@@ -2,6 +2,8 @@ const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
@@ -10,21 +12,30 @@ router.route('/')
 // list sites
 // ----------
 	.get(auth.can('sites:list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
 		db.Site
-			.findAll()
-			.then( found => {
-				found = found.map( entry => entry.toJSON() );
-				if (!( req.user && req.user.role && req.user.role == 'admin' )) {
-					found = found.map( entry => { entry.config = undefined; return entry } );
-				}
-				return found
-			})
-			.then(function( found ) {
-				res.json(found);
+			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+			.then( result => {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.catch(next);
 	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((record, i) => {
+      let site = record.toJSON()
+			if (!( req.user && req.user.role && req.user.role == 'admin' )) {
+        site.config = undefined;
+			}
+      records[i] = site;
+    });
+		res.json(req.results);
+  })
 
 // create site
 // -----------

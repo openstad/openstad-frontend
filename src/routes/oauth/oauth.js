@@ -44,6 +44,12 @@ router
 			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
+			let authServerAdminLoginPath = siteOauthConfig['auth-server-admin-login-path'] || config.authorization['auth-server-admin-login-path'];
+
+
+
+			authServerLoginPath = req.query.loginPriviliged ? authServerAdminLoginPath : authServerLoginPath;
+
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
@@ -74,6 +80,7 @@ router
 
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+
 		let postData = {
 			client_id: authClientId,
 			client_secret: authClientSecret,
@@ -93,7 +100,6 @@ router
 			.then(
 				response => {
 					if (response.ok) return response.json()
-					console.log(response);
 					throw createError('Login niet gelukt');
 				},
 				error => {
@@ -112,7 +118,7 @@ router
 				}
 			)
 			.catch(err => {
-				// console.log(err);
+				console.log(err);
 				return next(err);
 			});
 
@@ -160,15 +166,18 @@ router
 			externalAccessToken: req.session.userAccessToken,
 			email: req.userData.email || null,
 			firstName: req.userData.firstName,
+			siteId: req.site.id,
 			zipCode: req.userData.postcode,
 			lastName: req.userData.lastName,
 			role: req.userData.role || ( req.userData.email ? 'member' : 'anonymous' ),
 		}
 
+		// if user has same siteId and userId
+		// rows are duplicate for a user
 		let where = {
-			where: Sequelize.or(
+			where: Sequelize.and(
 				{ externalUserId: req.userData.user_id },
-				{ email: req.userData.email || 'anonymous.nowhere.nl' } // do not find users with email = null
+				{ siteId: req.site.id },
 			)
 		}
 
@@ -182,10 +191,19 @@ router
 					// user found; update and use
 					let user = result[0];
 
-					user.update(data);
-					req.setSessionUser(user.id, '');
-					req.userData.id = user.id;
-					return next();
+					user
+						.update(data)
+						.then(() => {
+							req.setSessionUser(user.id, '');
+							req.userData.id = user.id;
+							return next();
+						})
+						.catch((e) => {
+							console.log('update e', e)
+							req.setSessionUser(user.id, '');
+							req.userData.id = user.id;
+							return next();
+						})
 
 				} else {
 
@@ -202,7 +220,7 @@ router
 						})
 						.catch(err => {
 							//console.log('OAUTH DIGEST - CREATE USER ERROR');
-							//console.log(err);
+							console.log('create e', err);
 							next(err);
 						})
 				}

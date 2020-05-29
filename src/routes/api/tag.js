@@ -3,92 +3,85 @@ const express = require('express');
 const db      = require('../../db');
 const auth    = require('../../auth');
 const pagination = require('../../middleware/pagination');
-const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
 router.route('/')
 
-// list submissions
+// list tags
 // --------------
-	.get(auth.can('submissions:list'))
+	.get(auth.can('tags:list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
-		let where = {};
 		req.scope = ['defaultScope'];
-		db.Submission
+    req.scope.push({method: ['forSiteId', req.params.siteId]});
+
+		db.Tag
 			.scope(...req.scope)
-			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
-			.then(function( result ) {
-        req.results = result.rows;
-        req.pagination.count = result.count;
-        return next();
+			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(result => {
+				req.results = result.rows;
+				req.pagination.count = result.count;
+				next();
 			})
 			.catch(next);
 	})
-	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
     let records = req.results.records || req.results
-		records.forEach((record, i) => {
-      records[i] = record.toJSON();
-		});
 		res.json(req.results);
   })
 
-// create submission
+// create tag
 // ---------------
-  .post(auth.can('submissions:create'))
+  .post(auth.can('tags:create'))
 	.post(function(req, res, next) {
 		let data = {
-			submittedData     : req.body.submittedData,
-			siteId      			: req.params.siteId,
-			userId      			: req.user.id,
+			name   : req.body.name,
+			siteId : req.params.siteId,
 		};
 
-		db.Submission
+		db.Tag
 			.create(data)
 			.then(result => {
 				res.json(result);
 			})
+			.catch(next);
 	})
 
-	// with one existing submission
+	// with one existing tag
 	// --------------------------
-	router.route('/:submissionId(\\d+)')
+	router.route('/:tagId(\\d+)')
 		.all(function(req, res, next) {
-			var submissionId = parseInt(req.params.submissionId);
+			var tagId = parseInt(req.params.tagId);
+      if (!tagId) next('No tag id found');
 
 			req.scope = ['defaultScope'];
 			req.scope.push({method: ['forSiteId', req.params.siteId]});
 
-		//	let where = { siteId }
-
-
-			db.Submission
+			db.Tag
 				.scope(...req.scope)
-		//		.find({ where })
-        .find()
+        .findOne({ where: { id: tagId } })
 				.then(found => {
-					if ( !found ) throw new Error('Submission not found');
-					req.submission = found;
+					if ( !found ) throw new Error('Tag not found');
+					req.tag = found;
 					next();
 				})
 				.catch(next);
 		})
 
-	// view submission
+	// view tag
 	// -------------
-		.get(auth.can('submissions:view'))
+		.get(auth.can('tags:view'))
 		.get(function(req, res, next) {
-			res.json(req.submission);
+			res.json(req.tag);
 		})
 
-	// update submission
+	// update tag
 	// ---------------
-		.put(auth.can('submissions:edit'))
+		.put(auth.can('tags:edit'))
 		.put(function(req, res, next) {
-			req.submission
+			req.tag
 				.update(req.body)
 				.then(result => {
 					res.json(result);
@@ -96,14 +89,14 @@ router.route('/')
 				.catch(next);
 		})
 
-	// delete submission
+	// delete tag
 	// ---------------
-		.delete(auth.can('submissions:delete'))
+		.delete(auth.can('tags:delete'))
 		.delete(function(req, res, next) {
-			req.submission
+			req.tag
 				.destroy()
 				.then(() => {
-					res.json({ "submission": "deleted" });
+					res.json({ "tag": "deleted" });
 				})
 				.catch(next);
 		})
