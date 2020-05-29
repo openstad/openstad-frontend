@@ -26,17 +26,9 @@ describe('Site endpoints', () => {
     it("GET /api/site", async (done) => {
 
         const response = await request.get("/api/site").expect(200);
-
+        
         expect(response.status).toBe(200);
-        expect(response.body).toEqual([{
-            id: 1,
-            name: "site-one",
-            title: "OpenStad Development Site",
-            domain: "localhost:2000",
-            createdAt: "2020-05-03T07:08:53.000Z",
-            updatedAt: "2020-05-03T07:08:53.000Z",
-            deletedAt: null
-        }]);
+        expect(response.body[0].id).toEqual(1);
 
         done()
     });
@@ -46,15 +38,7 @@ describe('Site endpoints', () => {
         const response = await request.get("/api/site/1").expect(200);
 
         expect(response.status).toBe(200);
-        expect(response.body).toEqual({
-            id: 1,
-            name: "site-one",
-            title: "OpenStad Development Site",
-            domain: "localhost:2000",
-            createdAt: "2020-05-03T07:08:53.000Z",
-            updatedAt: "2020-05-03T07:08:53.000Z",
-            deletedAt: null
-        });
+        expect(response.body.name).toEqual('site-one');
 
         done();
     });

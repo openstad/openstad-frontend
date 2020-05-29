@@ -1,4 +1,4 @@
-const siteMiddleware = require('../../src/middleware/site.js');
+const siteMiddleware = require('../../../src/middleware/site.js');
 const createError = require('http-errors');
 
 const mockRequest = (path) => ({
@@ -12,7 +12,7 @@ const mockResponse = () => {
     return res;
 };
 
-jest.mock('../../src//models/Site', () => () => {
+jest.mock('../../../src//models/Site', () => () => {
     const SequelizeMock = require("sequelize-mock");
     const dbMock = new SequelizeMock();
     return dbMock.define('site',  {
