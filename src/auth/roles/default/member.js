@@ -13,7 +13,7 @@ module.exports = function( helpers, role ) {
 		'users:list'			: false,
 		 // a user's own data is  through the oauth session
 		'user:view'				: false,
-		// creating is done trough loggin in, not REST api
+		// creating is done trough logging in, not REST api
 		'user:create'			: false,
 
 		/*
@@ -25,8 +25,8 @@ module.exports = function( helpers, role ) {
 		//set to true, but extra check in API if its own.
 		//mayMutateUser currenlty doesnt work with this system
 		//because user resource is always logged in user
-		'user:edit'				: true,
-		'user:delete'			: true,
+		'user:edit'				: false,
+		'user:delete'			: false,
 
 		'article:view'     : true,
 		'article:create'	 : true,

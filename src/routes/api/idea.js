@@ -33,7 +33,6 @@ router
 		}
 
 		if (req.query.filters || req.query.exclude) {
-			console.log('=>>> filter')
 			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
 		}
 
