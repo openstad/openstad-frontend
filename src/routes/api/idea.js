@@ -116,11 +116,16 @@ router.route('/')
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
-    let records = req.results.records || req.results
-
-		req.results.records = records.map((record) => {
+    let records = req.results.records || req.results;
+		records = records.map((record) => {
       return createIdeaJSON(record, req.user, req);
 		});
+
+		if (req.results.records) {
+			req.results.records = records;
+		} else {
+			 req.results = records;
+		}
 
 		res.json(req.results);
   })
@@ -360,11 +365,11 @@ function createIdeaJSON(idea, user, req) {
   // Fixme: hide email in arguments and their reactions
 	function hideEmailsForNormalUsers(args) {
 		return args.map((argument) => {
-			argument.user.email = hasModeratorRights ? argument.user.email : '';
+			argument.user.email =  hasModeratorRights ? argument.user.email : '';
 
 			if (argument.reactions) {
 				argument.reactions = argument.reactions.map((reaction) => {
-					reaction.user.email = hasModeratorRights ? reaction.user.email : '';
+					reaction.user.email =  hasModeratorRights ? reaction.user.email : '';
 
 					return reaction;
 				})
@@ -374,18 +379,10 @@ function createIdeaJSON(idea, user, req) {
 		});
 	}
 
-	if (idea.argumentsAgainst) {
-		result.argumentsAgainst = hideEmailsForNormalUsers(result.argumentsAgainst);
-	}
-
-	if (idea.argumentsFor) {
-		result.argumentsFor = hideEmailsForNormalUsers(result.argumentsFor);
-	}
-
-
 	if (idea.extraData && idea.extraData.phone) {
 		delete result.extraData.phone;
 	}
+
 	if (result.extraData) {
 		result.extraData.phone =  '';
 	}
@@ -424,6 +421,15 @@ function createIdeaJSON(idea, user, req) {
 	}
 
 	result.createdAtText = moment(idea.createdAt).format('LLL');
+
+	if (result.argumentsAgainst) {
+		result.argumentsAgainst = hideEmailsForNormalUsers(result.argumentsAgainst);
+	}
+
+	if (result.argumentsFor) {
+		result.argumentsFor = hideEmailsForNormalUsers(result.argumentsFor);
+	}
+
 
 	return result;
 }
