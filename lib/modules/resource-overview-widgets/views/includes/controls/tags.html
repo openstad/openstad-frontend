@@ -1,7 +1,7 @@
 {% if data.widget.displayTagFilters %}
 <div class="resource-overview-tags-container">
   {% for tag in data.widgetRequestData.openstadTags %}
-  {% if data.widget.isTagSelected(tag) %}
+  {% if data.widget.isTagSelected(tag, data.query) %}
   <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1">{{tag.name}}</a>
   {% else %}
   <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1">{{tag.name}}</a>
