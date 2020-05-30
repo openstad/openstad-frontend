@@ -365,11 +365,11 @@ function createIdeaJSON(idea, user, req) {
   // Fixme: hide email in arguments and their reactions
 	function hideEmailsForNormalUsers(args) {
 		return args.map((argument) => {
-			argument.user.email =  hasModeratorRights ? argument.user.email : '';
+			delete argument.user.email;
 
 			if (argument.reactions) {
 				argument.reactions = argument.reactions.map((reaction) => {
-					reaction.user.email =  hasModeratorRights ? reaction.user.email : '';
+					delete reaction.user.email;
 
 					return reaction;
 				})
