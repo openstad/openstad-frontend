@@ -1,6 +1,6 @@
 <ul class="pagination">
-  {% for url in data.widget.paginationUrls %}
-  <li class="{{ 'active' if loop.index === data.widget.paginationIndex else '' }}">
+  {% for url in data.widgetRequestData.paginationUrls %}
+  <li class="{{ 'active' if loop.index === data.widgetRequestData.paginationIndex else '' }}">
     <a class="page openstad-ajax-refresh-link" href="{{url}}">{{ loop.index }}</a>
   </li>
   {% endfor %}

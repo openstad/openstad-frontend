@@ -59,7 +59,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 {% endif %}
 >
   <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
-  {% for idea in data.widget.activeResources %}
+  {% for idea in data.widgetRequestData.activeResources %}
   <li
   id="idea-{{idea.id}}"
   class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
