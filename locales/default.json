@@ -358,5 +358,7 @@
 	"Commit all like this": "Commit all like this",
 	"Skip all like this": "Skip all like this",
 	"The document was committed successfully.": "The document was committed successfully.",
-	"Control of this document has been taken by another user.": "Control of this document has been taken by another user."
+	"Control of this document has been taken by another user.": "Control of this document has been taken by another user.",
+	"Edit Resource form": "Edit Resource form",
+	"Edit Recource raw widget": "Edit Recource raw widget"
 }
