@@ -1,0 +1,19 @@
+<div class="checkbox-container">
+  {% for tag in data.openstadTags %}
+  <div class="checkbox">
+    <input
+      type="checkbox"
+      name="tags[]"
+      value="{{tag.id}}"
+      id="checkbox-{{loop.index}}-{{tag.id}}"
+      {% if field.fieldRequired %}required{% endif %}
+      {% for ideaTag in idea.tags %}
+      {{ 'checked' if  ideaTag.id === tag.id }}
+      {% endfor %}
+    />
+    <label for="checkbox-{{loop.index}}-{{tag.id}}" class="checkbox-label">
+       {{tag.name}}
+    </label>
+  </div>
+  {% endfor %}
+</div>

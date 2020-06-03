@@ -1,0 +1,14 @@
+<input
+  type="text"
+  id="firstName_input"
+  class="chars-counter"
+  minlength="{{field.fieldMin if field.fieldMin else 2}}"
+  maxlength="{{field.fieldMax if field.fieldMax else 140}}"
+  name="firstName"
+  value="{{activeResource.firstName}}"
+  {% if field.fieldRequired %}required{% endif %}
+/>
+<div id="charsLeftfirstName" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>

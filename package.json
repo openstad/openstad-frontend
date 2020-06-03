@@ -1,7 +1,7 @@
 {
-  "name": "test-project",
-  "version": "2.0.0",
-  "description": "Minimal Apostrophe Boilerplate",
+  "name": "openstad-frontend",
+  "version": "0.0.1",
+  "description": "Openstad frontend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "P'unk Avenue",
+  "author": "Team Openstad: Niels Denes & Tosh Koevoets",
   "license": "MIT",
   "dependencies": {
     "apostrophe": "2.102.2",
@@ -39,8 +39,8 @@
     "nodemon": "^1.17.5",
     "npm": "^6.14.4",
     "nunjucks": "^3.2.0",
-    "openstad-component-ideas-on-map": "git+ssh://git@github.com/Amsterdam/openstad-component-ideas-on-map.git#v0.0.16",
-    "openstad-component-nlmap": "git+ssh://git@github.com/Amsterdam/openstad-component-nlmap.git#v0.0.9",
+    "openstad-components": "^0.0.4",
+    "qs": "^6.9.4",
     "query-string": "^6.12.1",
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
