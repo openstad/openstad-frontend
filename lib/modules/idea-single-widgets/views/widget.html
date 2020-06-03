@@ -44,15 +44,15 @@
 
 							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
 							<button
-							class="
-							{{'selected' if idea.userVote.opinion == 'yes'}}
-							role-required-{{data.global.roleToLike}}
-							idea-status-{{idea.status}}
-							"
-							data-modal-text="Log in om een plan te liken."
-							data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=yes"
-							data-return-to="{{data.currentPathname}}?voteOpinion=yes"
-							type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
+								class="
+									{{'selected' if idea.userVote.opinion == 'yes'}}
+									role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}
+									idea-status-{{idea.status}}
+								"
+								data-modal-text="Log in om een plan te liken."
+								data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+								type="submit" name="opinion" value="yes" data-count="{{idea.yes}}"
+							>
                 {{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
 							</button>
 						</form>
