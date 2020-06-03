@@ -42,7 +42,7 @@
       <div class="ideaStats">
         <table width="100%" border="0" celpadding="0" cellspacting="0">
           <tr>
-            <td align="left"><div class="count yes">{{idea.yes}}</div></td>
+            <td align="left"><a href="/like?ideaId={{idea.id}}" class="count yes">{{idea.yes}}</a></td>
             {% if data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
             <td align="center"><div class="count no">{{idea.no}}</div></td>
             {% endif %}

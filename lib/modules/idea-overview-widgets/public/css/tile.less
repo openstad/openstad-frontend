@@ -9,46 +9,6 @@
   overflow: hidden;
   position: relative;
   display: inline-block;
-/*  margin-bottom: @vMargin;
-  margin-right: @hMargin;
-
-  @media @grid50 {
-    width: calc(50% - (@hMargin / 2));
-
-    &:nth-child(2n) {
-      margin-right: 0;
-    }
-  }
-
-  @media @primary100 {
-    width: calc(50% - (@hMargin));
-
-    & + div.tile:nth-of-type(2n) {
-      margin-right: 0;
-    }
-  }
-
-  @media @phone {
-    float: none;
-    width: 100%;
-  }
-
-//	height: 400px;
-  &:nth-child(3n+3) {
-
-    @media @desktop {
-      margin-right: 0;
-    }
-
-    @media @phone {
-      margin-right: 0;
-      width: 100%;
-    }
-
-  }
-
-
-*/
   &.CLOSED {
     .duration {
       background-color: #787979;
@@ -128,7 +88,7 @@
       width: calc(100%);
 
       // Override white icons defined in `content.less`.
-      div.count {
+      .count {
         padding-top: 6px;
         height: 30px;
         &.yes {
@@ -243,7 +203,7 @@
   text-align: center;
   white-space: nowrap;
 
-  div.count {
+  .count {
     background-position: left top;
     background-repeat: no-repeat;
     box-sizing: border-box;
