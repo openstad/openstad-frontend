@@ -14,6 +14,10 @@ input.search {
   border: 1px solid #323232;
 }
 
+.resource-overview-container {
+  position: relative;
+  z-index: 101;
+}
 
 .resource-overview-container form {
   overflow: visible;
@@ -50,6 +54,7 @@ input.search {
     color: #000;
     padding: 0 20px;
     font-weight: 600;
+    text-align: left;
 
     &::placeholder {
       font-weight: 600;
@@ -59,6 +64,7 @@ input.search {
     &:focus::placeholder{
       font-weight: normal;
       color: #B4B4B4;
+      text-decoration: none;
     }
   }
 
@@ -78,6 +84,10 @@ input.search {
 
   &::before {
     display: none;
+  }
+
+  @media @phone {
+    margin: 0;
   }
 }
 
@@ -108,6 +118,11 @@ input.search {
   overflow: hidden;
   margin: 0;
 
+  @media @phone {
+    float: left;
+    clear: left;
+    margin: 5px 0;
+  }
 
   &::after {
     content: '+';
@@ -174,4 +189,9 @@ input.search {
   &.active {
     display: block;
   }
+}
+
+.filter-tags-modal-title {
+  margin: 15px 0 20px;
+  font-size: 23px;
 }

@@ -98,7 +98,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       // if default DB is set
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
-        if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
+        if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
             //format sitedatat so it makes more sense
             var config = siteConfig.config;
             config.id = siteConfig.id;
