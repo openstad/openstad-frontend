@@ -6,7 +6,7 @@
     </strong> | {{ arg.createdAt | date('LLL') }}
 
     {% if mayEdit %}
-    <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
+    <a href="#" type="submit" class="default argument-edit edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
 
     {% if mayDelete %}
@@ -25,7 +25,7 @@
     <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{arg.description}}</textarea>
     <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
     &nbsp;
-    <a href="#" class="edit-cancel"> Annuleer </a>
+    <a href="#" class="argument-edit-cancel"> Annuleer </a>
   </form>
   {% endif %}
 

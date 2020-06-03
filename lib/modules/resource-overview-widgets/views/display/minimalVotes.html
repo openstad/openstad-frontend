@@ -24,8 +24,10 @@
 
     <div class="info">
       <h3 class="title">{{idea.title}}</h3>
-      {% if idea.extraData %}
+      {% if idea.extraData.theme %}
         <div class="thema">{{idea.extraData.theme}}</div>
+      {% endif %}
+      {% if idea.extraData.area %}
         <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
 
