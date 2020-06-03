@@ -31,53 +31,53 @@
 	<div id="admin-root"></div>
 </div>
 <script>
-  var appProps = {
-    user: {
-      id: {{data.openstadUser.id}}
-    },
-    site: {
-      id: {{data.global.siteId}}
-    },
-    imageApi: {
-      url: '/image'
-    },
-    restApi: {
-      url: '/api/site/{{data.global.siteId}}'
-    },
-    jwt: "{{data.jwt}}",
-    resources: {
-      idea: {
-        active: true
-      },
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var appProps = {
       user: {
-        active: true
-      },
-      order: {
-        active: false
-      },
-      vote: {
-        active: true
-      },
-      article: {
-        active: false
-      },
-      argument: {
-        active: true
+        id: {{data.openstadUser.id}}
       },
       site: {
-        active: true
+        id: {{data.global.siteId}}
       },
-      newsletterSignup: {
-        active: true
+      imageApi: {
+        url: '/image'
       },
-      tag: {
-        active: true
+      restApi: {
+        url: '/api/site/{{data.global.siteId}}'
       },
-    }
-  };
+      csrf: $.cookie(apos.csrfCookieName),
+      resources: {
+        idea: {
+          active: true
+        },
+        user: {
+          active: true
+        },
+        order: {
+          active: false
+        },
+        vote: {
+          active: true
+        },
+        article: {
+          active: false
+        },
+        argument: {
+          active: true
+        },
+        site: {
+          active: true
+        },
+        newsletterSignup: {
+          active: true
+        },
+        tag: {
+          active: true
+        },
+      }
+    };
 
-  console.log('OpenstadReactAdmin', OpenstadReactAdmin);
-
-  ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+    ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+  });
 </script>
 {% endif %}

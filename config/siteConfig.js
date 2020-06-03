@@ -19,7 +19,9 @@ module.exports = {
         'apostrophe-express': {
           port: process.env.PORT,
         },
-        'apostrophe-docs': {},
+        'apostrophe-docs': {
+          //advisoryLockTimeout: 2
+        },
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},

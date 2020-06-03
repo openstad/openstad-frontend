@@ -43,7 +43,6 @@ const contentWidgets = {
     adminOnly: true
   },
   'idea-overview': {
-    adminOnly: true
   },
   'idea-single': {
     adminOnly: true
