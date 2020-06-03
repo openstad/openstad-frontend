@@ -13,6 +13,10 @@ const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
+
 // basis validaties
 // ----------------
 router.route('*')
@@ -126,7 +130,7 @@ router.route('/')
       ])
     }
 
-		if (req.user && req.user.role === 'admin') {
+		if (req.user && userhasModeratorRights(req.user)) {
 			req.scope.push('includeUser');
 		}
 
@@ -154,7 +158,7 @@ router.route('/')
 				createdAt: entry.createdAt
 			};
 
-			if (req.user && req.user.role === 'admin') {
+			if (req.user && userhasModeratorRights(req.user)) {
 				vote.ip = entry.ip;
 				vote.createdAt = entry.createdAt;
 				vote.checked =  entry.checked;
