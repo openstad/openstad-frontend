@@ -1,9 +1,9 @@
 
 {% if data.widget.typeEstimate === 'textarea'  %}
-<textarea id="estimate_input" class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}" name="estimate" {% if data.widget.requiredEstimate %}required{% endif %} >{{activeResource.extraData.estimate}}</textarea>
+<textarea id="estimate_input" class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}" name="extraData[estimate]" {% if data.widget.requiredEstimate %}required{% endif %} >{{activeResource.extraData.estimate}}</textarea>
 {% else %}
 
-<input type="text" id="estimate_input" name="estimate"
+<input type="text" id="estimate_input" name="extraData[estimate]"
      class="chars-counter" minlength="{{data.widget.minEstimate if data.widget.minEstimate else 20}}" maxlength="{{data.widget.maxEstimate if data.widget.maxEstimate else 200}}"
      {% if activeResource.extraData.estimate %}
      value="{{activeResource.extraData.estimate}}"
