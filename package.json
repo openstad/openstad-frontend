@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js "
+    "dev": "nodemon app.js ",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -14,11 +16,11 @@
   "author": "Team Openstad: Niels Denes & Tosh Koevoets",
   "license": "MIT",
   "dependencies": {
-    "apostrophe": "2.102.2",
+    "apostrophe": "2.103.1",
     "apostrophe-area-structure": "^1.0.3",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.17",
-    "apostrophe-workflow": "^2.21.1",
+    "apostrophe-workflow": "^2.32.0",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",
@@ -45,6 +47,8 @@
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
-    "vimeo": "^2.1.1"
-  }
+    "vimeo": "^2.1.1",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
