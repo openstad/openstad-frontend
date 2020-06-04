@@ -84,5 +84,10 @@
 	"%s was committed successfully.": "%s was committed successfully.",
 	"Server error, please try again.": "Server error, please try again.",
 	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
-	"Unpublished": "Unpublished"
+	"Unpublished": "Unpublished",
+	"Willekeurig": "Willekeurig",
+	"Meeste likes": "Meeste likes",
+	"Minste likes": "Minste likes",
+	"Hoogste bedrag": "Hoogste bedrag",
+	"Laagste bedrag": "Laagste bedrag"
 }
