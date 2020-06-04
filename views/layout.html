@@ -338,6 +338,9 @@
 
         	<nav id="subMenu" class="" role="navigation">
         		<div>
+              {% if data.global.ctaButtonText %}
+              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" title="{{data.global.ctaButtonText}}" role="button">{{data.global.ctaButtonText}}</a>
+              {% endif %}
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
       				<a href="/oauth/logout" class="account logout-button" title="{{ __('Uitloggen') }}" role="button">
@@ -351,10 +354,6 @@
                 {{ __('Mijn account') }}
               </a>
         			{% endif %}
-              {% endif %}
-
-              {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" title="{{data.global.ctaButtonText}}" role="button">{{data.global.ctaButtonText}}</a>
               {% endif %}
         		</div>
         	</nav>
