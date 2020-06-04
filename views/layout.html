@@ -1,7 +1,7 @@
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
-
+{% block locale %}{{ data.global.locale }}{% endblock %}
 {% block title %}
 {# Create a useful, SEO-friendly title tag based on what we have #}
 {% if data.piece %}
