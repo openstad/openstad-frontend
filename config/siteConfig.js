@@ -19,7 +19,9 @@ module.exports = {
         'apostrophe-express': {
           port: process.env.PORT,
         },
-        'apostrophe-docs': {},
+        'apostrophe-docs': {
+          //advisoryLockTimeout: 2
+        },
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
@@ -150,7 +152,7 @@ module.exports = {
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-      //      {name: 'jquery.dataTables.min'},
+            {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
           ],
