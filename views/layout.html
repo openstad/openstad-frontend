@@ -247,13 +247,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button">
+            <a href="/oauth/logout" class="logout-button" title="{{ __('Uitloggen') }}" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
-              <img src="/img/avatar.svg" />
+              <img src="/img/avatar.svg" title="{{ __('Uitloggen') }}"/>
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login">
+            <a href="/oauth/login" title="{{ __('Mijn account') }}" role="button">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
@@ -350,7 +350,7 @@
         			{% else %}
       				<a href="/oauth/login" class="account" title="{{ __('Mijn account') }}" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-                <img src="/img/avatar.svg" />
+                <img src="/img/avatar.svg" title="{{ __('Mijn account') }}"/>
                 {{ __('Mijn account') }}
               </a>
         			{% endif %}
