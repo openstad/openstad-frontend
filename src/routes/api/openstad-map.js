@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
-const auth    = require('../../auth');
+const auth    = require('../../middleware/sequelize-authorization-middleware');
 const config  = require('config');
 
 let router = express.Router({mergeParams: true});
@@ -20,7 +20,7 @@ router.route('/idea-marker')
 
 // list ideas as map markers
 // -------------------------
-	.get(auth.can('ideas:list'))
+	.get(auth.can('Idea', 'list'))
 	.get(function(req, res, next) {
 
 		db.Idea
@@ -59,7 +59,7 @@ router.route('/idea-marker/:ideaId(\\d+)')
 
 // view idea
 // ---------
-	.get(auth.can('idea:view'))
+	.get(auth.can('Idea', 'view'))
 	.get(function(req, res, next) {
 		res.json(createMarker(req.idea));
 	})
@@ -70,7 +70,7 @@ router.route('/polygon')
 
 // the polygon as defined for this site
 // ------------------------------------
-	.get(auth.can('ideas:list'))
+	.get(auth.can('Idea', 'list'))
 	.get(function(req, res, next) {
 
 		// use from site config

@@ -43,7 +43,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				value = value || {};
 				value = merge.recursive(currentconfig, value);
 				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
-			}
+			},
+      auth: {
+        viewableBy: 'admin',
+      },
 		},
 
 	});
@@ -573,6 +576,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 	}
+
+	Site.auth = Site.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
 	return Site;
 

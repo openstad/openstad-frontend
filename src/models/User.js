@@ -2,9 +2,10 @@ var config         = require('config')
 , log            = require('debug')('app:user')
 , pick           = require('lodash/pick');
 
-var auth           = require('../auth');
-var Password       = require('../auth/password');
+var Password       = require('../lib/password');
 var sanitize       = require('../util/sanitize');
+
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -18,18 +19,35 @@ module.exports = function( db, sequelize, DataTypes ) {
 		
     externalUserId: {
       type         : DataTypes.INTEGER,
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
     externalAccessToken: {
       type         : DataTypes.STRING(2048),
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
 		role: {
 			type         : DataTypes.STRING(32),
+      auth: {
+        createableBy : 'admin',
+        updateableBy : 'admin',
+        viewableBy : 'all',
+      },
 			allowNull    : false,
 			defaultValue : 'anonymous',
 			validate     : {
@@ -37,7 +55,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 					args : [['unknown', 'anonymous', 'member', 'admin', 'su', 'editor', 'moderator', 'superAdmin']],
 					msg  : 'Unknown user role'
 				}
-			}
+			},
+      auth: {
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 		},
 		// For unknown/anon: Always `false`.
 		// For members: `true` when the user profile is complete. This is set
@@ -54,6 +76,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		email: {
 			type         : DataTypes.STRING(255),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				isEmail: {
@@ -75,6 +103,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
 			defaultValue : null,
+      auth: {
+        listableBy: 'none',
+        viewableBy: 'none',
+      },
 			validate     : {
 				len: {
 					args : [6,64],
@@ -156,6 +188,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		zipCode: {
 			type         : DataTypes.STRING(10),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				is: {
@@ -168,7 +206,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				  String(zipCode).trim() :
 				  null;
 				this.setDataValue('zipCode', zipCode);
-			}
+			},
 		},
 
 		// signedUpForNewsletter: {
@@ -370,5 +408,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 			})
 	}
 
+	User.auth = User.prototype.auth = {
+    listableBy: 'editor',
+    viewableBy: 'all',
+    createableBy: 'editor',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+  }
+  
 	return User;
 };

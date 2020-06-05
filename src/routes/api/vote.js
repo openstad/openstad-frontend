@@ -3,7 +3,7 @@ const express     = require('express');
 const createError = require('http-errors')
 const moment      = require('moment');
 const db          = require('../../db');
-const auth        = require('../../auth');
+const auth        = require('../../middleware/sequelize-authorization-middleware');
 const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
@@ -172,8 +172,6 @@ router.route('/')
 // create votes
 // ------------
 router.route('/*')
-
-	// .post(auth.can('ideavote:create'))
 
   // heb je al gestemd
 	.post(function(req, res, next) {
@@ -405,7 +403,7 @@ router.route('/*')
 			})
 			.catch(next);
 		})
-		.all(auth.can('idea:admin'))
+	.all(auth.can('Vote', 'toggle'))
 			.get(function( req, res, next ) {
 				var ideaId = req.params.ideaId;
 				var vote   = req.vote;
