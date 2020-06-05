@@ -1,19 +1,17 @@
 {
-  "name": "test-project",
-  "version": "2.0.0",
-  "description": "Minimal Apostrophe Boilerplate",
+  "name": "openstad-frontend",
+  "version": "0.0.1",
+  "description": "Openstad frontend",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js ",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "dev": "nodemon app.js "
   },
   "repository": {
     "type": "git",
     "url": ""
   },
-  "author": "P'unk Avenue",
+  "author": "Team Openstad: Niels Denes & Tosh Koevoets",
   "license": "MIT",
   "dependencies": {
     "apostrophe": "2.103.1",
@@ -47,8 +45,6 @@
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
-    "vimeo": "^2.1.1",
-    "snyk": "^1.316.1"
-  },
-  "snyk": true
+    "vimeo": "^2.1.1"
+  }
 }

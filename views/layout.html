@@ -28,9 +28,16 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 !-->
 
+{% for stylesheet in data.envStyleSheets %}
+<link rel="stylesheet" href="{{stylesheet}}">
+{% endfor %}
+
 {% for stylesheet in data.global.stylesheets %}
 <link rel="stylesheet" href="{{stylesheet.url}}">
 {% endfor %}
+
+
+
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}

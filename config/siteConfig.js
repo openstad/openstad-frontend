@@ -151,7 +151,7 @@ module.exports = {
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-      //      {name: 'jquery.dataTables.min'},
+            {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
           ],
