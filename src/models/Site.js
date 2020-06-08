@@ -45,6 +45,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
 			}
 		},
+		
+		areaId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		}
 
 	});
 
@@ -52,11 +57,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 			},
+			
+			withArea: {
+				include: [{
+					model: db.Area
+				}]
+			}
 		};
 	}
 
 	Site.associate = function( models ) {
 		this.hasMany(models.Idea);
+		this.belongsTo(models.Area);
 	}
 
 	Site.configOptions = function () {
