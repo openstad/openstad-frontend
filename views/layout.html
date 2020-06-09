@@ -29,11 +29,11 @@
 !-->
 
 {% for stylesheet in data.envStyleSheets %}
-<link rel="stylesheet" href="{{stylesheet}}">
+<link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
 {% endfor %}
 
 {% for stylesheet in data.global.stylesheets %}
-<link rel="stylesheet" href="{{stylesheet.url}}">
+<link rel="stylesheet" href="{{stylesheet.url}}?{data.assetsGeneration}}">
 {% endfor %}
 
 {% if data.global.favicon %}

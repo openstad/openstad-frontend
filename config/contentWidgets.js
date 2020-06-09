@@ -159,30 +159,27 @@ const contentWidgets = {
 };
 
 exports.getAdminWidgets = (displaySettings) => {
-  console.log('getAdminWidgets', displaySettings)
-
+  // This ensures we get a nested clone instead of references to initial object
   const newValues = JSON.parse(JSON.stringify(contentWidgets));
   const filteredContentWidgets = {};
-
 
   Object.keys(contentWidgets).forEach(function(key) {
       filteredContentWidgets[key] = newValues[key];
 
       /**
        * Edit the settings for admin, so they can  edit all modules.
+       * @TODO: this can be removed, was needed in beginning because of reference object would cache the readOnly status
+       * JSON.parse should solve this, but should be tested properly
        */
-    //  if (filteredContentWidgets[key].adminOnly) {
-        //readonly = false shows the module from the menu
-        filteredContentWidgets[key].readOnly = false;
-        filteredContentWidgets[key].edit = true;
-    //  }
-
+      filteredContentWidgets[key].readOnly = false;
+      filteredContentWidgets[key].edit = true;
   });
 
   return getVisibleContentWidgets(filteredContentWidgets, displaySettings);
 }
 
 exports.getEditorWidgets = (displaySettings) => {
+  // This ensures we get a nested clone instead of references to initial object
   const newValues = JSON.parse(JSON.stringify(contentWidgets));
   const filteredContentWidgets = {};
 
