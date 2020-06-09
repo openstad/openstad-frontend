@@ -1,4 +1,4 @@
-<textarea name="advice" class="chars-counter" minlength="{{data.widget.minAdvice if data.widget.minAdvice else 20}}" maxlength="{{data.widget.maxAdvice if data.widget.maxAdvice else 200}}" {% if data.widget.requiredAdvice %}required{% endif %}>{{idea.extraData.advice}}</textarea>
+<textarea id="advice" name="advice" class="chars-counter" minlength="{{data.widget.minAdvice if data.widget.minAdvice else 20}}" maxlength="{{data.widget.maxAdvice if data.widget.maxAdvice else 200}}" {% if data.widget.requiredAdvice %}required{% endif %}>{{idea.extraData.advice}}</textarea>
 <div id="charsLeftAdvice" class="charsLeft">
   <div class="min">Nog minimaal <span>0</span> tekens</div>
   <div class="max">Je hebt nog <span>0</span> tekens over.</div>

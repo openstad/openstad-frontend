@@ -4,9 +4,9 @@
 
 
       <div class="form-group">
-        <h2>
+        <label class="form-label" for="title">
           {{ data.widget.labelTitle if data.widget.labelTitle else 'Titel plan' }}
-        </h2>
+        </label>
         <div class="form-info">
           {{ data.widget.infoTitle | nlbr | sanitize | safe if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
         </div>
@@ -17,9 +17,9 @@
 
 
       <div class="form-group">
-        <h2>
+        <label class="form-label" for="summary">
           {{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
-        </h2>
+        </label>
         <div class="form-info">
           {{ data.widget.infoSummary  | nlbr | sanitize | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.ideas.summaryMaxLength+' tekens iets meer over je plan.' }}
         </div>
@@ -33,9 +33,9 @@
     </div>
     <div class="form-group">
       {% if data.global.areas and data.global.areas.length > 0 %}
-      <h2>
+      <label class="form-label" for="gebied">
         {{ data.widget.labelAreas if data.widget.labelAreas else 'Gebied' }}
-      </h2>
+      </label>
       <div class="form-info">
         {{ data.widget.infoAreas  | nlbr | sanitize | safe  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
       </div>
@@ -46,9 +46,9 @@
     </div>
     <div class="form-group">
       {% if data.global.themes and data.global.themes.length > 0 %}
-      <h2>
+      <label class="form-label" for="thema">
         {{ data.widget.labelThemes if data.widget.labelThemes else 'Thema' }}
-      </h2>
+      </label>
       <div class="form-info">
         {{ data.widget.infoThemes  | nlbr | sanitize | safe  if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
       </div>
@@ -73,9 +73,16 @@
     </div>
     <div class="form-group">
       <div id="description">
-        <h2>
-          {{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
-        </h2>
+        {% if useModernEditor %}
+          <h2 class="form-label">
+            {{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
+          </h2>
+        {% else %}
+          <label class="form-label" for="description-textarea">
+            {{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
+          </label>
+        {% endif %}
+
         <div class="form-info">
           {{ data.widget.infoDescription | nlbr | sanitize | safe if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
         </div>
@@ -107,7 +114,9 @@
 
   {% if data.widget.displayEstimate %}
   <div id="estimate">
-    <h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
+    <label class="form-label" for="estimate_input">
+      {{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}
+    </label>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoEstimate %}
       {{ data.widget.infoEstimate | nlbr | sanitize | safe }}
@@ -126,7 +135,9 @@
 
   {% if data.widget.displayRole %}
   <div id="role">
-    <h2>{{ data.widget.labelRole if data.widget.labelRole else 'Welke rol ga je zelf vervullen bij de uitvoering?' }}</h2>
+    <label class="form-label" for="role_input">
+      {{ data.widget.labelRole if data.widget.labelRole else 'Welke rol ga je zelf vervullen bij de uitvoering?' }}
+    </label>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoRole %}
       {{ data.widget.infoRole | nlbr | sanitize | safe}}
@@ -143,9 +154,9 @@
   {% if data.widget.displayAdvice %}
   <div class="form-group">
     <div id="advice">
-      <h2>
+      <label class="form-label" for="advice">
         {{ data.widget.labelAdvice if data.widget.labelAdvice else 'Tip' }}
-      </h2>
+      </label>
       <div class="form-info" style="height: auto;">
         {{ data.widget.infoAdvice if data.widget.infoAdvice else 'Geef een tip aan Amsterdammers die ook zo’n dak of balkon willen.' | sanitize | safe }}
       </div>
@@ -156,7 +167,7 @@
 
   {% if data.widget.displayPhone %}
   <div id="phone">
-    <h2>{{ data.widget.labelPhone if data.widget.labelPhone else 'Telefoonnummer (optioneel)' }}</h2>
+    <label class="form-label" for="phone_input">{{ data.widget.labelPhone if data.widget.labelPhone else 'Telefoonnummer (optioneel)' }}</label>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoPhone %}
       {{ data.widget.infoPhone | nlbr | sanitize | safe}}
@@ -171,7 +182,7 @@
 
   {% if data.hasModeratorRights %}
   <div id="budget">
-    <h2>Budget</h2>
+    <label class="form-label" for="budget_input">Budget</label>
     <div class="form-info" style="height: auto;">
       Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.
     </div>
