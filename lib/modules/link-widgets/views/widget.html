@@ -22,5 +22,10 @@
   {% if data.widget.icon %}
 	<img src="{{apos.attachments.url(data.widget.icon)}}" />
   {% endif %}
-   {{ data.widget.label  }}
+
+  {{ data.widget.label  }}
+
+  {% if data.widget.screenReaderInfo %}
+  <span class="sr-only">{{ data.widget.screenReaderInfo }}</span>
+  {% endif %}
 </a>
