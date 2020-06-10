@@ -1,3 +1,9 @@
+/**
+ * A few basic styles configurable.
+ * Buttons are now a mess, many different styles merged into one.
+ * @todo: A start has been made to reduce the classes, but needs more work.
+ * @todo: Links with > are not changable in color right now because an icon in stead of font is used
+ */
 exports.fields = [
   {
     name: 'backgroundNavColor',
@@ -54,17 +60,378 @@ exports.fields = [
     unit: 'px',
     //      mediaQuery: '(max-width: 59.99em)'
   },
-];
-
-exports.arrangeFields = [
   {
-    name: 'colorFields',
-    label: 'Kleuren',
-    fields: ['backgroundNavColor', 'textNavColor', 'textHoverNavColor', 'textLineNavColor', 'backgroundFooterColor', 'textFooterColor']
+    name: 'logoWidthMobile',
+    label: 'Logo breedte mobile',
+    type: 'range',
+    selector: ['#logo-image'],
+    property: ['width'],
+    min: 25,
+    max: 300,
+    step: 1,
+    unit: 'px',
+    mediaQuery: '(max-width: 768px)'
   },
   {
+    name: 'headerPadding',
+    label: 'Header padding (spacing between logo/menu)',
+    type: 'range',
+    selector: ['header'],
+    property: ['padding-top', 'padding-bottom'],
+    min: 0,
+    max: 125,
+    step: 1,
+    unit: 'px'
+  },
+  {
+    name: 'headerPaddingMobile',
+    label: 'Header padding mobile (spacing between logo/menu)',
+    type: 'range',
+    selector: ['header'],
+    property: ['padding-top', 'padding-bottom'],
+    min: 0,
+    max: 125,
+    step: 1,
+    unit: 'px',
+    mediaQuery: '(max-width: 768px)'
+  },
+  {
+    name: 'CTAButtonBgColor',
+    label: 'Background color of the button in the menu',
+    type: 'color',
+    selector: ['#mainMenu .menu-cta-button'],
+    property: ['background-color', 'border-color'],
+  },
+  {
+    name: 'CTAButtonFontColor',
+    label: 'Font color of the CTA button in the menu',
+    type: 'color',
+    selector: ['#mainMenu .menu-cta-button'],
+    property: 'color',
+  },
+  {
+    name: 'CTAButtonHoverBgColor',
+    label: 'Background color of the button in the menu - hover',
+    type: 'color',
+    selector: ['#mainMenu .menu-cta-button:hover'],
+    property: ['background-color', 'border-color'],
+  },
+  {
+    name: 'CTAButtonHoverFontColor',
+    label: 'Font color of the CTA button in the menu - hover',
+    type: 'color',
+    selector: ['#mainMenu .menu-cta-button:hover'],
+    property: 'color',
+  },
+  {
+    name: 'buttonColor',
+    label: 'Background color of button',
+    type: 'color',
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
+    property: ['background-color', 'border-color'],
+  },
+  {
+    name: 'buttonFontColor',
+    label: 'Font color of button',
+    type: 'color',
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
+    property: 'color',
+  },
+
+  {
+    name: 'buttonHoverBgColor',
+    label: 'Background color of button - hover',
+    type: 'color',
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
+    property: ['background-color', 'border-color'],
+  },
+  {
+    name: 'buttonHoverFontBgColor',
+    label: 'Font color of button - hover',
+    type: 'color',
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
+    property: 'color',
+  },
+  {
+    name: 'buttonBorderRadius',
+    label: 'Border radius of button',
+    type: 'range',
+    selector: ['a.page-button-flag', '.filled-button', '.outlined-button', '.btn-primary', '.btn--blue', '.btn', '.btn-primary' ],
+    property: 'border-radius',
+    min: 0,
+    max: 50,
+    step: 1,
+    unit: 'px',
+  },
+  {
+    name: 'buttonOutlinedColor',
+    label: 'Outlined color of button',
+    type: 'color',
+    selector: ['.outlined-button', '.outlined-button:hover', '.begroot-container .button-add-idea-to-budget.added', '.begroot-container .button-add-idea-to-budget.added:hover'],
+    property: ['color', 'border-color', 'outline-color'],
+  },
+  {
+    name: 'h1FontSize',
+    label: 'H1 font size',
+    type: 'range',
+    selector: ['h1'],
+    property: ['font-size'],
+    min: 0,
+    max: 60,
+    step: 1,
+    unit: 'px',
+    default: 26
+  },
+  {
+    name: 'h1MarginTop',
+    label: 'H1 margin top',
+    type: 'range',
+    selector: ['h1'],
+    property: ['margin-top'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 42
+  },
+  {
+    name: 'h1MarginBottom',
+    label: 'H1 margin bottom',
+    type: 'range',
+    selector: ['h1'],
+    property: ['margin-bottom'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 26
+  },
+  {
+    name: 'h2FontSize',
+    label: 'H2 font size',
+    type: 'range',
+    selector: ['h2'],
+    property: ['font-size'],
+    min: 0,
+    max: 60,
+    step: 1,
+    unit: 'px',
+    default: 24
+  },
+  {
+    name: 'h2MarginTop',
+    label: 'H2 margin top',
+    type: 'range',
+    selector: ['h2'],
+    property: ['margin-top'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 36
+  },
+  {
+    name: 'h2MarginBottom',
+    label: 'H2 margin bottom',
+    type: 'range',
+    selector: ['h2'],
+    property: ['margin-bottom'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 24
+  },
+  {
+    name: 'h3FontSize',
+    label: 'h3 font size',
+    type: 'range',
+    selector: ['h3'],
+    property: ['font-size'],
+    min: 0,
+    max: 60,
+    step: 1,
+    unit: 'px',
+    default: 18
+  },
+  {
+    name: 'h3MarginTop',
+    label: 'h3 margin top',
+    type: 'range',
+    selector: ['h3'],
+    property: ['margin-top'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 27
+  },
+  {
+    name: 'h3MarginBottom',
+    label: 'h3 margin bottom',
+    type: 'range',
+    selector: ['h3'],
+    property: ['margin-bottom'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 18
+  },
+  {
+    name: 'h4FontSize',
+    label: 'h4 font size',
+    type: 'range',
+    selector: ['h4'],
+    property: ['font-size'],
+    min: 0,
+    max: 45,
+    step: 1,
+    unit: 'px',
+    default: 16
+  },
+  {
+    name: 'h4MarginTop',
+    label: 'h4 margin top',
+    type: 'range',
+    selector: ['h4'],
+    property: ['margin-top'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 24
+  },
+  {
+    name: 'h4MarginBottom',
+    label: 'p margin bottom',
+    type: 'range',
+    selector: ['h4'],
+    property: ['margin-bottom'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 16
+  },
+  {
+    name: 'pFontSize',
+    label: 'p font size',
+    type: 'range',
+    selector: ['p'],
+    property: ['font-size'],
+    min: 0,
+    max: 45,
+    step: 1,
+    unit: 'px',
+    default: 16
+  },
+  {
+    name: 'pMarginTop',
+    label: 'p margin top',
+    type: 'range',
+    selector: ['p'],
+    property: ['margin-top'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 0
+  },
+  {
+    name: 'pMarginBottom',
+    label: 'p margin bottom',
+    type: 'range',
+    selector: ['p'],
+    property: ['margin-bottom'],
+    min: 0,
+    max: 200,
+    step: 1,
+    unit: 'px',
+    default: 10
+  },
+  {
+    name: 'pLineHeight',
+    label: 'p LineHeight',
+    type: 'range',
+    selector: ['p'],
+    property: ['line-height'],
+    min: 0,
+    max: 200,
+    step: 0.1,
+    unit: 'px',
+    default: 24
+  },
+  {
+    name: 'linkColor',
+    label: 'Color of link (in text)',
+    type: 'color',
+    selector: ['a'],
+    property: 'color',
+  },
+  {
+    name: 'linkVisitedColor',
+    label: 'Color of button',
+    type: 'color',
+    selector: ['a'],
+    property: 'color',
+  },
+];
+
+
+exports.arrangeFields = [
+
+  {
     name: 'logoFields',
-    label: 'Logo instellingen',
-    fields: ['logoWidth']
+    label: 'Logo',
+    fields: ['logoWidth', 'logoWidthMobile']
+  },
+  {
+    name: 'colorFields',
+    label: 'Header',
+    fields: [
+      'headerPadding',
+      'headerPaddingMobile',
+      'backgroundNavColor',
+      'textNavColor',
+      'textHoverNavColor',
+      'textLineNavColor',
+      'CTAButtonBgColor',
+      'CTAButtonFontColor',
+      'CTAButtonHoverBgColor',
+      'CTAButtonHoverFontColor'
+    ]
+  },
+  {
+    name: 'typography',
+    label: 'Tyopography',
+    fields: [
+      'h1FontSize',
+      'h1MarginTop',
+      'h1MarginBottom',
+      'h2FontSize',
+      'h2MarginTop',
+      'h2MarginBottom',
+      'h3FontSize',
+      'h3MarginTop',
+      'h3MarginBottom',
+      'h4FontSize',
+      'h4MarginTop',
+      'h4MarginBottom',
+      'pFontSize',
+      'pMarginTop',
+      'pMarginBottom',
+      'pLineHeight'
+    ]
+  },
+  {
+    name: 'buttons',
+    label: 'Buttons & links',
+    fields: ['buttonColor', 'buttonFontColor', 'buttonHoverBgColor', 'buttonHoverFontBgColor', 'buttonBorderRadius','buttonOutlinedColor', 'linkColor', 'linkVisitedColor']
+  },
+  {
+    name: 'footer',
+    label: 'Footer',
+    fields: ['backgroundFooterColor', 'textFooterColor']
   },
 ]
