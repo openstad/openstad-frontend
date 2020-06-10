@@ -22,12 +22,11 @@
       </a>
       {% for tag in data.widgetRequestData.openstadTags %}
       {% if data.widget.isTagSelected(tag, data.query) %}
-      <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1">{{tag.name}}</a>
+      <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1">{{tag.name}}</a>
       {% else %}
-      <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1">{{tag.name}}</a>
+      <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1">{{tag.name}}</a>
       {% endif %}
       {% endfor %}
-
       <br />
       <div>
         <a href="#closed" class="filled-button stretch">
