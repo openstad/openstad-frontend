@@ -1,3 +1,9 @@
+/**
+ * A few basic styles configurable.
+ * Buttons are now a mess, many different styles merged into one.
+ * @todo: A start has been made to reduce the classes, but needs more work.
+ * @todo: Links with > are not changable in color right now because an icon in stead of font is used
+ */
 exports.fields = [
   {
     name: 'backgroundNavColor',
@@ -121,14 +127,14 @@ exports.fields = [
     name: 'buttonColor',
     label: 'Background color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button','.next-button', '.btn-primary', '.btn--blue' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
     property: ['background-color', 'border-color'],
   },
   {
     name: 'buttonFontColor',
     label: 'Font color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.next-button', '.btn-primary', '.btn--blue' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
     property: 'color',
   },
 
@@ -136,21 +142,21 @@ exports.fields = [
     name: 'buttonHoverBgColor',
     label: 'Background color of button - hover',
     type: 'color',
-    selector: ['a.page-button-flag:hover', '.filled-button:hover',  '.next-button:hover', '.btn-primary:hover', '.btn--blue:hover' ],
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
     property: ['background-color', 'border-color'],
   },
   {
     name: 'buttonHoverFontBgColor',
     label: 'Font color of button - hover',
     type: 'color',
-    selector: ['a.page-button-flag:hover', '.filled-button:hover',  '.next-button:hover', '.btn-primary:hover', '.btn--blue:hover' ],
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
     property: 'color',
   },
   {
     name: 'buttonBorderRadius',
     label: 'Border radius of button',
     type: 'range',
-    selector: ['a.page-button-flag', '.filled-button', '.outlined-button', '.next-button', '.btn-primary', '.btn--blue', '.btn' ],
+    selector: ['a.page-button-flag', '.filled-button', '.outlined-button', '.btn-primary', '.btn--blue', '.btn', '.btn-primary' ],
     property: 'border-radius',
     min: 0,
     max: 50,
@@ -161,8 +167,8 @@ exports.fields = [
     name: 'buttonOutlinedColor',
     label: 'Outlined color of button',
     type: 'color',
-    selector: ['.outlined-button', '.outlined-button'],
-    property: ['color', 'border-color'],
+    selector: ['.outlined-button', '.outlined-button:hover', '.begroot-container .button-add-idea-to-budget.added', '.begroot-container .button-add-idea-to-budget.added:hover'],
+    property: ['color', 'border-color', 'outline-color'],
   },
   {
     name: 'h1FontSize',
@@ -174,6 +180,7 @@ exports.fields = [
     max: 60,
     step: 1,
     unit: 'px',
+    default: 26
   },
   {
     name: 'h1MarginTop',
@@ -185,6 +192,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 42
   },
   {
     name: 'h1MarginBottom',
@@ -196,6 +204,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 26
   },
   {
     name: 'h2FontSize',
@@ -207,6 +216,7 @@ exports.fields = [
     max: 60,
     step: 1,
     unit: 'px',
+    default: 24
   },
   {
     name: 'h2MarginTop',
@@ -218,6 +228,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 36
   },
   {
     name: 'h2MarginBottom',
@@ -229,6 +240,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 24
   },
   {
     name: 'h3FontSize',
@@ -240,6 +252,7 @@ exports.fields = [
     max: 60,
     step: 1,
     unit: 'px',
+    default: 18
   },
   {
     name: 'h3MarginTop',
@@ -251,6 +264,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 27
   },
   {
     name: 'h3MarginBottom',
@@ -262,6 +276,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 18
   },
   {
     name: 'h4FontSize',
@@ -273,6 +288,7 @@ exports.fields = [
     max: 45,
     step: 1,
     unit: 'px',
+    default: 16
   },
   {
     name: 'h4MarginTop',
@@ -284,6 +300,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 24
   },
   {
     name: 'h4MarginBottom',
@@ -295,6 +312,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 16
   },
   {
     name: 'pFontSize',
@@ -306,6 +324,7 @@ exports.fields = [
     max: 45,
     step: 1,
     unit: 'px',
+    default: 16
   },
   {
     name: 'pMarginTop',
@@ -317,6 +336,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 0
   },
   {
     name: 'pMarginBottom',
@@ -328,6 +348,7 @@ exports.fields = [
     max: 200,
     step: 1,
     unit: 'px',
+    default: 10
   },
   {
     name: 'pLineHeight',
@@ -339,6 +360,7 @@ exports.fields = [
     max: 200,
     step: 0.1,
     unit: 'px',
+    default: 24
   },
   {
     name: 'linkColor',
@@ -361,7 +383,7 @@ exports.arrangeFields = [
 
   {
     name: 'logoFields',
-    label: 'Logo instellingen',
+    label: 'Logo',
     fields: ['logoWidth', 'logoWidthMobile']
   },
   {
@@ -404,12 +426,12 @@ exports.arrangeFields = [
   },
   {
     name: 'buttons',
-    label: 'Buttons & links instellingen',
+    label: 'Buttons & links',
     fields: ['buttonColor', 'buttonFontColor', 'buttonHoverBgColor', 'buttonHoverFontBgColor', 'buttonBorderRadius','buttonOutlinedColor', 'linkColor', 'linkVisitedColor']
   },
   {
     name: 'footer',
-    label: 'Footer instellingen',
+    label: 'Footer',
     fields: ['backgroundFooterColor', 'textFooterColor']
   },
 ]
