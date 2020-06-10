@@ -76,7 +76,7 @@ router
 				req.scope.push('includeVoteCount');
 			}
 
-			if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+			if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
 				// ik denk dat je daar niet het hele object wilt?
 				req.scope.push({ method: ['includeUserVote', req.user.id]});
 			}
@@ -96,12 +96,16 @@ router.route('/')
 // list ideas
 // ----------
 	.get(auth.can('Idea', 'list'))
+	.get(auth.useReqUser)
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
 
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+
+    console.log({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit });
+    console.log(req.scope);
 
 		db.Idea
 			.scope(...req.scope)

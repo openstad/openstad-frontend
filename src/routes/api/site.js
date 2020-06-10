@@ -99,7 +99,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 // ---------
 	.delete(auth.can('Site', 'delete'))
 	.delete(function(req, res, next) {
-		req.site
+		req.results
 			.destroy()
 			.then(() => {
 				res.json({ "site": "deleted" });

@@ -280,7 +280,6 @@ module.exports = function (db, sequelize, DataTypes) {
               result[key] = data[key];
             }
           });
-          console.log(result);
           return result;
         },
       }
