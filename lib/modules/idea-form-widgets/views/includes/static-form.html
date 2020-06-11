@@ -100,9 +100,9 @@
     {% if data.widget.displayLocation %}
     <div class="form-group">
       <div id="location-container">
-        <h2>
+        <label class="form-label" id="location_label">
           {{ data.widget.labelLocation if data.widget.labelLocation else 'Locatie' }}
-        </h2>
+        </label>
         <div class="form-info" style="height: auto;">
           {{ data.widget.infoLocation | nlbr | sanitize | safe if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
         </div>
