@@ -195,9 +195,9 @@ router.route('/:choicesGuideId(\\d+)$')
       images: req.body.images,
       seqnr: req.body.seqnr,
     };
-    if (!( req.choicesguide && req.choicesguide.can && req.choicesguide.can('update') )) return next( new Error('You cannot update this ChoicesGuide') );
+    if (!( req.choicesguide && req.choicesguide.can && req.choicesguide.can('update', req.user) )) return next( new Error('You cannot update this ChoicesGuide') );
     req.choicesguide
-			.authorizeData(data, 'update')
+			.authorizeData(data, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -307,7 +307,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
 // --------------------------------
 	.put(auth.useReqUser)
  .put(function(req, res, next) {
-    if (!( req.choice && req.choice.can && req.choice.can('update') )) return next( new Error('You cannot update this Choice') );
+    if (!( req.choice && req.choice.can && req.choice.can('update', req.user) )) return next( new Error('You cannot update this Choice') );
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -316,7 +316,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
       seqnr: req.body.seqnr,
     };
     req.choice
-			.authorizeData(req.body, 'update')
+			.authorizeData(req.body, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -414,6 +414,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
 // --------------------------------
 	.all(auth.useReqUser)
   .put(function(req, res, next) {
+    if (!( req.questiongroup && req.questiongroup.can && req.questiongroup.can('update', req.user) )) return next( new Error('You cannot update this Question') );
     let data = {
       answerDimensions: req.body.answerDimensions,
       title: req.body.title,
@@ -544,7 +545,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
 // --------------------------------
 	.post(auth.useReqUser)
   .put(function(req, res, next) {
-    if (!( req.question && req.question.can && req.question.can('update') )) return next( new Error('You cannot update this Question') );
+    if (!( req.question && req.question.can && req.question.can('update', req.user) )) return next( new Error('You cannot update this Question') );
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -556,7 +557,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       seqnr: req.body.seqnr,
     };
     req.question
-			.authorizeData(data, 'update')
+			.authorizeData(data, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
