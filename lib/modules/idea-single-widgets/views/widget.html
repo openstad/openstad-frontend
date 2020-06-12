@@ -55,6 +55,7 @@
 									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}"
 								>
 	                {{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
+									<span class="sr-only">{{ data.widget.siteConfig.voteValues[0].screenReaderAddition if data.widget.siteConfig.voteValues[0].screenReaderAddition else 'dit plan stemmen' }}</span>
 								</button>
 							</form>
 
@@ -80,7 +81,8 @@
 									value="no"
 									data-count="{{idea.no}}"
 								>
-	                {{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[0].label else 'tegen' }}
+	                {{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[1].label else 'tegen' }}
+									<span class="sr-only">{{ data.widget.siteConfig.voteValues[1].screenReaderAddition if data.widget.siteConfig.voteValues[1].screenReaderAddition else 'dit plan stemmen' }}</span>
 								</button>
 								<div style="clear: both;"></div>
 							</form>

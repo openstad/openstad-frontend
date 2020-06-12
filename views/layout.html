@@ -136,7 +136,7 @@
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 
 <header>
-  <a href="#main" class="skip-to-content-link">{{ __('Skip to main content') }}</a>
+  <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
@@ -174,11 +174,11 @@
                 {% if data.global.displayLoginTopLink %}
                 <li>
                   {% if data.loggedIn %}
-                  <a href="/oauth/logout" class="link-caret--black" title="{{ __('Uitloggen') }}">
+                  <a href="/oauth/logout" class="link-caret--black">
                     {{ __('Uitloggen') }}
                   </a>
                   {% else %}
-                  <a href="/oauth/login" class="link-caret--black" title="{{ __('Inloggen') }}">
+                  <a href="/oauth/login" class="link-caret--black"">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                     {{ __('Inloggen') }}
                   </a>
@@ -191,7 +191,6 @@
                   href="{{topLink.url}}"
                   {% if topLink.targetBlank %} target="_blank" {% endif %}
                   class="link-caret--black"
-                  title="{{topLink.label}}"
                   >
                     {{topLink.label}}
                   </a>
@@ -247,13 +246,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button" title="{{ __('Uitloggen') }}" role="button">
+            <a href="/oauth/logout" class="logout-button" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
-              <img src="/img/avatar.svg" title="{{ __('Uitloggen') }}"/>
+              <img src="/img/avatar.svg" />
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login" title="{{ __('Mijn account') }}" role="button">
+            <a href="/oauth/login"  role="button">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
@@ -282,7 +281,6 @@
               href="{{ item.mainMenuUrl }}"
               {% if item.mainMenuTarget %} target="_blank" {% endif %}
               role="menuitem"
-              title="{{ item.mainMenuLabel }}"
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -291,11 +289,11 @@
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem" title="{{ data.home.title }}">{{ data.home.title }}</a>
+              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem" title="{{ tab.title }}">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
                 {{ tab.title }}
               </a>
             </li>
@@ -339,18 +337,18 @@
         	<nav id="subMenu" class="" role="navigation">
         		<div>
               {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" title="{{data.global.ctaButtonText}}" role="button">{{data.global.ctaButtonText}}</a>
+              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" role="button">{{data.global.ctaButtonText}}</a>
               {% endif %}
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
-      				<a href="/oauth/logout" class="account logout-button" title="{{ __('Uitloggen') }}" role="button">
+      				<a href="/oauth/logout" class="account logout-button" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                 {{ __('Uitloggen') }}
               </a>
         			{% else %}
-      				<a href="/oauth/login" class="account" title="{{ __('Mijn account') }}" role="button">
+      				<a href="/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-                <img src="/img/avatar.svg" title="{{ __('Mijn account') }}"/>
+                <img src="/img/avatar.svg" />
                 {{ __('Mijn account') }}
               </a>
         			{% endif %}
@@ -392,7 +390,6 @@
               <a
               href="{{link.url}}"
               {% if link.targetBlank %} target="_blank" {% endif %}
-              title="{{link.label}}"
               >
                 {{link.label}}
               </a>
