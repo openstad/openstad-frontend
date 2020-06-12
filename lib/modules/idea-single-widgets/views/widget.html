@@ -132,12 +132,12 @@
 						<div class="share">
 							<h4>Deel dit voorstel</h4>
 							<ul>
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}">Facebook</a></li>{% endif %}
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}">Twitter</a></li>{% endif %}
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}">Email</a></li>{% endif %}
+								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Facebook</a></li>{% endif %}
+								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Twitter</a></li>{% endif %}
+								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}"><span class="sr-only">{{ __('Delen via') }}</span>Email</a></li>{% endif %}
 								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('whatsapp') > -1 or data.widget.shareChannelsSelection.length === 0 %}
-								<li class="desktop"><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{data.currentUrl | urlencode}}&source=&data=">WhatsApp</a></li>
-								<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share">WhatsApp</a></li>
+								<li class="desktop"><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{data.currentUrl | urlencode}}&source=&data="><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
+								<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share"><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
 								{% endif %}
 							</ul>
 						</div>
