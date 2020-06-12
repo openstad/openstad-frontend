@@ -3,13 +3,26 @@
  */
 .apos-workflow-draft-page .cms-admin {
   .apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
-    max-height: 300px !important;
+    max-height: none !important;
     overflow: scroll !important;
+    column-count: 3;
+    max-width: 390px;
+    font-size: 14px;
   }
 
   .apos-area-widget.hover {
     outline: 2px dotted #154995;
   }
+
+  .apos-ui .apos-dropdown-item {
+    padding: 20px;
+    padding: 12px 18px;
+    font-size: 13px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    height: 66px;
+    overflow: hidden;
+}
 }
 
 .apos-ui .apos-admin-bar, .apos-ui .apos-button--global, .apos-ui .apos-button--major {

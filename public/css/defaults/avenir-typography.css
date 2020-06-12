@@ -1,0 +1,39 @@
+/*
+  Simple CSS for using Avenir Next commercially
+  need to buy font
+ */
+header a:visited h1,
+h1,
+body,
+.default-select,
+.checkbox .checkbox-label,
+.radio .radio-label,
+.btn-secondary,
+.logo-container #amsterdam
+{
+  font-family: 'Avenir Next W01', Helvetica, Arial, sans-serif;
+}
+
+header {
+  height: 110px;
+  padding: 0 15px;
+}
+
+.header-side-container {
+  top: 26px;
+}
+
+.resource-tag {
+  border: solid 2px #ec0000;
+}
+
+.resource-tag--selected {
+  background: #ec0000;
+}
+
+@media screen and (max-width: 768px) {
+  header {
+    height: 63px;
+    padding: 0;
+  }
+}

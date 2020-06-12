@@ -13,6 +13,7 @@
 require('dotenv').config();
 //external libs
 const express                 = require('express');
+const http2                   = require('http2');
 const apostrophe              = require('apostrophe');
 const app                     = express();
 const _                       = require('lodash');
@@ -97,8 +98,8 @@ function serveSite(req, res, siteConfig, forceRestart) {
       // if default DB is set
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
-        if ( (!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
-            //format sitedatat so it makes more sense
+        if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
+            //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;

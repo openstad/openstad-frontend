@@ -6,11 +6,11 @@
     </strong> | {{ arg.createdAt | date('LLL') }}
 
     {% if mayEdit %}
-    <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
+    <a href="#" type="submit" class="default argument-edit edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
 
     {% if mayDelete %}
-    <form class="action delete argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
+    <form class="action delete argument-action-form ajax-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
       <input type="hidden" name="_method" value="DELETE">
       <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
     </form>
@@ -20,18 +20,18 @@
   <p class="argument-content">{{arg.description | urlize | nlbr | sanitize | safe}}</p>
 
   {% if mayEdit %}
-  <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">
+  <form class="action argument-form argument-edit-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">
     <input type="hidden" name="_method" value="PUT">
     <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{arg.description}}</textarea>
     <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
     &nbsp;
-    <a href="#" class="edit-cancel"> Annuleer </a>
+    <a href="#" class="argument-edit-cancel"> Annuleer </a>
   </form>
   {% endif %}
 
   <div class="clearfix">
     {% if mayVote %}
-      <form class="action vote argument-action-form ajax-form" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}/vote">
+      <form class="action vote argument-action-form ajax-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}/vote">
         <button
           data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
           type="submit"
@@ -42,7 +42,7 @@
         </button>
       </form>
     {% else %}
-      <form class="action vote argument-action-form ajax-form">
+      <form class="action vote argument-action-form ajax-form ajax-refresh-after-submit">
         <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}} role-required-{{data.global.roleToLike}}" data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken.">
           Mee eens (<span>{{arg.yes}}</span>)
         </button>

@@ -2,8 +2,32 @@
 // import variables first so we can overwrite them
 @import "vendor/bootstrap/variables.less";
 @import "bootstrap-variables.less";
-@import "vendor/bootstrap/bootstrap";
+//@import "vendor/bootstrap/bootstrap";
 @import "vendor/jquery.dataTables.min.less";
+
+@import "vendor/bootstrap/mixins.less";
+
+// Reset and dependencies
+@import "vendor/bootstrap/normalize.less";
+@import "vendor/bootstrap/print.less";
+@import "vendor/bootstrap/glyphicons.less";
+
+// Core CSS
+@import "vendor/bootstrap/scaffolding.less";
+@import "vendor/bootstrap/type.less";
+@import "vendor/bootstrap/code.less";
+@import "vendor/bootstrap/grid.less";
+@import "vendor/bootstrap/forms.less";
+
+
+// Components
+@import "vendor/bootstrap/pagination.less";
+@import "vendor/bootstrap/navs.less";
+@import "vendor/bootstrap/navbar.less";
+
+// Utility classes
+@import "vendor/bootstrap/utilities.less";
+@import "vendor/bootstrap/responsive-utilities.less";
 
 @import "variables";
 
@@ -17,7 +41,7 @@ body {
   margin: 0 auto !important;
   max-width: 1400px;
   padding: 0;
-  font-family: "Avenir_Custom", Helvetica, Arial, sans-serif;
+  font-family: Roboto, arial, sans-serif;
   font-size: 16px;
   line-height: 1.5em;
   color: #000000;
@@ -70,14 +94,16 @@ a {
 	&:hover {
 		text-decoration: underline;
 	}
-	&:visited {
-		color: @amsterdam-navyblue;
+	&:visited,  &:visited, &:focus, &:active{
+		//color: inherit;
 	}
 }
 
 .row img {
   max-width: 100%;
 }
+
+
 
 @import "variables";
 
@@ -90,7 +116,6 @@ a {
 @import "share-buttons";
 @import "links";
 @import "apos";
-@import "fonts";
 @import "links";
 @import "typography";
 @import "fotorama";
