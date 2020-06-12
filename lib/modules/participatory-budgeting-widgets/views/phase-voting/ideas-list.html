@@ -56,7 +56,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				{% endif %}
 				<div class="col-xs-6">
 					{% if data.widget.voting %}
-					<button  class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" title="Voeg toe" tabindex="0"></button>
+					<button  class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
 					{% endif %}
 
 					{% if data.widget.showVoteCount %}
