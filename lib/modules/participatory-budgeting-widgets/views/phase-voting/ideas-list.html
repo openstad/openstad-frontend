@@ -42,7 +42,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				<h3 class="title">{{idea.title}}</h3>
 				{% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
-					{% if idea.extraData.theme %}<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span>{% endif %}{% if idea.extraData.theme and idea.extraData.area %} | {% endif %}{% if idea.extraData.area %}<span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>{% endif %}
+					{% if idea.extraData.theme %}<span class="thema theme-{{idea.id}}"><span class="sr-only">{{ __('Thema:') }}</span>{{idea.extraData.theme}}</span>{% endif %}{% if idea.extraData.theme and idea.extraData.area %} | {% endif %}{% if idea.extraData.area %}<span class="gebied area-{{idea.id}}"><span class="sr-only">{{ __('Gebied:') }}</span>{{idea.extraData.area}}</span>{% endif %}
 				</div>
 				{% endif %}
 			</div>
@@ -61,6 +61,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
 					{% if data.widget.showVoteCount %}
 					<div class="btn--blue noOfVotes stretch ">
+						<span class="sr-only">{{ __('Stemmen voor:') }}</span>
 						{% if idea.extraData.voteCount %}
 						{{idea.extraData.voteCount}}
 						{% else %}
@@ -71,7 +72,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					{% endif %}
 				</div>
 			</div>
-			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
+			<div class="budget-value"><span class="sr-only">{{ __('Kosten:') }}</span>{{idea.budget}}</div>{# used by sort #}
 			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 0}}</div>
 		</div>
 
@@ -160,7 +161,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<div class="budget budget-{{idea.id}}">{{idea.budget}}</div>
 						{% endif %}
 						{% if data.widget.voting %}
-						<button class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></button>
+						<button class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
 						{% endif %}
 					</div>
 				</div>
