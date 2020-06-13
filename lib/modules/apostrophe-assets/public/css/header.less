@@ -1,8 +1,9 @@
 header {
+	background: white;
 	box-sizing: border-box;
-	height: 110px;
+	height: auto;
 	margin: 0 0;
-	padding: 0 15px;
+	padding: 25px 0;
 	position: relative;
 	width: 100%;
 	z-index: 11;
@@ -13,18 +14,14 @@ header {
 	}
 
 	@media screen and (max-width: @screen-sm) {
-		height: 63px;
+		height: auto;
 		width: 100%;
-	}
-
-	@media screen and (max-width: @screen-sm) {
-		padding: 0;
+		padding: 18px 13px;
 	}
 
 	a:visited h1, h1 {
 		box-sizing: border-box;
 	  color: black;
-		font-family: 'Avenir_Custom';
 	  font-size: 22px;
 	  font-weight: 500;
 	  right: 0;
@@ -58,7 +55,6 @@ header {
 	left: 115px;
 	top: 0;
 	right: 10px;
-	top: 26px;
 
 	@media screen and (max-width: 991px) {
 		left: 138px;
@@ -103,11 +99,19 @@ header {
 		    background-image: url(/img/arrow_right_black.svg);
 		    background-repeat: no-repeat;
 		    background-position: 0 2px;
-		    line-height: 1.375em;
+		    line-height: 1;
 		    font-weight: 500;
 		    height: 22px;
 		}
 	}
+}
+
+.logo-main-container {
+	display: block;
+}
+
+.logo-default {
+	width: 150px;
 }
 
 .logo-container {
@@ -125,7 +129,6 @@ header {
 
 	#amsterdam {
 		color: #ec0000;
-    font-family: 'Avenir_Custom';
     top: 17px;
     left: 10px;
     font-size: 13px;

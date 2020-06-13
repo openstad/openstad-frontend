@@ -18,6 +18,7 @@
 {% endblock %}
 
 {% block extraHead %}
+
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
@@ -28,9 +29,14 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 !-->
 
-{% for stylesheet in data.global.stylesheets %}
-<link rel="stylesheet" href="{{stylesheet.url}}">
+{% for stylesheet in data.envStyleSheets %}
+<link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
 {% endfor %}
+
+{% for stylesheet in data.global.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}?{data.assetsGeneration}}">
+{% endfor %}
+
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
@@ -53,8 +59,6 @@
 <meta property="og:image" content="{{apos.settings.getOption('appUrl')}}{{apos.attachments.url(data.global.fbImage)}}">
 {% endif %}
 {% endif %}
-
-
 
 <script>
   // global variables!
@@ -135,17 +139,24 @@
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-        <a href="{{logoLink}}/" class="logo-container">
           {% if data.global.siteLogo %}
-          <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
-
+            {% if data.global.siteLogo === 'amsterdam' %}
+            <a href="{{logoLink}}/" class="logo-container">
+              <img src="/img/andreas.svg" alt="logo">
+              <div id="amsterdam">
+                Gemeente<br>Amsterdam
+              </div>
+            </a>
+            {% else %}
+            <a href="{{logoLink}}/" class="logo-uploaded logo-main-container">
+            <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
+            </a>
+            {% endif %}
           {% else %}
-          <img src="/img/andreas.svg" alt="logo">
-          <div id="amsterdam">
-            Gemeente<br>Amsterdam
-          </div>
+          <a href="{{logoLink}}/" class="logo-default logo-main-container">
+          <img class="default"src="/img/logo-openstad.png" alt="logo">
+          </a>
           {% endif %}
-        </a>
         <div class="header-side-container">
           <div class="row">
             <div class="col-sm-7 col-md-6 col-xs-12">

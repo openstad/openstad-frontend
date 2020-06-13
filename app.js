@@ -99,7 +99,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
-            //format sitedatat so it makes more sense
+            //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
