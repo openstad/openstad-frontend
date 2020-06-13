@@ -105,7 +105,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					'after-login-redirect-uri': {
 						type: 'string',
 						default: '/oauth/login?jwt=[[jwt]]',
-					}
+					},
+					"widgetDisplaySettings": {
+	          "type": "object",
+	          "subset": {
+	              "beta": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "deprecated": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "visibleWidgets": {
+	                "type": "arrayOfStrings",
+	                "default": []
+	              }
+	           }
+	        }
 				}
 			},
 			notifications: {
