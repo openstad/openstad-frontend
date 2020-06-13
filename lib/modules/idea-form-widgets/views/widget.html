@@ -77,7 +77,6 @@
 				  </form>
 				</div>
 
-
 		    <!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
 					   <button type="submit" class="modBreak">Moderator reactie</button>
 				     </form>
@@ -89,13 +88,14 @@
 		{% endif %}
 	  {% endif %}
 </div>
+<!-- Todo: Use the play of apostrophe method in main.js, these variables are not needed anymore  -->
 <script>
-	var titleMinLength = parseInt('{{data.widget.siteConfig.ideas.titleMinLength}}');
-  var titleMaxLength = parseInt('{{data.widget.siteConfig.ideas.titleMaxLength}}');
-  var summaryMinLength = parseInt('{{data.widget.siteConfig.ideas.summaryMinLength}}');
-  var summaryMaxLength = parseInt('{{data.widget.siteConfig.ideas.summaryMaxLength}}');
-  var descriptionMinLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMinLength}}');
-  var descriptionMaxLength = parseInt('{{data.widget.siteConfig.ideas.descriptionMaxLength}}');
+  var titleMinLength = parseInt('{{data.widget.minTitle}}');
+  var titleMaxLength = parseInt('{{data.widget.maxTitle}}');
+  var summaryMinLength = parseInt('{{data.widget.minSummary}}');
+  var summaryMaxLength = parseInt('{{data.widget.maxSummary}}');
+  var descriptionMinLength = parseInt('{{data.widget.minDescription}}');
+  var descriptionMaxLength = parseInt('{{data.widget.maxDescription}}');
 </script>
 
 <script src="/js/vendor/trix.js"></script>
