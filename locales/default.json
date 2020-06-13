@@ -559,5 +559,10 @@
 	"Search...": "Search...",
 	"Browse": "Browse",
 	"editor2": "editor2",
-	"editor": "editor"
+	"editor": "editor",
+	"Idea instellingen": "Idea instellingen",
+	"Allow adding new ideas": "Allow adding new ideas",
+	"This field will also update the global settings field (ideas.canAddNewIdeas) in the api": "This field will also update the global settings field (ideas.canAddNewIdeas) in the api",
+	"set min title length of an idea": "set min title length of an idea",
+	"This field will also update the global settings field (ideas.titleMinLength) in the api": "This field will also update the global settings field (ideas.titleMinLength) in the api"
 }
