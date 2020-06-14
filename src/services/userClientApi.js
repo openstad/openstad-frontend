@@ -2,14 +2,9 @@ const rp = require('request-promise');
 const nestedObjectAssign = require('nested-object-assign');
 const httpBuildQuery = require('../util/httpBuildQuery')
 
-const apiCredentials = {
-    client_id:  process.env.USER_API_CLIENT_ID,
-    client_secret: process.env.USER_API_CLIENT_SECRET,
-}
+
 
 exports.fetch = (apiUrl, apiCredentials, clientId) => {
-  console.log('apiUrl', apiUrl)
-
   return rp({
     method: 'GET',
     uri: `${apiUrl}/api/admin/client/${clientId}`,
@@ -24,8 +19,7 @@ exports.fetch = (apiUrl, apiCredentials, clientId) => {
 
 exports.fetchAll = (apiUrl, apiCredentials, params) => {
   const query = params ? httpBuildQuery(params) : '';
-  console.log('apiUrl', apiUrl)
-
+  
   return rp({
     method: 'GET',
     uri: `${apiUrl}/api/admin/clients?${query}`,
