@@ -26,6 +26,7 @@ module.exports = {
         'openstad-users': {},
         'openstad-auth': {},
         'openstad-login': {},
+        'openstad-api': {},
         'apostrophe-login': {
           localLogin: false
         },
