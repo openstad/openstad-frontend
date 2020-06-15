@@ -5,7 +5,7 @@
     </strong> | {{reaction.createdAt | date('LLL')}}
 
     {% if mayEdit %}
-    <a href="#" type="submit" class="default edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
+    <a href="#" type="submit" class="default reaction-edit edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
     {% endif %}
     {% if mayDelete %}
     <form class="action delete ajax-form" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}">
@@ -19,12 +19,12 @@
   <p class="argument-content">{{reaction.description | urlize | sanitize | safe}}</p>
 
   {% if mayEdit %}
-  <form class="action argument-form argument-edit-form" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}" class="editForm">
+  <form class="action argument-form argument-edit-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{reaction.id}}" class="editForm">
     <input type="hidden" name="_method" value="PUT">
     <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{reaction.description}}</textarea>
     <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
     &nbsp;
-    <a href="#" class="edit-cancel"> Annuleer </a>
+    <a href="#" class="reaction-edit-cancel"> Annuleer </a>
   </form>
   {% endif %}
 </div>

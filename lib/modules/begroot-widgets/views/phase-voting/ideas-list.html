@@ -17,6 +17,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 	data-budget="{{idea.budget}}"
   data-ideaid="{{idea.id}}"
 	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 10000}}"
+	data-ranking="{{idea.extraData.ranking if idea.extraData.ranking else 10000}}"
+	role="article"
+	tabindex="0"
+	title="{{idea.title}}"
+	onkeydown="handleKeyDown(event);"
 	>
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
@@ -52,7 +57,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				{% endif %}
 				<div class="col-xs-6">
 					{% if data.widget.voting %}
-					<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
+					<button  class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" title="Voeg toe" tabindex="0"></button>
 					{% endif %}
 
 					{% if data.widget.showVoteCount %}
@@ -113,15 +118,15 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<table class="table-center">
 							<tr>
 								<td>
-									<b class="text"> Deel dit: </b>
+									<b class="text" tabindex="0"> Deel dit: </b>
 								</td>
 								<td>
 									<ul class="share">
 										{% set ideaUrl = data.currentUrl + '?ideaId=' + idea.id %}
-										<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}">Facebook</a></li>
-										<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}?ideaId={{idea.id}}">Twitter</a></li>
-										<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}">Email</a></li>
-										<li><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{ideaUrl | urlencode}}&source=&data=">WhatsApp</a></li>
+										<li><a class="facebook" title="Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Facebook</a></li>
+										<li><a class="twitter" title="Twitter" target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Twitter</a></li>
+										<li><a class="email" title="Email" target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}" tabindex="0">Email</a></li>
+										<li><a class="whatsapp" title="Whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{ideaUrl | urlencode}}&source=&data=" tabindex="0">WhatsApp</a></li>
 									</ul>
 								</td>
 							</tr>
@@ -156,18 +161,18 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<div class="budget budget-{{idea.id}}">{{idea.budget}}</div>
 						{% endif %}
 						{% if data.widget.voting %}
-						<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></div>
+						<button class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" title="Voeg toe" tabindex="0"></button>
 						{% endif %}
 					</div>
 				</div>
 				<div class="col-sm-6 col-xs-12">
 					<div class="hidden-xs">
-						<h3 class="grider-title">{{idea.title}}</h3>
-						<div class="intro">
+						<h3 class="grider-title" tabindex="0">{{idea.title}}</h3>
+						<div class="intro" tabindex="0">
 							{{idea.summary | sanitize | safe}}
 						</div>
 						{% if idea.description %}
-						<div class="description">
+						<div class="description" tabindex="0">
 							{{idea.description | sanitize | safe}}
 						</div>
 						{% endif %}

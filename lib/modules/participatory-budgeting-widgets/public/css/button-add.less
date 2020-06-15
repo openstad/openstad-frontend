@@ -7,13 +7,13 @@
   -webkit-transition: all 400ms;
   transition: all 400ms;
   font-size: 18px;
-  padding: 10px 13px;
+	padding: 11px 0;
   padding-left: 38px;
-  line-height: 27px;
   width: 100%;
+	border: 2px solid #004699;
 
 	&:hover {
-		background: #004699 !important;
+		background: #004699;
 	}
 
 	&:before {
@@ -23,7 +23,7 @@
 		height: 18px;
 		background-size: 100%;
 		position: absolute;
-    top: 12px;
+    top: 13px;
     left: 15px;
 	}
 
@@ -32,11 +32,10 @@
 	}
 
 	&.added {
-		background: white  !important;
+		background: white;
     border: none;
-		outline: 2px #004699 solid;
-    color: #004699 !important;
-    outline-offset: -2px;
+		border: 2px #004699 solid;
+    color: #004699;
     padding-left: 0;
     text-align: center;
     padding-right: 0;
@@ -46,8 +45,9 @@
 		}
 
 		&:hover {
-			outline: 2px #434343 solid;
-			color: #434343 !important;
+			outline: 0;
+			color: #434343;
+			background: white;
 			padding-left: 30px;
 
 			&:before {

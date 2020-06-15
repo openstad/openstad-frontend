@@ -24,7 +24,7 @@
   {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
   {% set mayEdit = (data.hasModeratorRights or isArgumentOwner) %}
   {% set mayDelete =  (data.hasModeratorRights or isArgumentOwner) %}
-  <div id="argument-container-{{arg.id}}" class="argument-container">
+  <div id="argument-container-{{arg.id}}" class="argument-container openstad-ajax-refresh">
     {% include 'argument.html' %}
 
     <div class="reaction-container">

@@ -14,6 +14,9 @@ input.search {
   border: 1px solid #323232;
 }
 
+.resource-overview-container {
+  position: relative;
+}
 
 .resource-overview-container form {
   overflow: visible;
@@ -48,8 +51,8 @@ input.search {
     background-color: #ffffff;
     border: 0;
     color: #000;
-    padding: 0 20px;
-    font-weight: 600;
+    font-weight: 500;
+    text-align: left;
 
     &::placeholder {
       font-weight: 600;
@@ -59,6 +62,7 @@ input.search {
     &:focus::placeholder{
       font-weight: normal;
       color: #B4B4B4;
+      text-decoration: none;
     }
   }
 
@@ -69,6 +73,7 @@ input.search {
     @media @phone {
       width: 100% !important;
       margin: 5px 0;
+      max-width: none;
     }
   }
 }
@@ -78,6 +83,10 @@ input.search {
 
   &::before {
     display: none;
+  }
+
+  @media @phone {
+    margin: 0;
   }
 }
 
@@ -89,41 +98,52 @@ input.search {
   width: 164px;
   font-weight: bold;
 }
+.resource-tag {
+  border: solid 2px #ec0000;
+}
+
 
 .resource-tag {
   padding: 0 20px;
   height: 40px;
   margin: 5px 0;
   border-radius: 20px;
-  border: solid 2px #ec0000;
+  border: solid 2px #164995;
   display: inline-block;
-  line-height: 40px;
+  //height minus bordersize
+  line-height: 36px;
   text-align: center;
   font-size: 17px;
-  color: black !important;
+  color: black;
   font-weight: bold;
   position: relative;
   padding-left: 40px;
   transition: all 200ms ease-in;
+  overflow: hidden;
+  margin: 0;
 
+  @media @phone {
+    float: left;
+    clear: left;
+    margin: 5px 0;
+  }
 
   &::after {
     content: '+';
     position: absolute;
-    top: 8px;
+    top: -1px;
     left: 15px;
     font-size: 22px;
-    line-height: 1;
   }
 
-  &:hover {
+  &:hover, &:active {
     text-decoration: none;
     transform: scale(1.03);
   }
 
   &--selected {
-    background: #ec0000 !important;
-    color: white !important;
+    background: #164995 ;
+    color: white ;
     padding-right: 40px;
     padding-left: 20px;
 
@@ -135,6 +155,10 @@ input.search {
       font-size: 17px;
       line-height: 1;
       left: auto;
+    }
+
+    &:hover, &:active {
+      color: white;
     }
   }
 }
@@ -172,4 +196,9 @@ input.search {
   &.active {
     display: block;
   }
+}
+
+.filter-tags-modal-title {
+  margin: 15px 0 20px;
+  font-size: 23px;
 }

@@ -28,20 +28,21 @@
 
 
   {% if data.widget.sectionToggle %}
-  <a class="howDoesItWorkButton" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()" style="outline: 0;">
+  <a class="howDoesItWorkButton" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()"
+  title={{data.widget.toggleTitle}}"
+  >
     {{data.widget.toggleTitle}}
     <img class="arrow" src="/img/{% if data.widget.typeArrow %}{{data.widget.typeArrow}}{% else %}{{'arrow_down_black'}}{% endif %}.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
   </a>
   {% endif %}
 
-{% if data.widget.displayType === 'full-screen' %}
-{% include 'types/full-screen.html'%}
-{% elseif data.widget.displayType === 'full-width' %}
-{% include 'types/full-width.html'%}
-{% else %}
+  {% if data.widget.displayType === 'full-screen' %}
+  {% include 'types/full-screen.html'%}
+  {% elseif data.widget.displayType === 'full-width' %}
+  {% include 'types/full-width.html'%}
+  {% else %}
 
-  <div class="container">
-
+  <div class="container u-small-dropdowns">
     {% if data.widget.displayType %}
     {% include 'types/' + data.widget.displayType + '.html'%}
     {% endif %}
