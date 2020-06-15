@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js "
+    "dev": "nodemon app.js ",
+    "test": "npx mocha"
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,8 @@
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
     "vimeo": "^2.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^7.2.0"
   }
 }
