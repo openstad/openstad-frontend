@@ -1,0 +1,103 @@
+.ajax-form {
+  opacity: 0;
+}
+
+.input-field {
+  background: white;
+  border: 1px solid #000000;
+  line-height: 40px;
+  height: 40px;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 16px;
+  height: 40px;
+}
+
+.label {
+  margin: 0 10px;
+  font-size: 18px;
+  color: #000;
+}
+
+.textarea {
+  border: 1px solid #000000;
+  background: white;
+  width: 100%;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after{
+  background-image: url(/modules/openstad-assets/img/caret.svg);
+  content: '';
+  background-size: 100%;
+  width: 11px;
+  height: 16px;
+  position: absolute;
+  background-repeat: no-repeat;
+  top: 15px;
+  right: 10px;
+}
+
+.select-wrapper {
+  select {
+    background: transparent;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 10px 32px 10px 10px;
+    outline: 2px solid black;
+    font-size: 16px;
+    display: inline-block;
+    border: none;
+    background: white;
+  }
+
+  margin: 0 7px;
+  display: inline-block;
+
+  select::-ms-expand {
+    display: none;
+  }
+}
+
+label.error {
+  margin: 10px 0;
+  color: red;
+  display: inline;
+}
+
+form {
+	.charsLeft {
+		color: #9A9A9A;
+		display: none;
+		float: left;
+		font-size: 12px;
+
+		&.visible {
+			display: block;
+		}
+
+		.min, .max {
+			display: none;
+		}
+		.ok {
+			color: #9A9A9A;
+		}
+		.error {
+			color: #EC0000;
+		}
+		.visible {
+			display: block;
+		}
+	}
+	input[type="submit"]:disabled {
+		cursor: default;
+		opacity: 0.3;
+	}
+}

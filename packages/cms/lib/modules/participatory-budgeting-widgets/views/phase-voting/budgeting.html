@@ -1,0 +1,445 @@
+{% macro showBudgetWindow(data) %}
+<div id="main-budget-block" class="sticky-bar-container">
+	<div class="sticky-bar">
+		<div class="sticky-bar-inner ">
+			<div id="budget-block" >
+				<div id="budget-block">
+
+					<div id="steps-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4">
+
+						<div id="steps-bar-1" class="step active">
+							<div class="content">1. Kies</div>
+						</div>
+						<div id="steps-bar-2" class="step">
+							<div class="content">2. Overzicht</div>
+						</div>
+						<div id="steps-bar-3" class="step">
+							<div class="content">3. Stemcode</div>
+						</div>
+						<div id="steps-bar-4" class="step">
+							<div class="content">4. Stem</div>
+						</div>
+					</div>
+
+					<div id="current-budget-bar" class="sticky-visible">
+						<div class="current-budget-images clearfix"></div>
+					</div>
+					<div id="steps-content">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div id="themes-bar"></div>
+            {% endif %}
+						<div id="current-step">
+							<div class="row">
+								<div class="col-sm-8 col-xs-12 ">
+									<div id="content">
+										<div id="text">
+											<div class="mobile-accordion overstretch--xs">
+												<a href="#" class="mobile-accordion-header">
+													<div class="mobile-accordion-header-open">
+														<h3 class="icon-header icon-header--blue">
+															<img src="/modules/openstad-assets/img/info.png" width="24" />
+															Lees uitleg
+														</h3>
+													</div>
+													<div class="mobile-accordion-header-closed">
+														<h3 class="icon-header icon-header--blue">
+															<img src="/modules/openstad-assets/img/info.png" width="24" />
+															Uitleg inklappen
+														</h3>
+													</div>
+												</a>
+												<div class="mobile-accordion-body">
+													{{data.widget.step_1_intro}}
+												</div>
+											</div>
+											<br class="visible-xs" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4  col-xs-12 ">
+									<div id="budget-text" class="stretch" tabindex="0">
+										<div>
+											{% if data.widget.votingType === 'count' %}
+											<table class="primary-color stretch table-reset">
+												<tr >
+													<td><label>Ideeën gekozen:</label> </td>
+													<td><span class="current-ideas-count text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Nog kiezen:</label></td>
+													<td><span class="available-ideas-count  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+											{% else %}
+											<table class="primary-color stretch table-reset">
+												<tr >
+													<td><label>Budget gekozen:</label> </td>
+													<td><span class="current-budget-amount text-align-right block bold">0</span></td>
+												</tr>
+												<tr>
+													<td><label>Budget over:</label></td>
+													<td><span class="available-budget-amount  text-align-right block bold">0</span></td>
+												</tr>
+											</table>
+											{% endif %}
+
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-8 col-xs-12 bottom-container">
+									<br />
+									<div id="content">
+										<div id="current-budget-preview">
+											<div class="current-budget-images clearfix"></div>
+											<div class="current-budget-table">
+												<div class="overview-container"></div>
+											</div>
+										</div>
+                    <div id="overview-themes-warning" class="hidden">
+                      <strong>Let op, je hebt (nog) geen plannen geselecteerd binnen de volgende thema’s:</strong>
+                      <ul class="themes"></ul>
+                      Je kunt doorgaan, of teruggaan naar de vorige stap om alsnog plannen te kiezen voor deze thema’s.
+                    </div>
+										<div id="budgeting-edit-mode-container" class="hidden align-left">
+											<div class="onoffswitch">
+												<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox budgeting-edit-mode"  onchange="setBudgetingEditMode();" id="budgeting-edit-mode">
+												<label class="onoffswitch-label" for="budgeting-edit-mode">
+													<span class="onoffswitch-inner"></span>
+													<span class="onoffswitch-switch"></span>
+												</label>
+											</div>
+											<div>
+												Verwijder een plan
+											</div>
+										</div>
+										<div id="vote-button-container">
+											{% set returnUrl = data.currentUrl %}
+
+											{% if data.widget.scrollBackToBudgetBlock %}
+											{% if data.currentUrl.indexOf('?') == -1 %}
+											{% set returnUrl = data.currentUrl + '?stemcode' %}
+											{% else %}
+											{% set returnUrl = data.currentUrl + '&stemcode' %}
+											{% endif %}
+											{% endif %}
+											<a href="/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+												Vul je stemcode in
+											</a>
+											<div class="error-block">
+												Met deze stemcode is al gestemd.
+												Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.
+											</div>
+											{% if 0 %}
+											<br/></br><a href="/dev/delete-user-budget-vote">Dev optie: gooi eerst je oude stem weg</a>
+											{% endif %}
+										</div>
+										<div id="vote-registered-container">
+											<div class="button-stemcode geldige-code">Geldige stemcode</div>
+											<a href="/oauth/login?returnTo={{returnUrl}}" class="underline" style="margin-top:-30px;     margin-top: -15px; display: block;margin-bottom: 20px; ">
+												<small>Vul een andere stemcode in</small>
+											</a>
+											<div>
+												{{data.widget.step_3_succesfull_auth}}
+											</div>
+										</div>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div id="themes-buttons"></div>
+            {% endif %}
+					</div>
+					<div id="button-bar">
+						<button id="previous-button" onclick="previousStep(); // calculateContainerHeight();" tabindex="0" title="Vorige">
+							Vorige
+						</button>
+						<button id="next-button" onclick="nextStep();" tabindex="0" title="Volgende">
+							Volgende
+						</button>
+					</div>
+					<div id="steps-content-0" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-bars">
+						    {% for theme in data.global.themes %}
+                <div class="theme-bar theme-{{theme.color | replace("#", "")}}"><div class="theme-bar-amount-spent theme-{{theme.color | replace("#", "")}}""></div></div>
+						    {% endfor %}
+              </div>
+              <div class="theme-labels">
+						    {% for theme in data.global.themes %}
+                <div class="theme-label">
+                  <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
+                  <div class="theme-label-text">{{theme.value | sanitize | safe}}</div>
+                </div>
+						    {% endfor %}
+              </div>
+            </div>
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body" tabindex="0">
+                  <h4 style="padding-top: 10px;">Kies jouw favoriete plannen per thema!</h4>
+                  <ol type="1">
+                    <li>Selecteer hieronder een thema om de plannen voor dat thema te bekijken</li>
+                    <li>Kies jouw favoriete plannen voor dat thema binnen het beschikbare budget</li>
+                    <li>Ga naar het volgende thema om hetzelfde te doen</li>
+                    <li>Klaar en tevreden? In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem</li>
+                  </ol>
+								</div>
+							</div>
+							<br class="visible-xs" />
+					  </div>
+            <div class="themes-buttons">
+						  {% for theme in data.global.themes %}
+              <div class="theme-button theme-{{theme.color | replace("#", "")}}" onclick="setTheme('{{loop.index}}')">
+                <div class="theme-button-color theme-{{theme.color | replace("#", "")}}"></div>
+                <div class="theme-button-text">{{theme.value | sanitize | safe}}</div>
+              </div>
+						  {% endfor %}
+						  <div style="clear: both;"></div>
+            </div>
+					  {% endif %}
+					</div>
+					<div id="steps-content-1" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-current"></div>
+						  {% for theme in data.global.themes %}
+              <div class="theme-tab theme-{{theme.color | replace("#", "")}} theme-tab-default" onclick="setTheme('{{loop.index}}')">{{theme.value | sanitize | safe}}</div>
+						  {% endfor %}
+            </div>
+					  {% endif %}
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue margin-0">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									{{data.widget.step_1_intro}}
+								</div>
+							</div>
+							<br class="visible-xs" />
+						</div>
+						<div class="add-button" onclick="scrollToIdeas();" tabindex="0">
+							<div>
+								Voeg <br />toe
+							</div>
+						</div>
+					</div>
+
+					<div id="steps-content-2" class="step">
+					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+            <div class="themes-bar">
+              <div class="theme-bars">
+						    {% for theme in data.global.themes %}
+                <div class="theme-bar theme-{{theme.color | replace("#", "")}}"><div class="theme-bar-amount-spent theme-{{theme.color | replace("#", "")}}""></div></div>
+						    {% endfor %}
+              </div>
+              <div class="theme-labels">
+						    {% for theme in data.global.themes %}
+                <div class="theme-label">
+                  <div class="theme-label-color theme-{{theme.color | replace("#", "")}}"></div>
+                  <div class="theme-label-text">{{theme.value | sanitize | safe}}</div>
+                </div>
+						    {% endfor %}
+              </div>
+            </div>
+					  {% endif %}
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									{{data.widget.step_2_intro}}
+								</div>
+							</div>
+							<br class="visible-xs" />
+						</div>
+					</div>
+
+					<div id="steps-content-3" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									{{data.widget.step_3_intro}}
+
+								</div>
+							</div>
+
+							<br class="visible-xs" />
+						</div>
+					</div>
+
+					<div id="steps-content-4" class="step">
+						<div class="text">
+							<div class="mobile-accordion overstretch--xs" style="display: none;">
+								<a href="#" class="mobile-accordion-header">
+									<div class="mobile-accordion-header-open">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Lees uitleg
+										</h3>
+									</div>
+									<div class="mobile-accordion-header-closed">
+										<h3 class="icon-header icon-header--blue">
+											<img src="/modules/openstad-assets/img/info.png" width="24" />
+											Uitleg inklappen
+										</h3>
+									</div>
+								</a>
+								<div class="mobile-accordion-body">
+									{{data.widget.step_3_succesfull_auth}}
+								</div>
+							</div>
+							<br />
+						</div>
+					</div>
+
+					<div id="steps-content-5" class="step">
+						<div class="text">
+							&nbsp;
+						</div>
+					</div>
+
+					<div id="steps-content-6" class="step">
+						<div class="text">
+							<div class="checkmark-block-green">
+								<h4>Gelukt, je hebt gestemd!</h4>
+								<br/>
+								{{data.widget.thankyou_message | nlbr | sanitize | safe}}
+								{% if data.widget.showNewsletterButton and data.widget.showNewsletterButton == 'yes' %}
+								<br />
+								<br />
+								<a href="#newsletter" class="outlined-button">{{ data.widget.newsletterButtonText or __('Sign up for the newsletter') }}</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div id="steps-content-7" class="step">
+						<div class="text">
+							&nbsp;
+						</div>
+					</div>
+				</div>
+
+				<div class="sticky-expand">
+					<div class="row">
+						{% if data.widget.votingType === 'count' %}
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<label>
+								<span> Ideeën gekozen: </span>
+							</label>
+							<span class="current-ideas-count bold">0</span>
+						</div>
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<label>
+								<span> Nog kiezen: </span>
+							</label>
+							<span class="available-ideas-count bold">0</span>
+						</div>
+						{% else %}
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<label>
+								<span class="hidden-xs"> Budget gekozen: </span>
+								<span class="visible-xs"> Gekozen: </span>
+							</label>
+							<span class="current-budget-amount bold">0</span>
+						</div>
+						<div class="col-sm-4 col-xs-6 budget-col">
+							<div class="text-center">
+								<span class="hidden-xs"> Budget over: </span>
+								<span class="visible-xs"> Over: </span>
+								<span class="available-budget-amount bold">0</span>
+							</div>
+						</div>
+						{% endif %}
+						<div class="col-xs-12 col-sm-4 expand-bar">
+							<div class="align-right">
+								<a href="#page" class=" link scroll-link">
+									Omhoog
+									<img src="/modules/openstad-assets/img/arrow_up_blue.svg" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="sticky-contract">
+					<div class="align-right">
+						<a href="#page" class="contract link scroll-link">
+							Omhoog
+							<img src="/modules/openstad-assets/img/arrow_up_blue.svg" />
+						</a>
+					</div>
+				</div>
+				<div id="waitLayer" class="hidden">
+					<div class="spinning-loader"> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% if data.widget.scrollBackToBudgetBlock %}
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+			if (window.location.search && window.location.search.indexOf('stemcode') !== -1) {
+				window.setTimeout(function () {
+					$('html, body').animate({scrollTop: $("#budget-block").offset().top}, 1000);
+				}, 250);
+			}
+		});
+	</script>
+{% endif %}
+{% endmacro %}
