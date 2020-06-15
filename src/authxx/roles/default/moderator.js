@@ -36,5 +36,8 @@ module.exports = function( helpers, role ) {
 		'user:delete'			 : true,
 		'newslettersignup:list'     : true,
 		'newslettersignup:view'	 	  : true,
+		'area:list'				: true,
+		'area:create'			: true,
+		'site:edit' 			: false,
 	});
 };

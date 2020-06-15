@@ -1,9 +1,13 @@
-const Promise = require('bluebird');
-const express = require('express');
-const db = require('../../db');
-const auth = require('../../middleware/sequelize-authorization-middleware');
-const pagination = require('../../middleware/pagination');
+const Promise 			= require('bluebird');
+const express 			= require('express');
+const db      			= require('../../db');
+const auth    			= require('../../auth');
+const auth 					= require('../../middleware/sequelize-authorization-middleware');
+const pagination 		= require('../../middleware/pagination');
+
 const searchResults = require('../../middleware/search-results');
+const oauthClients 	= require('../../middleware/oauth-clients');
+const config 				= require('config');
 
 let router = express.Router({mergeParams: true});
 
@@ -84,6 +88,8 @@ router.route('/:siteIdOrDomain') //(\\d+)
 // update site
 // -----------
 	.put(auth.useReqUser)
+	.delete(auth.can('Site', 'update'))
+	.put(oauthClients.withAllForSite)
 	.put(function(req, res, next) {
 		var site = req.results;
     if (!( site && site.can && site.can('update') )) return next( new Error('You cannot update this site') );
@@ -91,11 +97,57 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			.authorizeData(req.body, 'update')
 			.update(req.body)
 			.then(result => {
-				res.json(result);
+				next();
 			})
-			.catch(next);
+			.catch((e) => {
+				 console.log('eee',e);
+				next();
+			});
 	})
+	// update certain parts of config to the oauth client
+	// mainly styling settings are synched so in line with the CMS
+	.put(function (req, res, next) {
+		const authServerUrl = config.authorization['auth-server-url'];
+		const updates = [];
 
+		req.siteOAuthClients.forEach((oauthClient, i) => {
+			 const authUpdateUrl = authServerUrl + '/api/admin/client/' + oauthClient.id;
+			 const configKeysToSync = ['styling', 'ideas'];
+
+			 oauthClient.config = oauthClient.config ? oauthClient.config : {};
+
+			 configKeysToSync.forEach(field => {
+				 oauthClient.config[field] = req.site.config[field];
+			 });
+
+			 const apiCredentials = {
+				 client_id: oauthClient.clientId,
+				 client_secret: oauthClient.clientSecret,
+			 }
+
+			 const options = {
+				 method: 'post',
+				 headers: {
+					 'Content-Type': 'application/json',
+				 },
+				 mode: 'cors',
+				 body: JSON.stringify(Object.assign(apiCredentials, oauthClient))
+			 }
+
+
+			 updates.push(fetch(authUpdateUrl, options));
+		});
+
+		Promise.all(updates)
+			.then(() => {
+				// when succesfull return site JSON
+				res.json(req.site);
+			})
+			.catch((e) => {
+				console.log('errr', e);
+				next(e)
+			});
+	})
 // delete site
 // ---------
 	.delete(auth.can('Site', 'delete'))
