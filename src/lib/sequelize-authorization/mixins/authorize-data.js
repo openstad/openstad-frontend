@@ -5,7 +5,7 @@ module.exports = function authorizeData(data, action, user) {
   let self = this;
 
   try {
-    
+
     if (!self.rawAttributes) throw 'empty';
     if (!user) user = self.auth && self.auth.user;
     if (!user || !user.role) user = { role: 'all' };
@@ -26,14 +26,17 @@ module.exports = function authorizeData(data, action, user) {
           testRole = self.rawAttributes[key].auth[action+'ableBy'];
         }
       }
-      testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
-      if ( !hasRole(user, testRole, self.userId)) {
+
+      testRole = testRole || (self.auth && self.auth[action+'ableBy']);
+
+      if (!hasRole(user, testRole, self.userId)) {
         data[key] = undefined;
       }
 
     });
 
   } catch (err) {
+    console.log('err', err)
     emptyResult();
   } finally {
     return self;
@@ -43,8 +46,5 @@ module.exports = function authorizeData(data, action, user) {
     Object.keys( data ).forEach((key) => {
       data[key] = undefined;
     });
-    
   }
-
 }
-

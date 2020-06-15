@@ -7,7 +7,7 @@ const generateToken = require('../../util/generate-token');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
 
 // scopes: for all get requests
 router

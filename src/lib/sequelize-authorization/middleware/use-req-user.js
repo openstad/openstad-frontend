@@ -12,7 +12,7 @@ const db     = require('../../../db'); // TODO: dit moet dus anders
 module.exports = function useReqUser( req, res, next ) {
 
   let results = req.results;
-  
+
   if (Array.isArray(req.results)) {
     req.results.forEach( result => {
       result.auth = result.auth || {};

@@ -5,7 +5,7 @@ const auth= require('../../middleware/sequelize-authorization-middleware');
 
 // TODO: deze is nog niet verbouwd naar het nieuwe auth model, met name de json opbouw niet
 
-let router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
 
 // scopes: for all get requests
 router

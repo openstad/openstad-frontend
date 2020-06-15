@@ -23,7 +23,7 @@ module.exports = function hasRole(user, minRoles, ownerId) {
     return x;
   });
 
-  if ( minRoles.includes('owner') && ownerId ) {
+  if (minRoles.includes('owner') && ownerId) {
     valid = valid || ( user.id == ownerId );
   }
 

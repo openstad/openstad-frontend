@@ -4,7 +4,7 @@ const db      = require('../../db');
 const auth    = require('../../middleware/sequelize-authorization-middleware');
 const config  = require('config');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -42,8 +42,8 @@ router.route('/idea-marker')
 router.route('/idea-marker/:ideaId(\\d+)')
 
 	.all(function(req, res, next) {
-		var ideaId = parseInt(req.params.ideaId) || 1;
-		
+		const ideaId = parseInt(req.params.ideaId) || 1;
+
 		db.Idea
 			.scope(...req.scope)
 			.findOne({
@@ -76,9 +76,9 @@ router.route('/polygon')
 		// use from site config
 		let polygon = req.site && req.site.config.openStadMap && req.site.config.openStadMap.polygon;
 
-		// fallback to generic config 
+		// fallback to generic config
 		polygon = polygon || ( config.openStadMap && config.openStadMap.polygons && ( ( config.openStadMap.usePolygon && config.openStadMap.polygons[config.openStadMap.usePolygon] ) || ( config.siteId && config.openStadMap.polygons[config.siteId] ) ) );
-		
+
 		res.json(polygon || null);
 
 	})

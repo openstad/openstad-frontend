@@ -11,7 +11,7 @@ const {Op} = require('sequelize');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 const userhasModeratorRights = (user) => {
 	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');

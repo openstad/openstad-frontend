@@ -1,10 +1,8 @@
 const Promise 			= require('bluebird');
 const express 			= require('express');
 const db      			= require('../../db');
-const auth    			= require('../../auth');
 const auth 					= require('../../middleware/sequelize-authorization-middleware');
 const pagination 		= require('../../middleware/pagination');
-
 const searchResults = require('../../middleware/search-results');
 const oauthClients 	= require('../../middleware/oauth-clients');
 const config 				= require('config');
@@ -88,10 +86,9 @@ router.route('/:siteIdOrDomain') //(\\d+)
 // update site
 // -----------
 	.put(auth.useReqUser)
-	.delete(auth.can('Site', 'update'))
 	.put(oauthClients.withAllForSite)
 	.put(function(req, res, next) {
-		var site = req.results;
+		const site = req.results;
     if (!( site && site.can && site.can('update') )) return next( new Error('You cannot update this site') );
 		req.results
 			.authorizeData(req.body, 'update')

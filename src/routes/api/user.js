@@ -9,7 +9,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 /*
@@ -65,7 +65,7 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 
-		let data = {
+		const data = {
       ...req.body,
 		}
 
@@ -120,12 +120,13 @@ router.route('/:userId(\\d+)')
 	.put(auth.useReqUser)
 	.put(function(req, res, next) {
 
-    let user = req.results;
+    const user = req.results;
     if (!( user && user.can && user.can('update') )) return next( new Error('You cannot update this User') );
 
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
     let data = {}
-	  let keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
+
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
 	  keys.forEach((key) => {
 		  if (req.body[key]) {
 			  data[key] = req.body[key];

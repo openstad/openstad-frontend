@@ -2,10 +2,10 @@ var config         = require('config')
 , log            = require('debug')('app:user')
 , pick           = require('lodash/pick');
 
-var Password       = require('../lib/password');
-var sanitize       = require('../util/sanitize');
-
-const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const Password      = require('../lib/password');
+const sanitize      = require('../util/sanitize');
+const userHasRole 	= require('../lib/sequelize-authorization/lib/hasRole');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -16,7 +16,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.INTEGER,
 			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
 		},
-		
+
     externalUserId: {
       type         : DataTypes.INTEGER,
       auth: {
@@ -73,6 +73,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			defaultValue : false
 		},
+
+		extraData: getExtraDataConfig(DataTypes.JSON, 'users'),
 
 		email: {
 			type         : DataTypes.STRING(255),
@@ -415,6 +417,6 @@ module.exports = function( db, sequelize, DataTypes ) {
     updateableBy: ['editor','owner'],
     deleteableBy: ['editor','owner'],
   }
-  
+
 	return User;
 };

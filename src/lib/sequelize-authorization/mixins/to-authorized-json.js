@@ -51,7 +51,6 @@ module.exports = function toAuthorizedJSON(user) {
       });
 
       return aresult.length ? aresult : undefined;
-
     }
 
     let testRole;
@@ -70,4 +69,3 @@ module.exports = function toAuthorizedJSON(user) {
   }
 
 }
-

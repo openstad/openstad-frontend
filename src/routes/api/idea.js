@@ -1,15 +1,15 @@
-const Sequelize = require('sequelize');
-const express = require('express');
-const moment			= require('moment');
-const createError = require('http-errors')
-const config = require('config');
-const db = require('../../db');
-const auth = require('../../middleware/sequelize-authorization-middleware');
-const mail = require('../../lib/mail');
-const pagination = require('../../middleware/pagination');
+const Sequelize 		= require('sequelize');
+const express 			= require('express');
+const moment				= require('moment');
+const createError 	= require('http-errors')
+const config 				= require('config');
+const db 						= require('../../db');
+const auth 					= require('../../middleware/sequelize-authorization-middleware');
+const mail 					= require('../../lib/mail');
+const pagination 		= require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -104,9 +104,6 @@ router.route('/')
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
-    console.log({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit });
-    console.log(req.scope);
-
 		db.Idea
 			.scope(...req.scope)
 			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
@@ -136,7 +133,7 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 
-		let data = {
+		const data = {
       ...req.body,
 			siteId      : req.params.siteId,
 			userId      : req.user.id,
@@ -225,11 +222,15 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
+
 				req.idea = found;
 		    req.results = req.idea;
 				next();
 			})
-			.catch(next);
+			.catch((err) => {
+				console.log('errr', err)
+				next(err);
+			});
 	})
 
 // view idea
@@ -255,7 +256,7 @@ router.route('/:ideaId(\\d+)')
 		let data = {
       ...req.body,
 		}
-    
+
     // TODO: dit moet ook nog ergens in auth
     if (auth.hasRole(req.user, 'editor')) {
       if (data.modBreak) {
@@ -267,7 +268,7 @@ router.route('/:ideaId(\\d+)')
 				data.modBreakDate = null;
       }
     }
-    
+
 		idea
 			.authorizeData(data, 'update')
 			.update(data)

@@ -9,7 +9,7 @@ const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -203,7 +203,7 @@ router.route('/:articleId(\\d+)')
 		let data = {
       ...req.body,
 		}
-    
+
     // TODO: dit moet ook nog ergens in auth
     if (auth.hasRole(req.user, 'editor')) {
       if (data.modBreak) {
@@ -215,7 +215,7 @@ router.route('/:articleId(\\d+)')
 				data.modBreakDate = null;
       }
     }
-    
+
 		article
 			.authorizeData(data, 'update')
 			.update(data)

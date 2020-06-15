@@ -1,5 +1,6 @@
-const config = require('config');
-const merge = require('merge');
+const config                = require('config');
+const merge                 = require('merge');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 module.exports = function( db, sequelize, DataTypes ) {
   let ChoicesGuideResult = sequelize.define('choicesGuideResult', {
@@ -14,32 +15,7 @@ module.exports = function( db, sequelize, DataTypes ) {
       allowNull: true,
     },
 
-    extraData: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: '{}',
-      get: function () {
-        let value = this.getDataValue('extraData');
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {
-        }
-        return value;
-      },
-      set: function (value) {
-
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {
-        }
-
-        this.setDataValue('extraData', JSON.stringify(value));
-      }
-    },
+    extraData: getExtraDataConfig(DataTypes.JSON, 'choicesGuideResult'),
 
     userFingerprint: {
       type: DataTypes.TEXT,

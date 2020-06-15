@@ -11,6 +11,7 @@ router.route('/')
 // list tags
 // --------------
 	.get(auth.can('Tag', 'list'))
+	.get(auth.useReqUser)
 	.get(pagination.init)
 	.get(function(req, res, next) {
 		req.scope = ['defaultScope'];
@@ -36,11 +37,11 @@ router.route('/')
 // ---------------
   .post(auth.can('Tag', 'create'))
 	.post(function(req, res, next) {
-		let data = {
+		const data = {
 			name   : req.body.name,
 			siteId : req.params.siteId,
 		};
-    
+
 		db.Tag
 			.authorizeData(data, 'create', req.user)
 			.create(data)
@@ -53,8 +54,9 @@ router.route('/')
 	// with one existing tag
 	// --------------------------
 	router.route('/:tagId(\\d+)')
+		.all(auth.useReqUser)
 		.all(function(req, res, next) {
-			var tagId = parseInt(req.params.tagId);
+			const tagId = parseInt(req.params.tagId);
       if (!tagId) next('No tag id found');
 
 			req.scope = ['defaultScope'];
@@ -83,7 +85,7 @@ router.route('/')
 // ---------------
 	.put(auth.useReqUser)
 	.put(function(req, res, next) {
-		var tag = req.results;
+		const tag = req.results;
     if (!( tag && tag.can && tag.can('update') )) return next( new Error('You cannot update this tag') );
 		tag
 			.authorizeData(req.body, 'update')

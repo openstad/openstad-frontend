@@ -4,7 +4,7 @@ const auth        = require('../../middleware/sequelize-authorization-middleware
 const pagination  = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = require('express-promise-router')({mergeParams: true});
+const router = require('express-promise-router')({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -139,7 +139,7 @@ router.route('/')
 			userId      : req.user.id,
 		}
 
-    
+
 		db.Argument
 			.authorizeData(data, 'create', req.user)
 			.create(data)

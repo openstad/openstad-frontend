@@ -1,5 +1,5 @@
-const db          = require('../../db');
-const auth        = require('../../auth');
+const db              = require('../../db');
+const auth 				   = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 
