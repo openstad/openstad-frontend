@@ -63,6 +63,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 		}
 
 		db.Site
+			.scope('withArea')
 			.findOne(query)
 			.then(found => {
 				if ( !found ) throw new Error('Site not found');
