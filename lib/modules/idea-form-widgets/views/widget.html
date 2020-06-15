@@ -12,7 +12,7 @@
 {% elseif (not idea) and data.openstadUser and data.openstadUser.id %}
 {% set showForm = true %}
 {% else %}
-{% set showForm = false %}
+{% set showForm = true %}
 {% endif %}
 
 {% if data.widget.editorDescription %}
@@ -99,7 +99,7 @@
 </script>
 
 <script src="/js/vendor/trix.js"></script>
-<script src="/js/vendor/browser-polyfill.min.js"></script>
+<!--<script src="/js/vendor/browser-polyfill.min.js"></script>-->
 <script src="/js/vendor/filepond-polyfill.min.js"></script>
 <script src="/js/vendor/filepond.js"></script>
 

@@ -1,7 +1,7 @@
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
-
+{% block locale %}{{ data.global.locale }}{% endblock %}
 {% block title %}
 {# Create a useful, SEO-friendly title tag based on what we have #}
 {% if data.piece %}
@@ -136,9 +136,11 @@
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 
 <header>
+  <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
+        <a href="{{logoLink}}/" class="logo-container" tabindex="-1">
           {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
@@ -176,7 +178,7 @@
                     {{ __('Uitloggen') }}
                   </a>
                   {% else %}
-                  <a href="/oauth/login" class="link-caret--black">
+                  <a href="/oauth/login" class="link-caret--black"">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                     {{ __('Inloggen') }}
                   </a>
@@ -244,13 +246,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button" >
+            <a href="/oauth/logout" class="logout-button" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
               <img src="/img/avatar.svg" />
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login">
+            <a href="/oauth/login"  role="button">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
@@ -260,7 +262,7 @@
       </div>
       {% endif %}
       <div class="navbar-menu toggle-menu">
-        <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light ">
+        <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light " role="menubar">
           <ul class="nav navbar-left">
             {% if data.global.arrangeMainMenu and data.global.arrangeMainMenu == 'manually' %}
 
@@ -278,6 +280,7 @@
               "
               href="{{ item.mainMenuUrl }}"
               {% if item.mainMenuTarget %} target="_blank" {% endif %}
+              role="menuitem"
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -286,11 +289,11 @@
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}">{{ data.home.title }}</a>
+              <a href="{{ data.home._url }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
                 {{ tab.title }}
               </a>
             </li>
@@ -333,23 +336,22 @@
 
         	<nav id="subMenu" class="" role="navigation">
         		<div>
+              {% if data.global.ctaButtonText %}
+              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button" role="button">{{data.global.ctaButtonText}}</a>
+              {% endif %}
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
-      				<a href="/oauth/logout" class="account logout-button">
+      				<a href="/oauth/logout" class="account logout-button" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                 {{ __('Uitloggen') }}
               </a>
         			{% else %}
-      				<a href="/oauth/login" class="account">
+      				<a href="/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 <img src="/img/avatar.svg" />
                 {{ __('Mijn account') }}
               </a>
         			{% endif %}
-              {% endif %}
-
-              {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl}}" class="menu-cta-button">{{data.global.ctaButtonText}}</a>
               {% endif %}
         		</div>
         	</nav>

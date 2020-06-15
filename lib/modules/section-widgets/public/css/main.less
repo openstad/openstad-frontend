@@ -51,16 +51,32 @@
   }
 }
 
+.howDoesItWork {
+  .howDoesItWorkButton {
+    &:focus {
+      outline: 5px auto -webkit-focus-ring-color!important;
+    }
+  }
+}
+
 .section {
 
   .howDoesItWorkButton {
-    outline: 0;
     background: #dfdfdf;
     color: black;
     padding: 15px 20px;
     text-align: center;
     display: block;
+
+    &:focus {
+      outline: 5px auto -webkit-focus-ring-color!important;
+    }
   }
+
+  &:focus {
+    outline: 5px auto -webkit-focus-ring-color!important;
+  }
+
 
   &.mobileonly {
     .howDoesItWorkButton {

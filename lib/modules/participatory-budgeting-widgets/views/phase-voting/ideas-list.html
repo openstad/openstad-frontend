@@ -17,6 +17,10 @@ data-default-sort="{{data.widget.defaultSorting}}"
 	data-budget="{{idea.budget}}"
   data-ideaid="{{idea.id}}"
 	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 10000}}"
+	role="article"
+	tabindex="0"
+	title="{{idea.title}}"
+	onkeydown="handleKeyDown(event);"
 	>
 		<div class="idea-image-mask">
 			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
@@ -38,7 +42,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				<h3 class="title">{{idea.title}}</h3>
 				{% if idea.extraData %}
 				<div class="thema-en-gebied underscription">
-					{% if idea.extraData.theme %}<span class="thema theme-{{idea.id}}">{{idea.extraData.theme}}</span>{% endif %}{% if idea.extraData.theme and idea.extraData.area %} | {% endif %}{% if idea.extraData.area %}<span class="gebied area-{{idea.id}}">{{idea.extraData.area}}</span>{% endif %}
+					{% if idea.extraData.theme %}<span class="thema theme-{{idea.id}}"><span class="sr-only">{{ __('Thema:') }}</span>{{idea.extraData.theme}}</span>{% endif %}{% if idea.extraData.theme and idea.extraData.area %} | {% endif %}{% if idea.extraData.area %}<span class="gebied area-{{idea.id}}"><span class="sr-only">{{ __('Gebied:') }}</span>{{idea.extraData.area}}</span>{% endif %}
 				</div>
 				{% endif %}
 			</div>
@@ -52,11 +56,12 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				{% endif %}
 				<div class="col-xs-6">
 					{% if data.widget.voting %}
-					<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" ></div>
+					<button  class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
 					{% endif %}
 
 					{% if data.widget.showVoteCount %}
 					<div class="btn--blue noOfVotes stretch ">
+						<span class="sr-only">{{ __('Stemmen voor:') }}</span>
 						{% if idea.extraData.voteCount %}
 						{{idea.extraData.voteCount}}
 						{% else %}
@@ -67,7 +72,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					{% endif %}
 				</div>
 			</div>
-			<div class="budget-value">{{idea.budget}}</div>{# used by sort #}
+			<div class="budget-value"><span class="sr-only">{{ __('Kosten:') }}</span>{{idea.budget}}</div>{# used by sort #}
 			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 0}}</div>
 		</div>
 
@@ -113,15 +118,15 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<table class="table-center">
 							<tr>
 								<td>
-									<b class="text"> Deel dit: </b>
+									<b class="text" tabindex="0"> Deel dit: </b>
 								</td>
 								<td>
 									<ul class="share">
 										{% set ideaUrl = data.currentUrl + '?ideaId=' + idea.id %}
-										<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}">Facebook</a></li>
-										<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}?ideaId={{idea.id}}">Twitter</a></li>
-										<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}">Email</a></li>
-										<li><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{ideaUrl | urlencode}}&source=&data=">WhatsApp</a></li>
+										<li><a class="facebook" title="Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Facebook</a></li>
+										<li><a class="twitter" title="Twitter" target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Twitter</a></li>
+										<li><a class="email" title="Email" target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}" tabindex="0">Email</a></li>
+										<li><a class="whatsapp" title="Whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{ideaUrl | urlencode}}&source=&data=" tabindex="0">WhatsApp</a></li>
 									</ul>
 								</td>
 							</tr>
@@ -156,7 +161,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<div class="budget budget-{{idea.id}}">{{idea.budget}}</div>
 						{% endif %}
 						{% if data.widget.voting %}
-						<div class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})"></div>
+						<button class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
 						{% endif %}
 					</div>
 				</div>
