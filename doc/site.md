@@ -25,6 +25,8 @@ Uiteindelijk zal de API alleen config vars opslaan die zijn gedefineerd. Voor nu
 
 De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu zo uit (maar dat is volgende week vast weer anders):
 
+
+
 ```
 {
   "config": {
@@ -57,6 +59,24 @@ De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu
         "dbName": {
           "type": "string",
           "default": "domainname-id"
+        },
+        "widgetDisplaySettings": {
+          "type": "object",
+          "subset": {
+              "beta": {
+                "type": "boolean",
+                "default": false
+              },
+              "deprecated": {
+                "type": "boolean",
+                "default": false
+              },
+              "visibleWidgets": {
+                "type": "arrayOfStrings",
+                "default": []
+              }
+            }
+          }
         },
         "url": {
           "type": "string",
@@ -278,6 +298,8 @@ De gedefinieerde config wordt nog wel gebruikt voor defaults etc. Die ziet er nu
   }
 }
 ```
+
+
 
 #### TODO
 - config.votes.userRole doet nog niets. Je moet nu member zijn om te mogen stemmen. Dat zal ook anomniem moeten kunnen, waarbij hij dan automatisch een gebruiker aanmaakt (ook in mijnopenstad). Aanpassen rolePlay daarop.

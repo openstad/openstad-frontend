@@ -15,7 +15,7 @@ module.exports = function( db, sequelize, DataTypes ) {
     },
 
     extraData: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: false,
       defaultValue: '{}',
       get: function () {
