@@ -103,9 +103,11 @@ function serveSites (req, res, next) {
 
     rp(siteOptions)
       .then((siteConfig) => {
+        console.info('Caching config for site: %s -> %j:', thisHost, siteConfig);
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
+          console.error('An error occurred fetching the site config:', e);
           res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
       });
   }
@@ -157,6 +159,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       }
     })
   .catch((e) => {
+      console.error('An error occurred checking if the DB exists:', e);
     res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
   });
 }
