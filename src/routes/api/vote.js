@@ -203,8 +203,29 @@ router.route('/*')
 				checked: null,
 			}
 		});
-		req.votes = votes;
 
+    // merge
+    if (req.site.config.votes.withExisting == 'merge') {
+		  votes = votes
+        .concat(
+          req.existingVotes
+            .filter( newVote => !votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )
+            .map( oldVote => {
+              return {
+				        ideaId: parseInt(oldVote.ideaId, 10),
+				        opinion: typeof oldVote.opinion == 'string' ? oldVote.opinion : null,
+				        userId: req.user.id,
+				        confirmed: false,
+				        confirmReplacesVoteId: null,
+				        ip: req.ip,
+				        checked: null,
+              }
+              return oldVote
+            })
+        );
+    }
+
+		req.votes = votes;
 		return next();
 	})
 

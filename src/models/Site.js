@@ -314,7 +314,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					withExisting: {
 						type: 'enum',
-						values: ['error', 'replace'],
+						values: ['error', 'replace', 'merge'],
 						default: 'error',
 					},
 
