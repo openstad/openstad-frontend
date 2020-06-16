@@ -127,14 +127,14 @@ exports.fields = [
     name: 'buttonColor',
     label: 'Background color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget', '.no-of-locations-content', '#title .secondary .controls .vote button' ],
     property: ['background-color', 'border-color'],
   },
   {
     name: 'buttonFontColor',
     label: 'Font color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',  '.no-of-locations-content', '#title .secondary .controls .vote button' ],
     property: 'color',
   },
 
@@ -142,14 +142,14 @@ exports.fields = [
     name: 'buttonHoverBgColor',
     label: 'Background color of button - hover',
     type: 'color',
-    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover',  '#title .secondary .controls .vote button:hover' ],
     property: ['background-color', 'border-color'],
   },
   {
     name: 'buttonHoverFontBgColor',
     label: 'Font color of button - hover',
     type: 'color',
-    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover' ],
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover',  '#title .secondary .controls .vote button:hover'  ],
     property: 'color',
   },
   {
