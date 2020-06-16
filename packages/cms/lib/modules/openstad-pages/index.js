@@ -30,11 +30,14 @@ module.exports = {
        */
       self.apos.adminBar.add('openstad-clear-cache', 'Clear Cache')
 
-
       /**
        * Add script that handles the clear cache options
        */
-      self.pushAsset('script', 'clear-cache', { when: 'always' });
+      var superPushAssets = self.pushAssets;
+      self.pushAssets = () => {
+        superPushAssets();
+        self.pushAsset('script', 'clear-cache', { when: 'always' });
+      };
 
       // set return options to the data object, it's a bit shorter then these long getOption function calls
       self.apos.app.use((req, res, next) => {
