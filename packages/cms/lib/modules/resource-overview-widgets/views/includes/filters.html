@@ -1,0 +1,30 @@
+<form
+  action=""
+  method="GET"
+  class="
+    ajax-refresh-prevent-submit
+    {{'resource-filters-with-search'  if data.widget.displaySearch}}
+    {{'resource-filters-with-tags'    if data.widget.displayTagFilters}}
+    {{'resource-filters-with-theme'   if data.widget.displayThemeFilter}}
+    {{'resource-filters-with-sorting' if data.widget.displaySorting}}
+    {{'resource-filters-with-area'    if data.widget.displayAreaFilter}}
+  "
+>
+  <div class="resource-filter-row">
+    {% include 'includes/controls/search.html' %}
+    {% include 'includes/controls/area.html' %}
+    {% include 'includes/controls/theme.html' %}
+  </div>
+  <div>
+    {% include 'includes/controls/tags.html' %}
+  </div>
+  <div class="resource-filter-row">
+    {% include 'includes/controls/sort.html' %}
+    {% if data.query.oTags or data.query.theme or data.query.area or data.query.search  %}
+    <a href="{{data.currentPathname}}" class="resource-filter-erase openstad-ajax-refresh-link">
+      <img src="/modules/openstad-assets/img/eye.svg" width="23" height="16" />
+      Laat alles zien
+    </a>
+    {% endif %}
+  </div>
+</form>

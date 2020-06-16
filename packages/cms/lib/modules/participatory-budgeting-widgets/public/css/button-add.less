@@ -1,0 +1,82 @@
+
+.begroot-container .button-add-idea-to-budget {
+	position: relative;
+	max-width: 155px;
+  min-width: 115px;
+  text-align: center;
+  -webkit-transition: all 400ms;
+  transition: all 400ms;
+  font-size: 18px;
+	padding: 11px 0;
+  padding-left: 38px;
+  width: 100%;
+	border: 2px solid #004699;
+
+	&:hover {
+		background: #004699;
+	}
+
+	&:before {
+		content: " ";
+		background-image: url('../modules/openstad-assets/img/plus-icon.svg');
+		width: 18px;
+		height: 18px;
+		background-size: 100%;
+		position: absolute;
+    top: 13px;
+    left: 15px;
+	}
+
+	&:after {
+		content: "Voeg toe";
+	}
+
+	&.added {
+		background: white;
+    border: none;
+		border: 2px #004699 solid;
+    color: #004699;
+    padding-left: 0;
+    text-align: center;
+    padding-right: 0;
+
+		&:after {
+			content: "Toegevoegd";
+		}
+
+		&:hover {
+			outline: 0;
+			color: #434343;
+			background: white;
+			padding-left: 30px;
+
+			&:before {
+				background-image: url('../modules/openstad-assets/img/kruis.svg');
+				left: 18px;
+			}
+
+			&:after {
+				background-image: url('../modules/openstad-assets/img/checkmark.svg');
+				content: "Verwijder";
+			}
+		}
+
+		&:before {
+			background-image: url('../modules/openstad-assets/img/checkmark.svg');
+		}
+	}
+
+	&.unavailable {
+		opacity: .5;
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
+		&:before {
+			background-image: none;
+		}
+		&:after {
+			content: "Geen budget";
+		}
+	}
+
+}
