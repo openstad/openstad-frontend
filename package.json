@@ -1,6 +1,6 @@
 {
   "name": "openstad-frontend",
-  "version": "1.0.0",
+  "version": "0.0.7",
   "description": "Openstad frontent project including openstad frontend packages\"",
   "main": "index.js",
   "scripts": {
