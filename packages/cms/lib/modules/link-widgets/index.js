@@ -84,6 +84,24 @@ module.exports = {
     styleSchema.definition('containerStyles', 'CSS for the button')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['label', 'url']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['icon', 'style', 'containerStyles']
+      },
+      {
+        name: 'advancedGroup',
+        label: 'Advanced',
+        fields: ['targetBlank', 'classNameCustom', 'addTelephoneProtocol']
+      }
+    ]);
+    
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

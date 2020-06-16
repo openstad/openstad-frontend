@@ -8,36 +8,40 @@ module.exports = {
       name: 'label',
       type: 'string',
       label: 'Label',
-      required: true
+      required: true,
+      help: 'The label shown next to the counter number.',
+      def: 'plannen'
     },
     {
       name: 'url',
       type: 'string',
       label: 'Url',
+      help: 'URL to visit when the counter is clicked (optional).',
       required: false
     },
     {
       name: 'counterType',
       type: 'select',
-      label: 'Select dynamic counter',
+      label: 'Select counter type',
+      help: `The idea counter dynamically shows the number of uploaded ideas. The number for the static counter can be set by hand.`,
       choices: [
         {
-          label: 'Idea count',
+          label: 'Amount of submitted ideas',
           value: 'ideasCount',
         },
         {
-          label: 'Vote count',
+          label: 'Amount of votes',
           value: 'voteCount',
 					showFields: [
 						'voteOpinion'
 					]
         },
         {
-          label: 'Voted user count',
+          label: 'Amount of users that have voted',
           value: 'votedUserCount',
         },
         {
-          label: 'Static count',
+          label: 'Static counter',
           value: 'staticCount',
 					showFields: [
 						'staticCount'
@@ -53,24 +57,24 @@ module.exports = {
     {
       name: 'staticCount',
       type: 'string',
-      label: 'Static count',
+      label: 'Static counter number',
       required: false
     },
     {
       name: 'voteOpinion',
       type: 'select',
-      label: 'opinion',
+      label: 'Which votes to count?',
       choices: [
         {
-          label: 'Alles',
+          label: 'All votes',
           value: '',
         },
         {
-          label: 'Ja/Voor',
+          label: 'Only likes / in favor / positive votes',
           value: 'yes',
         },
         {
-          label: 'Nee/tegen',
+          label: 'Only dislikes / against / negative votes',
           value: 'no',
         },
       ],
@@ -79,6 +83,18 @@ module.exports = {
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'general',
+        label: 'General',
+        fields: ['label', 'url', 'counterType', 'staticCount', 'voteOpinion']
+      },
+      {
+        name: 'stylinggroup',
+        label: 'Styling',
+        fields: ['containerStyles']
+      }
+    ]);
 
     self.getCount = function(widget) {
       let count;

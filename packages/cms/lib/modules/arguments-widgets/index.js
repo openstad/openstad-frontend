@@ -17,13 +17,16 @@ module.exports = {
     {
       name: 'emptyPlaceholder',
       type: 'string',
-      label: 'Text for no results',
-      required: true
+      label: 'Placeholder text',
+      help: `Will be shown when there are no arguments.`,
+      required: true,
+      def: 'Nog geen reacties geplaatst'
     },
     {
       name: 'replyingEnabled',
       type: 'boolean',
       label: 'Is replying to arguments allowed?',
+      def: true,
       choices: [
           {
               value: true,
@@ -39,6 +42,7 @@ module.exports = {
       name: 'votingEnabled',
       type: 'boolean',
       label: 'Is voting for arguments allowed?',
+      def: true,
       choices: [
           {
               value: true,
@@ -53,16 +57,23 @@ module.exports = {
     {
       name: 'argumentSentiment',
       type: 'select',
+      def: '',
+      help: `Select the sentiment when the 'in favor' and 'against' arguments are separately listed. Otherwise, choose 'No sentiment'.`,
       choices: [
         {
           label: 'Voor',
+          label: 'No sentiment',
+          value: ''
+        },
+        {
+          label: 'In favor',
           value: 'for',
         },
         {
           label: 'Tegen',
+          label: 'Against',
           value: 'against',
         },
-      ]
     },
     {
       name: 'showLastNameForArguments',
@@ -106,6 +117,20 @@ module.exports = {
     },
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'general',
+        label: 'General',
+        fields: ['argumentSentiment', 'emptyPlaceholder']
+      },
+      {
+        name: 'advanced',
+        label: 'Advanced',
+        fields: ['replyingEnabled', 'votingEnabled', 'showLastNameForArguments', 'showLastNameForReactions']
+      }
+    ]);
+
+    
      const superPushAssets = self.pushAssets;
      //const auth = "Basic " + new Buffer("xxx:xxx#").toString("base64");
 

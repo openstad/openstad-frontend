@@ -76,6 +76,19 @@ module.exports = {
     },
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'ctaButon',
+        label: 'Call-To-Action button',
+        fields: ['displayCtaButton', 'ctaUrl', 'ctaText']
+      },
+      {
+        name: 'counter',
+        label: 'Counter',
+        fields: ['displayCounter', 'counterText']
+      }
+    ]);
+    
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
       superPushAssets();

@@ -5,48 +5,55 @@
 module.exports = {
   extend: 'apostrophe-widgets',
   alias: 'cookieWarning',
-  label: 'Cookie warning',
+  label: 'Cookies preference',
   addFields: [
       {
           name: 'statusText',
           type: 'string',
-          label: 'Status text',
-          help: 'E.g. Uw voorkeur:'
+          label: 'Current status label:',
+          def: 'Uw geselecteerde voorkeur:'
       },
       {
           name: 'statusAllowText',
           type: 'string',
-          label: 'Status text when cookies are allowed',
-          help: 'E.g. Cookies toegestaan.'
+          label: 'Status description when cookies are allowed',
+          def: 'Cookies toegestaan'
       },
       {
           name: 'statusDenyText',
           type: 'string',
-          label: 'Status text when cookies are denied',
-          help: 'E.g. Cookies geweigerd.'
+          label: 'Status description when cookies are denied',
+          def: 'Cookies geweigerd'
       },
       {
           name: 'description',
           type: 'string',
           label: 'Description',
           textarea: true,
-          help: 'E.g. Pas hier uw voorkeur aan:'
+          def: 'Pas hier uw voorkeur aan:'
       },
       {
           name: 'buttonAllowText',
           type: 'string',
-          label: 'Button allow text',
-          help: 'E.g. Cookies van derden toestaan'
+          label: `Text for the 'Allow cookies'-button`,
+          def: 'Cookies van derden toestaan'
       },
       {
           name: 'buttonDenyText',
           type: 'string',
-          label: 'Button allow text',
-          help: 'E.g. Cookies van derden weigeren'
+          label: `Text for the 'Deny cookies'-button`,
+          def: 'Cookies van derden weigeren'
       },
 
   ],
   construct: function (self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['statusText', 'statusAllowText', 'statusDenyText', 'description', 'buttonAllowText', 'buttonDenyText']
+      }
+    ])
 
     const superPushAssets = self.pushAssets;
     self.pushAssets = function() {
@@ -73,7 +80,7 @@ module.exports = {
           widget.statusDenyText = widget.statusDenyText || 'Cookies geweigerd.';
           widget.description = widget.description || 'Pas hier uw voorkeur aan:';
           widget.buttonAllowText = widget.buttonAllowText || 'Cookies van derden toestaan';
-          widget.buttonDenyText = widget.buttonAllowText || 'Cookies van derden weigeren';
+          widget.buttonDenyText = widget.buttonDenyText || 'Cookies van derden weigeren';
       });
 
         superLoad(req, widgets, next);

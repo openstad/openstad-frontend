@@ -29,6 +29,7 @@ module.exports = {
       name: 'displayType',
       label: 'Columns',
       type: 'select',
+      help: 'Select the number of columns and their relative width',
       required: true,
       choices: [
         {
@@ -142,7 +143,8 @@ module.exports = {
       type: 'boolean',
       name: 'sectionToggle',
       default: true,
-      label: 'Show section as toggle section',
+      label: 'Show section as toggle-section',
+      help: 'The visibility of a toggle-section can be switched on and off by the user.',
       choices: [
         {
           value: true,
@@ -160,7 +162,8 @@ module.exports = {
     {
       name: 'toggleTitle',
       type: 'string',
-      label: 'Toggle title',
+      label: 'Title of the toggle-section',
+      help: `The title will always be visible. By clicking on the title the section's visibility toggles.`,
     },
     {
       name: 'typeArrow',
@@ -183,7 +186,7 @@ module.exports = {
       type: 'boolean',
       name: 'sectionOpen',
       default: true,
-      label: 'Section open by default?',
+      label: 'Toggle-section open by default?',
       choices: [
         {
           value: true,
@@ -199,7 +202,7 @@ module.exports = {
       type: 'boolean',
       name: 'mobileToggle',
       default: true,
-      label: 'Show toggle only on mobile',
+      label: 'Show toggle-section on mobile only',
       choices: [
         {
           value: true,
@@ -215,6 +218,29 @@ module.exports = {
 
 
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'basic',
+        label: 'Basic',
+        fields: ['displayType']
+      },
+      {
+        name: 'sectionToggleTab',
+        label: 'Toggle-section',
+        fields: ['sectionToggle', 'toggleTitle', 'sectionOpen', 'mobileToggle']
+      },
+      {
+        name: 'styling',
+        label: 'Styling',
+        fields: ['backgroundColor', 'backgroundImage', 'containerStyles']
+      },
+      {
+        name: 'advanced',
+        label: 'Advanced',
+        fields: ['containerId', 'marginType', 'htmlId', 'htmlClass']
+      }
+    ]);
+
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
       superPushAssets();

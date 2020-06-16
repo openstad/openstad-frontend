@@ -84,10 +84,23 @@ module.exports = {
       type: 'color',
       label: 'Background color',
     },
- 
+
     styleSchema.definition('containerStyles', 'Styles for the speech bubble')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General styling',
+        fields: ['borderColor', 'backgroundColor']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Advanced styling',
+        fields:['containerStyles']
+      }
+    ]);
+
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

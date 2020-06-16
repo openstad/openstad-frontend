@@ -118,6 +118,19 @@ module.exports = {
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+       {
+         name: 'generalGroup',
+         label: 'General',
+         fields: ['items']
+       },
+       {
+         name: 'stylingGroup',
+         label: 'Styling',
+         fields: ['listType', 'listClassName', 'containerStyles']
+       }
+     ]);
+     
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

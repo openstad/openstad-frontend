@@ -2,17 +2,17 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Date bar',
+  label: 'Date countdown bar',
   addFields: [
     {
       name: 'textBeforeDate',
-      label: 'Text before the date',
+      label: 'Text to show before the set date is passed',
       type: 'string',
       required: true
     },
     {
       name: 'textAfterDate',
-      label: 'Text after the date',
+      label: 'Text to show after the set date has passed',
       type: 'string',
       required: true
     },
@@ -25,6 +25,19 @@ module.exports = {
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['date', 'textBeforeDate', 'textAfterDate']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['containerStyles']
+      }
+    ]);
+
     const superPushAssets = self.pushAssets;
     self.pushAssets = function() {
       superPushAssets();
