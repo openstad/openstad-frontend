@@ -1,5 +1,5 @@
 {
-  "name": "openstad-frontend",
+  "name": "openstad-frontend-implementation",
   "version": "0.0.7",
   "description": "Openstad frontent project including openstad frontend packages\"",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/Amsterdam/openstad-frontend.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Amsterdam/openstad-frontend/issues"
   },
