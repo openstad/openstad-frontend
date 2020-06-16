@@ -1,6 +1,6 @@
 {
   "name": "@openstad/cms",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Openstad frontend package",
   "main": "index.js",
   "scripts": {

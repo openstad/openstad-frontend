@@ -210,5 +210,11 @@
 	"Estimate": "Estimate",
 	"Role": "Role",
 	"Edit Arguments form": "Edit Arguments form",
-	"Edit Arguments": "Edit Arguments"
+	"Edit Arguments": "Edit Arguments",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"This related item may also be visible on the page. Please consider it first so that your final commit is more complete.": "This related item may also be visible on the page. Please consider it first so that your final commit is more complete.",
+	"Commit all like this": "Commit all like this",
+	"Skip all like this": "Skip all like this",
+	"Skip": "Skip",
+	"Modified fields: %s": "Modified fields: %s"
 }
