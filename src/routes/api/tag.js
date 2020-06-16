@@ -6,6 +6,13 @@ const pagination = require('../../middleware/pagination');
 
 let router = express.Router({mergeParams: true});
 
+router
+	.all('*', function(req, res, next) {
+		req.scope = [];
+		req.scope.push('includeSite');
+		next();
+	});
+
 router.route('/')
 
 // list tags
@@ -14,13 +21,14 @@ router.route('/')
 	.get(auth.useReqUser)
 	.get(pagination.init)
 	.get(function(req, res, next) {
-		req.scope = ['defaultScope'];
+//		req.scope.push('defaultScope');
     req.scope.push({method: ['forSiteId', req.params.siteId]});
 
 		db.Tag
 			.scope(...req.scope)
 			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(result => {
+				console.log('result', result);
 				req.results = result.rows;
 				req.pagination.count = result.count;
 				next();

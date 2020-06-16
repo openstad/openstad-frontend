@@ -170,6 +170,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
+
+
 		initials: {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
@@ -225,6 +227,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			unique: true
 		}],*/
 
+		includeSite: {
+			include: [{
+				model: db.Site,
+			}]
+		},
+
 		validate: {
 			hasValidUserRole: function() {
 				if( this.id !== 1 && this.role === 'unknown' ) {
@@ -259,11 +267,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	});
 
+	User.scopes = function scopes() {
+		return {
+			includeSite: {
+        include: [{
+          model: db.Site,
+        }]
+      },
+
+		}
+	}
+
 	User.associate = function( models ) {
 		this.hasMany(models.Article);
 		this.hasMany(models.Idea);
 		this.hasMany(models.Vote);
 		this.hasMany(models.Argument);
+		this.belongsTo(models.Site);
 	}
 
 	User.findByCredentials = function( email, password ) {

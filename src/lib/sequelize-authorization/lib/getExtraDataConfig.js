@@ -55,15 +55,19 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
     auth: {
       authorizeData: function(self, action, user, data) {
         if (!self.site) return; // todo: die kun je ophalen als eea. async is
-        data = data || self.extraData;
+        data = typeof data === 'object' ? data : {};
         let result = {};
-        Object.keys(data).forEach((key) => {
-          let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
-          testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
-          if (userHasRole(user, testRole, self.userId)) {
-            result[key] = data[key];
-          }
-        });
+
+        if (data) {
+          Object.keys(data).forEach((key) => {
+            let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
+            testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+            if (userHasRole(user, testRole, self.userId)) {
+              result[key] = data[key];
+            }
+          });
+        }
+        
         return result;
       },
     }

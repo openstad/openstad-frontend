@@ -19,6 +19,12 @@ router
 	})
 */
 
+router
+	.all('*', function(req, res, next) {
+		req.scope = ['includeSite'];
+		next();
+	});
+
 router.route('/')
 
 // list users
@@ -30,7 +36,7 @@ router.route('/')
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
 		db.User
-			//.scope(...req.scope)
+			.scope(...req.scope)
 		//	.scope()
 		//	.findAll()
 			.findAndCountAll({
@@ -95,6 +101,7 @@ router.route('/:userId(\\d+)')
 	.all(function(req, res, next) {
 		const userId = parseInt(req.params.userId) || 1;
 		db.User
+			.scope(...req.scope)
 			.findOne({
 					where: { id: userId, siteId: req.params.siteId }
 					//where: { id: userId }
