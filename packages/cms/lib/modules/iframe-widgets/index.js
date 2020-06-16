@@ -13,6 +13,18 @@ module.exports = {
     styleSchema.definition('iframeStyles', 'Styles for the iFrame')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['url']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['iframeStyles']
+      }
+    ]);
 
     const superLoad = self.load;
     self.load = function (req, widgets, callback) {

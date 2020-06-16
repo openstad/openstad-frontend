@@ -14,25 +14,42 @@ module.exports = {
     {
       name: 'placeholder',
       type: 'string',
-      label: 'Placeholder',
+      label: 'Placeholder text',
+      help: `Will be shown in the input field when the user hasn't typed anything yet.`,
       required: true
     },
     {
       name: 'sentiment',
       type: 'select',
+      help: `Select the sentiment when the 'in favor' and 'against' arguments are separately listed. Otherwise, choose 'No sentiment'.`,
+      def: '',
       choices: [
         {
-          label: 'Voor',
-          value: 'for',
+          label: 'No sentiment',
+          value: '',
         },
         {
-          label: 'Tegen',
+          label: 'Against',
           value: 'against',
         },
       ]
     },
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name:'general',
+        label: 'General',
+        fields: ['placeholder', 'sentiment']
+      },
+      {
+        name: 'advanced',
+        label: 'Advanced',
+        fields: ['ideaId']
+      }
+    ]);
+
+    
      var superPushAssets = self.pushAssets;
 
      self.pushAssets = function() {

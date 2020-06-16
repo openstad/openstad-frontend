@@ -13,7 +13,8 @@ module.exports = {
         {
           type: 'string',
           name: 'title',
-          label: 'Title'
+          label: 'Title',
+          help: `For example: 'March 8th'`,
         },
         {
           type: 'string',
@@ -23,7 +24,8 @@ module.exports = {
         {
           type: 'select',
           name: 'period',
-          label: 'Choose if period or moment',
+          label: 'Period or moment',
+          help: 'A period (from one point to another point in time) and a moment (one point in time) have a different visualisation',
           choices: [
             {
               value: 'period',
@@ -41,6 +43,19 @@ module.exports = {
   ],
   construct: function(self, options) {
     const superLoad = self.load;
+
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['items']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['containerStyles']
+      }
+    ]);
 
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

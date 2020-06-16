@@ -29,6 +29,19 @@ module.exports = {
 
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['uploadedImage']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['imageStyles']
+      }
+    ]);
+    
     const superLoad = self.load;
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {

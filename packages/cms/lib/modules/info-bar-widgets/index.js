@@ -17,23 +17,37 @@ module.exports = {
       name: 'message',
       label: 'Message',
       type: 'string',
-      required: true
+      required: true,
+      help: 'The message that will be shown in the info bar.'
     },
     {
       name: 'removable',
-      label: 'Removable',
+      help: 'Show a close-button?',
       type: 'boolean',
       required: true
     },
     {
       name: 'backgroundColor',
-      label: 'backgroundColor',
+      label: 'Background color',
       type: 'color',
       required: false
     },
     styleSchema.definition('containerStyles', 'Styles')
   ],
   construct: function(self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
+      {
+        name: 'generalGroup',
+        label: 'General',
+        fields: ['message', 'removable']
+      },
+      {
+        name: 'stylingGroup',
+        label: 'Styling',
+        fields: ['backgroundColor', 'containerStyles']
+      }
+    ]);
+
     const superPushAssets = self.pushAssets;
     self.pushAssets = function() {
       superPushAssets();

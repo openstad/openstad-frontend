@@ -46,18 +46,33 @@ module.exports = {
                   type: 'text',
                   label: 'Link URL',
                   type: 'string',
+                  help: 'The link will not be shown if left blank.'
                 },
                 {
                   name: 'linkTitle',
                   type: 'text',
                   label: 'Link title',
                   type: 'string',
+                  help: 'The link will not be shown if left blank.'
                 },
             ]
         },
         styleSchema.definition('containerStyles', 'Styles for the container')
     ],
     construct: function (self, options) {
+        options.arrangeFields = (options.arrangeFields || []).concat([
+            {
+                name: 'generalGroup',
+                label: 'General',
+                fields: ['items']
+            },
+            {
+                name: 'stylinggroup',
+                label: 'Styling',
+                fields: ['containerStyles']
+            }
+        ]);
+        
         const superLoad = self.load;
 
         self.load = (req, widgets, callback) => {
