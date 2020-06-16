@@ -24,6 +24,8 @@ module.exports = {
 
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
+
+
     self.apos.app.use((req, res, next) => {
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
 

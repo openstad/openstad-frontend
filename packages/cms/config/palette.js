@@ -127,14 +127,14 @@ exports.fields = [
     name: 'buttonColor',
     label: 'Background color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget', '.no-of-locations-content', '#title .secondary .controls .vote button' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',' #map-with-buttons-container .no-of-locations-content', '.no-of-locations-content', '#title .secondary .controls .vote button', '#title .secondary .controls .no-of-votes-for-content', '#title .secondary .controls .no-of-votes-against-content' ],
     property: ['background-color', 'border-color'],
   },
   {
     name: 'buttonFontColor',
     label: 'Font color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',  '.no-of-locations-content', '#title .secondary .controls .vote button' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',' #map-with-buttons-container .no-of-locations-content',  '.no-of-locations-content', '#title .secondary .controls .vote button', '#title .secondary .controls .no-of-votes-for-content', '#title .secondary .controls .no-of-votes-against-content' ],
     property: 'color',
   },
 
