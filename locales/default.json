@@ -132,5 +132,21 @@
 	"Edit Idea form": "Edit Idea form",
 	"Date countdown bar": "Date countdown bar",
 	"Edit Agenda": "Edit Agenda",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Save Ideas map": "Save Ideas map",
+	"Call-To-Action button": "Call-To-Action button",
+	"Counter": "Counter",
+	"Info": "Info",
+	"Display CTA button": "Display CTA button",
+	"Yes": "Yes",
+	"No": "No",
+	"CTA url": "CTA url",
+	"CTA text": "CTA text",
+	"Display counter": "Display counter",
+	"Counter text": "Counter text",
+	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
+	"Exclude ideas with this theme: (theme names, comma seperated)": "Exclude ideas with this theme: (theme names, comma seperated)",
+	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)",
+	"Edit Ideas map": "Edit Ideas map",
+	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?"
 }

@@ -58,7 +58,9 @@ module.exports = (self, options) => {
       //add query tot data object, so it can be used
       req.data.query = req.query;
 
-      req.data.global.mapPolygons = (siteConfig && siteConfig.area && siteConfig.area.polygon) || '';
+      if (siteConfig && siteConfig.area && siteConfig.area.polygon) {
+        req.data.global.mapPolygons =  siteConfig && siteConfig.area && siteConfig.area.polygon || '';
+      }
 
       // add the polygon object to the global data object
       // Todo: remove fallback when every site use the areaId from the api.
