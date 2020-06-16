@@ -74,6 +74,7 @@ module.exports = {
           label: 'Against',
           value: 'against',
         },
+      ]
     },
     {
       name: 'showLastNameForArguments',
@@ -130,7 +131,7 @@ module.exports = {
       }
     ]);
 
-    
+
      const superPushAssets = self.pushAssets;
      //const auth = "Basic " + new Buffer("xxx:xxx#").toString("base64");
 
