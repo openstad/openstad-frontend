@@ -23,6 +23,15 @@ module.exports = function( db, sequelize, DataTypes ) {
     this.hasMany(models.Site);
   }
 
-  return Area;
 
+  Area.auth = Area.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: ['editor','owner', 'admin'],
+    updateableBy: ['editor','owner', 'admin'],
+    deleteableBy: ['editor','owner', 'admin'],
+  }
+
+
+  return Area;
 }

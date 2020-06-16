@@ -54,6 +54,16 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 // Define models.
 var db     = {sequelize: sequelize};
 var models = require('./models')(db, sequelize, Sequelize.DataTypes);
+
+// authentication mixins
+const mixins = require('./lib/sequelize-authorization/mixins');
+Object.keys(models).forEach((key) => {
+  let model = models[key];
+  model.can = model.prototype.can = mixins.can;
+  model.prototype.toJSON = mixins.toAuthorizedJSON;
+  model.authorizeData = model.prototype.authorizeData = mixins.authorizeData;
+});
+
 _.extend(db, models);
 
 // Invoke associations on each of the models.

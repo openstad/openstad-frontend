@@ -1,9 +1,11 @@
 const express = require('express');
 const createError = require('http-errors');
 const db = require('../../db');
-const auth = require('../../auth');
+const auth= require('../../middleware/sequelize-authorization-middleware');
 
-let router = express.Router({ mergeParams: true });
+// TODO: deze is nog niet verbouwd naar het nieuwe auth model, met name de json opbouw niet
+
+const router = express.Router({ mergeParams: true });
 
 // scopes: for all get requests
 router
@@ -35,7 +37,8 @@ router.route('/$')
 
 // list choiceguides
 // -----------------
-  .get(auth.can('choicesguide:list'))
+  .get(auth.can('ChoicesGuide', 'list'))
+	.get(auth.useReqUser)
   .get(function(req, res, next) {
     let where = {};
     db.ChoicesGuide
@@ -61,7 +64,8 @@ router.route('/$')
 
 // create choicesguide
 // -------------------
-  .post(auth.can('choicesguide:create'))
+  .post(auth.can('Choicesguide', 'create'))
+	.post(auth.useReqUser)
   .post(function(req, res, next) {
     if (!req.site) return next(createError(404, 'Site niet gevonden'));
     return next();
@@ -74,6 +78,7 @@ router.route('/$')
       images: req.body.images,
     };
     db.ChoicesGuide
+			.authorizeData(data, 'create', req.user)
       .create(data)
       .then((result) => {
         res.json(result);
@@ -84,7 +89,8 @@ router.route('/$')
 // one choicesguide
 // ----------------
 router.route('/:choicesGuideId(\\d+)$')
-  .get(auth.can('choicesguide:view'))
+  .all(auth.can('ChoicesGuide', 'view'))
+	.all(auth.useReqUser)
   .all(function(req, res, next) {
     let choicesGuideId = parseInt(req.params.choicesGuideId);
     if (!choicesGuideId) throw createError(404, 'choicesGuide not found');
@@ -181,7 +187,7 @@ router.route('/:choicesGuideId(\\d+)$')
 
 // update choicesguide
 // -------------------
-  .put(auth.can('choicesguide:edit'))
+	.put(auth.useReqUser)
   .put(function(req, res, next) {
     let data = {
       title: req.body.title,
@@ -189,7 +195,9 @@ router.route('/:choicesGuideId(\\d+)$')
       images: req.body.images,
       seqnr: req.body.seqnr,
     };
+    if (!( req.choicesguide && req.choicesguide.can && req.choicesguide.can('update', req.user) )) return next( new Error('You cannot update this ChoicesGuide') );
     req.choicesguide
+			.authorizeData(data, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -199,7 +207,7 @@ router.route('/:choicesGuideId(\\d+)$')
 
 // delete choicesguide
 // -------------------
-  .delete(auth.can('choicesguide:delete'))
+  .delete(auth.can('Choicesguide', 'delete'))
   .delete(function(req, res, next) {
     req.choicesguide
       .destroy()
@@ -242,7 +250,8 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
 
 // create choicesguidechoice
 // --------------------------------
-  .post(auth.can('choicesguidechoice:create'))
+  .post(auth.can('ChoicesGuideChoice', 'create'))
+	.post(auth.useReqUser)
   .post(function( req, res, next ) {
     let data = {
       title: req.body.title,
@@ -258,6 +267,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
       data.choicesGuideId = req.choicesguide.id;
     }
     db.ChoicesGuideChoice
+			.authorizeData(data, 'create', req.user)
       .create(data)
       .then((result) => {
         res.json(result);
@@ -295,8 +305,9 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
 
 // update choicesguidechoice
 // --------------------------------
-  .put(auth.can('choicesguidechoice:edit'))
-  .put(function(req, res, next) {
+	.put(auth.useReqUser)
+ .put(function(req, res, next) {
+    if (!( req.choice && req.choice.can && req.choice.can('update', req.user) )) return next( new Error('You cannot update this Choice') );
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -305,6 +316,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
       seqnr: req.body.seqnr,
     };
     req.choice
+			.authorizeData(req.body, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -314,7 +326,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/cho
 
 // delete choicesguidechoice
 // --------------------------------
-  .delete(auth.can('choicesguidechoice:delete'))
+  .delete(auth.can('ChoicesGuideChoice', 'delete'))
   .delete(function(req, res, next) {
     req.choice
       .destroy()
@@ -357,7 +369,8 @@ router.route('/:choicesGuideId(\\d+)/questiongroup$')
 
 // create choicesguidequestiongroup
 // --------------------------------
-  .post(auth.can('choicesguidequestiongroup:create'))
+  .post(auth.can('ChoicesGuideQuestionGroup', 'create'))
+	.post(auth.useReqUser)
   .post(function( req, res, next ) {
     let data = {
       choicesGuideId: req.choicesguide.id,
@@ -368,6 +381,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup$')
       seqnr: req.body.seqnr,
     };
     db.ChoicesGuideQuestionGroup
+			.authorizeData(data, 'create', req.user)
       .create(data)
       .then((result) => {
         res.json(result);
@@ -398,8 +412,9 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
 
 // update choicesguidequestiongroup
 // --------------------------------
-  .put(auth.can('choicesguidequestiongroup:edit'))
+	.all(auth.useReqUser)
   .put(function(req, res, next) {
+    if (!( req.questiongroup && req.questiongroup.can && req.questiongroup.can('update', req.user) )) return next( new Error('You cannot update this Question') );
     let data = {
       answerDimensions: req.body.answerDimensions,
       title: req.body.title,
@@ -408,6 +423,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
       seqnr: req.body.seqnr,
     };
     req.questiongroup
+			.authorizeData(data, 'update')
       .update(data)
       .then((result) => {
         res.json(result);
@@ -417,7 +433,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
 
 // delete choicesguidequestiongroup
 // --------------------------------
-  .delete(auth.can('choicesguidequestiongroup:delete'))
+  .delete(auth.can('ChoicesGuideQuestionGroup', 'delete'))
   .delete(function(req, res, next) {
     req.questiongroup
       .destroy()
@@ -481,7 +497,8 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
 
 // create choicesguidequestion
 // --------------------------------
-  .post(auth.can('choicesguidequestion:create'))
+  .post(auth.can('ChoicesGuideQuestion', 'create'))
+	.post(auth.useReqUser)
   .post(function( req, res, next ) {
     let data = {
       questionGroupId: req.questiongroup.id,
@@ -495,6 +512,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       seqnr: req.body.seqnr,
     };
     db.ChoicesGuideQuestion
+			.authorizeData(data, 'create', req.user)
       .create(data)
       .then((result) => {
         res.json(result);
@@ -525,8 +543,9 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
 
 // update choicesguidequestion
 // --------------------------------
-  .put(auth.can('choicesguidequestion:edit'))
+	.post(auth.useReqUser)
   .put(function(req, res, next) {
+    if (!( req.question && req.question.can && req.question.can('update', req.user) )) return next( new Error('You cannot update this Question') );
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -538,6 +557,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       seqnr: req.body.seqnr,
     };
     req.question
+			.authorizeData(data, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -547,7 +567,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
 
 // delete choicesguidequestion
 // --------------------------------
-  .delete(auth.can('choicesguidequestion:delete'))
+  .delete(auth.can('ChoicesGuideQuestion', 'delete'))
   .delete(function(req, res, next) {
     req.question
       .destroy()
@@ -580,11 +600,12 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 
 // create choicesguideresult
 // --------------------------------
-// in the current version anyoun can send in results; no checks whatsoever
-//.post(auth.can('choicesguideresult:create'))
+  .post(auth.can('ChoicesGuideResult', 'create'))
+	.post(auth.useReqUser)
   .post(function( req, res, next ) {
     let choicesGuideId = parseInt(req.params.choicesGuideId);
     if (!choicesGuideId) throw createError(404, 'choicesGuide not found');
+
     let data = {
       choicesGuideId,
       userId: req.body.userId,
@@ -593,8 +614,8 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
       result: req.body.result,
     };
 
-
     db.ChoicesGuideResult
+			.authorizeData(data, 'create', req.user)
       .create(data)
       .then((result) => {
         res.json(result);

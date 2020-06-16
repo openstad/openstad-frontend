@@ -1,5 +1,7 @@
-var sanitize = require('../util/sanitize');
-var config = require('config')
+const sanitize = require('../util/sanitize');
+const config = require('config');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
@@ -18,11 +20,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
+		extraData: getExtraDataConfig(DataTypes.JSON, 'tags')
 	}, {
 
 		hooks: {
 		},
-    
+
 		individualHooks: true,
 
 	});
@@ -53,7 +56,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	Tag.associate = function( models ) {
 		this.belongsToMany(models.Idea, { through: 'IdeaTags' });
+		this.belongsTo(models.Site);
 	}
+
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	Tag.auth = Tag.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
 	return Tag;
 

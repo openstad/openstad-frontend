@@ -5,16 +5,11 @@ const moment			= require('moment');
 const createError = require('http-errors')
 const config = require('config');
 const db = require('../../db');
-const auth = require('../../auth');
+const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 
-
-let router = express.Router({mergeParams: true});
-
-const userhasModeratorRights = (user) => {
-	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
-}
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 /*
@@ -24,18 +19,24 @@ router
 	})
 */
 
+router
+	.all('*', function(req, res, next) {
+		req.scope = ['includeSite'];
+		next();
+	});
+
 router.route('/')
 
 // list users
 // ----------
-	.get(auth.can('users:list'))
+	.get(auth.can('User', 'list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
 		db.User
-			//.scope(...req.scope)
+			.scope(...req.scope)
 		//	.scope()
 		//	.findAll()
 			.findAndCountAll({
@@ -50,19 +51,16 @@ router.route('/')
 			})
 			.catch(next);
 	})
+	.get(auth.useReqUser)
 //	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
-		let records = req.results.records || req.results
-		records.forEach((record, i) => {
-			records[i] = createUserJSON(record, req.user, req);
-		});
 		res.json(req.results);
 	})
 
 // create user
 // -----------
-	.post(auth.can('user:create'))
+	.post(auth.can('User', 'create'))
 	.post(function(req, res, next) {
 		if (!req.site) return next(createError(401, 'Site niet gevonden'));
 		return next();
@@ -72,13 +70,16 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-		filterBody(req);
-		req.body.siteId = parseInt(req.params.siteId);
+
+		const data = {
+      ...req.body,
+		}
 
 		db.User
-			.create(req.body)
+			.authorizeData(data, 'create', req.user)
+			.create(data)
 			.then(result => {
-				res.json(createUserJSON(result, req.user, req));
+				res.json(result);
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -100,13 +101,14 @@ router.route('/:userId(\\d+)')
 	.all(function(req, res, next) {
 		const userId = parseInt(req.params.userId) || 1;
 		db.User
+			.scope(...req.scope)
 			.findOne({
 					where: { id: userId, siteId: req.params.siteId }
 					//where: { id: userId }
 			})
 			.then(found => {
 				if ( !found ) throw new Error('User not found');
-				req.userData = found;
+				req.results = found;
 				next();
 			})
 			.catch(next);
@@ -114,22 +116,31 @@ router.route('/:userId(\\d+)')
 
 // view idea
 // ---------
-	.get(auth.can('user:view'))
+	.get(auth.can('User', 'view'))
+	.get(auth.useReqUser)
 	.get(function(req, res, next) {
-		res.json(createUserJSON(req.userData, req.user, req));
+		res.json(req.results);
 	})
 
 // update user
 // -----------
-	.put(auth.can('user:edit'))
+	.put(auth.useReqUser)
 	.put(function(req, res, next) {
-		filterBody(req)
-		const userId = parseInt(req.params.userId) || 1;
 
-		//TODO: find a way to move this to role system (rest user object is loaded as logged in user)
-		if (!userhasModeratorRights(req.user) && userId !== req.user.id) {
-			return next(createError(403, 'Not allowed'));
-		}
+    const user = req.results;
+    if (!( user && user.can && user.can('update') )) return next( new Error('You cannot update this User') );
+
+    // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
+    let data = {}
+
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
+	  keys.forEach((key) => {
+		  if (req.body[key]) {
+			  data[key] = req.body[key];
+		  }
+	  });
+
+		const userId = parseInt(req.params.userId) || 1;
 
 		/**
 		 * Update the user API first
@@ -137,7 +148,7 @@ router.route('/:userId(\\d+)')
 		 let which = req.query.useOauth || 'default';
 		 let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};
 		 let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-		 let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.userData.externalUserId;
+		 let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
 		 let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		 let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
 
@@ -151,9 +162,8 @@ router.route('/:userId(\\d+)')
 				 'Content-Type': 'application/json',
 			 },
 			 mode: 'cors',
-			 body: JSON.stringify(Object.assign(apiCredentials, req.body))
+			 body: JSON.stringify(Object.assign(apiCredentials, data))
 		 }
-
 
 		 fetch(authUpdateUrl, options)
 			 .then((response) => {
@@ -165,7 +175,9 @@ router.route('/:userId(\\d+)')
 				})
 			 .then((json) => {
 				 //update values from API
-				 	return db.User.update(req.body, {where : { externalUserId: json.id }});
+				 return db.User
+			     .authorizeData(data, 'update')
+           .update(data, {where : { externalUserId: json.id }});
 			  })
 				.then( (result) => {
 					return db.User
@@ -176,8 +188,7 @@ router.route('/:userId(\\d+)')
 				})
 				.then(found => {
 					if ( !found ) throw new Error('User not found');
-					req.userData = found;
-					res.json(createUserJSON(found, req.user, req));
+					res.json(found);
 				})
 			 .catch(err => {
 				 console.log(err);
@@ -189,49 +200,12 @@ router.route('/:userId(\\d+)')
 // ---------
 	.delete(auth.can('user:delete'))
 	.delete(function(req, res, next) {
-		req.userData
+		req.results
 			.destroy()
 			.then(() => {
 				res.json({ "idea": "deleted" });
 			})
 			.catch(next);
 	})
-
-// extra functions
-// ---------------
-
-function filterBody(req) {
-	let filteredBody = {};
-	let keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
-
-	if (userhasModeratorRights(req.user)) {
-		//keys.push
-	}
-
-	keys.forEach((key) => {
-		if (req.body[key]) {
-			filteredBody[key] = req.body[key];
-		}
-	});
-
-	req.body = filteredBody;
-}
-
-function createUserJSON(userData, user, req) {
-	let hasModeratorRights = user &&(user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
-
-	let can = {
-		// edit: user.can('arg:edit', argument.idea, argument),
-		// delete: req.user.can('arg:delete', entry.idea, entry),
-		// reply: req.user.can('arg:reply', entry.idea, entry),
-	};
-
-	let result = userData.toJSON();
-	result.config = null;
-	result.site = null;
-	result.can = can;
-
-	return result;
-}
 
 module.exports = router;

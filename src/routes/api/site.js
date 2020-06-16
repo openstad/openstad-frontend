@@ -1,7 +1,7 @@
 const Promise 			= require('bluebird');
 const express 			= require('express');
 const db      			= require('../../db');
-const auth    			= require('../../auth');
+const auth 					= require('../../middleware/sequelize-authorization-middleware');
 const pagination 		= require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 const oauthClients 	= require('../../middleware/oauth-clients');
@@ -13,7 +13,7 @@ router.route('/')
 
 // list sites
 // ----------
-	.get(auth.can('sites:list'))
+	.get(auth.can('Site', 'list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
 		db.Site
@@ -41,7 +41,7 @@ router.route('/')
 
 // create site
 // -----------
-	.post(auth.can('site:create'))
+	.post(auth.can('Site', 'create'))
 	.post(function(req, res, next) {
 		db.Site
 			.create(req.body)
@@ -53,7 +53,7 @@ router.route('/')
 // one site routes: get site
 // -------------------------
 router.route('/:siteIdOrDomain') //(\\d+)
-	.all(auth.can('site:view'))
+	.all(auth.can('Site', 'view'))
 	.all(function(req, res, next) {
 		const siteIdOrDomain = req.params.siteIdOrDomain;
 		let query;
@@ -69,7 +69,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			.findOne(query)
 			.then(found => {
 				if ( !found ) throw new Error('Site not found');
-				req.site = found;
+				req.results = found;
 				next();
 			})
 			.catch(next);
@@ -77,23 +77,21 @@ router.route('/:siteIdOrDomain') //(\\d+)
 
 // view site
 // ---------
+	.get(auth.can('Site', 'view'))
+	.get(auth.useReqUser)
 	.get(function(req, res, next) {
-
-		let site = req.site.toJSON();
-		if (!( req.user && req.user.role && req.user.role == 'admin' )) {
-			site.config = undefined;
-		}
-
-		res.json(site);
-
+		res.json(req.results);
 	})
 
 // update site
 // -----------
-	.put(auth.can('site:edit'))
+	.put(auth.useReqUser)
 	.put(oauthClients.withAllForSite)
 	.put(function(req, res, next) {
-		req.site
+		const site = req.results;
+    if (!( site && site.can && site.can('update') )) return next( new Error('You cannot update this site') );
+		req.results
+			.authorizeData(req.body, 'update')
 			.update(req.body)
 			.then(result => {
 				next();
@@ -149,9 +147,9 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	})
 // delete site
 // ---------
-	.delete(auth.can('site:delete'))
+	.delete(auth.can('Site', 'delete'))
 	.delete(function(req, res, next) {
-		req.site
+		req.results
 			.destroy()
 			.then(() => {
 				res.json({ "site": "deleted" });
