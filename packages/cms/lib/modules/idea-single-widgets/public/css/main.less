@@ -202,22 +202,28 @@
 
 					&:disabled {
   					background-color: #bebebe;
+						color: white;
+
 						cursor: default;
 						&:hover {
   						background-color: #bebebe;
+							color: white;
+
 						}
 					}
 
 					&.selected[value="yes"] {
 						background-color: #bdd131;
-						&:disabled {
+						&:disabled, &:disabled:hover {
   						background-color: #bebebe;
+							color: white;
 						}
 					}
 					&.selected[value="no"] {
 						background-color: #ea1d25;
-						&:disabled {
+						&:disabled, &:disabled:hover {
   						background-color: #bebebe;
+							color: white;
 						}
 					}
 
