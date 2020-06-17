@@ -219,20 +219,6 @@ module.exports = [
         label: 'Openstreet Maps ServerUrl (not implemented yet)',
     },
     {
-        name: 'areas',
-        type: 'array',
-        titleField: 'label',
-        label: 'Buurten',
-        schema: [
-            {
-                name: 'value',
-                type: 'text',
-                label: 'Name',
-                type: 'string',
-            }
-        ]
-    },
-    {
         name: 'themes',
         type: 'array',
         titleField: 'label',
@@ -375,11 +361,6 @@ module.exports = [
                 label: 'Open in new tab',
             },
         ]
-    },
-    {
-        name: 'displayLoginTopLink',
-        type: 'boolean',
-        label: 'Display login and logout link in top links?'
     },
     {
         name: 'displayMyAcount',

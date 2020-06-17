@@ -14,7 +14,7 @@ module.exports = [
           {
             label: 'Uitklap',
             value: 'gridder',
-            showFields: ['gridder_text_open', 'gridder_text_vote_button', 'gridder_open_text_vote_button', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter']
+            showFields: ['gridder_text_open', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter']
           },
           {
             label: 'Row',
