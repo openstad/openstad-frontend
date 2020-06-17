@@ -266,8 +266,8 @@ module.exports = {
         }
 
         if (response) {
-          widget = self.formatWidgetReponse(widget, response);
-          resolve(response);
+          // pass query obj without reference
+          widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
         } else {
           promises.push(function (req, self){
             return new Promise((resolve, reject) => {
@@ -281,7 +281,8 @@ module.exports = {
                   });
                 }
 
-                widget = self.formatWidgetReponse(widget, response);
+                // pass query obj without reference
+                widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
 
                 resolve(response);
               })
@@ -293,14 +294,17 @@ module.exports = {
       });
 
 
-
-      Promise.all(promises)
-        .then(function (response) {
-          return superLoad(req, widgets, next);
-        })
-        .catch(function (err) {
-          return superLoad(req, widgets, next);
-        });
+      if (promises.length > 0) {
+        Promise.all(promises)
+          .then(function (response) {
+            return superLoad(req, widgets, next);
+          })
+          .catch(function (err) {
+            return superLoad(req, widgets, next);
+          });
+      } else {
+        return superLoad(req, widgets, next);
+      }
 		}
 
     self.formatPaginationUrls = (pageCount, baseUrl, defaultParams) => {
@@ -365,12 +369,12 @@ module.exports = {
       return params && Array.isArray(params.oTags) && params.oTags.includes(tag.id);
     }
 
-    self.formatWidgetResponse = (widget, response) => {
+    self.formatWidgetResponse = (widget, response, queryParams, pathname) => {
       widget.paginationIndex = response.metadata.page + 1;
       widget.totalItems = response.metadata.totalCount;
-      widget.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, req.data.currentPathname, queryObject);
+      widget.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, pathname, queryParams);
       widget.formattedResultCountText = widget.resultCountText ? widget.resultCountText.replace('[visibleCount]', response.records.length).replace('[totalCount]', response.metadata.totalCount) : '';
-      widget.formattedSearchText = widget.searchText && req.data.query.search ? widget.searchText.replace('[searchTerm]', req.data.query.search) : '';
+      widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
       widget.activeResources = response.records ? response.records.map((record)=> {
         // delete because they are added to the data-attr and will get very big
         delete record.description;
