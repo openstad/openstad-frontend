@@ -15,6 +15,7 @@ const qs                  = require('qs');
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 const url                 = require('url');
+const cache               = require('../../../services/cache').cache;
 
 const MAX_PAGE_SIZE = 100;
 
@@ -253,7 +254,7 @@ module.exports = {
 
         widget.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;
 
-        widget.openstadTags =  req.data.openstadTags ? tags.map((tag) => {
+        widget.openstadTags =  req.data.openstadTags ? req.data.openstadTags.map((tag) => {
           return Object.assign({}, tag);
         }) : [];
 

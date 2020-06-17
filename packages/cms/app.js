@@ -51,10 +51,18 @@ function serveSites (req, res, next) {
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
+  console.log('--->>> serveSites')
+
   // if the config is existing it means the site has been loaded already, serve site
   if (configForHosts[thisHost]) {
-    serveSite(req, res, configForHosts[thisHost], false);
+    console.log('--->>> serveSite: ', thisHost)
+    try {
+      serveSite(req, res, configForHosts[thisHost], false);
+    } catch (e) {
+      console.log('-->> e', e);
+    }
   } else {
+    console.log('--->>> fetch config for: ', thisHost)
 
     /**
      * Fetch the config for sites
@@ -74,6 +82,8 @@ function serveSites (req, res, next) {
 
     rp(siteOptions)
       .then((siteConfig) => {
+        console.log('--->>> fetchd config for: ', thisHost)
+
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
@@ -83,6 +93,8 @@ function serveSites (req, res, next) {
 }
 
 function serveSite(req, res, siteConfig, forceRestart) {
+  console.log('--->>> serving site  ')
+
   const runner = Promise.promisify(run);
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
@@ -129,6 +141,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       }
     })
   .catch((e) => {
+    console.log('e', e)
     res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
   });
 }
