@@ -8,7 +8,7 @@ const eventEmitter  = require('../../../events').emitter;
 const imageApiUrl   = process.env.IMAGE_API_URL;
 const imageApiToken = process.env.IMAGE_API_ACCESS_TOKEN;
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
-
+const openstadMap = require('../../../config/map').default;
 
 const toSqlDatetime = (inputDate) => {
     const date = new Date()
@@ -114,7 +114,7 @@ module.exports = {
     const superLoad = self.load;
 
     self.load = function(req, widgets, next) {
-        const styles = self.apos.settings.getOption(req, 'openStadMap').defaults.styles;
+        const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
 
 	      widgets.forEach((widget) => {

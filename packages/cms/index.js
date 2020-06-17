@@ -1,12 +1,19 @@
 require('dotenv').config();
 const _ = require('lodash');
 const { readdirSync } = require('fs');
+const openstadApp = require('./app');
+
+module.exports.getDefaultConfig = (options) => {
+  return openstadApp.getDefaultConfig(options);
+};
+
+module.exports.getSingleApp = () => {
+  return openstadApp.getApostropheApp();
+};
 
 module.exports.site = (options) => {
 
-  const multiSite = require('./app.js');
-
-  const app = multiSite.getMultiSiteApp(options);
+  const app = openstadApp.getMultiSiteApp(options);
   app.listen(process.env.PORT);
 
 };

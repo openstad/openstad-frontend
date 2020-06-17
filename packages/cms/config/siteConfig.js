@@ -4,12 +4,12 @@ const palette = require('./palette');
 const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
-  get: (site, siteData, openstadMap, openstadMapPolygons) => {
+  get: (shortName, siteData) => {
 
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
-      shortName: site._id,
+      shortName: shortName,
       modules: {
         'api-proxy': {},
         'settings': {
@@ -19,8 +19,6 @@ module.exports = {
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
           apiLogoutUrl: process.env.API_LOGOUT_URL,
-          openStadMap: openstadMap,
-          openstadMapPolygons: openstadMapPolygons,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           siteConfig: siteData,
           contentWidgets: contentWidgets
