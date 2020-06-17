@@ -88,7 +88,6 @@ function serveSites (req, res, next) {
 }
 
 function serveSite(req, res, siteConfig, forceRestart) {
-  console.log('--->>> serving site  ')
 
   const runner = Promise.promisify(run);
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';

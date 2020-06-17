@@ -10,5 +10,7 @@ module.exports = {
   addFields: [
   //  styleSchema.definition('containerStyles', 'Styles for the container')
   ],
-  construct: function(self, options) {}
+  construct: function(self, options) {
+    
+  }
 };
