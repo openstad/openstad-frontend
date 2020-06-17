@@ -5,3 +5,5 @@
 *.css
 coverage/
 
+### Exclude project files for Jetbrains users ###
+.idea
