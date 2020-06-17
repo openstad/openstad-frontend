@@ -1,3 +1,5 @@
+const openstadMap = require('../../../config/map').default;
+
 module.exports = {
   extend: 'map-widgets',
   label: 'Ideas map',
@@ -88,7 +90,7 @@ module.exports = {
         fields: ['displayCounter', 'counterText']
       }
     ]);
-    
+
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
       superPushAssets();
@@ -127,7 +129,7 @@ module.exports = {
 
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
-        const styles = self.apos.settings.getOption(req, 'openStadMap').defaults.styles;
+        const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
         const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 

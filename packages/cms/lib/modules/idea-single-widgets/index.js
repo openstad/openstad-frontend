@@ -2,6 +2,7 @@ const rp = require('request-promise');
 const eventEmitter  = require('../../../events').emitter;
 const extraFields =  require('../../../config/extraFields.js').fields;
 const fields = require('./lib/fields.js');
+const openstadMap = require('../../../config/map').default;
 
 module.exports = {
   extend: 'map-widgets',
@@ -23,7 +24,7 @@ module.exports = {
 
       const superLoad = self.load;
       self.load = function (req, widgets, next) {
-          const styles = self.apos.settings.getOption(req, 'openStadMap').defaults.styles;
+          const styles = openstadMap.defaults.styles;
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
           widgets.forEach((widget) => {

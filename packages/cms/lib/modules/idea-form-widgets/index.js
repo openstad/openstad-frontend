@@ -4,7 +4,7 @@ const url           = require('url');
 const request       = require('request');
 const pick          = require('lodash/pick')
 const eventEmitter  = require('../../../events').emitter;
-
+const openstadMap   = require('../../../config/map').default;
 const imageApiUrl   = process.env.IMAGE_API_URL;
 const imageApiToken = process.env.IMAGE_API_ACCESS_TOKEN;
 
@@ -103,7 +103,7 @@ module.exports = {
     const superLoad = self.load;
 
     self.load = async function(req, widgets, next) {
-        const styles = self.apos.settings.getOption(req, 'openStadMap').defaults.styles;
+        const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
 
 

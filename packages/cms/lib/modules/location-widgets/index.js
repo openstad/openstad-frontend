@@ -1,4 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
+const openstadMap = require('../../../config/map').default;
 
 const fields = [
   styleSchema.definition('containerStyles', 'Styles for the container')
@@ -21,7 +22,7 @@ module.exports = {
 
       const superLoad = self.load;
       self.load = function (req, widgets, next) {
-          const styles = self.apos.settings.getOption(req, 'openStadMap').defaults.styles;
+          const styles = openstadMap.defaults.styles;
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
           widgets.forEach((widget) => {

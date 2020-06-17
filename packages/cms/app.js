@@ -138,7 +138,7 @@ function run(id, siteData, options, callback) {
 
   const config = _.merge(siteData, options);
 
-  const siteConfig = defaultSiteConfig.get(site, config, openstadMap, openstadMapPolygons);
+  const siteConfig = defaultSiteConfig.get(site._id, config);
 
   siteConfig.afterListen = function () {
     apos._id = site._id;
@@ -152,6 +152,14 @@ function run(id, siteData, options, callback) {
   );
 
 }
+
+module.exports.getDefaultConfig = (options) => {
+  return _.merge(defaultSiteConfig.get('default', {}), options);
+};
+
+module.exports.getApostropheApp = () => {
+  return apostrophe;
+};
 
 module.exports.getMultiSiteApp = (options) => {
   app.use(function(req, res, next) {
