@@ -310,5 +310,11 @@
 	"Label for: OPEN": "Label for: OPEN",
 	"Label for: CLOSED": "Label for: CLOSED",
 	"Label for: BUSY": "Label for: BUSY",
-	"Label for: DONE": "Label for: DONE"
+	"Label for: DONE": "Label for: DONE",
+	"Vorige volgende knoppen": "Vorige volgende knoppen",
+	"Save Vorige volgende knoppen": "Save Vorige volgende knoppen",
+	"Url achter de 'vorige' knop": "Url achter de 'vorige' knop",
+	"Tekst op de 'vorige' knop": "Tekst op de 'vorige' knop",
+	"Url achter de 'volgende' knop": "Url achter de 'volgende' knop",
+	"Tekst op de 'volgende' knop": "Tekst op de 'volgende' knop"
 }
