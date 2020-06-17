@@ -206,10 +206,12 @@ router.route('/*')
 
     // merge
     if (req.site.config.votes.withExisting == 'merge') {
+      // no double votes
+      if (req.existingVotes.find( newVote => votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )) throw new Error('Je hebt al gestemd');
+      // now merge
 		  votes = votes
         .concat(
           req.existingVotes
-            .filter( newVote => !votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )
             .map( oldVote => {
               return {
 				        ideaId: parseInt(oldVote.ideaId, 10),
