@@ -13,6 +13,7 @@ module.exports = {
       modules: {
         'api-proxy': {},
         'settings': {
+          ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
           alias: 'settings',
           apiUrl: process.env.API,
@@ -53,9 +54,6 @@ module.exports = {
         'apostrophe-palette': {},
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
-        'apostrophe-multisite-patch-assets': {},
-        'apostrophe-docs': {},
-        'openstad-docs': {},
         'openstad-areas': {},
         'openstad-widgets': {},
         'openstad-users': {},
@@ -108,7 +106,6 @@ module.exports = {
         'openstad-logger': {},
         'idea-pages': {},
         'section-widgets': {},
-        'all-on-one-row-widgets': {},
         'card-widgets': {},
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
@@ -141,7 +138,6 @@ module.exports = {
         'begroot-widgets': {},
         'choices-guide-widgets': {},
         'local-video-widgets': {},
-        'one-row-widgets': {},
         'image-widgets': {},
         'location-widgets': {},
         'share-widgets': {},

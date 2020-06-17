@@ -12,10 +12,6 @@ const fields = [
       {
         label: 'Yes',
         value: true,
-        showFields: [
-          'vote_block_show_text_1',
-          'vote_block_show_text_2',
-        ]
       },
       {
         label: 'No',
