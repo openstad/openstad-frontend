@@ -17,7 +17,7 @@ const objectClone = function() {
 const contentWidgets = {
   'admin': {
     adminOnly: true,
-    hideByDefault: true
+    hideByDefault: false
   },
   'agenda': {},
   'accordeon': {},
