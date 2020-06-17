@@ -1,4 +1,4 @@
 {
     "watch": ["lib", "views", "services"],
-    "ext": "js json html less css"
+    "ext": "js html less css"
 }

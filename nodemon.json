@@ -1,0 +1,4 @@
+{
+    "watch": ["lib", "views", "services", "packages/cms/lib", "packages/cms/config", "packages/cms/services", "packages/cms/views"],
+    "ext": "js html json less css"
+}

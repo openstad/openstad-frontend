@@ -5,7 +5,7 @@
   </a>
 </div>
 <div class="resource-overview-tags-container hidden-xs">
-  {% for tag in data.widgetRequestData.openstadTags %}
+  {% for tag in data.widget.openstadTags %}
   {% if data.widget.isTagSelected(tag, data.query) %}
   <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1">{{tag.name}}</a>
   {% else %}
@@ -20,7 +20,7 @@
       <a href="#closed" class="content-modal-close">
         <img src="/modules/openstad-assets/img/close.svg" width="13" height="13">
       </a>
-      {% for tag in data.widgetRequestData.openstadTags %}
+      {% for tag in data.widget.openstadTags %}
       {% if data.widget.isTagSelected(tag, data.query) %}
       <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1">{{tag.name}}</a>
       {% else %}

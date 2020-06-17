@@ -1,4 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
+const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
 
 /*
   CURRENTLY IN TRANSITION.
@@ -14,6 +15,7 @@ const qs                  = require('qs');
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 const url                 = require('url');
+const cache               = require('../../../services/cache').cache;
 
 const MAX_PAGE_SIZE = 100;
 
@@ -97,15 +99,51 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
       const promises = [];
+      const globalData = req.data.global;
 
       const thisHost = req.headers['x-forwarded-host'] || req.get('host');
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       const fullUrl = protocol + '://' + thisHost + req.originalUrl;
       const parsedUrl = url.parse(fullUrl, true);
 
-      req.data.widgetRequestData = {};
-
 			widgets.forEach((widget) => {
+        // Add function for rendering raw string with nunjucks templating engine
+        // Yes this ia a powerful but dangerous feature :), admin only
+        widget.renderString = (data, activeResource) => {
+            data.activeResource = activeResource;
+
+            try {
+              return self.apos.templates.renderStringForModule(req, widget.rawInput, data, self);
+            } catch (e) {
+              console.log('eee', e)
+              return 'Error....'
+            }
+         }
+
+         widget.formatTagSelectUrl = self.formatTagSelectUrl;
+         widget.formatTagRemoveUrl = self.formatTagRemoveUrl;
+         widget.isTagSelected = self.isTagSelected;
+         widget.parseDateToTime = (date) => {
+           return new Date(date).getTime();
+         }
+
+         // expects sql date format
+         widget.isBefore = (date, time, unit) => {
+            time = time ? time : 15;
+            unit = unit ? unit : 'minutes';
+            const dateTimeAgo = moment().subtract(time, unit);
+            return moment(date, PARSE_DATE_FORMAT).isBefore(dateTimeAgo);
+         };
+
+         // expects sql date format
+         widget.isAfter = (date, time, unit) => {
+            time = time ? time : 15;
+            unit = unit ? unit : 'minutes';
+            const dateTimeAgo = moment().subtract(time, unit);
+            return moment(date, PARSE_DATE_FORMAT).isAfter(dateTimeAgo);
+         };
+
+
         const queryObject =  Object.assign({}, req.query);
 
         widget.themes = req.data.global.themes;
@@ -149,11 +187,14 @@ module.exports = {
         const siteConfig = req.data.global.siteConfig;
         const resource = widget.resource;
         const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+
+        // Get the pageSize
         const maxPageSize = siteConfig && siteConfig[resource] && siteConfig[resource].maxPageSize ? siteConfig[resource].maxPageSize : MAX_PAGE_SIZE;
         let pageSize = widget.pageSize ? widget.pageSize : 10;
         pageSize = queryObject.pageSize ? queryObject.pageSize : pageSize
         pageSize = pageSize > maxPageSize ? maxPageSize : pageSize;
 
+        // Get sorting, default to newest first
         const defaultSort = widget.defaultSorting ? widget.defaultSorting : 'createdate_desc';
 
         //format the pagination, theme, vote and other query paramters
@@ -177,8 +218,6 @@ module.exports = {
           }
         }
 
-
-
         if (widget.includeThemes) {
           params.filters = {
             theme: widget.includeThemes
@@ -198,96 +237,74 @@ module.exports = {
           };
         }
 
+        // format string
+        const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
 
         const options = {
-          uri: `${apiUrl}/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`,
+          uri: `${apiUrl}${getUrl}`,
           headers: { 'Accept': 'application/json', "Cache-Control": "no-cache" },
           json: true
         };
-
 
         if (req.session.jwt) {
           options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
         }
 
-        const tags = !!req.data.openstadTags ? req.data.openstadTags.slice() : [];
         const queryParams = Object.assign({}, queryObject);
 
+        widget.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;
 
-        req.data.widgetRequestData.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;
-
-        req.data.widgetRequestData.openstadTags =  tags ? tags.map((tag) => {
+        widget.openstadTags =  req.data.openstadTags ? req.data.openstadTags.map((tag) => {
           return Object.assign({}, tag);
         }) : [];
 
-        promises.push(function (req, self){
-          return new Promise((resolve, reject) => {
-            rp(options)
-            .then((response) => {
+        let response;
 
-              req.data.widgetRequestData.paginationIndex = response.metadata.page + 1;
-              req.data.widgetRequestData.totalItems = response.metadata.totalCount;
-              req.data.widgetRequestData.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, req.data.currentPathname, queryObject);
-              req.data.widgetRequestData.formattedResultCountText = widget.resultCountText ? widget.resultCountText.replace('[visibleCount]', response.records.length).replace('[totalCount]', response.metadata.totalCount) : '';
-              req.data.widgetRequestData.formattedSearchText = widget.searchText && req.data.query.search ? widget.searchText.replace('[searchTerm]', req.data.query.search) : '';
-              req.data.widgetRequestData.activeResources = response.records ? response.records.map((record)=>{
-                delete record.description;
-                return record;
-              }) : [];
+        // if cache is turned on, chec
+        if (globalData.cacheIdeas) {
+           response = cache.get(getUrl);
+        }
 
-              resolve(response);
-            })
-            .catch((err) => {
-              reject(err);
-            })
-        })}(req, self));
+        if (response) {
+          // pass query obj without reference
+          widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
+        } else {
+          promises.push(function (req, self){
+            return new Promise((resolve, reject) => {
+              rp(options)
+              .then((response) => {
 
-        // Add function for rendering raw string with nunjucks templating engine
-        // Yes this ia a powerful but dangerous plugin :), admin only
-        widget.renderString = (data, activeResource) => {
-            data.activeResource = activeResource;
+                // set the cache by url key, this is perfect unique identifier
+                if (globalData.cacheIdeas) {
+                  cache.set(getUrl, response, {
+                    life: cacheLifespan
+                  });
+                }
 
-            try {
-              return self.apos.templates.renderStringForModule(req, widget.rawInput, data, self);
-            } catch (e) {
-              console.log('eee', e)
-              return 'Error....'
-            }
-         }
+                // pass query obj without reference
+                widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
 
-         widget.formatTagSelectUrl = self.formatTagSelectUrl;
-         widget.formatTagRemoveUrl = self.formatTagRemoveUrl;
-         widget.isTagSelected = self.isTagSelected;
+                resolve(response);
+              })
+              .catch((err) => {
+                reject(err);
+              })
+          })}(req, self));
+        }
+      });
 
 
-         widget.parseDateToTime = (date) => {
-           return new Date(date).getTime();
-         }
-
-         // expects sql date format
-         widget.isBefore = (date, time, unit) => {
-            time = time ? time : 15;
-            unit = unit ? unit : 'minutes';
-            const dateTimeAgo = moment().subtract(time, unit);
-            return moment(date, PARSE_DATE_FORMAT).isBefore(dateTimeAgo);
-         };
-
-         // expects sql date format
-         widget.isAfter = (date, time, unit) => {
-            time = time ? time : 15;
-            unit = unit ? unit : 'minutes';
-            const dateTimeAgo = moment().subtract(time, unit);
-            return moment(date, PARSE_DATE_FORMAT).isAfter(dateTimeAgo);
-         };
-			});
-
-      Promise.all(promises)
-        .then(function (response) {
-          return superLoad(req, widgets, next);
-        })
-        .catch(function (err) {
-          return superLoad(req, widgets, next);
-        });
+      if (promises.length > 0) {
+        Promise.all(promises)
+          .then(function (response) {
+            return superLoad(req, widgets, next);
+          })
+          .catch(function (err) {
+            return superLoad(req, widgets, next);
+          });
+      } else {
+        return superLoad(req, widgets, next);
+      }
 		}
 
     self.formatPaginationUrls = (pageCount, baseUrl, defaultParams) => {
@@ -349,9 +366,22 @@ module.exports = {
         });
       }
 
-
-
       return params && Array.isArray(params.oTags) && params.oTags.includes(tag.id);
+    }
+
+    self.formatWidgetResponse = (widget, response, queryParams, pathname) => {
+      widget.paginationIndex = response.metadata.page + 1;
+      widget.totalItems = response.metadata.totalCount;
+      widget.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, pathname, queryParams);
+      widget.formattedResultCountText = widget.resultCountText ? widget.resultCountText.replace('[visibleCount]', response.records.length).replace('[totalCount]', response.metadata.totalCount) : '';
+      widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
+      widget.activeResources = response.records ? response.records.map((record)=> {
+        // delete because they are added to the data-attr and will get very big
+        delete record.description;
+        return record;
+      }) : [];
+
+      return widget;
     }
 
      const superOutput = self.output;
