@@ -180,11 +180,16 @@ module.exports = [
         name: 'formattedLogo',
         type: 'string',
         label: 'Formatted Logo',
-        formatField: function (value, apos, doc) {
-          const formattedUrl = apos.attachments.url(doc.siteLogo);
+        formatField: function (value, apos, doc, req) {
+          const thisHost = req.headers['x-forwarded-host'] || req.get('host');
+          const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+          const siteUrl = protocol + '://' + thisHost;
+           //const siteUrl = '';
+
+          const formattedUrl =  siteUrl + apos.attachments.url(doc.siteLogo);
           return formattedUrl;
         },
-        apiSyncField: 'styling.formattedLogo',
+        apiSyncField: 'styling.logo',
     },
     {
         name: 'formattedPaletteCSS',

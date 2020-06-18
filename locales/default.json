@@ -473,5 +473,6 @@
 	"Desktop (min width 992px)": "Desktop (min width 992px)",
 	"Formatted Logo": "Formatted Logo",
 	"Formatted CSS": "Formatted CSS",
-	"Formatted (system use only)": "Formatted (system use only)"
+	"Formatted (system use only)": "Formatted (system use only)",
+	"Formatted (system use only, visible for debugging, will be hidden in future)": "Formatted (system use only, visible for debugging, will be hidden in future)"
 }

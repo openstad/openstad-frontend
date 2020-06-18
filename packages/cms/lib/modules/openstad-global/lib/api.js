@@ -32,10 +32,16 @@ module.exports = (self, options) => {
 
 
     self.formatGlobalFields = (req, doc, options) => {
+  //    console.log('req', req)
+      // for some reason apos calls this with empty req object on start, this will cause formatting issues so skip in that case
+      if (!req.headers) {
+        return;
+      }
+
       self.schema.forEach((field, i) => {
         if (field.formatField) {
           //doc is the doc for saving in mongodb, in this case it's the global values
-          doc[field.name] = field.formatField(field, self.apos, doc);
+          doc[field.name] = field.formatField(field, self.apos, doc, req);
         }
 
       });

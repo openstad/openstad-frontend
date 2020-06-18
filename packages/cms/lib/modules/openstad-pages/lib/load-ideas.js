@@ -21,10 +21,12 @@ module.exports =  function (req, res, next) {
 
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  const fullUrl = protocol + '://' + thisHost + req.originalUrl;
+  const siteUrl = protocol + '://' + thisHost;
+  const fullUrl = siteUrl + req.originalUrl;
   const parsedUrl = url.parse(fullUrl, true);
 
   //add url
+  req.data.siteUrl = siteUrl;
   req.data.currentPath = parsedUrl.path;
   req.data.currentPathname = parsedUrl.pathname;
   req.data.currentUrl = fullUrl;
