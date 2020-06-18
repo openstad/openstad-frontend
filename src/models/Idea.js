@@ -1213,12 +1213,14 @@ module.exports = function (db, sequelize, DataTypes) {
   }
 
   let canMutate = function(user, self) {
-    if( !self.isOpen() ) {
-			return false;
-		}
-    if (userHasRole(user, 'editor', self.userId)) {
+
+    if (userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId)) {
       return true;
     }
+    if( !self.isOpen() ) {
+      return false;
+    }
+    
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
@@ -1233,8 +1235,8 @@ module.exports = function (db, sequelize, DataTypes) {
     listableBy: 'all',
     viewableBy: 'all',
     createableBy: 'member',
-    updateableBy: ['editor','owner'],
-    deleteableBy: ['editor','owner'],
+    updateableBy: ['admin','editor','owner', 'moderator'],
+    deleteableBy: ['admin','editor','owner', 'moderator'],
     canVote: function(user, self) {
       // TODO: dit wordt niet gebruikt omdat de logica helemaal in de route zit. Maar hier zou dus netter zijn.
       return false
