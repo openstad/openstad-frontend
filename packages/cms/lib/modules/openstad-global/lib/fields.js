@@ -1,3 +1,4 @@
+var _ = require('lodash');
 
 const rightsChoices =  [
     {
@@ -173,8 +174,76 @@ module.exports = [
         svgImages: true,
         label: 'Logo',
         apiSyncField: 'styling.logo',
+        apiPreSyncFormat: function (value, apos, field) {
+          const formattedValue = apos.attachments.url(value);
+          return formattedValue;
+        },
         trash: true
     },
+    {
+        name: 'formattedLogo',
+        type: 'string',
+        label: 'Formatted Logo',
+        formatField: function (value, apos, doc) {
+          const formattedUrl = apos.attachments.url(doc.siteLogo);
+          return formattedUrl;
+        },
+        apiSyncField: 'styling.formattedLogo',
+    },
+    {
+        name: 'formattedPaletteCSS',
+        type: 'string',
+        label: 'Formatted CSS',
+        formatField: function (value, apos, doc) {
+          var paletteFields = apos.modules['apostrophe-global'].options.paletteFields;
+          var rules = [];
+
+          paletteFields.forEach(function(field) {
+            var selectors = field.selector;
+            var properties = field.property;
+            var fieldValue = doc[field.name];
+            var fieldUnit = field.unit || '';
+
+            if (!fieldValue) {
+              return;
+            }
+
+            if (_.isString(selectors)) {
+              selectors = [selectors];
+            }
+
+            if (_.isString(properties)) {
+              properties = [properties];
+            }
+
+            properties.forEach(function (property) {
+              selectors.forEach(function (selector) {
+                var rule = '';
+                if (field.mediaQuery) {
+                  rule += '@media ' + field.mediaQuery + ' { ';
+                }
+                if (field.valueTemplate) {
+                  var regex = /%VALUE%/gi;
+                  rule += selector + '{ ' + property + ': ' + field.valueTemplate.replace(regex, fieldValue + fieldUnit) + '; }';
+                } else {
+                  rule += selector + ' { ' + property + ': ' + fieldValue + fieldUnit + '; }';
+                }
+
+                if (field.mediaQuery) {
+                  rule += ' } ';
+                }
+                rules.push(rule);
+              });
+            });
+          });
+
+
+
+          return rules.join('');
+        },
+        apiSyncField: 'styling.inlineCSS',
+    },
+
     {
         name: 'logoLink',
         type: 'string',

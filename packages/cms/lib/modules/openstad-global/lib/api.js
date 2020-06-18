@@ -1,4 +1,5 @@
 const polygons          = require('../../../../config/map').default.polygons;
+var _ = require('lodash');
 
 module.exports = (self, options) => {
 
@@ -27,6 +28,17 @@ module.exports = (self, options) => {
 
               return next();
           });
+    };
+
+
+    self.formatGlobalFields = (req, doc, options) => {
+      self.schema.forEach((field, i) => {
+        if (field.formatField) {
+          //doc is the doc for saving in mongodb, in this case it's the global values
+          doc[field.name] = field.formatField(field, self.apos, doc);
+        }
+
+      });
     };
 
     self.syncApi = async (req, doc, options) => {
@@ -92,7 +104,6 @@ module.exports = (self, options) => {
         throw new Error('No polygons found');
       } catch (error) {
         // @todo: proper error handling
-        console.log (error);
         return [];
       }
     }

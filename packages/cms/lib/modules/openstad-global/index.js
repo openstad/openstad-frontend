@@ -20,11 +20,10 @@ module.exports = {
     require('./lib/api')(self, options);
 
     self.on('apostrophe:modulesReady', 'setSyncFields');
+    self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
     self.on('apostrophe-docs:afterSave', 'syncApi');
 
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
-
-
 
     self.apos.app.use((req, res, next) => {
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
