@@ -70,6 +70,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			.then(found => {
 				if ( !found ) throw new Error('Site not found');
 				req.results = found;
+				req.site = req.results; // middleware expects this to exist
 				next();
 			})
 			.catch(next);
