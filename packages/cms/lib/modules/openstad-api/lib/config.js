@@ -18,11 +18,6 @@ module.exports = (self, options) => {
         value = self.getFieldValue(body.data, field);
       }
 
-      if (field.apiPreSyncFormat) {
-        const formattedValue = field.apiPreSyncFormat(value, self.apos, field);
-        item['formatted_' + field.name] = formattedValue;
-      }
-
       item[field.name] = value;
     });
 

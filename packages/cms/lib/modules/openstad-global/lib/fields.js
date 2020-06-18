@@ -174,10 +174,6 @@ module.exports = [
         svgImages: true,
         label: 'Logo',
         apiSyncField: 'styling.logo',
-        apiPreSyncFormat: function (value, apos, field) {
-          const formattedValue = apos.attachments.url(value);
-          return formattedValue;
-        },
         trash: true
     },
     {
