@@ -402,7 +402,8 @@ module.exports = {
           widget.ideas = includeThemes.length > 0 ? widget.ideas.filter(idea => idea && idea.extraData && idea.extraData && includeThemes.indexOf(idea.extraData.theme)  !== -1) : widget.ideas;
        }
 
-
+       // generate an identifier based on ideas shown
+       widget.identifier = 'identifier-' + widget.ideas.map( idea => idea.id ).sort().join('-').toString('base64')
 
        return superOutput(widget, options);
      };

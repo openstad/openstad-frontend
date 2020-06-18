@@ -54,8 +54,8 @@ function votingPreviousStep() {
 }
 
 function hideStep(step) {
-  document.querySelector('#' + step.barId).className = document.querySelector('#' + step.barId).className.replace(' active', '');
-  document.querySelector('#' + step.contentId).className = document.querySelector('#' + step.contentId).className.replace(' active', '');
+  document.querySelector('#' + step.barId).className = document.querySelector('#' + step.barId).className.replace(/ active/g, '');
+  document.querySelector('#' + step.contentId).className = document.querySelector('#' + step.contentId).className.replace(/ active/g, '');
   // activate next step
 }
 
@@ -105,7 +105,7 @@ function activateNextButton() {
 }
 
 function deactivateNextButton() {
-  document.querySelector('#next-button').className = document.querySelector('#next-button').className.replace(' active', '');
+  document.querySelector('#next-button').className = document.querySelector('#next-button').className.replace(/ active/g, '');
 }
 
 function hideNextButton() {
@@ -128,7 +128,7 @@ var previewDescriptionHTML = '';
 function selectIdea(newIdeaId, doNotOpen) {
   ideaId = newIdeaId;
 
-  openstadSetCookie('ideaId', ideaId);
+  openstadSetCookie('ideaId' + voteBlockIdentifier, ideaId);
   voteCreatorElement.querySelector('input[name=ideaId]').value = ideaId;
 
   $('.preview-container').removeClass('form-error');
@@ -140,7 +140,7 @@ function selectIdea(newIdeaId, doNotOpen) {
   var stepElement = document.querySelector('#' + step.contentId);
 
   var previewElement = stepElement.querySelector('.preview');
-  previewElement.className = previewElement.className.replace(' form-error', '');
+  previewElement.className = previewElement.className.replace(/ form-error/g, '');
 
   var node = document.createElement('div');
   node.className = 'image';
@@ -198,7 +198,7 @@ function setLoginUrlWithIdeaId(ideaId) {
 function unSelectIdea(event) {
 
   ideaId = undefined;
-  openstadEraseCookie('ideaId');
+  openstadEraseCookie('ideaId' + voteBlockIdentifier);
   voteCreatorElement.querySelector('input[name=ideaId]').value = '';
 
   // last minute hardcoded ellende
@@ -272,7 +272,7 @@ function setVerified() {
 
 
 function setHasVoted() {
-  openstadSetCookie('hasVoted', true);
+  openstadSetCookie('hasVoted' + voteBlockIdentifier, true);
   hideStep(steps[currentStep])
   currentStep = 2;
   showStep(steps[currentStep], true);
@@ -286,7 +286,7 @@ function setHasVoted() {
   }
   buttons = document.querySelectorAll('.vote-button-container.hasNotVoted');
   for (var i=0; i<buttons.length; i++) {
-    buttons[i].className = buttons[i].className.replace('active', '');
+    buttons[i].className = buttons[i].className.replace(/active/g, '');
   }
   buttons = document.querySelectorAll('.vote-button-container.hasVoted');
   for (var i=0; i<buttons.length; i++) {
@@ -296,7 +296,7 @@ function setHasVoted() {
 
 function setHasConfirmed() {
   currentStep = 4;
-  openstadSetCookie('hasConfirmed',  true);
+  openstadSetCookie('hasConfirmed' + voteBlockIdentifier,  true);
   hasConfirmed = true;
   hideStep(steps[0]);
   showStep({
