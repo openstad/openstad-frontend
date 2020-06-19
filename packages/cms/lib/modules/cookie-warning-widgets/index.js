@@ -67,10 +67,10 @@ module.exports = {
     /**
      * Add the cookieConsent to the req.data object so it ca be used in widget templates for checking before loading
      */
-    self.apos.app.use(function(req, res, next){
-        req.data.cookieConsent = req.data.global.useCookieWarning ? req.cookies && req.cookies['cookie-consent'] == 1 : true;
-        next();
-    });
+    self.expressMiddleware = (req, res, next) => {
+      req.data.cookieConsent = req.data.global.useCookieWarning ? req.cookies && req.cookies['cookie-consent'] == 1 : true;
+      next();
+    };
 
     const superLoad = self.load;
     self.load = function(req, widgets, next) {

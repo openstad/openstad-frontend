@@ -32,8 +32,9 @@ apos.define('cookie-warning-widgets', {
     }
 });
 
-$(document).ready(function() {
+apos.utils.onReady(function() {
     var cookieConsent = apos.cookieWarning.getCookieConsent();
+    
     if (typeof cookieConsent == 'undefined') {
         document.getElementById('cookiewarning-container-top').classList.remove("hidden")
     } else {
