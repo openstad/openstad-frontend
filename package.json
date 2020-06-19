@@ -23,7 +23,7 @@
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",
     "diff": ">=3.5.0",
-    "dotenv": "^6.0.0",
+    "dotenv": "^6.2.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
