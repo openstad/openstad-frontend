@@ -15,7 +15,7 @@ before_install:
   - docker build -t ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
 
 script:
-  - docker run -e CI=true ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} env SESSION_SECRET=test npm run test -- --coverage
+  - docker run -e CI=true ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} env SESSION_SECRET=test npm run test --prefix packages/cms -- --coverage
 
 deploy:
   # what branches to deploy automatically
