@@ -80,6 +80,14 @@ node reset.js
 node server.js
 ```
 
+### 5. Run tests
+
+There are several test scripts:
+1. `npm run test` For all tests scenarios
+2. `npm run test:unit` For all unit tests
+3. `npm run test:e2e` For all e2e tests
+
+
 ## Documentatie
 
 Meer informatie staat in de [docs directory](doc/index.md).
