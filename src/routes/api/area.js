@@ -5,6 +5,16 @@ const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-l
 
 const router = require('express-promise-router')({ mergeParams: true });
 
+// scopes: for all get requests
+router
+  .all('*', function(req, res, next) {
+    req.scope = ['api'];
+
+    req.scope.push('includeSite');
+
+    return next();
+  })
+
 router.route('/')
   .get(auth.can('Area', 'list'))
   .get(pagination.init)
