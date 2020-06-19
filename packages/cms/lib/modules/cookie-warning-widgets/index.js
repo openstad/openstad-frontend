@@ -3,7 +3,7 @@
  *
  */
 module.exports = {
-  extend: 'apostrophe-widgets',
+  extend: 'openstad-widgets',
   alias: 'cookieWarning',
   label: 'Cookies preference',
   addFields: [

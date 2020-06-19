@@ -1,5 +1,5 @@
 apos.define('accordeon-widgets', {
-  extend: 'apostrophe-widgets',
+  extend: 'openstad-widgets',
   construct: function (self, options) {
     self.play = function ($widget, data, options) {
 

@@ -1,11 +1,11 @@
 apos.define('cookie-warning-widgets', {
-    extend: 'apostrophe-widgets',
+    extend: 'openstad-widgets',
     construct: function(self, options) {
 
         self.play = function($widget, data, options) {
             $widget.find('.cookie-button').click(function(event) {
                 event.preventDefault();
-                
+
                 if(
                   (self.getCookieConsent() && $(this).data('allow') === true) ||
                   (!self.getCookieConsent() && $(this).data('allow') === false)
