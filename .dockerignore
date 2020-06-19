@@ -1,6 +1,8 @@
 .git
+.gitignore
 Dockerfile
 .dockerignore
-.gitignore
 data
 public/uploads
+node_modules
+.env
