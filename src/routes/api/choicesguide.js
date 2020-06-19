@@ -64,7 +64,7 @@ router.route('/$')
 
 // create choicesguide
 // -------------------
-  .post(auth.can('Choicesguide', 'create'))
+  .post(auth.can('ChoicesGuide', 'create'))
 	.post(auth.useReqUser)
   .post(function(req, res, next) {
     if (!req.site) return next(createError(404, 'Site niet gevonden'));
@@ -207,7 +207,7 @@ router.route('/:choicesGuideId(\\d+)$')
 
 // delete choicesguide
 // -------------------
-  .delete(auth.can('Choicesguide', 'delete'))
+  .delete(auth.can('ChoicesGuide', 'delete'))
   .delete(function(req, res, next) {
     req.choicesguide
       .destroy()
