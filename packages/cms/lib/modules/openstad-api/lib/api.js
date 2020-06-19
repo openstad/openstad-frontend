@@ -12,6 +12,7 @@ module.exports = (self, options) => {
   self.updateSiteConfig = async (req, siteConfig, item, apiSyncFields) => {
 
     apiSyncFields.forEach(field => {
+      //item is the inter global config
       const value = self.getFieldValue(item, field);
       self.setApiConfigValue(siteConfig, field.apiSyncField, value);
     });
@@ -58,12 +59,11 @@ module.exports = (self, options) => {
       'Accept': 'application/json',
     };
 
-
     if (self.sessionJwt) {
-      headers['X-Authorization'] = self.sessionJwt;
+      headers["X-Authorization"] = `Bearer ${self.sessionJwt}`;
     }
 
-    return self.getOptions(Object.assign(headers, additionalOptions));
+    return self.getOptions(Object.assign({'headers': headers}, additionalOptions));
   };
 
   self.getSite = async (req, siteId, sort) => {
@@ -92,9 +92,7 @@ module.exports = (self, options) => {
       uri: `${self.apiUrl}/api/site/${self.siteId}`,
       body: data,
     });
-
-    console.log('options', options);
-
+    
     return request(options);
   };
 
