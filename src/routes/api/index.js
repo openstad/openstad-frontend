@@ -1,7 +1,7 @@
 const express = require('express');
 const bruteForce = require('../../middleware/brute-force');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // brute force
 router.use( bruteForce.globalMiddleware );
@@ -41,10 +41,12 @@ router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 
+// area
+router.use( '/area', require('./area') );
+
 // output error as JSON only use this error handler middleware in "/api" based routes
 router.use("/site", function(err, req, res, next){
-//  console.log('===> err', err);
-
+  console.log('->>> err', err);
   // use the error's status or default to 500
   res.status(err.status || 500);
 

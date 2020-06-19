@@ -43,8 +43,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 				value = value || {};
 				value = merge.recursive(currentconfig, value);
 				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
-			}
+			},
+      auth: {
+        viewableBy: 'admin',
+      },
 		},
+		
+		areaId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		}
 
 	});
 
@@ -52,11 +60,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 			},
+			
+			withArea: {
+				include: [{
+					model: db.Area
+				}]
+			}
 		};
 	}
 
 	Site.associate = function( models ) {
 		this.hasMany(models.Idea);
+		this.belongsTo(models.Area);
 	}
 
 	Site.configOptions = function () {
@@ -573,6 +588,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 	}
+
+	Site.auth = Site.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
 	return Site;
 

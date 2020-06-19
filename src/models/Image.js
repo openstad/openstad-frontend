@@ -106,6 +106,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 	}
 
+  // volgens mij wordt dit niet meer gebruikt
+	Image.auth = Image.prototype.auth = {
+    listableBy: 'admin',
+    viewableBy: 'admin',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
 	return Image;
 
 };

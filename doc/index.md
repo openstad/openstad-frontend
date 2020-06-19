@@ -12,6 +12,7 @@ Dit is een JSON API server
 [Email](/doc/email)
 [Newsletter Signup](/doc/newslettersignup)
 
+[Sequelize authorization](/doc/sequelize-authorization)
 [Pagineren en zoeken](/doc/pagination-and-search)
 
 +## Roadmap. Of: een paar lange termijn ToDo's

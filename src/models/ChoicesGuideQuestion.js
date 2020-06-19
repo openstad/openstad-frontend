@@ -173,6 +173,15 @@ module.exports = function( db, sequelize, DataTypes ) {
     this.belongsTo(models.ChoicesGuideQuestionGroup, { foreignKey: 'questionGroupId' });
   };
 
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	ChoicesGuideQuestion.auth = ChoicesGuideQuestion.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
   return ChoicesGuideQuestion;
 
 };

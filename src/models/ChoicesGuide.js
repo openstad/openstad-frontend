@@ -118,5 +118,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 
   };
 
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	ChoicesGuide.auth = ChoicesGuide.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
   return ChoicesGuide;
+
 };

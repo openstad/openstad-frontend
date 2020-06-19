@@ -69,6 +69,8 @@ module.exports = function( helpers, role ) {
 		},
 		'arg:edit'         : helpers.mayMutateArgument,
 		'arg:reply'        : helpers.mayReplyToArgument,
-		'arg:delete'       : helpers.mayMutateArgument
+		'arg:delete'       : helpers.mayMutateArgument,
+		'area:list'				: true,
+		'area:create'			: false,
 	});
 };

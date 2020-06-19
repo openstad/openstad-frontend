@@ -1,4 +1,5 @@
 var config = require('config');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Vote = sequelize.define('vote', {
@@ -102,5 +103,17 @@ module.exports = function( db, sequelize, DataTypes ) {
 		});
 	}
 
+  // TODO: dit wordt nauwelijks gebruikt omdat de logica helemaal in de route zit. Maar hier zou dus netter zijn.
+	Vote.auth = Vote.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'member',
+    updateableBy: ['editor', 'owner'],
+    deleteableBy: 'admin',
+    canToggle: function(user, self) {
+      return userHasRole(user, 'editor', self.userId);
+    }
+  }
+  
 	return Vote;
 };

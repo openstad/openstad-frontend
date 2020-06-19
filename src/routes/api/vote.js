@@ -3,7 +3,7 @@ const express     = require('express');
 const createError = require('http-errors')
 const moment      = require('moment');
 const db          = require('../../db');
-const auth        = require('../../auth');
+const auth        = require('../../middleware/sequelize-authorization-middleware');
 const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
@@ -11,7 +11,11 @@ const {Op} = require('sequelize');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
+
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
 
 // basis validaties
 // ----------------
@@ -126,7 +130,7 @@ router.route('/')
       ])
     }
 
-		if (req.user && req.user.role === 'admin') {
+		if (req.user && userhasModeratorRights(req.user)) {
 			req.scope.push('includeUser');
 		}
 
@@ -154,7 +158,7 @@ router.route('/')
 				createdAt: entry.createdAt
 			};
 
-			if (req.user && req.user.role === 'admin') {
+			if (req.user && userhasModeratorRights(req.user)) {
 				vote.ip = entry.ip;
 				vote.createdAt = entry.createdAt;
 				vote.checked =  entry.checked;
@@ -168,8 +172,6 @@ router.route('/')
 // create votes
 // ------------
 router.route('/*')
-
-	// .post(auth.can('ideavote:create'))
 
   // heb je al gestemd
 	.post(function(req, res, next) {
@@ -401,7 +403,7 @@ router.route('/*')
 			})
 			.catch(next);
 		})
-		.all(auth.can('idea:admin'))
+	.all(auth.can('Vote', 'toggle'))
 			.get(function( req, res, next ) {
 				var ideaId = req.params.ideaId;
 				var vote   = req.vote;
