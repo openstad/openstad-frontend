@@ -54,7 +54,6 @@ var sites = [
 ];
 
 var users = [
-	{id: 1, complete: false , role: 'unknown'},
 	{id: 2, complete: true, role: 'admin', email: 'admin@undefined.nl', password: '123456', firstName: 'Administrator', lastName: 'on develoment', ideas : [
 		{
 			id               : 1,

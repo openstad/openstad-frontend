@@ -9,12 +9,13 @@ var db           = require('../db');
 var uidProperty  = config.get('security.sessions.uidProperty');
 var cookieTTL    = config.get('security.sessions.cookieTTL');
 
-db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) {
-	if( !unknownUser ) {
-		console.error('User ID 1 must have role \'unknown\'');
-		process.exit();
-	}
-});
+// user 1 has died
+// db.User.findOne({where: {id: 1, role: 'unknown'}}).then(function( unknownUser ) {
+//   if( !unknownUser ) {
+//   	console.error('User ID 1 must have role \'unknown\'');
+//   	process.exit();
+//   }
+// });
 
 module.exports = function getSessionUser( req, res, next ) {
 
@@ -88,7 +89,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
 			if( !dbuser ) {
-				return db.User.findByPk(1);
+				return {};
 			}
 			return dbuser;
 		})
@@ -150,11 +151,12 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 
 function resetSessionUser(user) {
 
+  if (!( user && user.update )) return {};
 	return user.update({
 		externalAccessToken: null
 	})
 		.then(user => {
-			return db.User.findByPk(1);
+			return {};
 		})
 
 }

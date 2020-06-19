@@ -1,14 +1,15 @@
-const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
 const moment			= require('moment');
 const createError = require('http-errors')
 const config = require('config');
 const db = require('../../db');
-const auth = require('../../auth');
+const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 // scopes: for all get requests
 router
@@ -46,25 +47,33 @@ router.route('/')
 
 // list articles
 // ----------
-	.get(auth.can('articles:list'))
+	.get(auth.can('Article', 'list'))
+	.get(pagination.init)
+	// add filters
 	.get(function(req, res, next) {
+
+		let queryConditions = req.queryConditions ? req.queryConditions : {};
+		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+
 		db.Article
 			.scope(...req.scope)
-			.findAll({ where: { siteId: req.params.siteId } })
-			.then( found => {
-				return found.map( entry => {
-					return createArticleJSON(entry, req.user, req);
-				});
-			})
-			.then(function( found ) {
-				res.json(found);
+			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
+			.then(function( result ) {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
 			})
 			.catch(next);
 	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+		res.json(req.results);
+  })
 
 // create article
 // -----------
-	.post(auth.can('article:create'))
+	.post(auth.can('Article', 'create'))
 	.post(function(req, res, next) {
 		if (!req.site) return next(createError(401, 'Site niet gevonden'));
 		return next();
@@ -74,20 +83,37 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-		filterBody(req);
-		req.body.siteId = parseInt(req.params.siteId);
-		req.body.userId = req.user.id;
-		req.body.startDate = new Date();
+
+		let data = {
+      ...req.body,
+			siteId      : req.params.siteId,
+			userId      : req.user.id,
+		  startDate:  new Date(),
+		}
+
+    // TODO: dit moet ook nog ergens in auth
+    if (auth.hasRole(req.user, 'editor')) {
+      if (data.modBreak) {
+        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+        data.modBreakDate = req.body.modBreakDate = new Date().toString();
+      } else {
+        data.modBreak = '';
+				data.modBreakUserId = null;
+				data.modBreakDate = null;
+      }
+    }
 
 		try {
-			req.body.location = JSON.parse(req.body.location || null);
+			data.location = JSON.parse(data.location || null);
 		} catch(err) {}
 
+    let responseData;
 		db.Article
-			.create(req.body)
-			.then(result => {
-				res.json(createArticleJSON(result, req.user, req));
-				mail.sendThankYouMail(result, req.user, req.site) // todo: optional met config?
+			.authorizeData(data, 'create', req.user)
+			.create(data)
+			.then(articleInstance => {
+				req.results = articleInstance;
+        return next();
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -103,6 +129,35 @@ router.route('/')
 					next(error);
 				}
 			});
+
+	})
+	.post(function(req, res, next) {
+
+    // tags
+    if (!req.body.tags) return next();
+
+ 		let articleInstance = req.results;
+		articleInstance
+		  .setTags(req.body.tags)
+			.then(articleInstance => {
+		    // refetch. now with tags
+		    let scope = [...req.scope, 'includeTags']
+			  return db.Article
+				  .scope(...scope)
+				  .findOne({
+					  where: { id: articleInstance.id, siteId: req.params.siteId }
+				  })
+				  .then(found => {
+					  if ( !found ) throw new Error('Article not found');
+					  req.results = found;
+		        return next();
+				  })
+				  .catch(next);
+		  })
+	})
+	.post(function(req, res, next) {
+		res.json(req.results);
+		mail.sendThankYouMail(req.results, req.user, req.site) // todo: optional met config?
 	})
 
 // one article
@@ -112,12 +167,14 @@ router.route('/:articleId(\\d+)')
 		var articleId = parseInt(req.params.articleId) || 1;
 
 		db.Article
+			.scope(...req.scope)
 			.findOne({
 				where: { id: articleId, siteId: req.params.siteId }
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Article not found');
 				req.article = found;
+		    req.results = req.article;
 				next();
 			})
 			.catch(next);
@@ -125,121 +182,91 @@ router.route('/:articleId(\\d+)')
 
 // view article
 // ---------
-	.get(auth.can('article:view'))
+	.get(auth.can('Article', 'view'))
+	.get(auth.useReqUser)
 	.get(function(req, res, next) {
-		res.json(createArticleJSON(req.article, req.user, req));
+		res.json(req.results);
 	})
 
 // update article
 // -----------
+	.put(auth.useReqUser)
 	.put(function(req, res, next) {
-    next()
-  })
-	.put(auth.can('article:edit'))
+    req.tags = req.body.tags;
+    return next()
+	})
 	.put(function(req, res, next) {
-		filterBody(req)
-		if (req.body.location) {
-			try {
-				req.body.location = JSON.parse(req.body.location || null);
-			} catch(err) {}
-		} else {
-			req.body.location = JSON.parse(null);
+
+    var article = req.results;
+    if (!( article && article.can && article.can('update') )) return next( new Error('You cannot update this Article') );
+
+		let data = {
+      ...req.body,
 		}
 
-		req.article
-			.update(req.body)
+    // TODO: dit moet ook nog ergens in auth
+    if (auth.hasRole(req.user, 'editor')) {
+      if (data.modBreak) {
+        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+        data.modBreakDate = req.body.modBreakDate = new Date().toString();
+      } else {
+        data.modBreak = '';
+				data.modBreakUserId = null;
+				data.modBreakDate = null;
+      }
+    }
+
+		article
+			.authorizeData(data, 'update')
+			.update(data)
 			.then(result => {
-				res.json(createArticleJSON(result, req.user, req));
+				req.results = result;
+        next()
 			})
 			.catch(next);
+	})
+	.put(function(req, res, next) {
+
+    // tags
+    if (!req.tags) return next();
+
+    let tagIds = [];
+    let responseData;
+    let articleInstance = req.results;
+
+		articleInstance
+			.setTags(req.tags)
+			.then(articleInstance => {
+        // refetch. now with tags
+        let scope = [...req.scope, 'includeTags']
+		    return db.Article
+			    .scope(...scope)
+			    .findOne({
+				    where: { id: articleInstance.id, siteId: req.params.siteId }
+			    })
+			    .then(found => {
+				    if ( !found ) throw new Error('Article not found');
+				    req.results = found;
+            next();
+			    })
+			    .catch(next);
+	    })
+
+	})
+	.put(function(req, res, next) {
+		res.json(req.results);
 	})
 
 // delete article
 // ---------
-	.delete(auth.can('article:delete'))
+	.delete(auth.can('Article', 'delete'))
 	.delete(function(req, res, next) {
-		req.article
+		req.results
 			.destroy()
 			.then(() => {
 				res.json({ "article": "deleted" });
 			})
 			.catch(next);
 	})
-
-// extra functions
-// ---------------
-
-function filterBody(req) {
-	let filteredBody = {};
-
-	let keys;
-	let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
-
-	if (hasModeratorRights) {
-		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
-	} else {
-		keys = [ 'title', 'summary', 'description', 'extraData', 'location' ];
-	}
-
-	keys.forEach((key) => {
-		if (req.body[key]) {
-			filteredBody[key] = req.body[key];
-		}
-	});
-
-	if (hasModeratorRights) {
-    if (filteredBody.modBreak) {
-      if ( !req.article || req.article.modBreak != filteredBody.modBreak ) {
-        if (!req.body.modBreakUserId) filteredBody.modBreakUserId = req.user.id;
-        if (!req.body.modBreakDate) filteredBody.modBreakDate = new Date().toString();
-      }
-    } else {
-      filteredBody.modBreak = '';
-      filteredBody.modBreakUserId = null;
-      filteredBody.modBreakDate = null;
-    }
-  }
-
-	req.body = filteredBody;
-}
-
-function createArticleJSON(article, user, req) {
-	let hasModeratorRights = (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
-
-	let can = {
-		// edit: user.can('arg:edit', argument.article, argument),
-		// delete: req.user.can('arg:delete', entry.article, entry),
-		// reply: req.user.can('arg:reply', entry.article, entry),
-	};
-
-	let result = article.toJSON();
-	result.config = null;
-	result.site = null;
-	result.can = can;
-
-	if (article.extraData && article.extraData.phone && hasModeratorRights) {
-		delete result.extraData.phone;
-	}
-
-
-	if (article.user) {
-		result.user = {
-			firstName: article.user.firstName,
-			lastName: article.user.lastName,
-			fullName: article.user.fullName,
-			nickName: article.user.nickName,
-			isAdmin: hasModeratorRights,
-			email: hasModeratorRights ? article.user.email : '',
-		};
-	} else {
-		result.user = {
-			isAdmin: hasModeratorRights,
-		};
-	}
-
-	result.createdAtText = moment(article.createdAt).format('LLL');
-
-	return result;
-}
 
 module.exports = router;

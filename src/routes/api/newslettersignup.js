@@ -1,11 +1,13 @@
 const express = require('express');
 const createError = require('http-errors');
 const db = require('../../db');
-const auth = require('../../auth');
+const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const generateToken = require('../../util/generate-token');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({ mergeParams: true });
+const router = express.Router({ mergeParams: true });
 
 // scopes: for all get requests
 router
@@ -18,40 +20,33 @@ router.route('/$')
 
 // list newslettersignups
 // ----------------------
-  .get(auth.can('newslettersignup:list'))
+  .get(auth.can('NewsletterSignup', 'list'))
+	.get(pagination.init)
   .get(function(req, res, next) {
     let where = { siteId: req.site.id };
     let confirmed = req.query.confirmed;
     if ( typeof confirmed !== 'undefined' ) where.confirmed = !( confirmed == 'false' || confirmed == '0' );
     db.NewsletterSignup
       .scope(...req.scope)
-      .findAll({ where })
-      .then( (found) => {
-        return found.map( (entry) => {
-          let json = {
-            id: entry.id,
-            siteId: entry.siteId,
-            email: entry.email,
-            firstName: entry.firstName,
-            lastName: entry.lastName,
-            createdAt: entry.createdAt,
-            externalUserId: entry.externalUserId,
-            confirmed: entry.confirmed,
-            confirmToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == entry.externalUserId  ? entry.confirmToken : undefined,
-            signoutToken: req.user.isAdmin() || req.user.externalUserId && req.user.externalUserId == entry.externalUserId  ? entry.signoutToken : undefined,
-          };
-          return json;
-        });
-      })
-      .then(function( found ) {
-        res.json(found);
+			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+      .then( (result) => {
+        req.results = result.rows;
+        req.pagination.count = result.count;
+        return next();
       })
       .catch(next);
+  })
+	.get(auth.useReqUser)
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+		res.json(req.results);
   })
 
 // create newslettersignup
 // -----------------------
-  .post(auth.can('newslettersignup:create'))
+  .post(auth.can('NewsletterSignup', 'create'))
+	.post(auth.useReqUser)
   .post(function(req, res, next) {
     if (!req.site) return next(createError(404, 'Site niet gevonden'));
     return next();
@@ -93,6 +88,7 @@ router.route('/$')
 
     let data = {};
 
+    // TODO: dit kan nu via de auth van het model
     if (req.user && req.user.email) {
       data.email = req.user.email;
       data.firstName = req.user.firstName;
@@ -125,7 +121,8 @@ router.route('/$')
 // confirm signup
 // --------------
 router.route('/confirm$')
-  .post(auth.can('newslettersignup:confirm'))
+  .post(auth.can('NewsletterSignup', 'confirm'))
+	.post(auth.useReqUser)
   .post(function(req, res, next) {
     if (!req.body.confirmToken || !req.body.confirmToken.match(/^[a-zA-Z0-9]{256}$/)) return next(createError(404, 'Token niet gevonden'));
     return next();
@@ -141,6 +138,7 @@ router.route('/confirm$')
             confirmToken: null,
           })
           .then((result) => {
+            // TODO: dit kan weg, maar ff checken tegen de auth settings
             let json = {
               id: result.id,
               siteId: result.siteId,
@@ -160,7 +158,7 @@ router.route('/confirm$')
 // signout
 // -------
 router.route('/signout$')
-  .post(auth.can('newslettersignup:signout'))
+  .post(auth.can('NewsletterSignup', 'signout'))
   .post(function(req, res, next) {
     if (!req.body.signoutToken || !req.body.signoutToken.match(/^[a-zA-Z0-9]{256}$/)) return next(createError(404, 'Token niet gevonden'));
     return next();
@@ -192,7 +190,7 @@ router.route('/:newslettersignupId(\\d+)')
       })
       .then((found) => {
         if ( !found ) throw createError(404, 'Aanmelding niet gevonden');
-        req.newslettersignup = found;
+        req.results = found;
         next();
       })
       .catch(next);
@@ -200,9 +198,11 @@ router.route('/:newslettersignupId(\\d+)')
 
 // update newslettersignup
 // -----------------------
-  .put(auth.can('newslettersignup:edit'))
+	.put(auth.useReqUser)
   .put(function(req, res, next) {
-    req.newslettersignup
+		var newslettersignup = req.results;
+    if (!( newslettersignup && newslettersignup.can && newslettersignup.can('update') )) return next( new Error('You cannot update this newslettersignup') );
+		newslettersignup
       .update(req.body)
       .then((result) => {
         res.json(result);
@@ -212,9 +212,9 @@ router.route('/:newslettersignupId(\\d+)')
 
 // delete idea
 // ---------
-  .delete(auth.can('newslettersignup:delete'))
+  .delete(auth.can('NewsletterSignup', 'delete'))
   .delete(function(req, res, next) {
-    req.newslettersignup
+    req.results
       .destroy()
       .then(() => {
         res.json({ newslettersignup: 'deleted' });

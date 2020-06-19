@@ -4,12 +4,30 @@ module.exports = function( helpers, role ) {
 			allow   : helpers.needsToCompleteRegistration,
 			message : 'Registreren is onnodig als je bent ingelogd'
 		},
-		
+
 		'idea:view'        : true,
 		'idea:create'      : true,
 		'idea:edit'        : helpers.mayMutateIdea,
 		'idea:delete'      : helpers.mayMutateIdea,
-		
+
+		'users:list'			: false,
+		 // a user's own data is  through the oauth session
+		'user:view'				: false,
+		// creating is done trough loggin in, not REST api
+		'user:create'			: false,
+
+		/*
+
+      allow: helpers.mayMutateUser,
+			resource : ['user'],
+			message  : 'Je kunt deze gebruiker niet bewerken'
+    },*/
+		//set to true, but extra check in API if its own.
+		//mayMutateUser currenlty doesnt work with this system
+		//because user resource is always logged in user
+		'user:edit'				: true,
+		'user:delete'			: true,
+
 		'article:view'     : true,
 		'article:create'	 : true,
 		'article:edit'		 : {
@@ -43,7 +61,7 @@ module.exports = function( helpers, role ) {
 		'ideavote:create'	 : true,
 
 		'image:upload'     : true,
-		
+
 		'arg:add'          : helpers.mayAddArgument,
 		'arg:vote'         : {
 			allow   : helpers.mayVoteArgument,
@@ -51,7 +69,8 @@ module.exports = function( helpers, role ) {
 		},
 		'arg:edit'         : helpers.mayMutateArgument,
 		'arg:reply'        : helpers.mayReplyToArgument,
-		'arg:delete'       : helpers.mayMutateArgument
+		'arg:delete'       : helpers.mayMutateArgument,
+		'area:list'				: true,
+		'area:create'			: false,
 	});
 };
-

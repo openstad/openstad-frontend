@@ -10,6 +10,7 @@ var sanitize      = require('../util/sanitize');
 var notifications = require('../notifications');
 
 const merge = require('merge');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
@@ -211,6 +212,22 @@ module.exports = function( db, sequelize, DataTypes ) {
         fillValue(oldValue, value);
 
 				this.setDataValue('extraData', JSON.stringify(value));
+      },
+      auth: {
+        authorizeData: function(self, action, user, data) {
+          if (!self.site) return; // todo: die kun je ophalen als eea. async is
+          data = data || self.extraData;
+          let result = {};
+          Object.keys(data).forEach((key) => {
+            let testRole = self.site.config && self.site.config.ideas && self.site.config.ideas.extraData[key] && self.site.config.ideas.extraData[key].auth && self.site.config.ideas.extraData[key].auth[action+'ableBy'];
+            testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+            if (userHasRole(user, testRole, self.userId)) {
+              result[key] = data[key];
+            }
+          });
+          console.log(result);
+          return result;
+        },
 			}
 		},
 
@@ -741,6 +758,49 @@ module.exports = function( db, sequelize, DataTypes ) {
 			return self;
 		});
 	}
+
+  let canMutate = function(user, self) {
+    if( !self.isOpen() ) {
+			return false;
+		}
+    if (userHasRole(user, 'editor', self.userId)) {
+      return true;
+    }
+    if (!userHasRole(user, 'owner', self.userId)) {
+      return false;
+    }
+    let config = self.site && self.site.config && self.site.config.articles
+    let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
+		let voteCount = self.no + self.yes;
+		let argCount  = self.argumentsFor && self.argumentsFor.length && self.argumentsAgainst && self.argumentsAgainst.length;
+		return canEditAfterFirstLikeOrArg || ( !voteCount && !argCount );
+  }
+
+	Article.auth = Article.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'editor',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+    canUpdate: canMutate,
+    canDelete: canMutate,
+    toAuthorizedJSON: function(user, data) {
+
+      delete data.site;
+      delete data.config;
+      // dit zou nu dus gedefinieerd moeten worden op site.config, maar wegens backward compatible voor nu nog even hier:
+	    if (data.extraData && data.extraData.phone) {
+		    delete data.extraData.phone;
+	    }
+      // wordt dit nog gebruikt en zo ja mag het er uit
+      if (!data.user) data.user = {};
+      data.user.isAdmin = userHasRole(user, 'editor');
+      // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
+	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      return data;
+    },
+  }
 
 	return Article;
 
