@@ -40,7 +40,7 @@ module.exports = (self, options) => {
       return obj[is[0]] = value;
     else if (is.length === 0)
       return obj;
-    else if (is.length > 1 && obj[is[0]] === null) {
+    else if (is.length > 1 && (obj[is[0]] === undefined || obj[is[0]] === null)) {
       obj[is[0]] = {};
       return self.setObjectValue(obj[is[0]], is.slice(1), value);
     } else {
