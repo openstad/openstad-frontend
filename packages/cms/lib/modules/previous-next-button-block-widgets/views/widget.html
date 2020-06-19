@@ -1,0 +1,20 @@
+<link rel="stylesheet" type="text/css" href="{{data.widget.openstadComponentsUrl}}/css/all.css?{{data.assetsGeneration}}"/>
+
+<style>
+ {{data.widget.formattedContainerStyles}}
+</style>
+
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="{{data.widget.openstadComponentsUrl}}/all.js?{{data.assetsGeneration}}"></script>
+
+<script>
+ window.addEventListener('load', function(e) {
+   let config = {{data.widget.config | safe}};
+   let element = document.querySelector('.openstad-component-previous-next-button-block');
+   OpenStadComponents.PreviousNextButtonBlock.renderElement(element, config);
+ });
+</script>
+<div id="{{data.widget.containerId}}" class="osc-component">
+	<div class="openstad-component-previous-next-button-block"></div>
+</div>

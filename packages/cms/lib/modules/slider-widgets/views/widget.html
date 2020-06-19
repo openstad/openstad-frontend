@@ -1,0 +1,30 @@
+<style>
+    {{data.widget.formattedContainerStyles}}
+</style>
+
+<div id="{{data.widget.containerId}}" class="slider">
+{% if data.widget.items %}
+    <ul class="slide-items">
+        {% for item in data.widget.items %}
+            <li class="slide-item">
+                <div class="image-container">
+                    <div class="imgdiv"
+                        style="background-image: url({{ apos.attachments.url(item.image) }})"
+                    >
+                        <img class="button button-left" src="/modules/openstad-assets/img/button-arrow-blue.svg"></modules/openstad-assets/img>
+                        <img class="button button-right" src="/modules/openstad-assets/img/button-arrow-blue.svg"></modules/openstad-assets/img>
+
+                    </div>
+                </div>
+                <h4>{{ item.title | sanitize | safe}}</h4>
+                <p>{{item.description}} </p>
+                {# <p>{{ item.description.items[0].content | sanitize | safe}}</p> #}
+
+                {% if item.linkUrl %}
+                <a href="{{item.linkUrl}}" class="link-caret--blue block">{{item.linkTitle}}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</div>

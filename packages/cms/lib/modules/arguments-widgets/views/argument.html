@@ -1,0 +1,60 @@
+<div class="argument argument-variant-{{arg.label}} argument-action-form " data-id="{{arg.id}}" id="arg{{arg.id}}">
+  <div class="user {{'admin' if (arg.user.role === 'moderator') or (arg.user.role === 'admin') }}">
+    <strong>
+      {{arg.user.firstName}}
+      {{ apos.arguments.showLastName('arguments', data.widget, arg.user) }}
+    </strong> | {{ arg.createdAt | date('LLL') }}
+
+    {% if mayEdit %}
+    <a href="#" type="submit" class="default argument-edit edit" value="bewerken" title="Argument bewerken">&nbsp;</a>
+    {% endif %}
+
+    {% if mayDelete %}
+    <form class="action delete argument-action-form ajax-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" class="default delete" value="verwijderen" title="Argument verwijderen">
+    </form>
+    {% endif %}
+  </div>
+
+  <p class="argument-content">{{arg.description | urlize | nlbr | sanitize | safe}}</p>
+
+  {% if mayEdit %}
+  <form class="action argument-form argument-edit-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">
+    <input type="hidden" name="_method" value="PUT">
+    <textarea name="description" rows="3" placeholder="Typ hier jouw reactie...">{{arg.description}}</textarea>
+    <input type="submit" class="btn btn-primary" value="Opslaan" title="Argument bewerken">
+    &nbsp;
+    <a href="#" class="argument-edit-cancel"> Annuleer </a>
+  </form>
+  {% endif %}
+
+  <div class="clearfix">
+    {% if mayVote %}
+      <form class="action vote argument-action-form ajax-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}/vote">
+        <button
+          data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+          type="submit"
+          name="opinion"
+          value="yes"
+          class="{{'voted' if arg.hasUserVoted}} role-required-member {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}">
+          Mee eens (<span>{{arg.yes}}</span>)
+        </button>
+      </form>
+    {% else %}
+      <form class="action vote argument-action-form ajax-form ajax-refresh-after-submit">
+        <button disabled name="opinion" value="yes" class="{{'voted' if arg.hasUserVoted}} role-required-{{data.global.roleToLike}}" data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken.">
+          Mee eens (<span>{{arg.yes}}</span>)
+        </button>
+      </form>
+    {% endif %}
+
+    {% if maySeeReplyForm %}
+      <a
+        href="#"
+        data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+        class="reply reply-click argument-action-form role-required-member {{ 'logged-in' if data.loggedIn else 'not-logged-in' }}" {{'data-disabled' if not mayReply}}
+      >Reageren</a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,178 @@
+.text-center {
+  text-align: center;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.stretch {
+  width: 100%;
+}
+
+.block {
+  display: block !important;
+}
+
+.primary-color {
+  color: #164995;
+}
+
+.opacity-0-for-load {
+  opacity: 0;
+}
+
+.page-loaded .opacity-0-for-load, .page-loaded .ajax-form{
+  opacity: 1;
+}
+
+.page-loaded .hide-when-loaded {
+  display: none !important;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
+
+.underline {
+  text-decoration: underline !important;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.margin-hor-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.row.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  &--desktop {
+    @media @desktop {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+    }
+  }
+}
+
+.padding-bottom-l {
+  padding-bottom: 40px;
+}
+
+.row-footer {
+
+  &--desktop {
+    @media @desktop {
+      position: absolute;
+      bottom: -100px;
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.relative {
+  position: relative !important;
+}
+
+.smaller {
+  font-size: 14px;
+}
+
+.table-reset {
+  border-spacing: 0;
+
+  td {
+    padding: 5px;
+  }
+
+  tr:first-child {
+    td {
+      padding-top: 0;
+    }
+  }
+
+  tr:last-child {
+    td {
+      padding-bottom: 0;
+    }
+  }
+
+  td:first-child {
+    padding-left: 0
+  }
+
+  td:last-child {
+    padding-right: 0
+  }
+}
+
+.overstretch {
+  &--xs {
+    @media @phone {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+  }
+}
+
+
+.align-right {
+  text-align: right;
+
+  > * {
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  > :last-child {
+    margin-right: 0;
+  }
+}
+
+.table-center td {
+  vertical-align: middle;
+}
+
+.align-left {
+  text-align: left;
+
+  > * {
+    display: block;
+    margin: 0 5px;
+    float: left;
+  }
+
+  > :first-child {
+    margin-left: 0;
+  }
+}
+
+.vertically-centered {
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.li-spacer {
+  height: 4px !important;
+  background-color: #d6d6d6;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}

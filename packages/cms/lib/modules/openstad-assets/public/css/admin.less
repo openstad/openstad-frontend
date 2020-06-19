@@ -1,0 +1,149 @@
+/**
+ * Stylesheet to adjust the standard apostrhopeCMS styling to an openstad look
+ */
+.apos-workflow-draft-page .cms-admin {
+  .apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
+    max-height: none !important;
+    overflow: scroll !important;
+    column-count: 3;
+    max-width: 390px;
+    font-size: 14px;
+  }
+
+  .apos-area-widget.hover {
+    outline: 2px dotted #154995;
+  }
+
+  .apos-ui .apos-dropdown-item {
+    padding: 20px;
+    padding: 12px 18px;
+    font-size: 13px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    height: 66px;
+    overflow: hidden;
+}
+}
+
+.apos-ui .apos-admin-bar, .apos-ui .apos-button--global, .apos-ui .apos-button--major {
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 2px;
+  color: black;
+  -webkit-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+  -moz-box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+  box-shadow: 0 1px 5px 2px rgba(21,22,22,0.15);
+}
+
+.apos-ui .apos-admin-bar-item:hover {
+  background: #eeeeee;
+}
+
+.apos-ui .apos-admin-bar-logo {
+  padding: 15px 15px 8px 15px;
+}
+
+.apos-admin-bar-logo svg {
+  display: none;
+}
+
+.apos-admin-bar-logo::after {
+  content: 'openstad';
+  text-transform: uppercase;
+  font-weight: bold;
+  padding-top: 5px;
+  display: block;
+}
+
+.apos-ui .apos-admin-bar-inner {
+  max-width: 100px;
+}
+
+.apos-ui .apos-button--global:hover {
+  background-color: #143c77;
+  color: white;
+}
+
+.apos-ui .apos-button {
+  border: 2px solid #154995;
+}
+.apos-ui .apos-button--minor  {
+  border: 0;
+}
+
+.apos-ui .apos-button--danger {
+  border: 2px solid #EA433A;
+}
+
+.apos-ui .apos-button--in-group {
+  border: none;
+}
+
+.apos-ui .apos-button:hover {
+  -webkit-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+  -moz-box-shadow: 0 0  7px 2px rgba(21, 73, 149, 0.3);
+  box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+  cursor: pointer;
+}
+
+.apos-ui .apos-button--in-group:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: #154995;
+}
+
+.apos-required label:first-of-type::after {
+  color: #154995;
+}
+
+.apos-ui.apos-modal .apos-modal-breadcrumb .apos-modal-breadcrumb-item {
+  border-bottom: 1px dashed #154995;
+}
+
+.apos-ui .apos-field-input-text:focus, .apos-ui .apos-field-input-select:focus, .apos-ui .apos-field-input-textarea:focus {
+    outline: none;
+    -webkit-box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+    -moz-box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+    box-shadow: 0 0 7px 2px rgba(21, 73, 149, 0.3);
+}
+
+.apos-ui .apos-dropdown.apos-dropdown--area-controls>.apos-dropdown-items {
+  max-height: 280px;
+}
+
+/*
+  For editors the section controls are empty.
+  ApostrhopeCMS still shows the controls though.
+  Everything still works but it will trigger an empty dropdown.
+  To avoid confusion this small hack hides the ui controls for dropdown.
+ */
+.hide-section-controls > .apos-area > .apos-ui > .apos-area-controls,
+.hide-section-controls > .apos-area > .apos-area-widgets > .apos-area-widget-wrapper > .apos-ui > .apos-area-controls
+  {
+  display: none !important;
+}
+
+.apos-modal .apos-schema-tabs {
+  padding-bottom: 120px;
+}
+
+.apos-field-input-textarea {
+  min-height: 200px;
+}
+
+.apos-ui .apos-field {
+    max-width: 700px;
+}
+
+.apos-ui .apos-admin-bar-inner {
+  @media only screen and (min-width: 1450px) {
+    max-width: 125px;
+  }
+}
+
+.apos-ui .apos-admin-bar-logo {
+  @media only screen and (min-width: 1450px) {
+    padding: 25px 20px 20px;
+  }
+}

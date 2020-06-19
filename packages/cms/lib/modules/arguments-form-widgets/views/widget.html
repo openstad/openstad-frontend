@@ -1,0 +1,49 @@
+<div class="arguments-cta-box">
+	<div class="">
+		<form
+			method="POST"
+			action="/modules/arguments-form-widgets/submit"
+			class="argument-form clearfix {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} "
+		>
+			<div class="form-group">
+				<textarea
+					class="textarea margin-hor-s block argument-textarea role-required-member"
+					data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+					name="description"
+					minlength="30"
+					maxlength="500"
+					placeholder="{{data.widget.placeholder}}"
+				></textarea>
+
+				<div class="charsLeft margin-bottom-s">
+					<div class="min">Nog minimaal <span>30</span> tekens.</div>
+					<div class="max"><span>360</span> tekens resterend.</div>
+				</div>
+			</div>
+
+			<input
+				type="hidden"
+				name="sentiment"
+				value="{{data.widget.sentiment}}"
+			/>
+
+			<input
+				type="submit"
+				class="pull-right btn btn-primary role-required-member"
+				value="Verzenden"
+				data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
+			/>
+
+			<input
+				type="hidden"
+				name="ideaId"
+				{% if not data.widget.ideaId  %}
+				value="{{data.ideaId}}"
+				{% else %}
+				value="{{data.widget.ideaId}}"
+				{% endif %}
+			/>
+			<input type="hidden" name="_csrf" value="{{csrfToken}}">
+		</form>
+	</div>
+</div>

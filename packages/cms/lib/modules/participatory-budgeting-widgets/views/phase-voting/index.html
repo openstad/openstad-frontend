@@ -1,0 +1,119 @@
+{% import 'phase-voting/ideas-list.html' as ideasList %}
+{% import 'phase-voting/budgeting.html' as budgeting %}
+
+{% set pageTitle    = 'Stemmen' %}
+{% set contentClass = 'ideasList' %}
+{% set activeMenu   = 'budget' %}
+
+<div class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+	{{ __('Loading...') }}
+</div>
+
+<div id="westbegroot-voting" class="begroot-container opacity-0-for-load">
+
+	{% if data.widget.voting %}
+	{{ budgeting.showBudgetWindow(data) }}
+	{% endif %}
+
+	<script>
+	 var userHasVoted = {{data.widget.userHasVoted}};
+	 var userIsLoggedIn = {{true if data.loggedIn else false}};
+	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
+	 var defaultSort = 'random';
+	 var siteId = '{{data.global.siteId}}';
+
+	 var votingType = '{{data.widget.votingType}}'; // budgeting or count
+	 var maxIdeas = {{data.widget.maxIdeas if data.widget.maxIdeas else 0}};
+	 var minIdeas = {{data.widget.minIdeas if data.widget.minIdeas else 0}};
+
+	 var initialAvailableBudget = {{data.widget.initialAvailableBudget if data.widget.initialAvailableBudget else 0}};
+	 var minimalBudgetSpent = {{data.widget.minimalBudgetSpent if data.widget.minimalBudgetSpent else 0}};
+
+	</script>
+
+  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+  <style>
+	 {% for theme in data.global.themes %}
+   .theme-{{theme.color | replace("#", "")}} {
+     color: white;
+     background-color: {{theme.color}};
+     border: 0px solid {{theme.color}};
+   }
+   #budget-block #themes-buttons .theme-{{theme.color | replace("#", "")}}.active {
+     border-width: 2px;
+     border-color: {{theme.color}};
+   }
+	 {% endfor %}
+  </style>
+  <script>
+   var themes = [
+     {
+       value: "No theme selected"
+     },
+	   {% for theme in data.global.themes %}
+     {
+       value: '{{theme.value | sanitize | safe}}',
+       initialAvailableBudget: parseInt({{theme.initialAvailableBudget}}) || 300000,
+       minimalBudgetSpent: typeof parseInt({{theme.minimalBudgetSpent}}) == 'number' ? parseInt({{theme.minimalBudgetSpent}}) : 200000,
+       availableBudgetAmount: 0,
+       className: 'theme-{{theme.color | replace("#", "")}}',
+       currentSelection: [],
+     },
+	   {% endfor %}
+   ];
+  </script>
+  {% endif %}
+
+	<div id="begroot-content-area">
+	  {{
+    apos.area(data.widget, 'contentArea', {
+    widgets: apos.settings.getOption('contentWidgets')
+    })
+    }}
+	</div>
+
+	<br />
+
+	<div id="ideasList" class="pageContent {{contentClass}}">
+		{% if data.ideas.length > 0 %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8">
+				{% if (data.global.areas and data.global.areas.length > 0) or (data.global.themes and data.global.themes.length > 0) %}
+				<div class="tab-selector">
+					{% if (data.global.themes and data.global.themes.length > 0) %}
+					<select id="themaSelector" class="default-select" onchange="{% if data.widget.votingType == 'budgeting-per-theme' %}setTheme(this.selectedIndex){% else %}activateTab(this.selectedIndex){% endif %}">
+						<option value="0" selected disabled>Alle thema's</option>
+						{% for theme in data.global.themes %}
+						<option value="{{theme.value}}">{{theme.value}}</option>
+						{% endfor %}
+					</select>
+					{% endif %}
+					{% if (data.global.areas and data.global.areas.length) > 0 %}
+					<select id="filterSelector" class="default-select" onchange="activateFilter(this.selectedIndex)">
+						<option value="0" selected disabled>Alle gebieden</option>
+						{% for area in data.global.areas %}
+						<option value="{{area.value}}">{{area.value}}</option>
+						{% endfor %}
+					</select>
+					{% endif %}
+					<a class="no-button inactive" href="javascript: void deactivateAll()">Wissen</a>
+				</div>
+				{% endif %}
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<div class="sort">
+					<select class="default-select ideas-sort-select">
+						{% for selectedSorting in data.widget.selectedSorting %}
+						<option value="{{selectedSorting.value}}">{{ __(selectedSorting.label) }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+		<br />
+
+		{{ ideasList.showIdeasList(data.ideas, fullHost, user, userHasVoted, isAdmin, data) }}
+	</div>
+</div>

@@ -1,15 +1,9 @@
-require('dotenv').config();
+const openstadCms = require('@openstad/cms');
 
-const openstadMap = require('./config/map').default;
-const openstadMapPolygons = require('./config/map').polygons;
-const apostrophe = require('apostrophe');
-const _ = require('lodash');
-const defaultSiteConfig = require('./config/siteConfig');
+const modules = require('./modules').default;
 
-const site = {_id: process.env.SAMPLE_DB}
+const config = openstadCms.getDefaultConfig(modules);
 
-const siteConfig = defaultSiteConfig.get(site, {}, openstadMap, openstadMapPolygons);
+const app = openstadCms.getSingleApp();
 
-apostrophe(
-  siteConfig
-);
+app(config);
