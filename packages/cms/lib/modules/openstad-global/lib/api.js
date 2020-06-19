@@ -24,6 +24,8 @@ module.exports = (self, options) => {
                   return self.apiResponse(res, 'notfound');
               }
 
+              // Todo: deserialize formatting fields to get values from the api?
+
               req.piece = self.apos.openstadApi.syncApiFields(_piece, self.apiSyncFields, req.data.global.siteConfig, req.data.global.workflowLocale);
 
               return next();
