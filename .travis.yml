@@ -4,8 +4,8 @@ language: minimal
 env:
   global:
     - DOCKER_USERNAME="openstad"
-    - DOCKER_IMAGE_NAME="api"
-    - K8S_DEPLOYMENT_NAME="api"
+    - DOCKER_IMAGE_NAME="image"
+    - K8S_DEPLOYMENT_NAME="image"
     - K8S_NAMESPACE="openstad"
 
 services:
