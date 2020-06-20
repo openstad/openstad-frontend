@@ -3,42 +3,39 @@ language: minimal
 # easy way to get your local config: cat ${HOME}/.kube/config | base64 | pbcopy
 env:
   global:
-    - DOCKER_USERNAME="openstad"
-    - DOCKER_IMAGE_NAME="frontend"
-    - K8S_DEPLOYMENT_NAME="frontend"
-    - K8S_NAMESPACE="openstad"
+    - DOCKER_PUBLIC_USERNAME=openstad
+    - DOCKER_IMAGE_NAME=frontend
+    - K8S_DEPLOYMENT_NAME=openstad-frontend
+    - K8S_NAMESPACE=openstad
 
 services:
   - docker
 
 before_install:
-  - docker build -t ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
+  - echo ${DOCKER_PUBLIC_USERNAME}
+  - echo "$DOCKER_PUBLIC_USERNAME"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
+  - echo ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+  - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
 
 script:
-  - docker run -e CI=true ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} env SESSION_SECRET=test npm run test --prefix packages/cms -- --coverage
+  - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} env npm run test -- --coverage
 
 deploy:
   # what branches to deploy automatically
   - provider: script
-    script:
-      - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-      - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
-      - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-      - chmod +x ./kubectl
-      - sudo mv ./kubectl /usr/local/bin/kubectl
-      - mkdir ${HOME}/.kube
-#     - echo "$KUBE_CONFIG_$TRAVIS_BRANCH" | base64 --decode > ${HOME}/.kube/config
-      - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
-      - kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} --record -n ${K8S_NAMESPACE}
+    script: bash docker_deploy
     on:
       all_branches: true
-      condition: $TRAVIS_BRANCH =~ ^(feature/docker-travis|development|release)$
+      # @TODO:
+      # Add an autodeploy setup of the release branche
+      # Either Create different config in travis to deploy to different cluster
+      # Or add a different namespace for ACC
+      # condition: $TRAVIS_BRANCH =~ ^(development|release)$
+      condition: $TRAVIS_BRANCH =~ ^(feature/travis-docker|development)$
   # master automatically pushes new docker container with latest tag to docker
   - provider: script
-    script:
-      - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-      - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
-      - docker tag ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:latest
-      - docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_NAME}:latest
+    #script not yet tested
+    script: bash docker_publish
     on:
       branch: master
