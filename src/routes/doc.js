@@ -19,10 +19,8 @@ router.route('^/$|^/doc/:which$')
 		}
 		let readme = fs.readFileSync(`doc/${which}.md`).toString();
 		let html = marked( readme );
-
-  //  res.end(html);
-
-		res.end(`<!DOCTYPE html>
+    res.header('Content-Type', 'text/html');
+		res.send(`<!DOCTYPE html>
 <html lang="nl">
 	<head>
 		<style>
