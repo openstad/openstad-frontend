@@ -57,7 +57,12 @@ router.route('/')
 
   // update area
   // -----------
-  .delete(auth.can('area:create'))
+  .put(auth.can('Area', 'update'))
+  .put(function(req, res, next) {
+    if (!req.body.name) return next(createError(401, 'Geen naam opgegeven'));
+    if (!req.body.polygon) return next(createError(401, 'Geen polygoon opgegeven'));
+    return next();
+  })
   .put(function(req, res, next) {
 
     const user = req.results;
