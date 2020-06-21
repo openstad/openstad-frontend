@@ -12,10 +12,6 @@ services:
   - docker
 
 before_install:
-  - echo ${DOCKER_PUBLIC_USERNAME}
-  - echo "$DOCKER_PUBLIC_USERNAME"
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
-  - echo ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
   - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
 
 script:

@@ -1,5 +1,5 @@
 # Nodejs 8.0.0 alpine 3.6.0
-FROM node:8.0.0-alpine
+FROM node:13.14.0-alpine
 
 # Label for tracking
 LABEL nl.openstad.container="api_container" nl.openstad.version="0.0.1-beta" nl.openstad.release-date="2020-05-07"
