@@ -23,13 +23,14 @@ router.route('/')
     return db.Area
       .findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
       .then(function(result) {
-        req.areas = result.rows || [];
+        req.results = result.rows || [];
+        req.pagination.count = result.count;
         return next();
       })
       .catch(next);
   })
   .get(function(req, res, next) {
-    req.areas = req.areas.map((area) => {
+    req.results = req.results.map((area) => {
       area.polygon = convertDbPolygonToLatLng(area.polygon);
       return area;
     });
