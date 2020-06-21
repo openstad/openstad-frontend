@@ -14,7 +14,7 @@ router
     req.scope.push('includeSite');
 
     return next();
-  })
+  });
 
 router.route('/')
   .get(auth.can('Area', 'list'))
@@ -57,7 +57,7 @@ router.route('/')
       .then(function(result) {
         res.json({ success: true, id: result.id });
       });
-  })
+  });
 
 router.route('/:areaId(\\d+)')
   .all(function(req, res, next) {
@@ -66,17 +66,17 @@ router.route('/:areaId(\\d+)')
     db.Area
       .findOne({
         // where: { id: areaId, siteId: req.params.siteId }
-        where: { id: areaId }
+        where: { id: areaId },
       })
       .then(found => {
-        if ( !found ) throw new Error('area not found');
+        if (!found) throw new Error('area not found');
 
         req.area = found;
         req.results = req.area;
         next();
       })
       .catch((err) => {
-        console.log('errr', err)
+        console.log('errr', err);
         next(err);
       });
   })
@@ -94,16 +94,15 @@ router.route('/:areaId(\\d+)')
   // .put(auth.useReqUser)
   .put(function(req, res, next) {
     req.tags = req.body.tags;
-    return next()
+    return next();
   })
   .put(function(req, res, next) {
 
     var area = req.results;
-    if (!( area && area.can && area.can('update') )) return next( new Error('You cannot update this area') );
 
     let data = {
       ...req.body,
-    }
+    };
 
     // TODO: dit moet ook nog ergens in auth
     if (auth.hasRole(req.user, 'editor')) {
@@ -122,26 +121,24 @@ router.route('/:areaId(\\d+)')
       .update(data)
       .then(result => {
         req.results = result;
-        next()
+        next();
       })
       .catch(next);
   })
   .put(function(req, res, next) {
     let areaInstance = req.results;
 
-    areaInstance
-      .then(areaInstance => {
-        return db.Area
-          .findOne({
-            where: { id: areaInstance.id, siteId: req.params.siteId }
-          })
-          .then(found => {
-            if ( !found ) throw new Error('area not found');
-            req.results = found;
-            next();
-          })
-          .catch(next);
+    return db.Area
+      .findOne({
+        where: { id: areaInstance.id },
+        // where: { id: areaInstance.id, siteId: req.params.siteId },
       })
+      .then(found => {
+        if (!found) throw new Error('area not found');
+        req.results = found;
+        next();
+      })
+      .catch(next);
 
   })
   .put(function(req, res, next) {
@@ -155,9 +152,9 @@ router.route('/:areaId(\\d+)')
     req.results
       .destroy()
       .then(() => {
-        res.json({ "area": "deleted" });
+        res.json({ 'area': 'deleted' });
       })
       .catch(next);
-  })
+  });
 
 module.exports = router;
