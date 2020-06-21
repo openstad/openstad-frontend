@@ -61,7 +61,8 @@ router.route('/:areaId(\\d+)')
 
     db.Area
       .findOne({
-        where: { id: areaId, siteId: req.params.siteId }
+        // where: { id: areaId, siteId: req.params.siteId }
+        where: { id: areaId }
       })
       .then(found => {
         if ( !found ) throw new Error('area not found');
