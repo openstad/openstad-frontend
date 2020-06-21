@@ -1,6 +1,7 @@
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 
 const router = require('express-promise-router')({ mergeParams: true });
@@ -35,8 +36,10 @@ router.route('/')
 
     return next();
   })
+  .get(searchResults)
+  .get(pagination.paginateResults)
   .get(function(req, res, next) {
-    res.json(req.areas);
+    res.json(req.results);
   })
 
   // Persist an area
