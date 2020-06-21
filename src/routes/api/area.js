@@ -79,7 +79,7 @@ router.route('/:areaId(\\d+)')
 
   // view area
   // ---------
-  .get(auth.can('area', 'view'))
+  // .get(auth.can('area', 'view'))
   .get(auth.useReqUser)
   .get(function(req, res, next) {
     res.json(req.results);
@@ -87,7 +87,7 @@ router.route('/:areaId(\\d+)')
 
   // update area
   // -----------
-  .put(auth.useReqUser)
+  // .put(auth.useReqUser)
   .put(function(req, res, next) {
     req.tags = req.body.tags;
     return next()
@@ -146,7 +146,7 @@ router.route('/:areaId(\\d+)')
 
   // delete area
   // ---------
-  .delete(auth.can('area', 'delete'))
+  // .delete(auth.can('area', 'delete'))
   .delete(function(req, res, next) {
     req.results
       .destroy()
