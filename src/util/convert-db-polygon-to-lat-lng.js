@@ -1,4 +1,6 @@
 module.exports = function (polygon) {
+  // TODO: resolve temporary fix for development (empty database)
+  return [];
   if (!polygon || !polygon.coordinates || !polygon.coordinates[0]) return [];
 
   // Coordinates are in a double array, we only need the first part
