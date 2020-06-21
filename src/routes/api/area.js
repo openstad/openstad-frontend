@@ -55,95 +55,104 @@ router.route('/')
       });
   })
 
+router.route('/:areaId(\\d+)')
+  .all(function(req, res, next) {
+    var areaId = parseInt(req.params.areaId) || 1;
+
+    db.Area
+      .findOne({
+        where: { id: areaId, siteId: req.params.siteId }
+      })
+      .then(found => {
+        if ( !found ) throw new Error('area not found');
+
+        req.area = found;
+        req.results = req.area;
+        next();
+      })
+      .catch((err) => {
+        console.log('errr', err)
+        next(err);
+      });
+  })
+
+  // view area
+  // ---------
+  .get(auth.can('area', 'view'))
+  .get(auth.useReqUser)
+  .get(function(req, res, next) {
+    res.json(req.results);
+  })
+
   // update area
   // -----------
-  .put(auth.can('Area', 'update'))
+  .put(auth.useReqUser)
   .put(function(req, res, next) {
-    if (!req.body.name) return next(createError(401, 'Geen naam opgegeven'));
-    if (!req.body.polygon) return next(createError(401, 'Geen polygoon opgegeven'));
-    return next();
+    req.tags = req.body.tags;
+    return next()
   })
   .put(function(req, res, next) {
 
-    const user = req.results;
-    if (!( user && user.can && user.can('update') )) return next( new Error('You cannot update this User') );
+    var area = req.results;
+    if (!( area && area.can && area.can('update') )) return next( new Error('You cannot update this area') );
 
-    // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
-    let data = {}
+    let data = {
+      ...req.body,
+    }
 
-    const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
-    keys.forEach((key) => {
-      if (req.body[key]) {
-        data[key] = req.body[key];
+    // TODO: dit moet ook nog ergens in auth
+    if (auth.hasRole(req.user, 'editor')) {
+      if (data.modBreak) {
+        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+        data.modBreakDate = req.body.modBreakDate = new Date().toString();
+      } else {
+        data.modBreak = '';
+        data.modBreakUserId = null;
+        data.modBreakDate = null;
       }
-    });
-
-    const userId = parseInt(req.params.userId) || 1;
-
-    /**
-     * Update the user API first
-     */
-    let which = req.query.useOauth || 'default';
-    let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};
-    let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-    let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
-    let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-    let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
-
-    const apiCredentials = {
-      client_id: authClientId,
-      client_secret: authClientSecret,
-    }
-    const options = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'cors',
-      body: JSON.stringify(Object.assign(apiCredentials, data))
     }
 
-    fetch(authUpdateUrl, options)
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        }
+    area
+      .authorizeData(data, 'update')
+      .update(data)
+      .then(result => {
+        req.results = result;
+        next()
+      })
+      .catch(next);
+  })
+  .put(function(req, res, next) {
+    let areaInstance = req.results;
 
-        throw createError('Updaten niet gelukt', response);
-      })
-      .then((json) => {
-        //update values from API
-        return db.User
-          .authorizeData(data, 'update')
-          .update(data, {where : { externalUserId: json.id }});
-      })
-      .then( (result) => {
-        return db.User
+    areaInstance
+      .then(areaInstance => {
+        return db.Area
           .findOne({
-            where: { id: userId, siteId: req.params.siteId }
-            //where: { id: parseInt(req.params.userId) }
+            where: { id: areaInstance.id, siteId: req.params.siteId }
           })
+          .then(found => {
+            if ( !found ) throw new Error('area not found');
+            req.results = found;
+            next();
+          })
+          .catch(next);
       })
-      .then(found => {
-        if ( !found ) throw new Error('User not found');
-        res.json(found);
-      })
-      .catch(err => {
-        console.log(err);
-        return next(err);
-      });
+
+  })
+  .put(function(req, res, next) {
+    res.json(req.results);
   })
 
   // delete area
   // ---------
-  .delete(auth.can('area:delete'))
+  .delete(auth.can('area', 'delete'))
   .delete(function(req, res, next) {
     req.results
       .destroy()
       .then(() => {
-        res.json({ 'area': 'deleted' });
+        res.json({ "area": "deleted" });
       })
       .catch(next);
-  });
+  })
 
 module.exports = router;

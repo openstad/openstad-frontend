@@ -42,7 +42,7 @@ router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 
 // area
-router.use( '/area', require('./area') );
+router.use( '/site/:siteId(\\d+)/area', require('./area') );
 
 // output error as JSON only use this error handler middleware in "/api" based routes
 router.use("/site", function(err, req, res, next){
