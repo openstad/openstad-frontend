@@ -41,6 +41,8 @@ RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/
 # Install node modules
 RUN npm install --loglevel verbose
 
+RUN node apostrophe.js apostrophe:generation
+
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
