@@ -120,6 +120,8 @@ module.exports = {
 
            })
            .catch((e) => {
+             console.log('e', e);
+
              // if not valid clear the JWT and redirect
              // ;
                req.session.destroy(() => {
@@ -181,6 +183,7 @@ module.exports = {
     });
 
     self.apos.app.get('/oauth/login', (req, res, next) => {
+        // check in url if returnTo params is set for redirecting to page
         req.session.returnTo = req.query.returnTo ?  decodeURIComponent(req.query.returnTo) : null;
 
         req.session.save(() => {
@@ -190,6 +193,7 @@ module.exports = {
           let returnUrl = protocol + '://' + thisHost;
 
           if (req.query.returnTo) {
+            //only get the pathname to prevent external redirects
             let pathToReturnTo = Url.parse(req.query.returnTo, true);
             pathToReturnTo = pathToReturnTo.path;
             returnUrl = returnUrl + pathToReturnTo;
