@@ -319,6 +319,7 @@ defaultConfig.notifications.admin.emailAddress = process.env.API_NOTIFICATIONS_A
 defaultConfig.security.sessions.cookieName = process.env.API_SECURITY_SESSIONS_COOKIENAME || defaultConfig.security.sessions.cookieName;
 defaultConfig.security.sessions.onlySecure = process.env.API_SECURITY_SESSIONS_ONLYSECURE || defaultConfig.security.sessions.onlySecure;
 defaultConfig.authorization['jwt-secret'] = process.env.API_AUTHORIZATION_JWTSECRET || defaultConfig.authorization['jwt-secret'];
+defaultConfig.authorization['auth-server-url'] = process.env.AUTH_API_URL || defaultConfig.authorization['auth-server-url'];
 
 try {
   defaultConfig.authorization['fixed-auth-tokens'] = JSON.parse(process.env.API_AUTHORIZATION_FIXEDAUTHTOKENS) || defaultConfig.authorization['fixed-auth-tokens'];

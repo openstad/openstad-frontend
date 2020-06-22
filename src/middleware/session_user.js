@@ -42,8 +42,10 @@ module.exports = function getSessionUser( req, res, next ) {
 			}
 		}
 
+
 		// auth token overrules other settings
 		let tokens = config && config.authorization && config.authorization['fixed-auth-tokens'];
+
 		if (tokens) {
 			tokens.forEach((token) => {
 				if ( token.token == req.headers['x-authorization'] ) {
@@ -56,9 +58,12 @@ module.exports = function getSessionUser( req, res, next ) {
 
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+	console.log('userId', userId)
 
-	getUserInstance(userId || 1, siteOauthConfig, isFixedUser)
+	getUserInstance(userId, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
+			console.log('user', user)
+
 			req.user = user;
 			// Pass user entity to template view.
 			res.locals.user = user;
