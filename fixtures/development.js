@@ -5,6 +5,7 @@ const log = require('debug')('app:db');
 module.exports = co.wrap(function*( db ) {
 
 	log('Creating sites');
+
 	yield sites.map(function( siteData ) {
 		return db.Site.create(siteData);
 	});
@@ -34,7 +35,22 @@ module.exports = co.wrap(function*( db ) {
 var today = moment().endOf('day');
 
 var sites = [
-	{id: 1, name: 'site-one', title: 'OpenStad Development Site', config: {}},
+	{id: 1, name: 'site-one', domain: process.env.DEV_SITE_DOMAIN, title: 'OpenStad Development Site', config: {
+		cms: "",
+		oauth: {
+			default: {
+				'auth-server-url': process.env.AUTH_URL,
+				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
+				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
+				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
+			}
+		},
+		allowedDomains: [
+			process.env.DEV_SITE_DOMAIN,
+			//do not allow to redirect to localhost in production!
+			'localhost'
+		]
+	}},
 ];
 
 var users = [

@@ -4,7 +4,7 @@ const db = require('../src/db').sequelize;
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return db.query(`
-      CREATE TABLE \`tags\` (
+      CREATE TABLE  IF NOT EXISTS \`tags\` (
         \`id\` int NOT NULL AUTO_INCREMENT,
         \`siteId\` int NOT NULL,
         \`name\` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -15,7 +15,7 @@ module.exports = {
         PRIMARY KEY (\`id\`)
       ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-      CREATE TABLE \`ideaTags\` (
+      CREATE TABLE  IF NOT EXISTS \`ideaTags\` (
         \`createdAt\` datetime NOT NULL,
         \`updatedAt\` datetime NOT NULL,
         \`tagId\` int NOT NULL,
@@ -29,8 +29,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return db.query("DROP TABLE `tags`; CREATE TABLE \`ideaTags\`");
+    return db.query("DROP TABLE `tags`; DROP TABLE \`ideaTags\`");
 
-    return db.query("ALTER TABLE \`sites\` DROP CONSTRAINT \`site_area\`, DROP KEY \`areaId\`, DROP \`areaId\`; DROP TABLE IF EXISTS \`areas\\`;");
   }
 };

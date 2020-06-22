@@ -35,8 +35,10 @@ router
 			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = baseUrl + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
+
 			return res.redirect(url)
 		}
+
 
 		req.session.save(() => {
       console.log('====================');
@@ -79,7 +81,7 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
 		let url = authServerUrl + authServerExchangeCodePath;
 
@@ -117,6 +119,7 @@ router
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
+
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
 					return next();
@@ -133,7 +136,7 @@ router
 		// get the user info using the access token
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
@@ -281,11 +284,14 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-logout-path'] || config.authorization['auth-server-logout-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
+
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
 
 		req.session.destroy();
 
@@ -301,6 +307,7 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
+
 		res.json({
 			"id": req.user.id,
 			"complete": req.user.complete,
