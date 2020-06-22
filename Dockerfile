@@ -39,10 +39,17 @@ RUN cp -r ./packages/cms/test test
 RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 # Install node modules
-RUN npm install --loglevel verbose
+RUN npm install --loglevel warn
 
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
+
+RUN mkdir -p /home/app/public
+RUN mkdir -p /home/app/public/modules
+RUN mkdir -p /home/app/public/css
+RUN mkdir -p /home/app/public/js
+RUN mkdir -p /home/app/public/img
+RUN mkdir -p /home/app/public/apos-minified
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
