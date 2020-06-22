@@ -5,6 +5,7 @@ const searchResults = require('../../middleware/search-results');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 
 const router = require('express-promise-router')({ mergeParams: true });
+var createError = require('http-errors');
 
 // scopes: for all get requests
 router
