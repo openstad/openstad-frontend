@@ -64,6 +64,7 @@ function serveSites (req, res, next) {
      * Fetch the config for site by making a call with the domain
      */
     const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
+    
     const siteOptions = {
         uri:`${apiUrl}/api/site/${thisHost}`, //,
         headers: {
