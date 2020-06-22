@@ -1,0 +1,37 @@
+language: minimal
+
+# easy way to get your local config: cat ${HOME}/.kube/config | base64 | pbcopy
+env:
+  global:
+    - DOCKER_PUBLIC_USERNAME=openstad
+    - DOCKER_IMAGE_NAME=api
+    - K8S_DEPLOYMENT_NAME=openstad-api
+    - K8S_NAMESPACE=openstad
+
+services:
+  - docker
+
+before_install:
+  - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
+
+script:
+  - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} env npm run test -- --coverage
+
+deploy:
+  # what branches to deploy automatically
+  - provider: script
+    script: bash docker_deploy
+    on:
+      all_branches: true
+      # @TODO:
+      # Add an autodeploy setup of the release branche
+      # Either Create different config in travis to deploy to different cluster
+      # Or add a different namespace for ACC
+      # condition: $TRAVIS_BRANCH =~ ^(development|release)$
+      condition: $TRAVIS_BRANCH =~ ^(feature/travis-docker|devel)$
+  # master automatically pushes new docker container with latest tag to docker
+  - provider: script
+    #script not yet tested
+    script: bash docker_publish
+    on:
+      branch: master

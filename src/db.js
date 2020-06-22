@@ -27,6 +27,7 @@ if (dbConfig.mysqlSTGeoMode) {
 var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
+	port					 : dbConfig.port || 3306,
 	dialectOptions : {
 		charset            : 'utf8_unicode_ci',
 		multipleStatements : dbConfig.multipleStatements,
@@ -59,9 +60,12 @@ var models = require('./models')(db, sequelize, Sequelize.DataTypes);
 const mixins = require('./lib/sequelize-authorization/mixins');
 Object.keys(models).forEach((key) => {
   let model = models[key];
-  model.can = model.prototype.can = mixins.can;
-  model.prototype.toJSON = mixins.toAuthorizedJSON;
-  model.authorizeData = model.prototype.authorizeData = mixins.authorizeData;
+	console.log('model', model)
+	if (model) {
+	  model.can = model.prototype.can = mixins.can;
+	  model.prototype.toJSON = mixins.toAuthorizedJSON;
+	  model.authorizeData = model.prototype.authorizeData = mixins.authorizeData;
+	}
 });
 
 _.extend(db, models);
