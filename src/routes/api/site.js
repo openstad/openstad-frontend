@@ -26,6 +26,7 @@ router.route('/')
 			.catch(next);
 	})
 	.get(searchResults)
+	.get(auth.useReqUser)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
     let records = req.results.records || req.results
