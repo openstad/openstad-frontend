@@ -9,6 +9,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 		models[fileName] = modelDef(db, sequelize, DataTypes);
 	}, this);
-	
+
+
+	console.log('models', models)
+
+
 	return models;
 };
