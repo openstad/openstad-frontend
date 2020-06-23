@@ -29,6 +29,8 @@ module.exports = function getSessionUser( req, res, next ) {
 	let userId = req.session[uidProperty];
 	let isFixedUser = false;
 
+	console.log('req.headers', req.headers)
+
 	if (req.headers['x-authorization']) {
 
 		// jwt overrules other settings
@@ -59,17 +61,21 @@ module.exports = function getSessionUser( req, res, next ) {
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 	console.log('userId', userId)
+	console.log('isFixedUser', isFixedUser)
 
 	getUserInstance(userId, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
-			console.log('user', user)
+			console.log('fetched user id', user,)
 
 			req.user = user;
 			// Pass user entity to template view.
 			res.locals.user = user;
 			next();
 		})
-		.catch(next);
+		.catch((err) => {
+			console.log('ererer', err);
+			next(err);
+		});
 
 }
 
@@ -94,6 +100,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
 			if( !dbuser ) {
+				console.log('dbuser nout found')
 				return {};
 			}
 			return dbuser;
@@ -111,6 +118,9 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 				let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 				let url = authServerUrl + authServerGetUserPath;
 				url = url.replace(/\[\[clientId\]\]/, authClientId);
+
+				console.log('api url fetch', url)
+				console.log('api external Token fetch',  dbuser.externalAccessToken)
 
 				return fetch(
 					url, {
@@ -135,7 +145,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 						}
 					)
 					.catch(err => {
-					//	console.log(err);
+						console.log('err 1001', err);
 						return resetSessionUser(user);
 					})
 
@@ -143,6 +153,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 				if (isFixedUser) {
 					return user;
 				} else {
+					console.log('is not FixedUser reset ')
 			    return resetSessionUser(user);
 				}
 			}
