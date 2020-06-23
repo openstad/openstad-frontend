@@ -101,7 +101,7 @@ function sendThankYouMail( resource, user, site ) {
   let resourceType;
   let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
   if (match) resourceType = match[1];
-  
+
   if (!resourceType) return console.log('sendThankYouMail error: resourceType not found');
 
   let resourceTypeSiteConfig = site && site.config && site.config[`${resourceType}s`] || {};
@@ -132,8 +132,27 @@ function sendThankYouMail( resource, user, site ) {
 
 	let html;
 	let template = resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.template;
+
+
+
+
 	if (template) {
 		html = nunjucks.renderString(template, data);
+    /**
+     * This is for legacy reasons
+     * if contains <html> we assume it doesn't need a layout wrapper then render as a string
+     * if not included then include by rendering the string and then rendering a blanco
+     * the layout by calling the blanco template
+     */
+    if (template) {
+      if (template.includes("<html>")) {
+        template  = nunjucks.renderString(template, variables)
+      } else {
+        templateString = nunjucks.render('/emails/blanco', {
+          message: nunjucks.renderString(template, variables)
+        });
+      }
+    }
 	} else {
 		html = nunjucks.render(`${resourceType}_created.njk`, data);
 	}
@@ -220,4 +239,3 @@ module.exports = {
   sendThankYouMail,
 	sendNewsletterSignupConfirmationMail,
 };
-
