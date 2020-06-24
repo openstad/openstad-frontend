@@ -2,7 +2,7 @@ apos.define('slider-widgets', {
   extend: 'openstad-widgets',
   construct: function (self, options) {
     self.play = function ($widget, data, options) {
-        
+
       var slider = $widget.find('.slider');
 
       if (slider.length) {
