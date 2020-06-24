@@ -132,7 +132,11 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 					})
 					.then(
 						response => {
-							if ( !response.ok ) throw new Error('Error fetching user')
+
+							if ( !response.ok ) {
+								console.log('response', response)
+								throw new Error('Error fetching user')
+							}
 							return response.json();
 						},
 						error => { throw createError(403, 'User niet bekend') }
