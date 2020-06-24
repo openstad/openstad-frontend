@@ -146,10 +146,10 @@ function sendThankYouMail( resource, user, site ) {
      */
     if (template) {
       if (template.includes("<html>")) {
-        template  = nunjucks.renderString(template, variables)
+        html  = nunjucks.renderString(template, data)
       } else {
-        templateString = nunjucks.render('/emails/blanco', {
-          message: nunjucks.renderString(template, variables)
+        html = nunjucks.render('blanco.njk', Object.assign(data, {
+          message: nunjucks.renderString(template, data)
         });
       }
     }
