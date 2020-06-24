@@ -13,6 +13,10 @@ module.exports = {
     };
 
     // Todo: move this middleware to another module and also use the expressMiddleware instead of apos.app.use
+    /**
+     * When the user is admin, load in all the voting data
+     * @type {[type]}
+     */
     self.apos.app.use((req, res, next) => {
       if (req.data.hasModeratorRights) {
         const apiUrl = internalApiUrl ? internalApiUrl : self.apos.settings.getOption(req, 'apiUrl');

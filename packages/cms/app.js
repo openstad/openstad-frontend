@@ -61,10 +61,12 @@ function serveSites (req, res, next) {
   } else {
 
     /**
-     * Fetch the config for sites
+     * Fetch the config for site by making a call with the domain
      */
+    const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
+    
     const siteOptions = {
-        uri:`${process.env.API}/api/site/${thisHost}`, //,
+        uri:`${apiUrl}/api/site/${thisHost}`, //,
         headers: {
             'Accept': 'application/json',
             "Cache-Control": "no-cache"
@@ -72,16 +74,19 @@ function serveSites (req, res, next) {
         json: true // Automatically parses the JSON string in the response
     };
 
+    // ADD site key if set, necessary for sensitive admin info
     if (process.env.SITE_API_KEY) {
       siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
     }
 
     rp(siteOptions)
       .then((siteConfig) => {
+        console.info('Caching config for site: %s -> %j:', thisHost, siteConfig);
 
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
+          console.error('An error occurred fetching the site config:', e);
           res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
       });
   }
@@ -118,7 +123,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
           const safeStartServer = () => {
             if (aposStartingUp[dbName]) {
-              // old schotimeout loop to make sure we dont start multiple servers of the same site
+              // old school timeout loop to make sure we dont start multiple servers of the same site
               setTimeout(() => {
                 safeStartServer();
               }, 100);
@@ -135,7 +140,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       }
     })
   .catch((e) => {
-    console.log('e', e)
+    console.error('An error occurred checking if the DB exists:', e);
     res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
   });
 }

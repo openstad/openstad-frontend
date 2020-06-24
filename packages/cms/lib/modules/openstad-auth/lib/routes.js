@@ -19,6 +19,7 @@ module.exports = (self, options) => {
   });
 
   self.apos.app.get('/oauth/login', (req, res, next) => {
+    // check in url if returnTo params is set for redirecting to page
     req.session.returnTo = req.query.returnTo ?  decodeURIComponent(req.query.returnTo) : null;
 
     req.session.save(() => {
@@ -28,6 +29,7 @@ module.exports = (self, options) => {
       let returnUrl = protocol + '://' + thisHost;
 
       if (req.query.returnTo) {
+        //only get the pathname to prevent external redirects
         let pathToReturnTo = Url.parse(req.query.returnTo, true);
         pathToReturnTo = pathToReturnTo.path;
         returnUrl = returnUrl + pathToReturnTo;
@@ -39,7 +41,7 @@ module.exports = (self, options) => {
       res.redirect(url);
     });
   });
-
+  
 };
 
 

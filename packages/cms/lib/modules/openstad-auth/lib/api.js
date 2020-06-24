@@ -114,6 +114,7 @@ module.exports = (self, options) => {
           .catch((e) => {
             // if not valid clear the JWT and redirect
             // ;
+            console.log(e);
             req.session.destroy(() => {
               res.redirect('/');
               return;
