@@ -35,7 +35,7 @@ module.exports = co.wrap(function*( db ) {
 var today = moment().endOf('day');
 
 var sites = [
-	{id: 1, name: 'site-one', domain: process.env.ADMIN_DOMAIN, title: 'OpenStad Admin ', config: {
+	{id: 1, name: 'site-one', domain: process.env.ADMIN_URL, title: 'OpenStad Admin ', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
@@ -45,12 +45,12 @@ var sites = [
 			}
 		},
 		allowedDomains: [
-			process.env.DEV_SITE_DOMAIN,
+			process.env.ADMIN_URL,
 			//do not allow to redirect to localhost in production!
 			'localhost'
 		]
 	}},
-	{id: 2, name: 'site-one', domain: process.env.DEV_SITE_DOMAIN, title: 'OpenStad Development Site', config: {
+	{id: 2, name: 'site-one', domain: process.env.FRONTEND_URL, title: 'OpenStad Default Site', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
@@ -60,17 +60,23 @@ var sites = [
 			}
 		},
 		allowedDomains: [
-			process.env.DEV_SITE_DOMAIN,
+			process.env.FRONTEND_URL,
 			//do not allow to redirect to localhost in production!
 			'localhost'
 		]
 	}},
 ];
 
+
+
 var users = [
-	{id: 2, complete: true, role: 'admin', email: 'admin@undefined.nl', password: '123456', firstName: 'Administrator', lastName: 'on develoment', ideas : [
+	//fixed user for SITE and Admin to get admin right
+	{id: 2, siteId: 1, complete: true, role: 'admin', email: 'admin@openstad.org', password: '123456', firstName: 'Administrator', lastName: '',
+
+	//Add one dummy Idea for fun
+	ideas : [
 		{
-			id               : 1,
+			id               : 2,
 			siteId           : 1,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
