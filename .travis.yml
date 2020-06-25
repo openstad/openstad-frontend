@@ -13,6 +13,8 @@ services:
   - mongodb
 
 before_install:
+  - docker run -d -p 27017:27017 mongo:4.0
+  - docker ps -a
   - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
 
 script:
