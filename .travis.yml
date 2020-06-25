@@ -17,7 +17,7 @@ before_install:
 
 script:
   - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  npm run test -- --coverage
-  - docker run -e --network="host" CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} node apostrophe.js apostrophe:generation
+  - docker run -e --network host CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} node apostrophe.js apostrophe:generation
 
 deploy:
   # what branches to deploy automatically
