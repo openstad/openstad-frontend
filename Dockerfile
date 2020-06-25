@@ -50,6 +50,7 @@ RUN mkdir -p /home/app/public/css
 RUN mkdir -p /home/app/public/js
 RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
+RUN mkdir -p /home/app/data
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app

@@ -1,0 +1,31 @@
+#
+# Docker Compose file for Openstad app
+#
+---
+version: '3.1'
+services:
+  frontend:
+    command: npm run dev
+    image: frontend:test1
+  #  image: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+    ports:
+      - ${FRONTED_PORT}:${FRONTED_PORT}
+    environment:
+      PORT: "${FRONTED_PORT}"
+      DB_HOST: "${FRONTEND_MONGO_DB_HOST}"
+      DB_PORT: "${FRONTEND_MONGO_PORT}"
+      MONGO_DB_HOST: "${FRONTEND_MONGO_DB_HOST}"
+      MINIFY_JS: "${FRONTEND_MINIFY_JS}"
+      COOKIE_SECURE_OFF: "${COOKIE_SECURE_OFF}"
+    restart: always
+
+    links:
+      - mongo:localhost
+    depends_on:
+      - mongo
+
+  mongo:
+    image: 'mongo:4.0'
+    ports:
+      - '127.0.0.1:27018:27017'
+    restart: always
