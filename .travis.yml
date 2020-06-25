@@ -13,6 +13,13 @@ env:
     - FRONTEND_MONGO_PORT=27017
     - FRONTEND_MINIFY_JS=ON
     - COOKIE_SECURE_OFF=yes
+    - IMAGE_API_URL=http://localhost:3333
+    - IMAGE_API_ACCESS_TOKEN=xxxx
+    - IMAGE_API_ACCESS_TOKEN=xxxx
+    - SITE_API_KEY=xxxx
+    - DEFAULT_DB=localhost2
+    - DEFAULT_HOST=localhost:4444
+    - APP_URL=http://localhost:4444
 services:
   - docker
 
