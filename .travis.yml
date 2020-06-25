@@ -29,8 +29,8 @@ before_install:
 
 script:
   - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  npm run test -- --coverage
-  - docker run -e DB_NAME=MONGODB --network bridge --name apos ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  node apostrophe.js apostrophe:generation
   - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:migrate
+
 deploy:
   # what branches to deploy automatically
   - provider: script
