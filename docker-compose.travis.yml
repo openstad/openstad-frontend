@@ -6,8 +6,7 @@ version: '3.1'
 services:
   frontend:
     command: npm run dev
-    image: frontend:test1
-  #  image: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+    image: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
     ports:
       - ${FRONTED_PORT}:${FRONTED_PORT}
     environment:
