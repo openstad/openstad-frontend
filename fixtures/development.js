@@ -35,8 +35,22 @@ module.exports = co.wrap(function*( db ) {
 var today = moment().endOf('day');
 
 var sites = [
-	{id: 1, name: 'site-one', domain: process.env.DEV_SITE_DOMAIN, title: 'OpenStad Development Site', config: {
-		cms: "",
+	{id: 1, name: 'site-one', domain: process.env.ADMIN_DOMAIN, title: 'OpenStad Admin ', config: {
+		oauth: {
+			default: {
+				'auth-server-url': process.env.AUTH_URL,
+				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
+				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
+				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
+			}
+		},
+		allowedDomains: [
+			process.env.DEV_SITE_DOMAIN,
+			//do not allow to redirect to localhost in production!
+			'localhost'
+		]
+	}},
+	{id: 2, name: 'site-one', domain: process.env.DEV_SITE_DOMAIN, title: 'OpenStad Development Site', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
