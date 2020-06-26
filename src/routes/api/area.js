@@ -3,6 +3,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
+const {formatGeoJsonToPolygon} = require('../../util/geo-json-formatter');
 
 const router = require('express-promise-router')({ mergeParams: true });
 var createError = require('http-errors');
@@ -43,13 +44,19 @@ router.route('/')
   .get(searchResults)
   .get(pagination.paginateResults)
   .get(function(req, res, next) {
-    console.log('req.results[0]', req.results[1])
-
     res.json(req.results);
   })
 
   // Persist an area
-  .get(auth.can('Area', 'create'))
+  .post(auth.can('Area', 'create'))
+  .post(function(req, res, next) {
+    // if geodata is set transform to polygon format this api expects
+    if (req.body.geoJSON) {
+      req.body.polygon = formatGeoJsonToPolygon(req.body.geoJSON);;
+    }
+
+    next();
+  })
   .post(function(req, res, next) {
     if (!req.body.name) return next(createError(401, 'Geen naam opgegeven'));
     if (!req.body.polygon) return next(createError(401, 'Geen polygoon opgegeven'));
@@ -58,7 +65,10 @@ router.route('/')
   .post(function(req, res, next) {
     db.Area
       .create(req.body)
-      .catch(next)
+      .catch((err) => {
+        console.log('errr', err);
+        next(err);
+      })
       .then(function(result) {
         res.json({ success: true, id: result.id });
       });
@@ -93,25 +103,21 @@ router.route('/:areaId(\\d+)')
   .get(function(req, res, next) {
     res.json(req.results);
   })
-
-  // update area
-  // -----------
-  // .put(auth.useReqUser)
   .put(function(req, res, next) {
-    req.tags = req.body.tags;
-    return next();
+    if (req.body.geoJSON) {
+      req.body.polygon =  formatGeoJsonToPolygon(req.body.geoJSON);
+    }
+
+    next();
   })
   .put(function(req, res, next) {
-
     var area = req.results;
 
-    let data = {
-      ...req.body,
-    };
-
     area
-      .authorizeData(data, 'update')
-      .update(data)
+      .authorizeData(area, 'update')
+      .update({
+        ...req.body,
+      })
       .then(result => {
         req.results = result;
         next();

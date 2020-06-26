@@ -1,4 +1,5 @@
 const convertDbPolygonToLatLng = require ('../util/convert-db-polygon-to-lat-lng');
+const {formatPolygonToGeoJson} = require('../util/geo-json-formatter');
 
 module.exports = function( db, sequelize, DataTypes ) {
   var Area = sequelize.define('area', {
@@ -12,11 +13,28 @@ module.exports = function( db, sequelize, DataTypes ) {
     polygon: {
       type: DataTypes.GEOMETRY,
       allowNull: false,
+      set: function (polygon) {
+        polygon = polygon ? polygon.map(polygon => {
+          return [polygon.lat, polygon.lng];
+        }) : [];
+
+        const formattedPolygon = {"type": "Polygon", coordinates: [polygon]};
+
+        this.setDataValue('polygon',formattedPolygon);
+      },
       get: function () {
         return convertDbPolygonToLatLng(this.getDataValue('polygon'));
       }
     },
-
+    /*
+    Virtual field would be a nice way to manage the geoJSON version of the data
+    geoJSON: {
+      type: DataTypes.VIRTUAL,
+      get: function () {
+        return formatPolygonToGeoJson(this.getDataValue('polygon'))
+      }
+    },
+    */
   });
 
   Area.associate = function( models ) {
@@ -30,6 +48,11 @@ module.exports = function( db, sequelize, DataTypes ) {
     createableBy: ['editor','owner', 'admin'],
     updateableBy: ['editor','owner', 'admin'],
     deleteableBy: ['editor','owner', 'admin'],
+    toAuthorizedJSON: function(user, data) {
+      console.log(' toAuthorizedJSON data', data);
+      data.geoJSON = formatPolygonToGeoJson(data.polygon);
+      return data;
+    }
   }
 
 
