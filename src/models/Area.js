@@ -49,7 +49,6 @@ module.exports = function( db, sequelize, DataTypes ) {
     updateableBy: ['editor','owner', 'admin'],
     deleteableBy: ['editor','owner', 'admin'],
     toAuthorizedJSON: function(user, data) {
-      console.log(' toAuthorizedJSON data', data);
       data.geoJSON = formatPolygonToGeoJson(data.polygon);
       return data;
     }
