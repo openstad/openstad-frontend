@@ -30,17 +30,21 @@ router.route('/')
       })
       .catch(next);
   })
-  .get(function(req, res, next) {
+/*  .get(function(req, res, next) {
     req.results = req.results.map((area) => {
-      area.polygon = convertDbPolygonToLatLng(area.polygon);
+      //area.polygon = convertDbPolygonToLatLng(area.polygon);
       return area;
     });
+    console.log('req.results[0]', req.results[1])
 
     return next();
-  })
+  })*/
+
   .get(searchResults)
   .get(pagination.paginateResults)
   .get(function(req, res, next) {
+    console.log('req.results[0]', req.results[1])
+
     res.json(req.results);
   })
 
@@ -104,18 +108,6 @@ router.route('/:areaId(\\d+)')
     let data = {
       ...req.body,
     };
-
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-        data.modBreakUserId = null;
-        data.modBreakDate = null;
-      }
-    }
 
     area
       .authorizeData(data, 'update')
