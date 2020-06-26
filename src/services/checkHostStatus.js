@@ -1,6 +1,7 @@
 const dns = require('dns');
 const db = require('../db');
 const k8s = require('@kubernetes/client-node');
+const ip = require('ip');
 
 const getK8sApi = () => {
   const kc = new k8s.KubeConfig();
@@ -76,6 +77,9 @@ const checkHostStatus = async (conditions) => {
   const isOnK8s = !! process.env.KUBERNETES_NAMESPACE ;
   const namespace = process.env.KUBERNETES_NAMESPACE; //Todo: get this from env variable
   const where = conditions ? conditions : {};
+  const serverIp = process.env.PUBLIC_IP ? process.env.PUBLIC_IP : ip.address();
+
+  console.log('Server IP should be: ', serverIp, ' IP from env value is: ', process.env.PUBLIC_IP, ' npm thinks it is:', ip.address());
 
   const sites = await db.Site.findAll({where});
 
@@ -87,8 +91,6 @@ const checkHostStatus = async (conditions) => {
     config.host = config.host ? config.host : {};          //
 
     const domainIp = getDomainIp(site.domain);
-
-    const loadbalancerIp = 1; //Todo: get loadBalancerIp form kubenetes/client
 
     config.host.ip = domainIp !== null && domainIp === loadbalancerIp ? true : false;
 
@@ -114,7 +116,7 @@ const checkHostStatus = async (conditions) => {
           config.host.ingress = false;
         } catch(error) {
           //@todo how to deal with error here?
-          //most likely it doesn't exists anymore if delete doesnt work, but could also be forbidden / 
+          //most likely it doesn't exists anymore if delete doesnt work, but could also be forbidden /
           console.error('Error deleting ingress for ', site.name, ' domain: ', site.domain, ' :', error);
         }
       }
