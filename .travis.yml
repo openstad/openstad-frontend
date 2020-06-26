@@ -29,7 +29,7 @@ before_install:
 
 script:
   - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  npm run test -- --coverage
-  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:migrate
+  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation
 
 deploy:
   # what branches to deploy automatically
