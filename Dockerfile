@@ -26,8 +26,8 @@ ENV API_AUTHORIZATION_FIXEDAUTHTOKENS=""
 ENV AUTH_API_URL=""
 
 
-# Install all base dependencies.
-RUN apk add --no-cache --update g++ make python musl-dev
+# Install all base dependencies.# add perl for shell scripts
+RUN apk add --no-cache --update g++ make python musl-dev bash perl
 
 # Set the working directory to the root of the container
 WORKDIR /home/app
