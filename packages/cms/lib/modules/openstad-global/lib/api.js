@@ -55,10 +55,12 @@ module.exports = (self, options) => {
             return;
         }
 
-        try {
-            await self.apos.openstadApi.updateSiteConfig(req, req.data.global.siteConfig, doc, self.apiSyncFields);
-        } catch(err) {
-            console.error(err);
+        if (req.data.global) {
+          try {
+              await self.apos.openstadApi.updateSiteConfig(req, req.data.global.siteConfig, doc, self.apiSyncFields);
+          } catch(err) {
+              console.error(err);
+          }
         }
     };
 
