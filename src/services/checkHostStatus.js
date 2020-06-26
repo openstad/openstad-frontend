@@ -111,9 +111,10 @@ const checkHostStatus = async (conditions) => {
       } else  if (!config.host.ip  && ingress) {
         try {
           await k8sApi.deleteNamespacedIngress(site.name, namespace)
+          config.host.ingress = false;
         } catch(error) {
           //@todo how to deal with error here?
-          //most likely it doesn't exists anymore if delete doesnt work
+          //most likely it doesn't exists anymore if delete doesnt work, but could also be forbidden / 
           console.error('Error deleting ingress for ', site.name, ' domain: ', site.domain, ' :', error);
         }
       }

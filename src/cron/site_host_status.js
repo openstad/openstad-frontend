@@ -9,8 +9,8 @@
 const log = require('debug')('app:cron');
 const checkHostStatus = require('../services/checkHostStatus')
 
-// Todo: remove this method when done debugging.
-checkHostStatus();
+// if you want te debug, easiest is to run it here
+//checkHostStatus();
 
 // Purpose
 // -------
