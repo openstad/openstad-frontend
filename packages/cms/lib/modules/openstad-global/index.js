@@ -26,7 +26,10 @@ module.exports = {
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
     self.apos.app.use((req, res, next) => {
+      req.data.global = req.data.global ? req.data.global : {};
+
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
+
 
       /**
        * Run basic-auth middleware.
