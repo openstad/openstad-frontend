@@ -92,64 +92,14 @@
 			<tr>
 				<td></td>
 				<td width="560">
-					{% include 'logo.njk' %}
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-
-					{% if article.extraData and article.extraData.images %}
-						{% for image in article.extraData.images %}
-							<img class="multipleImages" src="{{image}}" width="100%"/><br/>
-						{% endfor %}
-					{% else %}
-						{% if article.posterImageUrl %}
-							<img src="{{URL}}{{article.posterImageUrl}}" width="100%"/>
-						{% endif %}
-					{% endif %}
-
+				{% include 'logo.njk' %}
 				</td>
 				<td></td>
 			</tr>
 			<tr>
 				<td></td>
 				<td width="560">
-					<h1>{{SITENAME}}</h1>
-					<h2 class="blue">Welkom! Bedankt voor je inzending!</h2>
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td width="560">
-
-          <h4>Beste  {{user.fullName | default('indiener')}},</h4>
-
-					Bedankt voor het plaatsen van jouw inzending op Vuilnisvrij West!<br/>
-					Je inzending is goed ontvangen.<br/>
-					<br/>
-					<a href="{{inzendingURL}}" target="_blank" style="color: #EC0000">Bekijk hier je inzending</a>
-
-					<p style="margin-bottom: 3em; margin-top: 2em;">
-						Hartelijke groet,<br>
-						Team {{SITENAME}}
-					</p>
-
-        </td>
-				<td></td>
-      </tr>
-			<tr>
-				<td></td>
-				<td style="height: 15px; background-color: #787979;" width="560">
-        </td>
-				<td></td>
-      </tr>
-			<tr>
-				<td></td>
-				<td style=" text-align: center; height: 15px;" width="560">
-          <h4><a href="{{URL}}" style="color: black; text-decoration: none;">{{HOSTNAME}}</a></h4>
+          {{message | safe}}
         </td>
 				<td></td>
       </tr>

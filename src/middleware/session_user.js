@@ -58,18 +58,20 @@ module.exports = function getSessionUser( req, res, next ) {
 
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-	console.log('userId', userId)
 
 	getUserInstance(userId, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
-			console.log('user', user)
+			//console.log('fetched user id', user.id)
 
 			req.user = user;
 			// Pass user entity to template view.
 			res.locals.user = user;
 			next();
 		})
-		.catch(next);
+		.catch((err) => {
+			console.log('ererer', err);
+			next(err);
+		});
 
 }
 
@@ -94,6 +96,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
 			if( !dbuser ) {
+				console.log('dbuser not found')
 				return {};
 			}
 			return dbuser;
@@ -122,7 +125,10 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 					})
 					.then(
 						response => {
-							if ( !response.ok ) throw new Error('Error fetching user')
+
+							if ( !response.ok ) {
+								throw new Error('Error fetching user')
+							}
 							return response.json();
 						},
 						error => { throw createError(403, 'User niet bekend') }
@@ -135,7 +141,6 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 						}
 					)
 					.catch(err => {
-					//	console.log(err);
 						return resetSessionUser(user);
 					})
 
@@ -143,6 +148,7 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 				if (isFixedUser) {
 					return user;
 				} else {
+					console.log('is not FixedUser reset ')
 			    return resetSessionUser(user);
 				}
 			}
