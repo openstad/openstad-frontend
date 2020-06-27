@@ -22,10 +22,6 @@ exports.formatPolygonToGeoJson = (polygons) => {
 }
 
 exports.formatGeoJsonToPolygon = (geoJSON) => {
-  console.log('geoJSON.features 2', geoJSON.features)
-
   if (!geoJSON || !geoJSON.features || !geoJSON.features[0] || !geoJSON.features[0].geometry || !geoJSON.features[0].geometry.coordinates || !geoJSON.features[0].geometry.coordinates[0]) return {};
-  //
-  console.log('geoJSON.features 2', geoJSON.features[0].geometry.coordinates)
   return convertDbPolygonToLatLng(geoJSON.features[0].geometry);
 }
