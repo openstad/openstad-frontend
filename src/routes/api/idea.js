@@ -155,7 +155,7 @@ router.route('/')
     }
 
 		try {
-			data.location = JSON.parse(data.location || null);
+			data.location = JSON.parse(data.location && Object.keys(data.location) > 0 ? data.location : null);
 		} catch(err) {}
 
     let responseData;

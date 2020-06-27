@@ -474,6 +474,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 				},
 			},
+			host: {
+				status: null,
+			},
 
 			"ignoreBruteForce": {
 				type: 'arrayOfStrings',
