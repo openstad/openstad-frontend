@@ -41,7 +41,8 @@ router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 
-// area
+// area on site and no site route, system wide the same
+router.use( '/site/:siteId(\\d+)/area', require('./area') );
 router.use( '/area', require('./area') );
 
 // output error as JSON only use this error handler middleware in "/api" based routes
