@@ -95,7 +95,7 @@ function sendNotificationMail( data ) {
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : ['logo.png', 'openstad-logo.png']
+		attachments : getDefaultAttachments(data.logo)
 	});
 };
 
@@ -122,6 +122,7 @@ function sendThankYouMail (resource, user, site) {
 	let inzendingPath = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.inzendingPath && resourceTypeConfig.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, resource.id) ) || "/" ;
 	inzendingPath = inzendingPath.replace(/\[\[articleId\]\]/, resource.id);
 	let inzendingURL = url + inzendingPath;
+  const logo =  getLogoForSite(site)
 
   let data    = {
     date: new Date(),
@@ -133,7 +134,7 @@ function sendThankYouMail (resource, user, site) {
 		inzendingURL,
     URL: url,
     EMAIL: fromAddress,
-    logo: getLogoForSite(site)
+    logo: logo
   };
 
 	let html;
@@ -163,7 +164,7 @@ function sendThankYouMail (resource, user, site) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) ||  ['logo.png', 'openstad-logo.png'];
+  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || getDefaultAttachments(logo);
 
   try {
   sendMail({
@@ -177,6 +178,22 @@ function sendThankYouMail (resource, user, site) {
   } catch(err) {
     console.log(err);
   }
+
+}
+
+function getDefaultAttachments(logo) {
+  const attachments = [];
+
+  // if logo is amsterdam, we fallback to old default logo and include it
+  if (logo === 'amsterdam') {
+    attachments.push('logo.png');
+  }
+
+  if (!logo) {
+    attachments.push('openstad-logo.png');
+  }
+
+  return attachments;
 
 }
 
@@ -199,6 +216,7 @@ function getLogoForSite (site) {
 // send email to user that submitted an idea
 function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 
+
   let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
   let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
   let sitename = ( site && site.title ) || ( config && config.get('siteName') );
@@ -207,6 +225,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 
 	let confirmationUrl = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.url;
 	confirmationUrl = confirmationUrl.replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+  const logo = getLogoForSite(site);
 
   let data = {
     date: new Date(),
@@ -216,7 +235,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 		confirmationUrl,
     URL: url,
     EMAIL: fromAddress,
-    logo: getLogoForSite(site)
+    logo:logo
   };
 
 	let html;
@@ -233,11 +252,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
+  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || getDefaultAttachments(logo);
 
   sendMail({
     to: newslettersignup.email,
