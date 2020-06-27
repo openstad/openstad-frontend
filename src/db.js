@@ -60,7 +60,6 @@ var models = require('./models')(db, sequelize, Sequelize.DataTypes);
 const mixins = require('./lib/sequelize-authorization/mixins');
 Object.keys(models).forEach((key) => {
   let model = models[key];
-	console.log('model', model)
 	if (model) {
 	  model.can = model.prototype.can = mixins.can;
 	  model.prototype.toJSON = mixins.toAuthorizedJSON;

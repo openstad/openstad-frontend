@@ -71,9 +71,29 @@ module.exports = {
 ```
 
 ### 3. Initeëer de database
+For a successful reset run, make sure the following ENV values are properly set:
+
+
 ```
-node reset.js
+#unique hash
+FRONTEND_URL=
+AUTH_URL=
+
+#unique hash
+AUTH_FIRST_CLIENT_SECRET=
+AUTH_FIRST_CLIENT_ID=
+
+#for instance = http://localhost:4444|https://admin.openstad.demo
+ADMIN_URL=
+#optional
+AUTH_INTERNAL_SERVER_URL=
 ```
+
+Then run following command:
+```
+env ... node reset.js
+```
+
 
 ### 4. Start de server
 ```

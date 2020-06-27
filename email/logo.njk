@@ -1,0 +1,10 @@
+{% if logo %}
+  {# this is a bit hacky to allow old Amsterdam sites keep using the default Amsterdam logo instead of the new default Openstad logo #}
+  {% if logo === 'amsterdam' %}
+  <img src="cid:logo.png" width="99" height="70" alt="Logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+  {% else %}
+  <img src="{{logo}}" width="150" alt="Logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+  {% endif %}
+{% else %}
+<img src="cid:openstad-logo.png" width="150" alt="Logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+{% endif %}
