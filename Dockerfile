@@ -27,7 +27,7 @@ ENV AUTH_API_URL=""
 
 
 # Install all base dependencies.# add perl for shell scripts
-RUN apk add --no-cache --update g++ make python musl-dev bash perl
+RUN apk add --no-cache --update g++ make python musl-dev bash perl perl-dbd-mysql perl-posix-strftime-compiler
 
 # Set the working directory to the root of the container
 WORKDIR /home/app
