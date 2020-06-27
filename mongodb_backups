@@ -11,8 +11,8 @@ $vandaag = $year."_".$month."_".$day;   #
 
 my $dirname = "/backups/mongo_$vandaag";
 my $objectStoreUrl = '';
-my $objectStoreUser = ''
-my $objectStorePass = ''
+my $objectStoreUser = '';
+my $objectStorePass = '';
 
 # maak de directory voor vandaag
 $mkdircommando = "mkdir $dirname";

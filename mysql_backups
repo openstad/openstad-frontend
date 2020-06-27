@@ -22,8 +22,8 @@ my $data_source = "DBI:mysql:information_schema:localhost";
 my $username = "";
 my $password = '';
 my $objectStoreUrl = '';
-my $objectStoreUser = ''
-my $objectStorePass = ''
+my $objectStoreUser = '';
+my $objectStorePass = '';
 
 my $dbh = DBI->connect( $data_source, $username, $password, { AutoCommit => 1, RaiseError => 1 } );
 $dbh->do( "SET TRANSACTION ISOLATION LEVEL READ COMMITTED;" );
