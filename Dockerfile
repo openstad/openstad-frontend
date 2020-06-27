@@ -26,7 +26,7 @@ ENV DB_HOST=""
 ENV DEFAULT_DB=""
 
 # Install all base dependencies.
-RUN apk add --no-cache --update openssl g++ make python musl-dev git
+RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 
 # Set the working directory to the root of the container
 WORKDIR /home/app
