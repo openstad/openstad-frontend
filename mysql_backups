@@ -19,11 +19,8 @@ system($mkdircommando);
 use DBD::mysql;
 my $data_source = "DBI:mysql:information_schema:localhost";
 # todo: add ENV values here
-my $username = "";
-my $password = '';
-my $objectStoreUrl = '';
-my $objectStoreUser = '';
-my $objectStorePass = '';
+
+my ($username, $password, $objectStoreUrl, $objectStoreUser, $objectStorePass) = @ARGV;
 
 my $dbh = DBI->connect( $data_source, $username, $password, { AutoCommit => 1, RaiseError => 1 } );
 $dbh->do( "SET TRANSACTION ISOLATION LEVEL READ COMMITTED;" );
