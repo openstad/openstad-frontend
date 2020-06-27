@@ -23,32 +23,41 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 
 		config: {
-			type				 : DataTypes.TEXT,
+			type				 : DataTypes.JSON,
 			allowNull		 : false,
 			defaultValue : {},
 			get					 : function() {
 				let value = this.getDataValue('config');
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
 				return this.parseConfig(value);
 			},
 			set					 : function(value) {
 				var currentconfig = this.getDataValue('config');
-				try {
-					if (typeof currentconfig == 'string') {	currentconfig = JSON.parse(currentconfig); }
-				} catch(err) { currentconfig = {}; }
 				value = value || {};
 				value = merge.recursive(currentconfig, value);
-				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
+				this.setDataValue('config', this.parseConfig(value));
 			},
       auth: {
         viewableBy: 'admin',
       },
 		},
-		
+
+		/*
+			HostStatus is used for tracking domain status
+			For instance, mostly managed by checkHostStatus service
+			{
+				"ip": true, // means the IP is set to this server
+				"ingress": false // if on k8s cluster will try to make a ingress host file if IP address is set properly, k8s cert manager will then try get a let's encrypt cert
+			} if
+		 */
+		hostStatus: {
+			type				 : DataTypes.JSON,
+			allowNull		 : false,
+			defaultValue : {},
+      auth: {
+        viewableBy: 'admin',
+      },
+		},
+
 		areaId: {
 			type: DataTypes.INTEGER,
 			allowNull: true,
@@ -60,7 +69,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 			},
-			
+
 			withArea: {
 				include: [{
 					model: db.Area

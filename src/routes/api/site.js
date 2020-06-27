@@ -1,11 +1,12 @@
-const Promise 			= require('bluebird');
-const express 			= require('express');
-const db      			= require('../../db');
-const auth 					= require('../../middleware/sequelize-authorization-middleware');
-const pagination 		= require('../../middleware/pagination');
-const searchResults = require('../../middleware/search-results');
-const oauthClients 	= require('../../middleware/oauth-clients');
-const config 				= require('config');
+const Promise 				= require('bluebird');
+const express 				= require('express');
+const config 					= require('config');
+const db      				= require('../../db');
+const auth 						= require('../../middleware/sequelize-authorization-middleware');
+const pagination 			= require('../../middleware/pagination');
+const searchResults 	= require('../../middleware/search-results');
+const oauthClients 		= require('../../middleware/oauth-clients');
+const checkHostStatus = require('../../services/checkHostStatus')
 
 let router = express.Router({mergeParams: true});
 
@@ -47,8 +48,11 @@ router.route('/')
 		db.Site
 			.create(req.body)
 			.then(result => {
-				res.json(result);
+				req.result = result;
+
+				return checkHostStatus({id: result.id});
 			})
+			.then(res.json(req.result))
 	})
 
 // one site routes: get site
@@ -96,10 +100,13 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			.authorizeData(req.body, 'update')
 			.update(req.body)
 			.then(result => {
+				return checkHostStatus({id: result.id});
+			})
+			.then(() => {
 				next();
 			})
 			.catch((e) => {
-				 console.log('eee',e);
+				console.log('eee',e);
 				next();
 			});
 	})

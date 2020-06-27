@@ -167,7 +167,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 
 		extraData: {
-			type				 : DataTypes.TEXT,
+			type				 : DataTypes.JSON,
 			allowNull		 : false,
 			defaultValue : '{}',
 			get					 : function() {
@@ -414,7 +414,7 @@ module.exports = function( db, sequelize, DataTypes ) {
               } else {
                 validated[key] = true;
               }
-              
+
 					  });
 
             Object.keys(value).forEach((key) => {
@@ -422,7 +422,7 @@ module.exports = function( db, sequelize, DataTypes ) {
                 errors.push(`${key} is niet gedefinieerd in site.config`)
               }
             });
-            
+
 				  } else {
             // extra data not defined in the config
             if (!( self.config && self.config.articles && self.config.articles.extraDataMustBeDefined === false )) {
@@ -838,4 +838,3 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 };
-

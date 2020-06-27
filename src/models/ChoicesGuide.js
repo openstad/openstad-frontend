@@ -40,7 +40,7 @@ module.exports = function( db, sequelize, DataTypes ) {
     },
 
     images: {
-      type: DataTypes.TEXT,
+      type: DataTypes.JSON,
       allowNull: false,
       defaultValue: '{}',
       get: function() {

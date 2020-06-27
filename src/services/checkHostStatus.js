@@ -74,8 +74,8 @@ const createIngress = async (k8sApi, name, domain, namespace) => {
 };
 
 const checkHostStatus = async (conditions) => {
-  const isOnK8s = !! process.env.KUBERNETES_NAMESPACE ;
-  const namespace = process.env.KUBERNETES_NAMESPACE; //Todo: get this from env variable
+  const isOnK8s = !!process.env.KUBERNETES_NAMESPACE;
+  const namespace = process.env.KUBERNETES_NAMESPACE;
   const where = conditions ? conditions : {};
   const serverIp = process.env.PUBLIC_IP ? process.env.PUBLIC_IP : ip.address();
 
@@ -84,15 +84,15 @@ const checkHostStatus = async (conditions) => {
   const sites = await db.Site.findAll({where});
 
   const promises = sites.map(async (site) => {
-    // Todo: skip the sites with config.host.status === true?
+    // Todo: skip the sites with hostStatus.status === true?
 
-    const config = site.config;
+    let hostStatus = site.hostStatus;
     //ensure it's an object so we dont have to worry about checks later
-    config.host = config.host ? config.host : {};          //
+    hostStatus = hostStatus ? hostStatus : {};          //
 
     const domainIp = getDomainIp(site.domain);
 
-    config.host.ip = domainIp !== null && domainIp === loadbalancerIp ? true : false;
+    hostStatus.ip = domainIp !== null && domainIp === serverIp ? true : false;
 
     if (isOnK8s) {
       const k8sApi = getK8sApi();
@@ -101,19 +101,19 @@ const checkHostStatus = async (conditions) => {
       const ingress = getIngress(k8sApi, site.name, namespace);
 
       // if ip issset but not ingress try to create one
-      if (config.host.ip  && !ingress) {
+      if (hostStatus.ip  && !ingress) {
         try {
           const response = await createIngress(k8sApi, site.name, site.domain, namespace);
-          config.host.ingress = true;
+          hostStatus.ingress = true;
         } catch(error) {
           // don't set to false, an error might just be that it already exist and the read check failed
           console.error('Error updating ingress for ', site.name, ' domain: ', site.domain, ' :', error);
         }
       // else if ip is not set but ingress is set, remove the ingress file
-      } else  if (!config.host.ip  && ingress) {
+      } else  if (!hostStatus.ip  && ingress) {
         try {
           await k8sApi.deleteNamespacedIngress(site.name, namespace)
-          config.host.ingress = false;
+          hostStatus.ingress = false;
         } catch(error) {
           //@todo how to deal with error here?
           //most likely it doesn't exists anymore if delete doesnt work, but could also be forbidden /
@@ -122,7 +122,7 @@ const checkHostStatus = async (conditions) => {
       }
     }
 
-    return await site.update({config});
+    return await site.update({hostStatus});
   });
 
   await Promise.all(promises);
