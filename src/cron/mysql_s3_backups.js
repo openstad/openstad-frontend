@@ -43,7 +43,7 @@ const backupMysqlToS3 = async () => {
 
       var params = {
           Bucket: process.env.S3_BUCKET,
-          Key: dbName + '_' + created + ".sql",
+          Key: 'mysql/' + dbName + '_' + created + ".sql",
           Body: result.dump.data,
           ACL: "private"
       };
