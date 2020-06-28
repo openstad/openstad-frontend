@@ -28,8 +28,13 @@ const backupMysqlToS3 = async () => {
               password: process.env.API_DATABASE_PASSWORD,
               database: dbName.trim(),
           },
+          // Exclude areas for now
+          // Mysql dump fails on geo polygons field
+          dump : {
+            tables: ['areas'],
+            excludeTables: true
+          }
       });
-
 
       const spacesEndpoint = new AWS.Endpoint(process.env.S3_ENDPOINT);
 
@@ -71,7 +76,6 @@ const backupMysqlToS3 = async () => {
   S3_SECRET
   S3_MYSQL_BUCKET
  */
-
 module.exports = {
 	cronTime: '0 0 1 * * *',
 	runOnInit: false,
