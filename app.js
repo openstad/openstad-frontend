@@ -13,7 +13,6 @@
 require('dotenv').config();
 //external libs
 const express                 = require('express');
-const http2                   = require('http2');
 const apostrophe              = require('apostrophe');
 const app                     = express();
 const _                       = require('lodash');
