@@ -90,7 +90,7 @@ const backupMongoDBToS3 = async () => {
 
 module.exports = {
 	cronTime: '0 0 1 * * *',
-	runOnInit: false,
+	runOnInit: true,
 	onTick: async function() {
     backupMongoDBToS3();
 	}
