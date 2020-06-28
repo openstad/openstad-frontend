@@ -31,7 +31,7 @@ const backupMongoDBToS3 = async () => {
     if (process.env.S3_MONGO_BACKUPS === 'ON') {
       const host = process.env.MONGO_DB_HOST || 'localhost';
       const port = process.env.MONGO_DB_PORT || 27017;
-      const tmpDbFile = 'db.tar'
+      const tmpDbFile = 'db_mongo'
 
     //  let DB_BACKUP_NAME = `mongodb_${currentTime()}.gz`;
 
@@ -62,7 +62,7 @@ const backupMongoDBToS3 = async () => {
 
             var params = {
                 Bucket: process.env.S3_BUCKET,
-                Key: "mongo_" + created + ".tar",
+                Key: "mongo_" + created,
                 Body: fileContent,
                 ACL: "private"
             };
