@@ -61,7 +61,7 @@ const backupMongoDBToS3 = async () => {
             });
 
             var params = {
-                Bucket: process.env.S3_MYSQL_BUCKET,
+                Bucket: process.env.S3_BUCKET,
                 Key: "mongo_" + created + ".tar",
                 Body: fileContent,
                 ACL: "private"

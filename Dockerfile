@@ -35,9 +35,6 @@ RUN apk update
 RUN apk add mongodb=3.4.4-r0
 RUN apk add mongodb-tools
 
-
-
-
 # Set the working directory to the root of the container
 WORKDIR /home/app
 
