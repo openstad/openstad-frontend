@@ -8,6 +8,7 @@ const auth 					= require('../../middleware/sequelize-authorization-middleware')
 const mail 					= require('../../lib/mail');
 const pagination 		= require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
+const isJson = require('../../util/isJson');
 
 const router = express.Router({mergeParams: true});
 
@@ -19,7 +20,10 @@ router
 
 		req.scope.push('includeSite');
 
-		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
+		/**
+		 * Old sort for backward compatibility
+		 */
+		let sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
 		if (sort) {
 			//res.cookie('idea_sort', sort, { expires: 0 });
 
@@ -102,13 +106,19 @@ router.route('/')
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
-
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit }
+
+		const sort = req.query.sort;
+		if(sort && isJson(sort)) {
+			console.log(sort)
+			query.order = [JSON.parse(sort)];
+		}
 
 		db.Idea
 			.scope(...req.scope)
-			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll(query)
 			.then(function( result ) {
         req.results = result.rows;
         req.pagination.count = result.count;
