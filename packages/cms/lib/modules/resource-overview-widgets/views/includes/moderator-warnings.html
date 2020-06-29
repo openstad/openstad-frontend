@@ -1,0 +1,12 @@
+{# Warnings to moderators in case settings etc. or not set properly #}
+{% if data.widget.voting and data.hasModeratorRights and not data.widget.isVotingActive %}
+<div class="alert alert-warning">
+  {{ __('Warning to adminstrator: voting is turnend on in this module, but not turned in site settings!') }}
+</div>
+{% endif %}
+
+{% if data.widget.voting and data.hasModeratorRights and data.widget.voteType !== 'count' %}
+<div class="alert alert-warning">
+  {{ __('Warning to adminstrator: voting type is not set to count in site settings!') }}
+</div>
+{% endif %}

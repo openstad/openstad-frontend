@@ -5,24 +5,12 @@
 		{{ __('Loading...') }}
 	</div>
 	<div id="overview-container-{{data.widget.id}}" class="idea-overview-container opacity-0-for-load  resource-overview-container openstad-ajax-refresh">
+		{% include 'includes/moderator-warnings.html' %}
+
 		{% if data.widget.voting %}
-
-			{% if data.hasModeratorRights and not data.widget.isVotingActive %}
-			<div class="alert alert-warning">
-				{{ __('Warning to adminstrator: voting is not turned on site settings!') }}
-			</div>
-			<br />
-			{% endif %}
-
-			{% if data.hasModeratorRights and data.widget.voteType !== 'count' %}
-			<div class="alert alert-warning">
-				{{ __('Warning to adminstrator: voting type is not set to count!') }}
-			</div>
-			<br />
-			{% endif %}
-
 	    {{ voteCreator.showVoteCreator(false, data.widget.ideas, data) }}
 	  {% endif %}
+
 		<div class="ideasList" >
 	    {% include 'includes/filters.html' %}
 
