@@ -14,12 +14,19 @@
     {% include 'includes/controls/search.html' %}
     {% include 'includes/controls/area.html' %}
     {% include 'includes/controls/theme.html' %}
+
+    {% if data.widget.itemsInTopFilterBar <= 1 %}
+    {% include 'includes/controls/sort.html' %}
+    {% endif %}
   </div>
   <div>
     {% include 'includes/controls/tags.html' %}
   </div>
   <div class="resource-filter-row">
+    {% if data.widget.itemsInTopFilterBar > 1 %}
     {% include 'includes/controls/sort.html' %}
+    {% endif %}
+
     {% if data.query.oTags or data.query.theme or data.query.area or data.query.search  %}
     <a href="{{data.currentPathname}}" class="resource-filter-erase openstad-ajax-refresh-link">
       <img src="/modules/openstad-assets/img/eye.svg" width="23" height="16" />

@@ -410,6 +410,10 @@ module.exports = {
 
      const superOutput = self.output;
      self.output = function(widget, options) {
+
+       // count amount of filters active in topbar
+       widget.itemsInTopFilterBar = [widget.displaySearch, widget.displayAreaFilter, widget.displayThemeFilter].filter(displayFilter => displayFilter).length;
+
        // add the label to the select sort options for displaying in the select box
        widget.selectedSorting = widget.selectedSorting ? widget.selectedSorting.map((sortingValue) => {
          const sortingOption = sortingOptions.find(sortingOption => sortingOption.value === sortingValue);
