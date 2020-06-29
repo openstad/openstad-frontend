@@ -51,26 +51,26 @@
 </style>
 {% endif %}
 <ul
-id="ideaList"
-class="ideas-list gridder"
-onclick="ideaListClick(event);"
-{% if data.widget.defaultSorting %}
-data-default-sort="{{data.widget.defaultSorting}}"
-{% endif %}
+  id="ideaList"
+  class="ideas-list gridder"
+  onclick="ideaListClick(event);"
+  {% if data.widget.defaultSorting %}
+  data-default-sort="{{data.widget.defaultSorting}}"
+  {% endif %}
 >
   <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
   {% for idea in data.widget.activeResources %}
   <li
-  id="idea-{{idea.id}}"
-  class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
-  data-griddercontent="#ideaContent{{idea.id}}"
-  onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
-  onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
-  data-createdtime="{{idea.createdTime}}"
-  data-likes="{{idea.yes}}"
-  data-budget="{{idea.budget}}"
-  data-ranking="{{idea.extraData.ranking}}"
-  data-ideaid="{{idea.id}}"
+    id="idea-{{idea.id}}"
+    class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
+    data-griddercontent="#ideaContent{{idea.id}}"
+    onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
+    onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
+    data-createdtime="{{idea.createdTime}}"
+    data-likes="{{idea.yes}}"
+    data-budget="{{idea.budget}}"
+    data-ranking="{{idea.extraData.ranking}}"
+    data-ideaid="{{idea.id}}"
   >
     <div class="image-container" style="position: relative;">
     	<div class="image">
@@ -94,7 +94,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
       <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
       {% endif %}
 
-      {% if idea.extraData.label %}
+
+      {% if data.widget.displayLabel and idea.extraData.label %}
       <div class="duration"
         {#
           style="
@@ -105,18 +106,19 @@ data-default-sort="{{data.widget.defaultSorting}}"
         {{ idea.extraData.label.text }}
       </div>
       {% endif %}
-
-      {#<div class="duration" style="background-color: blue;">
-       Geselecteerd
-      </div>#}
     </div>
     <div class="info">
     	<h3 class="title">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
     </div>
+
     <div style="display:none">
       {% if idea.extraData %}
-      <div class="thema">{{idea.extraData.theme}}</div>
-      <div class="gebied">{{idea.extraData.area}}</div>
+        {% if data.widget.displayTheme %}
+        <div class="thema">{{idea.extraData.theme}}</div>
+        {% endif %}
+        {% if data.widget.displayArea %}
+        <div class="gebied">{{idea.extraData.area}}</div>
+        {% endif %}
 			{% endif %}
 			{% if data.widget.useVoteBlockDescription and ( data.widget.vote_block_show_text_1 or data.widget.vote_block_show_text_2 ) %}
       <div class="voteblock-description">
@@ -185,11 +187,14 @@ data-default-sort="{{data.widget.defaultSorting}}"
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
 
-      {% if idea.summary %}
+      'displayRanking', 'displayLabel', 'displaySummary', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter'
+
+
+      {% if data.widget.displaySummary and idea.summary %}
       <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
       {% endif %}
 
-      {% if idea.description %}
+      {% if data.widget.displayDescription and idea.description %}
       <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
       {% endif %}
 
@@ -205,6 +210,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
       {% endif %}
 
       <div class="share-spacer"></div>
+
+      {% if data.widget.displayShareButtons %}
       <div class="share-buttons">
         <table class="table-center">
           <tr>
@@ -222,6 +229,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
           </tr>
         </table>
       </div>
+      {% endif %}
+
     </div>
   </div>
 </div>

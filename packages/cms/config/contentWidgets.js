@@ -53,6 +53,7 @@ const contentWidgets = {
     adminOnly: true
   },
   'idea-overview': {
+    hideByDefault: false
   },
   'idea-single': {
     adminOnly: true,

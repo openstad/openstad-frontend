@@ -1,5 +1,5 @@
 <div
-  class="tile-list ideas-list list"
+  class="tile-list ideas-list list {{data.widget.cardStyle}}"
   {% if data.widget.defaultSorting %}
 	data-default-sort="{{data.widget.defaultSorting}}"
 	{% endif %}
@@ -18,24 +18,31 @@
 
     <div class="image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
 
+    {% if data.widget.displayLabel %}
     <div class="duration">
       {{ data.widget['label' + idea.status] }}
     </div>
+    {% endif %}
 
     <div class="info">
+
+      {% if data.widget.displayTitle %}
       <h3 class="title">{{idea.title}}</h3>
-      {% if idea.extraData.theme %}
+      {% endif %}
+
+      {% if data.widget.displayTheme and idea.extraData.theme %}
         <div class="thema">{{idea.extraData.theme}}</div>
       {% endif %}
-      {% if idea.extraData.area %}
+
+      {% if data.widget.displayArea and idea.extraData.area %}
         <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
 
-      {% if idea.summary %}
+      {% if data.widget.displaySummary and idea.summary %}
       <p>{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
       {% endif %}
 
-      {% if data.widget.siteConfig.minimumYesVotes %}
+      {% if data.widget.displayVoteProgressBar and data.widget.siteConfig.minimumYesVotes %}
       <div class="ideaProgress">
         <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
       </div>
@@ -55,20 +62,22 @@
                   {{idea.yes}}
                 </button>
               </form>
-              {% else %}
+              {% elseif (data.widget.displayVoteForCount) %}
               <div class="count yes">{{idea.yes}}</div>
               {% endif %}
             </td>
-            {% if data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
+
+            {% if data.widget.displayVoteAgainstCount %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
             <td align="center"><div class="count no">{{idea.no}}</div></td>
             {% endif %}
+
+            {% if data.widget.displayArgumentsCount %}
             <td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+            {% endif %}
           </tr>
         </table>
       </div>
     </div>
   </a>
-</div>{%
-      else %}
-<i>Wees de eerste met een goed plan voor jouw buurt!</i>
+</div>
 {% endfor %}</div>
