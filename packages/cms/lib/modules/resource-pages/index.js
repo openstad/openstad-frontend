@@ -51,6 +51,10 @@ module.exports = {
         });
     }
 
+    self.dispatch('/', (req, callback) => {
+      callback(null);
+    });
+
     self.dispatch('/:resourceId', (req, callback) => {
       req.data.activeResourceId = req.params.resourceId;
       req.data.activeResourceType = req.data.page.resource;

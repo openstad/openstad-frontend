@@ -12,8 +12,12 @@ module.exports = {
         label: 'Default'
       },
       {
+        name: 'resource',
+        label: 'Resource'
+      },
+      {
         name: 'idea',
-        label: 'Idea'
+        label: 'Idea (Deprecated, please use Resource and set resource to Idea)'
       },
       {
         name: 'home',
