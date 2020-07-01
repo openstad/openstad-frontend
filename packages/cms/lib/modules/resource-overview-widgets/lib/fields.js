@@ -137,6 +137,24 @@ module.exports = [
   {
     name: 'displayRanking',
     label: 'Display ranking',
+    help: 'This is only available if vote count is set to publically viewable in site settings. Mostly used after the voting has finished',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+    def: true
+  },
+
+  {
+    name: 'displayTitle',
+    label: 'Display Title',
     type: 'boolean',
     choices: [
       {
