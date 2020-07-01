@@ -179,7 +179,7 @@ router.route('/*')
 			.scope(req.scope)
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
-				if ( req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
+				if (req.site.config.votes.voteType !== 'likes' && req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
 				req.existingVotes = found.map(entry => entry.toJSON());
 				return next();
 			})
@@ -336,7 +336,7 @@ router.route('/*')
 
 			case 'likes':
 				req.votes.forEach((vote) => {
-					let existingVote = req.existingVotes.find(entry => entry.ideaId == vote.ideaId);
+					let existingVote =  req.existingVotes ? req.existingVotes.find(entry => entry.ideaId == vote.ideaId) : false;
 					if ( existingVote ) {
 						if (existingVote.opinion == vote.opinion) {
 							actions.push({ action: 'delete', vote: existingVote })
