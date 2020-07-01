@@ -1254,13 +1254,14 @@ module.exports = function (db, sequelize, DataTypes) {
     canUpdate: canMutate,
     canDelete: canMutate,
     toAuthorizedJSON: function(user, data) {
-    
-	    if (idea.site.config.archivedVotes) {
+      console.log('data', data)
+
+	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;
 			      result.no = result.extraData.archivedNo;
 		     }
-	    }
+	    }*/
 
       delete data.site;
       delete data.config;
