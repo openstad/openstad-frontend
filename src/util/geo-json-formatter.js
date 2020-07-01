@@ -12,9 +12,9 @@ exports.formatPolygonToGeoJson = (polygons) => {
         "type": "Feature",
         "geometry": {
           "type": "Polygon",
-          "coordinates": [polygons.map((polygon) => {
+          "coordinates": polygons ? [polygons.map((polygon) => {
             return [polygon.lat, polygon.lng];
-          })]
+          })] : []
         }
       }
     ]

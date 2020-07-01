@@ -727,7 +727,17 @@ module.exports = function (db, sequelize, DataTypes) {
         attributes: {
           include: [
             voteCount('yes'),
-            voteCount('no'),
+            voteCount('no')
+          ]
+        }
+      },
+
+      includeArgsCount: {
+        include: [{
+          model: db.Site,
+        }],
+        attributes: {
+          include: [
             argCount('argCount')
           ]
         }
@@ -1220,7 +1230,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if( !self.isOpen() ) {
       return false;
     }
-    
+
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
@@ -1244,14 +1254,13 @@ module.exports = function (db, sequelize, DataTypes) {
     canUpdate: canMutate,
     canDelete: canMutate,
     toAuthorizedJSON: function(user, data) {
-
-      // dit stond ook nog in de idea route createIdeaJSON, maar ik snap het niet
-	    // if (idea.site.config.archivedVotes) {
-		  //   if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-			//     result.yes = result.extraData.archivedYes;
-			//     result.no = result.extraData.archivedNo;
-		  //   }
-	    // }
+    
+	    if (idea.site.config.archivedVotes) {
+		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+			      result.yes = result.extraData.archivedYes;
+			      result.no = result.extraData.archivedNo;
+		     }
+	    }
 
       delete data.site;
       delete data.config;
