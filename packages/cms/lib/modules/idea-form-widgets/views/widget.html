@@ -12,7 +12,7 @@
 {% elseif (not idea) and data.openstadUser and data.openstadUser.id %}
 {% set showForm = true %}
 {% else %}
-{% set showForm = true %}
+{% set showForm = false %}
 {% endif %}
 
 {% if data.widget.editorDescription %}
