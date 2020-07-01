@@ -626,5 +626,20 @@
 	"Redirect user when not logged in": "Redirect user when not logged in",
 	"Warning to adminstrator: resource representation widget will only work if page type is set to resource and a type of resource is select, this can be fixed in page settings": "Warning to adminstrator: resource representation widget will only work if page type is set to resource and a type of resource is select, this can be fixed in page settings",
 	"Warning to adminstrator: resource representation widget will only work if the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: resource representation widget will only work if the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.",
-	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page."
+	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.",
+	"Warning to adminstrator: this template will only work properly with idea resource": "Warning to adminstrator: this template will only work properly with idea resource",
+	"Display share buttons?": "Display share buttons?",
+	"Display ranking?": "Display ranking?",
+	"Label for photo: ACCEPTED": "Label for photo: ACCEPTED",
+	"Label for photo: DENIED": "Label for photo: DENIED",
+	"Label for photo: OPEN": "Label for photo: OPEN",
+	"Label for photo: CLOSED": "Label for photo: CLOSED",
+	"Label for photo: BUSY": "Label for photo: BUSY",
+	"Label for photo: DONE": "Label for photo: DONE",
+	"Labelfor time status: : ACCEPTED": "Labelfor time status: : ACCEPTED",
+	"Labelfor time status: : DENIED": "Labelfor time status: : DENIED",
+	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
+	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
+	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
 }

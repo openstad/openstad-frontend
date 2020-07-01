@@ -54,6 +54,7 @@ const contentWidgets = {
   },
   'idea-single': {
     adminOnly: true,
+    hideByDefault: true,
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
