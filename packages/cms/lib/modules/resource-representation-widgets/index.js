@@ -8,6 +8,10 @@ const fields = [
     type: 'select',
     choices: [
       {
+        'label': 'Idea Page (only for idea resource)',
+        'value': 'idea-page',
+      },
+      {
         'label': 'Title',
         'value': 'title',
       },
@@ -28,17 +32,9 @@ const fields = [
         'value': 'website-address',
       },
       {
-        'label': 'Quote',
-        'value': 'quote',
-      },
-      {
         'label': 'Help needed',
         'value': 'help-needed',
-      },
-      {
-        'label': 'Recommendation list',
-        'value': 'recommendation-list',
-      },
+      }
     ]
   },
   styleSchema.definition('containerStyles', 'Styles for the container'),
@@ -48,21 +44,6 @@ module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Resource representation',
   addFields: fields,
-  beforeConstruct: function(self, options) {
-
-    if (options.resources) {
-      self.resources = options.resources;
-
-      options.addFields = [
-        {
-          type: 'select',
-          name: 'resource',
-          label: 'Resource (from config)',
-          choices : options.resources
-        }
-      ].concat(options.addFields || [])
-    }
-  },
 
   construct: function(self, options) {
       const superLoad = self.load;
@@ -79,5 +60,11 @@ module.exports = {
         return superLoad(req, widgets, next);
       }
 
+      const superOutput = self.output;
+      self.output = function(widget, options) {
+        console.log('widget.page', widget.page);
+
+        return superOutput(widget, options);
+      };
   }
 };

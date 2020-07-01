@@ -52,6 +52,14 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
+
+      // if not logged in user throw a 404 because it needs a url to work
+      // for editing that's really annoying
+      if (!req.user) {
+        req.notFound = true;
+        callback(null);
+      }
+
       callback(null);
     });
 

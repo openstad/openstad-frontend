@@ -29,6 +29,7 @@ module.exports = {
       require('./lib/api.js')(self, options);
       require('./lib/middlewares.js')(self, options);
 
+
       /**
        * Add button to admin menu to clear cache
        */

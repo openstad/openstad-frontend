@@ -1,7 +1,20 @@
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
+Array.prototype.insert = function ( index, item ) {
+    this.splice( index, 0, item );
+};
 
 module.exports = {
   improve: 'apostrophe-custom-pages',
+  arrangeFields: [{
+    name: 'basics',
+    label: 'Basics',
+    fields: [ 'title', 'slug', 'type', 'resource', 'notLoggedInRedirect', 'published']
+  },
+  {
+    name: 'meta',
+    label: 'Meta settings',
+    fields: ['metaTitle', 'metaDescription', 'metaTags']
+  }],
   beforeConstruct: function(self, options) {
 
     options.addFields = [
@@ -23,13 +36,14 @@ module.exports = {
       {
         name: 'notLoggedInRedirect',
         type: 'string',
-        label: 'Redirect de gebruiker wanneer niet ingelogd',
+        label: 'Redirect user when not logged in',
       },
       {
         name: 'hideFooter',
         type: 'boolean',
         label: 'Hide the footer?',
       },
+
     ];
 
     //if loaded from options then the siteconfig from api overwrites the standard available resources
@@ -40,11 +54,24 @@ module.exports = {
         {
           type: 'select',
           name: 'resource',
-          label: 'Resource (from config)',
+          label: 'Resource',
           choices : options.resources
         }
       ].concat(options.addFields || [])
     }
 
+
+  //  options.arrangeFields
+
   },
+  construct: function(self, options) {
+
+    console.log('arrangeFields', options.arrangeFields);
+
+    console.log('arrangeFields',options.arrangeFields[0].fields);
+    // add resource to first page
+
+//    options.arrangeFields[0].fields.insert(3, 'resource');
+    console.log('arrangeFields',options.arrangeFields[0].fields);
+  }
 };
