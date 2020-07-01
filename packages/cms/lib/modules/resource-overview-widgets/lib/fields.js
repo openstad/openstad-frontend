@@ -281,26 +281,10 @@ module.exports = [
     def: true
   },
   {
-    name: 'displayArgumentsCount',
-    label: 'Display vote against count',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
-  {
     name: 'amountCharsSummary',
     label: 'Amount of characters for the summary',
     type: 'string',
-    def: '60'
+    def: '30'
   },
 
   {
@@ -462,6 +446,24 @@ module.exports = [
     ],
   },
   {
+    name: 'displayArgumentsCount',
+    label: 'Display arguments count?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+
+
+
+  {
     name: 'displayTagFilters',
     label: 'Display tag filters?',
     type: 'boolean',
@@ -538,7 +540,7 @@ module.exports = [
   {
     type: 'boolean',
     name: 'allowVotingInOverview',
-    label: 'Allow for voting on ideas directly in overview',
+    label: 'Allow for linking on ideas directly in overview',
     help: 'Note: voting only works for ideas with OPEN status'
   },
 ].concat(

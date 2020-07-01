@@ -57,8 +57,10 @@
           <tr>
             <td align="left">
               {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
-              <form method="GET" action="/like" class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
+              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
                 <input type="hidden" value="{{idea.id}}" name="ideaId" />
+                <input type="hidden" value="yes" name="opinion" />
+
                 <button
                   data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
@@ -73,7 +75,24 @@
             </td>
 
             {% if data.widget.displayVoteAgainstCount %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
-            <td align="center"><div class="count no">{{idea.no}}</div></td>
+              <td align="center">
+              {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
+              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'no'}}">
+                <input type="hidden" value="{{idea.id}}" name="ideaId" />
+                <input type="hidden" value="no" name="opinion" />
+
+                <button
+                  data-return-to="/like?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  type="submit"
+                  class="count no role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
+                >
+                  {{idea.no}}
+                </button>
+              </form>
+              {% elseif (data.widget.displayVoteForCount) %}
+              <div class="count no">{{idea.no}}</div>
+              {% endif %}
+            </td>
             {% endif %}
 
             {% if data.widget.displayArgumentsCount %}

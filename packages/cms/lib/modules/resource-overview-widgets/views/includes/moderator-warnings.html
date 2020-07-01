@@ -10,3 +10,10 @@
   {{ __('Warning to adminstrator: voting type is not set to count in site settings!') }}
 </div>
 {% endif %}
+
+
+{% if data.widget.allowVotingInOverview and data.hasModeratorRights and data.widget.voteType !== 'likes' %}
+<div class="alert alert-warning">
+  {{ __('Warning to adminstrator: voting type is not set to likes in  site settings but liking is turned on in resource overview') }}
+</div>
+{% endif %}
