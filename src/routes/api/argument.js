@@ -62,7 +62,6 @@ router
 				where
 			})
 			.then(entry => {
-				console.log(entry)
 				if ( !entry ) throw new Error('Argument not found');
 				req.results = entry;
 				return next();
