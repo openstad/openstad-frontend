@@ -108,11 +108,10 @@ router.route('/')
 	.get(function(req, res, next) {
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
-		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit }
 
+		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit }
 		const sort = req.query.sort;
 		if(sort && isJson(sort)) {
-			console.log(sort)
 			query.order = [JSON.parse(sort)];
 		}
 

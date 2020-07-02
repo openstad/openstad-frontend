@@ -22,8 +22,15 @@ router.route('/')
   .get(auth.can('Area', 'list'))
   .get(pagination.init)
   .get(function(req, res, next) {
+    let query = { offset: req.pagination.offset, limit: req.pagination.limit };
+
+    const sort = req.query.sort;
+    if(sort && isJson(sort)) {
+      query.order = [JSON.parse(sort)];
+    }
+
     return db.Area
-      .findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+      .findAndCountAll(query)
       .then(function(result) {
         req.results = result.rows || [];
         req.pagination.count = result.count;

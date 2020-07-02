@@ -51,13 +51,23 @@ router.route('/')
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
-
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
+		if(sort && isJson(sort)) {
+			query.order = [JSON.parse(sort)];
+		}
+
+		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit };
+
+		const sort = req.query.sort;
+		if(sort && isJson(sort)) {
+			query.order = [JSON.parse(sort)];
+		}
+
 		db.Article
 			.scope(...req.scope)
-			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll(query)
 			.then(function( result ) {
         req.results = result.rows;
         req.pagination.count = result.count;
