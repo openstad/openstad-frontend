@@ -53,6 +53,7 @@ router.use("/site", function(err, req, res, next){
 
   // send back json data
   res.send({
+    error:  err.message,
     message: err.message
   })
 });

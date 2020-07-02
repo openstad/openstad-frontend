@@ -16,7 +16,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api'];
+		req.scope = ['api', 'includeArgsCount'];
 
 		req.scope.push('includeSite');
 
@@ -184,7 +184,9 @@ router.route('/')
 						// TODO: we zitten op een nieuwe versie van seq; vermoedelijk kan dit nu wel
 						errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 					});
-					res.status(422).json(errors);
+				//	res.status(422).json(errors);
+
+					next(createError(422, errors.join(', ') ));
 				} else {
 					next(error);
 				}
