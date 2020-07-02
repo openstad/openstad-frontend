@@ -4,6 +4,7 @@ const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 const {formatGeoJsonToPolygon} = require('../../util/geo-json-formatter');
+const isJson = require('../../util/isJson');
 
 const router = require('express-promise-router')({ mergeParams: true });
 var createError = require('http-errors');
