@@ -63,15 +63,5 @@ module.exports = {
 
   //  options.arrangeFields
 
-  },
-  construct: function(self, options) {
-
-    console.log('arrangeFields', options.arrangeFields);
-
-    console.log('arrangeFields',options.arrangeFields[0].fields);
-    // add resource to first page
-
-//    options.arrangeFields[0].fields.insert(3, 'resource');
-    console.log('arrangeFields',options.arrangeFields[0].fields);
   }
 };

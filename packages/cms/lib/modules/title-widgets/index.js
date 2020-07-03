@@ -3,6 +3,7 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 module.exports = {
   extend: 'openstad-widgets',
   label: 'Title',
+  testData: 'test5',
   addFields: [
     {
       name: 'title',
@@ -55,6 +56,7 @@ module.exports = {
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
+
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
         name: 'generalGroup',
@@ -67,10 +69,17 @@ module.exports = {
         fields: ['className', 'classNameCustom', 'containerStyles']
       }
     ]);
-    
+
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
+      console.log('options', Object.assign(self.options, {apos: ''}));
+//      console.log('options', options.testData)
+
+      console.log('self', self.testData)
+
       widgets.forEach((widget) => {
+        console.log('widget.opetions', widget.options);
+
         if (widget.containerStyles) {
           const containerId = styleSchema.generateId();
           widget.containerId = containerId;
@@ -80,5 +89,14 @@ module.exports = {
 
       return superLoad(req, widgets, callback);
     }
+
+    const superOutput = self.output;
+    self.output = function(widget, options) {
+      console.log('output.options', options);
+
+//      widget.count = self.getCount(widget);
+
+      return superOutput(widget, options);
+    };
   }
 };

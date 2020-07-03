@@ -262,7 +262,16 @@ module.exports = {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
           widget.containerId = widget.containerId ? widget.containerId : styleSchema.generateId();
           widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
+
+          // get the content widget that fit with the role of logged in user and insert data
+
           widget.contentWidgets = self.getContentWidgets(req);
+
+
+
+
+
+
         });
         return callback(null);
       });
@@ -272,5 +281,24 @@ module.exports = {
       return self.apos.permissions.can(req, 'admin') ? contentWidgets.getAdminWidgets() : contentWidgets.getEditorWidgets();
     };
 
+    const superOutput = self.output;
+    self.output = (widget, options) => {
+      Object.keys(widget.contentWidgets).forEach((widgetKey) => {
+        widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
+          pageType: options.pageType ? options.pageType : '',
+          activeResource: options.activeResource,
+          activeResourceType: options.activeResourceType,
+          testData: 'test111',
+          options: {
+            testData: 'test111',
+          }
+        })
+      });
+
+      console.log('widget.contentWidgets[widgetKey]', widget.contentWidgets['title'])
+
+
+      return superOutput(widget, options);
+    }
   }
 };

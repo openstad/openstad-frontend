@@ -137,7 +137,14 @@ const contentWidgets = {
       position: 'top-left'
     },
   },
-  'title': {},
+  'title': {
+    label: 'Title again',
+    testData: 'test1144441',
+    options: {
+      testData: 'test11333344441',
+
+    }
+  },
   'user-form': {
     adminOnly: true,
     hideByDefault: true,

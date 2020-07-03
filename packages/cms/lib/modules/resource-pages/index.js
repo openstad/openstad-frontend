@@ -84,5 +84,7 @@ module.exports = {
 
     });
 
+    self.expressMiddleware
+
   }
 };

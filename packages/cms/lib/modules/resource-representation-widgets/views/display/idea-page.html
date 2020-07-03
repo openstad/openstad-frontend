@@ -5,7 +5,7 @@
   </div>
 {% else  %}
 
-{% set idea = data.activeResource %}
+{% set idea = data.widget.activeResource %}
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}

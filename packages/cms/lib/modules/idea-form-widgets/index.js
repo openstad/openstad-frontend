@@ -329,25 +329,6 @@ module.exports = {
     // Send back an AJAX response with `res.send()` as you normally do with Express
   });
 
-  const superPushAssets = self.pushAssets;
-   self.pushAssets = function () {
-     superPushAssets();
-     self.pushAsset('stylesheet', 'filepond', { when: 'always' });
-     self.pushAsset('stylesheet', 'trix', { when: 'always' });
-     self.pushAsset('stylesheet', 'form', { when: 'always' });
-     self.pushAsset('stylesheet', 'main', { when: 'always' });
-     self.pushAsset('script', 'map', { when: 'always' });
-     self.pushAsset('script', 'editor', { when: 'always' });
-
-
-     self.pushAsset('script', 'main', { when: 'always' });
-     self.pushAsset('script', 'delete-form', { when: 'always' });
-     self.pushAsset('script', 'status-form', { when: 'always' });
-
-     //because of size load in directly in template for now, in future we might consider loading them in user script
-     //and load the user script also when users log in via openstad.
-     //self.pushAsset('script', 'filepond', { when: 'always' });
-     // self.pushAsset('script', 'trix', { when: 'always' });
-   };
+  
   }
 };

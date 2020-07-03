@@ -16,6 +16,7 @@ module.exports = {
 
       const superLoad = self.load;
       self.load = function (req, widgets, next) {
+
           const styles = openstadMap.defaults.styles;
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
@@ -57,6 +58,8 @@ module.exports = {
           });
           return superLoad(req, widgets, next);
       }
+
+    //self.afterHide()
 
      const superOutput = self.output;
      self.output = function(widget, options) {

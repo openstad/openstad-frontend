@@ -95,8 +95,6 @@ module.exports = {
                 user = undefined;
              }
 
-             console.log('-->>> user', user)
-
              if (user && Object.keys(user).length > 0) {
                req.data.loggedIn = user &&  user.role !== 'anonymous';
                req.data.openstadUser = user;

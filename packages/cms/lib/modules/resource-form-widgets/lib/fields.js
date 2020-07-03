@@ -143,6 +143,11 @@ const fields = [
                       value: 'title',
                       label: "Title"
                   },
+                  {
+                      value: 'vimeo',
+                      label: "Vimeo",
+                      showFields: ['fieldRequired']
+                  },
                 ]
             },
             {

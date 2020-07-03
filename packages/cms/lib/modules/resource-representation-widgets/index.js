@@ -1,4 +1,7 @@
-
+/**
+ * [fields description]
+ * @type {[type]}
+ */
 const fields = require('./lib/fields.js');
 const eventEmitter  = require('../../../events').emitter;
 const extraFields =  require('../../../config/extraFields.js').fields;
@@ -20,6 +23,7 @@ module.exports = {
         self.pushAsset('stylesheet', 'main', { when: 'always' });
         self.pushAsset('stylesheet', 'secondary', { when: 'always' });
         self.pushAsset('script', 'main', { when: 'always' });
+        self.pushAsset('script', 'modal', { when: 'always' });
       };
 
       const superLoad = self.load;
@@ -27,6 +31,8 @@ module.exports = {
           const styles = openstadMap.defaults.styles;
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
+
+
           widgets.forEach((widget) => {
               // render string with variables. Add active recource
               if (widget.containerStyles) {
@@ -35,47 +41,57 @@ module.exports = {
                 widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
               }
 
+              widget.mapCenterLat = globalData.mapCenterLat;
+              widget.mapCenterLng = globalData.mapCenterLng;
+              widget.mapPolygons = globalData.mapPolygons;
+
               widget.siteConfig = {
                   minimumYesVotes: (siteConfig && siteConfig.ideas && siteConfig.ideas.minimumYesVotes),
+                  openStadMap: (siteConfig && siteConfig.openStadMap) ? siteConfig.openStadMap : {},
                   voteValues: (siteConfig && siteConfig.votes && siteConfig.votes.voteValues) || [{
                       label: 'voor',
                       value: 'yes',
                       screenReaderAddition: 'dit plan stemmen'
                   }, {label: 'tegen', value: 'no', screenReaderAddition: 'dit plan stemmen'}],
               }
+
               if (widget.siteConfig.minimumYesVotes == null || typeof widget.siteConfig.minimumYesVotes == 'undefined') widget.siteConfig.minimumYesVotes = 100;
-
-              const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
-
-              // Todo: refactor this to get ideaId in a different way
-              const ideaId = req.url
-                  .replace(/(\/.*\/)/, '')
-                  .replace(/\?.*/, '');
-
-              const idea = req.data.ideas ? req.data.ideas.find(idea => idea.id === parseInt(ideaId, 10)) : null;
-              const ideas = idea ? [idea] : [];
-
-              widget.mapConfig = self.getMapConfigBuilder(globalData)
-                  .setDefaultSettings({
-                      mapCenterLat: (idea && idea.location && idea.location.coordinates && idea.location.coordinates[0]) || globalData.mapCenterLat,
-                      mapCenterLng: (idea && idea.location && idea.location.coordinates && idea.location.coordinates[1]) || globalData.mapCenterLng,
-                      mapZoomLevel: 16,
-                      zoomControl: true,
-                      disableDefaultUI : true,
-                      styles: styles
-                  })
-                  .setMarkersByIdeas(ideas)
-                  .setMarkerStyle(markerStyle)
-                  .setPolygon(req.data.global.mapPolygons || null)
-                  .getConfig()
-
           });
           return superLoad(req, widgets, next);
       }
 
       const superOutput = self.output;
+
       self.output = function(widget, options) {
-        console.log('widget.page', widget.page);
+
+        widget.pageType = options.pageType;
+        widget.activeResource = options.activeResource;
+        widget.activeResourceId = options.activeResource;
+        widget.activeResourceType = options.activeResourceType;
+
+        //Todo, find a nice way of adding functions per display / resource type
+        if (widget.activeResourceType === 'idea' && widget.displayType === 'idea-page') {
+          const openStadMap =  widget.siteConfig && widget.siteConfig.openStadMap ? widget.siteConfig.openStadMap : {};
+          const markerStyle = widget.siteConfig && widget.siteConfig.openStadMap && widget.siteConfig.openStadMap.markerStyle ? widget.siteConfig.openStadMap.markerStyle : null;
+          const idea = widget.activeResource;
+
+          //map expects array
+          const ideas = widget.activeResource ? [widget.activeResource] : [];
+
+          widget.mapConfig = self.getMapConfigBuilder({})
+              .setDefaultSettings({
+                  mapCenterLat: (idea && idea.location && idea.location.coordinates && idea.location.coordinates[0]) || widget.mapCenterLat,
+                  mapCenterLng: (idea && idea.location && idea.location.coordinates && idea.location.coordinates[1]) || widget.mapCenterLng,
+                  mapZoomLevel: 16,
+                  zoomControl: true,
+                  disableDefaultUI : true,
+                  styles: openStadMap.styles
+              })
+              .setMarkersByIdeas(ideas)
+              .setMarkerStyle(markerStyle)
+              .setPolygon(widget.mapPolygons || null)
+              .getConfig();
+        }
 
         return superOutput(widget, options);
       };
