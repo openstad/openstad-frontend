@@ -3,16 +3,6 @@
 // can be turned on per key, or per deprecated/beta flag
 // this is just for showing, widgets are still loaded even if they are not visible, this is necessary for asset loading
 // all shared within one multisite installation
-//
-const objectClone = function() {
-  var newObj = (this instanceof Array) ? [] : {};
-  for (var i in this) {
-    if (i == 'clone') continue;
-    if (this[i] && typeof this[i] == "object") {
-      newObj[i] = this[i].clone();
-    } else newObj[i] = this[i]
-  } return newObj;
-};
 
 const contentWidgets = {
   'agenda': {},
@@ -43,7 +33,8 @@ const contentWidgets = {
   'date-bar': {},
   'idea-form': {
     adminOnly: true,
-    hideByDefault: false
+    hideByDefault: true,
+    deprecated: true
   },
   'idea-map': {
     adminOnly: true
