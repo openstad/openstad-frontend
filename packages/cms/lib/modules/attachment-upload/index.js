@@ -20,7 +20,7 @@ module.exports = {
         // collect files
         let promises = [];
         req.files.forEach((file, i) => {
-          let path = 'public/uploads/' + file.originalname;
+          let path = 'public/uploads/attachments/' + file.originalname;
           promises.push(
             new Promise( (resolve,reject) => {
               // existing files are ignored; it  is more then likely the same file
