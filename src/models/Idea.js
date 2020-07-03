@@ -1254,7 +1254,7 @@ module.exports = function (db, sequelize, DataTypes) {
     canUpdate: canMutate,
     canDelete: canMutate,
     toAuthorizedJSON: function(user, data) {
-      console.log('data', data)
+      //console.log('data', data)
 
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
