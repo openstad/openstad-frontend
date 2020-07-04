@@ -312,6 +312,7 @@ router
 		res.json({
 			"id": req.user.id,
 			"complete": req.user.complete,
+			"externalUserId": req.user.role == 'admin' ? req.user.externalUserId : null,
 			"role": req.user.role,
 			"email": req.user.email,
 			"firstName": req.user.firstName,
