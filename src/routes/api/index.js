@@ -45,6 +45,8 @@ router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 router.use( '/site/:siteId(\\d+)/area', require('./area') );
 router.use( '/area', require('./area') );
 
+router.use( '/repo', require('./externalSite') );
+
 // output error as JSON only use this error handler middleware in "/api" based routes
 router.use("/site", function(err, req, res, next){
   console.log('->>> err', err);

@@ -2,37 +2,34 @@ const db = require('../db');
 const createError = require('http-errors');
 
 const getSiteId = (path) => {
-    const match = path.match(/\/site\/(\d+)?\//);
-    if (match) {
-        return parseInt(match[1]);
-    }
+  const match = path.match(/\/site\/(\d+)?\//);
+  if (match) {
+      return parseInt(match[1]);
+  }
 
-    return null
+  return null;
 }
 
 module.exports = function( req, res, next ) {
 
-	// @todo: inverse this middleware; Only apply it on routes that need it, instead of applying this middleware to every route and then creating exceptions for routes that don't need it
-	// deze paden mogen dit overslaan
-	if (req.path.match('^(/doc|/dev|/accepteer-cookies|/api/area|/$)')) return next();
-	if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
+  // @todo: inverse this middleware; Only apply it on routes that need it, instead of applying this middleware to every route and then creating exceptions for routes that don't need it
+  // deze paden mogen dit overslaan
+  if (req.path.match('^(/doc|/dev|/accepteer-cookies|/api/repo|/api/area|/$)')) return next();
+  if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
 
-	const siteId = getSiteId(req.path);
-	if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
+  const siteId = getSiteId(req.path);
+  if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
 
-	const where = { id: siteId }
+  const where = { id: siteId }
 
-	db.Site
-		.findOne({ where })
-		.then(function( found ) {
-			if (!found) return next(new createError('400', 'Site niet gevonden'));
-
-			req.site = found;
-			next();
-
-		})
-		.catch( err => {
-			next(err)
-		});
-
+  db.Site
+  	.findOne({ where })
+  	.then(function( found ) {
+  		if (!found) return next(new createError('400', 'Site niet gevonden'));
+  		req.site = found;
+  		next();
+  	})
+  	.catch( err => {
+  		next(err)
+  	});
 }
