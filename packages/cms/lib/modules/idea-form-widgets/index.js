@@ -191,10 +191,12 @@ module.exports = {
 
      const siteId = req.data.global.siteId;
      const postUrl = `${apiUrl}/api/site/${siteId}/idea`;
+
      const httpHeaders = {
          'Accept': 'application/json',
          "X-Authorization" : `Bearer ${req.session.jwt}`,
      };
+
      let redirect = req.body.redirect || req.header('Referer');
 
      if (req.body.action && (req.body.action === 'UPDATE_STATUS' || req.body.action === 'MODBREAK') ) {
@@ -301,17 +303,6 @@ module.exports = {
            json: true // Automatically parses the JSON string in the response
        })
        .then(function (response) {
-    //     console.log('===>>> response', response)
-          //parse url to make sure we only redirect to a relative within the site, not external
-        /*  let redirectUrl = req.body.redirect || req.header('Referer');
-          redirectUrl = url.parse(redirectUrl, true);
-          redirectUrl = redirectUrl.path;
-          redirectUrl = redirectUrl.replace(':id', response.id);
-          redirectUrl = redirectUrl.replace(redirectUrl.protocol, '');
-          redirectUrl = redirectUrl.replace(redirectUrl.host, '');
-          res.redirect(redirectUrl);
-*/
-
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({
             id: response.id
@@ -329,6 +320,6 @@ module.exports = {
     // Send back an AJAX response with `res.send()` as you normally do with Express
   });
 
-  
+
   }
 };

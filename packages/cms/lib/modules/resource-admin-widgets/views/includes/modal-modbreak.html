@@ -1,3 +1,4 @@
+{% set idea = data.widget.activeResource %}
 <div id="modbreak" class="content-modal content-modal--s">
   <div class="content-modal-content">
     <div class="content-modal-header">
@@ -5,8 +6,9 @@
         Reactie van moderator
       </h3>
     </div>
+
     <div class="content-modal-body">
-      <form method="post" id="js-form " action="/modules/idea-form-widgets/submit" class="ajax-form">
+      <form method="post" id="js-form " action="/modules/resource-admin-widgets/update" class="ajax-form">
         <input type="hidden" name="action" value="MODBREAK">
         {% if idea.modBreakDate %}
         <input type="hidden" name="modBreakDate" value="{{idea.modBreakDate}}">
@@ -16,11 +18,8 @@
         </div>
 
         <input type="hidden" name="redirect-url" class="redirect-url"  value="{{data.currentUrl}}"  />
-
-
-        {% if idea %}
-        <input type="hidden" name="ideaId" value="{{idea.id}}">
-        {% endif %}
+        <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
+        <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
 
         <div class="row">
           <button type="submit" href="/oauth/login?returnTo={{data.currentUrl}}" class="btn-primary btn-primary--blue">

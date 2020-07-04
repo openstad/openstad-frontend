@@ -65,9 +65,9 @@ module.exports = {
       self.output = function(widget, options) {
 
         widget.pageType = options.pageType;
-        widget.activeResource = options.activeResource;
-        widget.activeResourceId = options.activeResource;
         widget.activeResourceType = options.activeResourceType;
+        widget.activeResource = options.activeResource ?  options.activeResource : {};
+        widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
 
         //Todo, find a nice way of adding functions per display / resource type
         if (widget.activeResourceType === 'idea' && widget.displayType === 'idea-page') {

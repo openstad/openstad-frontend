@@ -27,8 +27,6 @@ module.exports = {
   label: 'Openstad widgets',
   openstadApiConfigSync: false,
   construct: function(self, options) {
-    console.log('options beginng', Object.assign(self.options, {apos: ''}));
-
       if(options.openstadApiConfigSync) {
         require('./lib/syncFields.js')(self, options);
       }

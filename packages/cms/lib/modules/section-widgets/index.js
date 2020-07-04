@@ -287,16 +287,9 @@ module.exports = {
         widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
           pageType: options.pageType ? options.pageType : '',
           activeResource: options.activeResource,
-          activeResourceType: options.activeResourceType,
-          testData: 'test111',
-          options: {
-            testData: 'test111',
-          }
+          activeResourceType: options.activeResourceType
         })
       });
-
-      console.log('widget.contentWidgets[widgetKey]', widget.contentWidgets['title'])
-
 
       return superOutput(widget, options);
     }

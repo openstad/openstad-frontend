@@ -51,8 +51,6 @@ module.exports = {
          return self.apos.permissions.can(req, permission);
       };
 
-
-
       if (req.query.jwt) {
         const thisHost = req.headers['x-forwarded-host'] || req.get('host');
         const protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -96,12 +94,6 @@ module.exports = {
 
          rp(options)
            .then(function (user) {
-             // This a funky old decision, for some reason
-             // not logged in users in the the API user with id === 1 is
-             if (user.id === 1) {
-                user = undefined;
-             }
-
              if (user && Object.keys(user).length > 0) {
                req.data.loggedIn = user &&  user.role !== 'anonymous';
                req.data.openstadUser = user;
