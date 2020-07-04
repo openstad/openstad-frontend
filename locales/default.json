@@ -669,5 +669,6 @@
 	"Area Structure": "Area Structure",
 	"Done": "Done",
 	"Warning to adminstrator: no active resource is found for editing.": "Warning to adminstrator: no active resource is found for editing.",
-	"Warning: no active resource is found for editing.": "Warning: no active resource is found for editing."
+	"Warning: no active resource is found for editing.": "Warning: no active resource is found for editing.",
+	"The url to redirect to after form submit, it's possible to redirect to newly created item (replace with correct url) /pagename/:id   ": "The url to redirect to after form submit, it's possible to redirect to newly created item (replace with correct url) /pagename/:id   "
 }

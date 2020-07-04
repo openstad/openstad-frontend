@@ -3,6 +3,7 @@ const fields = [
         name: 'redirect',
         type: 'string',
         label: 'Redirect after submit',
+        help: 'The url to redirect to after form submit, it\'s possible to redirect to newly created item (replace with correct url) /pagename/:id   ',
         required: true
     },
     {
