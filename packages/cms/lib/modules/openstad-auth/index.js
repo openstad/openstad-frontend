@@ -26,8 +26,15 @@ function removeURLParameter(url, parameter) {
 
 module.exports = {
   construct: function(self, options) {
+    self.expressMiddleware = {
+      when: 'afterRequired',
+      middleware: (req, res, next) => {
+        self.authenticate(req, res, next);
+      }
+    };
+
   // You can add routes here
-    self.apos.app.use((req, res, next) => {
+    self.authenticate = (req, res, next) => {
 
       //apostropheCMS for some reasons always sets the scene to user
       //this means it always assumes the user is logged in into the CMS
@@ -131,7 +138,7 @@ module.exports = {
            });
          }
        }
-    });
+    };
 
 
 
