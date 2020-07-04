@@ -11,6 +11,7 @@ apos.define('map-widgets', {
     construct: function(self, options) {
 
         self.createMap = function(mapConfig) {
+            mapConfig = mapConfig ? mapConfig : {};
             var map = new GoogleMaps(
                 mapConfig.markerStyles,
                 mapConfig.polygon,

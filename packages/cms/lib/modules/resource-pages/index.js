@@ -51,6 +51,7 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
+          console.log('activeResource', activeResource)
           req.data.activeResource = activeResource
           callback(null);
         })
@@ -84,8 +85,6 @@ module.exports = {
     self.dispatch('/:resourceId', (req, callback) => {
       req.data.activeResourceId = req.params.resourceId;
       req.data.activeResourceType = req.data.page.resource;
-
-      console.log('eq.data.activeResourceId', req.data.activeResourceId, req.data.activeResourceType)
 
       if (req.data.isAdmin && req.data.activeResourceType === 'idea') {
         req.data.ideaVotes = req.data.votes ? req.data.votes.filter(vote => vote.ideaId === parseInt(req.data.activeResourceId,10)) : [];

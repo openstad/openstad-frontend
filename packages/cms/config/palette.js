@@ -127,7 +127,7 @@ exports.fields = [
     name: 'buttonColor',
     label: 'Background color of button',
     type: 'color',
-    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',' #map-with-buttons-container .no-of-locations-content', '.no-of-locations-content', '#title .secondary .controls .vote button', '#title .secondary .controls .no-of-votes-for-content', '#title .secondary .controls .no-of-votes-against-content' ],
+    selector: ['a.page-button-flag', '.filled-button', '.btn-primary', '.btn--blue', '.begroot-container .button-add-idea-to-budget',' #map-with-buttons-container .no-of-locations-content', '.no-of-locations-content', '#title .secondary .controls .vote button', '#title .secondary .controls .vote button.idea-status-OPEN:disabled',  '#title .secondary .controls .no-of-votes-for-content', '#title .secondary .controls .no-of-votes-against-content' ],
     property: ['background-color', 'border-color'],
   },
   {
@@ -142,7 +142,7 @@ exports.fields = [
     name: 'buttonHoverBgColor',
     label: 'Background color of button - hover',
     type: 'color',
-    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover',  '#title .secondary .controls .vote button:hover' ],
+    selector: ['a.page-button-flag:hover', '.filled-button:hover', '.btn-primary:hover', '.btn--blue:hover', '.begroot-container .button-add-idea-to-budget:hover',  '#title .secondary .controls .vote button:hover', '#title .secondary .controls .vote button.idea-status-OPEN:disabled:hover' ],
     property: ['background-color', 'border-color'],
   },
   {
