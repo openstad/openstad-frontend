@@ -29,13 +29,17 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 !-->
 
+{% if data.envStyleSheets %}
 {% for stylesheet in data.envStyleSheets %}
 <link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
 {% endfor %}
+{% endif %}
 
+{% if data.global.stylesheets %}
 {% for stylesheet in data.global.stylesheets %}
 <link rel="stylesheet" href="{{stylesheet.url}}?{data.assetsGeneration}}">
 {% endfor %}
+{% endif %}
 
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
