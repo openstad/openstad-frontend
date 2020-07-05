@@ -63,7 +63,6 @@ module.exports = {
           //editing also when no activeResource is present
           if (!req.user) {
             req.notFound = true;
-            callback(null);
           }
 
           callback(null);
@@ -76,8 +75,7 @@ module.exports = {
       // for editing that's really annoying
       if (!req.user) {
         req.notFound = true;
-        callback(null);
-      }
+      } 
 
       callback(null);
     });
