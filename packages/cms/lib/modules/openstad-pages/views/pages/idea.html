@@ -12,6 +12,9 @@
     widgets: {
       'section': {
         addLabel: 'Add a section',
+        pageType: data.page.type,
+        activeResource: data.activeResource,
+        activeResourceType: data.activeResourceType,
         readOnly:  readOnly,
         edit: data.userCan('add-sections'),
         controls: {
@@ -23,6 +26,9 @@
       'icon-section': {
         addLabel: 'Add an icon section',
         readOnly: readOnly,
+        pageType: data.page.type,
+        activeResource: data.activeResource,
+        activeResourceType: data.activeResourceType,
         controls: {
           movable: data.userCan('add-sections'),
           removable: data.userCan('add-sections'),

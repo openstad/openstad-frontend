@@ -1,0 +1,339 @@
+#content.newArticle,
+#content.newIdea,
+.resource-form,
+.openstad-form {
+	input[type="text"],
+	input[type="date"],
+	input[type="phone"],
+	input[type="email"],
+	input[type="number"],
+	textarea,
+	trix-editor{
+		border: 1px solid #767676;
+    border-radius: 0;
+    box-sizing: border-box;
+    font: inherit;
+    padding: .4em .6em;
+    width: 100%;
+	}
+
+	textarea,
+	trix-editor{
+		resize: vertical;
+		overflow: auto;
+		min-height: 80px;
+	}
+
+	trix-editor {
+		min-height: 170px;
+	}
+
+	input[type="submit"] {
+		float: right;
+		margin: 20px 0;
+	}
+
+	#modBreak {
+		border: 3px solid #FFE115;
+		margin: 35px 0px;
+		padding: 10px 20px;
+		position: relative;
+
+		&::before,
+		&::after {
+			border-left: 30px solid #FFE115;
+			border-top: 30px solid transparent;
+			border-bottom: 30px solid transparent;
+			border-right: 0;
+			content: '';
+			position: absolute;
+			width: 0;
+			height: 0;
+			left: -3px;
+			bottom: -32px;
+		}
+		&::after {
+			border-left: 30px solid #FFF;
+			bottom: -24px;
+			left: 0;
+		}
+
+		b {
+			color: #164995;
+		}
+		p {
+			margin: 0.5em 0 0;
+		}
+	}
+  .primary {
+		padding-right: @hMargin;
+
+		@media @primary100 {
+			padding-right: 0;
+		}
+
+		#titleAndSummary, #location {
+			h2:first-of-type {
+				margin-top: 0;
+			}
+			em {
+				color: rgba(0,0,0,0.3);
+			}
+		}
+
+		#titleAndSummary {
+			input {
+				box-sizing: border-box;
+				width: 100%;
+			}
+			textarea {
+				height: 100px;
+			}
+		}
+
+		#location {
+			margin-bottom: 20px;
+		}
+
+		#description {
+			clear: both;
+
+			#trixToolbar {
+				.button_row {
+					justify-content: flex-start;
+
+					.button_group {
+						margin-right: 10px;
+					}
+				}
+				button.attach::before {
+					background-image: url('/modules/openstad-assets/img/camera.svg');
+				}
+			}
+			textarea,
+			trix-editor {
+				min-height: 200px;
+			}
+		}
+	}
+
+	.secondary {
+		@media @primary100 {
+			display: none;
+		}
+	}
+}
+
+
+
+#description-textarea {
+	height: 145px;
+}
+
+
+
+.radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+.radio .radio-label {
+  padding: 0;
+  font-size: 14px;
+}
+.radio input[type="radio"] + .radio-label:before {
+  content: '';
+  background: #ffffff;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: -0.2em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+  background-color: #010101;
+  box-shadow: inset 0 0 0 5px #ffffff;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.radio input[type="radio"]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type="radio"] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
+
+
+
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+.checkbox .checkbox-label {
+  padding: 0;
+  font-size: 14px;
+}
+.checkbox input[type="checkbox"] + .checkbox-label:before {
+  content: '';
+  background: #ffffff;
+  border-radius: 0;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: -0.2em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  transition: all 250ms ease;
+}
+.checkbox input[type="checkbox"]:checked + .checkbox-label:before {
+  background-color: #010101;
+  box-shadow: inset 0 0 0 5px #ffffff;
+}
+.checkbox input[type="checkbox"]:focus + .checkbox-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.checkbox input[type="checkbox"]:disabled + .checkbox-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.checkbox input[type="checkbox"] + .checkbox-label:empty:before {
+  margin-right: 0;
+}
+
+
+textarea:disabled {
+  background: #efefef;
+  border: none;
+}
+
+#vimeo-dropzone-container{
+	border: none;
+	padding: 30px 25px 30px;
+	text-align: center;
+	background: #edf4f7;
+	color: #000000;
+	font-size: 14px;
+
+	.glyphicon{
+		font-size: 30px;
+		color: green;
+	}
+
+}
+
+.vimeo-upload-button {
+	width: 130px;
+  height: 40px;
+  border-radius: 30px;
+  border: solid 1px #004699;
+  background-color: #ffffff;
+  font-size: 16px;
+  color: #004699;
+	-webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 12px 0 0;
+
+}
+
+#vimeo-upload-text {
+
+}
+
+#vimeo-upload-again-text, #vimeo-uploading-local, #vimeo-upload-again-text, #vimeo-uploading-vimeo, #vimeo-error {
+	display: none;
+}
+
+.vimeo-processing {
+	#vimeo-upload-text {
+		display: none;
+	}
+
+	 #vimeo-uploading-local {
+		 display: block;
+	 }
+}
+
+.vimeo-processed {
+	#vimeo-upload-text {
+		display: none;
+	}
+
+	#vimeo-upload-again-text {
+		display: block;
+    max-width: 560px;
+    margin: 0 auto 29px;
+	}
+}
+
+.vimeo-error #vimeo-error{
+	display: block;
+}
+
+#vimeo-status {
+	display: block;
+	color: red;
+	margin: 0 0 20px;
+	line-height: 1.2;
+
+	b {
+		color: red;
+
+	}
+}
+
+.vimeo-url iframe {
+	border: 0;
+	width: 320px;
+	height: 240px;
+}
+
+.label-as-link {
+	font-weight: normal;
+	text-decoration: underline;
+	font-style: italic;
+
+	&:hover {
+		cursor: pointer;;
+	}
+}
+
+#video-file-name {
+	font-size: 14px;
+	font-weight: bold;
+	color: #004699;
+	margin: 20px 0;
+	display: block;
+}
+
+.loader-spinner{
+	-webkit-animation:spin 2s linear infinite;
+	-moz-animation:spin 2s linear infinite;
+	animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.vimeo-video iframe {
+	border: 0;
+  width: 320px;
+  height: 180px;
+}

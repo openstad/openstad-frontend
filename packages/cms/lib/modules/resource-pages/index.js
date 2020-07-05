@@ -6,6 +6,22 @@ module.exports = {
   name: 'resource',
   construct: function(self, options) {
 
+    self.expressMiddleware = {
+      when: 'afterRequired',
+      middleware: (req, res, next) => {
+        // allow for setting the query and resource Id through the query params
+        // in case it's set through resource page type it will be overwritten, before attempat to load the data
+        if (req.query.resourceId && req.query.resourceType) {
+          req.data.activeResourceId = req.query.resourceId;
+          req.data.activeResourceType = req.query.resourceType;
+
+          self.loadResourceData(req, next);
+        }
+
+        next();
+      }
+    };
+
     /*
       Fetch resource data for the
      */
@@ -35,21 +51,34 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
+          console.log('activeResource', activeResource)
           req.data.activeResource = activeResource
           callback(null);
         })
         .catch((e) => {
+          console.log('Resource page e', e)
+
           //if user not logged into CMS in throw 404
           //for ease of use when someone is logged into CMS it's easier to allow
           //editing also when no activeResource is present
           if (!req.user) {
             req.notFound = true;
-            callback(null);
           }
 
           callback(null);
         });
     }
+
+    self.dispatch('/', (req, callback) => {
+
+      // if not logged in user throw a 404 because it needs a url to work
+      // for editing that's really annoying
+      if (!req.user) {
+        req.notFound = true;
+      } 
+
+      callback(null);
+    });
 
     self.dispatch('/:resourceId', (req, callback) => {
       req.data.activeResourceId = req.params.resourceId;
@@ -59,6 +88,12 @@ module.exports = {
         req.data.ideaVotes = req.data.votes ? req.data.votes.filter(vote => vote.ideaId === parseInt(req.data.activeResourceId,10)) : [];
       }
 
+      self.loadResourceData(req, callback);
+
+    });
+
+
+    self.loadResourceData = (req, callback) => {
       /**
        * In case of activeUser we load in the active Openstad user
        */
@@ -69,8 +104,6 @@ module.exports = {
       } else {
         self.fetchResourceData(req, callback);
       }
-
-    });
-
+    }
   }
 };

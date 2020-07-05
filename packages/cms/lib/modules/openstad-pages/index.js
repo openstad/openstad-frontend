@@ -12,8 +12,12 @@ module.exports = {
         label: 'Default'
       },
       {
+        name: 'resource',
+        label: 'Resource'
+      },
+      {
         name: 'idea',
-        label: 'Idea'
+        label: 'Idea (Deprecated, please use Resource and set resource to Idea)'
       },
       {
         name: 'home',
@@ -24,6 +28,7 @@ module.exports = {
 
       require('./lib/api.js')(self, options);
       require('./lib/middlewares.js')(self, options);
+
 
       /**
        * Add button to admin menu to clear cache

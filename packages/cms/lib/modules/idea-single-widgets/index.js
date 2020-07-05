@@ -14,16 +14,9 @@ module.exports = {
 
      require('./lib/routes.js')(self, options);
 
-     const superPushAssets = self.pushAssets;
-     self.pushAssets = function () {
-       superPushAssets();
-       self.pushAsset('stylesheet', 'main', { when: 'always' });
-       self.pushAsset('stylesheet', 'secondary', { when: 'always' });
-       self.pushAsset('script', 'main', { when: 'always' });
-     };
-
       const superLoad = self.load;
       self.load = function (req, widgets, next) {
+
           const styles = openstadMap.defaults.styles;
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
@@ -65,6 +58,8 @@ module.exports = {
           });
           return superLoad(req, widgets, next);
       }
+
+    //self.afterHide()
 
      const superOutput = self.output;
      self.output = function(widget, options) {

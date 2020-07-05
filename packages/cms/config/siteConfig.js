@@ -89,10 +89,6 @@ module.exports = {
         'openstad-custom-pages': {},
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
-          // we set the option te lean, this means a lot of the JS libraries ApostrhopeCMS assumes exists are turned off
-          // we manually included a few libs with Apos needs to functional
-          // in future in might make sense to make a further seperate for admin users and normal users
-          //  lean: false,
           jQuery: 3,
           scripts: [
             //  {name: 'jquery'},
