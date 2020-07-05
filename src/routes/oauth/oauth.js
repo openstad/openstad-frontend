@@ -110,7 +110,7 @@ router
 					throw createError('Login niet gelukt');
 				},
 				error => {
-					//console.log('ERR');
+					console.log('ERR', error);
 				}
 			)
 			.then(

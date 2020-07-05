@@ -55,18 +55,18 @@ allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
 allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
 
 var sites = [
-	{id: 1, name: 'site-one', domain: ensureProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
+	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
-				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
+				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET + '_admin',
+				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID + '_admin',
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
 		allowedDomains:allowedDomains
 	}},
-	{id: 2, name: 'site-one', domain: process.env.FRONTEND_URL, title: 'OpenStad Default Site', config: {
+	{id: 2, name: 'site-one', domain: removeProtocol(process.env.FRONTEND_URL), title: 'OpenStad Default Site', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
@@ -79,8 +79,7 @@ var sites = [
 	}},
 ];
 
-console.log(sites)
-
+console.log(sites);
 
 var users = [
 	//fixed user for SITE and Admin to get admin right

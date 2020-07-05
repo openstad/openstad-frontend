@@ -941,7 +941,7 @@ module.exports = function (db, sequelize, DataTypes) {
     this.hasMany(models.Image, {as: 'posterImage'});
     this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId'});
     this.belongsTo(models.Site);
-    this.belongsToMany(models.Tag, {through: 'ideaTags'});
+    this.belongsToMany(models.Tag, { through: 'ideaTags',  foreignKey: 'idea' });
   }
 
   Idea.getRunning = function (sort, extraScopes) {

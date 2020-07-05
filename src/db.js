@@ -5,6 +5,7 @@ var util      = require('./util');
 var config    = require('config');
 var dbConfig  = config.get('database');
 
+
 // newer versions of mysql (8+) have changed GeomFromText to ST_GeomFromText
 // this is a fix for sequalize
 if (dbConfig.mysqlSTGeoMode) {
@@ -34,8 +35,8 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 		socketPath         : dbConfig.socketPath
 	},
 	timeZone       : config.timeZone,
-	logging        : require('debug')('app:db:query'),
-	// logging: console.log,
+//	logging        : require('debug')('app:db:query'),
+ logging: console.log,
 	typeValidation : true,
 
 	define: {

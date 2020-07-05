@@ -3,8 +3,7 @@ var config = require('config')
 
 module.exports = function( db, sequelize, DataTypes ) {
 
-	var IdeaTag = sequelize.define('ideaTag', {
-	}, {
+	var IdeaTag = sequelize.define('ideaTag', {}, {
     paranoid: false
 	});
 
@@ -40,5 +39,4 @@ module.exports = function( db, sequelize, DataTypes ) {
   }
 
 	return IdeaTag;
-
 }
