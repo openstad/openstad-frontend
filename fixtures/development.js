@@ -2,6 +2,17 @@ const co = require('co');
 const moment = require('moment-timezone')
 const log = require('debug')('app:db');
 
+const removeProtocol = (url) => {
+  return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
+}
+
+const ensureProtocol = (url) => {
+	if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+    	url = "https://" + url;
+	}
+	return url;
+}
+
 module.exports = co.wrap(function*( db ) {
 
 	log('Creating sites');
@@ -34,8 +45,17 @@ module.exports = co.wrap(function*( db ) {
 
 var today = moment().endOf('day');
 
+
+/**
+ * In development setups allow redirect to localhost
+ * @type {[type]}
+ */
+const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : [];
+allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
+allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
+
 var sites = [
-	{id: 1, name: 'site-one', domain: process.env.ADMIN_URL, title: 'OpenStad Admin ', config: {
+	{id: 1, name: 'site-one', domain: ensureProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
@@ -44,11 +64,7 @@ var sites = [
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
-		allowedDomains: [
-			process.env.ADMIN_URL,
-			//do not allow to redirect to localhost in production!
-			'localhost'
-		]
+		allowedDomains:allowedDomains
 	}},
 	{id: 2, name: 'site-one', domain: process.env.FRONTEND_URL, title: 'OpenStad Default Site', config: {
 		oauth: {
@@ -59,14 +75,11 @@ var sites = [
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
-		allowedDomains: [
-			process.env.FRONTEND_URL,
-			//do not allow to redirect to localhost in production!
-			'localhost'
-		]
+    allowedDomains: allowedDomains
 	}},
 ];
 
+console.log(sites)
 
 
 var users = [
@@ -77,7 +90,7 @@ var users = [
 	ideas : [
 		{
 			id               : 2,
-			siteId           : 1,
+			siteId           : 2,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',
