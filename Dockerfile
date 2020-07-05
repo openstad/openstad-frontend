@@ -26,7 +26,7 @@ ENV DB_HOST=""
 ENV DEFAULT_DB=""
 
 # Install all base dependencies.
-RUN apk add --no-cache --update openssl g++ make python musl-dev git
+RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 
 # Set the working directory to the root of the container
 WORKDIR /home/app
@@ -41,6 +41,8 @@ RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/
 # Install node modules
 RUN npm install --loglevel warn
 
+RUN npm install -g nodemon
+
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
@@ -51,6 +53,8 @@ RUN mkdir -p /home/app/public/js
 RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
+
+
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app

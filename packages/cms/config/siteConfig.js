@@ -29,6 +29,29 @@ module.exports = {
         },
         'apostrophe-express': {
           port: process.env.PORT,
+          session: {
+            // If this still says `undefined`, set a real secret!
+            secret: process.env.SESSION_SECRET
+          },
+          csrf: {
+            exceptions: [
+              //     '/modules/arguments-form-widgets/submit',
+              //     '/modules/user-form-widgets/submit',
+              //     '/modules/idea-form-widgets/submit',
+              '/image',
+              '/images',
+              '/vimeo-upload',
+              '/attachment-upload',
+              '/fetch-image',
+              '/api/site/167/newslettersignup',
+              '/api/site/*/newslettersignup',
+              //     '/api/site/*/vote/*/toggle',
+
+              //     '/vote',
+              //     '/api/**'
+            ]
+          },
+
         },
         'apostrophe-login': {
           localLogin: false
@@ -61,6 +84,7 @@ module.exports = {
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
+        'attachment-upload': {},
         'openstad-nunjucks-filters': {},
         'openstad-custom-pages': {},
         'openstad-assets': {
