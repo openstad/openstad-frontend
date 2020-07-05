@@ -67,6 +67,11 @@ var sites = [
 		allowedDomains:allowedDomains
 	}},
 	{id: 2, name: 'site-one', domain: removeProtocol(process.env.FRONTEND_URL), title: 'OpenStad Default Site', config: {
+    cms: {
+        "url": ensureProtocol(process.env.FRONTEND_URL),
+        "dbName": process.env.DEFAULT_DB ? process.env.DEFAULT_DB : "default_db",
+        "hostname": removeProtocol(process.env.FRONTEND_URL)
+    },
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
