@@ -15,7 +15,7 @@ const ensureProtocol = (url) => {
 
 module.exports = co.wrap(function*( db ) {
 
-	log('Creating sites');
+	log('--> Creating sites');
 
 	yield sites.map(function( siteData ) {
 		return db.Site.create(siteData);
