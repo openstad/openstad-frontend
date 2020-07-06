@@ -85,7 +85,7 @@ function serveSites (req, res, next) {
 
     rp(siteOptions)
       .then((siteConfig) => {
-        console.log('Fetched siteconfig: ', siteConfig);
+        console.log('Fetched siteconfig');
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
