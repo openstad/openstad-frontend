@@ -178,7 +178,7 @@ router
 			zipCode: req.userData.postcode,
 			lastName: req.userData.lastName,
 			// xxx
-			role: req.userData.role || ( ( req.userData.email || req.userData.phoneNumber ) ? 'member' : 'anonymous' ),
+			role: req.userData.role || ( ( req.userData.email || req.userData.phoneNumber || req.userData.hashedPhoneNumber ) ? 'member' : 'anonymous' ),
 		}
 
 		// if user has same siteId and userId
