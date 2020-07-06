@@ -73,6 +73,7 @@ module.exports = {
         },
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
+        'openstad-admin-bar': {},
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},

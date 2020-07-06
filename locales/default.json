@@ -695,5 +695,6 @@
 	"Will be shown in the input field when the user hasn't typed anything yet.": "Will be shown in the input field when the user hasn't typed anything yet.",
 	"Sentiment": "Sentiment",
 	"Idea ID (if empty it will try to fetch the ideaId from the URL)": "Idea ID (if empty it will try to fetch the ideaId from the URL)",
-	"For": "For"
+	"For": "For",
+	"Add undefined": "Add undefined"
 }

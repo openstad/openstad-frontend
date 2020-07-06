@@ -75,22 +75,3 @@ module.exports = {
 
   }
 };
-
-
-
-/**
- *
- *
- *
-@TODO
-
-
-Fields
- // Separate the palette field names so we can group them in a tab
-var fieldNames = _.map(options.paletteFields, function (field) {
-  return field.name
-});
-
-
- *
- */

@@ -94,11 +94,6 @@ module.exports = [
         trash: true
     },
     {
-        type: 'string',
-        name: 'siteId',
-        label: 'Site ID (overwrite the default site id)'
-    },
-    {
         name: 'ideaSlug',
         type: 'string',
         label: 'Slug van idee pagina',
