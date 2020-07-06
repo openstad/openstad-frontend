@@ -287,7 +287,8 @@ module.exports = {
         widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
           pageType: options.pageType ? options.pageType : '',
           activeResource: options.activeResource,
-          activeResourceType: options.activeResourceType
+          activeResourceType: options.activeResourceType,
+          siteConfig:  options.siteConfig,
         })
       });
 

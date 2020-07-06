@@ -36,7 +36,7 @@ module.exports = {
     const superOutput = self.output;
 
      self.output = function(widget, options) {
-
+       const siteConfig = options.siteConfig;
        // add voting helpers
        widget.isVotingActive = siteConfig && siteConfig.votes && siteConfig.votes.isActive ? siteConfig.votes.isActive : false;
        widget.voteType = siteConfig && siteConfig.votes && siteConfig.votes.voteType ? siteConfig.votes.voteType : '';
