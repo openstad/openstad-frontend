@@ -726,5 +726,13 @@
 	"Styles for text banner": "Styles for text banner",
 	"Warning to adminstrator: participatory budgeting is turned on but the vote count is public!": "Warning to adminstrator: participatory budgeting is turned on but the vote count is public!",
 	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting",
-	"Display budget for moderators?": "Display budget for moderators?"
+	"Display budget for moderators?": "Display budget for moderators?",
+	"Manage Tags": "Manage Tags",
+	"Find or add a tag...": "Find or add a tag...",
+	"Submitted for Default": "Submitted for Default",
+	"Click on any document to view it. Once there you can edit or commit it.": "Click on any document to view it. Once there you can edit or commit it.",
+	"Document": "Document",
+	"Last Submitted By": "Last Submitted By",
+	"Last Submitted At": "Last Submitted At",
+	"Actions": "Actions"
 }
