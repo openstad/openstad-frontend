@@ -725,5 +725,6 @@
 	"Image ": "Image ",
 	"Styles for text banner": "Styles for text banner",
 	"Warning to adminstrator: participatory budgeting is turned on but the vote count is public!": "Warning to adminstrator: participatory budgeting is turned on but the vote count is public!",
-	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting"
+	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting",
+	"Display budget for moderators?": "Display budget for moderators?"
 }

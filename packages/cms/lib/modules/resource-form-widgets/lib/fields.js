@@ -36,7 +36,7 @@ const fields = [
           value: false,
         }
       ],
-      def: false
+      def: true
     },
     {
       name: 'dynamicFormSections',
@@ -645,6 +645,12 @@ const fields = [
            label: "Hide"
          },
        ]
+    },
+    {
+       name: 'displayBudget',
+       type: 'boolean',
+       label: 'Display budget for moderators?',
+       def: false
     },
     {
         name: 'minAdvice',

@@ -106,6 +106,12 @@ module.exports = {
        label: 'Submitting',
        fields: ['buttonTextSubmit', 'buttonTextSave']
      },
+     {
+       name: 'budget',
+       label: 'Budget',
+       fields: ['displayBudget']
+     }
+
    ]);
 
    require('./lib/submit.js')(self, options);
