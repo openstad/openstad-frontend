@@ -24,7 +24,8 @@ module.exports = {
 
        self.pushAsset('script', 'sticky', { when: 'always' });
        self.pushAsset('script', 'accordion', { when: 'always' });
-       self.pushAsset('script', 'jquery.gridder.min', { when: 'always' });
+       self.pushAsset('script', 'jquery.gridder', { when: 'always' });
+
        self.pushAsset('script', 'ideas-lister', { when: 'always' });
 
        self.pushAsset('script', 'find-polyfill', { when: 'always' });

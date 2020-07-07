@@ -3,14 +3,4 @@
 
 module.exports = {
   improve: 'apostrophe-assets',
-  stylesheets: [
-    {
-        name: 'site'
-    }
-  ],
-  scripts: [
-      {
-        name: 'site'
-      }
-  ]
 };

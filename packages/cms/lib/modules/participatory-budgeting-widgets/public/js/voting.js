@@ -1088,7 +1088,7 @@ if (votingContainer !== null) {
 		  var id = $(element).attr('data-ideaid');
 
 		  element.ideaId = parseInt(id);
-		  element.budgetValue = parseInt( $('.budget-' + element.ideaId).first().text() ); // easier to use later
+		  element.budgetValue = parseInt($(element).attr('data-budget'), 10); // easier to use later
 		  element.theme = $(element).attr('data-theme');
 		  element.area = $(element).attr('data-area');
 

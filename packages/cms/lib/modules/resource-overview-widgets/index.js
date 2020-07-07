@@ -105,12 +105,16 @@ module.exports = {
        self.pushAsset('stylesheet', 'main', { when: 'always' });
        self.pushAsset('stylesheet', 'pagination', { when: 'always' });
 
+       //for now uses the one from participatory budgetting, should move to ASSETS
+       //but order issues then, probably moving initialisation code to play will fix that.
+//       self.pushAsset('script', 'jquery.gridder', { when: 'always' });
+
+
        self.pushAsset('script', 'thumbnail-tile-loading', { when: 'always' });
        self.pushAsset('script', 'tabs', { when: 'always' });
        self.pushAsset('script', 'fotorama', { when: 'always' });
        self.pushAsset('script', 'vote', { when: 'always' });
        self.pushAsset('script', 'main', { when: 'always' });
-       self.pushAsset('script', 'jquery.gridder.min', { when: 'always' });
        self.pushAsset('script', 'ideas-lister', { when: 'always' });
      };
 
