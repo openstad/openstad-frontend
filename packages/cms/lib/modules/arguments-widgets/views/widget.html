@@ -1,6 +1,7 @@
 {% set mayVote = data.widget.votingEnabled %}
 {% set maySeeReplyForm = data.widget.replyingEnabled %}
 {% set idea = data.widget.activeResource %}
+{% set ideaId = idea.id %}
 
 {% if data.widget.argumentSentiment === 'against'  %}
 {% set arguments = idea.argumentsAgainst %}
