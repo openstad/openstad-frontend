@@ -1092,9 +1092,6 @@ if (votingContainer !== null) {
 		  element.theme = $(element).attr('data-theme');
 		  element.area = $(element).attr('data-area');
 
-      console.log('element.area', element.area)
-      console.log('element.area', element.area)
-
 		  var budgets = element.querySelectorAll('.budget');
 		  for (var j=0; j<budgets.length; j++) {
 			  var el = budgets[j];
