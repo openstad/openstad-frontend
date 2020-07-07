@@ -39,7 +39,7 @@ module.exports = {
         return result;
       }
       var workflow = self.apos.modules['apostrophe-workflow'];
-      if (!workflow.includeType(manager.name)) {
+      if (!( workflow && workflow.includeType(manager.name) )) {
         return result;
       }
       return false;
