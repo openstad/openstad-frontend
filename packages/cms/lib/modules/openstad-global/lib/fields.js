@@ -176,13 +176,13 @@ module.exports = [
         type: 'string',
         label: 'Formatted Logo',
         formatField: function (value, apos, doc, req) {
+          if ()
           const thisHost = req.headers['x-forwarded-host'] || req.get('host');
           const protocol = req.headers['x-forwarded-proto'] || req.protocol;
           const siteUrl = protocol + '://' + thisHost;
            //const siteUrl = '';
 
-          const formattedUrl =  siteUrl + apos.attachments.url(doc.siteLogo);
-          return formattedUrl;
+          return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
         },
         apiSyncField: 'styling.logo',
     },
