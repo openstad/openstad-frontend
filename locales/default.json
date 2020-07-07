@@ -333,4 +333,22 @@
 	"Exclude ideas with this theme": "Exclude ideas with this theme",
 	"Only show idea including this theme (currently only works with one theme)": "Only show idea including this theme (currently only works with one theme)",
 	"Warning: This currently  doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated": "Warning: This currently  doesn't work with sorting, filters and pagination. For multiple theme names, comma seperated"
+	"Edit Main Image": "Edit Main Image",
+	"Edit Ideas map": "Edit Ideas map",
+	"Counter": "Counter",
+	"Save Counter": "Save Counter",
+	"Label": "Label",
+	"Url": "Url",
+	"Select dynamic counter": "Select dynamic counter",
+	"Idea count": "Idea count",
+	"Vote count": "Vote count",
+	"Voted user count": "Voted user count",
+	"Static count": "Static count",
+	"opinion": "opinion",
+	"Alles": "Alles",
+	"Ja/Voor": "Ja/Voor",
+	"Nee/tegen": "Nee/tegen",
+	"Styles for the container": "Styles for the container",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience."
 }
