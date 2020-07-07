@@ -1089,8 +1089,11 @@ if (votingContainer !== null) {
 
 		  element.ideaId = parseInt(id);
 		  element.budgetValue = parseInt( $('.budget-' + element.ideaId).first().text() ); // easier to use later
-		  element.theme = $('.theme-' + element.ideaId).first().text();
-		  element.area = $('.area-' + element.ideaId).first().text();
+		  element.theme = $(element).attr('data-theme');
+		  element.area = $(element).attr('data-area');
+
+      console.log('element.area', element.area)
+      console.log('element.area', element.area)
 
 		  var budgets = element.querySelectorAll('.budget');
 		  for (var j=0; j<budgets.length; j++) {
@@ -1203,6 +1206,7 @@ if (votingContainer !== null) {
 	  // show only the selected elements; display: none does not work well with gridder
 	  var list = document.querySelector('#ideaList');
 
+
 	  if (list) {
 		  while(list.hasChildNodes()) {
 			  list.removeChild(list.childNodes[0])
@@ -1218,6 +1222,9 @@ if (votingContainer !== null) {
 		  if (!elementThema ) {
       	//element.style.display = 'inline-block';
       }
+
+      console.log('elementThema', elementThema)
+      console.log('activeThema', activeThema)
 
 		  if (
 			  // no activeTab selected or
