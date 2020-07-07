@@ -13,8 +13,14 @@
   class="margin-bottom-xs scroll-link block no-decoration"
   >
 	  <span class="box-blue block">
-		  {{numberPlate(data.widget.count)}}
-      {{data.widget.label}}
+      <span class="flexcontainer">
+        <span class="flexleft">
+		      {{numberPlate(data.widget.count)}}
+        </span>
+        <span class="flexright">
+          {{data.widget.label}}
+        </span>
+      </span>
 	  </span>
     {% if data.widget.url %}
 </a>
@@ -36,10 +42,12 @@
 		     return response.json();
 	     })
 	     .then( json => {
-         count = ('000' + json.count).slice(-3);
-         document.getElementById('counter-number-plate-0').innerHTML = count[0];
-         document.getElementById('counter-number-plate-1').innerHTML = count[1];
-         document.getElementById('counter-number-plate-2').innerHTML = count[2];
+         json.count = 12345;
+         let len = json.count.toString().length;
+         count = ('000' + json.count).slice(-len);
+         for (i=0; i<len; i++) {
+           document.getElementById('counter-number-plate-'+i).innerHTML = count[i];
+         }
 	     })
 	     .catch((err) => {
 		     console.log('Niet goed');
