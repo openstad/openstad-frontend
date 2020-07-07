@@ -3,6 +3,7 @@ const fields = [
         name: 'redirect',
         type: 'string',
         label: 'Redirect after submit',
+        help: 'The url to redirect to after form submit, it\'s possible to redirect to newly created item (replace with correct url) /pagename/:id   ',
         required: true
     },
     {
@@ -35,7 +36,7 @@ const fields = [
           value: false,
         }
       ],
-      def: false
+      def: true
     },
     {
       name: 'dynamicFormSections',
@@ -142,6 +143,11 @@ const fields = [
                   {
                       value: 'title',
                       label: "Title"
+                  },
+                  {
+                      value: 'vimeo',
+                      label: "Vimeo",
+                      showFields: ['fieldRequired']
                   },
                 ]
             },
@@ -639,6 +645,12 @@ const fields = [
            label: "Hide"
          },
        ]
+    },
+    {
+       name: 'displayBudget',
+       type: 'boolean',
+       label: 'Display budget for moderators?',
+       def: false
     },
     {
         name: 'minAdvice',

@@ -29,13 +29,17 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 !-->
 
+{% if data.envStyleSheets %}
 {% for stylesheet in data.envStyleSheets %}
 <link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
 {% endfor %}
+{% endif %}
 
+{% if data.global.stylesheets %}
 {% for stylesheet in data.global.stylesheets %}
 <link rel="stylesheet" href="{{stylesheet.url}}?{data.assetsGeneration}}">
 {% endfor %}
+{% endif %}
 
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
@@ -134,13 +138,15 @@
 {% endif %}
 
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
+<a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
 
 <header>
-  <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
         <a href="{{logoLink}}/" class="logo-container" tabindex="-1">
+
+
           {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
@@ -360,6 +366,8 @@
     </div>
   </nav>
   {% endif %}
+
+  {% include 'partials/moderator-warnings.html'%}
 
   {% endblock %}
 

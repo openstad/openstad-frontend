@@ -41,8 +41,10 @@ input.search {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 15px 0;
 
   @media @phone {
+    margin: 0;
     display: block;
   }
 
@@ -93,11 +95,12 @@ input.search {
 .resource-filter-erase {
   text-decoration: underline;
   font-size: 17px;
-  color: #000000 !important;
+  color: #000000;
   display: block;
-  width: 164px;
   font-weight: bold;
+  margin: 15px 0;
 }
+
 .resource-tag {
   border: solid 2px #ec0000;
 }
@@ -201,4 +204,20 @@ input.search {
 .filter-tags-modal-title {
   margin: 15px 0 20px;
   font-size: 23px;
+}
+
+/**
+ * Card styling
+ */
+.tile.card-white {
+   background: white;
+   border-radius: 3px;
+}
+
+.tile.card-shadow {
+  box-shadow: 0 12px 24px 0 rgba(42, 18, 18, 0.09);
+}
+
+.tile.card-grey {
+  //box-shadow: 0 12px 24px 0 rgba(42, 18, 18, 0.09);
 }

@@ -72,9 +72,15 @@
 
   h3 {
     font-size: 16px;
-    margin: 1em 0 0.5em;
+    margin: 1em 0 .5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
+  .summary {
+    min-height: 44px;
+  }
 
   .image {
     background-image: url('/modules/openstad-assets/img/placeholders/idea.jpg');
@@ -243,10 +249,14 @@
 
 //In case vote button is already voted for
 .tile .info .ideaStats .voted .count {
-
   &.yes {
     background-size: auto 20px;
     background-image: url('/modules/openstad-assets/img/thumbsup_green.svg');
+  }
+
+  &.no {
+    background-size: auto 20px;
+    background-image: url('/modules/openstad-assets/img/thumbsdown_green.svg');
   }
 }
 

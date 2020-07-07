@@ -9,13 +9,14 @@ const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
 const Promise             = require("bluebird");
 const rp                  = require('request-promise');
 const moment              = require("moment");
+const url                 = require('url');
+const qs                  = require('qs');
 const fields              = require('./lib/fields');
 const sortingOptions      = require('../../../config/sorting.js').apiOptions;
-const qs                  = require('qs');
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
-const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
-const url                 = require('url');
 const cache               = require('../../../services/cache').cache;
+const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
+
 
 const MAX_PAGE_SIZE = 100;
 
@@ -23,31 +24,33 @@ module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Resource overview',
   addFields: fields,
-  beforeConstruct: function(self, options) {
-    if (options.resources) {
-      self.resources = options.resources;
 
-      options.addFields = [
-        {
-          type: 'select',
-          name: 'resource',
-          label: 'Resource (from config)',
-          choices : options.resources
-        }
-      ].concat(options.addFields || [])
-    }
-  },
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
         name: 'general',
         label: 'General',
-        fields: ['resource', 'displayType', 'fallBackToMapImage', 'defaultImage', 'rawInput', 'pathForResource', 'displayRanking', 'allowVotingInOverview']
+        fields: ['resource', 'voting', 'displayType', 'rawInput', 'pathForResource', 'displayRanking', 'allowVotingInOverview']
+      },
+      {
+        name: 'imageSettings',
+        label: 'Image settings',
+        fields: ['defaultImage', 'fallBackToMapImage', 'gridder_tile_image_aspect_ratio']
+      },
+      {
+        name: 'displaySettings',
+        label: 'Display settings',
+        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons']
       },
       {
         name: 'gridder',
-        label: 'Gridder',
-        fields: ['gridder_text_open', 'gridder_text_vote_button', 'gridder_open_text_vote_button', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter' ]
+        label: 'Button and Title text',
+        fields: ['gridder_text_open', 'gridder_text_vote_button', 'gridder_open_text_vote_button',  'gridder_use_field_as_title' ]
+      },
+      {
+        name: 'styling',
+        label: 'Styling',
+        fields: ['cardStyle']
       },
       {
         name: 'sorting',
@@ -91,8 +94,24 @@ module.exports = {
      const superPushAssets = self.pushAssets;
      self.pushAssets = function () {
        superPushAssets();
+       self.pushAsset('stylesheet', 'main0', { when: 'always' });
+       self.pushAsset('stylesheet', 'tile', { when: 'always' });
+       self.pushAsset('stylesheet', 'grid', { when: 'always' });
+       self.pushAsset('stylesheet', 'duration', { when: 'always' });
+
+       self.pushAsset('stylesheet', 'vote-creator', { when: 'always' });
+       self.pushAsset('stylesheet', 'gridder', { when: 'always' });
+       self.pushAsset('stylesheet', 'nr-of-votes', { when: 'always' });
        self.pushAsset('stylesheet', 'main', { when: 'always' });
        self.pushAsset('stylesheet', 'pagination', { when: 'always' });
+
+       self.pushAsset('script', 'thumbnail-tile-loading', { when: 'always' });
+       self.pushAsset('script', 'tabs', { when: 'always' });
+       self.pushAsset('script', 'fotorama', { when: 'always' });
+       self.pushAsset('script', 'vote', { when: 'always' });
+       self.pushAsset('script', 'main', { when: 'always' });
+       self.pushAsset('script', 'jquery.gridder.min', { when: 'always' });
+       self.pushAsset('script', 'ideas-lister', { when: 'always' });
      };
 
 
@@ -253,6 +272,8 @@ module.exports = {
         const queryParams = Object.assign({}, queryObject);
 
         widget.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;
+        widget.isVotingActive = siteConfig && siteConfig.votes && siteConfig.votes.isActive ? siteConfig.votes.isActive : false;
+        widget.voteType = siteConfig && siteConfig.votes && siteConfig.votes.voteType ? siteConfig.votes.voteType : '';
 
         widget.openstadTags =  req.data.openstadTags ? req.data.openstadTags.map((tag) => {
           return Object.assign({}, tag);
@@ -386,6 +407,10 @@ module.exports = {
 
      const superOutput = self.output;
      self.output = function(widget, options) {
+
+       // count amount of filters active in topbar
+       widget.itemsInTopFilterBar = [widget.displaySearch, widget.displayAreaFilter, widget.displayThemeFilter].filter(displayFilter => displayFilter).length;
+
        // add the label to the select sort options for displaying in the select box
        widget.selectedSorting = widget.selectedSorting ? widget.selectedSorting.map((sortingValue) => {
          const sortingOption = sortingOptions.find(sortingOption => sortingOption.value === sortingValue);
