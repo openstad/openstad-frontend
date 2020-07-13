@@ -23,12 +23,14 @@ router.route('/$')
   .get(auth.can('NewsletterSignup', 'list'))
 	.get(pagination.init)
   .get(function(req, res, next) {
+    let { dbQuery } = req;
+
     let where = { siteId: req.site.id };
     let confirmed = req.query.confirmed;
     if ( typeof confirmed !== 'undefined' ) where.confirmed = !( confirmed == 'false' || confirmed == '0' );
     db.NewsletterSignup
       .scope(...req.scope)
-			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
+			.findAndCountAll({ where, ...dbQuery })
       .then( (result) => {
         req.results = result.rows;
         req.dbQuery.count = result.count;
