@@ -2,7 +2,7 @@ const express = require('express');
 const bruteForce = require('../../middleware/brute-force');
 const dbQuery = require('../../middleware/dbQuery');
 const sorting = require('../../middleware/sorting');
-// const filtering = require('../../middleware/filtering');
+const filtering = require('../../middleware/filtering');
 
 const router = express.Router({mergeParams: true});
 
@@ -13,6 +13,7 @@ router.post( '*', bruteForce.postMiddleware );
 // dbQuery middleware
 router.use(dbQuery);
 router.use(sorting);
+router.use(filtering);
 
 // sites
 router.use( '/site', require('./site') );
