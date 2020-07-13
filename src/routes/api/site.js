@@ -18,10 +18,10 @@ router.route('/')
 	.get(pagination.init)
 	.get(function(req, res, next) {
 		db.Site
-			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll({ offset: req.dbQuery.offset, limit: req.dbQuery.limit })
 			.then( result => {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);

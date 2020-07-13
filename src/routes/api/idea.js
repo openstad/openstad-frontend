@@ -104,23 +104,20 @@ router.route('/')
   .get(auth.can('Idea', 'list'))
   .get(auth.useReqUser)
   .get(pagination.init)
-  // add filters
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    let queryConditions = req.queryConditions ? req.queryConditions : {};
-    queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
-
-    dbQuery.where = queryConditions;
-    dbQuery.offset = req.pagination.offset;
-    dbQuery.limit = req.pagination.limit;
+    dbQuery.where = {
+      siteId: req.params.siteId,
+      ...req.queryConditions,
+    };
 
     db.Idea
       .scope(...req.scope)
       .findAndCountAll(dbQuery)
       .then(function(result) {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
       })
       .catch(next);

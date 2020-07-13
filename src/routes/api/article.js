@@ -55,14 +55,14 @@ router.route('/')
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
-		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit };
+		let query = { where: queryConditions, offset: req.dbQuery.offset, limit: req.dbQuery.limit };
 
 		db.Article
 			.scope(...req.scope)
 			.findAndCountAll(query)
 			.then(function( result ) {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);

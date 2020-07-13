@@ -28,10 +28,10 @@ router.route('/$')
     if ( typeof confirmed !== 'undefined' ) where.confirmed = !( confirmed == 'false' || confirmed == '0' );
     db.NewsletterSignup
       .scope(...req.scope)
-			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
       .then( (result) => {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
       })
       .catch(next);

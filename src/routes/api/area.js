@@ -22,14 +22,11 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    dbQuery.offset = req.pagination.offset;
-    dbQuery.limit = req.pagination.limit;
-
     return db.Area
       .findAndCountAll(dbQuery)
       .then(function(result) {
         req.results = result.rows || [];
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
       })
       .catch(next);

@@ -18,10 +18,10 @@ router.route('/')
 		req.scope = ['defaultScope'];
 		db.Submission
 			.scope(...req.scope)
-			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
 			.then(function( result ) {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);
