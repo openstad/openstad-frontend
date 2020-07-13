@@ -4,7 +4,6 @@ const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 const {formatGeoJsonToPolygon} = require('../../util/geo-json-formatter');
-const isJson = require('../../util/isJson');
 
 const router = require('express-promise-router')({ mergeParams: true });
 var createError = require('http-errors');
@@ -21,15 +20,13 @@ router.route('/')
   .get(auth.can('Area', 'list'))
   .get(pagination.init)
   .get(function(req, res, next) {
-    let query = { offset: req.pagination.offset, limit: req.pagination.limit };
+    let { dbQuery } = req;
 
-    const sort = req.query.sort;
-    if(sort && isJson(sort)) {
-      query.order = [JSON.parse(sort)];
-    }
+    dbQuery.offset = req.pagination.offset;
+    dbQuery.limit = req.pagination.limit;
 
     return db.Area
-      .findAndCountAll(query)
+      .findAndCountAll(dbQuery)
       .then(function(result) {
         req.results = result.rows || [];
         req.pagination.count = result.count;
