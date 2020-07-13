@@ -107,14 +107,13 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    dbQuery.where = {
-      siteId: req.params.siteId,
-      ...req.queryConditions,
-    };
-
     db.Idea
       .scope(...req.scope)
-      .findAndCountAll(dbQuery)
+      .findAndCountAll({
+        siteId: req.params.siteId,
+        ...req.queryConditions,
+        ...dbQuery,
+      })
       .then(function(result) {
         req.results = result.rows;
         req.dbQuery.count = result.count;
