@@ -13,9 +13,7 @@ var createError = require('http-errors');
 router
   .all('*', function(req, res, next) {
     req.scope = ['api'];
-
     req.scope.push('includeSite');
-
     return next();
   });
 
@@ -39,16 +37,6 @@ router.route('/')
       })
       .catch(next);
   })
-/*  .get(function(req, res, next) {
-    req.results = req.results.map((area) => {
-      //area.polygon = convertDbPolygonToLatLng(area.polygon);
-      return area;
-    });
-    console.log('req.results[0]', req.results[1])
-
-    return next();
-  })*/
-
   .get(searchResults)
   .get(pagination.paginateResults)
   .get(function(req, res, next) {
