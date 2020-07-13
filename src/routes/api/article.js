@@ -55,16 +55,7 @@ router.route('/')
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
-		if(sort && isJson(sort)) {
-			query.order = [JSON.parse(sort)];
-		}
-
 		let query = { where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit };
-
-		const sort = req.query.sort;
-		if(sort && isJson(sort)) {
-			query.order = [JSON.parse(sort)];
-		}
 
 		db.Article
 			.scope(...req.scope)
