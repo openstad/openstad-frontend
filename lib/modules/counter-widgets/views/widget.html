@@ -55,7 +55,7 @@
 		     return response.json();
 	     })
 	     .then( json => {
-         setNumberPlates(count);
+         setNumberPlates(json.count);
 	     })
 	     .catch((err) => {
 		     console.log('Niet goed');
