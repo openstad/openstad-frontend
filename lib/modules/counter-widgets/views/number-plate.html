@@ -1,8 +1,0 @@
-{% macro numberPlate(count) %}
-{% set len = count.length %}
-<span class="margin-right-s">
-  {% for i in range(0, len) -%}
-  <span id="counter-number-plate-{{i}}" class="number-plate"> {{count[i]}} </span>
-  {%- endfor %}
-</span>
-{% endmacro %}
