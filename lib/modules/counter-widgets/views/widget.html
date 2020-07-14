@@ -1,5 +1,3 @@
-{% from 'number-plate.njk' import numberPlate %}
-
 <style>
  {{data.widget.formattedContainerStyles}}
 </style>
@@ -14,8 +12,7 @@
   >
 	  <span class="box-blue block">
       <span class="flexcontainer">
-        <span class="flexleft">
-		      {{numberPlate(data.widget.count)}}
+        <span class="flexleft" id="counter-{{data.widget.counterType}}">
         </span>
         <span class="flexright">
           {{data.widget.label}}
@@ -27,6 +24,22 @@
 {% else %}
   </span>
   {% endif %}
+
+
+  <script>
+   function setNumberPlates(count) {
+     let len = count.toString().length;
+     if (len < 3) len = 3;
+     count = ('000' + count).slice(-len);
+     var html = '<span class="margin-right-s">';
+     for (i=0; i<len; i++) {
+       html += '<span id="counter-number-plate-'+i+'" class="number-plate">'+count[i]+'</span>'
+     }
+     html += '</span>';
+     document.getElementById("counter-{{data.widget.counterType}}").innerHTML = html;
+   }
+   setNumberPlates('{{data.widget.count}}' || 0)
+  </script>
 
 
   {% if data.widget.statsUrl %}
@@ -42,12 +55,7 @@
 		     return response.json();
 	     })
 	     .then( json => {
-         json.count = 12345;
-         let len = json.count.toString().length;
-         count = ('000' + json.count).slice(-len);
-         for (i=0; i<len; i++) {
-           document.getElementById('counter-number-plate-'+i).innerHTML = count[i];
-         }
+         setNumberPlates(count);
 	     })
 	     .catch((err) => {
 		     console.log('Niet goed');
