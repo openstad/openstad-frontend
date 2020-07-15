@@ -1,38 +1,200 @@
-var votingContainer = document.getElementById('multiple-voting-container');
+//Todo: remove these global vars:
+// config vars; overwritten in template
+var votingType = votingType || 'budgeting'; // budgeting-per-theme or budgeting or count
+var maxIdeas = maxIdeas || 5;
+var minIdeas = minIdeas || 5;
+var initialAvailableBudget = initialAvailableBudget || 300000;
+var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
-if (votingContainer !== null) {
+var currentTheme;
 
-  // ----------------------------------------------------------------------------------------------------
-  // budgeting functions
+// dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
+// de config is wel bijgewerkt
 
-  // stap 1: kies plannen
-  // stap 2: overzicht van je gekozen plannen
-  // stap 3: vul je stemcode in, met knop naar mijnopenstad
-  // stap 4: resultaat van het invullen van je stemcode
-  // stap 5: stem nu, met knop
-  // stap 6: resultaat van het stemmen; logt je ook direct uit
-  // stap 7: doorverwijzing naar /begroten, dwz. begin opnieuw
+// vars
+var availableIdeas = 0;
+var availableBudgetAmount = initialAvailableBudget;
+var currentSelection = openstadGetStorage('currentSelection') || [];
 
-  // config
+var currentStep = votingType === 'budgeting-per-theme' ? 0 : 1;
 
-  // config vars; overwritten in template
-  var votingType = votingType || 'budgeting'; // budgeting-per-theme or budgeting or count
-  var maxIdeas = maxIdeas || 5;
-  var minIdeas = minIdeas || 5;
-  var initialAvailableBudget = initialAvailableBudget || 300000;
-  var minimalBudgetSpent = minimalBudgetSpent || 200000;
+var budgetingEditMode;
 
-  var currentTheme;
+// end budgeting functions
+// ----------------------------------------------------------------------------------------------------
+// sort functions
 
-  // dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
-  // de config is wel bijgewerkt
+var sortOrder = openstadGetStorage('sortOrder');
+var lastSorted = openstadGetStorage('lastSorted');
 
-  // vars
-  var availableIdeas = 0;
-  var availableBudgetAmount = initialAvailableBudget;
-  var currentSelection = openstadGetStorage('currentSelection') || [];
+var sortedElements = [];
 
-  var currentStep = votingType === 'budgeting-per-theme' ? 0 : 1;
+var activeTab = openstadGetStorage('plannenActiveTab') || 0;
+var activeFilter = openstadGetStorage('plannenActiveFilter') || 0;
+
+apos.define('participatory-budgeting-widgets', {
+  extend: 'openstad-widgets',
+  construct: function (self, options) {
+    self.play = function ($widget, data, options) {
+    	var votingContainer = $widget.find('#multiple-voting-container');
+
+      if (votingContainer !== null) {
+
+        // ----------------------------------------------------------------------------------------------------
+        // budgeting functions
+
+        // stap 1: kies plannen
+        // stap 2: overzicht van je gekozen plannen
+        // stap 3: vul je stemcode in, met knop naar mijnopenstad
+        // stap 4: resultaat van het invullen van je stemcode
+        // stap 5: stem nu, met knop
+        // stap 6: resultaat van het stemmen; logt je ook direct uit
+        // stap 7: doorverwijzing naar /begroten, dwz. begin opnieuw
+
+        // config
+
+        initSortedElements();
+
+        // end sort functions
+        // ----------------------------------------------------------------------------------------------------
+        // tab selector functions
+
+
+
+				activateTab(0)
+				activateFilter(0)
+
+
+        displayIdeaOnHash();
+        $widget.find('#current-budget-preview div.add-button').on('keydown', scrollToIdeasOnEnter);
+
+
+        $(document).on('click', '.current-budget-images a', function (ev) {
+          setTimeout(function() {
+            displayIdeaOnHash();
+          }, 1)
+        });
+
+        // end other
+        // ----------------------------------------------------------------------------------------------------
+        // polyfill
+
+        // https://tc39.github.io/ecma262/#sec-array.prototype.find
+        if (!Array.prototype.find) {
+          Object.defineProperty(Array.prototype, 'find', {
+            value: function(predicate) {
+              // 1. var O be ? ToObject(this value).
+              if (this == null) {
+                throw new TypeError('"this" is null or not defined');
+              }
+
+              var o = Object(this);
+
+              // 2. var len be ? ToLength(? Get(O, "length")).
+              var len = o.length >>> 0;
+
+              // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+              if (typeof predicate !== 'function') {
+                throw new TypeError('predicate must be a function');
+              }
+
+              // 4. If thisArg was supplied, var T be thisArg; else var T be undefined.
+              var thisArg = arguments[1];
+
+              // 5. Let k be 0.
+              var k = 0;
+
+              // 6. Repeat, while k < len
+              while (k < len) {
+                // a. Let Pk be ! ToString(k).
+                // b. Let kValue be ? Get(O, Pk).
+                // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                // d. If testResult is true, return kValue.
+                var kValue = o[k];
+                if (predicate.call(thisArg, kValue, k, o)) {
+                  return kValue;
+                }
+                // e. Increase k by 1.
+                k++;
+              }
+
+              // 7. Return undefined.
+              return undefined;
+            },
+            configurable: true,
+            writable: true
+          });
+        }
+
+        // end polyfill
+        // ----------------------------------------------------------------------------------------------------
+        // init
+
+        if (votingType == 'budgeting-per-theme') {
+          themes.forEach( function(theme, i) {
+            theme.currentSelection = [];
+            currentSelection.forEach( function(id) {
+              var element = sortedElements.find( function(el) { return el.ideaId == id } );
+              if (element && element.theme == theme.value) {
+                theme.currentSelection.push(id)
+              }
+            });
+          });
+          currentSelection = [];
+        }
+
+        recalculateAvailableAmount();
+
+        if (isSelectionValid()) {
+
+          if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
+            if (userHasVoted) {
+              currentStep = 3;
+            } else {
+              currentStep = 4;
+            }
+          }
+
+        }
+
+        updateBudgetDisplay();
+
+        // dev
+        // if (currentSelection.length == 0) {
+        //  	addIdeaToSelection(17)
+        //  	addIdeaToSelection(31)
+        //  	addIdeaToSelection(30)
+        // }
+
+        // end init
+        // ----------------------------------------------------------------------------------------------------
+        // polyfills
+
+        // Array.prototype.forEach() polyfill
+        if (!Array.prototype.forEach) {
+          Array.prototype.forEach = function (callback, thisArg) {
+            thisArg = thisArg || window;
+            for (var i = 0; i < this.length; i++) {
+              callback.call(thisArg, this[i], i, this);
+            }
+          };
+        }
+
+        // end polyfills
+        // ----------------------------------------------------------------------------------------------------
+        // TAF
+        //
+        //
+
+      }
+
+    }
+  }
+});
+
+
+
+
 
   function toggleIdeaInSelection(id) {
 	  var index = currentSelection.indexOf(id);
@@ -148,8 +310,6 @@ if (votingContainer !== null) {
     }
 
   }
-
-  var budgetingEditMode;
 
   function setBudgetingEditMode() {
 	  var preview = document.querySelector('#current-budget-preview');
@@ -907,7 +1067,6 @@ if (votingContainer !== null) {
 
   }
 
-
   function logout(options) {
 	  $.ajax({
 		  url: '/oauth/logout',
@@ -1031,7 +1190,6 @@ if (votingContainer !== null) {
 
   }
 
-
   // error on field
   function addError(element, text) {
 	  addToClassName(element, 'error');
@@ -1062,23 +1220,6 @@ if (votingContainer !== null) {
 	  addToClassName(document.querySelector('#current-step').querySelector('#text'), 'error-block');
 	  updateBudgetNextButton(true);
   }
-
-  // end budgeting functions
-  // ----------------------------------------------------------------------------------------------------
-  // sort functions
-
-  var sortOrder = openstadGetStorage('sortOrder');
-  var lastSorted = openstadGetStorage('lastSorted');
-
-  var sortedElements = [];
-
-  (function() {
-	  initSortedElements();
-	  /*if (document.querySelector('#selectSort')) {
-		  document.querySelector('#selectSort').value = sortOrder;
-	    }
-	    doSort(sortOrder)*/
-  })();
 
   function initSortedElements() {
 	  var elements = document.querySelectorAll('.gridder-list');
@@ -1113,21 +1254,6 @@ if (votingContainer !== null) {
 	  updateList();
 
   }
-
-
-  // end sort functions
-  // ----------------------------------------------------------------------------------------------------
-  // tab selector functions
-
-  var activeTab = openstadGetStorage('plannenActiveTab') || 0;
-  var activeFilter = openstadGetStorage('plannenActiveFilter') || 0;
-
-  (function() {
-    //	activateTab(activeTab)
-    //	activateFilter(activeFilter)
-    activateTab(0)
-    activateFilter(0)
-  })();
 
   function activateTab(which) {
 	  gridderClose();
@@ -1359,7 +1485,7 @@ if (votingContainer !== null) {
 
   }
 
-  	function handleKeyDown(event) {
+  function handleKeyDown(event) {
 			if (event.which === 13) {
 				// search for the element clicked
 				var target = event.target;
@@ -1370,28 +1496,12 @@ if (votingContainer !== null) {
 			}
 		}
 
-
   function gridderClose() {
 	  var element = document.querySelector('.gridder-close');
 	  if (element) {
 		  element.click();
 	  }
   }
-
-  window.onload = function() { // using (function {} {})() happens too early
-	  displayIdeaOnHash();
-	  $('#current-budget-preview div.add-button').on('keydown', scrollToIdeasOnEnter);
-  };
-
-  $(window).on('hashchange', function() {
-    //	displayIdeaOnHash();
-  });
-
-  $(document).on('click', '.current-budget-images a', function (ev) {
-	  setTimeout(function() {
-		  displayIdeaOnHash();
-    }, 1)
-  });
 
   function displayIdeaOnHash () {
 
@@ -1568,89 +1678,7 @@ if (votingContainer !== null) {
   }
 
 
-  // end other
-  // ----------------------------------------------------------------------------------------------------
-  // polyfill
 
-  // https://tc39.github.io/ecma262/#sec-array.prototype.find
-  if (!Array.prototype.find) {
-    Object.defineProperty(Array.prototype, 'find', {
-      value: function(predicate) {
-        // 1. var O be ? ToObject(this value).
-        if (this == null) {
-          throw new TypeError('"this" is null or not defined');
-        }
-
-        var o = Object(this);
-
-        // 2. var len be ? ToLength(? Get(O, "length")).
-        var len = o.length >>> 0;
-
-        // 3. If IsCallable(predicate) is false, throw a TypeError exception.
-        if (typeof predicate !== 'function') {
-          throw new TypeError('predicate must be a function');
-        }
-
-        // 4. If thisArg was supplied, var T be thisArg; else var T be undefined.
-        var thisArg = arguments[1];
-
-        // 5. Let k be 0.
-        var k = 0;
-
-        // 6. Repeat, while k < len
-        while (k < len) {
-          // a. Let Pk be ! ToString(k).
-          // b. Let kValue be ? Get(O, Pk).
-          // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
-          // d. If testResult is true, return kValue.
-          var kValue = o[k];
-          if (predicate.call(thisArg, kValue, k, o)) {
-            return kValue;
-          }
-          // e. Increase k by 1.
-          k++;
-        }
-
-        // 7. Return undefined.
-        return undefined;
-      },
-      configurable: true,
-      writable: true
-    });
-  }
-
-  // end polyfill
-  // ----------------------------------------------------------------------------------------------------
-  // init
-
-  if (votingType == 'budgeting-per-theme') {
-    themes.forEach( function(theme, i) {
-      theme.currentSelection = [];
-      currentSelection.forEach( function(id) {
-        var element = sortedElements.find( function(el) { return el.ideaId == id } );
-        if (element && element.theme == theme.value) {
-          theme.currentSelection.push(id)
-        }
-      });
-    });
-    currentSelection = [];
-  }
-
-  recalculateAvailableAmount();
-
-  if (isSelectionValid()) {
-
-	  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
-		  if (userHasVoted) {
-			  currentStep = 3;
-		  } else {
-			  currentStep = 4;
-		  }
-	  }
-
-  }
-
-  updateBudgetDisplay();
 
   // @todo: create a screen reader alert for count and budgeting-per-theme voting types
   function addCurrentBudgetScreenReaderAlert (initialAvailableBudget, availableBudgetAmount) {
@@ -1667,30 +1695,5 @@ if (votingContainer !== null) {
 
 	}
 
-  // dev
-  // if (currentSelection.length == 0) {
-  //  	addIdeaToSelection(17)
-  //  	addIdeaToSelection(31)
-  //  	addIdeaToSelection(30)
-  // }
 
-  // end init
-  // ----------------------------------------------------------------------------------------------------
-  // polyfills
 
-  // Array.prototype.forEach() polyfill
-  if (!Array.prototype.forEach) {
-	  Array.prototype.forEach = function (callback, thisArg) {
-		  thisArg = thisArg || window;
-		  for (var i = 0; i < this.length; i++) {
-			  callback.call(thisArg, this[i], i, this);
-		  }
-	  };
-  }
-
-  // end polyfills
-  // ----------------------------------------------------------------------------------------------------
-  // TAF
-  //
-  //
-}
