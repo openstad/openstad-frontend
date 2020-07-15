@@ -83,6 +83,8 @@ module.exports = {
        throw Error('GET Route only allowed for vote type like');
      }
 
+
+
      req.body.votes = [{
        ideaId: req.query.ideaId,
        opinion: req.query.opinion ? req.query.opinion : 'yes',
@@ -94,7 +96,7 @@ module.exports = {
    });
 
    const postVote = (req, res, next) => {
-    eventEmitter.emit('vote');
+    eventEmitter.emit('voted');
 
      const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
      const siteId = req.data.global.siteId;
@@ -104,13 +106,13 @@ module.exports = {
      let votes = req.body.votes ? req.body.votes : [{
        ideaId: req.body.ideaId,
        opinion: req.body.opinion,
-    //   ipOriginXXX: ip // 1111
      }];
 
      const options = {
          method: 'POST',
          uri: postUrl,
          headers: {
+             'x-forwarded-for': ip,
              'Accept': 'application/json',
              "X-Authorization" : `Bearer ${req.session.jwt}`,
          },

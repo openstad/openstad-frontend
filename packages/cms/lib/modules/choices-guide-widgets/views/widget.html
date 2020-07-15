@@ -2,7 +2,7 @@
 
 <style>
  {{data.widget.formattedContainerStyles}}
- @media only screen and (max-width: 940px) {     
+ @media only screen and (max-width: 940px) {
    .sticky-placeholder {
      margin-top: 64px;
    }
@@ -23,7 +23,6 @@
 
  // sticky
  document.addEventListener('osc-choices-guide-is-ready', function(event) {
-   console.log('==');
    setupStickyChoices()
  });
  function setupStickyChoices() {
@@ -79,7 +78,7 @@
 
    }
  }
- 
+
  // accordeons in content
  document.addEventListener('osc-choices-guide-is-ready', function(event) {
    var elements = document.querySelectorAll('.osc-accordeon-item .osc-title');

@@ -32,7 +32,8 @@ module.exports = {
        * Run basic-auth middleware.
        * TODO: move to it's own lib modules
        */
-      if (siteConfig.basicAuth && siteConfig.basicAuth.active) {
+      let ignore_paths = ['/attachment-upload']; // TODO: configurable
+      if (siteConfig.basicAuth && siteConfig.basicAuth.active && !ignore_paths.includes(req.path)) {
         var user = auth(req);
 
         if (!user || !compare(user.name, siteConfig.basicAuth.user) || ! compare(user.pass, siteConfig.basicAuth.password)) {
@@ -74,22 +75,3 @@ module.exports = {
 
   }
 };
-
-
-
-/**
- *
- *
- *
-@TODO
-
-
-Fields
- // Separate the palette field names so we can group them in a tab
-var fieldNames = _.map(options.paletteFields, function (field) {
-  return field.name
-});
-
-
- *
- */

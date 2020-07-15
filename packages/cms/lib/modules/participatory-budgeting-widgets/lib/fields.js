@@ -95,6 +95,7 @@ const fields = [
     name: 'displayBudgetLabel',
     type: 'boolean',
     label: 'Display price label',
+    def: true
   },
   {
     name: 'originalIdeaUrl',

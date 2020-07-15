@@ -1,21 +1,15 @@
 {% set mayVote = data.widget.votingEnabled %}
 {% set maySeeReplyForm = data.widget.replyingEnabled %}
+{% set idea = data.widget.activeResource %}
+{% set ideaId = idea.id %}
 
-{% if not data.widget.ideaId  %}
-  {% set ideaId = data.idea.id %}
-
-  {% if data.widget.argumentSentiment === 'for' %}
-  {% set arguments = data.idea.argumentsFor %}
-  {% elseif data.widget.argumentSentiment === 'against'  %}
-  {% set arguments = data.idea.argumentsAgainst %}
-  {% else %}
-  {% set arguments = data.idea.arguments %}
-  {% endif %}
-
+{% if data.widget.argumentSentiment === 'against'  %}
+{% set arguments = idea.argumentsAgainst %}
 {% else %}
-{% set ideaId = data.widget.ideaId %}
-{% set arguments = data.widget.arguments %}
+{% set arguments = idea.argumentsFor %}
 {% endif %}
+
+
 
 {% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/' + ideaId + '/argument' %}
 

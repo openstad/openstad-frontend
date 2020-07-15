@@ -23,7 +23,7 @@ if (votingContainer !== null) {
   var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
   var currentTheme;
-  
+
   // dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
   // de config is wel bijgewerkt
 
@@ -55,11 +55,11 @@ if (votingContainer !== null) {
     }
     activateTab(currentTheme)
     currentStep = currentTheme ? 1 : 0;
-    
+
     updateBudgetDisplay();
 	  updateListElements();
   }
-  
+
   function addIdeaToSelection(id) {
 
 	  var element = sortedElements.find( function(el) { return el.ideaId == id } );
@@ -140,7 +140,7 @@ if (votingContainer !== null) {
           minimalBudgetSpent = themes[currentTheme].minimalBudgetSpent;
           currentSelection = themes[currentTheme].currentSelection;
         }
-        
+
         break;
 
       default:
@@ -274,7 +274,7 @@ if (votingContainer !== null) {
 	  }
 
 	  updateBudgetDisplay();
-	  
+
 	  if (currentStep == 3) {
 	  	$('a.button-stemcode').focus();
 		}
@@ -398,21 +398,25 @@ if (votingContainer !== null) {
 		      $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 		      addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount);
-		      
+
 			    previewImages.innerHTML = '';
 			    currentSelection.forEach( function(id) {
 				    var element = sortedElements.find( function(el) { console.log (el.ideaId, el, id); return el.ideaId == id } );
-				    var previewImage = element.querySelector('.idea-image-mask').cloneNode(true);
-				    previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
-				    previewImage.setAttribute('data-idea-id', element.ideaId);
-				    previewImage.className += ' idea-' + element.ideaId;
+				    var previewImage = element ? element.querySelector('.idea-image-mask').cloneNode(true) : null;
+
+            if (previewImage) {
+  				    previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
+  				    previewImage.setAttribute('data-idea-id', element.ideaId);
+  				    previewImage.className += ' idea-' + element.ideaId;
 
 
-				    var linkToIdea = document.createElement("a");
-				    linkToIdea.href = '#ideaId-' + element.ideaId;
-				    linkToIdea.appendChild(previewImage);
+  				    var linkToIdea = document.createElement("a");
+  				    linkToIdea.href = '#ideaId-' + element.ideaId;
+  				    linkToIdea.appendChild(previewImage);
 
-				    previewImages.appendChild(linkToIdea)
+  				    previewImages.appendChild(linkToIdea);
+            }
+
 			    });
 			    var addButton = document.querySelector('#steps-content-1').querySelector('.add-button');
 
@@ -447,7 +451,7 @@ if (votingContainer !== null) {
 			    $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			    addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount);
-			    
+
 			    addToClassName(previewImages, 'hidden');
 			    removeFromClassName(previewTable, 'hidden');
 			    addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
@@ -488,7 +492,7 @@ if (votingContainer !== null) {
           } else {
             createOverview(currentSelection, initialAvailableBudget, availableBudgetAmount, 'Overzicht van mijn selectie');
           }
-          
+
           function createOverview(selection, initialAvailableBudget, availableBudgetAmount, title) {
 			      var overviewHtml = ''
 			      selection.forEach(function(id) {
@@ -571,7 +575,7 @@ if (votingContainer !== null) {
 			    $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
 			    addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount);
-			    
+
 			    addToClassName(previewImages, 'hidden');
 			    addToClassName(previewTable, 'hidden');
 
@@ -609,7 +613,7 @@ if (votingContainer !== null) {
 
 			    $('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 			    $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
-			    
+
 			    addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount);
 
 			    addToClassName(previewImages, 'hidden');
@@ -628,7 +632,7 @@ if (votingContainer !== null) {
 			    break;
 
 		    case 5:
-       
+
 			    addToClassName(document.querySelector('#steps-bar-1'), 'passed');
 			    addToClassName(document.querySelector('#steps-bar-2'), 'passed');
 			    addToClassName(document.querySelector('#steps-bar-3'), 'passed');
@@ -713,7 +717,7 @@ if (votingContainer !== null) {
 
 	    currentSelection.forEach( function(id) {
 		    var element = sortedElements.find( function(el) { return el.ideaId == id } );
-		    var budgetBarImage = element.querySelector('.idea-image-mask').cloneNode(true);
+		    var budgetBarImage = element ? element.querySelector('.idea-image-mask').cloneNode(true) : false;
 
 		    if (budgetBarImage) {
 			    budgetBarImage.setAttribute('data-idea-id', id);
@@ -1081,11 +1085,12 @@ if (votingContainer !== null) {
 
 	  for (var i=0; i<elements.length; i++) {
 		  var element = elements[i];
-		  var id = element.id.match(/idea-(\d+)/)[1];
+		  var id = $(element).attr('data-ideaid');
+
 		  element.ideaId = parseInt(id);
-		  element.budgetValue = parseInt( $('.budget-' + element.ideaId).first().text() ); // easier to use later
-		  element.theme = $('.theme-' + element.ideaId).first().text();
-		  element.area = $('.area-' + element.ideaId).first().text();
+		  element.budgetValue = parseInt($(element).attr('data-budget'), 10); // easier to use later
+		  element.theme = $(element).attr('data-theme');
+		  element.area = $(element).attr('data-area');
 
 		  var budgets = element.querySelectorAll('.budget');
 		  for (var j=0; j<budgets.length; j++) {
@@ -1198,6 +1203,7 @@ if (votingContainer !== null) {
 	  // show only the selected elements; display: none does not work well with gridder
 	  var list = document.querySelector('#ideaList');
 
+
 	  if (list) {
 		  while(list.hasChildNodes()) {
 			  list.removeChild(list.childNodes[0])
@@ -1213,6 +1219,9 @@ if (votingContainer !== null) {
 		  if (!elementThema ) {
       	//element.style.display = 'inline-block';
       }
+
+      console.log('elementThema', elementThema)
+      console.log('activeThema', activeThema)
 
 		  if (
 			  // no activeTab selected or
@@ -1264,7 +1273,7 @@ if (votingContainer !== null) {
 
 				$('.budget-' + element.ideaId).removeClass('unavailable');
 			  $('.button-add-idea-to-budget-' + element.ideaId).addClass('hidden');
-      
+
 
       } else {
 
@@ -1349,12 +1358,12 @@ if (votingContainer !== null) {
 	  setBudgetingEditMode();
 
   }
-  
+
   	function handleKeyDown(event) {
 			if (event.which === 13) {
 				// search for the element clicked
 				var target = event.target;
-	
+
 				if ( target.className.match('gridder-list') ) {
 					target.click();
 				}
@@ -1480,7 +1489,7 @@ if (votingContainer !== null) {
 
   function formatEuros(amount, html) {
 	  // todo: nu hardcoded want max 300K
-	  amount = parseInt(amount);
+	  amount = parseInt(amount, 10);
 	  var thousends = parseInt(amount/1000);
 	  var rest = ( amount - 1000 * thousends ).toString();
 	  if (rest.length < 3) rest = '0' + rest;
@@ -1497,8 +1506,8 @@ if (votingContainer !== null) {
 
 	  return html ? '<span class="eurosign">€ </span><span class="amount">' + thousends + rest + '</span>' : '€ ' +  thousends + rest;
   }
-  
-  
+
+
   function scrollToIdeasOnEnter(e) {
   	if (e.key === "Enter") {
   		scrollToIdeas();
@@ -1642,14 +1651,14 @@ if (votingContainer !== null) {
   }
 
   updateBudgetDisplay();
-  
+
   // @todo: create a screen reader alert for count and budgeting-per-theme voting types
   function addCurrentBudgetScreenReaderAlert (initialAvailableBudget, availableBudgetAmount) {
-  
+
   	if (votingType != 'budgeting') {
   		return;
 		}
-  
+
 		var div = document.createElement('div');
 		div.setAttribute('role', 'alert');
 		div.className = 'sr-only';
@@ -1678,7 +1687,7 @@ if (votingContainer !== null) {
 		  }
 	  };
   }
-  
+
   // end polyfills
   // ----------------------------------------------------------------------------------------------------
   // TAF

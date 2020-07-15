@@ -24,7 +24,8 @@ module.exports = {
 
        self.pushAsset('script', 'sticky', { when: 'always' });
        self.pushAsset('script', 'accordion', { when: 'always' });
-       self.pushAsset('script', 'jquery.gridder.min', { when: 'always' });
+       self.pushAsset('script', 'jquery.gridder', { when: 'always' });
+
        self.pushAsset('script', 'ideas-lister', { when: 'always' });
 
        self.pushAsset('script', 'find-polyfill', { when: 'always' });
@@ -36,6 +37,12 @@ module.exports = {
     const superOutput = self.output;
 
      self.output = function(widget, options) {
+       const siteConfig = options.siteConfig;
+       // add voting helpers
+       widget.isVotingActive = siteConfig && siteConfig.votes && siteConfig.votes.isActive ? siteConfig.votes.isActive : false;
+       widget.voteType = siteConfig && siteConfig.votes && siteConfig.votes.voteType ? siteConfig.votes.voteType : '';
+       widget.isVoteCountPublic = siteConfig && siteConfig.votes && siteConfig.votes.isViewable ? siteConfig.votes.isViewable : false;
+
        // add the label to the select sort options for displaying in the select box
        widget.selectedSorting = widget.selectedSorting ? widget.selectedSorting.map((sortingValue) => {
          const sortingOption = sortingOptions.find(sortingOption => sortingOption.value === sortingValue);

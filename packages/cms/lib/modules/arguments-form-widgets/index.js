@@ -26,7 +26,11 @@ module.exports = {
       choices: [
         {
           label: 'No sentiment',
-          value: '',
+          value: 'for',
+        },
+        {
+          label: 'For',
+          value: 'for',
         },
         {
           label: 'Against',
@@ -49,7 +53,7 @@ module.exports = {
       }
     ]);
 
-    
+
      var superPushAssets = self.pushAssets;
 
      self.pushAssets = function() {
@@ -89,5 +93,13 @@ module.exports = {
       // Access req.body here
       // Send back an AJAX response with `res.send()` as you normally do with Express
     });
+
+    const superOutput = self.output;
+
+    self.output = function(widget, options) {
+      widget.ideaId =  options.activeResource ?  options.activeResource.id : false;
+      return superOutput(widget, options);
+    };
+
   }
 };

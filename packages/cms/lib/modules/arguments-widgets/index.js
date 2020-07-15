@@ -63,7 +63,7 @@ module.exports = {
         {
           label: 'Voor',
           label: 'No sentiment',
-          value: ''
+          value: 'for'
         },
         {
           label: 'In favor',
@@ -143,6 +143,10 @@ module.exports = {
 
      var superOutput = self.output;
      self.output = function(widget, options) {
+       widget.ideaId =  options.activeResource ?  options.activeResource.id : false;
+       widget.activeResourceType = options.activeResourceType;
+       widget.activeResource = options.activeResource ?  options.activeResource : {};
+       widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
        return superOutput(widget, options);
      };
 
@@ -157,7 +161,7 @@ module.exports = {
             return '';
         }
      });
+
+
    },
-
-
 };

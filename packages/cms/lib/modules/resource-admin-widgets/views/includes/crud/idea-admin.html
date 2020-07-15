@@ -1,0 +1,38 @@
+{% if data.widget.activeResourceId %}
+{% set idea = data.widget.activeResource %}
+<h2 class="edit-header">Beheren</h2>
+
+
+<form method="POST" class="idea-status-form ajax-form" action="/modules/resource-admin-widgets/update">
+  <select name="status" onchange="$(this).closest('form').submit();" class="button status">
+    <option {{'selected' if idea.status==='OPEN'}}     value="OPEN">    Status: Open</option>
+    <option {{'selected' if idea.status==='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
+    <option {{'selected' if idea.status==='DENIED'}}   value="DENIED">  Status: Afgewezen</option>
+    <option {{'selected' if idea.status==='ACCEPTED'}} value="ACCEPTED">Status: Wordt besproken</option>
+    <option {{'selected' if idea.status==='BUSY'}}     value="BUSY">    Status: In behandeling</option>
+    <option {{'selected' if idea.status==='DONE'}}     value="DONE">    Status: Afgerond</option>
+  </select>
+  <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
+  <input type="hidden" name="_method" value="PUT">
+</form>
+
+<a href="#modbreak" class="edit-button modbreak-button">
+  Moderator reactie
+</a>
+
+<a href="#extra-info" class="edit-button extra-info-button">
+  {{ __('Extra info') }}
+</a>
+
+
+<a href="#overview-votes" class="edit-button votes-overview-button">
+  Stemoverzicht
+</a>
+
+
+
+{% include 'includes/modal-modbreak.html' %}
+{% include 'includes/modal-vote-overview.html' %}
+{% include 'includes/modal-extra-info.html' %}
+{% endif %}

@@ -17,6 +17,10 @@
       'section': {
         addLabel: 'Add a section',
         readOnly:  readOnly,
+        pageType: data.page.type,
+        activeResource: data.activeResource,
+        activeResourceType: data.activeResourceType,
+        siteConfig: data.global.siteConfig,
         edit: data.userCan('add-sections'),
         controls: {
           movable: data.userCan('add-sections'),
@@ -27,6 +31,10 @@
       'icon-section': {
         addLabel: 'Add an icon section',
         readOnly: readOnly,
+        pageType: data.page.type,
+        activeResource: data.activeResource,
+        siteConfig: data.global.siteConfig,
+        activeResourceType: data.activeResourceType,
         controls: {
           movable: data.userCan('add-sections'),
           removable: data.userCan('add-sections'),

@@ -9,7 +9,7 @@ module.exports = {
 
     self.expressMiddleware = {
       when: 'afterRequired',
-      middleware: self.getUser
+      middleware: self.authenticate
     };
 
     // Todo: move this middleware to another module and also use the expressMiddleware instead of apos.app.use

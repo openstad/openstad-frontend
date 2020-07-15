@@ -17,7 +17,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 var voteCreatorElement = document.getElementById('vote-creator');
-
+console.log('->>> voteCreatorElement', voteCreatorElement)
 if (voteCreatorElement !== null) {
 
 var placeholderText = $('.nothingYet .text').first().text();

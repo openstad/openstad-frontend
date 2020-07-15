@@ -25,7 +25,9 @@ function removeURLParameter(url, parameter) {
 
 module.exports = (self, options) => {
 
-  self.getUser = (req, res, next) => {
+  // You can add routes here
+  self.authenticate = (req, res, next) => {
+
     //apostropheCMS for some reasons always sets the scene to user
     //this means it always assumes the user is logged in into the CMS
     req.scene = req.user ? 'user' : 'anon';
@@ -33,6 +35,8 @@ module.exports = (self, options) => {
     const thisHost = req.headers['x-forwarded-host'] || req.get('host');
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const fullUrl = protocol + '://' + thisHost + req.originalUrl;
+    const parsedUrl = Url.parse(fullUrl, true);
+    let fullUrlPath = parsedUrl.path;
 
     //add apostrophes permissions function to the data object so we can check it in the templates
     req.data.userCan = function (permission) {
@@ -69,6 +73,7 @@ module.exports = (self, options) => {
       } else {
 
         let url = req.data.global.siteId ? `${apiUrl}/oauth/site/${req.data.global.siteId}/me` : `${apiUrl}/oauth/me`;
+
         var options = {
           uri: url,
           headers: {
@@ -81,12 +86,6 @@ module.exports = (self, options) => {
 
         rp(options)
           .then(function (user) {
-            // This a funky old decision, for some reason
-            // not logged in users in the the API user with id === 1 is
-            if (user.id === 1) {
-              user = undefined;
-            }
-
             if (user && Object.keys(user).length > 0) {
               req.data.loggedIn = user &&  user.role !== 'anonymous';
               req.data.openstadUser = user;
@@ -112,9 +111,10 @@ module.exports = (self, options) => {
 
           })
           .catch((e) => {
+            console.log('e', e);
+
             // if not valid clear the JWT and redirect
             // ;
-            console.log(e);
             req.session.destroy(() => {
               res.redirect('/');
               return;

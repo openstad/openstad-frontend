@@ -12,6 +12,28 @@ module.exports = {
       shortName: shortName,
       modules: {
         'api-proxy': {},
+        'openstad-assets': {
+          minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
+          jQuery: 3,
+          scripts: [
+            //  {name: 'jquery'},
+            //    {name: 'react'},
+            //    {name: 'react.dom'},
+            /* Apos script */
+            //        {name: 'apos/jquery.cookie'},
+            //        {name: 'apos/jquery.json-call'},
+            {name: 'cookies'},
+            {name: 'site'},
+            {name: 'shuffle.min'},
+            {name: 'sort'},
+            {name: 'jquery.dataTables.min'},
+            {name: 'jquery.validate.min'},
+            {name: 'jquery.validate.nl'},
+          ],
+          stylesheets: [
+            {name: 'main'}
+          ],
+        },
         'settings': {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
@@ -29,6 +51,29 @@ module.exports = {
         },
         'apostrophe-express': {
           port: process.env.PORT,
+          session: {
+            // If this still says `undefined`, set a real secret!
+            secret: process.env.SESSION_SECRET
+          },
+          csrf: {
+            exceptions: [
+              //     '/modules/arguments-form-widgets/submit',
+              //     '/modules/user-form-widgets/submit',
+              //     '/modules/idea-form-widgets/submit',
+              '/image',
+              '/images',
+              '/vimeo-upload',
+              '/attachment-upload',
+              '/fetch-image',
+              '/api/site/167/newslettersignup',
+              '/api/site/*/newslettersignup',
+              //     '/api/site/*/vote/*/toggle',
+
+              //     '/vote',
+              //     '/api/**'
+            ]
+          },
+
         },
         'apostrophe-login': {
           localLogin: false
@@ -50,6 +95,7 @@ module.exports = {
         },
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
+        'openstad-admin-bar': {},
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
@@ -61,34 +107,10 @@ module.exports = {
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
+        'attachment-upload': {},
         'openstad-nunjucks-filters': {},
         'openstad-custom-pages': {},
-        'openstad-assets': {
-          minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
-          // we set the option te lean, this means a lot of the JS libraries ApostrhopeCMS assumes exists are turned off
-          // we manually included a few libs with Apos needs to functional
-          // in future in might make sense to make a further seperate for admin users and normal users
-          //  lean: false,
-          jQuery: 3,
-          scripts: [
-            //  {name: 'jquery'},
-            //    {name: 'react'},
-            //    {name: 'react.dom'},
-            /* Apos script */
-            //        {name: 'apos/jquery.cookie'},
-            //        {name: 'apos/jquery.json-call'},
-            {name: 'cookies'},
-            {name: 'site'},
-            {name: 'shuffle.min'},
-            {name: 'sort'},
-            {name: 'jquery.dataTables.min'},
-            {name: 'jquery.validate.min'},
-            {name: 'jquery.validate.nl'},
-          ],
-          stylesheets: [
-            {name: 'main'}
-          ],
-        },
+
 
         // Apostrophe module configuration
 

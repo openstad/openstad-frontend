@@ -21,8 +21,8 @@
 			var ideaId =  element && element.querySelector('.this-idea-id') ? element.querySelector('.this-idea-id').innerHTML : false;
 			window.history.replaceState({}, '', '#ideaId-' + ideaId);
 
-		  var fotoramaEl = $('.fotorama');
 
+		  var fotoramaEl = $('.fotorama');
 			if (fotoramaEl.length > 0) {
 				 var fotorama = fotoramaEl.fotorama({
 					thumbWidth: 60,
@@ -46,7 +46,6 @@
 					});
 
 			}
-
 			return false;
 		},
     onClosed: function(){
@@ -94,19 +93,11 @@ function ideaListClick(event) {
 
   if ( ideaElement && button ) {
 
-		// if button == 'more info' use gridder
-		// if (button.className == 'button-more-info') {
-		//  	return;
-		// }
-
 		// if button == 'stem'
 		if (button.className == 'button-vote') {
 			var match = ideaElement.id.match(/idea-(\d+)/)
 
 			if (match) {
-				// TODO: wat je hier moet doen moet niet hardcoded zijn
-		//		selectIdea(match[1])
-
 				// cancel gridder
 				if (mouseOverLayer) {
 					event.stopPropagation()
@@ -117,12 +108,6 @@ function ideaListClick(event) {
 		}
 
 	}
-
-	// cancel gridder
-	// if (mouseOverLayer) {
-	//  	event.stopPropagation()
-	//  	event.stopImmediatePropagation()
-	// }
 
 }
 
