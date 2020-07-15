@@ -183,7 +183,7 @@ module.exports = {
      self.pushAsset('stylesheet', 'trix', { when: 'always' });
      self.pushAsset('stylesheet', 'form', { when: 'always' });
      self.pushAsset('stylesheet', 'main', { when: 'always' });
-     self.pushAsset('script', 'map', { when: 'always' });
+
      self.pushAsset('script', 'editor', { when: 'always' });
 
 
