@@ -54,13 +54,14 @@ const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : 
 allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
 allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
 
+
 var sites = [
 	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET + '_admin',
-				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID + '_admin',
+				'auth-client-secret':process.env.AUTH_ADMIN_CLIENT_ID,
+				'auth-client-id': process.env.AUTH_ADMIN_CLIENT_SECRET,
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
@@ -88,7 +89,15 @@ console.log(sites);
 
 var users = [
 	//fixed user for SITE and Admin to get admin right
-	{id: 2, siteId: 1, complete: true, role: 'admin', email: 'admin@openstad.org', password: '123456', firstName: 'Administrator', lastName: '',
+	{
+    id: process.env.AUTH_FIXED_USER_ID ? process.env.AUTH_FIXED_USER_ID : 2,
+    siteId: 1,
+    complete: true,
+    role: 'admin',
+    email: 'admin@openstad.org',
+    password: '',
+    firstName: 'Administrator',
+    lastName: '',
 
 	//Add one dummy Idea for fun
 	ideas : [
