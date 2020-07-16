@@ -2,6 +2,16 @@ const co = require('co');
 const moment = require('moment-timezone')
 const log = require('debug')('app:db');
 
+const randomString = (length) => {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 const removeProtocol = (url) => {
   return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
 }
@@ -97,7 +107,7 @@ var users = [
     complete: true,
     role: 'admin',
     email: 'admin@openstad.org',
-    password: '',
+    password: randomString(10),
     firstName: 'Administrator',
     lastName: '',
 
