@@ -16,6 +16,11 @@ const removeProtocol = (url) => {
   return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
 }
 
+const removeWww = (url) => {
+  return url ? url.replace('www.', '');
+}
+
+
 const ensureProtocol = (url) => {
 	if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
     	url = "https://" + url;
@@ -77,7 +82,7 @@ var sites = [
 		},
 		allowedDomains:allowedDomains
 	}},
-	{id: 2, name: 'site-one', domain: removeProtocol(process.env.FRONTEND_URL), title: 'OpenStad Default Site', config: {
+	{id: 2, name: 'site-one', domain: removeWww(removeProtocol(process.env.FRONTEND_URL)), title: 'OpenStad Default Site', config: {
     cms: {
         "url": ensureProtocol(process.env.FRONTEND_URL),
         "dbName": process.env.DEFAULT_DB ? process.env.DEFAULT_DB : "default_db",
@@ -86,7 +91,7 @@ var sites = [
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
+				'auth-client-secret':process.env.USER_API_CLIENT_SECRET,
 				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
