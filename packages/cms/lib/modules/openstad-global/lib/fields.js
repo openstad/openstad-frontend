@@ -146,7 +146,8 @@ module.exports = [
     {
         type: 'boolean',
         name: 'hideSiteTitle',
-        label: 'Hide the site title in the header?'
+        label: 'Hide the site title in the header?',
+        def: true
     },
     {
         type: 'string',
