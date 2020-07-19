@@ -35,8 +35,8 @@ apos.define('cookie-warning-widgets', {
 $(document).ready(function() {
     var cookieConsent = apos.cookieWarning.getCookieConsent();
     if (typeof cookieConsent == 'undefined') {
-        document.getElementById('cookiewarning-container-top').classList.remove("hidden")
+        document.getElementById('cookiewarning-container-top') && document.getElementById('cookiewarning-container-top').classList.remove("hidden")
     } else {
-        document.getElementById('cookiewarning-container-top').classList.add("hidden")
+        document.getElementById('cookiewarning-container-top') && document.getElementById('cookiewarning-container-top').classList.add("hidden")
     }
 });

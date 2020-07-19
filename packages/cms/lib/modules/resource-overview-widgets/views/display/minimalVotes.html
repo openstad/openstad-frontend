@@ -1,10 +1,15 @@
+{% set columns = 3 %}
 <div
-  class="tile-list ideas-list list"
+  class="tile-list ideas-list list "
   {% if data.widget.defaultSorting %}
 	data-default-sort="{{data.widget.defaultSorting}}"
 	{% endif %}
->{% for idea in data.widget.activeResources %}<div
-  class="tile idea-item list-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}}"
+>
+<div class="flex-col flex-col-{{columns}}">
+{% for idea in data.widget.activeResources %}
+
+<div
+  class="tile idea-item list-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}} {{data.widget.cardStyle}}"
   data-createdtime="{{data.widget.parseDateToTime(idea.createdAt)}}"
   data-likes="{{idea.yes}}"
   data-budget="{{idea.budget}}"
@@ -18,24 +23,31 @@
 
     <div class="image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
 
+    {% if data.widget.displayLabel %}
     <div class="duration">
       {{ data.widget['label' + idea.status] }}
     </div>
+    {% endif %}
 
     <div class="info">
+
+      {% if data.widget.displayTitle %}
       <h3 class="title">{{idea.title}}</h3>
-      {% if idea.extraData.theme %}
+      {% endif %}
+
+      {% if data.widget.displayTheme and idea.extraData.theme %}
         <div class="thema">{{idea.extraData.theme}}</div>
       {% endif %}
-      {% if idea.extraData.area %}
+
+      {% if data.widget.displayArea and idea.extraData.area %}
         <div class="gebied">{{idea.extraData.area}}</div>
       {% endif %}
 
-      {% if idea.summary %}
-      <p>{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
+      {% if data.widget.displaySummary and idea.summary %}
+      <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
       {% endif %}
 
-      {% if data.widget.siteConfig.minimumYesVotes %}
+      {% if data.widget.displayVoteProgressBar and data.widget.siteConfig.minimumYesVotes %}
       <div class="ideaProgress">
         <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
       </div>
@@ -45,8 +57,10 @@
           <tr>
             <td align="left">
               {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
-              <form method="GET" action="/like" class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
+              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
                 <input type="hidden" value="{{idea.id}}" name="ideaId" />
+                <input type="hidden" value="yes" name="opinion" />
+
                 <button
                   data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
@@ -55,20 +69,46 @@
                   {{idea.yes}}
                 </button>
               </form>
-              {% else %}
+              {% elseif (data.widget.displayVoteForCount) %}
               <div class="count yes">{{idea.yes}}</div>
               {% endif %}
             </td>
-            {% if data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
-            <td align="center"><div class="count no">{{idea.no}}</div></td>
+
+            {% if data.widget.displayVoteAgainstCount %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
+              <td align="center">
+              {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
+              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'no'}}">
+                <input type="hidden" value="{{idea.id}}" name="ideaId" />
+                <input type="hidden" value="no" name="opinion" />
+
+                <button
+                  data-return-to="/like?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  type="submit"
+                  class="count no role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
+                >
+                  {{idea.no}}
+                </button>
+              </form>
+              {% elseif (data.widget.displayVoteForCount) %}
+              <div class="count no">{{idea.no}}</div>
+              {% endif %}
+            </td>
             {% endif %}
+
+            {% if data.widget.displayArgumentsCount %}
             <td align="right"><div class="count arguments">{{idea.argCount}}</div></td>
+            {% endif %}
           </tr>
         </table>
       </div>
     </div>
   </a>
-</div>{%
-      else %}
-<i>Wees de eerste met een goed plan voor jouw buurt!</i>
-{% endfor %}</div>
+</div>
+
+{% if loop.index % columns === 0 %}
+</div>
+<div class="flex-col flex-col-{{columns}}">
+{% endif %}
+{% endfor %}
+</div>
+</div>

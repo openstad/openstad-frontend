@@ -2,7 +2,7 @@ function initAttachmentManager( form, editor ) {
 	var host   = '/image';
 	// {key: true, ...}
 	var images = {};
-	
+
 	document.addEventListener('trix-file-accept', function( event ) {
 		// afbeeldingen in de tekst kunnen niet langer
 		console.log('WTF');
@@ -10,7 +10,6 @@ function initAttachmentManager( form, editor ) {
 	});
 	document.addEventListener('trix-attachment-add', function( event ) {
 		// afbeeldingen in de tekst kunnen niet langer
-		console.log('WTF');
 		event.stopPropagation();
 		event.preventDefault();
 		// var attachment = event.attachment;
@@ -27,10 +26,10 @@ function initAttachmentManager( form, editor ) {
 	});
 	document.addEventListener('trix-action-invoke', function( event ) {
 		if( event.actionName !== 'x-attach' ) return;
-		
+
 		var editorElement = event.target;
 		editorElement.focus();
-		
+
 		var input      = document.createElement('input');
 		input.type     = 'file';
 		input.multiple = true;
@@ -40,7 +39,7 @@ function initAttachmentManager( form, editor ) {
 				editorElement.editor.insertFile(file);
 			}
 		});
-		
+
 		var click = document.createEvent('MouseEvents');
 		click.initMouseEvent('click',true,true,window,0,0,0,0,0,false,false,false,false,0,null);
 		input.dispatchEvent(click);
@@ -51,11 +50,11 @@ function initAttachmentManager( form, editor ) {
 	function uploadAttachment( attachment ) {
 		var file = attachment.file;
 		var key  = createStorageKey(file);
-		
+
 		var form = new FormData;
 		form.append('key', key);
 		form.append('file', file);
-		
+
 		var xhr = new XMLHttpRequest;
 		xhr.open('POST', host, true);
 		xhr.upload.onprogress = function( event ) {

@@ -94,11 +94,6 @@ module.exports = [
         trash: true
     },
     {
-        type: 'string',
-        name: 'siteId',
-        label: 'Site ID (overwrite the default site id)'
-    },
-    {
         name: 'ideaSlug',
         type: 'string',
         label: 'Slug van idee pagina',
@@ -151,7 +146,8 @@ module.exports = [
     {
         type: 'boolean',
         name: 'hideSiteTitle',
-        label: 'Hide the site title in the header?'
+        label: 'Hide the site title in the header?',
+        def: true
     },
     {
         type: 'string',
@@ -186,8 +182,7 @@ module.exports = [
           const siteUrl = protocol + '://' + thisHost;
            //const siteUrl = '';
 
-          const formattedUrl =  siteUrl + apos.attachments.url(doc.siteLogo);
-          return formattedUrl;
+          return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
         },
         apiSyncField: 'styling.logo',
     },

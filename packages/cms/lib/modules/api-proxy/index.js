@@ -1,6 +1,7 @@
 const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
 const eventEmitter  = require('../../../events').emitter;
+const qs = require('qs');
 
 module.exports = {
   construct: function(self, options) {
@@ -30,9 +31,7 @@ module.exports = {
            delete req.body;
 
            // turn body object  back into a string
-           let newBody = Object.keys( body ).map(function( key ) {
-               return encodeURIComponent( key ) + '=' + encodeURIComponent( body[ key ])
-           }).join('&');
+           let newBody = qs.stringify(body)
 
            // Update header
            proxyReq.setHeader( 'content-type', 'application/x-www-form-urlencoded' );

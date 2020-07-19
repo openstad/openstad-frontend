@@ -1,6 +1,4 @@
 const rp = require('request-promise');
-const eventEmitter  = require('../../../events').emitter;
-
 const ideaStates = require('../../../config/idea.js').states;
 const extraFields =  require('../../../config/extraFields.js').fields;
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
@@ -67,6 +65,15 @@ module.exports = {
 
      const superOutput = self.output;
      self.output = function(widget, options) {
+       widget.pageType = options.pageType;
+       widget.activeResource = options.activeResource ?  options.activeResource : {};
+       widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
+       widget.activeResourceType = options.activeResourceType;
+
+       const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === widget.activeResourceType);
+
+       widget.activeResourceEndpoint = options.activeResourceType;
+
        widget.extraFields = extraFields;
        return superOutput(widget, options);
      };

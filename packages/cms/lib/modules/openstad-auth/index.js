@@ -26,8 +26,15 @@ function removeURLParameter(url, parameter) {
 
 module.exports = {
   construct: function(self, options) {
+    self.expressMiddleware = {
+      when: 'afterRequired',
+      middleware: (req, res, next) => {
+        self.authenticate(req, res, next);
+      }
+    };
+
   // You can add routes here
-    self.apos.app.use((req, res, next) => {
+    self.authenticate = (req, res, next) => {
 
       //apostropheCMS for some reasons always sets the scene to user
       //this means it always assumes the user is logged in into the CMS
@@ -43,8 +50,6 @@ module.exports = {
       req.data.userCan = function (permission) {
          return self.apos.permissions.can(req, permission);
       };
-
-
 
       if (req.query.jwt) {
         const thisHost = req.headers['x-forwarded-host'] || req.get('host');
@@ -89,14 +94,6 @@ module.exports = {
 
          rp(options)
            .then(function (user) {
-             // This a funky old decision, for some reason
-             // not logged in users in the the API user with id === 1 is
-             if (user.id === 1) {
-                user = undefined;
-             }
-
-             console.log('-->>> user', user)
-
              if (user && Object.keys(user).length > 0) {
                req.data.loggedIn = user &&  user.role !== 'anonymous';
                req.data.openstadUser = user;
@@ -133,7 +130,7 @@ module.exports = {
            });
          }
        }
-    });
+    };
 
 
 
