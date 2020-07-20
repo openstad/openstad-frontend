@@ -135,6 +135,11 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 
+    try {
+      req.body.location = JSON.parse(req.body.location || null);
+    } catch(err) {}
+    if ( typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) req.body.location = undefined;
+
 		const data = {
       ...req.body,
 			siteId      : req.params.siteId,
@@ -153,10 +158,6 @@ router.route('/')
 				data.modBreakDate = null;
       }
     }
-
-		try {
-			data.location = JSON.parse(data.location && Object.keys(data.location) > 0 ? data.location : null);
-		} catch(err) {}
 
     let responseData;
 		db.Idea
@@ -256,6 +257,15 @@ router.route('/:ideaId(\\d+)')
 
     var idea = req.results;
     if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
+
+    if (req.body.location) {
+      try {
+        req.body.location = JSON.parse(req.body.location || null);
+      } catch(err) {}
+      if ( typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) req.body.location = undefined;
+    } else {
+      req.body.location = JSON.parse(null);
+    }
 
 		let data = {
       ...req.body,
