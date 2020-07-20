@@ -48,7 +48,9 @@ const createIngress = async (k8sApi, name, domain, namespace) => {
       name: `${name}`,
       annotations: {
          'cert-manager.io/cluster-issuer': 'openstad-letsencrypt-prod',
-         'kubernetes.io/ingress.class': 'nginx'
+         'kubernetes.io/ingress.class': 'nginx',
+         // if www host isset it redirects always to www. if without is isset it redirects to not www
+         'nginx.ingress.kubernetes.io/from-to-www-redirect': "true"
       }
     },
     spec: {
