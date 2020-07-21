@@ -73,9 +73,11 @@ module.exports = {
 
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying
-      if (!req.user) {
+      if (req.data.activeResourceType === 'activeUser') {
+        req.data.activeResource = req.data.openstadUser;
+      } else if (!req.user) {
         req.notFound = true;
-      } 
+      }
 
       callback(null);
     });
@@ -89,7 +91,6 @@ module.exports = {
       }
 
       self.loadResourceData(req, callback);
-
     });
 
 
