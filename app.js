@@ -57,14 +57,14 @@ function serveSites (req, res, next) {
 
   thisHost = thisHost.replace(['http://', 'https://'], ['']);
 
-  console.log('start host: ', thisHost);
+//  console.log('start host: ', thisHost);
 
   // if the config is existing it means the site has been loaded already, serve site
   if (configForHosts[thisHost]) {
-    console.log('serve host from config cache ', thisHost);
+  //  console.log('serve host from config cache ', thisHost);
     serveSite(req, res, configForHosts[thisHost], false);
   } else {
-    console.log('fetch config for host: ', thisHost);
+//    console.log('fetch config for host: ', thisHost);
 
     /**
      * Fetch the config for sites
@@ -84,7 +84,7 @@ function serveSites (req, res, next) {
 
     rp(siteOptions)
       .then((siteConfig) => {
-        console.log('Fetched siteconfig');
+    //    console.log('Fetched siteconfig');
         configForHosts[thisHost] = siteConfig;
         serveSite(req, res, siteConfig, true);
       }).catch((e) => {
