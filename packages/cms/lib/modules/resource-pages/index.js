@@ -70,6 +70,7 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
+      req.data.activeResourceType = req.data.page.resource;
 
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying
