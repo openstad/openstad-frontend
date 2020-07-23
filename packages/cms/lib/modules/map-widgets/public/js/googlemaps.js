@@ -19,7 +19,9 @@ apos.define('map-widgets', {
                 mapConfig.editorMarker
             );
 
-            map.createMap(mapConfig.defaultSettings, mapConfig.markers, mapConfig.polygon, mapConfig.defaultSettings.googleMapsApiKey);
+            const defaultSettings = mapConfig.defaultSettings ? mapConfig.defaultSettings : {};
+
+            map.createMap(mapConfig.defaultSettings, mapConfig.markers, mapConfig.polygon, mapConfig.defaultSettings);
 
             return map;
         };

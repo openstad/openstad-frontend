@@ -10,7 +10,7 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 
 
 module.exports = {
-  //extend: 'apostrophe-widgets',
+  //extend: 'openstad-widgets',
   extend: 'map-widgets',
   label: 'Resource representation',
   addFields: fields,
@@ -63,7 +63,6 @@ module.exports = {
       const superOutput = self.output;
 
       self.output = function(widget, options) {
-
         widget.pageType = options.pageType;
         widget.activeResourceType = options.activeResourceType;
         widget.activeResource = options.activeResource ?  options.activeResource : {};
