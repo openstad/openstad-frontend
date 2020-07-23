@@ -42,10 +42,9 @@ const contentWidgets = {
   'idea-map': {
     adminOnly: true
   },
-  'idea-overview': {
-  },
+  'idea-overview': {},
   'idea-single': {
-    adminOnly: true
+    adminOnly: false
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
