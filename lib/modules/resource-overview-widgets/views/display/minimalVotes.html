@@ -48,7 +48,7 @@
               <form method="GET" action="/like" class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
                 <input type="hidden" value="{{idea.id}}" name="ideaId" />
                 <button
-                  data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
                   class="count yes role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
                 >
