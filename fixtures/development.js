@@ -17,7 +17,7 @@ const removeProtocol = (url) => {
 }
 
 const removeWww = (url) => {
-  return url ? url.replace('www.', '');
+  return url ? url.replace('www.', '') : '';
 }
 
 
