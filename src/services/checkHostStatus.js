@@ -114,7 +114,7 @@ const checkHostStatus = async (conditions) => {
       // else if ip is not set but ingress is set, remove the ingress file
       } else  if (!hostStatus.ip  && ingress) {
         try {
-          await k8sApi.deleteNamespacedIngress(site.name, namespace)
+    //      await k8sApi.deleteNamespacedIngress(site.name, namespace)
           hostStatus.ingress = false;
         } catch(error) {
           //@todo how to deal with error here?
