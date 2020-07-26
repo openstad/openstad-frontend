@@ -49,8 +49,8 @@ router.route('/')
 			.create(req.body)
 			.then(result => {
 				req.result = result;
-
-				return checkHostStatus({id: result.id});
+				//checkHostStatus({id: result.id});
+				return req.result;
 			})
 			.then(res.json(req.result))
 	})
