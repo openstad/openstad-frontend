@@ -304,7 +304,7 @@ let defaultConfig = {
 defaultConfig.url = process.env.API_URL || defaultConfig.url;
 defaultConfig.hostname = process.env.API_HOSTNAME || defaultConfig.hostname;
 
-defaultConfig.ignoreBruteForce = process.env.IGNORE_BRUTE_FORCE_IP ? process.env.IGNORE_BRUTE_FORCE_IP.split(,) || defaultConfig;
+defaultConfig.ignoreBruteForce = process.env.IGNORE_BRUTE_FORCE_IP ? process.env.IGNORE_BRUTE_FORCE_IP.split(',') || defaultConfig;
 defaultConfig.database.user = process.env.API_DATABASE_USER || defaultConfig.database.user;
 defaultConfig.database.password = process.env.API_DATABASE_PASSWORD || defaultConfig.database.password;
 defaultConfig.database.database = process.env.API_DATABASE_DATABASE || defaultConfig.database.database;
