@@ -69,7 +69,6 @@ const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : 
 allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
 allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
 
-
 var sites = [
 	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
 		oauth: {
