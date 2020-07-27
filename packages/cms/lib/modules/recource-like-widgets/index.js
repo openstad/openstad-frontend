@@ -5,15 +5,12 @@ const fields = [
     type: 'select',
     name: 'displayType',
     label: 'Weergave',
+    help: 'Voting needs to be set to like and should be added on a resource idea page in order to work',
     choices: [
       {
         label: 'Claps',
         value: 'claps',
       },
-      {
-        label: 'Numberplate',
-        value: 'numberplate'
-      }
     ]
   },
   styleSchema.definition('containerStyles', 'Styles for the container')

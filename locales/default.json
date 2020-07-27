@@ -734,5 +734,9 @@
 	"Document": "Document",
 	"Last Submitted By": "Last Submitted By",
 	"Last Submitted At": "Last Submitted At",
-	"Actions": "Actions"
+	"Actions": "Actions",
+	"Save Like": "Save Like",
+	"Claps": "Claps",
+	"Numberplate": "Numberplate",
+	"Voting needs to be set to like and should be added on a resource idea page in order to work": "Voting needs to be set to like and should be added on a resource idea page in order to work"
 }
