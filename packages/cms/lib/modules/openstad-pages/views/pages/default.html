@@ -20,7 +20,11 @@
         pageType: data.page.type,
         activeResource: data.activeResource,
         activeResourceType: data.activeResourceType,
-        siteConfig: data.global.siteConfig,
+        siteConfig: {
+          openStadMap: data.global.siteConfig.openStadMap,
+          ideas: data.global.siteConfig.ideas,
+          votes: data.global.siteConfig.votes
+        },
         edit: data.userCan('add-sections'),
         controls: {
           movable: data.userCan('add-sections'),
@@ -33,7 +37,11 @@
         readOnly: readOnly,
         pageType: data.page.type,
         activeResource: data.activeResource,
-        siteConfig: data.global.siteConfig,
+        siteConfig: {
+          openStadMap: data.global.siteConfig.openStadMap,
+          ideas: data.global.siteConfig.ideas,
+          votes: data.global.siteConfig.votes
+        },
         activeResourceType: data.activeResourceType,
         controls: {
           movable: data.userCan('add-sections'),

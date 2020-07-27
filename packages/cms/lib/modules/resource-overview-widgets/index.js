@@ -24,7 +24,7 @@ module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Resource overview',
   addFields: fields,
-
+  playerData: false,
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
       {

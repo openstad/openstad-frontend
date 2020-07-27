@@ -7,6 +7,7 @@ module.exports = {
   controls: {
     position: 'bottom-left'
   },
+  playerData: false,
   addFields: [
     {
       name: 'backgroundColor',
@@ -284,15 +285,18 @@ module.exports = {
     const superOutput = self.output;
     self.output = (widget, options) => {
       Object.keys(widget.contentWidgets).forEach((widgetKey) => {
-        widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
-          pageType: options.pageType ? options.pageType : '',
-          activeResource: options.activeResource,
-          activeResourceType: options.activeResourceType,
-          siteConfig:  options.siteConfig,
-        })
+        if (widgetKey === 'resource-representation-widgets' || widgetKey === 'resource-admin-widgets') {
+          widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
+            pageType: options.pageType ? options.pageType : '',
+            activeResource: options.activeResource,
+            activeResourceType: options.activeResourceType,
+            siteConfig:  options.siteConfig,
+          });
+        }
       });
 
-      return superOutput(widget, options);
+
+      return superOutput(widget, {});
     }
   }
 };

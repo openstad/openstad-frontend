@@ -26,6 +26,7 @@ module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Openstad widgets',
   openstadApiConfigSync: false,
+  playerData: false,
   construct: function(self, options) {
       if(options.openstadApiConfigSync) {
         require('./lib/syncFields.js')(self, options);
