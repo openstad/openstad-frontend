@@ -34,8 +34,12 @@ module.exports =  function (req, res, next) {
   /**
    * Fetch all ideas connected to the sites
    */
+  console.log('fetch ideas for ', globalData.siteId)
   if (globalData.siteId) {
     let ideas;
+
+
+    console.log('globalData.cacheIdeas', globalData.cacheIdeas)
 
     // if cacheIdeas is turned on, get ideas from cache
     if (globalData.cacheIdeas) {
@@ -45,6 +49,8 @@ module.exports =  function (req, res, next) {
 
     // if cacheIdeas is turned on, get ideas from cache
     if (ideas && ideas.length > 0) {
+      console.log('get ideas from cache')
+
       req.data.ideas = ideas;
       req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
       next();
@@ -58,8 +64,13 @@ module.exports =  function (req, res, next) {
            json: true // Automatically parses the JSON string in the response
      };
 
+     console.log('fetch again ', options)
+
+
      rp(options)
        .then(function (ideas) {
+         console.log('ideas fpund ', ideas)
+
          const ideaSlug = req.data.global.ideaSlug;
          const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
          const protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -101,6 +112,8 @@ module.exports =  function (req, res, next) {
          return null;
        })
        .catch((e) => {
+         console.log('eroror again ', e)
+
          next();
          return null;
        });
