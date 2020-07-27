@@ -285,7 +285,8 @@ module.exports = {
     const superOutput = self.output;
     self.output = (widget, options) => {
       Object.keys(widget.contentWidgets).forEach((widgetKey) => {
-        if (widgetKey === 'resource-representation-widgets' || widgetKey === 'resource-admin-widgets') {
+
+        if (widgetKey === 'resource-representation' || widgetKey === 'resource-admin') {
           widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
             pageType: options.pageType ? options.pageType : '',
             activeResource: options.activeResource,
