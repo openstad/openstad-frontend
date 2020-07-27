@@ -4,8 +4,8 @@ const bruteForce = require('../../middleware/brute-force');
 const router = express.Router({mergeParams: true});
 
 // brute force
-router.use( bruteForce.globalMiddleware );
-router.post( '*', bruteForce.postMiddleware );
+//router.use( bruteForce.globalMiddleware );
+//router.post( '*', bruteForce.postMiddleware );
 
 // sites
 router.use( '/site', require('./site') );
