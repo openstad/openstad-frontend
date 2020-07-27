@@ -286,7 +286,7 @@ module.exports = {
     self.output = (widget, options) => {
       Object.keys(widget.contentWidgets).forEach((widgetKey) => {
 
-        if (widgetKey === 'resource-representation' || widgetKey === 'resource-admin') {
+        if (widgetKey === 'resource-representation' || widgetKey === 'resource-admin' ||  widgetKey === 'participatory-budgeting' ) {
           widget.contentWidgets[widgetKey] = Object.assign(widget.contentWidgets[widgetKey], {
             pageType: options.pageType ? options.pageType : '',
             activeResource: options.activeResource,
