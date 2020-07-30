@@ -220,6 +220,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 100,
 					},
+          showVoteButtons: {
+            // momenteel alleen voor de kaart-app
+						type: 'boolean',
+						default: true,
+          },
 					canEditAfterFirstLikeOrArg: {
 						type: 'boolean',
 						default: false,
