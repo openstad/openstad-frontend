@@ -19,8 +19,10 @@
 
 {% block extraHead %}
 
+{% if data.global.applyPaletteStyling %}
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
+{% endif %}
 
 {{ apos.logger.renderClientProvider() | safe }}
 

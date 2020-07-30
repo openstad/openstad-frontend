@@ -560,6 +560,12 @@ module.exports = [
       apiSyncField: 'ideas.titleMinLength',
       help: 'This field will also update the global settings field (ideas.titleMinLength) in the api'
     },
+    {
+        type: 'boolean',
+        name: 'applyPaletteStyling',
+        label: 'Apply palette styling',
+        def: true,
+    },
 
     /*    {
           name: 'roleToComment',
