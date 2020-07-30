@@ -16,19 +16,3 @@ body, h1, h2, h3, h4, h5, h6, p,.btn, #amsterdam,
 {
   font-family: 'Avenir Next W01', Helvetica, Arial, sans-serif;
 }
-
-header {
-  height: 110px;
-  padding: 0 15px;
-}
-
-.header-side-container {
-  top: 26px;
-}
-
-@media screen and (max-width: 768px) {
-  header {
-    height: 63px;
-    padding: 0;
-  }
-}

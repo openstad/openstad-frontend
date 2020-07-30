@@ -142,7 +142,7 @@
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
 
-<header>
+<header class="{{ 'amsterdam-header' if data.global.siteLogo === 'amsterdam'  }}">
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
