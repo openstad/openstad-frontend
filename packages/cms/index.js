@@ -22,5 +22,6 @@ const getDirectories = source => readdirSync(source).filter(name => name.indexOf
 
 module.exports.moogBundle = {
   modules: getDirectories(__dirname + '/lib/modules'),
+  views: getDirectories(__dirname + '/views'),
   directory: 'lib/modules'
 };

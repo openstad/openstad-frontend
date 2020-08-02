@@ -279,6 +279,27 @@ module.exports = [
         def: 'red'
     },
     {
+      name: 'displayLoginTopLink',
+      type: 'boolean',
+      label: 'Display login and logout link in top links?'
+    },
+    {
+      name: 'logoPlacement',
+      label: 'Where should the logo be placed?',
+      type: 'select',
+      choices: [
+        {
+          label: 'Above menu',
+          value: 'aboveMenu'
+        },
+        {
+          label: 'In the menu',
+          value: 'inMenu'
+        },
+      ],
+//      def: 'aboveMenu'
+    },
+    {
         name: 'openstreetmapsServerUrl',
         type: 'string',
         label: 'Openstreet Maps ServerUrl (not implemented yet)',
