@@ -272,6 +272,11 @@ module.exports = [
         choices: 'loadPolygonsFromApi',
     },
     {
+      name: 'displayLoginTopLink',
+      type: 'boolean',
+      label: 'Display login and logout link in top links?'
+    },
+    {
         name: 'mapImageFlag',
         type: 'select',
         label: 'Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?',

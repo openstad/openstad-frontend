@@ -739,5 +739,16 @@
 	"Claps": "Claps",
 	"Numberplate": "Numberplate",
 	"Voting needs to be set to like and should be added on a resource idea page in order to work": "Voting needs to be set to like and should be added on a resource idea page in order to work",
-	"Apply palette styling": "Apply palette styling"
+	"Apply palette styling": "Apply palette styling",
+	"Idea: Phone": "Idea: Phone",
+	"User: Firstname": "User: Firstname",
+	"User: Lastname": "User: Lastname",
+	"User: Postcode": "User: Postcode",
+	"User: function": "User: function",
+	"User: expertise": "User: expertise",
+	"User: phone": "User: phone",
+	"User: biography": "User: biography",
+	"User: profifle": "User: profifle",
+	"User: neighborhood": "User: neighborhood",
+	"Display login and logout link in top links?": "Display login and logout link in top links?"
 }

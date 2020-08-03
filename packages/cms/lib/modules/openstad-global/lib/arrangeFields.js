@@ -38,7 +38,7 @@ module.exports = [
     {
         name: 'mainMenu',
         label: 'Hoofdmenu',
-        fields: ['arrangeMainMenu', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', 'translations']
+        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', 'translations']
     },
     {
         name: 'userRights',
