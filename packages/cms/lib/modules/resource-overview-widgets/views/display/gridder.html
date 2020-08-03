@@ -187,9 +187,6 @@
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
 
-      'displayRanking', 'displayLabel', 'displaySummary', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter'
-
-
       {% if data.widget.displaySummary and idea.summary %}
       <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
       {% endif %}
