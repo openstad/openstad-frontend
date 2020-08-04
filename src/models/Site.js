@@ -460,6 +460,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 
+			polls: {
+				type: 'object',
+				subset: {
+					canAddPolls: {
+						type: 'boolean',
+						default: false,
+					},
+					requiredUserRole: {
+						type: 'string',
+						default: 'anonymous',
+					},
+				},
+			},
+      
 			newslettersignup: {
 				type: 'object',
 				subset: {
@@ -494,7 +508,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 				},
 			},
-			host: {
+
+      host: {
 				status: null,
 			},
 

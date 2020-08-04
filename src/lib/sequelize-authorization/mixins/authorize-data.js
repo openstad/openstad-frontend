@@ -12,7 +12,7 @@ module.exports = function authorizeData(data, action, user) {
 
 
     // TODO: dit is een check op jezelf, nu kan de argument:view check uit de routes
-    if (!self.can(action, user))  throw 'empty';
+    if (!self.can(action, user))  throw 'cannot';
 
     let keys = Object.keys( data );
 
