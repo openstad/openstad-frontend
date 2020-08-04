@@ -15,7 +15,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', 'includeArgsCount'];
+		req.scope = ['api', 'includeArgsCount', { method: ['onlyVisible', req.user.role]}];
 
 		req.scope.push('includeSite');
 
@@ -98,7 +98,6 @@ router.route('/')
 // list ideas
 // ----------
 	.get(auth.can('Idea', 'list'))
-	.get(auth.useReqUser)
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
@@ -116,6 +115,7 @@ router.route('/')
 			})
 			.catch(next);
 	})
+	.get(auth.useReqUser)
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
