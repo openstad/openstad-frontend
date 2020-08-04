@@ -4,13 +4,13 @@ module.exports = {
 	up: function() {
 		try {
 			return db.query(`
-			  ALTER TABLE sites ADD COLUMN hostStatus JSON NULL AFTER config;
+			  ALTER TABLE ideas ADD COLUMN viewableByRole varchar(255) NULL AFTER status;
 			`);
 		} catch(e) {
 			return true;
 		}
 	},
 	down: function() {
-		return db.query(`ALTER TABLE sites DROP hostStatus;`);
+		return db.query(`ALTER TABLE ideas DROP viewableByRole;`);
 	}
 }
