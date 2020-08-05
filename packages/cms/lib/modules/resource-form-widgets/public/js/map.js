@@ -1,4 +1,4 @@
-apos.define('idea-form-widgets', {
+apos.define('resource-form-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
         self.play = function($widget, data, options) {
