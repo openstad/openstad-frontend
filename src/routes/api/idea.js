@@ -273,6 +273,8 @@ router.route('/:ideaId(\\d+)')
       }
     }
 
+		console.log('ideaa data', data)
+
 		idea
 			.authorizeData(data, 'update')
 			.update(data)
