@@ -167,6 +167,9 @@ router.route('/:userId(\\d+)')
 			 body: JSON.stringify(Object.assign(apiCredentials, data))
 		 }
 
+		 console.log('options', options)
+
+
 		 fetch(authUpdateUrl, options)
 			 .then((response) => {
 					 if (response.ok) {

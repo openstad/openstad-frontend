@@ -17,6 +17,9 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
     },
     set: function (value) {
 
+      console.log('json value', value)
+
+
       try {
         if (typeof value == 'string') {
           value = JSON.parse(value);
@@ -49,6 +52,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       }
 
       fillValue(oldValue, value);
+      console.log('json value 2', value)
 
       this.setDataValue('extraData', JSON.stringify(value));
     },
@@ -58,17 +62,19 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
         let result = {};
-
+        
         if (data) {
           Object.keys(data).forEach((key) => {
+
             let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
             testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+
             if (userHasRole(user, testRole, self.userId)) {
               result[key] = data[key];
             }
           });
         }
-        
+
         return result;
       },
     }
