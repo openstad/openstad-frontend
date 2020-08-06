@@ -140,7 +140,7 @@ router.route('/:userId(\\d+)')
 		  }
 	  });
 
-		console.log('data', data)
+		console.log('update data', data)
 
 		const userId = parseInt(req.params.userId, 10);
 
@@ -180,9 +180,37 @@ router.route('/:userId(\\d+)')
 				})
 			 .then((json) => {
 				 //update values from API
-				 return db.User
-			     .authorizeData(data, 'update')
-           .update(data, {where : { externalUserId: json.id }});
+				 //
+				 //
+
+				 db.User
+		 			.scope(...req.scope)
+		 			.findAll()
+		 			.then(function( users ) {
+						 const actions = [];
+
+						 if (users) {
+							 users.forEach((user) => {
+								 actions.push(new Promise((resolve, reject) => {
+									 user
+									 	.authorizeData(data, 'update')
+		 								.update(data, {where : { externalUserId: json.id }})
+										.then((result) => {
+											resolve();
+										})
+										.catch(() => {
+											reject();
+										})
+								 }))
+							 });
+					 	 }
+
+		         return Promise.all(actions)
+						 		.then(() => { next(); })
+								.catch(next)
+		 			})
+		 			.catch(next);
+
 			  })
 				.then( (result) => {
 					return db.User

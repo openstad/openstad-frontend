@@ -334,7 +334,7 @@ router
 			"deletedAt": req.user.deletedAt,
 		};
 
-		console.log('data', data);
+	//console.log('data', data);
 
 		res.json(data);
 	})
