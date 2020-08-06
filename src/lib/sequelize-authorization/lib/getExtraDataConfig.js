@@ -50,7 +50,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
 
       fillValue(oldValue, value);
 
-      this.setDataValue('extraData', JSON.stringify(value));
+      this.setDataValue('extraData', value);
     },
     auth: {
       authorizeData: function(self, action, user, data) {
