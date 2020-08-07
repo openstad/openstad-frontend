@@ -52,32 +52,21 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       }
 
       fillValue(oldValue, value);
-      console.log('json value 2', value)
 
       this.setDataValue('extraData', JSON.stringify(value));
     },
     auth: {
       authorizeData: function(self, action, user, data) {
-        console.log('data1212', data)
-        console.log('self', self)
-        console.log('self.site', self.site.id)
-
         if (!self.site) return; // todo: die kun je ophalen als eea. async is
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
         let result = {};
-        console.log('data1212333333', data)
 
         if (data) {
           Object.keys(data).forEach((key) => {
 
-            console.log('key ', key)
-
-
             let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
             testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
-
-            console.log('testRole ', testRole)
 
 
             if (userHasRole(user, testRole, self.userId)) {
