@@ -60,7 +60,10 @@ module.exports = {
 
       //for legacy purposes, remove to better solutions at some point
       //Amsterdam
-      if (process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
+      //A
+      console.log('LOGO_AMSTERDAM', process.env.LOGO_AMSTERDAM, req.data.global.siteLogo);
+
+      if (!req.data.global.siteLogo && process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
         //make sure we
         req.data.global.siteLogo = 'amsterdam';
       }

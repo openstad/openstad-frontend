@@ -147,7 +147,7 @@ GoogleMaps.prototype.createMap = function( config, markers, polygon, autoZoomAnd
 		script.onload = function () {
 		    self.initGoogleMaps();
 		};
-		script.src = 'https://maps.googleapis.com/maps/api/js?key=' + config.googleMapsApiKey;
+		script.src = 'https://maps.googleapis.com/maps/api/js?key=' + (config ? config.googleMapsApiKey : '');
 		document.head.appendChild(script);
 	}
 }

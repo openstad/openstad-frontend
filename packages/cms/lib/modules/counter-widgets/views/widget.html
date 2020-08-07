@@ -55,7 +55,9 @@
 			   request.setRequestHeader("Accept", "application/json");
 		   },
 		   success: function(result) {
-         setNumberPlates(result.count);
+         let count = result.count;
+         if ( count == -1 ) count = 0;
+         setNumberPlates(count);
 		   },
 		   error: function(error) {
 		     console.log('Niet goed');

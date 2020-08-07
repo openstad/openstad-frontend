@@ -23,7 +23,7 @@ module.exports = [
     {
         name: 'design',
         label: 'Vormgeving',
-        fields: ['siteLogo', 'logoLink', 'stylesheets', 'inlineCss']
+        fields: ['siteLogo', 'logoLink', 'stylesheets', 'inlineCss', 'applyPaletteStyling']
     },
     {
         name: 'footer',
@@ -38,7 +38,7 @@ module.exports = [
     {
         name: 'mainMenu',
         label: 'Hoofdmenu',
-        fields: ['arrangeMainMenu', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', 'translations']
+        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', 'translations']
     },
     {
         name: 'userRights',

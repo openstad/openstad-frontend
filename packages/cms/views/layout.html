@@ -19,8 +19,10 @@
 
 {% block extraHead %}
 
+{% if data.global.applyPaletteStyling %}
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
+{% endif %}
 
 {{ apos.logger.renderClientProvider() | safe }}
 
@@ -140,12 +142,10 @@
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
 
-<header>
+<header class="{{ 'amsterdam-header' if data.global.siteLogo === 'amsterdam'  }}">
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-        <a href="{{logoLink}}/" class="logo-container" tabindex="-1">
-
 
           {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
