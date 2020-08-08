@@ -4,7 +4,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
   return {
     type: dataTypeJSON,
     allowNull: false,
-    defaultValue: '{}',
+    defaultValue: {},
     get: function () {
       let value =  this.getDataValue('extraData');
       try {
@@ -13,13 +13,10 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
         }
       } catch (err) {
       }
+
       return value;
     },
     set: function (value) {
-
-      console.log('json value', value)
-
-
       try {
         if (typeof value == 'string') {
           value = JSON.parse(value);
@@ -53,7 +50,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
 
       fillValue(oldValue, value);
 
-      this.setDataValue('extraData', JSON.stringify(value));
+      this.setDataValue('extraData', value);
     },
     auth: {
       authorizeData: function(self, action, user, data) {
