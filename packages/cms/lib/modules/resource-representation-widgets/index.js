@@ -36,7 +36,7 @@ module.exports = {
           widgets.forEach((widget) => {
               // render string with variables. Add active recource
               if (widget.containerStyles) {
-                const containerId = styleSchema.generateId();
+                const containerId = widget._id;
                 widget.containerId = containerId;
                 widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
               }

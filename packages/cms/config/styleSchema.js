@@ -138,7 +138,7 @@ exports.default = {
             },
             {
               'label': 'Tablet (between 768px - 991px)',
-              'value': '@media screen (min-width: 768px) and (max-width: 991px) '
+              'value': '@media screen and (min-width: 768px) and (max-width: 991px)'
             },
             {
               'label': 'Tablet & phone (991px and smaller)',
