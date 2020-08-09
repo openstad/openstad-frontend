@@ -12,6 +12,7 @@ module.exports = {
       name: 'backgroundColor',
       type: 'color',
       label: 'Background color',
+
     },
     {
       name: 'backgroundImage',
