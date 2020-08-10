@@ -3,9 +3,13 @@
   class="chars-counter"
   minlength="{{field.fieldMin if field.fieldMin else 2}}"
   maxlength="{{field.fieldMax if field.fieldMax else 140}}"
+  {% if field.notExtraDataKey %}
   name="{{field.fieldKey}}"
+  {% else %}
+  name="extraData[{{field.fieldKey}}]"
+  {% endif %}
   {% if field.fieldRequired %}required{% endif %}
->{{activeResource.extraData[field.fieldKey]}}</textarea>
+>{% if field.notExtraDataKey %}{{activeResource[field.fieldKey]}}{% else %}{{activeResource.extraData[field.fieldKey]}}{% endif %}</textarea>
 <div id="charsLeft{{field.fieldKey}}" class="charsLeft">
   <div class="min">Nog minimaal <span>0</span> tekens</div>
   <div class="max">Je hebt nog <span>0</span> tekens over.</div>

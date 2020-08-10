@@ -51,7 +51,6 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
-          console.log('activeResource', activeResource)
           req.data.activeResource = activeResource
           callback(null);
         })

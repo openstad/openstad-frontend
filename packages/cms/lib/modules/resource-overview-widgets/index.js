@@ -172,7 +172,7 @@ module.exports = {
         widget.themes = req.data.global.themes;
         widget.areas = req.data.global.areas;
 
-        const containerId = styleSchema.generateId();
+        const containerId = widget._id;
         widget.containerId = containerId;
 
     //    widget.selectedTheme = req.data.query.theme ? req.data.query.theme : (widget.defaultTheme ? widget.defaultTheme : '');

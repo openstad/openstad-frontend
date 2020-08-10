@@ -48,7 +48,6 @@ module.exports = async function(self, options) {
       delete data.image;
    }
 
-
     const options = {
         method: req.body.resourceId ? 'PUT' : 'POST',
         uri: req.body.resourceId ? `${postUrl}/${req.body.resourceId}` : postUrl,

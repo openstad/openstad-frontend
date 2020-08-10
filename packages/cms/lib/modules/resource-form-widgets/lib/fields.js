@@ -87,16 +87,6 @@ const fields = [
                       showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
                   },
                   {
-                      value: 'firstName',
-                      label: "First Name",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'lastName',
-                      label: "Last Name",
-                      showFields: ['fieldRequired']
-                  },
-                  {
                       value: 'advice',
                       label: "Advice"
                   },
@@ -126,7 +116,7 @@ const fields = [
                   },
                   {
                       value: 'phone',
-                      label: "Phone"
+                      label: "Idea: Phone"
                   },
                   {
                       value: 'role',
@@ -147,6 +137,51 @@ const fields = [
                   {
                       value: 'vimeo',
                       label: "Vimeo",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userFirstName',
+                      label: "User: Firstname",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userLastName',
+                      label: "User: Lastname",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userPostcode',
+                      label: "User: Postcode",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'function',
+                      label: "User: function",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'expertise',
+                      label: "User: expertise",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userPhone',
+                      label: "User: phone",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'bio',
+                      label: "User: biography",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'image',
+                      label: "User: profifle",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'neighborhood',
+                      label: "User: neighborhood",
                       showFields: ['fieldRequired']
                   },
                 ]
