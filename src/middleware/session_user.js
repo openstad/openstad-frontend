@@ -3,6 +3,7 @@ var pmx          = require('pmx');
 var jwt          = require('jsonwebtoken');
 const createError = require('http-errors');
 const merge = require('merge');
+const fetch = require('node-fetch');
 
 var db           = require('../db');
 
@@ -96,7 +97,6 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 	return db.User.findByPk(userId)
 		.then(function( dbuser ) {
 			if( !dbuser ) {
-				console.log('dbuser not found')
 				return {};
 			}
 			return dbuser;
@@ -148,7 +148,6 @@ function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 				if (isFixedUser) {
 					return user;
 				} else {
-					console.log('is not FixedUser reset ')
 			    return resetSessionUser(user);
 				}
 			}

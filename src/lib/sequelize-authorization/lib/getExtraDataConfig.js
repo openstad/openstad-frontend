@@ -4,7 +4,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
   return {
     type: dataTypeJSON,
     allowNull: false,
-    defaultValue: '{}',
+    defaultValue: {},
     get: function () {
       let value =  this.getDataValue('extraData');
       try {
@@ -13,10 +13,10 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
         }
       } catch (err) {
       }
+
       return value;
     },
     set: function (value) {
-
       try {
         if (typeof value == 'string') {
           value = JSON.parse(value);
@@ -61,14 +61,17 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
 
         if (data) {
           Object.keys(data).forEach((key) => {
+
             let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
             testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+
+
             if (userHasRole(user, testRole, self.userId)) {
               result[key] = data[key];
             }
           });
         }
-        
+
         return result;
       },
     }

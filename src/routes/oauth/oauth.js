@@ -308,8 +308,7 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
-
-		res.json({
+		const data = {
 			"id": req.user.id,
 			"complete": req.user.complete,
 			"externalUserId": req.user.role == 'admin' ? req.user.externalUserId : null,
@@ -321,12 +320,23 @@ router
 			"nickName": req.user.nickName,
 			"initials": req.user.initials,
 			"gender": req.user.gender,
+			"extraData": req.user.extraData ?  req.user.extraData : {},
+			"phoneNumber": req.user.phoneNumber,
+			"streetName": req.user.streetName,
+			"city": req.user.city,
+			"houseNumber": req.user.houseNumber,
+			"suffix": req.user.suffix,
+			"postcode": req.user.postcode,
 			"zipCode": req.user.zipCode,
 			"signedUpForNewsletter": req.user.signedUpForNewsletter,
 			"createdAt": req.user.createdAt,
 			"updatedAt": req.user.updatedAt,
 			"deletedAt": req.user.deletedAt,
-		})
+		};
+
+	//console.log('data', data);
+
+		res.json(data);
 	})
 
 module.exports = router;

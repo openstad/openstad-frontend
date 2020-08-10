@@ -276,11 +276,7 @@ router.route('/:ideaId(\\d+)')
       if (data.modBreak) {
         data.modBreakUserId = req.body.modBreakUserId = req.user.id;
         data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
-      }
+      } 
     }
 
 		console.log('ideaa data', data)
