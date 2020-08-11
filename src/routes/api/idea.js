@@ -161,11 +161,18 @@ router.route('/')
 
     let responseData;
 		db.Idea
-			.authorizeData(data, 'create', req.user)
+			.authorizeData(data, 'create', req.user, null, req.site)
 			.create(data)
 			.then(ideaInstance => {
-				req.results = ideaInstance;
-        return next();
+
+		    db.Idea
+			    .scope(...req.scope)
+					.findByPk(ideaInstance.id)
+          .then(result => {
+            req.results = result;
+            return next();
+          })
+
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker

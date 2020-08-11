@@ -109,11 +109,18 @@ router.route('/')
 
     let responseData;
 		db.Article
-			.authorizeData(data, 'create', req.user)
+			.authorizeData(data, 'create', req.user, null, req.site)
 			.create(data)
 			.then(articleInstance => {
-				req.results = articleInstance;
-        return next();
+
+		    db.Article
+			    .scope(...req.scope)
+					.findByPk(articleInstance.id)
+          .then(result => {
+            req.results = result;
+            return next();
+          })
+
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
