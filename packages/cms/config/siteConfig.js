@@ -72,15 +72,6 @@ module.exports = {
               //     '/vote',
               //     '/api/**'
             ]
-          },
-          session: {
-            cookie: {
-              path: '/',
-              httpOnly: true,
-              secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
-              // Default login lifetime between requests is one day
-              maxAge: 86400000
-            }
           }
         },
         'apostrophe-login': {
