@@ -792,6 +792,16 @@ module.exports = function (db, sequelize, DataTypes) {
         return result;
       },
 
+      includePoll:  function (userId) {
+        return {
+          include: [{
+            model: db.Poll.scope([ 'defaultScope', 'withIdea', { method: ['withVotes', 'poll', userId]}, { method: ['withUserVote', 'poll', userId]} ]),
+          as: 'poll',
+          required: false,
+        }]
+        }
+      },
+
       // vergelijk getRunning()
       sort: function (sort) {
 
@@ -935,13 +945,6 @@ module.exports = function (db, sequelize, DataTypes) {
           ]
         };
       },
-      withPoll: {
-        include: [{
-          model: db.Poll,
-          attributes: ['id', 'title', 'description'],
-          required: false
-        }]
-      },
       withAgenda: {
         include: [{
           model: db.AgendaItem,
@@ -965,6 +968,7 @@ module.exports = function (db, sequelize, DataTypes) {
     this.hasMany(models.Argument, {as: 'argumentsFor'});
     this.hasMany(models.Image);
     // this.hasOne(models.Image, {as: 'posterImage'});
+    this.hasOne(models.Poll, {as: 'poll', foreignKey: 'ideaId', });
     this.hasMany(models.Image, {as: 'posterImage'});
     this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId'});
     this.belongsTo(models.Site);
@@ -1287,14 +1291,13 @@ module.exports = function (db, sequelize, DataTypes) {
     },
     canUpdate: canMutate,
     canDelete: canMutate,
+    canAddPoll: canMutate,
     toAuthorizedJSON: function(user, data, self) {
 
       if (!self.auth.canView(user, self)) {
         return {};
       }
       
-      //console.log('data', data)
-
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;
@@ -1313,6 +1316,12 @@ module.exports = function (db, sequelize, DataTypes) {
       data.user.isAdmin = userHasRole(user, 'editor');
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      data.can = {};
+      // if ( self.can('vote', user) ) data.can.vote = true;
+      if ( self.can('update', user) ) data.can.edit = true;
+      if ( self.can('delete', user) ) data.can.delete = true;
+      return data;
 
       return data;
     },

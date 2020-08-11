@@ -53,6 +53,10 @@ router
 			req.scope.push('includeTags');
 		}
 
+		if (req.query.includePoll) {
+			req.scope.push({ method: ['includePoll', req.user.id]});
+		}
+
 		if (req.query.tags) {
       let tags = req.query.tags;
 			req.scope.push({ method: ['selectTags', tags]});
@@ -109,6 +113,11 @@ router.route('/')
 			.scope(...req.scope)
 			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(function( result ) {
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          result.rows.forEach((idea) => {
+            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
+          });
+        }
         req.results = result.rows;
         req.pagination.count = result.count;
         return next();
@@ -227,7 +236,9 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
-
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          if (found.poll) found.poll.countVotes(!req.query.withVotes);
+        }
 				req.idea = found;
 		    req.results = req.idea;
 				next();
@@ -311,6 +322,9 @@ router.route('/:ideaId(\\d+)')
 			    })
 			    .then(found => {
 				    if ( !found ) throw new Error('Idea not found');
+            if (req.query.includePoll) { // TODO: naar poll hooks
+              if (found.poll) found.poll.countVotes(!req.query.withVotes);
+            }
 				    req.results = found;
             next();
 			    })
