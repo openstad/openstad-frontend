@@ -58,6 +58,9 @@ module.exports = async function(self, options) {
          data.modBreakDate = req.body.modBreakDate ? req.body.modBreakDate : toSqlDatetime();
        }
 
+       console.log('req.body', req.body);
+       console.log('req.data', data);
+
        const options = {
            method: 'PUT',
            uri: postUrl,
