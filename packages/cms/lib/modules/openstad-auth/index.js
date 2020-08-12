@@ -94,7 +94,7 @@ module.exports = {
 
          rp(options)
            .then(function (user) {
-             if (user && Object.keys(user).length > 0) {
+             if (user && Object.keys(user).length > 0 && user.id) {
                req.data.loggedIn = user &&  user.role !== 'anonymous';
                req.data.openstadUser = user;
                req.data.isAdmin = user.role === 'admin'; // user;
