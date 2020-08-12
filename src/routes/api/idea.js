@@ -136,9 +136,12 @@ router.route('/')
 	.post(function(req, res, next) {
 
     try {
-      req.body.location = JSON.parse(req.body.location || null);
+      req.body.location = req.body.location ? JSON.parse(req.body.location) : null;
     } catch(err) {}
-    if ( typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) req.body.location = undefined;
+
+    if (req.body.location && typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) {
+			 req.body.location = null;
+		}
 
 		const data = {
       ...req.body,
@@ -152,10 +155,6 @@ router.route('/')
       if (data.modBreak) {
         data.modBreakUserId = req.body.modBreakUserId = req.user.id;
         data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
       }
     }
 
