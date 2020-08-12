@@ -358,7 +358,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   $('body').on('submit', '.ajax-refresh-prevent-submit', function (ev) {
@@ -367,6 +367,8 @@ function initAjaxRefresh () {
 
   $('body').on('click', '.openstad-ajax-refresh-click', function (ev) {
     ev.preventDefault();
+
+    console.log("$(this).attr('data-reset-hash')", $(this).attr('data-reset-hash'));
 
     var params = getQueryParams();
     var refreshName = $(this).attr('data-refresh-name');
@@ -388,7 +390,7 @@ function initAjaxRefresh () {
 
     var newUrl = window.location.pathname + '?'+$.param(params);
 
-    if (window.location.hash) {
+    if ($(this).attr('data-reset-hash') && window.location.hash) {
       newUrl = newUrl + window.location.hash;
     }
 
@@ -396,7 +398,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   $('body').on('change', '.openstad-ajax-refresh-input', function (ev) {
@@ -419,7 +421,7 @@ function initAjaxRefresh () {
 
     var newUrl = window.location.pathname + '?'+$.param(params);
 
-    if (window.location.hash) {
+    if ($(this).attr('data-reset-hash') && window.location.hash) {
       newUrl = newUrl + window.location.hash;
     }
 
@@ -427,7 +429,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   function getQueryParams() {
@@ -441,7 +443,7 @@ function initAjaxRefresh () {
 }
 
 
-function ajaxRefresh () {
+function ajaxRefresh (resetHash) {
   $('.openstad-ajax-refresh').addClass('ajax-loading');
 
   $.ajax({
@@ -481,8 +483,10 @@ function ajaxRefresh () {
     // trigger ajax refresh event for  binding to new dom events
     $('body').trigger('openstadAjaxRefresh');
 
+    console.log('resethash', resetHash)
+
     // trigger
-    if (window.location.hash && window.location.hash !== '#closed') {
+    if (resetHash && window.location.hash && window.location.hash !== '#closed') {
       var hash = window.location.hash;
       window.location.hash = '#';
       window.location.hash = hash;
