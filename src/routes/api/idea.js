@@ -261,7 +261,10 @@ router.route('/:ideaId(\\d+)')
       try {
         req.body.location = JSON.parse(req.body.location || null);
       } catch(err) {}
-      if ( typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) req.body.location = undefined;
+			
+      if (req.body.location &&  typeof req.body.location == 'object' && !Object.keys(req.body.location).length) {
+				req.body.location = undefined;
+			}
     } else {
       req.body.location = JSON.parse(null);
     }
