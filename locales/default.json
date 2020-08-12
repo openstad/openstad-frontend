@@ -751,5 +751,8 @@
 	"User: profifle": "User: profifle",
 	"User: neighborhood": "User: neighborhood",
 	"Display login and logout link in top links?": "Display login and logout link in top links?",
-	"Allow for liking on ideas directly in overview": "Allow for liking on ideas directly in overview"
+	"Allow for liking on ideas directly in overview": "Allow for liking on ideas directly in overview",
+	"User: profile image": "User: profile image",
+	"Show only following resources: ": "Show only following resources: ",
+	"Warning: This currently doesn't work with sorting, filters and pagination. So set the pagination limit too highest possible. For multiple resource id's, comma seperated": "Warning: This currently doesn't work with sorting, filters and pagination. So set the pagination limit too highest possible. For multiple resource id's, comma seperated"
 }

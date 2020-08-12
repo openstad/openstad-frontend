@@ -55,7 +55,7 @@ module.exports = {
       {
         name: 'sorting',
         label: 'Sorting',
-        fields: [ 'displaySorting', 'displayFilterVoting', 'defaultSorting', 'selectedSorting', 'filterResources', 'filterClassName' ]
+        fields: [ 'displaySorting', 'displayFilterVoting', 'defaultSorting', 'selectedSorting', 'filterClassName' ]
       },
       {
         name: 'pagination',
@@ -86,7 +86,7 @@ module.exports = {
       {
         name: 'include_exclude',
         label: 'Include & Exclude items',
-        fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterIdeas']
+        fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources']
       },
       styleSchema.definition('containerStyles', 'Styles for the container')
     ]);
@@ -456,8 +456,10 @@ module.exports = {
           return parseInt(item.trim(), 10);
         });
 
-         widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => ideaIds.indexOf(idea.id) !== -1) : widget.activeResources;
+         widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => resourceIds.indexOf(idea.id) !== -1) : widget.activeResources;
        }
+
+
 
        return superOutput(widget, options);
      };

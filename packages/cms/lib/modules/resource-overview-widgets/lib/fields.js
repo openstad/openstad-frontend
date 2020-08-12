@@ -391,7 +391,8 @@ module.exports = [
   {
     type: 'string',
     name: 'filterResources',
-    label: 'Show only following ideas: (idea id\'s, comma seperated)',
+    label: 'Show only following resources: ',
+    help: 'Warning: This currently doesn\'t work with sorting, filters and pagination. So set the pagination limit too highest possible. For multiple resource id\'s, comma seperated'
   },
   {
     type: 'string',
@@ -518,12 +519,6 @@ module.exports = [
     type: 'string',
     name: 'filterIncludeThemes',
     label: 'Only show idea including this theme (currently only works with one theme)'
-  },
-  {
-    type: 'string',
-    name: 'filterIdeas',
-    label: 'Show only following ideas: (idea id\'s, comma seperated)',
-    help: 'Warning: This currently  doesn\'t work with sorting, filters and pagination. For multiple theme names, comma seperated'
   },
   {
     type: 'string',
