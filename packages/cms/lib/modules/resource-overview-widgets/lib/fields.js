@@ -540,7 +540,7 @@ module.exports = [
   {
     type: 'boolean',
     name: 'allowVotingInOverview',
-    label: 'Allow for linking on ideas directly in overview',
+    label: 'Allow for liking on ideas directly in overview',
     help: 'Note: voting only works for ideas with OPEN status'
   },
 ].concat(
