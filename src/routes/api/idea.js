@@ -159,14 +159,6 @@ router.route('/')
 		  startDate:  new Date(),
 		}
 
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      }
-    }
-
     let responseData;
 		db.Idea
 			.authorizeData(data, 'create', req.user, null, req.site)
@@ -279,7 +271,7 @@ router.route('/:ideaId(\\d+)')
       try {
         req.body.location = JSON.parse(req.body.location || null);
       } catch(err) {}
-			
+
       if (req.body.location &&  typeof req.body.location == 'object' && !Object.keys(req.body.location).length) {
 				req.body.location = undefined;
 			}
@@ -291,15 +283,6 @@ router.route('/:ideaId(\\d+)')
       ...req.body,
 		}
 
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } 
-    }
-
-		console.log('ideaa data', data)
 
 		idea
 			.authorizeData(data, 'update')
