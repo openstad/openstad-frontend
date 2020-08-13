@@ -176,7 +176,7 @@ const fields = [
                   },
                   {
                       value: 'image',
-                      label: "User: profifle",
+                      label: "User: profile image",
                       showFields: ['fieldRequired']
                   },
                   {

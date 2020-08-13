@@ -72,7 +72,8 @@ module.exports = (self, options) => {
         req.data.global.siteId = siteConfig.id;
       }
 
-      req.data.global.siteTitle = 'overwrite title in editor';
+      // empty
+    //  req.data.global.siteTitle = '';
 
       req.data.global.siteConfig = siteConfig;
       req.data.originalUrl = req.originalUrl;
