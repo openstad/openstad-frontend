@@ -276,7 +276,9 @@ router.route('/:ideaId(\\d+)')
 				req.body.location = undefined;
 			}
     } else {
-      req.body.location = JSON.parse(null);
+      if (req.body.location === null) {
+        req.body.location = JSON.parse(null);
+      }
     }
 
 		let data = {
