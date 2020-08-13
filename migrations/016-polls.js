@@ -4,9 +4,9 @@ module.exports = {
 	up: function() {
 		try {
 			return db.query("SET AUTOCOMMIT = 0; START TRANSACTION;\
+        DROP TABLE IF EXISTS `poll_votes`;\
         DROP TABLE IF EXISTS `poll_options`;\
         DROP TABLE IF EXISTS `pollVotes`;\
-        DROP TABLE IF EXISTS `poll_votes`;\
         DROP TABLE IF EXISTS `polls`;\
         CREATE TABLE `polls` (\
           `id` int(11) NOT NULL,\
