@@ -373,11 +373,6 @@ module.exports = function (db, sequelize, DataTypes) {
           throw Error('An idea must run at least 1 day');
         }
       },
-      validModBreak: function () {
-        if (this.modBreak && (!this.modBreakUserId || !this.modBreakDate)) {
-          throw Error('Incomplete mod break');
-        }
-      },
       validExtraData: function (next) {
 
         let self = this;
@@ -561,7 +556,7 @@ module.exports = function (db, sequelize, DataTypes) {
           )
         };
       },
-      
+
       // defaults
       default: {
         include: [{
@@ -1297,7 +1292,7 @@ module.exports = function (db, sequelize, DataTypes) {
       if (!self.auth.canView(user, self)) {
         return {};
       }
-      
+
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;

@@ -265,11 +265,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 					throw Error('An article must run at least 1 day');
 				}
 			},
-			validModBreak: function() {
-				if( this.modBreak && (!this.modBreakUserId || !this.modBreakDate) ) {
-					throw Error('Incomplete mod break');
-				}
-			},
 			validExtraData: function(next) {
 
         let self = this;
