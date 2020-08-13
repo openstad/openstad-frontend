@@ -54,10 +54,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
     },
     auth: {
       authorizeData: function(data, action, user, self, site) {
-        console.log('aut extra data');
         if (!site) return; // todo: die kun je ophalen als eea. async is
-        console.log('site defined');
-        console.log(site.config);
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
         let result = {};

@@ -118,6 +118,30 @@ module.exports = function (db, sequelize, DataTypes) {
       defaultValue: 1
     },
 
+    typeId: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      auth:  {
+        updateableBy: 'editor',
+        authorizeData: function(data, action, user, self, site) {
+          if (!self) return;
+          site = site || self.site;
+          if (!site) return; // todo: die kun je ophalen als eea. async is
+          let value = data || self.typeId;
+          let config = site.config.ideas.types;
+          if (!config || !Array.isArray(config)) return null; // no config; this field is not used
+          let defaultValue = config[0].id;
+          let valueConfig = config.find( type => type.id == value );
+          if (!valueConfig) return self.typeId || defaultValue; // non-existing value; fallback to the current value
+          let requiredRole = self.rawAttributes.typeId.auth[action+'ableBy'] || 'all';
+          if (!valueConfig.auth) return userHasRole(user, requiredRole) ? value : ( self.typeId || defaultValue ); // no auth defined for this value; use field.auth
+          requiredRole = valueConfig.auth[action+'ableBy'] || requiredRole;
+          if ( userHasRole(user, requiredRole) ) return value; // user has requiredRole; value accepted
+          return self.typeId || defaultValue;
+        },
+      },
+    },
+
     status: {
       type: DataTypes.ENUM('OPEN', 'CLOSED', 'ACCEPTED', 'DENIED', 'BUSY', 'DONE'),
       auth:  {
@@ -373,6 +397,11 @@ module.exports = function (db, sequelize, DataTypes) {
           throw Error('An idea must run at least 1 day');
         }
       },
+      validModBreak: function () {
+        if (this.modBreak && (!this.modBreakUserId || !this.modBreakDate)) {
+          throw Error('Incomplete mod break');
+        }
+      },
       validExtraData: function (next) {
 
         let self = this;
@@ -541,7 +570,6 @@ module.exports = function (db, sequelize, DataTypes) {
       // -------------------------
 
       onlyVisible: function (userRole) {
-        console.log('xxx', roles[userRole]);
         return {
           where: sequelize.or(
             {
@@ -556,7 +584,7 @@ module.exports = function (db, sequelize, DataTypes) {
           )
         };
       },
-
+      
       // defaults
       default: {
         include: [{
@@ -1292,7 +1320,7 @@ module.exports = function (db, sequelize, DataTypes) {
       if (!self.auth.canView(user, self)) {
         return {};
       }
-
+      
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;
