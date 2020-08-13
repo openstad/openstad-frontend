@@ -1,8 +1,9 @@
 const hasRole = require('../lib/hasRole');
 
-module.exports = function authorizeData(data, action, user) {
+module.exports = function authorizeData(data, action, user, self, site) {
 
-  let self = this;
+  self = self || this;
+  site = site || self.site;
 
   try {
 
@@ -22,7 +23,7 @@ module.exports = function authorizeData(data, action, user) {
       let testRole;
       if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
         if (self.rawAttributes[key].auth.authorizeData) {
-          data[key] = self.rawAttributes[key].auth.authorizeData(self, action, user, data[key]);
+          data[key] = self.rawAttributes[key].auth.authorizeData(data[key], action, user, self, site);
         } else {
           testRole = self.rawAttributes[key].auth[action+'ableBy'];
         }
