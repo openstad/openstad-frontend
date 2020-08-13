@@ -142,8 +142,6 @@ router.route('/:userId(\\d+)')
 		  }
 	  });
 
-		console.log('update data', data)
-
 		const userId = parseInt(req.params.userId, 10);
 
 		/**
