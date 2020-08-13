@@ -46,7 +46,7 @@ module.exports = {
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {
           if (widget.imageStyles) {
-            const imageId = styleSchema.generateId();
+            const imageId = widget._id;
             widget.imageId = imageId;
             widget.formattedImageStyles = styleSchema.format(imageId, widget.imageStyles);
           }

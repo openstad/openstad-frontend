@@ -94,8 +94,9 @@ module.exports = {
 
          rp(options)
            .then(function (user) {
-             if (user && Object.keys(user).length > 0) {
-               req.data.loggedIn = user &&  user.role !== 'anonymous';
+             if (user && Object.keys(user).length > 0 && user.id) {
+               const requiredRoles = ['member', 'moderator', 'admin', 'editor'];
+               req.data.loggedIn = user &&  user.role && requiredRoles.includes(user.role);
                req.data.openstadUser = user;
                req.data.isAdmin = user.role === 'admin'; // user;
                req.data.isEditor = user.role === 'editor'; // user;
@@ -154,13 +155,14 @@ module.exports = {
         })
         .then(function (votes) {
           req.data.votes = votes;
-          next();
+          return next();
         })
         .catch((e) => {
-          next();
+          return next();
         });
+
       } else {
-        next();
+        return next();
       }
     });
 

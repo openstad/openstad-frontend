@@ -47,7 +47,7 @@
       <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
       {% endif %}
 
-      {% if data.widget.displayVoteProgressBar and data.widget.siteConfig.minimumYesVotes %}
+      {% if data.widget.displayVoteProgressBar %}
       <div class="ideaProgress">
         <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
       </div>

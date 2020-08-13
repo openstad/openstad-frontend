@@ -93,7 +93,7 @@ module.exports = {
           afterUrl: widget.afterUrl,
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        const containerId = styleSchema.generateId();
+        const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 			});

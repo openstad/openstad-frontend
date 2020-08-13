@@ -61,11 +61,6 @@ module.exports = {
       help: `Select the sentiment when the 'in favor' and 'against' arguments are separately listed. Otherwise, choose 'No sentiment'.`,
       choices: [
         {
-          label: 'Voor',
-          label: 'No sentiment',
-          value: 'for'
-        },
-        {
           label: 'In favor',
           value: 'for',
         },

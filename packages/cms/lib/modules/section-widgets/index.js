@@ -13,6 +13,7 @@ module.exports = {
       name: 'backgroundColor',
       type: 'color',
       label: 'Background color',
+
     },
     {
       name: 'backgroundImage',
@@ -21,11 +22,11 @@ module.exports = {
       svgImages: true,
       trash: true
     },
-    {
+  /*  {
       name:     'containerId',
       type:     'string',
       label:    'HTML Container id (must be unique on the page for css)',
-    },
+    },*/
     {
       name: 'displayType',
       label: 'Columns',
@@ -129,11 +130,6 @@ module.exports = {
           value: 'up'
         }
       ]
-    },
-    {
-      name: 'htmlId',
-      type: 'string',
-      label: 'HTML ID',
     },
     {
       name: 'htmlClass',
@@ -261,17 +257,12 @@ module.exports = {
 
         widgets.forEach((widget) => {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
-          widget.containerId = widget.containerId ? widget.containerId : styleSchema.generateId();
+          widget.containerId = widget._id;
           widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
 
           // get the content widget that fit with the role of logged in user and insert data
 
           widget.contentWidgets = self.getContentWidgets(req);
-
-
-
-
-
 
         });
         return callback(null);
