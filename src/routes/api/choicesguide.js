@@ -25,7 +25,6 @@ router
       req.scope.push('includeQuestions');
     }
 
-
     return next();
   });
 
