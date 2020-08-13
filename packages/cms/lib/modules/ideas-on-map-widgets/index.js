@@ -382,6 +382,7 @@ module.exports = {
           },
           types,
 			    idea: {
+            types: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.types != 'undefined' ? req.data.global.siteConfig.ideas.types : true,
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             canAddNewIdeas: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? req.data.global.siteConfig.ideas.canAddNewIdeas : true,
 				    titleMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.titleMinLength ) || 30,
@@ -397,6 +398,7 @@ module.exports = {
             },
             fields: widget.formFields,
 			    },
+			    poll: req.data.global.siteConfig && typeof req.data.global.siteConfig.poll != 'undefined' ? req.data.global.siteConfig.poll : true,
 			    argument: {
             isActive: widget.showReactions,
             isClosed: req.data.global.siteConfig && req.data.global.siteConfig.arguments && typeof req.data.global.siteConfig.arguments.isClosed != 'undefined' ? req.data.global.siteConfig.arguments.isClosed : false,
