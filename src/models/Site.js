@@ -282,7 +282,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 								default: ['zipCode', 'nickName'],
 							}
 						}
-					}
+					},
+
+					isClosed: {
+						type: 'boolean',
+						default: false,
+					},
+
+					closedText: {
+						type: 'string',
+						default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
+					},
+
 				}
 			},
 			votes: {
@@ -449,6 +460,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 
+			polls: {
+				type: 'object',
+				subset: {
+					canAddPolls: {
+						type: 'boolean',
+						default: false,
+					},
+					requiredUserRole: {
+						type: 'string',
+						default: 'anonymous',
+					},
+				},
+			},
+      
 			newslettersignup: {
 				type: 'object',
 				subset: {
@@ -483,7 +508,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 				},
 			},
-			host: {
+
+      host: {
 				status: null,
 			},
 

@@ -10,8 +10,9 @@ module.exports = function authorizeData(data, action, user) {
     if (!user) user = self.auth && self.auth.user;
     if (!user || !user.role) user = { role: 'all' };
 
+
     // TODO: dit is een check op jezelf, nu kan de argument:view check uit de routes
-    if (!self.can(action, user))  throw 'empty';
+    if (!self.can(action, user))  throw 'cannot';
 
     let keys = Object.keys( data );
 

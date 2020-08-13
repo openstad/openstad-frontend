@@ -13,6 +13,7 @@ const merge = require('merge');
 
 var argVoteThreshold = config.ideas && config.ideas.argumentVoteThreshold;
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const roles = require('../lib/sequelize-authorization/lib/roles');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 
@@ -124,6 +125,15 @@ module.exports = function (db, sequelize, DataTypes) {
       },
       defaultValue: 'OPEN',
       allowNull: false
+    },
+
+    viewableByRole: {
+      type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+      defaultValue: 'all',
+      auth:  {
+        updateableBy: ['editor', 'owner'],
+      },
+      allowNull: true,
     },
 
     title: {
@@ -535,6 +545,23 @@ module.exports = function (db, sequelize, DataTypes) {
       // nieuwe scopes voor de api
       // -------------------------
 
+      onlyVisible: function (userRole) {
+        console.log('xxx', roles[userRole]);
+        return {
+          where: sequelize.or(
+            {
+              viewableByRole: 'all'
+            },
+            {
+              viewableByRole: null
+            },
+            {
+              viewableByRole: roles[userRole] || ''
+            },
+          )
+        };
+      },
+      
       // defaults
       default: {
         include: [{
@@ -765,6 +792,16 @@ module.exports = function (db, sequelize, DataTypes) {
         return result;
       },
 
+      includePoll:  function (userId) {
+        return {
+          include: [{
+            model: db.Poll.scope([ 'defaultScope', 'withIdea', { method: ['withVotes', 'poll', userId]}, { method: ['withUserVote', 'poll', userId]} ]),
+          as: 'poll',
+          required: false,
+        }]
+        }
+      },
+
       // vergelijk getRunning()
       sort: function (sort) {
 
@@ -908,13 +945,6 @@ module.exports = function (db, sequelize, DataTypes) {
           ]
         };
       },
-      withPoll: {
-        include: [{
-          model: db.Poll,
-          attributes: ['id', 'title', 'description'],
-          required: false
-        }]
-      },
       withAgenda: {
         include: [{
           model: db.AgendaItem,
@@ -938,6 +968,7 @@ module.exports = function (db, sequelize, DataTypes) {
     this.hasMany(models.Argument, {as: 'argumentsFor'});
     this.hasMany(models.Image);
     // this.hasOne(models.Image, {as: 'posterImage'});
+    this.hasOne(models.Poll, {as: 'poll', foreignKey: 'ideaId', });
     this.hasMany(models.Image, {as: 'posterImage'});
     this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId'});
     this.belongsTo(models.Site);
@@ -1247,15 +1278,26 @@ module.exports = function (db, sequelize, DataTypes) {
     createableBy: 'member',
     updateableBy: ['admin','editor','owner', 'moderator'],
     deleteableBy: ['admin','editor','owner', 'moderator'],
+    canView: function(user, self) {
+      if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
+        return userHasRole(user, self.viewableByRole, self.userId)
+      } else {
+        return true
+      }
+    },
     canVote: function(user, self) {
       // TODO: dit wordt niet gebruikt omdat de logica helemaal in de route zit. Maar hier zou dus netter zijn.
       return false
     },
     canUpdate: canMutate,
     canDelete: canMutate,
-    toAuthorizedJSON: function(user, data) {
-      //console.log('data', data)
+    canAddPoll: canMutate,
+    toAuthorizedJSON: function(user, data, self) {
 
+      if (!self.auth.canView(user, self)) {
+        return {};
+      }
+      
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;
@@ -1274,6 +1316,12 @@ module.exports = function (db, sequelize, DataTypes) {
       data.user.isAdmin = userHasRole(user, 'editor');
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      data.can = {};
+      // if ( self.can('vote', user) ) data.can.vote = true;
+      if ( self.can('update', user) ) data.can.edit = true;
+      if ( self.can('delete', user) ) data.can.delete = true;
+      return data;
 
       return data;
     },

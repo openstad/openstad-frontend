@@ -15,7 +15,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', 'includeArgsCount'];
+		req.scope = ['api', 'includeArgsCount', { method: ['onlyVisible', req.user.role]}];
 
 		req.scope.push('includeSite');
 
@@ -51,6 +51,10 @@ router
 
 		if (req.query.includeTags) {
 			req.scope.push('includeTags');
+		}
+
+		if (req.query.includePoll) {
+			req.scope.push({ method: ['includePoll', req.user.id]});
 		}
 
 		if (req.query.tags) {
@@ -98,7 +102,6 @@ router.route('/')
 // list ideas
 // ----------
 	.get(auth.can('Idea', 'list'))
-	.get(auth.useReqUser)
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
@@ -110,12 +113,18 @@ router.route('/')
 			.scope(...req.scope)
 			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(function( result ) {
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          result.rows.forEach((idea) => {
+            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
+          });
+        }
         req.results = result.rows;
         req.pagination.count = result.count;
         return next();
 			})
 			.catch(next);
 	})
+	.get(auth.useReqUser)
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
@@ -226,7 +235,9 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
-
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          if (found.poll) found.poll.countVotes(!req.query.withVotes);
+        }
 				req.idea = found;
 		    req.results = req.idea;
 				next();
@@ -278,11 +289,7 @@ router.route('/:ideaId(\\d+)')
       if (data.modBreak) {
         data.modBreakUserId = req.body.modBreakUserId = req.user.id;
         data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
-      }
+      } 
     }
 
 		console.log('ideaa data', data)
@@ -317,6 +324,9 @@ router.route('/:ideaId(\\d+)')
 			    })
 			    .then(found => {
 				    if ( !found ) throw new Error('Idea not found');
+            if (req.query.includePoll) { // TODO: naar poll hooks
+              if (found.poll) found.poll.countVotes(!req.query.withVotes);
+            }
 				    req.results = found;
             next();
 			    })

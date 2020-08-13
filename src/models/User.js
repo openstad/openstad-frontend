@@ -144,6 +144,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		firstName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('firstName', sanitize.noTags(value));
@@ -152,6 +158,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		lastName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('lastName', sanitize.noTags(value));
@@ -160,6 +172,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		phoneNumber: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('phoneNumber', sanitize.noTags(value));
@@ -168,6 +186,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		streetName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('streetName', sanitize.noTags(value));
@@ -419,7 +443,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	User.prototype.completeRegistration = function( data ) {
 		var self = this;
 		var filtered = pick(data, [
-			'firstName', 'lastName', 'zipCode', 'gender', 'password', 'signedUpForNewsletter'
+			'firstName', 'lastName', 'zipCode', 'postcode', 'gender', 'password', 'signedUpForNewsletter'
 		]);
 		filtered.complete = true;
 		if (self.role === 'anonymous') {
