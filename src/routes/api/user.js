@@ -8,6 +8,8 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
+const {Op} = require('sequelize');
+
 
 const router = express.Router({mergeParams: true});
 
@@ -181,7 +183,15 @@ router.route('/:userId(\\d+)')
 				 //
 				 db.User
 				  .scope(['includeSite'])
-				  .findAll({where : { externalUserId: json.id }})
+				  .findAll({where : {
+						externalUserId: json.id,
+						// old users have no siteId, this will break the update
+						// skip them
+						// probably should clean up these users
+						siteId: {
+					    [Op.not]: 0
+					  }
+					}})
 				  .then(function( users ) {
 				     const actions = [];
 
