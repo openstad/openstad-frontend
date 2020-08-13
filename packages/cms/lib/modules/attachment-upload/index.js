@@ -31,7 +31,7 @@ module.exports = {
                 };
                 console.log('Create file', file.originalname);
                 fs.writeFile(path, file.buffer, err => {
-                  err ? reject() : resolve()
+                  err ? reject(err) : resolve()
                 });
               });
             })
@@ -42,10 +42,16 @@ module.exports = {
         Promise
           .all(promises)
           .then(result => {
+            // Todo: create consistent and better api success response
             res.json({res: 'ok'})
           })
-          .catch(next)
-        
+          .catch(error => {
+            console.error(error);
+            res.status(500);
+            // Todo: create consistent and better api error response
+            res.json({res: 'error'});
+          })
+
       });
   }
 }
