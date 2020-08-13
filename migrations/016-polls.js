@@ -4,13 +4,16 @@ module.exports = {
 	up: function() {
 		try {
 			return db.query("SET AUTOCOMMIT = 0; START TRANSACTION;\
+        DROP TABLE IF EXISTS `poll_options`;\
+        DROP TABLE IF EXISTS `poll_votes`;\
+        DROP TABLE IF EXISTS `polls`;\
         CREATE TABLE `polls` (\
           `id` int(11) NOT NULL,\
           `ideaId` int(11) NOT NULL,\
           `userId` int(11) NOT NULL DEFAULT 0,\
           `status` enum('OPEN','CLOSED') NOT NULL DEFAULT 'OPEN',\
           `question` varchar(255) NOT NULL,\
-          `options` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,\
+          `choices` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,\
           `createdAt` datetime NOT NULL,\
           `updatedAt` datetime NOT NULL,\
           `deletedAt` datetime DEFAULT NULL\
@@ -21,7 +24,7 @@ module.exports = {
           `pollId` int(11) NOT NULL,\
           `userId` int(11) NOT NULL DEFAULT 0,\
           `ip` varchar(64) DEFAULT NULL,\
-          `opinion` varchar(255) NOT NULL,\
+          `choice` varchar(255) NOT NULL,\
           `createdAt` datetime NOT NULL,\
           `updatedAt` datetime NOT NULL,\
           `deletedAt` datetime DEFAULT NULL\
