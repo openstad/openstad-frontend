@@ -177,7 +177,8 @@ router
 			siteId: req.site.id,
 			zipCode: req.userData.postcode,
 			lastName: req.userData.lastName,
-			role: req.userData.role || ( req.userData.email ? 'member' : 'anonymous' ),
+			// xxx
+			role: req.userData.role || ( ( req.userData.email || req.userData.phoneNumber || req.userData.hashedPhoneNumber ) ? 'member' : 'anonymous' ),
 		}
 
 		// if user has same siteId and userId
@@ -307,10 +308,10 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
-
-		res.json({
+		const data = {
 			"id": req.user.id,
 			"complete": req.user.complete,
+			"externalUserId": req.user.role == 'admin' ? req.user.externalUserId : null,
 			"role": req.user.role,
 			"email": req.user.email,
 			"firstName": req.user.firstName,
@@ -319,12 +320,23 @@ router
 			"nickName": req.user.nickName,
 			"initials": req.user.initials,
 			"gender": req.user.gender,
+			"extraData": req.user.extraData ?  req.user.extraData : {},
+			"phoneNumber": req.user.phoneNumber,
+			"streetName": req.user.streetName,
+			"city": req.user.city,
+			"houseNumber": req.user.houseNumber,
+			"suffix": req.user.suffix,
+			"postcode": req.user.postcode,
 			"zipCode": req.user.zipCode,
 			"signedUpForNewsletter": req.user.signedUpForNewsletter,
 			"createdAt": req.user.createdAt,
 			"updatedAt": req.user.updatedAt,
 			"deletedAt": req.user.deletedAt,
-		})
+		};
+
+	//console.log('data', data);
+
+		res.json(data);
 	})
 
 module.exports = router;

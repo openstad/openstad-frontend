@@ -15,7 +15,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', 'includeArgsCount'];
+		req.scope = ['api', 'includeArgsCount', { method: ['onlyVisible', req.user.role]}];
 
 		req.scope.push('includeSite');
 
@@ -51,6 +51,10 @@ router
 
 		if (req.query.includeTags) {
 			req.scope.push('includeTags');
+		}
+
+		if (req.query.includePoll) {
+			req.scope.push({ method: ['includePoll', req.user.id]});
 		}
 
 		if (req.query.tags) {
@@ -98,7 +102,6 @@ router.route('/')
 // list ideas
 // ----------
 	.get(auth.can('Idea', 'list'))
-	.get(auth.useReqUser)
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
@@ -110,12 +113,18 @@ router.route('/')
 			.scope(...req.scope)
 			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(function( result ) {
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          result.rows.forEach((idea) => {
+            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
+          });
+        }
         req.results = result.rows;
         req.pagination.count = result.count;
         return next();
 			})
 			.catch(next);
 	})
+	.get(auth.useReqUser)
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
@@ -135,6 +144,14 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 
+    try {
+      req.body.location = req.body.location ? JSON.parse(req.body.location) : null;
+    } catch(err) {}
+
+    if (req.body.location && typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) {
+			 req.body.location = null;
+		}
+
 		const data = {
       ...req.body,
 			siteId      : req.params.siteId,
@@ -142,29 +159,20 @@ router.route('/')
 		  startDate:  new Date(),
 		}
 
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
-      }
-    }
-
-		try {
-			data.location = JSON.parse(data.location && Object.keys(data.location) > 0 ? data.location : null);
-		} catch(err) {}
-
     let responseData;
 		db.Idea
-			.authorizeData(data, 'create', req.user)
+			.authorizeData(data, 'create', req.user, null, req.site)
 			.create(data)
 			.then(ideaInstance => {
-				req.results = ideaInstance;
-        return next();
+
+		    db.Idea
+			    .scope(...req.scope)
+					.findByPk(ideaInstance.id)
+          .then(result => {
+            req.results = result;
+            return next();
+          })
+
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -175,7 +183,9 @@ router.route('/')
 						// TODO: we zitten op een nieuwe versie van seq; vermoedelijk kan dit nu wel
 						errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 					});
-					res.status(422).json(errors);
+				//	res.status(422).json(errors);
+
+					next(createError(422, errors.join(', ') ));
 				} else {
 					next(error);
 				}
@@ -224,7 +234,9 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
-
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          if (found.poll) found.poll.countVotes(!req.query.withVotes);
+        }
 				req.idea = found;
 		    req.results = req.idea;
 				next();
@@ -255,21 +267,22 @@ router.route('/:ideaId(\\d+)')
     var idea = req.results;
     if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
 
+    if (req.body.location) {
+      try {
+        req.body.location = JSON.parse(req.body.location || null);
+      } catch(err) {}
+
+      if (req.body.location &&  typeof req.body.location == 'object' && !Object.keys(req.body.location).length) {
+				req.body.location = undefined;
+			}
+    } else {
+      req.body.location = JSON.parse(null);
+    }
+
 		let data = {
       ...req.body,
 		}
 
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
-      }
-    }
 
 		idea
 			.authorizeData(data, 'update')
@@ -301,6 +314,9 @@ router.route('/:ideaId(\\d+)')
 			    })
 			    .then(found => {
 				    if ( !found ) throw new Error('Idea not found');
+            if (req.query.includePoll) { // TODO: naar poll hooks
+              if (found.poll) found.poll.countVotes(!req.query.withVotes);
+            }
 				    req.results = found;
             next();
 			    })

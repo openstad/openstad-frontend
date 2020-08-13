@@ -11,6 +11,7 @@ var notifications = require('../notifications');
 
 const merge = require('merge');
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
@@ -166,70 +167,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
-		extraData: {
-			type				 : DataTypes.JSON,
-			allowNull		 : false,
-			defaultValue : '{}',
-			get					 : function() {
-				let value = this.getDataValue('extraData');
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
-				return value;
-			},
-			set: function(value) {
-
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
-
-				let oldValue = this.getDataValue('extraData');
-				try {
-					if (typeof oldValue == 'string') {
-						oldValue = JSON.parse(oldValue) || {};
-					}
-				} catch(err) {}
-
-        function fillValue(old, val) {
-          old = old || {};
-				  Object.keys(old).forEach((key) => {
-            if ( val[key] && typeof val[key] == 'object' ) {
-              return fillValue(old[key], val[key]);
-            }
-            if ( val[key] === null ) {
-              // send null to delete fields
-              delete val[key];
-            } else if (typeof val[key] == 'undefined') {
-              // not defined in put data; use old val
-						  val[key] = old[key];
-					  }
-				  });
-        }
-        fillValue(oldValue, value);
-
-				this.setDataValue('extraData', JSON.stringify(value));
-      },
-      auth: {
-        authorizeData: function(self, action, user, data) {
-          if (!self.site) return; // todo: die kun je ophalen als eea. async is
-          data = data || self.extraData;
-          let result = {};
-          Object.keys(data).forEach((key) => {
-            let testRole = self.site.config && self.site.config.ideas && self.site.config.ideas.extraData[key] && self.site.config.ideas.extraData[key].auth && self.site.config.ideas.extraData[key].auth[action+'ableBy'];
-            testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
-            if (userHasRole(user, testRole, self.userId)) {
-              result[key] = data[key];
-            }
-          });
-          console.log(result);
-          return result;
-        },
-			}
-		},
+    extraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
 
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
@@ -325,11 +263,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			validDeadline: function() {
 				if( this.endDate - this.startDate < 43200000 ) {
 					throw Error('An article must run at least 1 day');
-				}
-			},
-			validModBreak: function() {
-				if( this.modBreak && (!this.modBreakUserId || !this.modBreakDate) ) {
-					throw Error('Incomplete mod break');
 				}
 			},
 			validExtraData: function(next) {

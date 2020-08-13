@@ -1,8 +1,9 @@
 const hasRole = require('../lib/hasRole');
 
-module.exports = function authorizeData(data, action, user) {
+module.exports = function authorizeData(data, action, user, self, site) {
 
-  let self = this;
+  self = self || this;
+  site = site || self.site;
 
   try {
 
@@ -10,8 +11,9 @@ module.exports = function authorizeData(data, action, user) {
     if (!user) user = self.auth && self.auth.user;
     if (!user || !user.role) user = { role: 'all' };
 
+
     // TODO: dit is een check op jezelf, nu kan de argument:view check uit de routes
-    if (!self.can(action, user))  throw 'empty';
+    if (!self.can(action, user))  throw 'cannot';
 
     let keys = Object.keys( data );
 
@@ -21,7 +23,7 @@ module.exports = function authorizeData(data, action, user) {
       let testRole;
       if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
         if (self.rawAttributes[key].auth.authorizeData) {
-          data[key] = self.rawAttributes[key].auth.authorizeData(self, action, user, data[key]);
+          data[key] = self.rawAttributes[key].auth.authorizeData(data[key], action, user, self, site);
         } else {
           testRole = self.rawAttributes[key].auth[action+'ableBy'];
         }

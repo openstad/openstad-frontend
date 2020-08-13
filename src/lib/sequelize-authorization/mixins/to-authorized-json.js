@@ -11,10 +11,7 @@ module.exports = function toAuthorizedJSON(user) {
 
   if (!self.can('view', user)) return {};
 
-  // console.log('--------------------');
-  // console.log(user);
-
-  let keys = Object.keys( self.dataValues );
+  let keys = self._options.attributes || Object.keys( self.dataValues );
   keys = keys.concat( Object.keys(self).filter( key => key != 'dataValues' && !key.match(/^_/) ) );
 
   let result = {};
@@ -56,7 +53,7 @@ module.exports = function toAuthorizedJSON(user) {
     let testRole;
     if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
       if (self.rawAttributes[key].auth.authorizeData) {
-        return self.rawAttributes[key].auth.authorizeData(self, 'view', user);
+        return self.rawAttributes[key].auth.authorizeData(null, 'view', user, self, self.site);
       } else {
         testRole = self.rawAttributes[key].auth.viewableBy;
       }
@@ -69,3 +66,4 @@ module.exports = function toAuthorizedJSON(user) {
   }
 
 }
+

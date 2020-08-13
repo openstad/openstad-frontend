@@ -8,6 +8,8 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
+const {Op} = require('sequelize');
+
 
 const router = express.Router({mergeParams: true});
 
@@ -133,14 +135,14 @@ router.route('/:userId(\\d+)')
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
     let data = {}
 
-	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData'];
 	  keys.forEach((key) => {
 		  if (req.body[key]) {
 			  data[key] = req.body[key];
 		  }
 	  });
 
-		const userId = parseInt(req.params.userId) || 1;
+		const userId = parseInt(req.params.userId, 10);
 
 		/**
 		 * Update the user API first
@@ -165,6 +167,7 @@ router.route('/:userId(\\d+)')
 			 body: JSON.stringify(Object.assign(apiCredentials, data))
 		 }
 
+
 		 fetch(authUpdateUrl, options)
 			 .then((response) => {
 					 if (response.ok) {
@@ -175,12 +178,49 @@ router.route('/:userId(\\d+)')
 				})
 			 .then((json) => {
 				 //update values from API
-				 return db.User
-			     .authorizeData(data, 'update')
-           .update(data, {where : { externalUserId: json.id }});
+				 //
+				 db.User
+				  .scope(['includeSite'])
+				  .findAll({where : {
+						externalUserId: json.id,
+						// old users have no siteId, this will break the update
+						// skip them
+						// probably should clean up these users
+						siteId: {
+					    [Op.not]: 0
+					  }
+					}})
+				  .then(function( users ) {
+				     const actions = [];
+
+				     if (users) {
+				       users.forEach((user) => {
+				         actions.push(function() {
+									 return new Promise((resolve, reject) => {
+				           user
+				            .authorizeData(data, 'update', req.user)
+				            .update(data)
+				            .then((result) => {
+				              resolve();
+				            })
+				            .catch((err) => {
+											console.log('err', err)
+				              reject(err);
+				            })
+									})}())
+				       });
+				     }
+
+				     return Promise.all(actions)
+				        .then(() => { next(); })
+				        .catch(next)
+
+				  })
+				  .catch(next);
 			  })
 				.then( (result) => {
 					return db.User
+						.scope(['includeSite'])
 						.findOne({
 					 			where: { id: userId, siteId: req.params.siteId }
 								//where: { id: parseInt(req.params.userId) }

@@ -21,6 +21,9 @@ router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 // articles
 router.use( '/site/:siteId(\\d+)/article', require('./article') );
 
+// polls
+router.use( '/site/:siteId(\\d+)(/idea/:ideaId(\\d+))?/poll', require('./poll') );
+
 // tags
 router.use( '/site/:siteId(\\d+)/tag', require('./tag') );
 
@@ -46,6 +49,8 @@ router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 router.use( '/site/:siteId(\\d+)/area', require('./area') );
 router.use( '/area', require('./area') );
 
+router.use( '/repo', require('./externalSite') );
+
 // output error as JSON only use this error handler middleware in "/api" based routes
 router.use("/site", function(err, req, res, next){
   console.log('->>> err', err);
@@ -54,6 +59,7 @@ router.use("/site", function(err, req, res, next){
 
   // send back json data
   res.send({
+    error:  err.message,
     message: err.message
   })
 });

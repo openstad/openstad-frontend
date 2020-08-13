@@ -48,12 +48,15 @@ router.route('/')
 		db.Site
 			.create(req.body)
 			.then(result => {
-				req.result = result;
-				//checkHostStatus({id: result.id});
-				return req.result;
+				req.results = result;
+				return checkHostStatus({id: result.id});
 			})
-			.then(res.json(req.result))
+      .then(next)
 	})
+	.post(auth.useReqUser)
+	.post(function(req, res, next) {
+    res.json(req.results)
+  })
 
 // one site routes: get site
 // -------------------------

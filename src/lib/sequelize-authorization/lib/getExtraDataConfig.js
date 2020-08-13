@@ -4,7 +4,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
   return {
     type: dataTypeJSON,
     allowNull: false,
-    defaultValue: '{}',
+    defaultValue: {},
     get: function () {
       let value =  this.getDataValue('extraData');
       try {
@@ -13,10 +13,10 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
         }
       } catch (err) {
       }
+
       return value;
     },
     set: function (value) {
-
       try {
         if (typeof value == 'string') {
           value = JSON.parse(value);
@@ -50,25 +50,31 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
 
       fillValue(oldValue, value);
 
-      this.setDataValue('extraData', JSON.stringify(value));
+      this.setDataValue('extraData', value);
     },
     auth: {
-      authorizeData: function(self, action, user, data) {
-        if (!self.site) return; // todo: die kun je ophalen als eea. async is
+      authorizeData: function(data, action, user, self, site) {
+        console.log('aut extra data');
+        if (!site) return; // todo: die kun je ophalen als eea. async is
+        console.log('site defined');
+        console.log(site.config);
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
         let result = {};
 
         if (data) {
           Object.keys(data).forEach((key) => {
-            let testRole = self.site.config && self.site.config[siteConfigKey] && self.site.config[siteConfigKey].extraData && self.site.config[siteConfigKey].extraData[key] && self.site.config[siteConfigKey].extraData[key].auth && self.site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
+
+            let testRole = site.config && site.config[siteConfigKey] && site.config[siteConfigKey].extraData && site.config[siteConfigKey].extraData[key] && site.config[siteConfigKey].extraData[key].auth && site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
             testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+
+
             if (userHasRole(user, testRole, self.userId)) {
               result[key] = data[key];
             }
           });
         }
-        
+
         return result;
       },
     }
