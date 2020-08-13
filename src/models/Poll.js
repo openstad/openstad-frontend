@@ -72,7 +72,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         this.setDataValue('choices', JSON.stringify(sanatized));
       },
       auth: {
-        authorizeData: function(self, action, user, data) {
+        authorizeData: function(data, action, user, self, site) {
           // todo
           data = data || self.choices;
           return data;
