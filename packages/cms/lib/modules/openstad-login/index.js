@@ -40,8 +40,6 @@ module.exports = {
 
 
       self.apos.users.find(req, { username: email }).permission(false).toObject(function(err, aposUser) {
-        //console.log('aposUser', aposUser);
-
           if (err) {
             return callback();
           }
@@ -49,6 +47,7 @@ module.exports = {
           ///Call `self.apos.tasks.getReq()` to get a `req` object with
           // unlimited admin permissions.
           var taskReq = self.apos.tasks.getReq();
+
           self.apos.groups.find(taskReq, { title: groupName }).toObject().then(function(group) {
               if (err) {
                 return callback(err);
@@ -72,11 +71,12 @@ module.exports = {
                    firstName: firstName,
                    lastName: lastName,
                    email: email,
-                   groupIds: [ group._id ]
-
+                   groupIds: [ group._id ],
                  };
 
-                 //console.log('userData', userData )
+                 if (aposUser) {
+                   userData._id = aposUser._id;
+                 }
 
                  const insertOrUpdate = aposUser ? self.apos.users.update : self.apos.users.insert;
 
@@ -84,7 +84,6 @@ module.exports = {
                  // one downside, if the user's admin or editor rights are revoked,
                  // this will only go into effect after logging out
                  insertOrUpdate(taskReq, userData, {}, (err, userObject) => {
-                   //console.log('err', err);
 
                    // after update or insert refetch the user to ensure we have a valid user
                    self.apos.users.find(req, { username: email }).permission(false).toObject(function(err, aposUser) {

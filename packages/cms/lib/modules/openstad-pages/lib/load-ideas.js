@@ -34,12 +34,8 @@ module.exports =  function (req, res, next) {
   /**
    * Fetch all ideas connected to the sites
    */
-  console.log('fetch ideas for ', globalData.siteId)
   if (globalData.siteId) {
     let ideas;
-
-
-    console.log('globalData.cacheIdeas', globalData.cacheIdeas)
 
     // if cacheIdeas is turned on, get ideas from cache
     if (globalData.cacheIdeas) {
@@ -49,8 +45,6 @@ module.exports =  function (req, res, next) {
 
     // if cacheIdeas is turned on, get ideas from cache
     if (ideas && ideas.length > 0) {
-      console.log('get ideas from cache')
-
       req.data.ideas = ideas;
       req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
       next();
