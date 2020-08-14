@@ -67,15 +67,6 @@ module.exports = {
       required: false,
     },
 
-    // doet ie nog niets mee maar zou wel een keer moeten
-		// {
-		//   name: 'typeField',
-		//   type: 'string',
-		//   label: 'Veld voor type inzending',
-    //   def: 'extraData.theme',
-		//   required: false
-		// },
-
 		{
 			name: 'mapVariant',
 			type: 'select',
@@ -130,6 +121,13 @@ module.exports = {
       type: 'integer',
       label: 'Gevoeligheid van clusering',
 			def: 40
+		},
+		{
+			name: 'typeField',
+			type: 'string',
+			label: 'Veld voor type inzending',
+			def: 'extraData.theme',
+			required: false
 		},
 
 		{
@@ -307,7 +305,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius', ]
+        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius' ]
       },
       {
         name: 'content',
@@ -341,10 +339,12 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
-      let types;
+
+      let ideaTypes = req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.types != 'undefined' ? req.data.global.siteConfig.ideas.types : undefined;
+      let themeTypes;
       try {
-        types = req.data.global.themes || [];
-        types = types.map(type => { return {
+        themeTypes = req.data.global.themes || [];
+        themeTypes = themeTypes.map(type => { return {
           name: type.value,
           color: type.color,
           mapicon: JSON.parse(type.mapicon),
@@ -353,6 +353,7 @@ module.exports = {
       } catch (err) {
       }
 
+      
 			widgets.forEach((widget) => {
 
         let contentConfig = {
@@ -375,14 +376,16 @@ module.exports = {
             headers: req.session.jwt ? { 'X-Authorization': 'Bearer ' + req.session.jwt } : [],
             isUserLoggedIn: req.data.loggedIn,
           },
-          content: contentConfig,
           user: {
             role:  req.data.openstadUser && req.data.openstadUser.role,
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
-          types,
+          content: contentConfig,
+          typeField: widget.typeField,
+          types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
 			    idea: {
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
+            showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
             canAddNewIdeas: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? req.data.global.siteConfig.ideas.canAddNewIdeas : true,
 				    titleMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.titleMinLength ) || 30,
 				    titleMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.titleMaxLength ) || 200,
@@ -397,6 +400,7 @@ module.exports = {
             },
             fields: widget.formFields,
 			    },
+			    poll: req.data.global.siteConfig && req.data.global.siteConfig.polls,
 			    argument: {
             isActive: widget.showReactions,
             isClosed: req.data.global.siteConfig && req.data.global.siteConfig.arguments && typeof req.data.global.siteConfig.arguments.isClosed != 'undefined' ? req.data.global.siteConfig.arguments.isClosed : false,
