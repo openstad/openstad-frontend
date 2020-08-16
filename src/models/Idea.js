@@ -129,8 +129,9 @@ module.exports = function (db, sequelize, DataTypes) {
           if (!site) return; // todo: die kun je ophalen als eea. async is
           let value = data || self.typeId;
           let config = site.config.ideas.types;
-          if (!config || !Array.isArray(config)) return null; // no config; this field is not used
+          if (!config || !Array.isArray(config) || config[0] || config[0].id) return null; // no config; this field is not used
           let defaultValue = config[0].id;
+          
           let valueConfig = config.find( type => type.id == value );
           if (!valueConfig) return self.typeId || defaultValue; // non-existing value; fallback to the current value
           let requiredRole = self.rawAttributes.typeId.auth[action+'ableBy'] || 'all';
@@ -584,7 +585,7 @@ module.exports = function (db, sequelize, DataTypes) {
           )
         };
       },
-      
+
       // defaults
       default: {
         include: [{
@@ -1320,7 +1321,7 @@ module.exports = function (db, sequelize, DataTypes) {
       if (!self.auth.canView(user, self)) {
         return {};
       }
-      
+
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
 			      result.yes = result.extraData.archivedYes;
