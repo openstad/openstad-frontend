@@ -1,4 +1,4 @@
-{% if data.page.resource !== 'idea'  %}
+{% if data.page.resource !== 'idea' and data.hasModeratorRights  %}
 <br />
   <div class="alert alert-warning">
     {{ __('Warning to adminstrator: this template will only work properly with idea resource') }}
