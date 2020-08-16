@@ -13,6 +13,8 @@ $(function() {
   initDataTables();
   initTrashPageWarning();
   initAjaxRefresh();
+  initFormSubmit();
+
 });
 
 function initLogoutMijnOpenstad() {
@@ -289,7 +291,7 @@ function openstadSetStorage(name, value) {
 
 
 function initRoleRequired() {
-  var userRole = openstadUserRole;
+  var userRole = openstadUserRole ? openstadUserRole : false;
 //  hasModeratorRights;
 
   $(".role-required-anonymous").on('click', function (ev) {
@@ -492,4 +494,12 @@ function ajaxRefresh (resetHash) {
       window.location.hash = hash;
     }
   });
+}
+
+function initFormSubmit () {
+ var $formToSubmit = $('#form-to-submit');
+
+ if ($formToSubmit.length > 0) {
+   $formToSubmit.submit();
+ }
 }

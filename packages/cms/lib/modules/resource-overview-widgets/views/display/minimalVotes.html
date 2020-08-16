@@ -62,7 +62,7 @@
                 <input type="hidden" value="yes" name="opinion" />
 
                 <button
-                  data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
                   class="count yes role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
                 >
@@ -82,7 +82,7 @@
                 <input type="hidden" value="no" name="opinion" />
 
                 <button
-                  data-return-to="/like?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
                   class="count no role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
                 >

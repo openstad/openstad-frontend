@@ -11,8 +11,7 @@
         idea-status-{{idea.status}}
       "
       data-modal-text="Log in om te klappen."
-      data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=yes"
-      data-return-to="{{data.currentPathname}}?voteOpinion=yes"
+      data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
       type="submit" name="opinion" value="yes"
     >
       {% if idea.userVote.opinion == 'yes' %}
