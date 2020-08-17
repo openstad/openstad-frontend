@@ -14,7 +14,6 @@ $(function() {
   initTrashPageWarning();
   initAjaxRefresh();
   initFormSubmit();
-
 });
 
 function initLogoutMijnOpenstad() {
@@ -153,6 +152,7 @@ function initAjaxForms ($e) {
     ev.preventDefault();
     var $form = $(this);
     var redirectUrl = $(this).find('.redirect-url').val();
+    var redirectErrorUrl = $(this).find('.redirect-error-url').val();
     var $submitButtons = $form.find('input[type="submit"], button[type="submit"]');
     $submitButtons.attr('disabled', true);
 
@@ -166,29 +166,35 @@ function initAjaxForms ($e) {
          if ($form.hasClass('ajax-refresh-after-submit')) {
            ajaxRefresh();
          } else if (redirectUrl) {
-           window.location.replace(redirectUrl);
+           var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
+           window.location.href = redirectUrl + separator + 'n=' + new Date().getTime();
          } else {
            window.location.hash = "";
            window.location.reload();
          }
-
-      //   $submitButtons.attr('disabled', false);
-
        },
        error:function(response) {
-         response = response ? JSON.parse(response) : {};
-         var message = response.responseJSON && response.responseJSON.message ? response.responseJSON.message : false;
-         var errorMessage = response.responseJSON && response.responseJSON.error && response.responseJSON.error.message ? response.responseJSON.error.message : false;
+          console.log('response', response)
+           var message, errorMessage;
 
-         $submitButtons.attr('disabled', false);
+           response = response && response.responseJSON ? response :  JSON.parse(response);
 
-         if (message) {
-           alert('Er gaat iets mis: ' + message);
-         }
+           message = response.responseJSON && response.responseJSON.message ? response.responseJSON.message : false;
+           errorMessage = response.responseJSON && response.responseJSON.error && response.responseJSON.error.message ? response.responseJSON.error.message : false;
 
-         if (errorMessage) {
-           alert('Er gaat iets mis: ' + errorMessage);
-         }
+           $submitButtons.attr('disabled', false);
+
+           if (message) {
+             alert('Er gaat iets mis: ' + message);
+           }
+
+           if (errorMessage) {
+             alert('Er gaat iets mis: ' + errorMessage);
+           }
+
+           if (redirectErrorUrl) {
+             window.location.replace(redirectErrorUrl);
+           }
        },
      }).done(function (response) {
        //console.log('donenonoene', response);
