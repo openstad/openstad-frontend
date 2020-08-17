@@ -73,29 +73,6 @@ module.exports = {
         });
     });
 
-
-
-   self.apos.app.get('/like', (req, res, next) => {
-     if (
-       req.data.global.siteConfig && req.data.global.siteConfig.votes
-       && req.data.global.siteConfig.votes.voteType !== 'likes'
-     ) {
-       throw Error('GET Route only allowed for vote type like');
-     }
-
-
-
-     req.body.votes = [{
-       ideaId: req.query.ideaId,
-       opinion: req.query.opinion ? req.query.opinion : 'yes',
-     }];
-
-     req.redirectUrl = req.query.redirectUrl ? req.query.redirectUrl : '/' + req.data.global.ideaSlug + '/' + req.query.ideaId;
-
-     postVote(req, res, next);
-   });
-
-
   self.apos.app.get('/like', (req, res, next) => {
     if (
       req.data.global.siteConfig && req.data.global.siteConfig.votes
