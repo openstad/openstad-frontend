@@ -2,13 +2,13 @@ apos.define('resource-representation-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
         self.play = function($widget, data, options) {
-
             initResourceVoteForms($widget);
 
-            var map = self.createMap(data.mapConfig);
-
-            self.addPolygon(data.mapConfig);
-            self.setIdeaMarker(data.mapConfig);
+            var mapConfig = resourceMapConfig && resourceMapConfig ? resourceMapConfig : {};
+            var map = self.createMap(mapConfig);
+            
+            self.addPolygon(mapConfig);
+            self.setIdeaMarker(mapConfig);
         }
     }
 });
