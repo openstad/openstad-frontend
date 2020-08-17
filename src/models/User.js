@@ -146,7 +146,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(64),
 			auth: {
 				listableBy: ['editor','owner'],
-				viewableBy: ['editor','owner'],
+        viewableBy: 'all',
 				createableBy: ['editor','owner'],
 				updateableBy: ['editor','owner'],
 			},
@@ -160,7 +160,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.STRING(64),
 			auth: {
 				listableBy: ['editor','owner'],
-				viewableBy: ['editor','owner'],
+        viewableBy: 'all',
 				createableBy: ['editor','owner'],
 				updateableBy: ['editor','owner'],
 			},
