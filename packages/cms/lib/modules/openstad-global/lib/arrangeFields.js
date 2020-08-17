@@ -55,6 +55,11 @@ module.exports = [
         label: 'Vimeo',
         fields: ['vimeoClientId', 'vimeoClientSecret', 'vimeoAcccesToken', 'vimeoEmbedSettings', 'vimeoViewSettings']
     },
+    {
+        name: 'themes-areas',
+        label: 'Themes & areas',
+        fields: ['themes', 'areas']
+    },
 
     // this is a bit of a hack. We hide the section link with CSS
     // We're adding formattedFields that get formatted after save, meant for syncing to site siteConfig
