@@ -49,7 +49,7 @@ module.exports = function getSessionUser( req, res, next ) {
 
 		if (tokens) {
 			tokens.forEach((token) => {
-				if ( token.token == req.headers['x-authorization'] ) {
+				if (token.token === req.headers['x-authorization']) {
 					userId = token.userId;
 					isFixedUser = true;
 				}
