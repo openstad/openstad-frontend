@@ -15,7 +15,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', 'includeArgsCount', { method: ['onlyVisible', req.user.role]}];
+		req.scope = ['api', { method: ['onlyVisible', req.user.role]}];
 
 		req.scope.push('includeSite');
 
@@ -47,6 +47,10 @@ router
 
 		if (req.query.includeArguments) {
 			req.scope.push({ method: ['includeArguments', req.user.id]});
+		}
+
+		if (req.query.includeArgsCount) {
+			req.scope.push('includeArgsCount');
 		}
 
 		if (req.query.includeTags) {
