@@ -368,14 +368,13 @@ module.exports = [
     type: 'string',
     def: '1:1',
   },
-  /*
+
   {
     name: 'gridder_use_field_as_title',
     label: 'Which field should be used as title for an idea',
     type: 'string',
     def: 'title',
   },
-  */
   {
     type: 'checkboxes',
     name: 'selectedSorting',

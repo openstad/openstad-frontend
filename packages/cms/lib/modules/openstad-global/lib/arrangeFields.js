@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemeen',
-        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon']
+        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
     },
     {
         name: 'api',
