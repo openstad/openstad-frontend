@@ -28,8 +28,32 @@ module.exports = {
   openstadApiConfigSync: false,
   playerData: false,
   construct: function(self, options) {
+
+
       if(options.openstadApiConfigSync) {
         require('./lib/syncFields.js')(self, options);
       }
+
+
+      /**
+       *  Filter out options by default
+       *  if you want to add options to playerdata, add them  in constructor of the widget you want to target
+       *  like so self.optionsPlayerData =  ['adminOnly'];
+       */
+      self.filterOptionsForDataAttribute = function(options) {
+        let dataAttributeOptions = {};
+
+        if (self.optionsPlayerData) {
+
+          self.optionsPlayerData.forEach((optionKey) => {
+            dataAttributeOptions[optionKey] = options && options[optionKey] ? options[optionKey] : '';
+          });
+
+          dataAttributeOptions = self.apos.utils.clonePermanent(dataAttributeOptions, true)
+        }
+
+        return dataAttributeOptions;
+      };
+
   }
 }

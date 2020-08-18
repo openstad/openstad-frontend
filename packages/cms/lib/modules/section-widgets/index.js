@@ -8,6 +8,7 @@ module.exports = {
     position: 'bottom-left'
   },
   playerData: false,
+  optionsPlayerData: ['adminOnly'],
   addFields: [
     {
       name: 'backgroundColor',
