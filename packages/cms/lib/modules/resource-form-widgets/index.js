@@ -168,7 +168,8 @@ module.exports = {
                 .setEditorMarker()
                 .setEditorMarkerElement('locationField')
                 .setPolygon(req.data.global.mapPolygons || null)
-                .getConfig()
+                .getConfig();
+
   		});
 
 			superLoad(req, widgets, next);

@@ -13,6 +13,7 @@ $(function() {
   initDataTables();
   initTrashPageWarning();
   initAjaxRefresh();
+  initFormSubmit();
 });
 
 function initLogoutMijnOpenstad() {
@@ -151,6 +152,7 @@ function initAjaxForms ($e) {
     ev.preventDefault();
     var $form = $(this);
     var redirectUrl = $(this).find('.redirect-url').val();
+    var redirectErrorUrl = $(this).find('.redirect-error-url').val();
     var $submitButtons = $form.find('input[type="submit"], button[type="submit"]');
     $submitButtons.attr('disabled', true);
 
@@ -164,29 +166,35 @@ function initAjaxForms ($e) {
          if ($form.hasClass('ajax-refresh-after-submit')) {
            ajaxRefresh();
          } else if (redirectUrl) {
-           window.location.replace(redirectUrl);
+           var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
+           window.location.href = redirectUrl + separator + 'n=' + new Date().getTime();
          } else {
            window.location.hash = "";
            window.location.reload();
          }
-
-      //   $submitButtons.attr('disabled', false);
-
        },
        error:function(response) {
-         response = response ? JSON.parse(response) : {};
-         var message = response.responseJSON && response.responseJSON.message ? response.responseJSON.message : false;
-         var errorMessage = response.responseJSON && response.responseJSON.error && response.responseJSON.error.message ? response.responseJSON.error.message : false;
+          console.log('response', response)
+           var message, errorMessage;
 
-         $submitButtons.attr('disabled', false);
+           response = response && response.responseJSON ? response :  JSON.parse(response);
 
-         if (message) {
-           alert('Er gaat iets mis: ' + message);
-         }
+           message = response.responseJSON && response.responseJSON.message ? response.responseJSON.message : false;
+           errorMessage = response.responseJSON && response.responseJSON.error && response.responseJSON.error.message ? response.responseJSON.error.message : false;
 
-         if (errorMessage) {
-           alert('Er gaat iets mis: ' + errorMessage);
-         }
+           $submitButtons.attr('disabled', false);
+
+           if (message) {
+             alert('Er gaat iets mis: ' + message);
+           }
+
+           if (errorMessage) {
+             alert('Er gaat iets mis: ' + errorMessage);
+           }
+
+           if (redirectErrorUrl) {
+             window.location.replace(redirectErrorUrl);
+           }
        },
      }).done(function (response) {
        //console.log('donenonoene', response);
@@ -289,7 +297,7 @@ function openstadSetStorage(name, value) {
 
 
 function initRoleRequired() {
-  var userRole = openstadUserRole;
+  var userRole = openstadUserRole ? openstadUserRole : false;
 //  hasModeratorRights;
 
   $(".role-required-anonymous").on('click', function (ev) {
@@ -358,7 +366,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   $('body').on('submit', '.ajax-refresh-prevent-submit', function (ev) {
@@ -367,6 +375,8 @@ function initAjaxRefresh () {
 
   $('body').on('click', '.openstad-ajax-refresh-click', function (ev) {
     ev.preventDefault();
+
+    console.log("$(this).attr('data-reset-hash')", $(this).attr('data-reset-hash'));
 
     var params = getQueryParams();
     var refreshName = $(this).attr('data-refresh-name');
@@ -388,7 +398,7 @@ function initAjaxRefresh () {
 
     var newUrl = window.location.pathname + '?'+$.param(params);
 
-    if (window.location.hash) {
+    if ($(this).attr('data-reset-hash') && window.location.hash) {
       newUrl = newUrl + window.location.hash;
     }
 
@@ -396,7 +406,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   $('body').on('change', '.openstad-ajax-refresh-input', function (ev) {
@@ -419,7 +429,7 @@ function initAjaxRefresh () {
 
     var newUrl = window.location.pathname + '?'+$.param(params);
 
-    if (window.location.hash) {
+    if ($(this).attr('data-reset-hash') && window.location.hash) {
       newUrl = newUrl + window.location.hash;
     }
 
@@ -427,7 +437,7 @@ function initAjaxRefresh () {
     updateUrl(newUrl);
 
     //update DOM
-    ajaxRefresh();
+    ajaxRefresh($(this).attr('data-reset-hash'));
   });
 
   function getQueryParams() {
@@ -441,7 +451,7 @@ function initAjaxRefresh () {
 }
 
 
-function ajaxRefresh () {
+function ajaxRefresh (resetHash) {
   $('.openstad-ajax-refresh').addClass('ajax-loading');
 
   $.ajax({
@@ -481,11 +491,21 @@ function ajaxRefresh () {
     // trigger ajax refresh event for  binding to new dom events
     $('body').trigger('openstadAjaxRefresh');
 
+    console.log('resethash', resetHash)
+
     // trigger
-    if (window.location.hash && window.location.hash !== '#closed') {
+    if (resetHash && window.location.hash && window.location.hash !== '#closed') {
       var hash = window.location.hash;
       window.location.hash = '#';
       window.location.hash = hash;
     }
   });
+}
+
+function initFormSubmit () {
+ var $formToSubmit = $('#form-to-submit');
+
+ if ($formToSubmit.length > 0) {
+   $formToSubmit.submit();
+ }
 }

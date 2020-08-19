@@ -33,7 +33,9 @@
 
 {% if data.envStyleSheets %}
 {% for stylesheet in data.envStyleSheets %}
+{% if (stylesheet) %}
 <link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
+{% endif %}
 {% endfor %}
 {% endif %}
 

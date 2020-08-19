@@ -62,7 +62,7 @@ if (fieldsetElement) {
     labelButtonRetryItemProcessing: "Retry",
     labelButtonProcessItem: "Upload"
   }
-  
+
   var pond = FilePond.create(fieldsetElement, filePondSettings);
 
   var sortableInstance;
@@ -185,7 +185,8 @@ $(document).ready(function () {
           success:function(response) {
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
-              window.location.replace(redirect);
+            //  window.location.replace(redirect);
+              window.location.href = redirect;
           },
           error:function(response) {
               // "this" the object you passed
@@ -322,17 +323,17 @@ window.addEventListener('load', function() {
 
     initCharsLeftInfo($inputEl.get(0), $charsLeft.get(0), minChar, maxChar, true);
   })
-  
+
   var $inputsAndSelects = $('#formulier-block input, #formulier-block select');
-  
+
   if ($inputsAndSelects && $inputsAndSelects.length) {
-    
+
     $inputsAndSelects.on('keydown', function (e) {
       if (e.key === "Enter") {
         var $nextGroup = $(this).closest('div').next('div');
-        
+
         e.preventDefault();
-        
+
         if ($nextGroup) {
           $nextGroup.find('input,select,textarea').first().focus();
           return false;
@@ -341,7 +342,7 @@ window.addEventListener('load', function() {
         }
       }
     })
-    
+
   }
 
 });

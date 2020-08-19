@@ -43,13 +43,13 @@ module.exports = {
 
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = styleSchema.generateId();
+          const containerId = widget._id;
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
 
         if (widget.textContainerStyles) {
-          const textContainerId = styleSchema.generateId();
+          const textContainerId = widget._id + '_text';
           widget.textContainerId = textContainerId;
           widget.formattedTextContainerStyles = styleSchema.format(textContainerId, widget.textContainerStyles);
         }

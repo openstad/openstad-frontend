@@ -44,7 +44,7 @@ const contentWidgets = {
     addLabel: 'Idea overiew (deprecated, use resource overview)',
   },
   'idea-single': {
-    adminOnly: true,
+    adminOnly: false,
     hideByDefault: true,
   },
   'ideas-on-map': {

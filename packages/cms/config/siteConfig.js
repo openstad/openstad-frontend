@@ -48,12 +48,19 @@ module.exports = {
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,
-        },
+        }, 
         'apostrophe-express': {
           port: process.env.PORT,
           session: {
             // If this still says `undefined`, set a real secret!
-            secret: process.env.SESSION_SECRET
+            secret: process.env.SESSION_SECRET,
+            cookie: {
+              path: '/',
+              httpOnly: true,
+              secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
+              // Default login lifetime between requests is one day
+              maxAge: 86400000
+            }
           },
           csrf: {
             exceptions: [
@@ -72,8 +79,7 @@ module.exports = {
               //     '/vote',
               //     '/api/**'
             ]
-          },
-
+          }
         },
         'apostrophe-login': {
           localLogin: false

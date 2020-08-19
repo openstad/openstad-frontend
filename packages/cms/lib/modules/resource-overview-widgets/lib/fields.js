@@ -368,14 +368,13 @@ module.exports = [
     type: 'string',
     def: '1:1',
   },
-  /*
+
   {
     name: 'gridder_use_field_as_title',
     label: 'Which field should be used as title for an idea',
     type: 'string',
     def: 'title',
   },
-  */
   {
     type: 'checkboxes',
     name: 'selectedSorting',
@@ -391,7 +390,8 @@ module.exports = [
   {
     type: 'string',
     name: 'filterResources',
-    label: 'Show only following ideas: (idea id\'s, comma seperated)',
+    label: 'Show only following resources: ',
+    help: 'Warning: This currently doesn\'t work with sorting, filters and pagination. So set the pagination limit too highest possible. For multiple resource id\'s, comma seperated'
   },
   {
     type: 'string',
@@ -521,12 +521,6 @@ module.exports = [
   },
   {
     type: 'string',
-    name: 'filterIdeas',
-    label: 'Show only following ideas: (idea id\'s, comma seperated)',
-    help: 'Warning: This currently  doesn\'t work with sorting, filters and pagination. For multiple theme names, comma seperated'
-  },
-  {
-    type: 'string',
     name: 'resultCountText',
     label: 'Text for amount of results',
     help: 'Example: You are seeing <b>[visibleCount]</b> of in total [totalCount] articles'
@@ -540,7 +534,7 @@ module.exports = [
   {
     type: 'boolean',
     name: 'allowVotingInOverview',
-    label: 'Allow for linking on ideas directly in overview',
+    label: 'Allow for liking on ideas directly in overview',
     help: 'Note: voting only works for ideas with OPEN status'
   },
 ].concat(

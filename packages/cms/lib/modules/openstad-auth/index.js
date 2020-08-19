@@ -33,15 +33,15 @@ module.exports = {
         })
           .then(function (votes) {
             req.data.votes = votes;
-            next();
+            return next();
           })
           .catch((e) => {
-            next();
+            return next();
           });
-      } else {
-        next();
-      }
 
+      } else {
+        return next();
+      }
     });
   }
 };

@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemeen',
-        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon']
+        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
     },
     {
         name: 'api',
@@ -54,6 +54,11 @@ module.exports = [
         name: 'vimeo',
         label: 'Vimeo',
         fields: ['vimeoClientId', 'vimeoClientSecret', 'vimeoAcccesToken', 'vimeoEmbedSettings', 'vimeoViewSettings']
+    },
+    {
+        name: 'themes-areas',
+        label: 'Themes & areas',
+        fields: ['themes', 'areas']
     },
 
     // this is a bit of a hack. We hide the section link with CSS

@@ -28,7 +28,7 @@ module.exports = (self, options) => {
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       let returnUrl = protocol + '://' + thisHost;
 
-      if (req.query.returnTo) {
+      if (req.query.returnTo && typeof req.query.returnTo === 'string') {
         //only get the pathname to prevent external redirects
         let pathToReturnTo = Url.parse(req.query.returnTo, true);
         pathToReturnTo = pathToReturnTo.path;
@@ -41,7 +41,7 @@ module.exports = (self, options) => {
       res.redirect(url);
     });
   });
-  
+
 };
 
 

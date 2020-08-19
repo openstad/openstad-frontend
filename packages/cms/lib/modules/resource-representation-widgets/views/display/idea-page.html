@@ -1,4 +1,4 @@
-{% if data.page.resource !== 'idea'  %}
+{% if data.page.resource !== 'idea' and data.hasModeratorRights  %}
 <br />
   <div class="alert alert-warning">
     {{ __('Warning to adminstrator: this template will only work properly with idea resource') }}
@@ -59,7 +59,7 @@
 
 									"
 									data-modal-text="Log in om een plan te liken."
-									data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
 									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}"
 								>
 	                {{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
@@ -82,8 +82,7 @@
 									idea-status-{{idea.status}}
 									ajax-form
 									"
-									data-return-to-bkp="/like?ideaId={{idea.id}}&opinion=no"
-									data-return-to="{{data.currentPathname}}?voteOpinion=no"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
 									type="submit"
 									name="opinion"
 									value="no"

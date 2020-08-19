@@ -73,27 +73,46 @@ module.exports = {
         });
     });
 
-
-
-   self.apos.app.get('/like', (req, res, next) => {
+    self.apos.app.get('/like', (req, res, next) => {
      if (
        req.data.global.siteConfig && req.data.global.siteConfig.votes
        && req.data.global.siteConfig.votes.voteType !== 'likes'
      ) {
        throw Error('GET Route only allowed for vote type like');
      }
-
-
-
-     req.body.votes = [{
-       ideaId: req.query.ideaId,
-       opinion: req.query.opinion ? req.query.opinion : 'yes',
-     }];
+     const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+     const siteId = req.data.global.siteId;
 
      req.redirectUrl = req.query.redirectUrl ? req.query.redirectUrl : '/' + req.data.global.ideaSlug + '/' + req.query.ideaId;
 
-     postVote(req, res, next);
-   });
+
+     req.data.formToSubmit = {
+       url: `/api/site/${siteId}/vote`,
+       method: 'post',
+       fields: [
+         {
+           name: 'ideaId',
+           value: req.query.ideaId,
+         },
+         {
+           name: 'opinion',
+           value: req.query.opinion ? req.query.opinion : 'yes',
+         },
+         {
+           class: 'redirect-url',
+           name: 'redirectUrl',
+           value: req.redirectUrl,
+         },
+         {
+           class: 'redirect-error-url',
+           name: 'redirectErrorUrl',
+           value: req.redirectUrl,
+         },
+       ]
+      }
+
+      return self.sendPage(req, 'form-to-submit', {});
+    });
 
    const postVote = (req, res, next) => {
     eventEmitter.emit('voted');
@@ -150,7 +169,7 @@ module.exports = {
      const pageData = req.data.page;
 
      if (req.query.voteOpinion && req.query.ideaId) {
-       res.redirect(`/like?ideaId=${req.query.ideaId}&opinion=${req.query.voteOpinion}&redirectUrl=${req.data.currentPath}`)
+       req.res.redirect(`/like?ideaId=${req.query.ideaId}&opinion=${req.query.voteOpinion}&redirectUrl=${req.data.currentPath}`)
      }
 
      callback();

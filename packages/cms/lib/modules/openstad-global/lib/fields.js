@@ -356,6 +356,20 @@ module.exports = [
         ]
     },
     {
+      name: 'areas',
+      type: 'array',
+      titleField: 'label',
+      label: 'Buurten',
+      schema: [
+        {
+          name: 'value',
+          type: 'text',
+          label: 'Name',
+          type: 'string',
+        }
+      ]
+    },
+    {
         name: 'arrangeMainMenu',
         type: 'checkboxes',
         label: 'How to display the main menu?',

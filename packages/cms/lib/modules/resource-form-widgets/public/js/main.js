@@ -179,6 +179,7 @@ apos.define('resource-form-widgets', {
               success:function(response) {
                 var redirect = $(form).find('.form-redirect-uri').val();
                 redirect = redirect.replace(':id', response.id);
+                //use href to simulate a link click! Not replace, that doesn't allow for back button to work
                 window.location.replace(redirect);
               },
               error:function(response) {
@@ -316,17 +317,17 @@ window.addEventListener('load', function() {
 
     initCharsLeftInfo($inputEl.get(0), $charsLeft.get(0), minChar, maxChar, true);
   })
-  
+
   var $inputsAndSelects = $('#formulier-block input, #formulier-block select');
-  
+
   if ($inputsAndSelects && $inputsAndSelects.length) {
-    
+
     $inputsAndSelects.on('keydown', function (e) {
       if (e.key === "Enter") {
         var $nextGroup = $(this).closest('div').next('div');
-        
+
         e.preventDefault();
-        
+
         if ($nextGroup) {
           $nextGroup.find('input,select,textarea').first().focus();
           return false;

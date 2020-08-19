@@ -19,9 +19,9 @@ module.exports = {
   construct: function (self, options) {
     require('./lib/api')(self, options);
 
-    self.on('apostrophe:modulesReady', 'setSyncFields');
-    self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
-    self.on('apostrophe-docs:afterSave', 'syncApi');
+    //self.on('apostrophe:modulesReady', 'setSyncFields');
+    //self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
+    //self.on('apostrophe-docs:afterSave', 'syncApi');
 
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
@@ -60,9 +60,7 @@ module.exports = {
 
       //for legacy purposes, remove to better solutions at some point
       //Amsterdam
-      //A
-      console.log('LOGO_AMSTERDAM', process.env.LOGO_AMSTERDAM, req.data.global.siteLogo);
-
+      //
       if (!req.data.global.siteLogo && process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
         //make sure we
         req.data.global.siteLogo = 'amsterdam';
