@@ -23,6 +23,7 @@ module.exports = {
   extend: 'map-widgets',
   label: 'Resource form',
   addFields: fields,
+  playerData: ['mapConfig'],
   beforeConstruct: function(self, options) {
 
     if (options.resources) {
