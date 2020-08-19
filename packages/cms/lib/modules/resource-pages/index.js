@@ -16,9 +16,10 @@ module.exports = {
           req.data.activeResourceType = req.query.resourceType;
 
           self.loadResourceData(req, next);
+        } else {
+          next();
         }
 
-        next();
       }
     };
 

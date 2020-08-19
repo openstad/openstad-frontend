@@ -18,17 +18,38 @@ apos.define('resource-form-widgets', {
 
     self.play = function ($widget, data, options) {
 
-      // Init filepond
       // Init map
-      //var mapWidget = apos.modules['map-widgets'];
-      self.createMap(data.mapConfig);
-      self.addPolygon(data.mapConfig);
-      self.setIdeaMarker(data.mapConfig);
-      self.addFormEventListeners(data.mapConfig);
+      if(!self.map) {
+        self.map = self.createMap(data.mapConfig);
+        self.addPolygon(data.mapConfig);
+        self.setIdeaMarker(data.mapConfig);
+        self.addFormEventListeners(data.mapConfig);
+      }
 
       // Init form validation
-
       var fieldsetElement = $widget.find('.filepondFieldset');
+
+      var uploadedFiles = []
+      if (data.resourceImages) {
+        uploadedFiles = data.resourceImages.map(function (image) {
+          return {
+            source: '{"url":"' + image + '"}',
+            options: {
+              type: 'local',
+              // mock file information
+              file: {
+                name: image,
+                //		 size: 3001025,
+                //	 type: 'image/png'
+              },
+              metadata: {
+                poster: image,
+              }
+            }
+          };
+        });
+      }
+
 
       if(fieldsetElement) {
         var filePondSettings = {
