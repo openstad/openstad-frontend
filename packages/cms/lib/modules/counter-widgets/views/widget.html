@@ -12,7 +12,7 @@
   >
 	  <span class="box-blue block">
       <span class="flexcontainer">
-        <span class="flexleft" id="counter-{{data.widget.counterType}}">
+        <span class="flexleft" class="counter" id="counter-{{data.widget.counterType}}">
         </span>
         <span class="flexright">
           {{data.widget.label}}
@@ -68,6 +68,6 @@
    window.addEventListener("load", function() {
      fetchStats()
    });
-   
+
   </script>
   {% endif %}

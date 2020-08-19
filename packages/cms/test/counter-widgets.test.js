@@ -57,10 +57,10 @@ describe('Counter widgets', function() {
       staticCount: 3
     };
 
-    const expected = '003';
+    const expected = '3';
 
     const actual = counterWidgets.getCount(widget);
-
+    console.log(expected, actual);
     assert(actual === expected);
 
     done()
@@ -74,9 +74,11 @@ describe('Counter widgets', function() {
       ideasCount: 20,
     };
 
-    const expected = '020';
+    const expected = '20';
 
     const actual = counterWidgets.getCount(widget);
+
+    console.log(expected, actual);
 
     assert(actual === expected);
 
