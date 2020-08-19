@@ -33,19 +33,19 @@ const contentWidgets = {
   'date-bar': {},
   'idea-form': {
     adminOnly: true,
-    hideByDefault: true,
-    deprecated: true
+    hideByDefault: false,
+    deprecated: false
   },
   'idea-map': {
     adminOnly: true
   },
   'idea-overview': {
-    hideByDefault: true,
+    hideByDefault: false,
     addLabel: 'Idea overiew (deprecated, use resource overview)',
   },
   'idea-single': {
     adminOnly: false,
-    hideByDefault: true,
+    hideByDefault: false,
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
