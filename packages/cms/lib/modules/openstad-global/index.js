@@ -66,7 +66,13 @@ module.exports = {
         req.data.global.siteLogo = 'amsterdam';
       }
 
-      req.data.global.siteConfig = siteConfig;
+      req.data.global.siteConfig = {
+        ideas: siteConfig.ideas,
+        votes: siteConfig.votes,
+        arguments:siteConfig.arguments,
+        openstadMap:siteConfig.openstadMap,
+      };
+      
       req.data.originalUrl = req.originalUrl;
 
       // get the identifier for making sure that the custom js/css files we load in also bust the cache
