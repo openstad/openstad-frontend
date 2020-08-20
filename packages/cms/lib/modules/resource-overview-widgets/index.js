@@ -227,6 +227,7 @@ module.exports = {
           includeUserVote: 1,
           // include vote count per resource
           includeVoteCount: 1,
+          includeArgsCount: 1,
           sort: queryObject.sort ? queryObject.sort : defaultSort,
           tags: queryObject.oTags ? queryObject.oTags : '',
           filters : {

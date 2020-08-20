@@ -80,7 +80,7 @@ module.exports = (self, options) => {
 
   self.getAllIdeas = async (req, siteId, sort) => {
     const options = self.getOptions({
-      uri: `${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1`,
+      uri: `${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeArgsCount=1`,
     });
 
     return request(options);
@@ -92,7 +92,7 @@ module.exports = (self, options) => {
       uri: `${self.apiUrl}/api/site/${self.siteId}`,
       body: data,
     });
-    
+
     return request(options);
   };
 
