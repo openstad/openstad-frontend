@@ -93,6 +93,11 @@ module.exports = {
        fields: ['labelAdvice', 'infoAdvice', 'displayAdvice', 'requiredAdvice', 'minAdvice', 'maxAdvice']
      },
      {
+       name: 'budget',
+       label: 'Budget',
+       fields: ['displayBudget']
+     },
+     {
        name: 'submitting',
        label: 'Submitting',
        fields: ['buttonTextSubmit', 'buttonTextSave']

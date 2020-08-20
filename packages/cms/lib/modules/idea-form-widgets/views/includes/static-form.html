@@ -180,7 +180,7 @@
   </div>
   {% endif %}
 
-  {% if data.hasModeratorRights %}
+  {% if data.hasModeratorRights and data.widget.displayBudget %}
   <div id="budget">
     <label class="form-label" for="budget_input">Budget</label>
     <div class="form-info" style="height: auto;">
