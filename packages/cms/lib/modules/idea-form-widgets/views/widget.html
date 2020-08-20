@@ -1,6 +1,14 @@
 {% set pageTitle = 'Jouw plan insturen' %}
 {% set showForm = true %}
+
+{% if data.idea %}
 {% set idea = data.idea %}
+{% endif %}
+
+{% if data.activeResource %}
+{% set idea = data.activeResource %}
+{% endif %}
+
 {% set isOwner = data.openstadUser.id === idea.userId %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
