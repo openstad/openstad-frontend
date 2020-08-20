@@ -336,9 +336,11 @@ router.route('/:ideaId(\\d+)')
 
 // delete idea
 // ---------
-	.delete(auth.can('Idea', 'delete'))
 	.delete(function(req, res, next) {
-		req.results
+		const idea = req.results;
+		if (!( idea && idea.can && idea.can('delete') )) return next( new Error('You cannot delete this idea') );
+
+		idea
 			.destroy()
 			.then(() => {
 				res.json({ "idea": "deleted" });

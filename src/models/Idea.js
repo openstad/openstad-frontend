@@ -1282,6 +1282,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if (userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId)) {
       return true;
     }
+
     if( !self.isOpen() ) {
       return false;
     }
@@ -1289,6 +1290,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
+    
     let config = self.site && self.site.config && self.site.config.ideas
     let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
 		let voteCount = self.no + self.yes;
