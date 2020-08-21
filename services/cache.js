@@ -16,7 +16,7 @@ if (useFileCache) {
     },
 
     get: key => {
-      fileCache.get(key);
+      return fileCache.get(key);
     },
 
     set: (key, item, options) => {
@@ -34,7 +34,7 @@ if (useFileCache) {
     },
 
     get: key => {
-      memCache.get(key);
+      return memCache.get(key);
     },
 
     set: (key, item, options) => {
