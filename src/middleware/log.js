@@ -6,7 +6,7 @@ module.exports = function( app ) {
 		var method   = req.method;
 		var userId   = req.user && req.user.id;
 		var userRole = req.user && req.user.role;
-	//	log(`${method} "${url}" ${userRole}(${userId})`);
+		log(`${method} "${url}" ${userRole}(${userId})`);
 		next();
 	});
 };
