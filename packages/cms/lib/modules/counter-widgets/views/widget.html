@@ -1,0 +1,73 @@
+<style>
+ {{data.widget.formattedContainerStyles}}
+</style>
+
+{% if data.widget.url %}
+<a href="{{data.widget.url}}"
+{% else %}
+  <span
+  {% endif %}
+  id="{{data.widget.containerId}}"
+  class="margin-bottom-xs scroll-link block no-decoration"
+  >
+	  <span class="box-blue block">
+      <span class="flexcontainer">
+        <span class="flexleft" id="counter-{{data.widget.counterType}}">
+        </span>
+        <span class="flexright">
+          {{data.widget.label}}
+        </span>
+      </span>
+	  </span>
+    {% if data.widget.url %}
+</a>
+{% else %}
+  </span>
+  {% endif %}
+
+
+  <script>
+   function setNumberPlates(count) {
+     let len = count.toString().length;
+     if (len < 3) len = 3;
+     count = ('000' + count).slice(-len);
+     var html = '<span class="margin-right-s">';
+     for (i=0; i<len; i++) {
+       html += '<span id="counter-number-plate-'+i+'" class="number-plate">'+count[i]+'</span>'
+     }
+     html += '</span>';
+     document.getElementById("counter-{{data.widget.counterType}}").innerHTML = html;
+   }
+   setNumberPlates('{{data.widget.count}}' || 0)
+  </script>
+
+
+  {% if data.widget.statsUrl %}
+  <script>
+   function fetchStats() {
+
+     let url = '{{data.widget.statsUrl}}';
+	   $.ajax({
+		   url: url,
+		   dataType: "json",
+		   crossDomain: true,
+		   beforeSend: function(request) {
+			   request.setRequestHeader("Accept", "application/json");
+		   },
+		   success: function(result) {
+         let count = result.count;
+         if ( count == -1 ) count = 0;
+         setNumberPlates(count);
+		   },
+		   error: function(error) {
+		     console.log('Niet goed');
+		     console.log(err);
+		   }
+	   });
+   }
+   window.addEventListener("load", function() {
+     fetchStats()
+   });
+   
+  </script>
+  {% endif %}

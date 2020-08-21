@@ -1,0 +1,77 @@
+.link, .link-caret--blue,  .link-caret--black{
+  font-size: 16px;
+  font-weight: 600;
+  color: #004699 !important;
+  position: relative;
+  display: inline-block;
+}
+
+.link-xs {
+  font-size: 14px;
+}
+
+.link-caret {
+  &--blue {
+    background: url(/modules/openstad-assets/img/arrow-right-blue.svg);
+    background-repeat: no-repeat;
+    padding-left: 16px;
+    background-position: 1px 4px;
+
+    &:hover {
+      background-image: url(/modules/openstad-assets/img/arrow-right-blue-dark.svg);
+      color: #003066 !important;
+    }
+  }
+
+  &--black {
+    color: black !important;
+    background-image: url(/modules/openstad-assets/img/arrow_right_black.svg);
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+
+    &:hover {
+      color: #ec0000  !important;
+      background-image: url(/modules/openstad-assets/img/arrow_right_red.svg);
+      text-decoration: none;
+    }
+  }
+}
+
+
+
+
+// Big, button-like links
+// ----------------------
+a.big {
+  background-color: #EC0000;
+  border-radius: 4px;
+  color: #FFF;
+  display: block;
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 10px auto 0;
+  max-width: 200px;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+// Red arrow links
+// ---------------
+a.readMore {
+  background-image: url('/modules/openstad-assets/img/arrow_right_red.svg');
+  background-repeat: no-repeat;
+  background-size: 11px 16px;
+  color: #000;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: 1em;
+  text-decoration: none;
+  display: block;
+  padding-left: 16px;
+}
+
+a.readMore:hover {
+  color: #EC0000;
+  text-decoration: underline;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Atom/Progress-Indicator/100/Undetermined@2x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Inlogflow-Uit-je-Dak" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="inlogflow-stemmodule-uit-je-dak" transform="translate(-250.000000, -4383.000000)" fill="#EC0000">
+            <g id="Atom/Progress-Indicator/100/Undetermined" transform="translate(250.000000, 4383.000000)">
+                <path d="M25,50 C11.1997342,49.9834694 0.0165305817,38.8002658 0,25 L5,25 C5,36.045695 13.954305,45 25,45 C36.045695,45 45,36.045695 45,25 C45,13.954305 36.045695,5 25,5 L25,0 C38.8071187,0 50,11.1928813 50,25 C50,38.8071187 38.8071187,50 25,50 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

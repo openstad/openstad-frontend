@@ -1,0 +1,40 @@
+{% set mayVote = data.widget.votingEnabled %}
+{% set maySeeReplyForm = data.widget.replyingEnabled %}
+{% set idea = data.widget.activeResource %}
+{% set ideaId = idea.id %}
+
+{% if data.widget.argumentSentiment === 'against'  %}
+{% set arguments = idea.argumentsAgainst %}
+{% else %}
+{% set arguments = idea.argumentsFor %}
+{% endif %}
+
+
+
+{% set apiArgumentUrl = '/api/site/' + data.global.siteId + '/idea/' + ideaId + '/argument' %}
+
+{% if arguments.length > 0 %}
+{% for arg in arguments %}
+  {% set isArgumentOwner = arg.userId === data.openstadUser.id %}
+  {% set mayEdit = (data.hasModeratorRights or isArgumentOwner) %}
+  {% set mayDelete =  (data.hasModeratorRights or isArgumentOwner) %}
+  <div id="argument-container-{{arg.id}}" class="argument-container openstad-ajax-refresh">
+    {% include 'argument.html' %}
+
+    <div class="reaction-container">
+    {% for reaction in arg.reactions %}
+      {% set isReactionOwner = reaction.userId === data.openstadUser.id %}
+      {% set mayEdit   = (data.hasModeratorRights or isReactionOwner) %}
+      {% set mayDelete = (data.hasModeratorRights or isReactionOwner) %}
+
+      {% include 'reaction.html' %}
+    {% endfor %}
+    {% include 'reaction-form.html' %}
+    </div>
+  </div>
+{% endfor %}
+{% else %}
+<div class="noArguments">
+  {{data.widget.emptyPlaceholder}}
+</div>
+{% endif %}

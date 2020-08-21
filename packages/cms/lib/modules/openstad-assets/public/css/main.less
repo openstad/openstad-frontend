@@ -1,0 +1,145 @@
+// Core variables and mixins
+// import variables first so we can overwrite them
+@import "vendor/bootstrap/variables.less";
+@import "bootstrap-variables.less";
+//@import "vendor/bootstrap/bootstrap";
+@import "vendor/jquery.dataTables.min.less";
+
+@import "vendor/bootstrap/mixins.less";
+
+// Reset and dependencies
+@import "vendor/bootstrap/normalize.less";
+@import "vendor/bootstrap/print.less";
+@import "vendor/bootstrap/glyphicons.less";
+
+// Core CSS
+@import "vendor/bootstrap/scaffolding.less";
+@import "vendor/bootstrap/type.less";
+@import "vendor/bootstrap/code.less";
+@import "vendor/bootstrap/grid.less";
+@import "vendor/bootstrap/forms.less";
+
+
+// Components
+@import "vendor/bootstrap/pagination.less";
+@import "vendor/bootstrap/navs.less";
+@import "vendor/bootstrap/navbar.less";
+
+// Utility classes
+@import "vendor/bootstrap/utilities.less";
+@import "vendor/bootstrap/responsive-utilities.less";
+
+@import "variables";
+
+html {
+  position: relative;
+  min-height: 100%;
+  background: #e6e6e6;
+}
+
+body {
+  margin: 0 auto !important;
+  max-width: 1400px;
+  padding: 0;
+  font-family: Roboto, arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5em;
+  color: #000000;
+}
+
+#page {
+    background-color: #FFF;
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 100%;
+    overflow-x: hidden;
+  /*  overflow: hidden; */
+}
+
+.container {
+  max-width: 960px;
+
+  @media screen and (max-width: @screen-sm) {
+    /*padding-left: 18px;
+    padding-right: 18px;*/
+  }
+
+  .container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+.section {
+  min-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @media screen and (max-width: @screen-sm) {
+  }
+}
+
+/*a, a:active, a:focus, a:hover, a:visited {
+  color: #164995;
+}*/
+
+
+// Regular links
+// -------------
+a {
+	color: @amsterdam-navyblue;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+	&:visited,  &:visited, &:focus, &:active{
+		//color: inherit;
+	}
+}
+
+.row img {
+  max-width: 100%;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+
+@import "variables";
+
+@import "helpers";
+@import "elements";
+@import "tab-selector";
+@import "ideas-gridder-list";
+@import "ideas-list";
+
+@import "share-buttons";
+@import "links";
+@import "apos";
+@import "links";
+@import "typography";
+@import "fotorama";
+@import "header";
+@import "footer";
+@import "navbar";
+@import "form-elements";
+@import "admin";
+@import "flash";
+@import "modal";
+@import "buttons";
+@import "browser-warning";
+@import "checkbox-switch";
+@import "skip-to-content";

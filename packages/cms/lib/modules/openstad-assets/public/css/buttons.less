@@ -1,0 +1,137 @@
+.btn-primary, #navbar .btn-primary {
+  background-color: #004699;
+  border-color: #004699;
+  border-radius: 0;
+  width: auto;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  position: inline;
+  padding: 13px 15px;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1;
+  border: 2px solid;
+      outline: none !important;
+
+  &:hover {
+    background-color: #004699;
+    border-color: #004699;
+    text-decoration: none;
+  }
+
+  > img {
+        padding-right: 7px;
+  }
+
+  &--blue {
+    background-color: #004699;
+    border-color: #004699;
+
+    &:hover, &:active, &:focus, &:hover:active {
+      background-color: #004699;
+      border-color: #004699;
+    }
+  }
+
+  &--grey {
+    background-color: #bebebe;
+    border-color: #bebebe ;
+    color: white;
+
+    &:active, &:hover:active, &:focus, &.focus, &.active, &:disabled, &.disabled {
+      background-color: #bebebe;
+      text-decoration: none;
+      color: white;
+    }
+  }
+
+  &--white {
+    background-color: #fff;
+    border-color: #fff;
+    color: #004699;
+
+    &:hover, &:active, &:focus {
+      background-color: #fff;
+      border-color: #fff;
+    }
+  }
+
+  &--icon {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+
+    .glyphicon {
+      margin: 0;
+    }
+  }
+
+  @media screen and (max-width: @screen-sm) {
+    font-size: 14px;
+  }
+}
+
+.btn-secondary {
+  background-color: white;
+  border-color: #004699;
+  border-radius: 0;
+  width: auto;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #004699;
+  position: inline;
+  line-height: 46px;
+  height: 47px;
+  padding: 0 11px;
+  outline: none !important;
+
+
+  //padding-top: 0;
+  //padding-right: 15px;
+
+  @media screen and (max-width: @screen-sm) {
+    height: 43px;
+    line-height: 43px;
+    font-size: 14px;
+  }
+}
+.button-block{
+  margin-top: 18px;
+  display: flex;
+  /*justify-content: space-between;*/
+
+  > .btn, > a {
+    margin: 0 8px;
+    @media screen and (max-width: @screen-sm) {
+      margin: 0 4px;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+
+
+}
+
+.btn-image {
+  color: #000000;
+  font-weight: 600;
+
+  img {
+    padding-right: 10px;
+  }
+}

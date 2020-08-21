@@ -1,50 +1,33 @@
 {
   "name": "openstad-frontend",
-  "version": "0.0.1",
-  "description": "Openstad frontend",
-  "main": "app.js",
+  "version": "0.0.7",
+  "description": "Openstad frontent project including openstad frontend packages\"",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js "
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/Amsterdam/openstad-frontend.git"
   },
-  "author": "Team Openstad: Niels Denes & Tosh Koevoets",
+  "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Amsterdam/openstad-frontend/issues"
+  },
+  "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
   "dependencies": {
-    "apostrophe": "2.103.1",
+    "@openstad/cms": "file:packages/cms",
+    "apostrophe": "2.107.2",
     "apostrophe-area-structure": "^1.0.3",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.23",
-    "apostrophe-workflow": "^2.32.0",
-    "basic-auth": "^2.0.1",
-    "bluebird": "^3.5.2",
-    "boring": "^0.1.0",
-    "diff": ">=3.5.0",
-    "dotenv": "^6.2.0",
-    "event-stream": "^4.0.1",
-    "express": "^4.16.3",
-    "express-basic-auth": "^1.2.0",
-    "express-cache-on-demand": "^1.0.2",
-    "flash": "^1.1.0",
-    "http-proxy-middleware": "^0.19.1",
-    "install": "^0.13.0",
-    "json2csv": "^4.5.4",
-    "lodash": "^4.17.15",
-    "mongodb": "^2.2.33",
-    "multer": "^1.4.2",
-    "node-file-cache": "^1.0.2",
-    "nodemon": "^1.17.5",
-    "npm": "^6.14.4",
-    "nunjucks": "^3.2.0",
-    "openstad-components": "^0.0.4",
-    "qs": "^6.9.4",
-    "query-string": "^6.12.1",
-    "request-promise": "^4.2.2",
-    "shell-quote": "^1.6.1",
-    "tsscmp": "^1.0.6",
-    "vimeo": "^2.1.1"
+    "apostrophe-workflow": "^2.34.0",
+    "dotenv": "^8.2.0",
+    "memory-cache": "^0.2.0"
+  },
+  "devDependencies": {
+    "lerna": "^3.21.0"
   }
 }

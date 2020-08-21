@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block main %}
+  {{
+    apos.area(data.page, 'body', {
+    widgets: {
+      'section': {
+        addLabel: 'Add a section',
+        pageType: data.page.type,
+        activeResource: data.activeResource,
+        siteConfig: {
+          openStadMap: data.global.siteConfig.openStadMap,
+          ideas: data.global.siteConfig.ideas,
+          votes: data.global.siteConfig.votes
+        },
+        activeResourceType: data.activeResourceType,
+        controls: {
+          movable: true,
+          removable: true,
+          position: 'bottom-left'
+        }
+      }
+    }
+  })
+}}
+{% endblock %}
