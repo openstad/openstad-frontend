@@ -399,9 +399,13 @@ module.exports = function (db, sequelize, DataTypes) {
         }
       },
       validModBreak: function () {
+        return true;
+        /*
+        skip validation for now, should be moved to own rest object.
+
         if (this.modBreak && (!this.modBreakUserId || !this.modBreakDate)) {
           throw Error('Incomplete mod break');
-        }
+        }*/
       },
       validExtraData: function (next) {
 
@@ -1278,7 +1282,6 @@ module.exports = function (db, sequelize, DataTypes) {
   }
 
   let canMutate = function(user, self) {
-
     if (userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId)) {
       return true;
     }
@@ -1290,7 +1293,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
-    
+
     let config = self.site && self.site.config && self.site.config.ideas
     let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
 		let voteCount = self.no + self.yes;
