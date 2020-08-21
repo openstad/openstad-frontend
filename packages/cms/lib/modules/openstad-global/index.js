@@ -68,6 +68,7 @@ module.exports = {
 
       req.data.global.siteConfig = {
         ideas: siteConfig.ideas,
+        polls: siteConfig.polls,
         votes: siteConfig.votes,
         arguments:siteConfig.arguments,
         openstadMap:siteConfig.openstadMap,
