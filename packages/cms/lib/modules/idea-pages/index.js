@@ -170,13 +170,7 @@ module.exports = {
      console.log('req.query.voteOpinion', req.query.voteOpinion);
 
      if (req.query.voteOpinion && req.query.ideaId) {
-<<<<<<< HEAD:lib/modules/idea-pages/index.js
-       console.log('req.query.voteOpinion redirect', req.data.currentPath);
-
-       req.res.redirect(`/like?ideaId=${req.query.ideaId}&opinion=${req.query.voteOpinion}&redirectUrl=${req.data.currentPathname}`)
-=======
        req.res.redirect(`/like?ideaId=${req.query.ideaId}&opinion=${req.query.voteOpinion}&redirectUrl=${req.data.currentPath}`)
->>>>>>> development:packages/cms/lib/modules/idea-pages/index.js
      }
 
      callback();

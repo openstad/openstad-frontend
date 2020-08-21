@@ -1,9 +1,6 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
-<<<<<<< HEAD:lib/modules/resource-overview-widgets/index.js
 const cache               = require('../../../services/cache').cache;
-=======
->>>>>>> development:packages/cms/lib/modules/resource-overview-widgets/index.js
 
 /*
   CURRENTLY IN TRANSITION.
@@ -18,7 +15,6 @@ const qs                  = require('qs');
 const fields              = require('./lib/fields');
 const sortingOptions      = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
-const cache               = require('../../../services/cache').cache;
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 
 
@@ -134,11 +130,6 @@ module.exports = {
       const fullUrl = protocol + '://' + thisHost + req.originalUrl;
       const parsedUrl = url.parse(fullUrl, true);
 
-<<<<<<< HEAD:lib/modules/resource-overview-widgets/index.js
-      req.data.widget = {};
-
-=======
->>>>>>> development:packages/cms/lib/modules/resource-overview-widgets/index.js
 			widgets.forEach((widget) => {
         // Add function for rendering raw string with nunjucks templating engine
         // Yes this ia a powerful but dangerous feature :), admin only
@@ -310,70 +301,6 @@ module.exports = {
         widget.isVotingActive = siteConfig && siteConfig.votes && siteConfig.votes.isActive ? siteConfig.votes.isActive : false;
         widget.voteType = siteConfig && siteConfig.votes && siteConfig.votes.voteType ? siteConfig.votes.voteType : '';
 
-<<<<<<< HEAD:lib/modules/resource-overview-widgets/index.js
-        widget.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;
-
-        widget.openstadTags =  tags ? tags.map((tag) => {
-          return Object.assign({}, tag);
-        }) : [];
-
-        console.log('req.data.widget.openstadTags',req.data.widget.openstadTags )
-
-        let response;
-
-        // if cache is turned on, chec
-        if (globalData.cacheIdeas) {
-           response = cache.get(getUrl);
-        }
-
-        if (response) {
-          // pass query obj without reference
-          widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
-        } else {
-          promises.push(function (req, self){
-            return new Promise((resolve, reject) => {
-              rp(options)
-              .then((response) => {
-
-                // set the cache by url key, this is perfect unique identifier
-                if (globalData.cacheIdeas) {
-                  cache.set(getUrl, response, {
-                    life: cacheLifespan
-                  });
-                }
-
-                // pass query obj without reference
-                widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
-
-                resolve(response);
-              })
-              .catch((err) => {
-                reject(err);
-              })
-          })}(req, self));
-        }
-
-        // Add function for rendering raw string with nunjucks templating engine
-        // Yes this ia a powerful but dangerous plugin :), admin only
-        widget.renderString = (data, activeResource) => {
-            data.activeResource = activeResource;
-
-            try {
-              return self.apos.templates.renderStringForModule(req, widget.rawInput, data, self);
-            } catch (e) {
-              console.log('eee', e)
-              return 'Error....'
-            }
-         }
-
-         widget.formatTagSelectUrl = self.formatTagSelectUrl;
-         widget.formatTagRemoveUrl = self.formatTagRemoveUrl;
-         widget.isTagSelected = self.isTagSelected;
-
-
-
-			});
-=======
         widget.openstadTags =  req.data.openstadTags ? req.data.openstadTags.map((tag) => {
           return Object.assign({}, tag);
         }) : [];
@@ -412,8 +339,6 @@ module.exports = {
           })}(req, self));
         }
       });
-
->>>>>>> development:packages/cms/lib/modules/resource-overview-widgets/index.js
 
       if (promises.length > 0) {
         Promise.all(promises)
@@ -504,12 +429,7 @@ module.exports = {
 
       return widget;
     }
-
-<<<<<<< HEAD:lib/modules/resource-overview-widgets/index.js
-
-
-=======
->>>>>>> development:packages/cms/lib/modules/resource-overview-widgets/index.js
+    
      const superOutput = self.output;
      self.output = function(widget, options) {
 
