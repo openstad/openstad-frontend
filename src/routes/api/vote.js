@@ -3,7 +3,7 @@ const express     = require('express');
 const createError = require('http-errors')
 const moment      = require('moment');
 const db          = require('../../db');
-const auth        = require('../../auth');
+const auth        = require('../../middleware/sequelize-authorization-middleware');
 const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
@@ -11,7 +11,7 @@ const {Op} = require('sequelize');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
 
 const userhasModeratorRights = (user) => {
 	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
@@ -173,22 +173,20 @@ router.route('/')
 // ------------
 router.route('/*')
 
-	// .post(auth.can('ideavote:create'))
-
-  // heb je al gestemd
+// heb je al gestemd
 	.post(function(req, res, next) {
 		db.Vote // get existing votes for this user
 			.scope(req.scope)
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
-				if ( req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
+				if (req.site.config.votes.voteType !== 'likes' && req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
 				req.existingVotes = found.map(entry => entry.toJSON());
 				return next();
 			})
 			.catch(next)
 	})
 
-  // filter body
+// filter body
 	.post(function(req, res, next) {
 		let votes = req.body || [];
 		if (!Array.isArray(votes)) votes = [votes];
@@ -209,25 +207,26 @@ router.route('/*')
       // no double votes
       if (req.existingVotes.find( newVote => votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )) throw new Error('Je hebt al gestemd');
       // now merge
-		  votes = votes
+      votes = votes
         .concat(
           req.existingVotes
             .map( oldVote => {
               return {
-				        ideaId: parseInt(oldVote.ideaId, 10),
-				        opinion: typeof oldVote.opinion == 'string' ? oldVote.opinion : null,
-				        userId: req.user.id,
-				        confirmed: false,
-				        confirmReplacesVoteId: null,
-				        ip: req.ip,
-				        checked: null,
+                ideaId: parseInt(oldVote.ideaId, 10),
+                opinion: typeof oldVote.opinion == 'string' ? oldVote.opinion : null,
+                userId: req.user.id,
+                confirmed: false,
+                confirmReplacesVoteId: null,
+                ip: req.ip,
+                checked: null,
               }
               return oldVote
             })
         );
     }
 
-		req.votes = votes;
+    req.votes = votes;
+
 		return next();
 	})
 
@@ -337,7 +336,7 @@ router.route('/*')
 
 			case 'likes':
 				req.votes.forEach((vote) => {
-					let existingVote = req.existingVotes.find(entry => entry.ideaId == vote.ideaId);
+					let existingVote =  req.existingVotes ? req.existingVotes.find(entry => entry.ideaId == vote.ideaId) : false;
 					if ( existingVote ) {
 						if (existingVote.opinion == vote.opinion) {
 							actions.push({ action: 'delete', vote: existingVote })
@@ -428,7 +427,7 @@ router.route('/*')
 			})
 			.catch(next);
 		})
-		.all(auth.can('idea:admin'))
+	.all(auth.can('Vote', 'toggle'))
 			.get(function( req, res, next ) {
 				var ideaId = req.params.ideaId;
 				var vote   = req.vote;

@@ -93,6 +93,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			order: 'date'
 		});
 	}
+
+  // volgens mij wordt dit niet meer gebruikt
+	Meeting.auth = Meeting.prototype.auth = {
+    listableBy: 'admin',
+    viewableBy: 'admin',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 	
 	return Meeting;
 };

@@ -9,9 +9,11 @@ Dit is een JSON API server
 [Argument](/doc/argument)
 [Vote](/doc/vote)
 [Article](/doc/article)
+[Poll](/doc/poll)
 [Email](/doc/email)
 [Newsletter Signup](/doc/newslettersignup)
 
+[Sequelize authorization](/doc/sequelize-authorization)
 [Pagineren en zoeken](/doc/pagination-and-search)
 
 [Stats](/doc/stats)

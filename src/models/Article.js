@@ -10,6 +10,8 @@ var sanitize      = require('../util/sanitize');
 var notifications = require('../notifications');
 
 const merge = require('merge');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 module.exports = function( db, sequelize, DataTypes ) {
 
@@ -165,54 +167,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
-		extraData: {
-			type				 : DataTypes.TEXT,
-			allowNull		 : false,
-			defaultValue : '{}',
-			get					 : function() {
-				let value = this.getDataValue('extraData');
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
-				return value;
-			},
-			set: function(value) {
-
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
-
-				let oldValue = this.getDataValue('extraData');
-				try {
-					if (typeof oldValue == 'string') {
-						oldValue = JSON.parse(oldValue) || {};
-					}
-				} catch(err) {}
-
-        function fillValue(old, val) {
-          old = old || {};
-				  Object.keys(old).forEach((key) => {
-            if ( val[key] && typeof val[key] == 'object' ) {
-              return fillValue(old[key], val[key]);
-            }
-            if ( val[key] === null ) {
-              // send null to delete fields
-              delete val[key];
-            } else if (typeof val[key] == 'undefined') {
-              // not defined in put data; use old val
-						  val[key] = old[key];
-					  }
-				  });
-        }
-        fillValue(oldValue, value);
-
-				this.setDataValue('extraData', JSON.stringify(value));
-			}
-		},
+    extraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
 
 		location: {
 			type         : DataTypes.GEOMETRY('POINT'),
@@ -310,11 +265,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 					throw Error('An article must run at least 1 day');
 				}
 			},
-			validModBreak: function() {
-				if( this.modBreak && (!this.modBreakUserId || !this.modBreakDate) ) {
-					throw Error('Incomplete mod break');
-				}
-			},
 			validExtraData: function(next) {
 
         let self = this;
@@ -397,7 +347,7 @@ module.exports = function( db, sequelize, DataTypes ) {
               } else {
                 validated[key] = true;
               }
-              
+
 					  });
 
             Object.keys(value).forEach((key) => {
@@ -405,7 +355,7 @@ module.exports = function( db, sequelize, DataTypes ) {
                 errors.push(`${key} is niet gedefinieerd in site.config`)
               }
             });
-            
+
 				  } else {
             // extra data not defined in the config
             if (!( self.config && self.config.articles && self.config.articles.extraDataMustBeDefined === false )) {
@@ -742,6 +692,49 @@ module.exports = function( db, sequelize, DataTypes ) {
 		});
 	}
 
+  let canMutate = function(user, self) {
+    if( !self.isOpen() ) {
+			return false;
+		}
+    if (userHasRole(user, 'editor', self.userId)) {
+      return true;
+    }
+    if (!userHasRole(user, 'owner', self.userId)) {
+      return false;
+    }
+    let config = self.site && self.site.config && self.site.config.articles
+    let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
+		let voteCount = self.no + self.yes;
+		let argCount  = self.argumentsFor && self.argumentsFor.length && self.argumentsAgainst && self.argumentsAgainst.length;
+		return canEditAfterFirstLikeOrArg || ( !voteCount && !argCount );
+  }
+
+	Article.auth = Article.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'editor',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+    canUpdate: canMutate,
+    canDelete: canMutate,
+    toAuthorizedJSON: function(user, data) {
+
+      delete data.site;
+      delete data.config;
+      // dit zou nu dus gedefinieerd moeten worden op site.config, maar wegens backward compatible voor nu nog even hier:
+	    if (data.extraData && data.extraData.phone) {
+		    delete data.extraData.phone;
+	    }
+      // wordt dit nog gebruikt en zo ja mag het er uit
+      if (!data.user) data.user = {};
+      data.user.isAdmin = userHasRole(user, 'editor');
+      // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
+	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      return data;
+    },
+  }
+
 	return Article;
 
   function beforeValidateHook( instance, options ) {
@@ -778,4 +771,3 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 };
-

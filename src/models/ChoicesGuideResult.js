@@ -1,5 +1,6 @@
-const config = require('config');
-const merge = require('merge');
+const config                = require('config');
+const merge                 = require('merge');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 module.exports = function( db, sequelize, DataTypes ) {
   let ChoicesGuideResult = sequelize.define('choicesGuideResult', {
@@ -14,32 +15,7 @@ module.exports = function( db, sequelize, DataTypes ) {
       allowNull: true,
     },
 
-    extraData: {
-      type: DataTypes.JSON,
-      allowNull: false,
-      defaultValue: '{}',
-      get: function () {
-        let value = this.getDataValue('extraData');
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {
-        }
-        return value;
-      },
-      set: function (value) {
-
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {
-        }
-
-        this.setDataValue('extraData', JSON.stringify(value));
-      }
-    },
+    extraData: getExtraDataConfig(DataTypes.JSON, 'choicesGuideResult'),
 
     userFingerprint: {
       type: DataTypes.TEXT,
@@ -158,6 +134,15 @@ module.exports = function( db, sequelize, DataTypes ) {
     this.belongsTo(models.ChoicesGuide);
     this.belongsTo(models.User);
   };
+
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	ChoicesGuideResult.auth = ChoicesGuideResult.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'all',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
   return ChoicesGuideResult;
 

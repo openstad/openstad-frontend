@@ -165,6 +165,15 @@ module.exports = function( db, sequelize, DataTypes ) {
     this.belongsTo(models.ChoicesGuide);
   };
 
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	ChoicesGuideChoice.auth = ChoicesGuideChoice.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
   return ChoicesGuideChoice;
 
 };
