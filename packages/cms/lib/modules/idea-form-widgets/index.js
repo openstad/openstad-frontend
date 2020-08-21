@@ -151,6 +151,14 @@ module.exports = {
 		};
 
 
+
+  const superPushAssets = self.pushAssets;
+   self.pushAssets = function () {
+     superPushAssets();
+
+     self.pushAsset('script', 'map', { when: 'always' });
+   };
+
    /**
     * Create route for proxying one image to image server, add api token in header
     */
