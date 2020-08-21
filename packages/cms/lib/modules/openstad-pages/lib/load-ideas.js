@@ -58,13 +58,9 @@ module.exports =  function (req, res, next) {
            json: true // Automatically parses the JSON string in the response
      };
 
-     console.log('fetch again ', options)
-
 
      rp(options)
        .then(function (ideas) {
-         console.log('ideas fpund ', ideas)
-
          const ideaSlug = req.data.global.ideaSlug;
          const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
          const protocol = req.headers['x-forwarded-proto'] || req.protocol;
