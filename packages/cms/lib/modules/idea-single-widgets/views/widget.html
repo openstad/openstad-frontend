@@ -4,19 +4,6 @@
 {% set notReactedTo =  not isReactedTo %}
 {% set isOwnerOrAdmin = (notReactedTo and isOwner) or data.hasModeratorRights %}
 
-{% if data.query.debug3 %}
-data.openstadUser.id: {{data.openstadUser.id}} <br />
- idea.userId: {{ idea.userId}} <br />
-isOwner: {{isOwner}} <br />
-isReactedTo: {{isReactedTo}} <br />
-notReactedTo: {{notReactedTo}} <br />
-isOwnerOrAdmin: {{isOwnerOrAdmin}} <br />
-idea.yes: {{idea.yes}} <br />
-idea.no: {{idea.no}} <br />
-idea.argumentCount: {{idea.argumentCount}}
-
-{% endif %}
-
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
 
 	<div class="pageContent idea openstad-ajax-refresh" id="single-idea-container">
