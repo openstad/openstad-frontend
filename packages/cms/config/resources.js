@@ -29,6 +29,34 @@ const resources = [
     //config is used in API config
     configKey: 'users'
   },
+  {
+    label: 'Products',
+    value: 'product',
+    resourceEndPoint: 'product',
+    //config is used in API config
+    configKey: 'products'
+  },
+  {
+    label: 'Orders',
+    value: 'order',
+    resourceEndPoint: 'order',
+    //config is used in API config
+    configKey: 'orders'
+  },
+  {
+    label: 'Accounts',
+    value: 'account',
+    resourceEndPoint: 'account',
+    //config is used in API config
+    configKey: 'accounts'
+  },
+  {
+    label: 'Games',
+    value: 'game',
+    resourceEndPoint: 'game',
+    //config is used in API config
+    configKey: 'game'
+  },
 ]
 
 exports.schemaFormat = resources;

@@ -1,0 +1,215 @@
+
+.memory-game {
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-perspective: 500px;
+          perspective: 500px;
+  min-height: 100%;
+  height: 100%;
+}
+
+@-webkit-keyframes matchAnim {
+  0% {
+    background: #bcffcc;
+  }
+  100% {
+    background: white;
+  }
+}
+
+@keyframes matchAnim {
+  0% {
+    background: #bcffcc;
+  }
+  100% {
+    background: white;
+  }
+}
+.memory-card {
+  float: left;
+  width: 25%;
+  height: 250px;
+  padding: 5px;
+  text-align: center;
+  display: block;
+  -webkit-perspective: 500px;
+          perspective: 500px;
+  position: relative;
+  cursor: pointer;
+  z-index: 50;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+@media (max-width: 800px) {
+  .memory-card {
+    width: 25%;
+    height: 16.666%;
+  }
+}
+.memory-card .inside {
+  width: 100%;
+  height: 100%;
+  display: block;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: .4s ease-in-out;
+  transition: .4s ease-in-out;
+  background: white;
+}
+.memory-card .inside.picked, .memory-card .inside.matched {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.memory-card .inside.matched {
+  -webkit-animation: 1s matchAnim ease-in-out;
+          animation: 1s matchAnim ease-in-out;
+  -webkit-animation-delay: .4s;
+          animation-delay: .4s;
+}
+.memory-card .front, .memory-card .back {
+  border: 1px solid black;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+.memory-card .front img, .memory-card .back img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+}
+.memory-card .front {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+@media (max-width: 800px) {
+  .memory-card .front {
+    padding: 5px;
+  }
+}
+.memory-card .back {
+  -webkit-transform: rotateX(0);
+          transform: rotateX(0);
+}
+@media (max-width: 800px) {
+  .memory-card .back {
+    padding: 10px;
+  }
+}
+
+.memory-modal-overlay {
+  display: none;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.memory-modal {
+  display: none;
+  position: relative;
+  width: 500px;
+  height: 400px;
+  max-height: 90%;
+  max-width: 90%;
+  min-height: 380px;
+  margin: 0 auto;
+  background: white;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  padding: 30px 10px;
+}
+.memory-modal .winner {
+  font-size: 80px;
+  text-align: center;
+  font-family: "Anton", sans-serif;
+  color: #4d4d4d;
+  text-shadow: 0px 3px 0 black;
+}
+@media (max-width: 480px) {
+  .memory-modal .winner {
+    font-size: 60px;
+  }
+}
+.memory-modal .restart {
+  font-family: "Anton", sans-serif;
+  margin: 30px auto;
+  padding: 20px 30px;
+  display: block;
+  font-size: 30px;
+  border: none;
+  background: #4d4d4d;
+  background: -webkit-gradient(linear, left top, left bottom, from(#4d4d4d), to(#222));
+  background: linear-gradient(#4d4d4d, #222);
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: white;
+  text-shadow: 0px 1px 0 black;
+  cursor: pointer;
+}
+.memory-modal .restart:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#222), to(black));
+  background: linear-gradient(#222, black);
+}
+.memory-modal .message {
+  text-align: center;
+}
+.memory-modal .message a {
+  text-decoration: none;
+  color: #28afe6;
+  font-weight: bold;
+}
+.memory-modal .message a:hover {
+  color: #56c0eb;
+  border-bottom: 1px dotted #56c0eb;
+}
+.memory-modal .share-text {
+  text-align: center;
+  margin: 10px auto;
+}
+.memory-modal .social {
+  margin: 20px auto;
+  text-align: center;
+}
+.memory-modal .social li {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+}
+.memory-modal .social li:last-child {
+  margin-right: 0;
+}
+.memory-modal .social li a {
+  display: block;
+  line-height: 50px;
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.memory-modal .social li a.facebook {
+  background: #3b5998;
+}
+.memory-modal .social li a.facebook:hover {
+  background: #4c70ba;
+}
+.memory-modal .social li a.google {
+  background: #D34836;
+}
+.memory-modal .social li a.google:hover {
+  background: #dc6e60;
+}
+.memory-modal .social li a.twitter {
+  background: #4099FF;
+}
+.memory-modal .social li a.twitter:hover {
+  background: #73b4ff;
+}

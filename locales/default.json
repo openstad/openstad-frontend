@@ -741,5 +741,6 @@
 	"Voting needs to be set to like and should be added on a resource idea page in order to work": "Voting needs to be set to like and should be added on a resource idea page in order to work",
 	"Where should the logo be placed?": "Where should the logo be placed?",
 	"Above menu": "Above menu",
-	"In the menu": "In the menu"
+	"In the menu": "In the menu",
+	"Display login and logout link in top links?": "Display login and logout link in top links?"
 }
