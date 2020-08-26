@@ -202,9 +202,11 @@ router.route('/')
     if (!req.body.tags) return next();
 
  		let ideaInstance = req.results;
+
 		ideaInstance
 		  .setTags(req.body.tags)
-			.then(ideaInstance => {
+			.then(tags => {
+        
 		    // refetch. now with tags
 		    let scope = [...req.scope, 'includeVoteCount', 'includeTags']
 			  return db.Idea
