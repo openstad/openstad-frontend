@@ -31,12 +31,13 @@ if (votingContainer !== null) {
   var availableIdeas = 0;
   var availableBudgetAmount = initialAvailableBudget;
   var currentSelection = openstadGetStorage('currentSelection') || [];
+  currentSelection = currentSelection ? currentSelection : []
 
   var currentStep = votingType === 'budgeting-per-theme' ? 0 : 1;
 
   function toggleIdeaInSelection(id) {
-	  var index = currentSelection.indexOf(id);
-	  if (index == -1) {
+	  var index = currentSelection ? currentSelection.indexOf(id) : false;
+	  if (index === -1) {
 		  addIdeaToSelection(id);
 	  } else {
 		  removeIdeaFromSelection(id);
