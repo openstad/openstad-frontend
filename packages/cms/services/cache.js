@@ -1,13 +1,13 @@
 const fileCache = require('node-file-cache').create();  // default configuration
 const memCache  = require('memory-cache');
-
+const useFileCache = false;
 // de api van deze cache service is die van node-file-cache, want dat wordt overal gebruikt.
 // zonodig wordt dat hier vertaald naar api van memcache
 
 
 let myCache;
 
-if (0) {
+if (useFileCache) {
 
   myCache = {
 
@@ -16,7 +16,7 @@ if (0) {
     },
 
     get: key => {
-      fileCache.get(key);
+      return fileCache.get(key);
     },
 
     set: (key, item, options) => {
@@ -24,7 +24,7 @@ if (0) {
     },
 
   };
-  
+
 } else {
 
   myCache = {
@@ -34,7 +34,7 @@ if (0) {
     },
 
     get: key => {
-      memCache.get(key);
+      return memCache.get(key);
     },
 
     set: (key, item, options) => {
@@ -42,7 +42,7 @@ if (0) {
     },
 
   };
-  
+
 }
 
 exports.clearCache = myCache.clearCache;

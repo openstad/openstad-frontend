@@ -282,6 +282,7 @@ module.exports = {
 
         // format string
         const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
+        const cacheKey = encodeURIComponent(getUrl);
 
         const options = {
           uri: `${apiUrl}${getUrl}`,
@@ -305,9 +306,16 @@ module.exports = {
 
         let response;
 
-        // if cache is turned on, chec
+        // if cache is turned on, check if url is cached already
         if (globalData.cacheIdeas) {
-           response = cache.get(getUrl);
+           response = cache.get(cacheKey);
+           if (response) {
+             try {
+                  response = JSON.parse(response);
+              } catch(e) {
+                  console.log(e); // error in the above string (in this case, yes)!
+              }
+           }
         }
 
         if (response) {
@@ -321,7 +329,7 @@ module.exports = {
 
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
-                  cache.set(getUrl, response, {
+                  cache.set(cacheKey, JSON.stringify(response), {
                     life: cacheLifespan
                   });
                 }
