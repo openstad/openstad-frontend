@@ -10,6 +10,9 @@ const pagination 		= require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 
 const router = express.Router({mergeParams: true});
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
 
 // scopes: for all get requests
 router
@@ -269,6 +272,9 @@ router.route('/:ideaId(\\d+)')
 	.put(function(req, res, next) {
 
     var idea = req.results;
+
+
+
     if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
 
     if (req.body.location) {
@@ -289,6 +295,12 @@ router.route('/:ideaId(\\d+)')
       ...req.body,
 		}
 
+		if (userhasModeratorRights(req.user)) {
+      if (data.modBreak) {
+        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+        data.modBreakDate = req.body.modBreakDate = new Date().toString();
+      }
+    }
 
 		idea
 			.authorizeData(data, 'update')
