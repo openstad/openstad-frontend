@@ -123,8 +123,6 @@ module.exports = {
 		self.load = function(req, widgets, next) {
       const promises = [];
       const globalData = req.data.global;
-
-      const globalData = req.data.global;
       const thisHost = req.headers['x-forwarded-host'] || req.get('host');
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       const fullUrl = protocol + '://' + thisHost + req.originalUrl;
@@ -429,7 +427,7 @@ module.exports = {
 
       return widget;
     }
-    
+
      const superOutput = self.output;
      self.output = function(widget, options) {
 
