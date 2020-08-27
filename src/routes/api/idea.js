@@ -15,7 +15,7 @@ const router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', { method: ['onlyVisible', req.user.role]}];
+		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
 		// req.scope.push('includeSite');
 
@@ -47,6 +47,10 @@ router
 
 		if (req.query.includeArguments) {
 			req.scope.push({ method: ['includeArguments', req.user.id]});
+		}
+
+		if (req.query.includeArgsCount) {
+			req.scope.push('includeArgsCount');
 		}
 
 		if (req.query.includeTags) {
@@ -198,9 +202,11 @@ router.route('/')
     if (!req.body.tags) return next();
 
  		let ideaInstance = req.results;
+
 		ideaInstance
 		  .setTags(req.body.tags)
-			.then(ideaInstance => {
+			.then(tags => {
+        
 		    // refetch. now with tags
 		    let scope = [...req.scope, 'includeVoteCount', 'includeTags']
 			  return db.Idea
@@ -335,9 +341,12 @@ router.route('/:ideaId(\\d+)')
 
 // delete idea
 // ---------
-	.delete(auth.can('Idea', 'delete'))
+	.delete(auth.useReqUser)
 	.delete(function(req, res, next) {
-		req.results
+		const idea = req.results;
+		if (!( idea && idea.can && idea.can('delete') )) return next( new Error('You cannot delete this idea') );
+
+		idea
 			.destroy()
 			.then(() => {
 				res.json({ "idea": "deleted" });

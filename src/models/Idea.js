@@ -399,9 +399,13 @@ module.exports = function (db, sequelize, DataTypes) {
         }
       },
       validModBreak: function () {
+        return true;
+        /*
+        skip validation for now, should be moved to own rest object.
+
         if (this.modBreak && (!this.modBreakUserId || !this.modBreakDate)) {
           throw Error('Incomplete mod break');
-        }
+        }*/
       },
       validExtraData: function (next) {
 
@@ -570,20 +574,25 @@ module.exports = function (db, sequelize, DataTypes) {
       // nieuwe scopes voor de api
       // -------------------------
 
-      onlyVisible: function (userRole) {
-        return {
-          where: sequelize.or(
-            {
-              viewableByRole: 'all'
-            },
-            {
-              viewableByRole: null
-            },
-            {
-              viewableByRole: roles[userRole] || ''
-            },
-          )
-        };
+      onlyVisible: function (userId, userRole) {
+        if (userId) {
+          return {
+            where: sequelize.or(
+              { userId },
+              { viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        } else {
+          return {
+            where: sequelize.or(
+              {viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        }
       },
 
       // defaults
@@ -1263,10 +1272,10 @@ module.exports = function (db, sequelize, DataTypes) {
   }
 
   let canMutate = function(user, self) {
-
     if (userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId)) {
       return true;
     }
+
     if( !self.isOpen() ) {
       return false;
     }
@@ -1274,6 +1283,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
+
     let config = self.site && self.site.config && self.site.config.ideas
     let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
 		let voteCount = self.no + self.yes;
@@ -1289,7 +1299,7 @@ module.exports = function (db, sequelize, DataTypes) {
     deleteableBy: ['admin','editor','owner', 'moderator'],
     canView: function(user, self) {
       if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
-        return userHasRole(user, self.viewableByRole, self.userId)
+        return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
       } else {
         return true
       }
