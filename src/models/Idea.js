@@ -613,6 +613,9 @@ module.exports = function (db, sequelize, DataTypes) {
 
       // defaults
       default: {
+        include: [{
+          model: db.Site,
+        }]
       },
 
       api: {},
@@ -829,7 +832,16 @@ module.exports = function (db, sequelize, DataTypes) {
         // 				});
       },
 
+      includeSite: {
+        include: [{
+          model: db.Site,
+        }]
+      },
+
       includeVoteCount: {
+        include: [{
+          model: db.Site,
+        }],
         attributes: {
           include: [
             voteCount('yes'),
@@ -839,6 +851,9 @@ module.exports = function (db, sequelize, DataTypes) {
       },
 
       includeArgsCount: {
+        include: [{
+          model: db.Site,
+        }],
         attributes: {
           include: [
             argCount('argCount')
