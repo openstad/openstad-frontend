@@ -166,7 +166,7 @@ module.exports = {
     /**
      * When the user is admin, load in all the voting data
      * @type {[type]}
-     */
+
     self.apos.app.use((req, res, next) => {
       if (req.data.hasModeratorRights) {
         const apiUrl = internalApiUrl ? internalApiUrl : self.apos.settings.getOption(req, 'apiUrl');
@@ -193,7 +193,7 @@ module.exports = {
         return next();
       }
     });
-
+ */
 
     self.apos.app.get('/oauth/logout', (req, res, next) => {
       req.session.destroy(() => {
