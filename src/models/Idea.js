@@ -17,6 +17,22 @@ const roles = require('../lib/sequelize-authorization/lib/roles');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 
+function hideEmailsForNormalUsers(args) {
+  return args.map((argument) => {
+    delete argument.user.email;
+
+    if (argument.reactions) {
+      argument.reactions = argument.reactions.map((reaction) => {
+        delete reaction.user.email;
+
+        return reaction;
+      })
+    }
+
+    return argument;
+  });
+}
+
 module.exports = function (db, sequelize, DataTypes) {
 
   var Idea = sequelize.define('idea', {
@@ -1379,6 +1395,7 @@ module.exports = function (db, sequelize, DataTypes) {
       delete data.site;
       delete data.config;
       // dit zou nu dus gedefinieerd moeten worden op site.config, maar wegens backward compatible voor nu nog even hier:
+      //
 	    if (data.extraData && data.extraData.phone) {
 		    delete data.extraData.phone;
 	    }
@@ -1388,12 +1405,14 @@ module.exports = function (db, sequelize, DataTypes) {
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
 
+      console.log('data.argumentsAgainst', data.argumentsAgainst)
+
       if (data.argumentsAgainst) {
-        delete data.argumentsAgainst;
+      //  data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
       }
 
       if (data.argumentsFor) {
-        delete data.argumentsFor;
+      //  data.argumentsFor = hideEmailsForNormalUsers(data.argumentsFor);
       }
 
       data.can = {};

@@ -45,7 +45,7 @@ router
 		}
 
 		if (req.query.includeArguments) {
-			//req.scope.push({ method: ['includeArguments', req.user.id]});
+			req.scope.push({ method: ['includeArguments', req.user.id]});
 		}
 
 		if (req.query.includeArgsCount) {
