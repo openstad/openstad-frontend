@@ -1,0 +1,48 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@openstad/cms > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - apostrophe > html-to-text > lodash:
+        patched: '2020-08-27T07:37:04.245Z'
+    - apostrophe > sanitize-html > lodash:
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe-blog > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe-palette > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > express-cache-on-demand > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > http-proxy-middleware > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > html-to-text > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > joinr > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > moog-require > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > request-promise > request-promise-core > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > sanitize-html > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > uploadfs > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe-area-structure > cheerio > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe-palette > async > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > express-cache-on-demand > cache-on-demand > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > mocha > yargs-unparser > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > node-file-cache > lowdb > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > moog-require > moog > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe > request-promise > request-promise-core > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
+    - '@openstad/cms > apostrophe-workflow > request-promise > request-promise-core > lodash':
+        patched: '2020-08-27T07:37:04.245Z'
