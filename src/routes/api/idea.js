@@ -17,7 +17,7 @@ router
 
 		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
-		req.scope.push('includeSite');
+		// req.scope.push('includeSite');
 
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
 		if (sort) {
@@ -117,11 +117,10 @@ router.route('/')
 			.scope(...req.scope)
 			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
 			.then(function( result ) {
-        if (req.query.includePoll) { // TODO: naar poll hooks
-          result.rows.forEach((idea) => {
-            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
-          });
-        }
+        result.rows.forEach((idea) => {
+          idea.site = req.site;
+          if (req.query.includePoll && idea.poll) idea.poll.countVotes(!req.query.withVotes);
+        });
         req.results = result.rows;
         req.pagination.count = result.count;
         return next();
@@ -173,6 +172,7 @@ router.route('/')
 			    .scope(...req.scope)
 					.findByPk(ideaInstance.id)
           .then(result => {
+            result.site = req.site;
             req.results = result;
             return next();
           })
@@ -215,6 +215,7 @@ router.route('/')
 					  where: { id: ideaInstance.id, siteId: req.params.siteId }
 				  })
 				  .then(found => {
+            found.site = req.site;
 					  if ( !found ) throw new Error('Idea not found');
 					  req.results = found;
 		        return next();
@@ -240,6 +241,7 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
+        found.site = req.site;
         if (req.query.includePoll) { // TODO: naar poll hooks
           if (found.poll) found.poll.countVotes(!req.query.withVotes);
         }
@@ -322,6 +324,7 @@ router.route('/:ideaId(\\d+)')
 			    })
 			    .then(found => {
 				    if ( !found ) throw new Error('Idea not found');
+            found.site = req.site;
             if (req.query.includePoll) { // TODO: naar poll hooks
               if (found.poll) found.poll.countVotes(!req.query.withVotes);
             }
