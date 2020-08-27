@@ -618,8 +618,10 @@ module.exports = function (db, sequelize, DataTypes) {
         )
       },
 
-      filter: function (filters) {
-        let conditions = {};
+      filter: function (filtersInclude, filtersExclude) {
+        let conditions = {
+          [Sequelize.Op.and]:[]
+        };
 
         const filterKeys = [
           {
@@ -642,23 +644,63 @@ module.exports = function (db, sequelize, DataTypes) {
           },
         ];
 
-
         filterKeys.forEach((filter, i) => {
-          const filterValue = filters[filter.key]
-          if (filters[filter.key]) {
-            if (filter.extraData) {
-              conditions[Sequelize.Op.and] = sequelize.literal(`extraData->"$.${filter.key}"='${filterValue}'`)
-            } else {
-              conditions[filter.key] = filterValue;
+          //first add include filters
+          if (filtersInclude) {
+            let filterValue = filtersInclude[filter.key];
+
+            if (filtersInclude[filter.key]) {
+              if (filter.extraData) {
+                filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+                filterValue.forEach((value, key)=>{
+                  conditions[Sequelize.Op.and].push({
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                  });
+                });
+
+              } else {
+                conditions[Sequelize.Op.and].push({
+                  [filter.key] : filterValue
+                });
+              }
+            }
+          }
+
+          //add exclude filters
+          if (filtersExclude) {
+            let excludeFilterValue = filtersExclude[filter.key];
+
+            if (excludeFilterValue) {
+              if (filter.extraData) {
+                excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
+
+                //filter out multiple conditions
+                excludeFilterValue.forEach((value, key)=>{
+                  conditions[Sequelize.Op.and].push({
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                  });
+
+
+                })
+
+              } else {
+                /*
+                TODO
+                conditions[Sequelize.Op.and].push({
+                  [filter.key] : filterValue
+                });
+                */
+              }
             }
           }
         });
 
         return {
-          where: conditions
+          where: sequelize.and(conditions)
+          //where: sequelize.and(conditions)
         }
       },
-
 
       // vergelijk getRunning()
       selectRunning: {

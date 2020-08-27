@@ -36,14 +36,10 @@ router
 			req.scope.push('mapMarkers');
 		}
 
-		if (req.query.filters) {
-			req.scope.push({ method: ['filter', req.query.filters]});
+		if (req.query.filters || req.query.exclude) {
+			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
 		}
-
-		if (req.query.exclude) {
-			req.scope.push({ method: ['exclude', req.query.exclude]});
-		}
-
+		
 		if (req.query.running) {
 			req.scope.push('selectRunning');
 		}
@@ -115,6 +111,8 @@ router.route('/')
 
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+
+		console.log('req.scope', req.scope)
 
 		db.Idea
 			.scope(...req.scope)
