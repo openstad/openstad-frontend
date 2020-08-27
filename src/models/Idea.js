@@ -254,7 +254,7 @@ module.exports = function (db, sequelize, DataTypes) {
       allowNull: true
     },
 
-    extraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
+    tagsExtraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
 
     location: {
       type: DataTypes.GEOMETRY('POINT'),
