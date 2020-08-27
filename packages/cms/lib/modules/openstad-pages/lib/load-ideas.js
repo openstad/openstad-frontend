@@ -3,7 +3,7 @@ const moment          = require('moment'); // returns the new locale, in this ca
 const url             = require('url');
 const internalApiUrl  = process.env.INTERNAL_API_URL;
 const cache           = require('../../../../services/cache').cache;
-const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
+const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
 
 module.exports =  function (req, res, next) {
   const globalData = req.data.global;
