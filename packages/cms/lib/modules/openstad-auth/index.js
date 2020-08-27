@@ -92,43 +92,65 @@ module.exports = {
              json: true // Automatically parses the JSON string in the response
          };
 
-         rp(options)
-           .then(function (user) {
-             if (user && Object.keys(user).length > 0 && user.id) {
-               const requiredRoles = ['member', 'moderator', 'admin', 'editor'];
-               req.data.loggedIn = user &&  user.role && requiredRoles.includes(user.role);
-               req.data.openstadUser = user;
-               req.data.isAdmin = user.role === 'admin'; // user;
-               req.data.isEditor = user.role === 'editor'; // user;
-               req.data.isModerator = user.role === 'moderator'; // user;
-               req.data.jwt = jwt;
+         const setUserData = function (req, next) {
 
-               if (req.data.isAdmin || req.data.isEditor || req.data.isModerator) {
-                 req.data.hasModeratorRights = true;
-               }
+           const requiredRoles = ['member', 'moderator', 'admin', 'editor'];
+           const user = req.session.openstadUser;
+           req.data.loggedIn = user &&  user.role && requiredRoles.includes(user.role);
+           req.data.openstadUser = user;
+           req.data.isAdmin = user.role === 'admin'; // user;
+           req.data.isEditor = user.role === 'editor'; // user;
+           req.data.isModerator = user.role === 'moderator'; // user;
+           req.data.jwt = jwt;
 
-               req.session.save(() => {
-                 next();
-               });
-             } else {
-               // if not valid clear the JWT and redirect
-               req.session.destroy(() => {
+           if (req.data.isAdmin || req.data.isEditor || req.data.isModerator) {
+             req.data.hasModeratorRights = true;
+           }
+
+
+           req.session.save(() => {
+             next();
+           });
+         }
+
+         const FIVE_MINUTES =5*60*1000;
+         const date = new Date();
+         const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
+
+
+         if (req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
+           console.log('get user from session')
+            setUserData(req, next);
+         } else {
+             rp(options)
+             .then(function (user) {
+               console.log('fetch user from again')
+
+               if (user && Object.keys(user).length > 0 && user.id) {
+                 req.session.openstadUser = user;
+                 req.session.lastJWTCheck = new Date().toISOString();
+
+                 setUserData(req, next)
+               } else {
+                 // if not valid clear the JWT and redirect
+                 req.session.destroy(() => {
                    res.redirect('/');
                    return;
-                })
-             }
+                 });
+               }
 
-           })
-           .catch((e) => {
-             console.log('e', e);
+             })
+             .catch((e) => {
+               console.log('e', e);
 
-             // if not valid clear the JWT and redirect
-             // ;
-               req.session.destroy(() => {
-                 res.redirect('/');
-                 return;
-               })
-           });
+               // if not valid clear the JWT and redirect
+               // ;
+                 req.session.destroy(() => {
+                   res.redirect('/');
+                   return;
+                 })
+             });
+          }
          }
        }
     };
