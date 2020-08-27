@@ -590,20 +590,25 @@ module.exports = function (db, sequelize, DataTypes) {
       // nieuwe scopes voor de api
       // -------------------------
 
-      onlyVisible: function (userRole) {
-        return {
-          where: sequelize.or(
-            {
-              viewableByRole: 'all'
-            },
-            {
-              viewableByRole: null
-            },
-            {
-              viewableByRole: roles[userRole] || ''
-            },
-          )
-        };
+      onlyVisible: function (userId, userRole) {
+        if (userId) {
+          return {
+            where: sequelize.or(
+              { userId },
+              { viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        } else {
+          return {
+            where: sequelize.or(
+              {viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        }
       },
 
       // defaults
@@ -1367,7 +1372,7 @@ module.exports = function (db, sequelize, DataTypes) {
     deleteableBy: ['admin','editor','owner', 'moderator'],
     canView: function(user, self) {
       if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
-        return userHasRole(user, self.viewableByRole, self.userId)
+        return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
       } else {
         return true
       }
