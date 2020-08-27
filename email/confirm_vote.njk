@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>{{SITENAME}}</title>
-		
+
 		<style type="text/css">
 		 #outlook a {padding:0;}
 		 .ExternalClass {width:100%;}
@@ -26,7 +26,7 @@
 			 margin-top: 20px;
 			 margin-bottom: 0;
 		 }
-		 
+
      h2 {
 			 font-size: 18px;
 			 font-weight: 600;
@@ -42,7 +42,7 @@
      }
 
 		 .blue {
-			 color: #164995;		 
+			 color: #164995;
 		 }
 
 		 .list {
@@ -61,7 +61,7 @@
 		 #howDoesItWork {
 			 margin: 20px 0 20px 0;
 		 }
-		 
+
 		 .step {
 			 width: calc(25% - 21px);
 			 display: inline-block;
@@ -88,7 +88,7 @@
 			<tr>
 				<td></td>
 				<td width="560">
-					<img src="cid:logo.png" width="99" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+					{% include 'logo.njk' %}
 				</td>
 				<td></td>
 			</tr>
@@ -113,10 +113,10 @@
 
           <br/>
 					Bedankt voor je stem op <a herf="{{URL}}">{{SITENAME}}</a>!
-					
+
 					<br/>
 					<br/>
-					
+
 					<a href="{{URL}}/idea/{{idea.id}}/vote/confirm?token={{token}}&uid={{userId}}&type=confirmVote" target="_blank"
 					style="background-color: #EC0000; color: #FFF; font-size: 1.25em; padding: 15px 50px; text-decoration: none;"
 					>
@@ -139,7 +139,7 @@
 
 					<br/>
 					<br/>
-					
+
 					<p>
 						<b>Heel veel succes met je campagne!</b>
 					</p>

@@ -35,12 +35,19 @@ router
 			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = baseUrl + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
+
 			return res.redirect(url)
 		}
 
+
 		req.session.save(() => {
+      console.log('====================');
+      console.log(req.site);
+      console.log(req.site.id);
 			let which = req.session.useOauth || 'default';
+      console.log(which);
 			let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+      console.log(siteOauthConfig);
 			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
@@ -74,7 +81,7 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
 		let url = authServerUrl + authServerExchangeCodePath;
 
@@ -112,6 +119,7 @@ router
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
+
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
 					return next();
@@ -128,7 +136,7 @@ router
 		// get the user info using the access token
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
@@ -277,11 +285,14 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-logout-path'] || config.authorization['auth-server-logout-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
+
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
 
 		req.session.destroy();
 
@@ -297,9 +308,10 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
-		res.json({
+		const data = {
 			"id": req.user.id,
 			"complete": req.user.complete,
+			"externalUserId": req.user.role == 'admin' ? req.user.externalUserId : null,
 			"role": req.user.role,
 			"email": req.user.email,
 			"firstName": req.user.firstName,
@@ -308,12 +320,23 @@ router
 			"nickName": req.user.nickName,
 			"initials": req.user.initials,
 			"gender": req.user.gender,
+			"extraData": req.user.extraData ?  req.user.extraData : {},
+			"phoneNumber": req.user.phoneNumber,
+			"streetName": req.user.streetName,
+			"city": req.user.city,
+			"houseNumber": req.user.houseNumber,
+			"suffix": req.user.suffix,
+			"postcode": req.user.postcode,
 			"zipCode": req.user.zipCode,
 			"signedUpForNewsletter": req.user.signedUpForNewsletter,
 			"createdAt": req.user.createdAt,
 			"updatedAt": req.user.updatedAt,
 			"deletedAt": req.user.deletedAt,
-		})
+		};
+
+	//console.log('data', data);
+
+		res.json(data);
 	})
 
 module.exports = router;

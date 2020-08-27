@@ -2,9 +2,10 @@ var config         = require('config')
 , log            = require('debug')('app:user')
 , pick           = require('lodash/pick');
 
-var auth           = require('../auth');
-var Password       = require('../auth/password');
-var sanitize       = require('../util/sanitize');
+const Password      = require('../lib/password');
+const sanitize      = require('../util/sanitize');
+const userHasRole 	= require('../lib/sequelize-authorization/lib/hasRole');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -15,21 +16,38 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.INTEGER,
 			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
 		},
-		
+
     externalUserId: {
       type         : DataTypes.INTEGER,
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
     externalAccessToken: {
       type         : DataTypes.STRING(2048),
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
 		role: {
 			type         : DataTypes.STRING(32),
+      auth: {
+        createableBy : 'admin',
+        updateableBy : 'admin',
+        viewableBy : 'all',
+      },
 			allowNull    : false,
 			defaultValue : 'anonymous',
 			validate     : {
@@ -37,7 +55,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 					args : [['unknown', 'anonymous', 'member', 'admin', 'su', 'editor', 'moderator', 'superAdmin']],
 					msg  : 'Unknown user role'
 				}
-			}
+			},
+      auth: {
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 		},
 		// For unknown/anon: Always `false`.
 		// For members: `true` when the user profile is complete. This is set
@@ -52,8 +74,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : false
 		},
 
+		extraData: getExtraDataConfig(DataTypes.JSON, 'users'),
+
 		email: {
 			type         : DataTypes.STRING(255),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				isEmail: {
@@ -75,6 +105,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
 			defaultValue : null,
+      auth: {
+        listableBy: 'none',
+        viewableBy: 'none',
+      },
 			validate     : {
 				len: {
 					args : [6,64],
@@ -110,6 +144,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		firstName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('firstName', sanitize.noTags(value));
@@ -118,11 +158,79 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		lastName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('lastName', sanitize.noTags(value));
 			}
 		},
+
+		phoneNumber: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('phoneNumber', sanitize.noTags(value));
+			}
+		},
+
+		streetName: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('streetName', sanitize.noTags(value));
+			}
+		},
+
+		houseNumber: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('houseNumber', sanitize.noTags(value));
+			}
+		},
+
+		postcode: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('postcode', sanitize.noTags(value));
+			}
+		},
+
+		city: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('city', sanitize.noTags(value));
+			}
+		},
+
+		suffix: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('suffix', sanitize.noTags(value));
+			}
+		},
+
+
 
 		fullName: {
 			type         : DataTypes.VIRTUAL,
@@ -156,6 +264,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		zipCode: {
 			type         : DataTypes.STRING(10),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				is: {
@@ -168,7 +282,30 @@ module.exports = function( db, sequelize, DataTypes ) {
 				  String(zipCode).trim() :
 				  null;
 				this.setDataValue('zipCode', zipCode);
-			}
+			},
+
+			postcode: {
+				type         : DataTypes.STRING(10),
+				auth: {
+					listableBy: ['editor','owner'],
+					viewableBy: ['editor','owner'],
+					createableBy: ['editor','owner'],
+					updateableBy: ['editor','owner'],
+				},
+				allowNull    : true,
+				validate     : {
+					is: {
+						args : [/^\d{4} ?[a-zA-Z]{2}$/],
+						msg  : 'Ongeldige postcode'
+					}
+				},
+				set          : function( zipCode ) {
+					zipCode = zipCode != null ?
+						String(zipCode).trim() :
+						null;
+					this.setDataValue('zipCode', zipCode);
+				},
+			},
 		},
 
 		// signedUpForNewsletter: {
@@ -184,6 +321,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 			fields: ['email'],
 			unique: true
 		}],*/
+
+		includeSite: {
+			include: [{
+				model: db.Site,
+			}]
+		},
 
 		validate: {
 			hasValidUserRole: function() {
@@ -219,11 +362,23 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	});
 
+	User.scopes = function scopes() {
+		return {
+			includeSite: {
+        include: [{
+          model: db.Site,
+        }]
+      },
+
+		}
+	}
+
 	User.associate = function( models ) {
 		this.hasMany(models.Article);
 		this.hasMany(models.Idea);
 		this.hasMany(models.Vote);
 		this.hasMany(models.Argument);
+		this.belongsTo(models.Site);
 	}
 
 	User.findByCredentials = function( email, password ) {
@@ -288,7 +443,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	User.prototype.completeRegistration = function( data ) {
 		var self = this;
 		var filtered = pick(data, [
-			'firstName', 'lastName', 'zipCode', 'gender', 'password', 'signedUpForNewsletter'
+			'firstName', 'lastName', 'zipCode', 'postcode', 'gender', 'password', 'signedUpForNewsletter'
 		]);
 		filtered.complete = true;
 		if (self.role === 'anonymous') {
@@ -369,6 +524,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return vote ? true : false;
 			})
 	}
+
+	User.auth = User.prototype.auth = {
+    listableBy: 'editor',
+    viewableBy: 'all',
+    createableBy: 'editor',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+  }
 
 	return User;
 };

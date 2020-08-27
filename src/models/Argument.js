@@ -8,22 +8,32 @@ var emailBlackList = require('../../config/mail_blacklist')
   , emailDomain    = /^.+@(.+)$/;
 
 var notifications = require('../notifications');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var Argument = sequelize.define('argument', {
 
 		parentId: {
 			type         : DataTypes.INTEGER,
+      auth: {
+        updateableBy : 'moderator',
+      },
 			allowNull    : true
 		},
 
 		ideaId: {
 			type         : DataTypes.INTEGER,
+      auth: {
+        updateableBy : 'moderator',
+      },
 			allowNull    : false
 		},
 
 		userId: {
 			type         : DataTypes.INTEGER,
+      auth: {
+        updateableBy : 'moderator',
+      },
 			allowNull    : false,
 			defaultValue: 0,
 		},
@@ -168,7 +178,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				};
 			},
 
-
 			includeReactionsOnReactions: function( userId ) {
 				let argVoteThreshold = 5; // todo: configureerbaar
 				return {
@@ -193,7 +202,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return {
 					include: [{
 						model      : db.Idea,
-						attributes : ['id', 'title', 'status']
+						attributes : ['id', 'title', 'status', 'viewableByRole']
 					}]
 				}
 			},
@@ -285,6 +294,38 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return result && !!result.deletedAt;
 			});
 	}
+
+	Argument.auth = Argument.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'member',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+    canVote: function(user, self) {
+      // TODO: ik denk dat je alleen moet kunnen voten bij idea.isOpen, maar dat doet hij nu ook niet. Sterker: hij checkt nu alleen maar op parentId.
+      if (userHasRole(user, 'member') && self.id && !self.parentId) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    canReply: function(user, self) {
+      if (!self.idea) return false;
+      if (self.idea.isRunning() && userHasRole(user, 'member') && self.id && !self.parentId) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    toAuthorizedJSON(user, result, self) {
+      // TODO: ik denk dat ik doit overal wil. Misschien met een scope of andere param.
+      result.can = {};
+      if ( self.can('reply', user) ) result.can.reply = true;
+      if ( self.can('update', user) ) result.can.edit = true;
+      if ( self.can('delete', user) ) result.can.delete = true;
+      return result;
+    }
+  }
 
 	return Argument;
 

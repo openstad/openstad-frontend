@@ -28,7 +28,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						}
 					}
 				}
-			}
+			},
 		},
 
 		firstName: {
@@ -50,7 +50,10 @@ module.exports = function( db, sequelize, DataTypes ) {
     externalUserId: {
       type         : DataTypes.INTEGER,
 			allowNull    : true,
-			defaultValue : null
+			defaultValue : null,
+      auth: {
+        viewableBy: ['admin', 'owner'],
+      },
     },
 
 		confirmed: {
@@ -62,13 +65,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 		confirmToken: {
 			type         : DataTypes.STRING(512),
 			allowNull    : true,
-			defaultValue : null
+			defaultValue : null,
+      auth: {
+        viewableBy: ['admin', 'owner'],
+      },
 		},
 
 		signoutToken: {
 			type         : DataTypes.STRING(512),
 			allowNull    : true,
-			defaultValue : null
+			defaultValue : null,
+      auth: {
+        viewableBy: ['admin', 'owner'],
+      },
 		},
 
 	});
@@ -88,7 +97,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 	}
-	
+
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	NewsletterSignup.auth = NewsletterSignup.prototype.auth = {
+    listableBy: 'editor',
+    viewableBy: ['editor', 'owner'],
+    createableBy: 'all',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+    canConfirm: function(user, self) {
+      // all; specific checks are in the route (TODO: move those to here)
+      return true;
+    },
+    canSignout: function(user, self) {
+      // all; specific checks are in the route (TODO: move those to here)
+      return true;
+    },
+  }
+
 	return NewsletterSignup;
 	
 };

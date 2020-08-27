@@ -23,28 +23,45 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 
 		config: {
-			type				 : DataTypes.TEXT,
+			type				 : DataTypes.JSON,
 			allowNull		 : false,
 			defaultValue : {},
 			get					 : function() {
 				let value = this.getDataValue('config');
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
 				return this.parseConfig(value);
 			},
 			set					 : function(value) {
 				var currentconfig = this.getDataValue('config');
-				try {
-					if (typeof currentconfig == 'string') {	currentconfig = JSON.parse(currentconfig); }
-				} catch(err) { currentconfig = {}; }
 				value = value || {};
 				value = merge.recursive(currentconfig, value);
-				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
-			}
+				this.setDataValue('config', this.parseConfig(value));
+			},
+      auth: {
+        viewableBy: 'admin',
+      },
 		},
+
+		/*
+			HostStatus is used for tracking domain status
+			For instance, mostly managed by checkHostStatus service
+			{
+				"ip": true, // means the IP is set to this server
+				"ingress": false // if on k8s cluster will try to make a ingress host file if IP address is set properly, k8s cert manager will then try get a let's encrypt cert
+			} if
+		 */
+		hostStatus: {
+			type				 : DataTypes.JSON,
+			allowNull		 : false,
+			defaultValue : {},
+      auth: {
+        viewableBy: 'admin',
+      },
+		},
+
+		areaId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		}
 
 	});
 
@@ -52,11 +69,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 			},
+
+			withArea: {
+				include: [{
+					model: db.Area
+				}]
+			}
 		};
 	}
 
 	Site.associate = function( models ) {
 		this.hasMany(models.Idea);
+		this.belongsTo(models.Area);
 	}
 
 	Site.configOptions = function () {
@@ -92,7 +116,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				subset: {
 					dbName: {
 						type: 'string',
-						default: '',
+						default: 'default_db', //the mongodb database
 					},
 					url: {
 						type: 'string',
@@ -253,6 +277,54 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
           extraData: {
 						type: 'object',
+					},
+          types: {
+						type: 'arrayOfObjects',
+						default: [],
+				    subset: {
+							name: {
+								type: 'string',
+								default: 'noName',
+							},
+							label: {
+								type: 'label',
+								default: 'Dit is niets',
+							},
+							auth: {
+								type: 'object', // TODO: werk dit uit
+							},
+							mapIcon: {
+								type: 'string',
+								default: '',
+							},
+							listIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonLabel: {
+								type: 'string',
+								default: '',
+							},
+							backgroundColor: {
+								type: 'string',
+								default: '#164995',
+							},
+							textColor: {
+								type: 'string',
+								default: 'white',
+							},
+              // TODO: deze komen uit cms thema; werk dat verder uit
+              "flag": { type: 'string', default: '' },
+              "mapUploadedFlag": { type: 'string', default: '' },
+              "mapFlagWidth": { type: 'string', default: '' },
+              "mapFlagHeight": { type: 'string', default: '' },
+              "Initialavailablebudget": { type: 'int', default: 0 },
+              "minimalBudgetSpent": { type: 'int', default: 0 },
+            }
           }
 				}
 			},
@@ -280,7 +352,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 								default: ['zipCode', 'nickName'],
 							}
 						}
-					}
+					},
+
+					isClosed: {
+						type: 'boolean',
+						default: false,
+					},
+
+					closedText: {
+						type: 'string',
+						default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
+					},
+
 				}
 			},
 			votes: {
@@ -447,6 +530,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 
+			polls: {
+				type: 'object',
+				subset: {
+					canAddPolls: {
+						type: 'boolean',
+						default: false,
+					},
+					requiredUserRole: {
+						type: 'string',
+						default: 'anonymous',
+					},
+				},
+			},
+      
 			newslettersignup: {
 				type: 'object',
 				subset: {
@@ -480,6 +577,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						},
 					},
 				},
+			},
+
+      host: {
+				status: null,
 			},
 
 			"ignoreBruteForce": {
@@ -517,6 +618,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					// dit is een oude
 					value[key] = { default: value[key] };
 				}
+
+        // TODO: 'arrayOfObjects' met een subset
 
 				// objects in objects
 				if (options[key].type == 'object' && options[key].subset) {
@@ -595,6 +698,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 	}
+
+	Site.auth = Site.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
 	return Site;
 

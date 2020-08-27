@@ -1,4 +1,6 @@
-{
+// at the bootom of this file some values are overwritten with env vars
+
+let defaultConfig = {
 
 	"siteName": "OpenStad API",
 
@@ -10,6 +12,11 @@
 	"locale"   : "nl",
 	"logging"  : "app:*,-app:db:query",
 	"timeZone" : "Europe/Amsterdam",
+
+  database   : {
+    "dialect": "mysql",
+    "multipleStatements": true
+  },
 
 	"express": {
 		"port": 8082,
@@ -27,7 +34,7 @@
 			"./routes/dev",
 			{ "route": "/api", "router": "./routes/api" },
 			{ "route": "/oauth", "router": "./routes/oauth" },
-			{ "route": "/stats", "router": "./routes/stats" },
+      { "route": "/stats", "router": "./routes/stats" },
 			{ "route": "/", "router": "./routes/doc" }
 		]
 	},
@@ -62,6 +69,7 @@
 	},
 
 	"authorization": {
+
 		"jwt-secret": "xxxxx",
     "auth-server-login-path": "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline",
     "auth-server-admin-login-path":"/auth/admin/login?redirect_uri=[[redirectUrl]]&response_type=code&clientId=[[clientId]]&scope=offline",
@@ -292,3 +300,34 @@
 	}
 
 }
+
+// use env vars
+defaultConfig.url = process.env.API_URL || defaultConfig.url;
+defaultConfig.hostname = process.env.API_HOSTNAME || defaultConfig.hostname;
+defaultConfig.database.user = process.env.API_DATABASE_USER || defaultConfig.database.user;
+defaultConfig.database.password = process.env.API_DATABASE_PASSWORD || defaultConfig.database.password;
+defaultConfig.database.database = process.env.API_DATABASE_DATABASE || defaultConfig.database.database;
+defaultConfig.database.host = process.env.API_DATABASE_HOST || defaultConfig.database.host;
+defaultConfig.emailAddress = process.env.API_EMAILADDRESS || defaultConfig.emailAddress;
+defaultConfig.express.port = process.env.API_EXPRESS_PORT || defaultConfig.express_port;
+defaultConfig.mail.from = process.env.API_MAIL_FROM || defaultConfig.mail.from;
+defaultConfig.mail.transport.smtp.port = process.env.API_MAIL_TRANSPORT_SMTP_PORT || defaultConfig.mail.transport.smtp.port;
+defaultConfig.mail.transport.smtp.host = process.env.API_MAIL_TRANSPORT_SMTP_HOST || defaultConfig.mail.transport.smtp.host;
+defaultConfig.mail.transport.smtp.requireSSL = process.env.API_MAIL_TRANSPORT_SMTP_REQUIRESSL || defaultConfig.mail.transport.smtp.requireSSL;
+defaultConfig.mail.transport.smtp.auth.user = process.env.API_MAIL_TRANSPORT_SMTP_AUTH_USER || defaultConfig.mail.transport.smtp.auth.user;
+defaultConfig.mail.transport.smtp.auth.pass = process.env.API_MAIL_TRANSPORT_SMTP_AUTH_PASS || defaultConfig.mail.transport.smtp.auth.pass;
+defaultConfig.notifications.admin.emailAddress = process.env.API_NOTIFICATIONS_ADMIN_EMAILADDRESS || defaultConfig.notifications.admin.emailAddress;
+defaultConfig.security.sessions.cookieName = process.env.API_SECURITY_SESSIONS_COOKIENAME || defaultConfig.security.sessions.cookieName;
+defaultConfig.security.sessions.onlySecure = process.env.API_SECURITY_SESSIONS_ONLYSECURE || defaultConfig.security.sessions.onlySecure;
+defaultConfig.authorization['jwt-secret'] = process.env.API_AUTHORIZATION_JWTSECRET || defaultConfig.authorization['jwt-secret'];
+defaultConfig.authorization['auth-server-url'] = process.env.AUTH_API_URL || defaultConfig.authorization['auth-server-url'];
+defaultConfig.authorization["auth-client-id"] = process.env.USER_API_CLIENT_ID || defaultConfig.authorization["auth-client-id"];
+defaultConfig.authorization["auth-client-secret"] = process.env.USER_API_CLIENT_SECRET || defaultConfig.authorization["auth-client-secret"];
+
+try {
+  defaultConfig.authorization['fixed-auth-tokens'] = JSON.parse(process.env.API_AUTHORIZATION_FIXEDAUTHTOKENS) || defaultConfig.authorization['fixed-auth-tokens'];
+} catch (err) {
+	//console.log('err', err);
+};
+
+module.exports = defaultConfig;

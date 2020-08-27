@@ -70,6 +70,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 		});
 	}
 
+	ArgumentVote.auth = ArgumentVote.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'member',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+  }
+
 	return ArgumentVote;
 
 };

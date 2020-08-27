@@ -37,5 +37,8 @@ module.exports = function( helpers, role ) {
 
 		'newslettersignup:list'     : true,
 		'newslettersignup:view'	 	  : true,
+		'area:list'				: true,
+		'area:create'			: true,
+		'site:edit' 			: true,
 	});
 };

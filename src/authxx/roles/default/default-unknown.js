@@ -13,11 +13,12 @@ module.exports = function( helpers, role ) {
     'site:admin': false,
     'site:view': true,
     'site:create': false,
-    'site:edit': {
+  /*  'site:edit': {
       allow: false,
       resource: 'site',
       message: 'Site bewerken niet toegestaan'
-    },
+    },*/
+     'site:edit': true,
     'site:delete': {
       allow: false,
       resource: 'site'
@@ -188,6 +189,10 @@ module.exports = function( helpers, role ) {
     'tags:create': false,
     'tags:edit': false,
     'tags:delete': false,
+
+    // area
+    'area:list': true,
+    'area:create': false,
 
     'user:mail': false
   });
