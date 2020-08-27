@@ -1388,6 +1388,14 @@ module.exports = function (db, sequelize, DataTypes) {
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
 
+      if (data.argumentsAgainst) {
+        delete data.argumentsAgainst;
+      }
+
+      if (data.argumentsFor) {
+        delete data.argumentsFor;
+      }
+
       data.can = {};
       // if ( self.can('vote', user) ) data.can.vote = true;
       if ( self.can('update', user) ) data.can.edit = true;
