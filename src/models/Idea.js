@@ -1408,11 +1408,11 @@ module.exports = function (db, sequelize, DataTypes) {
       console.log('data.argumentsAgainst', data.argumentsAgainst)
 
       if (data.argumentsAgainst) {
-      //  data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
+        data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
       }
 
       if (data.argumentsFor) {
-      //  data.argumentsFor = hideEmailsForNormalUsers(data.argumentsFor);
+        data.argumentsFor = hideEmailsForNormalUsers(data.argumentsFor);
       }
 
       data.can = {};
