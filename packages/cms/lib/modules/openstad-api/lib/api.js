@@ -75,7 +75,7 @@ module.exports = (self, options) => {
       }
     });
 
-    return request(options);
+  //  return request(options);
   };
 
   self.getAllIdeas = async (req, siteId, sort) => {
@@ -83,7 +83,7 @@ module.exports = (self, options) => {
       uri: `${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeArgsCount=1`,
     });
 
-    return request(options);
+    //return request(options);
   };
 
   self.updateSite = async (data) => {
@@ -93,7 +93,7 @@ module.exports = (self, options) => {
       body: data,
     });
 
-    return request(options);
+  //  return request(options);
   };
 
   self.getAllPolygons = async () => {
@@ -102,6 +102,6 @@ module.exports = (self, options) => {
       uri: `${self.apiUrl}/api/area`,
     });
 
-    return request(options);
+  //  return request(options);
   }
 };
