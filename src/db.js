@@ -34,8 +34,8 @@ var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.passwor
 		socketPath         : dbConfig.socketPath
 	},
 	timeZone       : config.timeZone,
-	logging        : require('debug')('app:db:query'),
- //	logging				 : console.log,
+//	logging        : require('debug')('app:db:query'),
+ 	logging				 : console.log,
 	typeValidation : true,
 
 	define: {
