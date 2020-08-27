@@ -1,0 +1,97 @@
+#agenda {
+
+	.description {
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
+
+}
+
+.agenda-meeting, .agenda-selection {
+  padding: 10px 10px 5px 50px;
+  position: relative;
+  margin-bottom: 10px;
+  font-size: 14px;
+	background-color: #f6f7f7;
+
+  ul {
+    padding: 0 15px 0 0;
+
+		li {
+			background-image: url('/modules/openstad-assets/img/arrow_right_black.svg');
+			background-position: top 3px left;
+			background-repeat: no-repeat;
+			background-size: auto 10px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			font-size: 12px;
+			line-height: 18px;
+			padding: 0 0 0 15px;
+
+			&:hover {
+				background-image: url('/modules/openstad-assets/img/arrow_right_red.svg');
+			}
+
+			a {
+				font-size: 12px;
+				font-weight: 600;
+				color: black;
+				text-decoration: none;
+			}
+
+			a:visited {
+				color: black;
+			}
+
+			a:hover {
+				color: #EC0000;
+				text-decoration: underline;
+			}
+		}
+	}
+
+
+  h3 {
+		font-size: 18px;
+    margin: 10px 0;
+  }
+}
+
+.agenda-meeting::before,
+.agenda-selection::before {
+	content: '';
+	width: 10px;
+	background: #323333;
+	left: 15px;
+	top: -10px;
+	bottom: 0;
+	position: absolute;
+}
+
+.agenda-meeting:first-child::before,
+.agenda-selection:first-child::before {
+	top: 0;
+}
+
+.agenda-meeting::after,
+.agenda-selection::after {
+	top: 50%;
+	position: absolute;
+	content: '';
+	background-repeat: no-repeat;
+	transform: translateY(-50%);
+}
+
+.agenda-meeting::after {
+  background-image: url('/modules/openstad-assets/img/agenda/meeting.svg');
+  width: 26px;
+  height: 26px;
+  left: 7px;
+}
+
+.agenda-selection::after {
+  background-image: url('../../modules/openstad-assets/img/agenda/selection.svg');
+  width: 26px;
+  height: 26px;
+  left: 7px;
+}

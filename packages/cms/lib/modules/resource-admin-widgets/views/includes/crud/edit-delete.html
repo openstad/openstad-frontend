@@ -1,0 +1,21 @@
+<h2 class="edit-header">Bewerken</h2>
+
+{% if data.widget.activeResourceId %}
+<form action="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}" method="GET">
+  <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
+  <button type="submit" class="edit">Bewerk </button>
+</form>
+
+<form method="POST" action="/modules/resource-admin-widgets/delete" id="deleteIdea" class="ajax-form">
+  <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
+  <input type="hidden" name="resourceEndPoint" value="{{data.widget.activeResourceEndpoint}}" />
+  <button type="submit" class="delete" onclick="return confirm('Zeker?')">Verwijder</button>
+  <input type="hidden" name="redirect-url" class="redirect-url"  value="{{data.widget.redirectUrlAfterDelete}}"  />
+</form>
+{% else %}
+<div class="alert alert-warning">
+  {{ __('Warning: no active resource is found for editing.') }}
+</div>
+{% endif %}

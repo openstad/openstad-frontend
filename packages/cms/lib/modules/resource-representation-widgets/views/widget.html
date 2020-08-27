@@ -1,0 +1,14 @@
+<style>
+  {{data.widget.formattedContainerStyles}}
+</style>
+
+{% if data.widget.pageType !== 'resource' and data.hasModeratorRights  %}
+<br />
+  <div class="alert alert-warning">
+    {{ __('Warning to adminstrator: a resource representation widget won\'t work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.') }}
+  </div>
+{% endif %}
+
+<div id="{{data.widget.containerId}}">
+	{% include 'display/' + data.widget.displayType + '.html' %}
+</div>

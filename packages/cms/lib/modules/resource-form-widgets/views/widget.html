@@ -1,0 +1,58 @@
+{% set pageTitle = 'Jouw plan insturen' %}
+{% set showForm = true %}
+{% set activeResource = data.activeResource %}
+{% set isOwner = data.openstadUser.id === activeResource.userId %}
+{% set isReactedTo = (activeResource.yes > 0 or activeResource.no > 0 or activeResource.argumentCount > 0) %}
+{% set notReactedTo =  not isReactedTo %}
+{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hactiveResourcedminAfterPublicAction and isOwner) or data.isAdmin %}
+
+
+{% if activeResource and isOwnerOrAdmin %}
+{% set showForm = true %}
+{% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
+{% set showForm = true %}
+{% else %}
+{% set showForm = false %}
+{% endif %}
+
+{% if data.widget.editorDescription %}
+{% set useModernEditor = true %}
+{% else %}
+{% set useModernEditor = false %}
+{% endif %}
+
+<div class="pageContent newactiveResource" id="content">
+	{% if not showForm %}
+	<div class="box-grey">
+		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
+		<p>Klik <a href="/oauth/login">hier</a> om in te loggen.</p>
+	</div>
+	{% elseif showForm %}
+		<div  id="formulier-block">
+			{% if data.widget.formType === 'dynamic' %}
+			{% include 'includes/dynamic-form.html' %}
+			{% else %}
+			{% include 'includes/static-form.html' %}
+			{% endif %}
+		</div>
+	 {% endif %}
+</div>
+<script>
+	var titleMinLength = parseInt('{{data.widget.resourceConfig.titleMinLength}}');
+  var titleMaxLength = parseInt('{{data.widget.resourceConfig.titleMaxLength}}');
+  var summaryMinLength = parseInt('{{data.widget.resourceConfig.summaryMinLength}}');
+  var summaryMaxLength = parseInt('{{data.widget.resourceConfig.summaryMaxLength}}');
+  var descriptionMinLength = parseInt('{{data.widget.resourceConfig.descriptionMinLength}}');
+  var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
+</script>
+
+<script src="/modules/openstad-assets/js/vendor/trix.js"></script>
+<script src="/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond.js"></script>
+
+<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
+<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>

@@ -1,0 +1,15 @@
+{% set idea = data.widget.activeResource %}
+
+{% if idea.modBreak %}
+<div id="modBreak">
+		{% if data.global.modbreakAuthor %}
+			<b>{{data.global.modbreakAuthor}} | </b>
+		{% endif %}
+
+		<b>{{idea.modBreakDate | date( 'D MMM YYYY, HH:mm')}}</b>
+		<br>
+		<p>
+			{{idea.modBreak | sanitize | safe | nlbr}}
+		</p>
+</div>
+{% endif %}

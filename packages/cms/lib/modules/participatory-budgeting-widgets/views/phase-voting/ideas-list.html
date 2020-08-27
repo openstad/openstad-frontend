@@ -1,0 +1,191 @@
+{% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
+<ul
+id="ideaList"
+class="gridder ideas-list"
+onclick="handleClick(event);"
+{% if data.widget.defaultSorting %}
+data-default-sort="{{data.widget.defaultSorting}}"
+{% endif %}
+>
+	{% for idea in runningIdeas %}
+	<li
+	id="idea-{{idea.id}}"
+	class="gridder-list idea-item {% if loop.index % 3 === 0 %} third-item {% endif %} {{idea.status}}"
+	data-griddercontent="#idea-content-{{idea.id}}"
+	data-createdtime="{{idea.createdTime}}"
+	data-likes="{{idea.yes}}"
+	data-budget="{{idea.budget}}"
+  data-ideaid="{{idea.id}}"
+	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 10000}}"
+	data-theme="{{idea.extraData.theme}}"
+	data-area="{{idea.extraData.area}}"
+	role="article"
+	tabindex="0"
+	title="{{idea.title}}"
+	onkeydown="handleKeyDown(event);"
+	>
+		<div class="idea-image-mask">
+			<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
+			{% if data.widget.displayRanking and idea.extraData.ranking %}
+			<div class="ranking">
+				<div class="label">{{idea.extraData.ranking}}</div>
+			</div>
+			{% endif %}
+
+			{% if data.widget['label' + idea.status] %}
+			<div class="duration {{idea.status}}">
+				{{ data.widget['label' + idea.status] }}
+			</div>
+			{% endif %}
+
+		</div>
+		<div class="info">
+			<div class="inner">
+				<h3 class="title">{{idea.title}}</h3>
+				{% if idea.extraData %}
+				<div class="thema-en-gebied underscription">
+					{% if idea.extraData.theme %}<span class="thema theme-{{idea.id}}"><span class="sr-only">{{ __('Thema:') }}</span>{{idea.extraData.theme}}</span>{% endif %}{% if idea.extraData.theme and idea.extraData.area %} | {% endif %}{% if idea.extraData.area %}<span class="gebied area-{{idea.id}}"><span class="sr-only">{{ __('Gebied:') }}</span>{{idea.extraData.area}}</span>{% endif %}
+				</div>
+				{% endif %}
+			</div>
+			<div class="button-read-more link-caret--blue">Lees meer</div>
+
+			<div class="row">
+				{% if data.widget.displayBudgetLabel %}
+				<div class="col-xs-6">
+					<div class="budget budget-{{idea.id}}">{{idea.budget}}</div> {# formatted in js #}
+				</div>
+				{% endif %}
+				<div class="col-xs-6">
+					{% if data.widget.voting %}
+					<button  class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary stretch" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" role="button" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
+					{% endif %}
+
+					{% if data.widget.showVoteCount %}
+					<div class="btn--blue noOfVotes stretch ">
+						<span class="sr-only">{{ __('Stemmen voor:') }}</span>
+						{% if idea.extraData.voteCount %}
+						{{idea.extraData.voteCount}}
+						{% else %}
+						{{idea.yes}}
+						{% endif %}
+						stemmen
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="budget-value"><span class="sr-only">{{ __('Kosten:') }}</span>{{idea.budget}}</div>{# used by sort #}
+			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 0}}</div>
+		</div>
+
+		{# extra info for gridder-show #}
+		<div id="idea-content-{{idea.id}}" class="gridder-content">
+			<div class="row">
+				<div class="col-sm-6 col-xs-12">
+					<div class="this-idea-id">{{idea.id}}</div>
+					<div class="visible-xs">
+						<h3 class="grider-title">{{idea.title}}</h3>
+					</div>
+					<div id="image-location-toggable-{{idea.id}}" class="image-location-toggable">
+						<div class="idea-image-container">
+							<div class="idea-image-mask">
+								<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
+							</div>
+							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/modules/openstad-assets/img/arrow_right_white.svg"></div>
+						</div>
+						{% if idea.location %}
+						<div class="location-image-container">
+							<div class="location-image-mask">
+								<a href="{{idea.locationUrl}}" target="_blank" class="location-image" >
+									<img src="{{idea.locationMapImage}}" />
+								</a>
+							</div>
+							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/modules/openstad-assets/img/arrow_right_white.svg"></div>
+						</div>
+						{% endif %}
+					</div>
+					<div class="visible-xs">
+						<br />
+						<div class="intro">
+							{{idea.summary | sanitize | safe}}
+						</div>
+            {% if idea.description %}
+						<div class="description">
+							{{idea.description | sanitize | safe}}
+						</div>
+            {% endif %}
+					</div>
+					{% if not (data.widget.votingType == 'budgeting-per-theme') %}
+					<div class="share-buttons">
+						<table class="table-center">
+							<tr>
+								<td>
+									<b class="text" tabindex="0"> Deel dit: </b>
+								</td>
+								<td>
+									<ul class="share">
+										{% set ideaUrl = data.currentUrl + '?ideaId=' + idea.id %}
+										<li><a class="facebook" title="Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Facebook</a></li>
+										<li><a class="twitter" title="Twitter" target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}?ideaId={{idea.id}}" tabindex="0">Twitter</a></li>
+										<li><a class="email" title="Email" target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl}}%3FideaId%3D{{idea.id}}" tabindex="0">Email</a></li>
+										<li><a class="whatsapp" title="Whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{ideaUrl | urlencode}}&source=&data=" tabindex="0">WhatsApp</a></li>
+									</ul>
+								</td>
+							</tr>
+						</table>
+					</div>
+          {% endif %}
+					<br />
+					{% if idea.extraData %}
+					<table class="thema-en-gebied">
+					  {% if idea.extraData.theme %}
+						<tr class="thema">
+							<td>Thema: </td> <td><strong>{{idea.extraData.theme}}</strong>
+						</tr>
+					  {% endif %}
+					  {% if idea.extraData.area %}
+						<tr class="gebied">
+							<td>Gebied: </td>  <td><strong>{{idea.extraData.area}}</strong>
+						</tr>
+					  {% endif %}
+					</table>
+					{% endif %}
+					<br />
+					{% if data.widget.originalIdeaUrl and not idea.extraData.hideOriginalLink %}
+					{% set originalId = idea.extraData.originalId if idea.extraData.originalId else idea.id %}
+					<div class="margin-hor-10">
+						<a href="{{data.widget.originalIdeaUrl}}/{{originalId}}" class="link-original link-caret--blue" target="_blank">Bekijk het originele voorstel</a>
+					</div>
+					{% endif %}
+					<br />
+					<div class="align-left">
+						{% if data.widget.displayBudgetLabel %}
+						<div class="budget budget-{{idea.id}}">{{idea.budget}}</div>
+						{% endif %}
+						{% if data.widget.voting %}
+						<button class="button-add-idea-to-budget button-add-idea-to-budget-{{idea.id}}  btn-primary" onclick="event.preventDefault(); toggleIdeaInSelection({{idea.id}})" data-add-title="{{ __('Druk op enter om dit plan toe te voegen.') }}" data-delete-title="{{ __('Plan is toegevoegd, druk op enter om dit plan te verwijderen.') }}"></button>
+						{% endif %}
+					</div>
+				</div>
+				<div class="col-sm-6 col-xs-12">
+					<div class="hidden-xs">
+						<h3 class="grider-title">{{idea.title}}</h3>
+						<div class="intro">
+							{{idea.summary | sanitize | safe}}
+						</div>
+						{% if idea.description %}
+						<div class="description">
+							{{idea.description | sanitize | safe}}
+						</div>
+						{% endif %}
+						{% if data.hasModeratorRights %}
+						<div class="description"><a href="{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+	{% endfor %}
+</ul>
+{% endmacro %}

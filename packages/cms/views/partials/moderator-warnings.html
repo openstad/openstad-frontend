@@ -1,0 +1,15 @@
+{% if data.hasModeratorRights %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+    {% if data.page.type === 'resource' and not data.activeResource %}
+    <br />
+      <div class="alert alert-warning">
+        {{ __('Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown') }}
+      </div>
+    {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endif %}
