@@ -308,6 +308,7 @@ module.exports = {
 
         // if cache is turned on, check if url is cached already
         if (globalData.cacheIdeas) {
+
            response = cache.get(cacheKey);
            if (response) {
              try {
@@ -319,6 +320,8 @@ module.exports = {
         }
 
         if (response) {
+          console.log('load with cache for ', getUrl)
+
           // pass query obj without reference
           widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
         } else {
@@ -326,6 +329,9 @@ module.exports = {
             return new Promise((resolve, reject) => {
               rp(options)
               .then((response) => {
+
+                console.log('fetch again for ', getUrl)
+
 
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
