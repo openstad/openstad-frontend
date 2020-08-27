@@ -1410,8 +1410,6 @@ module.exports = function (db, sequelize, DataTypes) {
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
 
-      console.log('data.argumentsAgainst', data.argumentsAgainst)
-
       if (data.argumentsAgainst) {
         data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
       }
