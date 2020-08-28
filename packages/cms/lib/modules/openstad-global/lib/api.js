@@ -72,7 +72,8 @@ module.exports = (self, options) => {
         req.data.global.siteId = siteConfig.id;
       }
 
-      req.data.global.siteTitle = 'overwrite title in editor';
+      // empty
+    //  req.data.global.siteTitle = '';
 
       req.data.global.siteConfig = siteConfig;
       req.data.originalUrl = req.originalUrl;
@@ -95,7 +96,8 @@ module.exports = (self, options) => {
 
     self.loadPolygonsFromApi = async function (addPolygonData) {
       try {
-        const areas = await self.apos.openstadApi.getAllPolygons();
+        //const areas = await self.apos.openstadApi.getAllPolygons();
+        const areas = false;
 
         if (areas) {
           return [{label: 'Geen', value: ''}].concat(areas.map((area) => {

@@ -71,6 +71,8 @@
     data-budget="{{idea.budget}}"
     data-ranking="{{idea.extraData.ranking}}"
     data-ideaid="{{idea.id}}"
+    data-theme="{{idea.extraData.theme}}"
+    data-area="{{idea.extraData.area}}"
   >
     <div class="image-container" style="position: relative;">
     	<div class="image">
@@ -187,9 +189,6 @@
     <div class="content">
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
 
-      'displayRanking', 'displayLabel', 'displaySummary', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter'
-
-
       {% if data.widget.displaySummary and idea.summary %}
       <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
       {% endif %}
@@ -206,7 +205,7 @@
       {% include 'includes/modbreak.html' %}
 
       {% if data.hasModeratorRights %}
-      <div class="description"><a href="{{data.global.editIdeaUrl}}?ideaId={{idea.id}}" target="_blank">Bewerk dit plan</a></div>
+      <div class="description"><a href="{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
       {% endif %}
 
       <div class="share-spacer"></div>

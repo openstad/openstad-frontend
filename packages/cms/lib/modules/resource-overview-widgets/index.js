@@ -1,5 +1,6 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
+const cache               = require('../../../services/cache').cache;
 
 /*
   CURRENTLY IN TRANSITION.
@@ -14,7 +15,6 @@ const qs                  = require('qs');
 const fields              = require('./lib/fields');
 const sortingOptions      = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
-const cache               = require('../../../services/cache').cache;
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 
 
@@ -24,7 +24,7 @@ module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Resource overview',
   addFields: fields,
-
+  playerData: false,
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
@@ -55,7 +55,7 @@ module.exports = {
       {
         name: 'sorting',
         label: 'Sorting',
-        fields: [ 'displaySorting', 'displayFilterVoting', 'defaultSorting', 'selectedSorting', 'filterResources', 'filterClassName' ]
+        fields: [ 'displaySorting', 'displayFilterVoting', 'defaultSorting', 'selectedSorting', 'filterClassName' ]
       },
       {
         name: 'pagination',
@@ -86,7 +86,7 @@ module.exports = {
       {
         name: 'include_exclude',
         label: 'Include & Exclude items',
-        fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterIdeas']
+        fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources']
       },
       styleSchema.definition('containerStyles', 'Styles for the container')
     ]);
@@ -123,7 +123,6 @@ module.exports = {
 		self.load = function(req, widgets, next) {
       const promises = [];
       const globalData = req.data.global;
-
       const thisHost = req.headers['x-forwarded-host'] || req.get('host');
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       const fullUrl = protocol + '://' + thisHost + req.originalUrl;
@@ -172,8 +171,28 @@ module.exports = {
         widget.themes = req.data.global.themes;
         widget.areas = req.data.global.areas;
 
-        const containerId = styleSchema.generateId();
+        const containerId = widget._id;
         widget.containerId = containerId;
+
+        widget.parseDateToTime = (date) => {
+          return new Date(date).getTime();
+        }
+
+        // expects sql date format
+        widget.isBefore = (date, time, unit) => {
+           time = time ? time : 15;
+           unit = unit ? unit : 'minutes';
+           const dateTimeAgo = moment().subtract(time, unit);
+           return moment(date, PARSE_DATE_FORMAT).isBefore(dateTimeAgo);
+        };
+
+        // expects sql date format
+        widget.isAfter = (date, time, unit) => {
+           time = time ? time : 15;
+           unit = unit ? unit : 'minutes';
+           const dateTimeAgo = moment().subtract(time, unit);
+           return moment(date, PARSE_DATE_FORMAT).isAfter(dateTimeAgo);
+        };
 
     //    widget.selectedTheme = req.data.query.theme ? req.data.query.theme : (widget.defaultTheme ? widget.defaultTheme : '');
     //    widget.selectedArea = req.data.query.area ? req.data.query.area : (widget.defaultArea ? widget.defaultArea : '');
@@ -227,6 +246,7 @@ module.exports = {
           includeUserVote: 1,
           // include vote count per resource
           includeVoteCount: 1,
+          includeArgsCount: 1,
           sort: queryObject.sort ? queryObject.sort : defaultSort,
           tags: queryObject.oTags ? queryObject.oTags : '',
           filters : {
@@ -262,6 +282,7 @@ module.exports = {
 
         // format string
         const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
+        const cacheKey = encodeURIComponent(getUrl);
 
         const options = {
           uri: `${apiUrl}${getUrl}`,
@@ -285,12 +306,22 @@ module.exports = {
 
         let response;
 
-        // if cache is turned on, chec
+        // if cache is turned on, check if url is cached already
         if (globalData.cacheIdeas) {
-           response = cache.get(getUrl);
+
+           response = cache.get(cacheKey);
+           if (response) {
+             try {
+                  response = JSON.parse(response);
+              } catch(e) {
+                  console.log(e); // error in the above string (in this case, yes)!
+              }
+           }
         }
 
         if (response) {
+          console.log('load with cache for ', getUrl)
+
           // pass query obj without reference
           widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
         } else {
@@ -299,9 +330,12 @@ module.exports = {
               rp(options)
               .then((response) => {
 
+                console.log('fetch again for ', getUrl)
+
+
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
-                  cache.set(getUrl, response, {
+                  cache.set(cacheKey, JSON.stringify(response), {
                     life: cacheLifespan
                   });
                 }
@@ -317,7 +351,6 @@ module.exports = {
           })}(req, self));
         }
       });
-
 
       if (promises.length > 0) {
         Promise.all(promises)
@@ -456,8 +489,10 @@ module.exports = {
           return parseInt(item.trim(), 10);
         });
 
-         widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => ideaIds.indexOf(idea.id) !== -1) : widget.activeResources;
+         widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => resourceIds.indexOf(idea.id) !== -1) : widget.activeResources;
        }
+
+
 
        return superOutput(widget, options);
      };

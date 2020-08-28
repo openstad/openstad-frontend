@@ -272,6 +272,11 @@ module.exports = [
         choices: 'loadPolygonsFromApi',
     },
     {
+      name: 'displayLoginTopLink',
+      type: 'boolean',
+      label: 'Display login and logout link in top links?'
+    },
+    {
         name: 'mapImageFlag',
         type: 'select',
         label: 'Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?',
@@ -376,6 +381,20 @@ module.exports = [
                 type: 'integer',
             }
         ]
+    },
+    {
+      name: 'areas',
+      type: 'array',
+      titleField: 'label',
+      label: 'Buurten',
+      schema: [
+        {
+          name: 'value',
+          type: 'text',
+          label: 'Name',
+          type: 'string',
+        }
+      ]
     },
     {
         name: 'arrangeMainMenu',
@@ -586,6 +605,12 @@ module.exports = [
       label: 'set min title length of an idea',
       apiSyncField: 'ideas.titleMinLength',
       help: 'This field will also update the global settings field (ideas.titleMinLength) in the api'
+    },
+    {
+        type: 'boolean',
+        name: 'applyPaletteStyling',
+        label: 'Apply palette styling',
+        def: true,
     },
 
     /*    {

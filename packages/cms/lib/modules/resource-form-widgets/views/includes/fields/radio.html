@@ -3,7 +3,11 @@
   <div class="radio">
     <input
       type="radio"
+      {% if field.notExtraDataKey %}
       name="{{field.fieldKey}}"
+      {% else %}
+      name="extraData[{{field.fieldKey}}]"
+      {% endif %}
       value="{{option.value}}"
       id="radio-{{loop.index}}-{{option.value}}"
       {% if field.fieldRequired %}required{% endif %}

@@ -25,10 +25,6 @@ module.exports = {
       def: '',
       choices: [
         {
-          label: 'No sentiment',
-          value: 'for',
-        },
-        {
           label: 'For',
           value: 'for',
         },

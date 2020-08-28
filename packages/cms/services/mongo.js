@@ -32,8 +32,6 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
 
 exports.dbExists = (dbName) => {
   return new Promise((resolve, reject) => {
-    console.log('url',url)
-
     MongoClient.connect(url, (err, db) => {
       if (err) {
         reject(err);

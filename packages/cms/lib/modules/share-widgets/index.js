@@ -59,7 +59,7 @@ module.exports = {
     self.load = function (req, widgets, next) {
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = styleSchema.generateId();
+          const containerId = widget._id;
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }

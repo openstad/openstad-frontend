@@ -35,6 +35,8 @@ var aposServer = {};
 
 app.use(express.static('public'));
 
+app.set('trust proxy', true);
+
 /**
  * Route for resetting the config of the server so the server will refetch
  * Necessary when making changes in the site config.
@@ -93,7 +95,6 @@ function serveSites (req, res, next) {
 }
 
 function serveSite(req, res, siteConfig, forceRestart) {
-
   const runner = Promise.promisify(run);
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
 
@@ -114,6 +115,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
             runner(dbName, config, req.options).then(function(apos) {
               aposStartingUp[dbName] = false;
               aposServer[dbName] = apos;
+              aposServer[dbName].app.set('trust proxy', true);
               aposServer[dbName].app(req, res);
             });
         } else {

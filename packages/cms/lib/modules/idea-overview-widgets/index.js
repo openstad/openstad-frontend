@@ -295,27 +295,7 @@ module.exports = {
         fields: ['text_', 'text_', 'text_' ]
       },*/
     ]);
-
-     const superPushAssets = self.pushAssets;
-     self.pushAssets = function () {
-       superPushAssets();
-       self.pushAsset('stylesheet', 'main', { when: 'always' });
-       self.pushAsset('stylesheet', 'tile', { when: 'always' });
-       self.pushAsset('stylesheet', 'grid', { when: 'always' });
-       self.pushAsset('stylesheet', 'duration', { when: 'always' });
-
-       self.pushAsset('stylesheet', 'vote-creator', { when: 'always' });
-       self.pushAsset('stylesheet', 'gridder', { when: 'always' });
-       self.pushAsset('stylesheet', 'nr-of-votes', { when: 'always' });
-       self.pushAsset('script', 'thumbnail-tile-loading', { when: 'always' });
-       self.pushAsset('script', 'tabs', { when: 'always' });
-       self.pushAsset('script', 'fotorama', { when: 'always' });
-       self.pushAsset('script', 'vote', { when: 'always' });
-       self.pushAsset('script', 'main', { when: 'always' });
-       self.pushAsset('script', 'jquery.gridder.min', { when: 'always' });
-       self.pushAsset('script', 'ideas-lister', { when: 'always' });
-     };
-
+    
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 			widgets.forEach((widget) => {
@@ -391,7 +371,6 @@ module.exports = {
 
          widget.ideas = excludeThemes.length > 0 ? widget.ideas.filter(idea => idea && idea.extraData && idea.extraData && excludeThemes.indexOf(idea.extraData.theme) === -1) : widget.ideas;
        }
-
 
        // only include ideas with a certain theme
        if (widget.filterIncludeThemes) {

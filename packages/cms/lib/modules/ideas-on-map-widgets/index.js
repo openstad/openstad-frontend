@@ -10,38 +10,62 @@ module.exports = {
   label: 'Kaart applicatie',
   addFields: [
 
-		{
-			name: 'noSelectionText',
-			type: 'string',
-			label: 'Tekst wanneer niets is geselcteerd',
+    { 
+      name: 'noSelectionHTML',
+      type: 'string',
+      label: 'noSelectionHTML',
+      help: 'Er is geen punt of plan geselecteerd',
       textarea: true,
-			required: false
-		},
-
-		{
-			name: 'selectionActiveText',
-			type: 'string',
-			label: 'Tekst voor punt geselecteerd binnen de polygon',
+      required: false,
+    },
+    { 
+      name: 'selectionActiveLoggedInHTML',
+      type: 'string',
+      label: 'selectionActiveLoggedInHTML',
+      help: 'Ingelogd: er is een punt geselecteerd binnen de polygon, met een adres: {address} en {addButton}.',
       textarea: true,
-			required: false
-		},
-
-		{
-			name: 'selectionInactiveText',
-			type: 'string',
-			label: 'Tekst voor punt geselecteerd buiten de polygon',
+      required: false,
+    },
+    { 
+      name: 'selectionInactiveLoggedInHTML',
+      type: 'string',
+      label: 'selectionInactiveLoggedInHTML',
+      help: 'Ingelogd: er is een punt geselecteerd buiten de polygon, met een {address}',
       textarea: true,
-			required: false
-		},
-
-    // doet ie nog niets mee maar zou wel een keer moeten
-		// {
-		//   name: 'typeField',
-		//   type: 'string',
-		//   label: 'Veld voor type inzending',
-    //   def: 'extraData.theme',
-		//   required: false
-		// },
+      required: false,
+    },
+    { 
+      name: 'mobilePreviewLoggedInHTML',
+      type: 'string',
+      label: 'mobilePreviewLoggedInHTML',
+      help: 'Ingelogd: er is een punt geselecteerd binnen de polygon, met een adres: {address} en {addButton}.',
+      textarea: true,
+      required: false,
+    },
+    { 
+      name: 'selectionActiveNotLoggedInHTML',
+      type: 'string',
+      label: 'selectionActiveNotLoggedInHTML',
+      help: 'Niet ingelogd: er is een punt geselecteerd binnen de polygon, met een adres: {address} en {loginButton} of <a href="{loginLink}">login link</a>.',
+      textarea: true,
+      required: false,
+    },
+    { 
+      name: 'selectionInactiveNotLoggedInHTML',
+      type: 'string',
+      label: 'selectionInactiveNotLoggedInHTML',
+      help: 'Niet ingelogd: er is een punt geselecteerd buiten de polygon, met een {address}',
+      textarea: true,
+      required: false,
+    },
+    { 
+      name: 'mobilePreviewNotLoggedInHTML',
+      type: 'string',
+      label: 'mobilePreviewNotLoggedInHTML',
+      help: 'Niet ingelogd: er is een punt geselecteerd binnen de polygon, met een adres: {address} en {loginButton} of <a href="{loginLink}">login link</a>.',
+      textarea: true,
+      required: false,
+    },
 
 		{
 			name: 'mapVariant',
@@ -98,6 +122,13 @@ module.exports = {
       label: 'Gevoeligheid van clusering',
 			def: 40
 		},
+		{
+			name: 'typeField',
+			type: 'string',
+			label: 'Veld voor type inzending',
+			def: 'extraData.theme',
+			required: false
+		},
 
 		{
 			type: 'select',
@@ -145,6 +176,13 @@ module.exports = {
 			required: false
 		},
 
+		{
+			name: 'closeReactionsForIdeaIds',
+			type: 'string',
+			label: 'Ids van Ideas waarvoor reacties gesloten zijn',
+			required: false
+		},
+
     // ----------------------------------------------------------------------------------------------------
     // dit komt uit user-form en moet daarmee gelijk getrokken als dat echt werkt
     // {
@@ -163,7 +201,6 @@ module.exports = {
       label:      'Form fields',
       type:       'array',
       titleField: 'title',
-      required:   true,
       schema:     [
         {
           type:  'string',
@@ -263,17 +300,22 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField', 'noSelectionText', 'selectionActiveText', 'selectionInactiveText']
+        fields: ['typeField']
       },
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius', ]
+        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius' ]
+      },
+      {
+        name: 'content',
+        label: 'Content',
+        fields: ['noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'reactions',
         label: 'Reacties',
-        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', ]
+        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'closeReactionsForIdeaIds', ]
       },
       {
         name: 'form',
@@ -297,10 +339,12 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
-      let types;
+
+      let ideaTypes = req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.types != 'undefined' ? req.data.global.siteConfig.ideas.types : undefined;
+      let themeTypes;
       try {
-        types = req.data.global.themes || [];
-        types = types.map(type => { return {
+        themeTypes = req.data.global.themes || [];
+        themeTypes = themeTypes.map(type => { return {
           name: type.value,
           color: type.color,
           mapicon: JSON.parse(type.mapicon),
@@ -309,7 +353,20 @@ module.exports = {
       } catch (err) {
       }
 
+      
 			widgets.forEach((widget) => {
+
+        let contentConfig = {
+          ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
+        };
+        if (widget.noSelectionHTML) contentConfig.noSelectionHTML = widget.noSelectionHTML;
+        if (widget.selectionActiveLoggedInHTML) contentConfig.selectionActiveLoggedInHTML = widget.selectionActiveLoggedInHTML;
+        if (widget.selectionInactiveLoggedInHTML) contentConfig.selectionInactiveLoggedInHTML = widget.selectionInactiveLoggedInHTML;
+        if (widget.mobilePreviewLoggedInHTML) contentConfig.mobilePreviewLoggedInHTML = widget.mobilePreviewLoggedInHTML;
+        if (widget.selectionActiveNotLoggedInHTML) contentConfig.selectionActiveNotLoggedInHTML = widget.selectionActiveNotLoggedInHTML;
+        if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
+        if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
+        
 			  widget.config = JSON.stringify({
           // req.data.isAdmin
           divId: 'ideeen-op-de-kaart',
@@ -319,18 +376,16 @@ module.exports = {
             headers: req.session.jwt ? { 'X-Authorization': 'Bearer ' + req.session.jwt } : [],
             isUserLoggedIn: req.data.loggedIn,
           },
-          content: {
-            noSelectionText: widget.noSelectionText,
-            selectionActiveText: widget.selectionActiveText,
-            selectionInactiveText: widget.selectionInactiveText,
-            ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
-          },
           user: {
             role:  req.data.openstadUser && req.data.openstadUser.role,
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
-          types,
+          content: contentConfig,
+          typeField: widget.typeField,
+          types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
 			    idea: {
+            showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
+            showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
             canAddNewIdeas: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? req.data.global.siteConfig.ideas.canAddNewIdeas : true,
 				    titleMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.titleMinLength ) || 30,
 				    titleMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.titleMaxLength ) || 200,
@@ -345,13 +400,17 @@ module.exports = {
             },
             fields: widget.formFields,
 			    },
+			    poll: req.data.global.siteConfig && req.data.global.siteConfig.polls,
 			    argument: {
             isActive: widget.showReactions,
+            isClosed: req.data.global.siteConfig && req.data.global.siteConfig.arguments && typeof req.data.global.siteConfig.arguments.isClosed != 'undefined' ? req.data.global.siteConfig.arguments.isClosed : false,
+            closedText: req.data.global.siteConfig && req.data.global.siteConfig.arguments && typeof req.data.global.siteConfig.arguments.closedText != 'undefined' ? req.data.global.siteConfig.arguments.closedText : true,
             title: widget.reactionsTitle,
             formIntro: widget.reactionsFormIntro,
             placeholder: widget.reactionsPlaceholder,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.arguments && req.data.global.siteConfig.arguments.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.arguments && req.data.global.siteConfig.arguments.descriptionMaxLength ) || 100,
+            closeReactionsForIdeaIds: widget.closeReactionsForIdeaIds,
 			    },
 			    map: {
             variant: widget.mapVariant,
@@ -367,7 +426,7 @@ module.exports = {
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
         
-        const containerId = styleSchema.generateId();
+        const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 

@@ -19,9 +19,9 @@ module.exports = {
   construct: function (self, options) {
     require('./lib/api')(self, options);
 
-    self.on('apostrophe:modulesReady', 'setSyncFields');
-    self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
-    self.on('apostrophe-docs:afterSave', 'syncApi');
+    //self.on('apostrophe:modulesReady', 'setSyncFields');
+    //self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
+    //self.on('apostrophe-docs:afterSave', 'syncApi');
 
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
@@ -60,12 +60,20 @@ module.exports = {
 
       //for legacy purposes, remove to better solutions at some point
       //Amsterdam
-      if (process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
+      //
+      if (!req.data.global.siteLogo && process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
         //make sure we
         req.data.global.siteLogo = 'amsterdam';
       }
 
-      req.data.global.siteConfig = siteConfig;
+      req.data.global.siteConfig = {
+        ideas: siteConfig.ideas,
+        polls: siteConfig.polls,
+        votes: siteConfig.votes,
+        arguments:siteConfig.arguments,
+        openstadMap:siteConfig.openstadMap,
+      };
+      
       req.data.originalUrl = req.originalUrl;
 
       // get the identifier for making sure that the custom js/css files we load in also bust the cache

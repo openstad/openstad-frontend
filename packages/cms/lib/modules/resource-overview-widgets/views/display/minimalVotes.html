@@ -15,6 +15,8 @@
   data-budget="{{idea.budget}}"
   data-ranking="{{idea.ranking}}"
   data-ideaid="{{idea.id}}"
+  data-theme="{{idea.extraData.theme}}"
+  data-area="{{idea.extraData.area}}"
 >
   <a href="{{data.widget.pathForResource}}/{{idea.id}}">
     {% if data.widget.displayRanking and idea.status != 'DENIED' and idea.ranking %}
@@ -47,7 +49,7 @@
       <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
       {% endif %}
 
-      {% if data.widget.displayVoteProgressBar and data.widget.siteConfig.minimumYesVotes %}
+      {% if data.widget.displayVoteProgressBar %}
       <div class="ideaProgress">
         <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
       </div>
@@ -62,7 +64,7 @@
                 <input type="hidden" value="yes" name="opinion" />
 
                 <button
-                  data-return-to="/like?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
                   class="count yes role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
                 >
@@ -82,7 +84,7 @@
                 <input type="hidden" value="no" name="opinion" />
 
                 <button
-                  data-return-to="/like?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+                  data-return-to="{{data.currentPathname}}?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
                   type="submit"
                   class="count no role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}"
                 >

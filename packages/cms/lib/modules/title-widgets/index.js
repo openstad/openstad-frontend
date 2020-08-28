@@ -71,10 +71,10 @@ module.exports = {
 
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
-      
+
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = styleSchema.generateId();
+          const containerId = widget._id;
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
@@ -85,8 +85,6 @@ module.exports = {
 
     const superOutput = self.output;
     self.output = function(widget, options) {
-      console.log('output.options', options);
-
 //      widget.count = self.getCount(widget);
 
       return superOutput(widget, options);

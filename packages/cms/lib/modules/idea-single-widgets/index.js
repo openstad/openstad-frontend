@@ -14,6 +14,12 @@ module.exports = {
 
      require('./lib/routes.js')(self, options);
 
+     const superPushAssets = self.pushAssets;
+     self.pushAssets = function () {
+       superPushAssets();
+       self.pushAsset('script', 'main', { when: 'always' });
+     };
+
       const superLoad = self.load;
       self.load = function (req, widgets, next) {
 

@@ -2,6 +2,12 @@
 
 {% set editorInputElementId = 'map' %}
 
+{% if data.widget.mapConfig %}
+<script>
+  var resourceMapConfig = {{data.widget.mapConfig | json}}
+  </script>
+{% endif %}
+
 {% if data.widget.mapType == 'nlmaps-openlayers' %}
   <div id="nlmaps-holder" style="height: 400px;">
     <div id="map-with-buttons-container">
