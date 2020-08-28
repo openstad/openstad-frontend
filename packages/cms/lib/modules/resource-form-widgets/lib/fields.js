@@ -108,7 +108,8 @@ const fields = [
                   },
                   {
                       value: 'image',
-                      label: "Image"
+                      label: "Image",
+                      showFields: ["uploadMultiple", "requiredImages"]
                   },
                   {
                       value: 'map',
@@ -129,6 +130,10 @@ const fields = [
                   {
                       value: 'theme',
                       label: "Theme"
+                  },
+                  {
+                      value: 'name',
+                      label: "Name"
                   },
                   {
                       value: 'title',

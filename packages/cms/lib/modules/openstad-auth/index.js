@@ -70,6 +70,8 @@ module.exports = {
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
         returnTo = returnTo.path;
+
+
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
@@ -81,6 +83,7 @@ module.exports = {
       } else {
         const jwt = req.session.jwt;
         const apiUrl = internalApiUrl ? internalApiUrl : self.apos.settings.getOption(req, 'apiUrl');
+
 
         if (!jwt) {
           next();
