@@ -18,7 +18,7 @@ const userhasModeratorRights = (user) => {
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api', { method: ['onlyVisible', req.user.role]}];
+		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
 		req.scope.push('includeSite');
 
