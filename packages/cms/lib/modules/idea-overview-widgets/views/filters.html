@@ -10,7 +10,7 @@ style="display: none"
     <div class="tab-selector">
       {% if (data.widget.themes and data.widget.themes.length > 0) %}
       <select id="themaSelector" class="default-select" onchange="activateIdeaOverviewTab(this.selectedIndex)">
-        <option value="0" selected disabled>Alle thema's</option>
+        <option value="0" selected>Alle thema's</option>
         {% for theme in data.widget.themes %}
         <option value="{{theme.value}}">{{theme.value}}</option>
         {% endfor %}
@@ -18,7 +18,7 @@ style="display: none"
       {% endif %}
       {% if (data.widget.areas and data.widget.areas.length > 0) %}
       <select id="filterSelector" class="default-select" onchange="activateIdeaOverviewFilter(this.selectedIndex)">
-        <option value="0" selected disabled>Alle gebieden</option>
+        <option value="0" selected>Alle gebieden</option>
         {% for area in data.widget.areas %}
         <option value="{{area.value}}">{{area.value}}</option>
         {% endfor %}

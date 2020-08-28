@@ -58,7 +58,6 @@ function activateIdeaOverviewTab(which) {
     $(themaSelectorEl).removeClass('active');
   }
 
-
   if (themaSelectorEl) {
     themaSelectorEl.selectedIndex = activeTab;
     if (themaSelectorEl.selectedIndex === 0) {
@@ -126,13 +125,15 @@ function updateIdeaOverviewDisplay() {
 
   Array.prototype.forEach.call(elements, function(element) {
 
-    var elementThema = element.querySelector('.thema') && element.querySelector('.thema').innerHTML;
-    var elementGebied = element.querySelector('.gebied') && element.querySelector('.gebied').innerHTML;
+    var elementThema = $(element).attr('data-theme');
+    var elementGebied = $(element).attr('data-area');
 
 
     if (!elementThema ) {
       element.style.display = 'inline-block';
     }
+
+    console.log('activeThema', activeThema);
 
     if (
       // no activeTab selected or
