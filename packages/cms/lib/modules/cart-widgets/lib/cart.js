@@ -10,6 +10,7 @@ class Cart {
             let prod = {
               id: product.product_id,
               title: product.title,
+              product: product,
               price: product.price,
               qty: qty,
               image: product.image,

@@ -284,6 +284,12 @@ module.exports = [
       label: 'Display login and logout link in top links?'
     },
     {
+      name: 'displayCart',
+      type: 'boolean',
+      label: 'Display cart in header?'
+    },
+
+    {
       name: 'logoPlacement',
       label: 'Where should the logo be placed?',
       type: 'select',
