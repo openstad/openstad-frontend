@@ -1,10 +1,11 @@
 <div class="checkbox-container">
   {% for tag in data.openstadTags %}
   <div class="checkbox">
+    {{tag | json}}
     <input
       type="checkbox"
-      name="{{field.fieldKey}}"
-      value="{{option.value}}"
+      name="tags[]"
+      value="{{tag.id}}"
       id="checkbox-{{loop.index}}-{{option.value}}"
       {% if field.fieldRequired %}required{% endif %}
       {% if field.idea.tags %}checked{% endif %}
