@@ -20,6 +20,11 @@ const fields = [
               label: "Dynamic",
               showFields: ['dynamicFormSections']
             },
+            {
+              value: 'repeatable',
+              label: "Repeatable",
+              showFields: ['dynamicFormSections']
+            },
         ]
     },
     {

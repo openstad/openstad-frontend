@@ -29,7 +29,9 @@
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
-			{% if data.widget.formType === 'dynamic' %}
+			{% if data.widget.formType === 'repeatable' %}
+			{% include 'includes/repeatable.html' %}
+			{% elseif data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}
 			{% include 'includes/static-form.html' %}

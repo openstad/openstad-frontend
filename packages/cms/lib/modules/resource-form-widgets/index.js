@@ -24,7 +24,6 @@ module.exports = {
   label: 'Resource form',
   addFields: fields,
   beforeConstruct: function(self, options) {
-
     if (options.resources) {
       self.resources = options.resources;
 
@@ -40,7 +39,6 @@ module.exports = {
   },
   construct: function(self, options) {
    options.arrangeFields = (options.arrangeFields || []).concat([
-
      {
        name: 'general',
        label: 'Algemeen',

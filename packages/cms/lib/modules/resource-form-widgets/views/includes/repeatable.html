@@ -1,0 +1,32 @@
+<div class="repeatable-form-container">
+  <div class="repeatable-form-container-forms">
+  {% for resource in data.widget.activeResources %}
+    {% set activeResource = resource %}
+    <div class="repeatable-form-wrapper">
+      {% include 'includes/form-header.html' %}
+      <div class="repeatable-form">
+      {% include 'includes/field-sections.html' ignore missing %}
+      </div>
+      {% include 'includes/form-footer.html' %}
+    </div>
+  {% endfor %}
+  </div>
+  <div class="repeatable-form-container-action">
+    <button class="btn btn-secondary repeatable-add">
+      + Nog een toevoegen
+    </button>
+    <button class="btn btn-primary repeatable-save">
+      Opslaan
+    </button>
+  </div>
+</div>
+
+<div class="repeatable-form-template">
+  <div class="repeatable-form-wrapper">
+  {% include 'includes/form-header.html' %}
+  <div class="repeatable-form">
+    {% include 'includes/field-sections.html' ignore missing %}
+  </div>
+  {% include 'includes/form-footer.html' %}
+  </div>
+</div>
