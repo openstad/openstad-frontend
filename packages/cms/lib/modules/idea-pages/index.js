@@ -25,10 +25,6 @@ module.exports = {
         headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
       }
 
-      if (req.data.hasModeratorRights) {
-        req.data.ideaVotes = req.data.votes ? req.data.votes.filter(vote => vote.ideaId === parseInt(req.data.ideaId,10)) : [];
-      }
-
       var options = {
           uri: `${apiUrl}/api/site/${globalData.siteId}/idea/${req.data.ideaId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`,
           headers: headers,
@@ -59,7 +55,23 @@ module.exports = {
           req.data.idea.extraData = idea.extraData;
           req.data.idea.user = idea.user;
 
-          callback(null);
+          if (req.data.hasModeratorRights) {
+            rp({
+                uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.ideaId}`,
+                headers: headers,
+                json: true // Automatically parses the JSON string in the response
+            })
+            .then(function (votes) {
+              req.data.ideaVotes = votes;
+              return callback(null);
+            })
+            .catch((e) => {
+              return callback(null);
+            });
+          } else {
+            callback(null);
+          }
+
         })
         .catch((e) => {
           //if user not logged into CMS in throw 404
