@@ -33,19 +33,21 @@ const contentWidgets = {
   'date-bar': {},
   'idea-form': {
     adminOnly: true,
-    hideByDefault: false,
-    deprecated: false
+    hideByDefault: true,
+    deprecated: true
   },
   'idea-map': {
     adminOnly: true
   },
   'idea-overview': {
     hideByDefault: false,
+    deprecated: true,
     addLabel: 'Idea overiew (deprecated, use resource overview)',
   },
   'idea-single': {
     adminOnly: false,
-    hideByDefault: false,
+    hideByDefault: true,
+    deprecated: true,
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
@@ -137,6 +139,7 @@ const contentWidgets = {
     }
   },
   'user-form': {
+    addLabel: 'Contact form (beta)',
     adminOnly: true,
     hideByDefault: true,
     beta: true
