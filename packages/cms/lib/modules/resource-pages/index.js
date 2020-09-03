@@ -16,9 +16,9 @@ module.exports = {
           req.data.activeResourceType = req.query.resourceType;
 
           self.loadResourceData(req, next);
+        } else {
+          next();
         }
-
-        next();
       }
     };
 
@@ -51,17 +51,9 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
-          req.data.activeResource = activeResource
-          callback(null);
-        })
-        .catch((e) => {
+          console.log('activeResource', activeResource)
 
-          //if user not logged into CMS in throw 404
-          //for ease of use when someone is logged into CMS it's easier to allow
-          //editing also when no activeResource is present
-          if (!req.user) {
-            req.notFound = true;
-          }
+          req.data.activeResource = activeResource;
 
           if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
             rp({
@@ -79,6 +71,19 @@ module.exports = {
           } else {
             callback(null);
           }
+
+          callback(null);
+        })
+        .catch((e) => {
+
+          //if user not logged into CMS in throw 404
+          //for ease of use when someone is logged into CMS it's easier to allow
+          //editing also when no activeResource is present
+          if (!req.user) {
+            req.notFound = true;
+          }
+
+
 
         });
     }
