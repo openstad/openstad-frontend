@@ -40,7 +40,7 @@ const contentWidgets = {
     adminOnly: true
   },
   'idea-overview': {
-    hideByDefault: false,
+    hideByDefault: true,
     deprecated: true,
     addLabel: 'Idea overiew (deprecated, use resource overview)',
   },
