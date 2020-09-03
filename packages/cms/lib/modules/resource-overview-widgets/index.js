@@ -1,5 +1,6 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
+const cache               = require('../../../services/cache').cache;
 
 /*
   CURRENTLY IN TRANSITION.
@@ -14,7 +15,6 @@ const qs                  = require('qs');
 const fields              = require('./lib/fields');
 const sortingOptions      = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
-const cache               = require('../../../services/cache').cache;
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 
 
@@ -123,7 +123,6 @@ module.exports = {
 		self.load = function(req, widgets, next) {
       const promises = [];
       const globalData = req.data.global;
-
       const thisHost = req.headers['x-forwarded-host'] || req.get('host');
       const protocol = req.headers['x-forwarded-proto'] || req.protocol;
       const fullUrl = protocol + '://' + thisHost + req.originalUrl;
@@ -174,6 +173,26 @@ module.exports = {
 
         const containerId = widget._id;
         widget.containerId = containerId;
+
+        widget.parseDateToTime = (date) => {
+          return new Date(date).getTime();
+        }
+
+        // expects sql date format
+        widget.isBefore = (date, time, unit) => {
+           time = time ? time : 15;
+           unit = unit ? unit : 'minutes';
+           const dateTimeAgo = moment().subtract(time, unit);
+           return moment(date, PARSE_DATE_FORMAT).isBefore(dateTimeAgo);
+        };
+
+        // expects sql date format
+        widget.isAfter = (date, time, unit) => {
+           time = time ? time : 15;
+           unit = unit ? unit : 'minutes';
+           const dateTimeAgo = moment().subtract(time, unit);
+           return moment(date, PARSE_DATE_FORMAT).isAfter(dateTimeAgo);
+        };
 
     //    widget.selectedTheme = req.data.query.theme ? req.data.query.theme : (widget.defaultTheme ? widget.defaultTheme : '');
     //    widget.selectedArea = req.data.query.area ? req.data.query.area : (widget.defaultArea ? widget.defaultArea : '');
@@ -263,6 +282,7 @@ module.exports = {
 
         // format string
         const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
+        const cacheKey = encodeURIComponent(getUrl);
 
         const options = {
           uri: `${apiUrl}${getUrl}`,
@@ -286,12 +306,22 @@ module.exports = {
 
         let response;
 
-        // if cache is turned on, chec
+        // if cache is turned on, check if url is cached already
         if (globalData.cacheIdeas) {
-           response = cache.get(getUrl);
+
+           response = cache.get(cacheKey);
+           if (response) {
+             try {
+                  response = JSON.parse(response);
+              } catch(e) {
+                  console.log(e); // error in the above string (in this case, yes)!
+              }
+           }
         }
 
         if (response) {
+          console.log('load with cache for ', getUrl)
+
           // pass query obj without reference
           widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
         } else {
@@ -300,9 +330,12 @@ module.exports = {
               rp(options)
               .then((response) => {
 
+                console.log('fetch again for ', getUrl)
+
+
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
-                  cache.set(getUrl, response, {
+                  cache.set(cacheKey, JSON.stringify(response), {
                     life: cacheLifespan
                   });
                 }
@@ -318,7 +351,6 @@ module.exports = {
           })}(req, self));
         }
       });
-
 
       if (promises.length > 0) {
         Promise.all(promises)

@@ -16,9 +16,9 @@ module.exports = {
           req.data.activeResourceType = req.query.resourceType;
 
           self.loadResourceData(req, next);
+        } else {
+          next();
         }
-
-        next();
       }
     };
 
@@ -51,11 +51,30 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
-          req.data.activeResource = activeResource
+          console.log('activeResource', activeResource)
+
+          req.data.activeResource = activeResource;
+
+          if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
+            rp({
+                uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
+                headers: headers,
+                json: true // Automatically parses the JSON string in the response
+            })
+            .then(function (votes) {
+              req.data.ideaVotes = votes;
+              return callback(null);
+            })
+            .catch((e) => {
+              return callback(null);
+            });
+          } else {
+            callback(null);
+          }
+
           callback(null);
         })
         .catch((e) => {
-          console.log('Resource page e', e)
 
           //if user not logged into CMS in throw 404
           //for ease of use when someone is logged into CMS it's easier to allow
@@ -64,7 +83,8 @@ module.exports = {
             req.notFound = true;
           }
 
-          callback(null);
+
+
         });
     }
 

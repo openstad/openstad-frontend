@@ -3,7 +3,7 @@ const moment          = require('moment'); // returns the new locale, in this ca
 const url             = require('url');
 const internalApiUrl  = process.env.INTERNAL_API_URL;
 const cache           = require('../../../../services/cache').cache;
-const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
+const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
 
 module.exports =  function (req, res, next) {
   const globalData = req.data.global;
@@ -45,10 +45,13 @@ module.exports =  function (req, res, next) {
 
     // if cacheIdeas is turned on, get ideas from cache
     if (ideas && ideas.length > 0) {
+      console.log('get from cache ideas')
       req.data.ideas = ideas;
       req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
       next();
     } else {
+      console.log('fetch from server ideas')
+
       //const globalData = req.data.global;
       const sort = req.query.sort ? req.query.sort : 'createdate_desc';
 
