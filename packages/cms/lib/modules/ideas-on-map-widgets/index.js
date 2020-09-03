@@ -205,7 +205,8 @@ module.exports = {
         {
           type:  'string',
           name:  'name',
-          label: 'Name'
+          label: 'Name of the database field',
+			    required: true,
         },
         {
           type:  'string',
