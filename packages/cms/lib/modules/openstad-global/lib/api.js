@@ -96,8 +96,7 @@ module.exports = (self, options) => {
 
     self.loadPolygonsFromApi = async function (addPolygonData) {
       try {
-        //const areas = await self.apos.openstadApi.getAllPolygons();
-        const areas = false;
+        const areas = await self.apos.openstadApi.getAllPolygons();
 
         if (areas) {
           return [{label: 'Geen', value: ''}].concat(areas.map((area) => {
