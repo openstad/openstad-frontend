@@ -17,6 +17,7 @@ const userhasModeratorRights = (user) => {
 // scopes: for all get requests
 router
 	.all('*', function(req, res, next) {
+		console.log('tags all')
 
 		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
@@ -108,7 +109,6 @@ router.route('/')
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
-
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
