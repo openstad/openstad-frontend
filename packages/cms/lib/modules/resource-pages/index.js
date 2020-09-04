@@ -82,6 +82,9 @@ module.exports = {
           if (!req.user) {
             req.notFound = true;
           }
+
+          callback(null);
+
         });
     }
 
