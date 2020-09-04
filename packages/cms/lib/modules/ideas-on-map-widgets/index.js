@@ -196,6 +196,7 @@ module.exports = {
     //   label:    'Intro',
     //   textarea: true
     // },
+    // TODO: dit is al de zovelste kopie en moet dus naar een lib
     {
       name:       'formFields',
       label:      'Form fields',
@@ -205,7 +206,8 @@ module.exports = {
         {
           type:  'string',
           name:  'name',
-          label: 'Name'
+          label: 'Name of the database field',
+			    required: true,
         },
         {
           type:  'string',
