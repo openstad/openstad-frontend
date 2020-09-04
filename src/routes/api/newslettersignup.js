@@ -14,7 +14,26 @@ router
   .all('*', function(req, res, next) {
     req.scope = [{ method: ['forSiteId', req.site.id] }];
     return next();
-  });
+  })
+  .all('*', function(req, res, next) {
+    if (!req.body) return next();
+    // incomming data is too flat when send as enctype=application/x-www-form-urlencoded
+    let data = { extraData: {} };
+    Object.keys(req.body).forEach((key) => {
+      let match = key.match(/^extraData\.([a-zA-Z][a-zA-Z0-9_]*)/);
+      if (match) {
+        data.extraData[ match[1] ] = req.body[key];
+        // very basic validation
+        if (typeof data.extraData[ match[1] ] == 'string') return data.extraData[ match[1] ].length < 256 ? data.extraData[ match[1] ] : data.extraData[ match[1] ].substring(0, 255);
+        if (typeof data.extraData[ match[1] ] == 'number') return data.extraData[ match[1] ] < 2147483647 ? data.extraData[ match[1] ] : 0;
+        return data.extraData[ match[1] ] = '';
+      } else {
+        data[key] = req.body[key];
+      }
+    });
+    req.parsedBody = data;
+    return next();    
+  })
 
 router.route('/$')
 
@@ -56,12 +75,12 @@ router.route('/$')
     if (!isActive) return next(createError(500, 'Nieuwsbrief aanmeldingen zijn momenteel gesloten.'));
     let confirmationUrl = req.site.config.newslettersignup.confirmationEmail && req.site.config.newslettersignup.confirmationEmail.url;
     if (!confirmationUrl) return next(createError(500, 'Configuratiefout: confirmationUrl is niet gedefinieerd. Waarschuw de site beheerder.'));
-    if (req.user && req.user.email && req.user.email !== req.body.email) return next(createError(400, 'Dat is niet het emailadres waarmee je bent ingelogd'));
+    if (req.user && req.user.email && req.user.email !== req.parsedBody.email) return next(createError(400, 'Dat is niet het emailadres waarmee je bent ingelogd'));
     return next();
   })
   .post(function( req, res, next ) {
     db.NewsletterSignup
-      .findOne({ where: { siteId: req.site.id, email: req.body.email } })
+      .findOne({ where: { siteId: req.site.id, email: req.parsedBody.email } })
       .then((found) => {
         if (found) {
           if (!found.externalUserId && req.user.email == found.email) {
@@ -95,17 +114,21 @@ router.route('/$')
       data.lastName = req.user.lastName;
       data.confirmed = true;
     } else {
-      data.email = req.body.email;
-      data.firstName = req.body.firstName;
-      data.lastName = req.body.lastName;
+      data.email = req.parsedBody.email;
+      data.firstName = req.parsedBody.firstName;
+      data.lastName = req.parsedBody.lastName;
       data.confirmed = req.site && req.site.config && req.site.config.newslettersignup && req.site.config.newslettersignup.autoConfirm;
       if (!data.confirmed) {
         data.confirmToken = generateToken({ length: 256 });
       }
     }
+    data.extraData = req.parsedBody.extraData;
     data.siteId = req.site.id;
     data.externalUserId = req.user.externalUserId;
     data.signoutToken = generateToken({ length: 256 });
+
+    console.log('____________________');
+    console.log(data);
 
     db.NewsletterSignup
       .create(data)
