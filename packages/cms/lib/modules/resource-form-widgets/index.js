@@ -124,8 +124,13 @@ module.exports = {
         const globalData = req.data.global;
 
 	      widgets.forEach((widget) => {
-            const resourceType = widget.resource;
-            const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType);
+            const resourceType = widget.resource ?  widget.resource : false;
+            const resourceInfo = resourceType  ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
+
+            if (!resourceInfo) {
+              return;
+            }
+
             const resourceConfigKey = resourceInfo ? resourceInfo.configKey : false;
             const resourceConfig = req.data.global.siteConfig && req.data.global.siteConfig[resourceConfigKey] ? req.data.global.siteConfig[resourceConfigKey] : {};
 
