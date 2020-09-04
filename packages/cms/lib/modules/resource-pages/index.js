@@ -71,10 +71,9 @@ module.exports = {
           } else {
             callback(null);
           }
-
         })
         .catch((e) => {
-          console.log('erroror', e)
+          console.log('erroror', e);
 
           //if user not logged into CMS in throw 404
           //for ease of use when someone is logged into CMS it's easier to allow
