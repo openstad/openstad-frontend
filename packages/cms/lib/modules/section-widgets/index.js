@@ -254,7 +254,7 @@ module.exports = {
         }
 
         const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
-        const widgetDisplaySettings = siteConfig &&  siteConfig.cms && siteConfig.cms.widgetDisplaySettings ? siteConfig.cms.widgetDisplaySettings : {};
+        const widgetDisplaySettings = siteConfig && siteConfig.cms && siteConfig.cms.widgetDisplaySettings ? siteConfig.cms.widgetDisplaySettings : {};
 
         widgets.forEach((widget) => {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
@@ -262,16 +262,12 @@ module.exports = {
           widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
 
           // get the content widget that fit with the role of logged in user and insert data
-
-          widget.contentWidgets = self.getContentWidgets(req);
+          const isAdmin = self.apos.permissions.can(req, 'admin');
+          widget.contentWidgets = isAdmin ? contentWidgets.getAdminWidgets(widgetDisplaySettings) : contentWidgets.getEditorWidgets(widgetDisplaySettings);
 
         });
         return callback(null);
       });
-    };
-
-    self.getContentWidgets = (req) => {
-      return self.apos.permissions.can(req, 'admin') ? contentWidgets.getAdminWidgets() : contentWidgets.getEditorWidgets();
     };
 
     const superOutput = self.output;

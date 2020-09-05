@@ -1,4 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
+const sortingOptions  = require('../../../config/sorting.js').ideasOnMapOptions;
 const fs = require('fs');
 const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const imageApiUrl   = process.env.IMAGE_API_URL;
@@ -66,7 +67,6 @@ module.exports = {
       textarea: true,
       required: false,
     },
-
 		{
 			name: 'mapVariant',
 			type: 'select',
@@ -183,6 +183,19 @@ module.exports = {
 			required: false
 		},
 
+    {
+      type: 'checkboxes',
+      name: 'selectedSorting',
+      label: 'Select sorting available (check one or more)',
+      choices: sortingOptions
+    },
+    {
+      type: 'select',
+      name: 'defaultSorting',
+      label: 'Select the default sorting (needs to be checked)',
+      choices: sortingOptions
+    },
+    
     // ----------------------------------------------------------------------------------------------------
     // dit komt uit user-form en moet daarmee gelijk getrokken als dat echt werkt
     // {
@@ -196,6 +209,7 @@ module.exports = {
     //   label:    'Intro',
     //   textarea: true
     // },
+    // TODO: dit is al de zovelste kopie en moet dus naar een lib
     {
       name:       'formFields',
       label:      'Form fields',
@@ -205,7 +219,8 @@ module.exports = {
         {
           type:  'string',
           name:  'name',
-          label: 'Name'
+          label: 'Name of the database field',
+			    required: true,
         },
         {
           type:  'string',
@@ -313,6 +328,11 @@ module.exports = {
         fields: ['noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
+        name: 'sort',
+        label: 'Sorteren',
+        fields: ['selectedSorting', 'defaultSorting']
+      },
+      {
         name: 'reactions',
         label: 'Reacties',
         fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'closeReactionsForIdeaIds', ]
@@ -399,6 +419,11 @@ module.exports = {
 				      fetch: '/image',
             },
             fields: widget.formFields,
+            sort: {
+              sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
+              showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
+              defaultSortOrder: widget.defaultSorting,
+            }
 			    },
 			    poll: req.data.global.siteConfig && req.data.global.siteConfig.polls,
 			    argument: {

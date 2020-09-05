@@ -35,7 +35,7 @@ const fields = [
 ]
 
 module.exports = {
-  extend: 'apostrophe-widgets',
+  extend: 'openstad-widgets',
   label: 'Recource admin buttons',
   addFields: fields,
   beforeConstruct: function(self, options) {
@@ -61,6 +61,7 @@ module.exports = {
      self.pushAssets = function () {
        superPushAssets();
        self.pushAsset('stylesheet', 'main', { when: 'always' });
+       self.pushAsset('script', 'main', { when: 'always' });
      };
 
      const superOutput = self.output;

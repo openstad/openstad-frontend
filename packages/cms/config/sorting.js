@@ -84,3 +84,42 @@ exports.apiOptions = [
     label: 'Laagste bedrag'
   },
 ];
+
+exports.ideasOnMapOptions = [
+  {
+    value: 'createdtime,desc',
+    label: 'Nieuwste eerst'
+  },
+  {
+    value: 'createdtime,asc',
+    label: 'Oudste eerst'
+  },
+  {
+    value: 'title',
+    label: 'Titel'
+  },
+  {
+    value: 'random',
+    label: 'Willekeurig'
+  },
+  {
+    value: 'likes,desc',
+    label: 'Meeste likes'
+  },
+  {
+    value: 'likes,asc',
+    label: 'Minste likes'
+  },
+  {
+    value: 'args,desc',
+    label: 'Meeste reacties'
+  },
+  {
+    value: 'args,asc',
+    label: 'Minste reacties'
+  },
+  {
+    value: 'ranking,asc',
+    label: 'Ranglijst'
+  },
+];

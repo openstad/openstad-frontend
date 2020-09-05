@@ -1,22 +1,11 @@
-apos.define('idea-single-widgets', {
-    extend: 'map-widgets',
-    construct: function(self, options) {
-        self.play = function($widget, data, options) {
-
-            initVoteToggleForms($widget);
-
-            var map = self.createMap(data.mapConfig);
-
-            self.addPolygon(data.mapConfig);
-            self.setIdeaMarker(data.mapConfig);
-        }
-    }
+$(document).ready(function() {
+  initVoteToggleForms();
 });
 
-function initVoteToggleForms ($widget) {
-    $widget.find('.vote-toggle-form').animate({opacity:1}, 500);
+function initVoteToggleForms () {
+    $('.vote-toggle-form').animate({opacity:1}, 500);
 
-    $widget.find('.vote-toggle-form').on('submit', function (ev) {
+    $('.vote-toggle-form').on('submit', function (ev) {
     ev.preventDefault();
     var $form = $(this);
     var $tr = $(this).closest('tr');
