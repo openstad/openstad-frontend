@@ -3,8 +3,14 @@
   {% for resource in data.widget.activeResources %}
     {% set activeResource = resource %}
     <div class="repeatable-form-wrapper">
+      <div class="repeatable-delete-form-container">
+
+      </div>
       {% include 'includes/form-header.html' %}
       <div class="repeatable-form">
+      <button class="btn btn-secondary repeatable-delete">
+        X
+      </button>
       {% include 'includes/field-sections.html' ignore missing %}
       </div>
       {% include 'includes/form-footer.html' %}
@@ -15,7 +21,7 @@
     <button class="btn btn-secondary repeatable-add">
       + Nog een toevoegen
     </button>
-    <button class="btn btn-primary repeatable-save">
+    <button class="btn btn-primary repeatable-submit">
       Opslaan
     </button>
   </div>
@@ -25,6 +31,9 @@
   <div class="repeatable-form-wrapper">
   {% include 'includes/form-header.html' %}
   <div class="repeatable-form">
+    <button class="btn btn-secondary repeatable-delete">
+      X
+    </button>
     {% include 'includes/field-sections.html' ignore missing %}
   </div>
   {% include 'includes/form-footer.html' %}

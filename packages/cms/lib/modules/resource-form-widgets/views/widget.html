@@ -11,6 +11,8 @@
 {% set showForm = true %}
 {% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
 {% set showForm = true %}
+{% elseif data.widget.allowGuestFormSubmission %}
+{% set showForm = true %}
 {% else %}
 {% set showForm = false %}
 {% endif %}

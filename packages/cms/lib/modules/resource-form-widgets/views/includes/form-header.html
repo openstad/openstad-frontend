@@ -1,7 +1,9 @@
 <form method="post" action="/modules/resource-form-widgets/submit" class="resource-form">
-  <div class="form-group">
+  {% if data.widget.displayUserInfoAtTop %}
+  <div class="form-group form-user-name">
     <h2>Naam</h2>
     <p>
       {{data.openstadUser.firstName}} {{data.openstadUser.lastName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
     </p>
   </div>
+  {% endif %}

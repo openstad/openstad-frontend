@@ -28,6 +28,38 @@ const fields = [
         ]
     },
     {
+      name: 'allowGuestFormSubmission',
+      label: 'Allow guest form submissions?',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: false
+    },
+    {
+      name: 'displayUserInfoAtTop',
+      label: 'Display user info at the top?',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
+    },
+    {
       name: 'hideAdminAfterPublicAction',
       label: 'Hide admin after first public action? (not yet connected to the API)',
       type: 'boolean',

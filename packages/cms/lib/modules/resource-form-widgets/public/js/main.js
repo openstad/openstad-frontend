@@ -10,7 +10,6 @@ apos.define('resource-form-widgets', {
 
     self.initRepeatableForm = function ($widget) {
       // add first form
-      self.addRepeatableForm($widget);
 
       // add a save form
       $widget.find('.repeatable-submit').on('click', function() {
@@ -25,10 +24,51 @@ apos.define('resource-form-widgets', {
       });
 
       // add a append button
+      $widget.find('.resource-form').each(function(){
+        self.bindRepeatableDelete($(this))
+      });
+
+
       $widget.find('.repeatable-add').on('click', function() {
         self.addRepeatableForm($widget);
       });
 
+      self.addRepeatableForm($widget);
+    }
+
+    self.bindRepeatableDelete = function($form) {
+      $form.find('.repeatable-delete').off('click');
+
+      $form.find('.repeatable-delete').on('click', function(ev) {
+        ev.preventDefault();
+
+        $form.addClass('processing');
+
+        var resourceId = $form.find('input[name="resourceId"]').val();
+        var resourceType = $form.find('input[name="resourceType"]').val();
+        var resourceEndPoint = $form.find('input[name="resourceEndPoint"]').val();
+
+        if (resourceId) {
+          $.ajax({
+            method: 'POST',
+            url: '/modules/resource-admin-widgets/delete',
+            data: {
+              resourceId: resourceId,
+              resourceType: resourceType,
+              resourceEndPoint: resourceEndPoint,
+            },
+            success: function() {
+              // on succes remove complete wrapper;
+              $form.closest('.repeatable-form-wrapper').remove();
+            },
+            error: function() {
+              alert('Error trying to remove, try again...')
+            },
+          })
+        } else {
+          $form.closest('.repeatable-form-wrapper').remove();
+        }
+      });
     }
 
     self.addRepeatableForm = function ($widget) {
@@ -36,9 +76,9 @@ apos.define('resource-form-widgets', {
       var $formContainer = $(formContainerHTML);
       $widget.find('.repeatable-form-container-forms').append($formContainer);
       var form = $formContainer.find('.resource-form');
-
       initUploadField(form);
       bindResourceFormValidation(form);
+      self.bindRepeatableDelete($(form));
     }
 
     self.registerFilePondPlugins = function() {
@@ -284,6 +324,11 @@ function bindResourceFormValidation(resourceForm) {
 
       $(form).find('input[type="submit"]').val('Verzenden...');
       $(form).find('input[type="submit"]').attr('disabled', true);
+      $(form).addClass('submitting');
+      $(form).removeClass('success-submit');
+      $(form).removeClass('error-submit');
+
+
       //  console.log('X-CSRF-TOKEN');
       //  console.log('asdasdasdasd',$(form).serialize());
 
@@ -294,12 +339,35 @@ function bindResourceFormValidation(resourceForm) {
         data: $(form).serialize(),
         dataType: 'json',
         success:function(response) {
-          var redirect = $(form).find('.form-redirect-uri').val();
-          redirect = redirect.replace(':id', response.id);
-          //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-          window.location.replace(redirect);
+          console.log('response', response);
+
+          $(form).removeClass('submitting');
+          $(form).addClass('success-submit');
+
+          var submittingFormCount = $('.resource-form.submitting').length;
+          var submittingErrorCount = $('.resource-form.error-submit').length;
+
+          // if not edit form, turn it into an edit form by adding the ID
+          // This way the resource can be created and then edited
+          if (response && $(form).find('input[name="resourceId"]').length === 0) {
+            var resourceIdInput = '<input type="hidden" name="resourceId" value="'+response.id+'">';
+            var putInput = '<input type="hidden" name="_method" value="PUT">';
+            $(form).append(resourceIdInput + putInput);
+            $(form).find('input[type="submit"]').val('Opslaan');
+            $(form).find('input[type="submit"]').attr('disabled', false);
+          }
+
+          if (submittingFormCount === 0 && submittingErrorCount === 0) {
+            var redirect = $(form).find('.form-redirect-uri').val();
+            redirect = redirect.replace(':id', response.id);
+            //use href to simulate a link click! Not replace, that doesn't allow for back button to work
+            window.location.replace(redirect);
+          }
         },
         error:function(response) {
+          $(form).removeClass('submitting');
+          $(form).addClass('error-submit');
+
           // "this" the object you passed
           alert(response.responseJSON.msg);
           $(form).find('input[type="submit"]').val('Opslaan');
