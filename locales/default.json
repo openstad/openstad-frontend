@@ -814,5 +814,20 @@
 	"Display cart in header?": "Display cart in header?",
 	"Buurten": "Buurten",
 	"Name": "Name",
-	"Repeatable": "Repeatable"
+	"Repeatable": "Repeatable",
+	"Manage %s": "Manage %s",
+	"Here you can add new %s or click on existing ones to edit them.": "Here you can add new %s or click on existing ones to edit them.",
+	"Add User": "Add User",
+	"—": "—",
+	"Search Users...": "Search Users...",
+	"Showing %s - %s of %s results": "Showing %s - %s of %s results",
+	"Last Updated": "Last Updated",
+	"Last Commit": "Last Commit",
+	"MM/DD/YY[ at ]h:mma": "MM/DD/YY[ at ]h:mma",
+	"Draft": "Draft",
+	"Add Image": "Add Image",
+	"Batch Revert to Live": "Batch Revert to Live",
+	"Search Images...": "Search Images...",
+	"No results for current filters%s": "No results for current filters%s",
+	"Price": "Price"
 }

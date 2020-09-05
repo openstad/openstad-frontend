@@ -92,6 +92,11 @@ const fields = [
                       showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
                   },
                   {
+                      value: 'price',
+                      label: "Price",
+                      showFields: ['fieldRequired']
+                  },
+                  {
                       value: 'advice',
                       label: "Advice"
                   },
