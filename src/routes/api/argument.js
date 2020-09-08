@@ -49,9 +49,8 @@ router
 
 		var argumentId = parseInt(req.params.argumentId) || 1;
 
-		let ideaId = parseInt(req.params.ideaId) || 0;
 		let sentiment = req.query.sentiment;
-		let where = { ideaId, id: argumentId }
+		let where = { id: argumentId }
 
 		if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
 			where.sentiment = sentiment;
@@ -63,7 +62,7 @@ router
 				where
 			})
 			.then(entry => {
-				if ( !entry ) throw new Error('Argument not found');
+				if (!entry) throw new Error('Argument not found');
 				req.results = entry;
 				return next();
 			})
