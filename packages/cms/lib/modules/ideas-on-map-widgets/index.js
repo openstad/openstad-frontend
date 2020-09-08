@@ -129,6 +129,20 @@ module.exports = {
 			def: 'extraData.theme',
 			required: false
 		},
+		{
+			name: 'typeLabel',
+			type: 'string',
+			label: 'Label daarvan in detail pagina',
+			def: 'Thema',
+			required: false
+		},
+		{
+			name: 'typesFilterLabel',
+			type: 'string',
+			label: 'Label daarvan in filters',
+			def: 'Alle thema\'s',
+			required: false
+		},
 
 		{
 			type: 'select',
@@ -315,7 +329,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField']
+        fields: ['typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -403,6 +417,8 @@ module.exports = {
           content: contentConfig,
           typeField: widget.typeField,
           types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
+          typeLabel: widget.typeLabel,
+          typesFilterLabel: widget.typesFilterLabel,
 			    idea: {
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
