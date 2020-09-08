@@ -348,6 +348,7 @@ const fields = [
             },
         ]
     },
+
     {
        name: 'labelDescription',
        type: 'string',

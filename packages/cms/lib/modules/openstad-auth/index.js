@@ -75,6 +75,9 @@ module.exports = {
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
+        console.log('req.jwt.returnTo', returnTo)
+
+
         req.session.save(() => {
           res.redirect(returnTo);
           return;
@@ -116,7 +119,6 @@ module.exports = {
              req.data.hasModeratorRights = true;
            }
 
-
            req.session.save(() => {
              next();
            });
@@ -126,14 +128,12 @@ module.exports = {
          const date = new Date();
          const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
-
          if (req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
            console.log('get user from session')
             setUserData(req, next);
          } else {
              rp(options)
              .then(function (user) {
-               console.log('fetch user from again')
 
                if (user && Object.keys(user).length > 0 && user.id) {
                  req.session.openstadUser = user;
@@ -142,6 +142,7 @@ module.exports = {
                  setUserData(req, next)
                } else {
                  // if not valid clear the JWT and redirect
+                 console.log('logout')
                  req.session.destroy(() => {
                    res.redirect('/');
                    return;
@@ -217,6 +218,8 @@ module.exports = {
     self.apos.app.get('/oauth/login', (req, res, next) => {
         // check in url if returnTo params is set for redirecting to page
         req.session.returnTo = req.query.returnTo ?  decodeURIComponent(req.query.returnTo) : null;
+
+        console.log('req.session.returnTo', req.session.returnTo)
 
         req.session.save(() => {
           const apiUrl = self.apos.settings.getOption(req, 'apiUrl');

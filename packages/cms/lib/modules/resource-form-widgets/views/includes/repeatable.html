@@ -22,7 +22,7 @@
       + Nog een toevoegen
     </button>
     <button class="btn btn-primary repeatable-submit">
-      Opslaan
+      {{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}
     </button>
   </div>
 </div>

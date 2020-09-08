@@ -28,7 +28,6 @@ apos.define('resource-form-widgets', {
         self.bindRepeatableDelete($(this))
       });
 
-
       $widget.find('.repeatable-add').on('click', function() {
         self.addRepeatableForm($widget);
       });
@@ -339,8 +338,6 @@ function bindResourceFormValidation(resourceForm) {
         data: $(form).serialize(),
         dataType: 'json',
         success:function(response) {
-          console.log('response', response);
-
           $(form).removeClass('submitting');
           $(form).addClass('success-submit');
 

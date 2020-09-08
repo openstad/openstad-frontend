@@ -579,5 +579,17 @@
 	"Required": "Required",
 	"Min length": "Min length",
 	"Max length": "Max length",
-	"Field options": "Field options"
+	"Field options": "Field options",
+	"Edit Admin panel": "Edit Admin panel",
+	"Manage %s": "Manage %s",
+	"Here you can add new %s or click on existing ones to edit them.": "Here you can add new %s or click on existing ones to edit them.",
+	"Add File": "Add File",
+	"Batch Revert to Live": "Batch Revert to Live",
+	"—": "—",
+	"Search Files...": "Search Files...",
+	"No results for current filters.": "No results for current filters.",
+	"Last Updated": "Last Updated",
+	"Last Commit": "Last Commit",
+	"Redirect to create anonymous user": "Redirect to create anonymous user",
+	"Redirect to account page if required": "Redirect to account page if required"
 }

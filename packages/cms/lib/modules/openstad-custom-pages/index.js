@@ -39,6 +39,16 @@ module.exports = {
         label: 'Redirect user when not logged in',
       },
       {
+        name: 'anonymousUserRequired',
+        type: 'string',
+        label: 'Redirect to create anonymous user',
+      },
+      {
+        name: 'accountNeededRedirect',
+        type: 'string',
+        label: 'Redirect to account page if required',
+      },
+      {
         name: 'hideFooter',
         type: 'boolean',
         label: 'Hide the footer?',

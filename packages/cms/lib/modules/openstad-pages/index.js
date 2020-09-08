@@ -3,6 +3,7 @@
 
 const loadIdeas       = require('./lib/load-ideas');
 const loadTags        = require('./lib/load-tags');
+const url = require('url');
 
 module.exports = {
     improve: 'apostrophe-pages',
@@ -66,10 +67,26 @@ module.exports = {
          * Allow pages to redirect if not logged in
          * Redirect in seperate function doesnt block execution flow therefore causing header already set error
          */
-        const pageData = req.data.page;
+         const pageData = req.data.page;
+
+         const thisHost = req.headers['x-forwarded-host'] || req.get('host');
+         const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+         const siteUrl = protocol + '://' + thisHost;
+         const fullUrl = siteUrl + req.originalUrl;
+         const parsedUrl = url.parse(fullUrl, true);
 
         if (pageData && pageData.notLoggedInRedirect && !req.data.loggedIn) {
           return req.res.redirect(pageData.notLoggedInRedirect);
+        }
+
+        console.log('req.user', req.data.openstadUser)
+
+        if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
+          return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
+        }
+
+        if (pageData && pageData.accountNeededRedirect && !req.user.account) {
+          return req.res.redirect(pageData.accountNeededRedirect);
         }
 
         self.setActiveIdeaId(req);

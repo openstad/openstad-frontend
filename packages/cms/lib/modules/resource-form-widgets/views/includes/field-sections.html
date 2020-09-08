@@ -20,8 +20,10 @@
   {% endif %}
 
   {% for field in formSection.fields %}
-  <div class="form-field-container">
+  <div class="form-field-container form-field-container-{{field.key}}">
+    {% if field.fieldInfo %}
     <p> {{field.fieldInfo}} </p>
+    {% endif %}
     {% include 'includes/fields/' + field.type + '.html' ignore missing %}
   </div>
   <br />

@@ -491,8 +491,6 @@ function ajaxRefresh (resetHash) {
     // trigger ajax refresh event for  binding to new dom events
     $('body').trigger('openstadAjaxRefresh');
 
-    console.log('resethash', resetHash)
-
     // trigger
     if (resetHash && window.location.hash && window.location.hash !== '#closed') {
       var hash = window.location.hash;
