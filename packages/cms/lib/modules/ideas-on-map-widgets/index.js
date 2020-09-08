@@ -122,6 +122,14 @@ module.exports = {
       label: 'Gevoeligheid van clusering',
 			def: 40
 		},
+
+		{
+			name: 'ideaName',
+			type: 'string',
+			label: 'Naam voor idea',
+			def: 'Inzending',
+			required: false
+		},
 		{
 			name: 'typeField',
 			type: 'string',
@@ -132,14 +140,14 @@ module.exports = {
 		{
 			name: 'typeLabel',
 			type: 'string',
-			label: 'Label daarvan in detail pagina',
+			label: 'Label voor type in detail pagina',
 			def: 'Thema',
 			required: false
 		},
 		{
 			name: 'typesFilterLabel',
 			type: 'string',
-			label: 'Label daarvan in filters',
+			label: 'Label voor type in filters',
 			def: 'Alle thema\'s',
 			required: false
 		},
@@ -329,7 +337,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField', 'typeLabel', 'typesFilterLabel']
+        fields: ['ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -415,6 +423,7 @@ module.exports = {
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
           content: contentConfig,
+          ideaName: widget.ideaName,
           typeField: widget.typeField,
           types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
           typeLabel: widget.typeLabel,
