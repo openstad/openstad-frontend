@@ -51,7 +51,11 @@ module.exports = function (db, sequelize, DataTypes) {
         createableBy: 'editor',
         updateableBy: 'editor',
       },
-      allowNull: true
+      allowNull: true,
+      set: function (meetingId) {
+        meetingId = meetingId ? meetingId : null
+        this.setDataValue('meetingId', meetingId);
+      }
     },
 
     userId: {
