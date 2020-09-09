@@ -122,11 +122,33 @@ module.exports = {
       label: 'Gevoeligheid van clusering',
 			def: 40
 		},
+
+		{
+			name: 'ideaName',
+			type: 'string',
+			label: 'Naam voor idea',
+			def: 'Inzending',
+			required: false
+		},
 		{
 			name: 'typeField',
 			type: 'string',
 			label: 'Veld voor type inzending',
 			def: 'extraData.theme',
+			required: false
+		},
+		{
+			name: 'typeLabel',
+			type: 'string',
+			label: 'Label voor type in detail pagina',
+			def: 'Thema',
+			required: false
+		},
+		{
+			name: 'typesFilterLabel',
+			type: 'string',
+			label: 'Label voor type in filters',
+			def: 'Alle thema\'s',
 			required: false
 		},
 
@@ -315,7 +337,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField']
+        fields: ['ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -401,8 +423,11 @@ module.exports = {
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
           content: contentConfig,
+          ideaName: widget.ideaName,
           typeField: widget.typeField,
           types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
+          typeLabel: widget.typeLabel,
+          typesFilterLabel: widget.typesFilterLabel,
 			    idea: {
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
@@ -413,6 +438,7 @@ module.exports = {
 				    summaryMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.summaryMaxLength ) || 200,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
+				    allowMultipleImages: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false,
             imageserver: {
               // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
 				      process: '/image',
