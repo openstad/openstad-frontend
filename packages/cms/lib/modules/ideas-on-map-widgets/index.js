@@ -408,6 +408,15 @@ module.exports = {
         if (widget.selectionActiveNotLoggedInHTML) contentConfig.selectionActiveNotLoggedInHTML = widget.selectionActiveNotLoggedInHTML;
         if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
         if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
+
+        // allowMultipleImages to formfields
+        let formFields = [ ...widget.formFields ];
+        let allowMultipleImages = ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false;
+        formFields.forEach((formField) => {
+          if ( formField.inputType ==  "image-upload" ) {
+            formField.allowMultiple = allowMultipleImages;
+          }
+        });
         
 			  widget.config = JSON.stringify({
           // req.data.isAdmin
@@ -438,13 +447,13 @@ module.exports = {
 				    summaryMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.summaryMaxLength ) || 200,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
-				    allowMultipleImages: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false,
+				    allowMultipleImages,
             imageserver: {
               // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
 				      process: '/image',
 				      fetch: '/image',
             },
-            fields: widget.formFields,
+            fields: formFields,
             sort: {
               sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
               showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
@@ -476,7 +485,7 @@ module.exports = {
 			    },
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        
+
         const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
