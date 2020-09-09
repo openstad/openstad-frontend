@@ -1,4 +1,6 @@
 const userHasRole = require('./hasRole');
+var sanitize = require('../../../util/sanitize');
+
 
 module.exports = function (dataTypeJSON,  siteConfigKey) {
   return {
@@ -45,6 +47,10 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
           } else if (typeof val[key] == 'undefined') {
             // not defined in put data; use old val
             val[key] = old[key];
+          }
+
+          if (typeof val[key] === 'string') {
+            val[key] = sanitize.safeTags(val[key]);
           }
         });
       }

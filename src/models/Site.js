@@ -543,7 +543,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 				},
 			},
-      
+
 			newslettersignup: {
 				type: 'object',
 				subset: {
@@ -594,6 +594,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	Site.prototype.parseConfig = function(config) {
 
+
 		try {
 			if (typeof config == 'string') {
 				config = JSON.parse(config);
@@ -603,6 +604,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 		let options = Site.configOptions();
+
+
 
 		config = checkValues(config, options)
 
@@ -651,7 +654,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						throw new Error(`site.config: ${key} must be an string`);
 					}
 					if (options[key].type && options[key].type === 'boolean' && typeof value[key] !== 'boolean') {
-						throw new Error(`site.config: ${key} must be an boolean`);
+						throw new Error(`site.config: ${key} must be an boolean ${value[key]}, ${options}, ${typeof value[key]}`);
 					}
 					if (options[key].type && options[key].type === 'object' && typeof value[key] !== 'object') {
 						throw new Error(`site.config: ${key} must be an object`);
