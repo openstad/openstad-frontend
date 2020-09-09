@@ -275,6 +275,10 @@ module.exports = function (db, sequelize, DataTypes) {
     location: {
       type: DataTypes.GEOMETRY('POINT'),
       allowNull: !(config.ideas && config.ideas.location && config.ideas.location.isMandatory),
+      set: function (location) {
+        location = location ? location : null
+        this.setDataValue('location', location);
+      }
     },
 
     position: {
