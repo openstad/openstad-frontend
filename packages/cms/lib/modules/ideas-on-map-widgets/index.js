@@ -438,6 +438,7 @@ module.exports = {
 				    summaryMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.summaryMaxLength ) || 200,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
+				    allowMultipleImages: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false,
             imageserver: {
               // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
 				      process: '/image',
