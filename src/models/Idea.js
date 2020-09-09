@@ -271,7 +271,11 @@ module.exports = function (db, sequelize, DataTypes) {
       auth:  {
         updateableBy: 'moderator',
       },
-      allowNull: true
+      allowNull: true,
+      set: function (budget) {
+        budget = budget ? budget : null
+        this.setDataValue('budget', budget);
+      }
     },
 
     extraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
