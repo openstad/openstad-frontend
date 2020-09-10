@@ -125,13 +125,10 @@ module.exports = {
 
 
          if (req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
-           console.log('get user from session')
             setUserData(req, next);
          } else {
              rp(options)
              .then(function (user) {
-               console.log('fetch user from again')
-
                if (user && Object.keys(user).length > 0 && user.id) {
                  req.session.openstadUser = user;
                  req.session.lastJWTCheck = new Date().toISOString();

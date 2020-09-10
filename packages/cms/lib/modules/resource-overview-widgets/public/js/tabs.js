@@ -133,8 +133,6 @@ function updateIdeaOverviewDisplay() {
       element.style.display = 'inline-block';
     }
 
-    console.log('activeThema', activeThema);
-
     if (
       // no activeTab selected or
       (( !activeThema || activeThema == 0 ) || activeThema === elementThema)

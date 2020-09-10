@@ -22,8 +22,6 @@ module.exports =  function (req, res, next) {
     // cacheIdeas is old key, should be refactored,
     // preferable we always have caching on
     if (globalData.cacheIdeas) {
-      console.log('get from cache tags')
-
       let cacheKey = 'tags-' + globalData.siteId;
       tags = cache.get(cacheKey);
     }
@@ -32,7 +30,6 @@ module.exports =  function (req, res, next) {
       req.data.openstadTags = tags;
       next();
     } else {
-      console.log('fetch from sserver tags')
 
       var options = {
          uri: `${apiUrl}/api/site/${globalData.siteId}/tag`,
