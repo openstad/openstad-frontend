@@ -51,8 +51,6 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
-          console.log('activeResource', activeResource)
-
           req.data.activeResource = activeResource;
 
           if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
