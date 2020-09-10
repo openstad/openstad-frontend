@@ -274,13 +274,6 @@ router.route('/:ideaId(\\d+)')
   .put(function(req, res, next) {
 
     var idea = req.results;
-<<<<<<< HEAD
-    if (!(idea && idea.can && idea.can('update'))) return next(new Error('You cannot update this Idea'));
-
-    let data = {
-=======
-
-
 
     if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
 
@@ -299,7 +292,6 @@ router.route('/:ideaId(\\d+)')
     }
 
 		let data = {
->>>>>>> devel
       ...req.body,
     };
 
