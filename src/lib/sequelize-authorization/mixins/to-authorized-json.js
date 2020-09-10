@@ -53,7 +53,7 @@ module.exports = function toAuthorizedJSON(user) {
     let testRole;
     if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
       if (self.rawAttributes[key].auth.authorizeData) {
-        return self.rawAttributes[key].auth.authorizeData(self, 'view', user);
+        return self.rawAttributes[key].auth.authorizeData(null, 'view', user, self, self.site);
       } else {
         testRole = self.rawAttributes[key].auth.viewableBy;
       }
