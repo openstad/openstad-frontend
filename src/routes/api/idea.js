@@ -17,8 +17,6 @@ const userhasModeratorRights = (user) => {
 // scopes: for all get requests
 router
 	.all('*', function(req, res, next) {
-		console.log('tags all')
-
 		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
 		req.scope.push('includeSite');
@@ -318,7 +316,7 @@ router.route('/:ideaId(\\d+)')
 
 		ideaInstance
 			.setTags(req.tags)
-			.then(ideaInstance => {
+			.then(result => {
         // refetch. now with tags
         let scope = [...req.scope, 'includeVoteCount', 'includeTags']
 		    return db.Idea
@@ -327,7 +325,8 @@ router.route('/:ideaId(\\d+)')
 				    where: { id: ideaInstance.id, siteId: req.params.siteId }
 			    })
 			    .then(found => {
-				    if ( !found ) throw new Error('Idea not found');
+				    if (!found) throw new Error('Idea not found');
+
             if (req.query.includePoll) { // TODO: naar poll hooks
               if (found.poll) found.poll.countVotes(!req.query.withVotes);
             }

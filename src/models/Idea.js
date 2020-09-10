@@ -312,7 +312,8 @@ module.exports = function (db, sequelize, DataTypes) {
       },
       allowNull: true,
       set: function (text) {
-        this.setDataValue('modBreak', sanitize.content(text));
+        text = text ? sanitize.content(text.trim()) : null;
+        this.setDataValue('modBreak', text);
       }
     },
 
