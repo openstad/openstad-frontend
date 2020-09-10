@@ -3,9 +3,6 @@ const config = require('config');
 module.exports = {
 
   init: function init( req, res, next ) {
-
-    req.pagination = {};
-
     if ( typeof req.query.page == 'undefined' ) return next();
     if ( typeof req.query.search != 'undefined' ) return next(); // if search then pagination after the search
 
@@ -14,9 +11,9 @@ module.exports = {
     let pageSize = parseInt(req.query.pageSize) || 20;
     // if ( pageSize > 50 ) pageSize = 50; // maximaze page size?
 
-    req.pagination.pageSize = pageSize;
-    req.pagination.offset = currentPage * pageSize;
-    req.pagination.limit = pageSize;
+    req.dbQuery.pageSize = pageSize;
+    req.dbQuery.offset = currentPage * pageSize;
+    req.dbQuery.limit = pageSize;
 
     return next();
 
@@ -29,8 +26,8 @@ module.exports = {
     let list = req.results;
 
     let currentPage = parseInt(req.query.page) || 0;
-    let pageSize = req.pagination.pageSize; // if defined then paging was done in the query
-    let listLength = pageSize ? req.pagination.count : list.length;
+    let pageSize = req.dbQuery.pageSize; // if defined then paging was done in the query
+    let listLength = pageSize ? req.dbQuery.count : list.length;
     let pageCount = parseInt( listLength / pageSize ) + ( listLength % pageSize ? 1 : 0 );
 
     // if (currentPage >= pageCount) currentPage = pageCount - 1;

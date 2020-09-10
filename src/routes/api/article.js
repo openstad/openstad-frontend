@@ -8,6 +8,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
+const isJson = require('../../util/isJson');
 
 const router = express.Router({mergeParams: true});
 const userhasModeratorRights = (user) => {
@@ -54,16 +55,17 @@ router.route('/')
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
-
 		let queryConditions = req.queryConditions ? req.queryConditions : {};
 		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
+		let query = { where: queryConditions, offset: req.dbQuery.offset, limit: req.dbQuery.limit };
+
 		db.Article
 			.scope(...req.scope)
-			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll(query)
 			.then(function( result ) {
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);

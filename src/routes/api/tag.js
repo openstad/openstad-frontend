@@ -21,16 +21,17 @@ router.route('/')
 	.get(auth.useReqUser)
 	.get(pagination.init)
 	.get(function(req, res, next) {
-//		req.scope.push('defaultScope');
+		let { dbQuery } = req;
+
     req.scope.push({method: ['forSiteId', req.params.siteId]});
 
 		db.Tag
 			.scope(...req.scope)
-			.findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll(dbQuery)
 			.then(result => {
 				console.log('result', result);
 				req.results = result.rows;
-				req.pagination.count = result.count;
+				req.dbQuery.count = result.count;
 				next();
 			})
 			.catch(next);

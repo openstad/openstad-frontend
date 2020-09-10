@@ -20,11 +20,13 @@ router.route('/')
   .get(auth.can('Area', 'list'))
   .get(pagination.init)
   .get(function(req, res, next) {
+    let { dbQuery } = req;
+
     return db.Area
-      .findAndCountAll({ offset: req.pagination.offset, limit: req.pagination.limit })
+      .findAndCountAll(dbQuery)
       .then(function(result) {
         req.results = result.rows || [];
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
       })
       .catch(next);

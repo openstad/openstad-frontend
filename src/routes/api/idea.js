@@ -1,13 +1,14 @@
-const Sequelize 		= require('sequelize');
-const express 			= require('express');
-const moment				= require('moment');
-const createError 	= require('http-errors')
-const config 				= require('config');
-const db 						= require('../../db');
-const auth 					= require('../../middleware/sequelize-authorization-middleware');
-const mail 					= require('../../lib/mail');
-const pagination 		= require('../../middleware/pagination');
+const Sequelize = require('sequelize');
+const express = require('express');
+const moment = require('moment');
+const createError = require('http-errors');
+const config = require('config');
+const db = require('../../db');
+const auth = require('../../middleware/sequelize-authorization-middleware');
+const mail = require('../../lib/mail');
+const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
+const isJson = require('../../util/isJson');
 
 const router = express.Router({mergeParams: true});
 const userhasModeratorRights = (user) => {
@@ -19,33 +20,36 @@ router
 	.all('*', function(req, res, next) {
 		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
-		req.scope.push('includeSite');
+    req.scope.push('includeSite');
 
-		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
-		if (sort) {
-			//res.cookie('idea_sort', sort, { expires: 0 });
+    /**
+     * Old sort for backward compatibility
+     */
+    let sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
+    if (sort) {
+      //res.cookie('idea_sort', sort, { expires: 0 });
 
-			if (sort == 'votes_desc' || sort == 'votes_asc') {
-				req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
-			}
-			req.scope.push({ method: ['sort', req.query.sort]});
-		}
+      if (sort == 'votes_desc' || sort == 'votes_asc') {
+        req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
+      }
+      req.scope.push({ method: ['sort', req.query.sort] });
+    }
 
-		if (req.query.mapMarkers) {
-			req.scope.push('mapMarkers');
-		}
+    if (req.query.mapMarkers) {
+      req.scope.push('mapMarkers');
+    }
 
 		if (req.query.filters || req.query.exclude) {
 			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
 		}
 
-		if (req.query.running) {
-			req.scope.push('selectRunning');
-		}
+    if (req.query.running) {
+      req.scope.push('selectRunning');
+    }
 
-		if (req.query.includeArguments) {
-			req.scope.push({ method: ['includeArguments', req.user.id]});
-		}
+    if (req.query.includeArguments) {
+      req.scope.push({ method: ['includeArguments', req.user.id] });
+    }
 
 		if (req.query.includeArgsCount) {
 			req.scope.push('includeArgsCount');
@@ -61,43 +65,43 @@ router
 
 		if (req.query.tags) {
       let tags = req.query.tags;
-			req.scope.push({ method: ['selectTags', tags]});
-			req.scope.push('includeTags');
-		}
+      req.scope.push({ method: ['selectTags', tags] });
+      req.scope.push('includeTags');
+    }
 
-		if (req.query.includeMeeting) {
-			req.scope.push('includeMeeting');
-		}
+    if (req.query.includeMeeting) {
+      req.scope.push('includeMeeting');
+    }
 
-		if (req.query.includePosterImage) {
-			req.scope.push('includePosterImage');
-		}
+    if (req.query.includePosterImage) {
+      req.scope.push('includePosterImage');
+    }
 
-		if (req.query.includeUser) {
-			req.scope.push('includeUser');
-		}
+    if (req.query.includeUser) {
+      req.scope.push('includeUser');
+    }
 
-		// in case the votes are archived don't use these queries
-		// this means they can be cleaned up from the main table for performance reason
-		if (!req.site.config.archivedVotes) {
-			if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-				req.scope.push('includeVoteCount');
-			}
+    // in case the votes are archived don't use these queries
+    // this means they can be cleaned up from the main table for performance reason
+    if (!req.site.config.archivedVotes) {
+      if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+        req.scope.push('includeVoteCount');
+      }
 
-			if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
-				// ik denk dat je daar niet het hele object wilt?
-				req.scope.push({ method: ['includeUserVote', req.user.id]});
-			}
-		}
+      if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
+        // ik denk dat je daar niet het hele object wilt?
+        req.scope.push({ method: ['includeUserVote', req.user.id] });
+      }
+    }
 
-		// todo? volgens mij wordt dit niet meer gebruikt
-		// if (req.query.highlighted) {
-		//  	query = db.Idea.getHighlighted({ siteId: req.params.siteId })
-		// }
+    // todo? volgens mij wordt dit niet meer gebruikt
+    // if (req.query.highlighted) {
+    //  	query = db.Idea.getHighlighted({ siteId: req.params.siteId })
+    // }
 
-		return next();
+    return next();
 
-	})
+  });
 
 router.route('/')
 
@@ -107,12 +111,16 @@ router.route('/')
 	.get(pagination.init)
 	// add filters
 	.get(function(req, res, next) {
-		let queryConditions = req.queryConditions ? req.queryConditions : {};
-		queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+    let { dbQuery } = req;
+
+    dbQuery.where = {
+      siteId: req.params.siteId,
+      ...req.queryConditions,
+    };
 
 		db.Idea
 			.scope(...req.scope)
-			.findAndCountAll({ where: queryConditions, offset: req.pagination.offset, limit: req.pagination.limit })
+      .findAndCountAll(dbQuery)
 			.then(function( result ) {
         if (req.query.includePoll) { // TODO: naar poll hooks
           result.rows.forEach((idea) => {
@@ -120,7 +128,7 @@ router.route('/')
           });
         }
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);
@@ -155,10 +163,10 @@ router.route('/')
 
 		const data = {
       ...req.body,
-			siteId      : req.params.siteId,
-			userId      : req.user.id,
-		  startDate:  new Date(),
-		}
+      siteId: req.params.siteId,
+      userId: req.user.id,
+      startDate: new Date(),
+    };
 
     let responseData;
 		db.Idea
@@ -261,13 +269,11 @@ router.route('/:ideaId(\\d+)')
 	.put(auth.useReqUser)
 	.put(function(req, res, next) {
     req.tags = req.body.tags;
-    return next()
-	})
-	.put(function(req, res, next) {
+    return next();
+  })
+  .put(function(req, res, next) {
 
     var idea = req.results;
-
-
 
     if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
 
@@ -287,7 +293,7 @@ router.route('/:ideaId(\\d+)')
 
 		let data = {
       ...req.body,
-		}
+    };
 
 		if (userhasModeratorRights(req.user)) {
       if (data.modBreak) {
@@ -296,16 +302,16 @@ router.route('/:ideaId(\\d+)')
       }
     }
 
-		idea
-			.authorizeData(data, 'update')
-			.update(data)
-			.then(result => {
-				req.results = result;
-        next()
-			})
-			.catch(next);
-	})
-	.put(function(req, res, next) {
+    idea
+      .authorizeData(data, 'update')
+      .update(data)
+      .then(result => {
+        req.results = result;
+        next();
+      })
+      .catch(next);
+  })
+  .put(function(req, res, next) {
 
     // tags
     if (!req.tags) return next();
