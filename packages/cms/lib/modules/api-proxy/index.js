@@ -1,7 +1,6 @@
 const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
 const eventEmitter  = require('../../../events').emitter;
-const qs = require('qs');
 
 module.exports = {
   construct: function(self, options) {
