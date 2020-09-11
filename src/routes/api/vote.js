@@ -98,7 +98,7 @@ router.route('/')
 	.get(function(req, res, next) {
 		let { dbQuery } = req;
 
-		let where = {};
+		let where = {...dbQuery.where};
 		let ideaId = parseInt(req.query.ideaId);
 		if (ideaId) {
 			where.ideaId = ideaId;

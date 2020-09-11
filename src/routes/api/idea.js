@@ -116,6 +116,7 @@ router.route('/')
     dbQuery.where = {
       siteId: req.params.siteId,
       ...req.queryConditions,
+			...dbQuery,
     };
 
 		db.Idea
@@ -282,7 +283,7 @@ router.route('/:ideaId(\\d+)')
         req.body.location = JSON.parse(req.body.location || null);
       } catch(err) {}
 
-      if (req.body.location &&  typeof req.body.location == 'object' && !Object.keys(req.body.location).length) {
+      if (req.body.location &&  typeof req.body.location === 'object' && !Object.keys(req.body.location).length) {
 				req.body.location = undefined;
 			}
     } else {
