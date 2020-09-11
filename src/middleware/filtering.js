@@ -5,10 +5,8 @@ module.exports = function(req, res, next) {
   filter = filter && isJson(filter) ? JSON.parse(filter) : false;
 
   if (filter && Object.keys(filter).length > 0) {
-    req.dbQuery.where = [filter];
+    req.dbQuery.where = filter;
   }
-
-  console.log('req.dbQuery', req.dbQuery)
 
   next();
 };
