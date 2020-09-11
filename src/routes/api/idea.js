@@ -116,7 +116,7 @@ router.route('/')
     dbQuery.where = {
       siteId: req.params.siteId,
       ...req.queryConditions,
-			...dbQuery,
+			...dbQuery.where,
     };
 
 		db.Idea

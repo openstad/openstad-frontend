@@ -1,11 +1,14 @@
 const isJson = require('../util/isJson');
 
 module.exports = function(req, res, next) {
-  const { filter } = req.query;
+  let { filter } = req.query;
+  filter = filter && isJson(filter) ? JSON.parse(filter) : false;
 
-  if (filter && isJson(filter)) {
-    req.dbQuery.where = [JSON.parse(filter)];
+  if (filter && Object.keys(filter).length > 0) {
+    req.dbQuery.where = [filter];
   }
+
+  console.log('req.dbQuery', req.dbQuery)
 
   next();
 };
