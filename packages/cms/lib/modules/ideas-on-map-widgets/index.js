@@ -208,13 +208,13 @@ module.exports = {
     {
       type: 'checkboxes',
       name: 'selectedSorting',
-      label: 'Select sorting available (check one or more)',
+      label: 'Select sorting available',
       choices: sortingOptions
     },
     {
       type: 'select',
       name: 'defaultSorting',
-      label: 'Select the default sorting (needs to be checked)',
+      label: 'Select the default sorting',
       choices: sortingOptions
     },
     
@@ -261,10 +261,6 @@ module.exports = {
           type:    'select',
           choices: [
             {
-              label: 'Multiple choice',
-              value: 'multiple-choice',
-            },
-            {
               label: 'Select',
               value: 'select',
             },
@@ -279,6 +275,10 @@ module.exports = {
             {
               label: 'HTML',
               value: 'html-with-counter',
+            },
+            {
+              label: 'Radio buttons',
+              value: 'radios',
             },
             {
               label: 'Image upload',
