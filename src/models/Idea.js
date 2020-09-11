@@ -13,8 +13,25 @@ const merge = require('merge');
 
 var argVoteThreshold = config.ideas && config.ideas.argumentVoteThreshold;
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const roles = require('../lib/sequelize-authorization/lib/roles');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 
+
+function hideEmailsForNormalUsers(args) {
+  return args.map((argument) => {
+    delete argument.user.email;
+
+    if (argument.reactions) {
+      argument.reactions = argument.reactions.map((reaction) => {
+        delete reaction.user.email;
+
+        return reaction;
+      })
+    }
+
+    return argument;
+  });
+}
 
 module.exports = function (db, sequelize, DataTypes) {
 
@@ -34,7 +51,11 @@ module.exports = function (db, sequelize, DataTypes) {
         createableBy: 'editor',
         updateableBy: 'editor',
       },
-      allowNull: true
+      allowNull: true,
+      set: function (meetingId) {
+        meetingId = meetingId ? meetingId : null
+        this.setDataValue('meetingId', meetingId);
+      }
     },
 
     userId: {
@@ -117,6 +138,31 @@ module.exports = function (db, sequelize, DataTypes) {
       defaultValue: 1
     },
 
+    typeId: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      auth:  {
+        updateableBy: 'editor',
+        authorizeData: function(data, action, user, self, site) {
+          if (!self) return;
+          site = site || self.site;
+          if (!site) return; // todo: die kun je ophalen als eea. async is
+          let value = data || self.typeId;
+          let config = site.config.ideas.types;
+          if (!config || !Array.isArray(config) || !config[0] || !config[0].id) return null; // no config; this field is not used
+          let defaultValue = config[0].id;
+
+          let valueConfig = config.find( type => type.id == value );
+          if (!valueConfig) return self.typeId || defaultValue; // non-existing value; fallback to the current value
+          let requiredRole = self.rawAttributes.typeId.auth[action+'ableBy'] || 'all';
+          if (!valueConfig.auth) return userHasRole(user, requiredRole) ? value : ( self.typeId || defaultValue ); // no auth defined for this value; use field.auth
+          requiredRole = valueConfig.auth[action+'ableBy'] || requiredRole;
+          if ( userHasRole(user, requiredRole) ) return value; // user has requiredRole; value accepted
+          return self.typeId || defaultValue;
+        },
+      },
+    },
+
     status: {
       type: DataTypes.ENUM('OPEN', 'CLOSED', 'ACCEPTED', 'DENIED', 'BUSY', 'DONE'),
       auth:  {
@@ -124,6 +170,15 @@ module.exports = function (db, sequelize, DataTypes) {
       },
       defaultValue: 'OPEN',
       allowNull: false
+    },
+
+    viewableByRole: {
+      type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+      defaultValue: 'all',
+      auth:  {
+        updateableBy: ['editor', 'owner'],
+      },
+      allowNull: true,
     },
 
     title: {
@@ -216,7 +271,11 @@ module.exports = function (db, sequelize, DataTypes) {
       auth:  {
         updateableBy: 'moderator',
       },
-      allowNull: true
+      allowNull: true,
+      set: function (budget) {
+        budget = budget ? budget : null
+        this.setDataValue('budget', budget);
+      }
     },
 
     extraData: getExtraDataConfig(DataTypes.JSON,  'ideas'),
@@ -224,6 +283,10 @@ module.exports = function (db, sequelize, DataTypes) {
     location: {
       type: DataTypes.GEOMETRY('POINT'),
       allowNull: !(config.ideas && config.ideas.location && config.ideas.location.isMandatory),
+      set: function (location) {
+        location = location ? location : null
+        this.setDataValue('location', location);
+      }
     },
 
     position: {
@@ -249,7 +312,8 @@ module.exports = function (db, sequelize, DataTypes) {
       },
       allowNull: true,
       set: function (text) {
-        this.setDataValue('modBreak', sanitize.content(text));
+        text = text ? sanitize.content(text.trim()) : null;
+        this.setDataValue('modBreak', text);
       }
     },
 
@@ -364,9 +428,13 @@ module.exports = function (db, sequelize, DataTypes) {
         }
       },
       validModBreak: function () {
+        return true;
+        /*
+        skip validation for now, should be moved to own rest object.
+
         if (this.modBreak && (!this.modBreakUserId || !this.modBreakDate)) {
           throw Error('Incomplete mod break');
-        }
+        }*/
       },
       validExtraData: function (next) {
 
@@ -535,6 +603,27 @@ module.exports = function (db, sequelize, DataTypes) {
       // nieuwe scopes voor de api
       // -------------------------
 
+      onlyVisible: function (userId, userRole) {
+        if (userId) {
+          return {
+            where: sequelize.or(
+              { userId },
+              { viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        } else {
+          return {
+            where: sequelize.or(
+              {viewableByRole: 'all' },
+              { viewableByRole: null },
+              { viewableByRole: roles[userRole] || '' },
+            )
+          };
+        }
+      },
+
       // defaults
       default: {
         include: [{
@@ -563,8 +652,10 @@ module.exports = function (db, sequelize, DataTypes) {
         )
       },
 
-      filter: function (filters) {
-        let conditions = {};
+      filter: function (filtersInclude, filtersExclude) {
+        let conditions = {
+          [Sequelize.Op.and]:[]
+        };
 
         const filterKeys = [
           {
@@ -587,23 +678,63 @@ module.exports = function (db, sequelize, DataTypes) {
           },
         ];
 
-
         filterKeys.forEach((filter, i) => {
-          const filterValue = filters[filter.key]
-          if (filters[filter.key]) {
-            if (filter.extraData) {
-              conditions[Sequelize.Op.and] = sequelize.literal(`extraData->"$.${filter.key}"='${filterValue}'`)
-            } else {
-              conditions[filter.key] = filterValue;
+          //first add include filters
+          if (filtersInclude) {
+            let filterValue = filtersInclude[filter.key];
+
+            if (filtersInclude[filter.key]) {
+              if (filter.extraData) {
+                filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+                filterValue.forEach((value, key)=>{
+                  conditions[Sequelize.Op.and].push({
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                  });
+                });
+
+              } else {
+                conditions[Sequelize.Op.and].push({
+                  [filter.key] : filterValue
+                });
+              }
+            }
+          }
+
+          //add exclude filters
+          if (filtersExclude) {
+            let excludeFilterValue = filtersExclude[filter.key];
+
+            if (excludeFilterValue) {
+              if (filter.extraData) {
+                excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
+
+                //filter out multiple conditions
+                excludeFilterValue.forEach((value, key)=>{
+                  conditions[Sequelize.Op.and].push({
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                  });
+
+
+                })
+
+              } else {
+                /*
+                TODO
+                conditions[Sequelize.Op.and].push({
+                  [filter.key] : filterValue
+                });
+                */
+              }
             }
           }
         });
 
         return {
-          where: conditions
+          where: sequelize.and(conditions)
+          //where: sequelize.and(conditions)
         }
       },
-
 
       // vergelijk getRunning()
       selectRunning: {
@@ -680,7 +811,7 @@ module.exports = function (db, sequelize, DataTypes) {
             attributes: ['id', 'name'],
             through: {attributes: []},
             where: {
-              name: tags
+              id: tags
             }
           }],
         }
@@ -763,6 +894,16 @@ module.exports = function (db, sequelize, DataTypes) {
           }]
         };
         return result;
+      },
+
+      includePoll:  function (userId) {
+        return {
+          include: [{
+            model: db.Poll.scope([ 'defaultScope', 'withIdea', { method: ['withVotes', 'poll', userId]}, { method: ['withUserVote', 'poll', userId]} ]),
+          as: 'poll',
+          required: false,
+        }]
+        }
       },
 
       // vergelijk getRunning()
@@ -908,13 +1049,6 @@ module.exports = function (db, sequelize, DataTypes) {
           ]
         };
       },
-      withPoll: {
-        include: [{
-          model: db.Poll,
-          attributes: ['id', 'title', 'description'],
-          required: false
-        }]
-      },
       withAgenda: {
         include: [{
           model: db.AgendaItem,
@@ -938,6 +1072,7 @@ module.exports = function (db, sequelize, DataTypes) {
     this.hasMany(models.Argument, {as: 'argumentsFor'});
     this.hasMany(models.Image);
     // this.hasOne(models.Image, {as: 'posterImage'});
+    this.hasOne(models.Poll, {as: 'poll', foreignKey: 'ideaId', });
     this.hasMany(models.Image, {as: 'posterImage'});
     this.hasOne(models.Vote, {as: 'userVote', foreignKey: 'ideaId'});
     this.belongsTo(models.Site);
@@ -1223,10 +1358,10 @@ module.exports = function (db, sequelize, DataTypes) {
   }
 
   let canMutate = function(user, self) {
-
     if (userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId)) {
       return true;
     }
+
     if( !self.isOpen() ) {
       return false;
     }
@@ -1234,6 +1369,7 @@ module.exports = function (db, sequelize, DataTypes) {
     if (!userHasRole(user, 'owner', self.userId)) {
       return false;
     }
+
     let config = self.site && self.site.config && self.site.config.ideas
     let canEditAfterFirstLikeOrArg = config && config.canEditAfterFirstLikeOrArg || false
 		let voteCount = self.no + self.yes;
@@ -1247,14 +1383,25 @@ module.exports = function (db, sequelize, DataTypes) {
     createableBy: 'member',
     updateableBy: ['admin','editor','owner', 'moderator'],
     deleteableBy: ['admin','editor','owner', 'moderator'],
+    canView: function(user, self) {
+      if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
+        return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
+      } else {
+        return true
+      }
+    },
     canVote: function(user, self) {
       // TODO: dit wordt niet gebruikt omdat de logica helemaal in de route zit. Maar hier zou dus netter zijn.
       return false
     },
     canUpdate: canMutate,
     canDelete: canMutate,
-    toAuthorizedJSON: function(user, data) {
-      //console.log('data', data)
+    canAddPoll: canMutate,
+    toAuthorizedJSON: function(user, data, self) {
+
+      if (!self.auth.canView(user, self)) {
+        return {};
+      }
 
 	   /* if (idea.site.config.archivedVotes) {
 		    if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
@@ -1266,6 +1413,7 @@ module.exports = function (db, sequelize, DataTypes) {
       delete data.site;
       delete data.config;
       // dit zou nu dus gedefinieerd moeten worden op site.config, maar wegens backward compatible voor nu nog even hier:
+      //
 	    if (data.extraData && data.extraData.phone) {
 		    delete data.extraData.phone;
 	    }
@@ -1274,6 +1422,20 @@ module.exports = function (db, sequelize, DataTypes) {
       data.user.isAdmin = userHasRole(user, 'editor');
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      if (data.argumentsAgainst) {
+        data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
+      }
+
+      if (data.argumentsFor) {
+        data.argumentsFor = hideEmailsForNormalUsers(data.argumentsFor);
+      }
+
+      data.can = {};
+      // if ( self.can('vote', user) ) data.can.vote = true;
+      if ( self.can('update', user) ) data.can.edit = true;
+      if ( self.can('delete', user) ) data.can.delete = true;
+      return data;
 
       return data;
     },

@@ -4,13 +4,13 @@ module.exports = {
 	up: function() {
 		try {
 			return db.query(`
-			  ALTER TABLE sites ADD COLUMN hostStatus JSON NULL AFTER config;
+			  ALTER TABLE newslettersignups ADD COLUMN extraData JSON NULL AFTER confirmed;
 			`);
 		} catch(e) {
 			return true;
 		}
 	},
 	down: function() {
-		return db.query(`ALTER TABLE sites DROP hostStatus;`);
+		return db.query(`ALTER TABLE newslettersignups DROP extraData;`);
 	}
 }

@@ -3,6 +3,8 @@ const config = require('config');
 const emailBlackList = require('../../config/mail_blacklist')
 const sanitize = require('../util/sanitize');
 
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
+
 module.exports = function( db, sequelize, DataTypes ) {
 
 	var NewsletterSignup = sequelize.define('newslettersignup', {
@@ -61,6 +63,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 			allowNull    : false,
 			defaultValue : false
 		},
+
+    extraData: getExtraDataConfig(DataTypes.JSON, 'newslettersignups'),
+
 
 		confirmToken: {
 			type         : DataTypes.STRING(512),

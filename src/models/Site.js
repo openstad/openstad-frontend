@@ -129,7 +129,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					'after-login-redirect-uri': {
 						type: 'string',
 						default: '/oauth/login?jwt=[[jwt]]',
-					}
+					},
+					"widgetDisplaySettings": {
+	          "type": "object",
+	          "subset": {
+	              "beta": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "deprecated": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "visibleWidgets": {
+	                "type": "arrayOfStrings",
+	                "default": []
+	              }
+	           }
+	        }
 				}
 			},
 			notifications: {
@@ -227,6 +244,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 100,
 					},
+          showVoteButtons: {
+            // momenteel alleen voor de kaart-app
+						type: 'boolean',
+						default: true,
+          },
 					canEditAfterFirstLikeOrArg: {
 						type: 'boolean',
 						default: false,
@@ -255,6 +277,54 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
           extraData: {
 						type: 'object',
+					},
+          types: {
+						type: 'arrayOfObjects',
+						default: [],
+				    subset: {
+							name: {
+								type: 'string',
+								default: 'noName',
+							},
+							label: {
+								type: 'label',
+								default: 'Dit is niets',
+							},
+							auth: {
+								type: 'object', // TODO: werk dit uit
+							},
+							mapIcon: {
+								type: 'string',
+								default: '',
+							},
+							listIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonLabel: {
+								type: 'string',
+								default: '',
+							},
+							backgroundColor: {
+								type: 'string',
+								default: '#164995',
+							},
+							textColor: {
+								type: 'string',
+								default: 'white',
+							},
+              // TODO: deze komen uit cms thema; werk dat verder uit
+              "flag": { type: 'string', default: '' },
+              "mapUploadedFlag": { type: 'string', default: '' },
+              "mapFlagWidth": { type: 'string', default: '' },
+              "mapFlagHeight": { type: 'string', default: '' },
+              "Initialavailablebudget": { type: 'int', default: 0 },
+              "minimalBudgetSpent": { type: 'int', default: 0 },
+            }
           }
 				}
 			},
@@ -282,7 +352,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 								default: ['zipCode', 'nickName'],
 							}
 						}
-					}
+					},
+
+					isClosed: {
+						type: 'boolean',
+						default: false,
+					},
+
+					closedText: {
+						type: 'string',
+						default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
+					},
+
 				}
 			},
 			votes: {
@@ -449,6 +530,20 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 
+			polls: {
+				type: 'object',
+				subset: {
+					canAddPolls: {
+						type: 'boolean',
+						default: false,
+					},
+					requiredUserRole: {
+						type: 'string',
+						default: 'anonymous',
+					},
+				},
+			},
+
 			newslettersignup: {
 				type: 'object',
 				subset: {
@@ -483,7 +578,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					},
 				},
 			},
-			host: {
+
+      host: {
 				status: null,
 			},
 
@@ -498,6 +594,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	Site.prototype.parseConfig = function(config) {
 
+
 		try {
 			if (typeof config == 'string') {
 				config = JSON.parse(config);
@@ -507,6 +604,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 		let options = Site.configOptions();
+
+
 
 		config = checkValues(config, options)
 
@@ -522,6 +621,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					// dit is een oude
 					value[key] = { default: value[key] };
 				}
+
+        // TODO: 'arrayOfObjects' met een subset
 
 				// objects in objects
 				if (options[key].type == 'object' && options[key].subset) {
@@ -553,7 +654,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 						throw new Error(`site.config: ${key} must be an string`);
 					}
 					if (options[key].type && options[key].type === 'boolean' && typeof value[key] !== 'boolean') {
-						throw new Error(`site.config: ${key} must be an boolean`);
+						throw new Error(`site.config: ${key} must be an boolean ${value[key]}, ${options}, ${typeof value[key]}`);
 					}
 					if (options[key].type && options[key].type === 'object' && typeof value[key] !== 'object') {
 						throw new Error(`site.config: ${key} must be an object`);

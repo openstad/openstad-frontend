@@ -70,7 +70,7 @@ This allows for specific implementations and for non-default actions; see [_over
 If that function is not defined the role is automagically checked on the Models settings.
 
 ### authorizeData
-```authorizeData(action, data, user)```
+```authorizeData(data, action, user)```
 filter the incoming data against the users action rights
 
 ### toAuthorizedJSON
@@ -113,7 +113,7 @@ On a field the function authorizeData is used by Model.authorizeData() and model
 title: {
   type: DataTypes.STRING,
   auth: {
-    authorizeData: function(self, action, user, data) {
+    authorizeData: function(data, action, user, self) {
       return 5; // after authorization the value is always 5
     }
   },

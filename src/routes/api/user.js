@@ -8,6 +8,8 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
+const {Op} = require('sequelize');
+
 
 const router = express.Router({ mergeParams: true });
 
@@ -131,81 +133,119 @@ router.route('/:userId(\\d+)')
     if (!(user && user.can && user.can('update'))) return next(new Error('You cannot update this User'));
 
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
-    let data = {};
+    let data = {}
 
-    const keys = ['firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode'];
-    keys.forEach((key) => {
-      if (req.body[key]) {
-        data[key] = req.body[key];
-      }
-    });
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData'];
+	  keys.forEach((key) => {
+		  if (req.body[key]) {
+			  data[key] = req.body[key];
+		  }
+	  });
 
-    const userId = parseInt(req.params.userId) || 1;
+		const userId = parseInt(req.params.userId, 10);
 
-    /**
-     * Update the user API first
-     */
-    let which = req.query.useOauth || 'default';
-    let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
-    let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-    let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
-    let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-    let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+		/**
+		 * Update the user API first
+		 */
+		 let which = req.query.useOauth || 'default';
+		 let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};
+		 let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		 let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
+		 let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+		 let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
 
-    const apiCredentials = {
-      client_id: authClientId,
-      client_secret: authClientSecret,
-    };
-    const options = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'cors',
-      body: JSON.stringify(Object.assign(apiCredentials, data)),
-    };
+		 const apiCredentials = {
+			 client_id: authClientId,
+			 client_secret: authClientSecret,
+		 }
+		 const options = {
+			 method: 'post',
+			 headers: {
+				 'Content-Type': 'application/json',
+			 },
+			 mode: 'cors',
+			 body: JSON.stringify(Object.assign(apiCredentials, data))
+		 }
 
-    fetch(authUpdateUrl, options)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
 
-        throw createError('Updaten niet gelukt', response);
-      })
-      .then((json) => {
-        //update values from API
-        return db.User
-          .authorizeData(data, 'update')
-          .update(data, { where: { externalUserId: json.id } });
-      })
-      .then((result) => {
-        return db.User
-          .findOne({
-            where: { id: userId, siteId: req.params.siteId },
-            //where: { id: parseInt(req.params.userId) }
-          });
-      })
-      .then(found => {
-        if (!found) throw new Error('User not found');
-        res.json(found);
-      })
-      .catch(err => {
-        console.log(err);
-        return next(err);
-      });
-  })
+		 fetch(authUpdateUrl, options)
+			 .then((response) => {
+					 if (response.ok) {
+						 return response.json()
+					 }
 
-  // delete idea
-  // ---------
-  .delete(auth.can('user:delete'))
-  .delete(function(req, res, next) {
-    req.results
-      .destroy()
-      .then(() => {
-        res.json({ 'idea': 'deleted' });
-      })
-      .catch(next);
-  });
+					 throw createError('Updaten niet gelukt', response);
+				})
+			 .then((json) => {
+				 //update values from API
+				 //
+				 db.User
+				  .scope(['includeSite'])
+				  .findAll({where : {
+						externalUserId: json.id,
+						// old users have no siteId, this will break the update
+						// skip them
+						// probably should clean up these users
+						siteId: {
+					    [Op.not]: 0
+					  }
+					}})
+				  .then(function( users ) {
+				     const actions = [];
+
+				     if (users) {
+				       users.forEach((user) => {
+				         actions.push(function() {
+									 return new Promise((resolve, reject) => {
+				           user
+				            .authorizeData(data, 'update', req.user)
+				            .update(data)
+				            .then((result) => {
+				              resolve();
+				            })
+				            .catch((err) => {
+											console.log('err', err)
+				              reject(err);
+				            })
+									})}())
+				       });
+				     }
+
+				     return Promise.all(actions)
+				        .then(() => { next(); })
+				        .catch(next)
+
+				  })
+				  .catch(next);
+			  })
+				.then( (result) => {
+					return db.User
+						.scope(['includeSite'])
+						.findOne({
+					 			where: { id: userId, siteId: req.params.siteId }
+								//where: { id: parseInt(req.params.userId) }
+						})
+				})
+				.then(found => {
+					if ( !found ) throw new Error('User not found');
+					res.json(found);
+				})
+			 .catch(err => {
+				 console.log(err);
+				 return next(err);
+			 });
+	})
+
+// delete idea
+// ---------
+	.delete(auth.can('user:delete'))
+	.delete(function(req, res, next) {
+		req.results
+			.destroy()
+			.then(() => {
+				res.json({ "user": "deleted" });
+			})
+			.catch(next);
+	})
 
 module.exports = router;

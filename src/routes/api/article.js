@@ -11,6 +11,9 @@ const searchResults = require('../../middleware/search-results');
 const isJson = require('../../util/isJson');
 
 const router = express.Router({mergeParams: true});
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
 
 // scopes: for all get requests
 router
@@ -98,10 +101,6 @@ router.route('/')
       if (data.modBreak) {
         data.modBreakUserId = req.body.modBreakUserId = req.user.id;
         data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
       }
     }
 
@@ -111,11 +110,18 @@ router.route('/')
 
     let responseData;
 		db.Article
-			.authorizeData(data, 'create', req.user)
+			.authorizeData(data, 'create', req.user, null, req.site)
 			.create(data)
 			.then(articleInstance => {
-				req.results = articleInstance;
-        return next();
+
+		    db.Article
+			    .scope(...req.scope)
+					.findByPk(articleInstance.id)
+          .then(result => {
+            req.results = result;
+            return next();
+          })
+
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -206,17 +212,12 @@ router.route('/:articleId(\\d+)')
       ...req.body,
 		}
 
-    // TODO: dit moet ook nog ergens in auth
-    if (auth.hasRole(req.user, 'editor')) {
-      if (data.modBreak) {
-        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
-        data.modBreakDate = req.body.modBreakDate = new Date().toString();
-      } else {
-        data.modBreak = '';
-				data.modBreakUserId = null;
-				data.modBreakDate = null;
-      }
-    }
+		if (userhasModeratorRights(req.user)) {
+			if (data.modBreak) {
+				data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+				data.modBreakDate = req.body.modBreakDate = new Date().toString();
+			}
+		}
 
 		article
 			.authorizeData(data, 'update')

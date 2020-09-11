@@ -67,7 +67,7 @@ router.route('/no-of-users')
 // -----------
 	.get(function(req, res, next) {
 
-    let query = "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? GROUP BY votes.userId";
+    let query = "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE ideas.siteId=? AND votes.deletedAt IS NULL AND ideas.deletedAt IS NULL GROUP BY votes.userId";
     let bindvars = [req.params.siteId]
 
     pool

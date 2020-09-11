@@ -144,6 +144,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		firstName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('firstName', sanitize.noTags(value));
@@ -152,11 +158,79 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		lastName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('lastName', sanitize.noTags(value));
 			}
 		},
+
+		phoneNumber: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('phoneNumber', sanitize.noTags(value));
+			}
+		},
+
+		streetName: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('streetName', sanitize.noTags(value));
+			}
+		},
+
+		houseNumber: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('houseNumber', sanitize.noTags(value));
+			}
+		},
+
+		postcode: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('postcode', sanitize.noTags(value));
+			}
+		},
+
+		city: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('city', sanitize.noTags(value));
+			}
+		},
+
+		suffix: {
+			type         : DataTypes.STRING(64),
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('suffix', sanitize.noTags(value));
+			}
+		},
+
+
 
 		fullName: {
 			type         : DataTypes.VIRTUAL,
@@ -169,8 +243,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 				  undefined;
 			}
 		},
-
-
 
 		initials: {
 			type         : DataTypes.VIRTUAL,
@@ -210,6 +282,29 @@ module.exports = function( db, sequelize, DataTypes ) {
 				  String(zipCode).trim() :
 				  null;
 				this.setDataValue('zipCode', zipCode);
+			},
+
+			postcode: {
+				type         : DataTypes.STRING(10),
+				auth: {
+					listableBy: ['editor','owner'],
+					viewableBy: ['editor','owner'],
+					createableBy: ['editor','owner'],
+					updateableBy: ['editor','owner'],
+				},
+				allowNull    : true,
+				validate     : {
+					is: {
+						args : [/^\d{4} ?[a-zA-Z]{2}$/],
+						msg  : 'Ongeldige postcode'
+					}
+				},
+				set          : function( zipCode ) {
+					zipCode = zipCode != null ?
+						String(zipCode).trim() :
+						null;
+					this.setDataValue('zipCode', zipCode);
+				},
 			},
 		},
 
@@ -348,7 +443,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	User.prototype.completeRegistration = function( data ) {
 		var self = this;
 		var filtered = pick(data, [
-			'firstName', 'lastName', 'zipCode', 'gender', 'password', 'signedUpForNewsletter'
+			'firstName', 'lastName', 'zipCode', 'postcode', 'gender', 'password', 'signedUpForNewsletter'
 		]);
 		filtered.complete = true;
 		if (self.role === 'anonymous') {
