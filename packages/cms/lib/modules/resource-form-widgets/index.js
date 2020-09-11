@@ -150,7 +150,7 @@ module.exports = {
     				widget.siteConfig = {
     					openstadMap: {
     						polygon: ( siteConfig && siteConfig.openstadMap && siteConfig.openstadMap.polygon ) || undefined,
-    					},
+    					}, 
     				}
 
     				const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
@@ -158,6 +158,7 @@ module.exports = {
             // Todo: refactor this to get resourceId in a different way
     				const activeResource = req.data.activeResource;
     				const resources = activeResource ? [activeResource] : [];
+            const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
             widget.mapConfig = self.getMapConfigBuilder(globalData)
                 .setDefaultSettings({
@@ -166,7 +167,8 @@ module.exports = {
                     mapZoomLevel: 16,
                     zoomControl: true,
                     disableDefaultUI : true,
-                    styles: styles
+                    styles: styles,
+                    googleMapsApiKey: googleMapsApiKey
                 })
                 .setMarkersByIdeas(resources)
                 .setMarkerStyle(markerStyle)
