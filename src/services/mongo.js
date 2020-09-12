@@ -21,7 +21,6 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
 
         admin.command(mongoCommand, function(commandErr, data) {
           if (!commandErr) {
-            console.log(data);
             resolve(data)
           } else {
             reject(commandErr.errmsg);

@@ -92,9 +92,7 @@ module.exports = function( req, res, next ) {
     }
 
     merged = merged.sort( (a,b) => b.score - a.score )
-    // merged.map(elem => { console.log(elem.score, elem.obj.id, elem.obj.title); });
     merged = merged.map(elem => elem.obj);
-    // merged.map(elem => { console.log(elem.id, elem.title); });
 
     req.results = merged
 

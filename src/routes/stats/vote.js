@@ -42,10 +42,6 @@ router.route('/total')
       bindvars.push(req.query.opinion);
     }
 
-    console.log('--------------------');
-    console.log(query);
-    console.log(bindvars);
-
     pool
       .promise()
       .query(query, bindvars)

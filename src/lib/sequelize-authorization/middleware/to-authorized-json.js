@@ -5,8 +5,6 @@
 const config = require('config');
 
 module.exports = function toAuthorizedJSON( req, res, next ) {
-
-  // console.log('mw.filterResult');
   let model = req.results;
   if (Array.isArray(req.results)) {
     req.results = req.results.map( result => result.toAuthorizedJSON(req.user) );
@@ -16,4 +14,3 @@ module.exports = function toAuthorizedJSON( req, res, next ) {
   next();
 
 }
-

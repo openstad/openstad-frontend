@@ -45,7 +45,6 @@ router
 
     // with one existing argument
     // --------------------------
-    // console.log('====================');
 
     var argumentId = parseInt(req.params.argumentId) || 1;
 

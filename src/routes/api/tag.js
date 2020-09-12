@@ -29,7 +29,6 @@ router.route('/')
 			.scope(...req.scope)
 			.findAndCountAll(dbQuery)
 			.then(result => {
-				console.log('result', result);
 				req.results = result.rows;
 				req.dbQuery.count = result.count;
 				next();

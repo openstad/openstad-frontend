@@ -76,8 +76,6 @@ function sendMail( options ) {
 }
 
 function sendNotificationMail( data ) {
-	// console.log(JSON.stringify(data, null, 2))
-
   //site is not present so will fallback to defaults
   //Email also has a fallback if all is empty
   data.logo = getLogoForSite(null);
@@ -101,8 +99,6 @@ function sendNotificationMail( data ) {
 
 // send email to user that submitted an idea
 function sendThankYouMail (resource, user, site) {
-  console.log('sendThankYouMailsendThankYouMailsendThankYouMail');
-
   let resourceType;
   let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
   if (match) resourceType = match[1];

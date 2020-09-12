@@ -32,7 +32,7 @@ router
       }
     });
     req.parsedBody = data;
-    return next();    
+    return next();
   })
 
 router.route('/$')
@@ -129,8 +129,6 @@ router.route('/$')
     data.externalUserId = req.user.externalUserId;
     data.signoutToken = generateToken({ length: 256 });
 
-    console.log('____________________');
-    console.log(data);
 
     db.NewsletterSignup
       .create(data)

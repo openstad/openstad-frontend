@@ -281,11 +281,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return db.ArgumentVote.findOne({where: data})
 			.then(function( vote ) {
 				if( vote ) {
-          //console.log('Found', data, vote);
 					return vote.destroy();
 				} else {
 					// HACK: See `Idea.addUserVote`.
-          //console.log('Create', data);
 					data.deletedAt = null;
 					return db.ArgumentVote.upsert(data);
 				}

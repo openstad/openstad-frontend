@@ -35,7 +35,6 @@ router.route('/total')
       .promise()
       .query(query, bindvars)
       .then( ([rows,fields]) => {
-        console.log(rows);
         let counted = rows && rows[0] && rows[0].counted || -1;
         res.json({count: counted})
       })
