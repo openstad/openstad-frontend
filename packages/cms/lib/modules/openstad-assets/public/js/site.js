@@ -174,7 +174,6 @@ function initAjaxForms ($e) {
          }
        },
        error:function(response) {
-          console.log('response', response)
            var message, errorMessage;
 
            response = response && response.responseJSON ? response :  JSON.parse(response);
