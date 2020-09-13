@@ -15,6 +15,10 @@ var argVoteThreshold = config.ideas && config.ideas.argumentVoteThreshold;
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 const roles = require('../lib/sequelize-authorization/lib/roles');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
+const hasModeratorRights = (user) => {
+  return userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId);
+}
+
 
 
 function hideEmailsForNormalUsers(args) {
@@ -1414,14 +1418,20 @@ module.exports = function (db, sequelize, DataTypes) {
       delete data.config;
       // dit zou nu dus gedefinieerd moeten worden op site.config, maar wegens backward compatible voor nu nog even hier:
       //
-	    if (data.extraData && data.extraData.phone) {
-		    delete data.extraData.phone;
-	    }
+
       // wordt dit nog gebruikt en zo ja mag het er uit
       if (!data.user) data.user = {};
-      data.user.isAdmin = userHasRole(user, 'editor');
+
+    //  data.user.isAdmin = !!userHasRole(user, 'editor');
+
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
+
+      // if user is not
+      // needs to move to definition per key
+      if (!canMutate(data.user, self) && data.extraData && data.extraData.phone) {
+		    delete data.extraData.phone;
+	    }
 
       if (data.argumentsAgainst) {
         data.argumentsAgainst = hideEmailsForNormalUsers(data.argumentsAgainst);
@@ -1432,10 +1442,10 @@ module.exports = function (db, sequelize, DataTypes) {
       }
 
       data.can = {};
+
       // if ( self.can('vote', user) ) data.can.vote = true;
       if ( self.can('update', user) ) data.can.edit = true;
       if ( self.can('delete', user) ) data.can.delete = true;
-      return data;
 
       return data;
     },
