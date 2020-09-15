@@ -150,7 +150,7 @@ module.exports = {
     				widget.siteConfig = {
     					openstadMap: {
     						polygon: ( siteConfig && siteConfig.openstadMap && siteConfig.openstadMap.polygon ) || undefined,
-    					}, 
+    					},
     				}
 
     				const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
@@ -168,9 +168,9 @@ module.exports = {
                     zoomControl: true,
                     disableDefaultUI : true,
                     styles: styles,
-                    googleMapsApiKey: googleMapsApiKey
+                    googleMapsApiKey: googleMapsApiKey,
+                    useMarkerLinks: false
                 })
-                .setMarkersByIdeas(resources)
                 .setMarkerStyle(markerStyle)
                 .setEditorMarker()
                 .setEditorMarkerElement('locationField')
