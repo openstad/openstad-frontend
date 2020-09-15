@@ -1427,9 +1427,11 @@ module.exports = function (db, sequelize, DataTypes) {
       // er is ook al een createDateHumanized veld; waarom is dit er dan ook nog?
 	    data.createdAtText = moment(data.createdAt).format('LLL');
 
-      // if user is not
+      console.log('canMutate', canMutate(user, self), user)
+
+      // if user is not allowed to edit idea then remove phone key, otherwise publically available
       // needs to move to definition per key
-      if (!canMutate(data.user, self) && data.extraData && data.extraData.phone) {
+      if (!canMutate(user, self) && data.extraData && data.extraData.phone) {
 		    delete data.extraData.phone;
 	    }
 
