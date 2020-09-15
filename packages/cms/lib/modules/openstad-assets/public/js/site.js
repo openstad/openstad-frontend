@@ -375,8 +375,6 @@ function initAjaxRefresh () {
   $('body').on('click', '.openstad-ajax-refresh-click', function (ev) {
     ev.preventDefault();
 
-    console.log("$(this).attr('data-reset-hash')", $(this).attr('data-reset-hash'));
-
     var params = getQueryParams();
     var refreshName = $(this).attr('data-refresh-name');
     var refreshValue = $(this).attr('data-refresh-value');
@@ -489,8 +487,6 @@ function ajaxRefresh (resetHash) {
 
     // trigger ajax refresh event for  binding to new dom events
     $('body').trigger('openstadAjaxRefresh');
-
-    console.log('resethash', resetHash)
 
     // trigger
     if (resetHash && window.location.hash && window.location.hash !== '#closed') {

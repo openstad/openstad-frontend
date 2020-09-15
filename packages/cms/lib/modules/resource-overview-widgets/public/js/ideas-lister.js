@@ -1,6 +1,6 @@
-(function($) {
-	// Call Gridder
+function initGridder() {
   if ( !document.querySelector('#ideas-overview') ) return;
+
 	$('.gridder').gridderExpander({
     scroll: true,
     scrollOffset: 100,
@@ -53,6 +53,16 @@
 			window.history.replaceState({}, '', '#');
 		}
   });
+}
+
+(function($) {
+	// Call Gridder
+  initGridder();
+
+  $(document).on('openstadAjaxRefresh', function () {
+    initGridder();
+  });
+
 })(jQuery);
 
 var currentOverlay;
