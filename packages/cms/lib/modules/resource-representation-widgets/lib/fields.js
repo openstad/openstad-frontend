@@ -9,11 +9,12 @@ const fields = [
     name: 'displayType',
     label: 'Representation',
     type: 'select',
-    choices: [
+    choices: [             
+
       {
         'label': 'Idea Page (only for idea resource)',
         'value': 'idea-page',
-        'showFields' : ['showShareButtons', 'displayRanking', 'shareChannelsSelection'].concat(labels).concat(timeLabels)
+        'showFields' : ['showShareButtons', 'displayRanking', 'shareChannelsSelection', 'defaultImage'].concat(labels).concat(timeLabels)
       },
       {
         'label': 'Title',
@@ -74,6 +75,12 @@ const fields = [
       }
     ],
     def: false
+  },
+  {
+    name: 'defaultImage',
+    type: 'attachment',
+    label: 'Default image',
+    trash: true
   },
   {
     name: 'shareChannelsSelection',

@@ -23,7 +23,9 @@
 					<div class="image" style="background-image: url(
 					'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{apos.settings.getOption('googleMapsApiKey')}}'
 					);"></div>
-					{% else %}
+					{% elif data.widget.defaultImage %}
+          <div class="image"  style="background-image: url('{{apos.attachments.url(data.widget.defaultImage)}}')"></div>
+          {% else %}
 					<div class="image"></div>
 					{% endif %}
 
