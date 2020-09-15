@@ -1,4 +1,4 @@
 # Changelog
 
-## 0.7.0 (08-10-2022)
-* Start of using version numbers
+## 0.7.0 (2020-10-15)
+* Start of using version numbers in changelog
