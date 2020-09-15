@@ -168,9 +168,9 @@ module.exports = {
                     zoomControl: true,
                     disableDefaultUI : true,
                     styles: styles,
-                    googleMapsApiKey: googleMapsApiKey
+                    googleMapsApiKey: googleMapsApiKey,
+                    useMarkerLinks: false
                 })
-                .setMarkersByIdeas(resources)
                 .setMarkerStyle(markerStyle)
                 .setEditorMarker()
                 .setEditorMarkerElement('locationField')
