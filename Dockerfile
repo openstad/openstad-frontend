@@ -44,6 +44,8 @@ COPY . /home/app
 # Install node dependencies
 RUN npm install
 
+RUN npm install -g nodemon
+
 # Remove unused packages only used for building.
 RUN apk del g++ make python && rm -rf /var/cache/apk/*
 

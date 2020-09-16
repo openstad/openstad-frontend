@@ -8,12 +8,13 @@ module.exports = function( app ) {
 	// second one is the error reporter which should actually be located here.
 	// To remain DRY, these two middlewares are installed in the same place.
 	// ---
-	
+
 	// We only get here when the request has not yet been handled by a route.
 	app.use(function( req, res, next ) {
+		console.log('4040404');
 		next(createError(404, 'Pagina niet gevonden'));
 	});
-	
+
 	app.use(function handleError( err, req, res, next ) {
 		var env            = app.get('env');
 		var status         = err.status || 500;
@@ -23,11 +24,11 @@ module.exports = function( app ) {
 		var stack          = err.stack || err.toString();
 		var message        = err.message;
 		var errorStack     = showDebug ? stack : '';
-		
+
 		if( env !== 'test' && status == 500 ) {
 			console.error(stack);
 		}
-		
+
 		res.status(status);
 		if( res.out ) {
 			res.out('error', true, {

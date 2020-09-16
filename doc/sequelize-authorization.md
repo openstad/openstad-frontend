@@ -1,6 +1,7 @@
-# sequelize-authorization
+# Model & Data permissions
 
-Check if an [_action_](#actions) is allowed on a Sequelize object, based on [_roles_](#roles)
+Check if an [_action_](#actions) is allowed on a Model. Models in the API are Sequelize objects, based on [_roles_](#roles) a
+
 
 #### define
 
@@ -16,6 +17,7 @@ Argument.auth = Argument.prototype.auth = {
 }
 ```
 
+And per field for defining who as access:
 ```
 title: {
   type: DataTypes.STRING,
@@ -119,34 +121,3 @@ title: {
   },
 }
 ```
-
-## ToDo
-
-Wil ik listable als aparte optie of is dat gewoon viewable?
-
-Middelware: .can impliceert .useReqUser
-
-Maak alle auth settings configurabel, ik denk in de Site config
-
-ExtraData gebruikt authorizeData voor het authoriseren van req.body en voor toJSON. Dat zou op model niveau ook kunnen denk ik.
-
-'owner' test tegen obj.userId; dat is misschien te simpel
-
-Auth op owner wert natuurlijk alleen op instance, waardoor je die niet zo mooi kunt afvangen als de rest. Daar is denk ik wel wat op te verzinnen maar dat moet nog.
-
-
-Betere logging/feedback: je kunt nu goed de weg kwijraken (waarom doet ie niets)
-
-Misschien ook nog leuk: zoals ik nu authorizedToJson heb ik ik ook een authorized update op objecten maken. Dus: obj.update vervaangen door obj.authorizedUpdate, die dan zelf een check doet op data en user. Zo ook create natuurlijk.
-
-.can ombouwen zodat je hem ook kunt gebruiken als in
-Obj
-  .can()
-  .authorizeData()
-  .update()
-
-Ik wil hem ook async, zodat ik in canXXX functies een db request kan doen. Is nog best interessant, omdat hij wordt gebruikt on toJson die niet async is.
-
-Onder in de arguments route staat een voorbeeld: je zou alle output onderin kunnen doen. Is eigenlijk geen auth, overigens.
-
-CreatedAt een UpdateAt komen altijd mee; wil ik dat?

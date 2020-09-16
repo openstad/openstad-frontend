@@ -7,8 +7,9 @@ const filtering = require('../../middleware/filtering');
 const router = express.Router({mergeParams: true});
 
 // brute force
-router.use( bruteForce.globalMiddleware );
-router.post( '*', bruteForce.postMiddleware );
+//router.use( bruteForce.globalMiddleware );
+//router.post( '*', bruteForce.postMiddleware );
+
 
 // dbQuery middleware
 router.use(dbQuery);

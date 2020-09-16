@@ -2,9 +2,35 @@ const co = require('co');
 const moment = require('moment-timezone')
 const log = require('debug')('app:db');
 
+const randomString = (length) => {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+const removeProtocol = (url) => {
+  return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
+}
+
+const removeWww = (url) => {
+  return url ? url.replace('www.', '') : '';
+}
+
+
+const ensureProtocol = (url) => {
+	if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+    	url = "https://" + url;
+	}
+	return url;
+}
+
 module.exports = co.wrap(function*( db ) {
 
-	log('Creating sites');
+	log('--> Creating sites');
 
 	yield sites.map(function( siteData ) {
 		return db.Site.create(siteData);
@@ -34,50 +60,66 @@ module.exports = co.wrap(function*( db ) {
 
 var today = moment().endOf('day');
 
+
+/**
+ * In development setups allow redirect to localhost
+ * @type {[type]}
+ */
+const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : [];
+allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
+allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
+
 var sites = [
-	{id: 1, name: 'site-one', domain: process.env.ADMIN_URL, title: 'OpenStad Admin ', config: {
+	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
-				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
+				'auth-client-secret':process.env.AUTH_ADMIN_CLIENT_ID,
+				'auth-client-id': process.env.AUTH_ADMIN_CLIENT_SECRET,
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
-		allowedDomains: [
-			process.env.ADMIN_URL,
-			//do not allow to redirect to localhost in production!
-			'localhost'
-		]
+		allowedDomains:allowedDomains
 	}},
-	{id: 2, name: 'site-one', domain: process.env.FRONTEND_URL, title: 'OpenStad Default Site', config: {
+	{id: 2, name: 'site-one', domain: removeWww(removeProtocol(process.env.FRONTEND_URL)), title: 'OpenStad Default Site', config: {
+    cms: {
+        "url": ensureProtocol(process.env.FRONTEND_URL),
+        "dbName": process.env.DEFAULT_DB ? process.env.DEFAULT_DB : "default_db",
+        "hostname": removeProtocol(process.env.FRONTEND_URL)
+    },
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
+				'auth-client-secret':process.env.USER_API_CLIENT_SECRET,
 				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
 		},
-		allowedDomains: [
-			process.env.FRONTEND_URL,
-			//do not allow to redirect to localhost in production!
-			'localhost'
-		]
+    allowedDomains: allowedDomains
 	}},
 ];
 
-
+console.log(sites);
+console.log(sites[0].config.oauth);
+console.log(sites[1].config.oauth);
 
 var users = [
 	//fixed user for SITE and Admin to get admin right
-	{id: 2, siteId: 1, complete: true, role: 'admin', email: 'admin@openstad.org', password: 'notused', firstName: 'Administrator', lastName: '',
+	{
+    id: process.env.AUTH_FIXED_USER_ID ? process.env.AUTH_FIXED_USER_ID : 2,
+    siteId: 1,
+    complete: true,
+    role: 'admin',
+    email: 'admin@openstad.org',
+    password: randomString(10),
+    firstName: 'Administrator',
+    lastName: '',
 
 	//Add one dummy Idea for fun
 	ideas : [
 		{
 			id               : 2,
-			siteId           : 1,
+			siteId           : 2,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',

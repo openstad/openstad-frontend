@@ -48,7 +48,9 @@ const createIngress = async (k8sApi, name, domain, namespace) => {
       name: `${name}`,
       annotations: {
          'cert-manager.io/cluster-issuer': 'openstad-letsencrypt-prod',
-         'kubernetes.io/ingress.class': 'nginx'
+         'kubernetes.io/ingress.class': 'nginx',
+         // if www host isset it redirects always to www. if without is isset it redirects to not www
+         'nginx.ingress.kubernetes.io/from-to-www-redirect': "true"
       }
     },
     spec: {
@@ -112,7 +114,7 @@ const checkHostStatus = async (conditions) => {
       // else if ip is not set but ingress is set, remove the ingress file
       } else  if (!hostStatus.ip  && ingress) {
         try {
-          await k8sApi.deleteNamespacedIngress(site.name, namespace)
+    //      await k8sApi.deleteNamespacedIngress(site.name, namespace)
           hostStatus.ingress = false;
         } catch(error) {
           //@todo how to deal with error here?
