@@ -71,7 +71,7 @@ var sites = [
 
 var users = [
 	//fixed user for SITE and Admin to get admin right
-	{id: 2, siteId: 1, complete: true, role: 'admin', email: 'admin@openstad.org', password: '', firstName: 'Administrator', lastName: '',
+	{id: 2, siteId: 1, complete: true, role: 'admin', email: 'admin@openstad.org', password: 'notused', firstName: 'Administrator', lastName: '',
 
 	//Add one dummy Idea for fun
 	ideas : [
