@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.3 (2020-10-16)
+* Fix turned around clientId for admin site creation
+
 ## 0.7.2 (2020-10-16)
 * Integrate migration changes for generating proper database
 
