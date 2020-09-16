@@ -30,8 +30,16 @@ deploy:
       # condition: $TRAVIS_BRANCH =~ ^(devel|release)$
       condition: $TRAVIS_BRANCH =~ ^(feature/travis-docker)$
   # master automatically pushes new docker container with latest tag to docker
+  # master automatically pushes new docker container with latest tag to docker
   - provider: script
     #script not yet tested
-    script: bash docker_publish
+    script: bash docker_publish_latest
     on:
       branch: master
+
+  - provider: script
+    #script not yet tested
+    script: bash docker_publish_tag
+    on:
+      tags: true
+      all_branches: true
