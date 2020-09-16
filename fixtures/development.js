@@ -90,7 +90,7 @@ var sites = [
 		oauth: {
 			default: {
 				'auth-server-url': process.env.AUTH_URL,
-				'auth-client-secret':process.env.USER_API_CLIENT_SECRET,
+				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
 				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
 				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
 			}
