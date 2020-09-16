@@ -67,7 +67,7 @@ var today = moment().endOf('day');
  */
 const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : [];
 allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
-allowedDomains.push(removeProtocol(process.env.FRONTEND_URL));
+allowedDomains.push(removeWww(removeProtocol(process.env.FRONTEND_URL)));
 
 var sites = [
 	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
