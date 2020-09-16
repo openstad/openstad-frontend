@@ -55,7 +55,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 	Tag.associate = function( models ) {
-		this.belongsToMany(models.Idea, { through: 'IdeaTags' });
+		this.belongsToMany(models.Idea, { through: 'IdeaTags',constraints: false});
 		this.belongsTo(models.Site);
 	}
 
