@@ -330,9 +330,6 @@ module.exports = {
               rp(options)
               .then((response) => {
 
-                console.log('fetch again for ', getUrl)
-
-
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
                   cache.set(cacheKey, JSON.stringify(response), {

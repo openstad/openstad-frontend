@@ -122,11 +122,33 @@ module.exports = {
       label: 'Gevoeligheid van clusering',
 			def: 40
 		},
+
+		{
+			name: 'ideaName',
+			type: 'string',
+			label: 'Naam voor idea',
+			def: 'Inzending',
+			required: false
+		},
 		{
 			name: 'typeField',
 			type: 'string',
 			label: 'Veld voor type inzending',
 			def: 'extraData.theme',
+			required: false
+		},
+		{
+			name: 'typeLabel',
+			type: 'string',
+			label: 'Label voor type in detail pagina',
+			def: 'Thema',
+			required: false
+		},
+		{
+			name: 'typesFilterLabel',
+			type: 'string',
+			label: 'Label voor type in filters',
+			def: 'Alle thema\'s',
 			required: false
 		},
 
@@ -186,13 +208,13 @@ module.exports = {
     {
       type: 'checkboxes',
       name: 'selectedSorting',
-      label: 'Select sorting available (check one or more)',
+      label: 'Select sorting available',
       choices: sortingOptions
     },
     {
       type: 'select',
       name: 'defaultSorting',
-      label: 'Select the default sorting (needs to be checked)',
+      label: 'Select the default sorting',
       choices: sortingOptions
     },
     
@@ -239,10 +261,6 @@ module.exports = {
           type:    'select',
           choices: [
             {
-              label: 'Multiple choice',
-              value: 'multiple-choice',
-            },
-            {
               label: 'Select',
               value: 'select',
             },
@@ -257,6 +275,10 @@ module.exports = {
             {
               label: 'HTML',
               value: 'html-with-counter',
+            },
+            {
+              label: 'Radio buttons',
+              value: 'radios',
             },
             {
               label: 'Image upload',
@@ -315,7 +337,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField']
+        fields: ['ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -386,6 +408,15 @@ module.exports = {
         if (widget.selectionActiveNotLoggedInHTML) contentConfig.selectionActiveNotLoggedInHTML = widget.selectionActiveNotLoggedInHTML;
         if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
         if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
+
+        // allowMultipleImages to formfields
+        let formFields = [ ...widget.formFields ];
+        let allowMultipleImages = ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false;
+        formFields.forEach((formField) => {
+          if ( formField.inputType ==  "image-upload" ) {
+            formField.allowMultiple = allowMultipleImages;
+          }
+        });
         
 			  widget.config = JSON.stringify({
           // req.data.isAdmin
@@ -401,8 +432,11 @@ module.exports = {
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
           content: contentConfig,
+          ideaName: widget.ideaName,
           typeField: widget.typeField,
           types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
+          typeLabel: widget.typeLabel,
+          typesFilterLabel: widget.typesFilterLabel,
 			    idea: {
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
@@ -413,12 +447,13 @@ module.exports = {
 				    summaryMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.summaryMaxLength ) || 200,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
+				    allowMultipleImages,
             imageserver: {
               // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
 				      process: '/image',
 				      fetch: '/image',
             },
-            fields: widget.formFields,
+            fields: formFields,
             sort: {
               sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
               showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
@@ -450,7 +485,7 @@ module.exports = {
 			    },
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        
+
         const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);

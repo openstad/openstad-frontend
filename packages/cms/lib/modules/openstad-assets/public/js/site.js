@@ -174,7 +174,6 @@ function initAjaxForms ($e) {
          }
        },
        error:function(response) {
-          console.log('response', response)
            var message, errorMessage;
 
            response = response && response.responseJSON ? response :  JSON.parse(response);
@@ -375,8 +374,6 @@ function initAjaxRefresh () {
 
   $('body').on('click', '.openstad-ajax-refresh-click', function (ev) {
     ev.preventDefault();
-
-    console.log("$(this).attr('data-reset-hash')", $(this).attr('data-reset-hash'));
 
     var params = getQueryParams();
     var refreshName = $(this).attr('data-refresh-name');

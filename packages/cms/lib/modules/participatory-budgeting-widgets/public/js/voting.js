@@ -1221,9 +1221,6 @@ if (votingContainer !== null) {
       	//element.style.display = 'inline-block';
       }
 
-      console.log('elementThema', elementThema)
-      console.log('activeThema', activeThema)
-
 		  if (
 			  // no activeTab selected or
 			  (( !activeThema || activeThema == 0 ) || activeThema === elementThema)
