@@ -23,6 +23,7 @@ const contentWidgets = {
   },
   'slider': {
   },
+  'cart': { },
   'counter': {
     addLabel: 'Counter',
   },

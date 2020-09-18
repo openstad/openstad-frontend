@@ -16,6 +16,10 @@ const fields = [
               label: "Static (default)"
             },
             {
+              value: 'checkout',
+              label: "Checkout (default)"
+            },
+            {
               value: 'dynamic',
               label: "Dynamic",
               showFields: ['dynamicFormSections']

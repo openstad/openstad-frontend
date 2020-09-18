@@ -8,9 +8,9 @@ const Cart = require('./lib/cart.js');
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Admin panel',
+  label: 'Cart',
   addFields: [
-  //  styleSchema.definition('containerStyles', 'Styles for the container')
+    styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
 
@@ -74,22 +74,13 @@ module.exports = {
         res.redirect('/');
       });
 
+/*
       self.apos.app.get('/checkout', (req, res) => {
         let sess = req.session;
         let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
 
         return self.sendPage(req, '/checkout', {});
       });
-
-      self.apos.app.post('/checkout', (req, res) => {
-        let sess = req.session;
-        let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
-
-        res.render('checkout', {
-            pageTitle: 'Checkout',
-            cart: cart,
-            checkoutDone: true
-        });
-      });
+*/
     }
 };

@@ -1,4 +1,5 @@
 apos.define('cart-widgets', {
+  extend: 'openstad-widgets',
   construct: function (self, options) {
     /**
      * Cart add is called outside of the widget
