@@ -37,12 +37,14 @@ module.exports = {
       });
 
       self.apos.app.get('/cart/remove/:id', (req, res) => {
-         Cart.removeFromCart(parseInt(req.params.id, 10), req.session.cart);
+        console.log('remove', req.session.cart)
+         req.session.cart = Cart.removeFromCart(parseInt(req.params.id, 10), req.session.cart);
+         console.log('remove', req.session.cart)
          res.redirect('/cart');
       });
 
-      self.apos.app.get('/cart/empty/:nonce', (req, res) => {
-          Cart.emptyCart(req);
+      self.apos.app.get('/cart/empty', (req, res) => {
+          req.session.cart = Cart.initCart();
           res.redirect('/cart');
       });
 

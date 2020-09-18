@@ -52,6 +52,8 @@ class Cart {
     static removeFromCart(id = 0, cart) {
       for(let i = 0; i < cart.items.length; i++) {
           let item = cart.items[i];
+          console.log('item', item.id, id);
+
           if(item.id === id) {
               cart.items.splice(i, 1);
               this.calculateTotals(cart);
@@ -109,12 +111,8 @@ class Cart {
         this.setFormattedTotals(cart);
     }
 
-   static emptyCart(request) {
-      if(request.session) {
-        request.session.cart.items = [];
-        request.session.cart.totals = 0.00;
-        request.session.cart.formattedTotals = '';
-      }
+   static emptyCart(cart) {
+      return initCart();
     }
 
     static setFormattedTotals(cart) {
