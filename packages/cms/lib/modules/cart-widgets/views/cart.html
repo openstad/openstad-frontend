@@ -1,39 +1,12 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<div class="cart-container">
+<div class="cart-container" style="max-width: 550; margin: 0 auto;">
   {% if data.cart.items %}
-      <div class="cart page">
-          <ul class="list-group">
-              {% for item in data.cart.items %}
-              <li class="list-group-item clearfix">
-                  <div class="col-xs-2">
-
-                  </div>
-                  <div class="col-xs-3">
-                      <strong>{{ item.title }}</strong><br/>
-                      <em>{{{item.description}}}</em>
-                  </div>
-                  <div class="col-xs-2 text-right">
-                      <span class="badge">{{ item.quantity }}</span>
-                  </div>
-                  <div class="col-xs-3 text-right">
-                      {{ item.price }}
-                  </div>
-                  <div class="col-xs-2 text-right">
-                      <a href="/remove/{{this.item.id}}" class="btn btn-default"></i> Remove</a>
-                  </div>
-              </li>
-              {% endfor %}
-          </ul>
-      </div>
-      <div class="text-right">
-          <strong>Total: {{ totalPrice }}</strong>
-      </div>
-      <hr>
-      <div class="text-right">
-          <a href="#" type="button" class="btn btn-success">Checkout</a>
-      </div>
+      {% include 'includes/cart-display.html' %}
+      <a href="/checkout">
+        Checkout
+      </a>
   {% else %}
       Geen producten.
   {% endif %}

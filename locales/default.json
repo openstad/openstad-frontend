@@ -377,5 +377,19 @@
 	"editor2": "editor2",
 	"editor": "editor",
 	"An error has occurred": "An error has occurred",
-	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience."
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience.",
+	"Redirect to create anonymous user": "Redirect to create anonymous user",
+	"Redirect to account page if required": "Redirect to account page if required",
+	"Products": "Products",
+	"Orders": "Orders",
+	"Accounts": "Accounts",
+	"Games": "Games",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"Click Commit to make these changes live.": "Click Commit to make these changes live.",
+	"Modified fields: %s": "Modified fields: %s",
+	"%s was committed successfully.": "%s was committed successfully.",
+	"Product": "Product",
+	"Repeatable": "Repeatable",
+	"Allow guest form submissions?": "Allow guest form submissions?",
+	"Display user info at the top?": "Display user info at the top?"
 }

@@ -49,9 +49,10 @@
 						{% include 'display/raw.html' %}
 						{% endif %}
 
-						{% if data.widget.displayType === 'row' %}
-						{% include 'display/row.html' %}
+						{% if data.widget.displayType === 'product' %}
+						{% include 'display/product.html' %}
 						{% endif %}
+
 					{% endif %}
 
 					{% if data.widget.displayPagination %}

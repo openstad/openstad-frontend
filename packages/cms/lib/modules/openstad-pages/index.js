@@ -1,8 +1,10 @@
 // This configures the apostrophe-pages module to add a "home" page type to the
 // pages menu
 
-const loadIdeas       = require('./lib/load-ideas');
-const loadTags        = require('./lib/load-tags');
+const loadIdeas           = require('./lib/load-ideas');
+const loadTags            = require('./lib/load-tags');
+const loadProducts        = require('./lib/load-products');
+
 const url = require('url');
 
 module.exports = {
@@ -59,6 +61,7 @@ module.exports = {
       // they are cached
       self.apos.app.use((req, res, next) => { loadIdeas(req, res, next); });
       self.apos.app.use((req, res, next) => { loadTags(req, res, next);  });
+      self.apos.app.use((req, res, next) => { loadProducts(req, res, next);  });
 
       const superPageBeforeSend = self.pageBeforeSend;
       self.pageBeforeSend = (req, callback) => {
@@ -78,8 +81,6 @@ module.exports = {
         if (pageData && pageData.notLoggedInRedirect && !req.data.loggedIn) {
           return req.res.redirect(pageData.notLoggedInRedirect);
         }
-
-        console.log('req.user', req.data.openstadUser)
 
         if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
           return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));

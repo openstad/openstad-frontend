@@ -4,32 +4,61 @@ const config = require('./cart-config');
 
 
 class Cart {
-    static addToCart(product = null, qty = 1, cart) {
-        if(!this.inCart(product.product_id, cart)) {
-            let format = new Intl.NumberFormat(config.locale.lang, {style: 'currency', currency: config.locale.currency });
-            let prod = {
-              id: product.product_id,
-              title: product.title,
-              product: product,
-              price: product.price,
-              qty: qty,
-              image: product.image,
-              formattedPrice: format.format(product.price)
-            };
-            cart.items.push(prod);
-            this.calculateTotals(cart);
+
+    static initCart(cart) {
+
+      if (!cart) {
+        cart = {
+          items : [],
+          totals : 0.00,
+          formattedTotals : '',
         }
+      }
+
+      return cart;
+    }
+
+    static addToCart(product = null, qty = 1, cart, replaceQuantity = false) {
+      cart = this.initCart(cart);
+
+      let productInCart = this.inCart(product.product_id, cart);
+
+      if (productInCart) {
+        cart.items = cart.items.map((item) => {
+          item.qty = replaceQuantity ? qty : (qty + qty);
+          return item;
+        });
+      } else {
+          let format = new Intl.NumberFormat(config.locale.lang, {style: 'currency', currency: config.locale.currency });
+
+          let prod = {
+            id: product.product_id,
+            name: product.name,
+            product: product,
+            price: product.price,
+            qty: qty,
+            image: product.image,
+            formattedPrice: format.format(product.price)
+          };
+
+          cart.items.push(prod);
+
+          this.calculateTotals(cart);
+      }
+
+      return cart;
     }
 
     static removeFromCart(id = 0, cart) {
-        for(let i = 0; i < cart.items.length; i++) {
-            let item = cart.items[i];
-            if(item.id === id) {
-                cart.items.splice(i, 1);
-                this.calculateTotals(cart);
-            }
-        }
+      for(let i = 0; i < cart.items.length; i++) {
+          let item = cart.items[i];
+          if(item.id === id) {
+              cart.items.splice(i, 1);
+              this.calculateTotals(cart);
+          }
+      }
 
+      return cart;
     }
 
     static updateCart(ids = [], qtys = [], cart) {
@@ -44,6 +73,7 @@ class Cart {
               });
            });
         });
+
         map.forEach(obj => {
             cart.items.forEach(item => {
                if(item.id === obj.id) {
@@ -54,6 +84,7 @@ class Cart {
                }
             });
         });
+
         if(updated) {
             this.calculateTotals(cart);
         }
@@ -61,11 +92,7 @@ class Cart {
 
     static inCart(productID = 0, cart) {
         let found = false;
-        cart.items.forEach(item => {
-           if(item.id === productID) {
-               found = true;
-           }
-        });
+        let item = cart.items ? cart.items.find(item => item.id === productID) : false;
         return found;
     }
 
@@ -83,14 +110,11 @@ class Cart {
     }
 
    static emptyCart(request) {
-
       if(request.session) {
-          request.session.cart.items = [];
-          request.session.cart.totals = 0.00;
-          request.session.cart.formattedTotals = '';
+        request.session.cart.items = [];
+        request.session.cart.totals = 0.00;
+        request.session.cart.formattedTotals = '';
       }
-
-
     }
 
     static setFormattedTotals(cart) {

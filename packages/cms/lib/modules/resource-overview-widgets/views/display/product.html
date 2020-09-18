@@ -1,0 +1,199 @@
+<script>
+ var imageUrl = {};
+ var aspect = '{{data.widget.gridder_tile_image_aspect_ratio}}' || '1:1';
+ aspect = aspect.split(':');
+ var aspect_width = aspect[0];
+ var aspect_height = aspect[1];
+ if (!aspect_width || !aspect_height) {
+   aspect_width = 1;
+   aspect_height = 1;
+ }
+ function doShowImage(ideaId, target) {
+   var div = target.querySelector('div.image');
+   if (div) {
+     div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
+     var img = div.querySelector('div.image-upload');
+     img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
+     /*
+    		var factor = target.offsetWidth / 300;
+    		img.style.top    = Math.round( 23 * factor ) + 'px';
+    		img.style.left   = Math.round( 46 * factor ) + 'px';
+    		img.style.width  = Math.round( 210 * factor ) + 'px';
+    		img.style.height = Math.round( 263 * factor ) + 'px';
+    		img.style.backgroundSize = Math.round( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
+    		//	 img.style.backgroundPosition = Math.round( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
+      */
+     img.style.top    = '0px';
+     img.style.left   = '0px';
+     img.style.width  = '100%';
+     img.style.height = '100%';
+     img.style.backgroundPosition = 'center';
+     img.style.backgroundSize = 'cover';
+   }
+ }
+
+ var isPhone = document.querySelector('body').offsetWidth < 700; // isPhone - todo: betere afvanging
+
+</script>
+{% if data.widget.gridder_open_text_vote_button %}
+<style>
+ .idea-overview-container .gridder-show .image-and-vote-button-container .vote-button-container .vote-button::before {
+   content: '{{data.widget.gridder_open_text_vote_button}}'
+ }
+</style>
+{% endif %}
+<ul
+  id="ideaList"
+  class="ideas-list gridder"
+  onclick="ideaListClick(event);"
+  {% if data.widget.defaultSorting %}
+  data-default-sort="{{data.widget.defaultSorting}}"
+  {% endif %}
+>
+  <!-- You can load specify which content is loaded by specifying the #ID of the div where the content is  -->
+  {% for idea in data.widget.activeResources %}
+  <li
+    id="idea-{{idea.id}}"
+    class="gridder-list idea-item product-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
+    data-griddercontent="#ideaContent{{idea.id}}"
+    onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
+    onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
+    data-createdtime="{{idea.createdTime}}"
+    data-likes="{{idea.yes}}"
+    data-budget="{{idea.budget}}"
+    data-ranking="{{idea.extraData.ranking}}"
+    data-ideaid="{{idea.id}}"
+    data-theme="{{idea.extraData.theme}}"
+    data-area="{{idea.extraData.area}}"
+  >
+    <div class="image-container" style="position: relative;">
+    	<div class="image">
+    		<div class="image-upload"></div>
+    	</div>
+    	<div class="gridder-mouse-over">
+    		<div class="background">
+    		</div>
+        <div class="vertically-centered">
+      		<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
+            {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
+      		</div>
+        </div>
+    	</div>
+      {% if data.widget.displayRanking and idea.extraData.ranking %}
+      <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
+      {% endif %}
+      {% if data.widget.displayLabel and idea.extraData.label %}
+      <div class="duration"
+        {#
+          style="
+          background-color: {{idea.extraData.label.backgroundColor}};
+          background-image: {{idea.extraData.label.b}};
+        " #}
+        >
+        {{ idea.extraData.label.text }}
+      </div>
+      {% endif %}
+    </div>
+    <div class="info">
+      <div class="row">
+        <div class="col-xs-6">
+        	<h3 class="title">{{idea.name}}</h3>
+          <p class="price"> {{idea.price}}</p>
+        </div>
+        <div class="col-xs-6">
+          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" class="cart-add pull-right">
+            +
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:none">
+      {% if idea.extraData %}
+        {% if data.widget.displayTheme %}
+        <div class="thema">{{idea.extraData.theme}}</div>
+        {% endif %}
+        {% if data.widget.displayArea %}
+        <div class="gebied">{{idea.extraData.area}}</div>
+        {% endif %}
+			{% endif %}
+    </div>
+    <script>
+     imageUrl[{{idea.id}}] = "{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent)}}";
+     doShowImage({{idea.id}}, document.querySelector('#idea-{{idea.id}}'))
+    </script>
+  </li>{% endfor %}
+</ul>
+
+{% for idea in data.widget.activeResources %}
+<div id="ideaContent{{idea.id}}" class="gridder-content ">
+  <div class="gridder-inner-container {{idea.status}}">
+    <div class="thisIdeaId this-idea-id">{{idea.id}}</div>
+    <h3 class="phone">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+    <div class="image-and-vote-button-container">
+      <div class="image-mask">
+        <div class="image-container">
+          <div class="image" style="/*cursor: url('/modules/openstad-assets/img/vergrootglas.png'), pointer;*/">
+            <div class="fotorama"
+            data-nav="thumbs"
+            data-allowfullscreen="true"
+            data-ratio="400/300"
+            data-fit="cover"
+            data-thumbwidth="105"
+            data-thumbheight="105"
+            data-auto="true"
+            >
+              {% if (idea.extraData) and (idea.extraData.images) %}
+              {% for image in idea.extraData.images %}
+              <a href="{{data.widget.formatImageUrl(image, idea.location, data.widget, 1200, 1200, false, data.cookieConsent)}}"></a>
+              {% endfor %}
+              {% else %}
+              <a href="{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 1200, 1200, true, data.cookieConsent)}}"></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+
+      {% if data.widget.displaySummary and idea.summary %}
+      <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
+      {% endif %}
+
+      {% if data.widget.displayDescription and idea.description %}
+      <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
+      {% endif %}
+
+      {% if data.hasModeratorRights %}
+      <div class="description"><a href="{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
+      {% endif %}
+
+      <div class="share-spacer"></div>
+
+      {% if data.widget.displayShareButtons %}
+      <div class="share-buttons">
+        <table class="table-center">
+          <tr>
+            <td>
+          		<b class="text">Deel dit:</b>
+            </td>
+            <td>
+              <ul class="share">
+                {% set currentUrlWithId = data.currentUrl + '?ideaId=' + idea.id %}
+                <li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{currentUrlWithId}}">Facebook</a></li>
+                <li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{currentUrlWithId}}">Twitter</a></li>
+                <li><a class="email"    target="_blank" href="mailto:?subject={{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title) | urlencode}}&body={{currentUrlWithId | urlencode}}">Email</a></li>
+                <li><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{currentUrlWithId | urlencode}}&source=&data=">WhatsApp</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endfor %}
