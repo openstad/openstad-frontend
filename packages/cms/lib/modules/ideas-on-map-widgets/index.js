@@ -11,6 +11,52 @@ module.exports = {
   label: 'Kaart applicatie',
   addFields: [
 
+		{
+			type: 'select',
+			name: 'displayType',
+			label: 'Weergave',
+			choices: [
+				{
+					label: 'Simpel',
+					value: 'simple',
+					showFields: [
+						'displayWidth',
+						'displayHeight',
+						'linkToCompleteUrl'
+					]
+				},
+				{
+					label: 'Volledig',
+					value: 'complete',
+					showFields: [
+            'ideaName', 'typeLabel', 'typesFilterLabel'
+					]
+				}
+			],
+      def: 'complete',
+		},
+    {
+      name: 'displayWidth',
+      type: 'string',
+      label: 'Width',
+		},
+    {
+      name: 'displayHeight',
+      type: 'string',
+      label: 'Height',
+		},
+    {
+      name: 'linkToCompleteUrl',
+      type: 'string',
+      label: 'Link naar',
+		},
+
+    {
+      name: 'linkToUserPageUrl',
+      type: 'string',
+      label: 'Link naar gebruikers pagina',
+		},
+    
     { 
       name: 'noSelectionHTML',
       type: 'string',
@@ -337,7 +383,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
+        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -347,7 +393,7 @@ module.exports = {
       {
         name: 'content',
         label: 'Content',
-        fields: ['noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['linkToUserPageUrl', 'noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'sort',
@@ -431,6 +477,14 @@ module.exports = {
             role:  req.data.openstadUser && req.data.openstadUser.role,
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
+
+			    displayType: widget.displayType,
+					displayWidth: widget.displayWidth,
+					displayHeight: widget.displayHeight,
+					linkToCompleteUrl: widget.linkToCompleteUrl,
+
+          linkToUserPageUrl: widget.linkToUserPageUrl,
+
           content: contentConfig,
           ideaName: widget.ideaName,
           typeField: widget.typeField,
