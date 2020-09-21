@@ -116,6 +116,7 @@ module.exports = {
         'attachment-upload': {},
         'openstad-nunjucks-filters': {},
         'openstad-custom-pages': {},
+        'openstad-oembed': {},
 
 
         // Apostrophe module configuration
