@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add id & extraData to properties included in idea GET call with param includeUser=1
+
 ## 0.7.3 (2020-10-16)
 * Fix turned around clientId for admin site creation
 
