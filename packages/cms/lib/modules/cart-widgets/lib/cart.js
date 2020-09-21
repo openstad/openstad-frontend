@@ -2,7 +2,6 @@
 
 const config = require('./cart-config');
 
-
 class Cart {
 
     static initCart(cart) {
@@ -16,6 +15,12 @@ class Cart {
       }
 
       return cart;
+    }
+
+
+    static getItem(productId, cart) {
+      console.log('cart', cart)
+      return cart && cart.items ? cart.items.find(item => item.id == productId) : null;
     }
 
     static addToCart(product = null, qty = 1, cart, replaceQuantity = false) {

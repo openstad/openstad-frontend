@@ -79,9 +79,7 @@
       		</div>
         </div>
     	</div>
-      {% if data.widget.displayRanking and idea.extraData.ranking %}
-      <div class="ranking"><div class="label">{{idea.extraData.ranking}}</div></div>
-      {% endif %}
+
       {% if data.widget.displayLabel and idea.extraData.label %}
       <div class="duration"
         {#
@@ -101,9 +99,23 @@
           <p class="price"> {{idea.price}}</p>
         </div>
         <div class="col-xs-6">
-          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" class="cart-add pull-right">
+          {% if idea.cartItem and idea.cartItem.qty > 0 %}
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+            -
+          </a>
+          <span class="qty">
+            {{idea.cartItem.qty}}
+          </span>
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
             +
           </a>
+          {% else %}
+          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+            +
+          </a>
+          {% endif %}
+
+
         </div>
       </div>
     </div>
@@ -156,7 +168,7 @@
       </div>
     </div>
     <div class="content">
-      <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+      <h3 class="desktop">{{idea.name}}</h3>
 
       {% if data.widget.displaySummary and idea.summary %}
       <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
