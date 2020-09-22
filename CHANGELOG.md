@@ -2,6 +2,7 @@
 
 ## UNRELEASED
 * Add id & extraData to properties included in idea GET call with param includeUser=1
+* On update user of for all sites add check if site exists, otherwise update breaks
 
 ## 0.7.3 (2020-10-16)
 * Fix turned around clientId for admin site creation

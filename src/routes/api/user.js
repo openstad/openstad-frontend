@@ -178,7 +178,7 @@ router.route('/:userId(\\d+)')
 				})
 			 .then((json) => {
 				 //update values from API
-				 //
+
 				 db.User
 				  .scope(['includeSite'])
 				  .findAll({where : {
@@ -195,19 +195,24 @@ router.route('/:userId(\\d+)')
 
 				     if (users) {
 				       users.forEach((user) => {
-				         actions.push(function() {
-									 return new Promise((resolve, reject) => {
-				           user
-				            .authorizeData(data, 'update', req.user)
-				            .update(data)
-				            .then((result) => {
-				              resolve();
-				            })
-				            .catch((err) => {
-											console.log('err', err)
-				              reject(err);
-				            })
-									})}())
+
+                 //only update users with active site (they can be deleteds)
+                 if (user.site) {
+  				         actions.push(function() {
+  									 return new Promise((resolve, reject) => {
+  				           user
+  				            .authorizeData(data, 'update', req.user)
+  				            .update(data)
+  				            .then((result) => {
+  				              resolve();
+  				            })
+  				            .catch((err) => {
+  											console.log('err', err)
+  				              reject(err);
+  				            })
+  									})}())
+                  }
+
 				       });
 				     }
 
