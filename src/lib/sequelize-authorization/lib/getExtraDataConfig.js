@@ -28,6 +28,11 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
 
       let oldValue =  this.getDataValue('extraData');
 
+      // new images replace old images
+      if (value.images) {
+        oldValue.images = [];
+      }
+
       try {
         if (typeof oldValue == 'string') {
           oldValue = JSON.parse(oldValue) || {};
