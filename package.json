@@ -23,7 +23,7 @@
     "apostrophe-area-structure": "^1.0.3",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.23",
-    "apostrophe-workflow": "^2.34.0",
+    "apostrophe-workflow": "^2.38.1",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
     "query-string": "^6.13.1"
