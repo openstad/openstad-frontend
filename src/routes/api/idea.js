@@ -20,8 +20,6 @@ router
 	.all('*', function(req, res, next) {
 		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
-    req.scope.push('includeSite');
-
     /**
      * Old sort for backward compatibility
      */
@@ -123,11 +121,10 @@ router.route('/')
 			.scope(...req.scope)
       .findAndCountAll(dbQuery)
 			.then(function( result ) {
-        if (req.query.includePoll) { // TODO: naar poll hooks
-          result.rows.forEach((idea) => {
-            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
-          });
-        }
+        result.rows.forEach((idea) => {
+          idea.site = req.site;
+          if (req.query.includePoll && idea.poll) idea.poll.countVotes(!req.query.withVotes);
+        });
         req.results = result.rows;
         req.dbQuery.count = result.count;
         return next();
@@ -179,6 +176,7 @@ router.route('/')
 			    .scope(...req.scope)
 					.findByPk(ideaInstance.id)
           .then(result => {
+            result.site = req.site;
             req.results = result;
             return next();
           })
@@ -220,6 +218,7 @@ router.route('/')
 				  })
 				  .then(found => {
 					  if ( !found ) throw new Error('Idea not found');
+            found.site = req.site;
 					  req.results = found;
 		        return next();
 				  })
@@ -244,6 +243,7 @@ router.route('/:ideaId(\\d+)')
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
+        found.site = req.site;
         if (req.query.includePoll) { // TODO: naar poll hooks
           if (found.poll) found.poll.countVotes(!req.query.withVotes);
         }
@@ -307,6 +307,7 @@ router.route('/:ideaId(\\d+)')
       .authorizeData(data, 'update')
       .update(data)
       .then(result => {
+        result.site = req.site;
         req.results = result;
         next();
       })
