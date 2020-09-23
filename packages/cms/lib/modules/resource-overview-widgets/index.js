@@ -17,7 +17,6 @@ const sortingOptions      = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 
-
 const MAX_PAGE_SIZE = 100;
 
 module.exports = {
@@ -280,8 +279,10 @@ module.exports = {
           };
         }
 
+        const siteId = widget.siteId ? widget.siteId : req.data.global.siteId;
+
         // format string
-        const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
+        const getUrl = `/api/site/${siteId}/${resource}?${qs.stringify(params)}`;
         const cacheKey = encodeURIComponent(getUrl);
 
         const options = {
@@ -320,8 +321,6 @@ module.exports = {
         }
 
         if (response) {
-          console.log('load with cache for ', getUrl)
-
           // pass query obj without reference
           widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
         } else {
@@ -329,7 +328,6 @@ module.exports = {
             return new Promise((resolve, reject) => {
               rp(options)
               .then((response) => {
-
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
                   cache.set(cacheKey, JSON.stringify(response), {
@@ -488,8 +486,6 @@ module.exports = {
 
          widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => resourceIds.indexOf(idea.id) !== -1) : widget.activeResources;
        }
-
-
 
        return superOutput(widget, options);
      };

@@ -1,6 +1,6 @@
 <h2 class="edit-header">Bewerken</h2>
 
-{% if data.widget.activeResourceId %}
+{% if data.widget.activeResource %}
 <form action="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}" method="GET">
   <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
   <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
