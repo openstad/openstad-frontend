@@ -19,14 +19,15 @@ class Cart {
 
 
     static getItem(productId, cart) {
-      console.log('cart', cart)
-      return cart && cart.items ? cart.items.find(item => item.id == productId) : null;
+      return cart && cart.items ? cart.items.find(item => item.id === productId) : null;
     }
 
     static addToCart(product = null, qty = 1, cart, replaceQuantity = false) {
       cart = this.initCart(cart);
 
       let productInCart = this.inCart(product.id, cart);
+
+      console.log('productInCart',productInCart)
 
       if (productInCart) {
         cart.items = cart.items.map((item) => {
@@ -97,10 +98,9 @@ class Cart {
         }
     }
 
-    static inCart(productID = 0, cart) {
-        let found = false;
-        let item = cart.items ? cart.items.find(item => item.id === productID) : false;
-        return found;
+    static inCart(productId = 0, cart) {
+        let item = cart.items ? cart.items.find(item => item.id === productId) : false;
+        return !!item;
     }
 
     static calculateTotals(cart) {

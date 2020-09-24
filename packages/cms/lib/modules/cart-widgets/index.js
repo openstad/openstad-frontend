@@ -53,8 +53,10 @@ module.exports = {
         let qty = req.query.q ? parseInt(req.query.q, 10) : 1;
         const cart = req.session.cart ? {...req.session.cart} : false;
 
+        console.log('qty', qty)
+
         if (qty === 0) {
-          Cart.removeFromCart(parseInt(id, 10), req.session.cart);
+          Cart.removeFromCart(productId, req.session.cart);
         } else if(qty > 0) {
           const product = req.data.products.find(product => product.id === productId);
           const cart = req.session.cart ? {...req.session.cart} : false;
@@ -72,7 +74,7 @@ module.exports = {
       });
 
       self.apos.app.get('/cart/:productId', (req, res) => {
-        self.addToCart(req);
+        self.addToCart(req, true);
         res.redirect('/');
       });
 

@@ -100,17 +100,17 @@
         </div>
         <div class="col-xs-6">
           {% if idea.cartItem and idea.cartItem.qty > 0 %}
-          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
-            -
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+            +
           </a>
           <span class="qty">
             {{idea.cartItem.qty}}
           </span>
-          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
-            +
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty - 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+            -
           </a>
           {% else %}
-          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" data-quantity="1"  class="cart-add pull-right btn btn-primary">
             +
           </a>
           {% endif %}

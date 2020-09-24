@@ -435,9 +435,7 @@ module.exports = {
         delete record.description;
 
         if (widget.resource === 'product') {
-          console.log('productcart', session.cart);
           record.cartItem = session && session.cart ? Cart.getItem(record.id, session.cart) : null;
-          console.log('record.cartItem', record.cartItem);
         }
 
         return record;

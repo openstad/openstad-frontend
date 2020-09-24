@@ -15,7 +15,7 @@ apos.define('cart-widgets', {
         ev.stopPropagation();
 
         $.ajax({
-          url: '/cart/' + $(this).attr('data-product-id'),
+          url: '/cart/' + $(this).attr('data-product-id') + '?q=' + $(this).attr('data-quantity'),
           method: 'GET',
           success: function () {
             $('body').trigger('ajaxRefresh')

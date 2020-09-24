@@ -8,32 +8,48 @@
 <div class="row">
   <div class="col-md-6 mb-3">
     <label for="firstName">Voornaam</label>
-    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
   </div>
   <div class="col-md-6 mb-3">
     <label for="lastName">Achternaam</label>
-    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
   </div>
 </div>
 
 <div class="mb-3">
-  <label for="address2">Bedrijf <span class="text-muted">(Optional)</span></label>
-  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+  <label for="email">E-mail <span class="text-muted"></span></label>
+  <input type="text" class="form-control" id="email" name="email" placeholder="email">
+</div>
+
+
+<div class="mb-3">
+  <label for="company">Bedrijf <span class="text-muted">(Optioneel)</span></label>
+  <input type="text" class="form-control" id="company" name="company"  placeholder="">
 </div>
 
 <div class="row">
   <div class="col-md-6 mb-3">
-    <label for="address">Straat</label>
-    <input type="text" class="form-control" id="streetName" placeholder="1234 Main St" required>
+    <label for="streetName">Straat</label>
+    <input type="text" class="form-control" id="streetName" name="streetName" placeholder="" required>
   </div>
   <div class="col-md-3 mb-3">
-    <label for="address">Huis nr.</label>
-    <input type="text" class="form-control" id="houseNumber" placeholder="1234 Main St" required>
+    <label for="houseNumber">Huis nr.</label>
+    <input type="text" class="form-control" id="houseNumber" name="houseNumber" placeholder="" required>
   </div>
   <div class="col-md-3 mb-3">
-    <label for="address">Toev.</label>
-    <input type="text" class="form-control" id="suffix" placeholder="">
+    <label for="suffix">Toev.</label>
+    <input type="text" class="form-control" id="suffix" name="suffix" placeholder="">
   </div>
+</div>
+
+<div class="mb-3">
+  <label for="postcode">Postcode <span class="text-muted"></span></label>
+  <input type="text" class="form-control" id="postcode" name="postcode" placeholder="postcode">
+</div>
+
+<div>
+<label for="postcode">Stad <span class="text-muted"></span></label>
+<input type="text" class="form-control" id="city" name="city" placeholder="">
 </div>
 
 {% for item in data.cart.items %}
