@@ -78,8 +78,6 @@ describe('Counter widgets', function() {
 
     const actual = counterWidgets.getCount(widget);
 
-    console.log(expected, actual);
-
     assert(actual === expected);
 
     done()

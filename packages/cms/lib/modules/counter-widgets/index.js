@@ -102,8 +102,6 @@ module.exports = {
 
     self.formatCount = (count) => {
       const len = count.toString().length;
-      console.log(len, count)
-      console.log(('000' + count));
 
       return ('000' + count).slice(-len);
     };
