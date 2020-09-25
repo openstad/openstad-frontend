@@ -1,9 +1,26 @@
-/**
- * Show not logged in users the message they have to login
- */
-$('.argument-form.not-logged-in textarea').click(function (ev) {
-//   ev.preventDefault();
-  // window.location.hash = 'login-required';
+apos.define('arguments-form-widgets', {
+  extend: 'openstad-widgets',
+  construct: function (self, options) {
+    self.play = function ($widget, data, options) {
+      $widget.find('.argument-form').each(function(){
+        bindArgumentValidation($(this));
+      });
+
+      $widget.on('submit', '.argument-form', function (ev) {
+        ev.preventDefault();
+        var $form = $(this);
+        //clean up, in case already submitted before
+       self.submit($form);
+      });
+    }
+
+    self.submit = function($form) {
+      $form.unbind();
+      $form.data("validator", null);
+      bindArgumentValidation($form);
+      $form.submit();
+    }
+  }
 });
 
 function bindArgumentValidation ($form){
@@ -57,21 +74,3 @@ function bindArgumentValidation ($form){
     }
   });
 }
-
-/**
- * Handle form validation and submit form with ajax
- */
-$(document).ready(function(){
-    $('.argument-form').each(function(){
-      bindArgumentValidation($(this));
-    });
-    $('body').on('submit', '.argument-form', function (ev) {
-      ev.preventDefault();
-      var $form = $(this);
-      //clean up, in case already submitted before
-      $form.unbind();
-      $form.data("validator", null);
-      bindArgumentValidation($form);
-      $form.submit();
-    });
-});
