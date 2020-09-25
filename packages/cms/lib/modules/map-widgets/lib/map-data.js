@@ -141,6 +141,7 @@ module.exports = class MapConfigBuilder {
             zoomControl: settings.zoomControl || true,
             minZoom: settings.minZoom || 12,
             maxZoom: settings.maxZoom || 17,
+            useMarkerLinks: settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
             googleMapsApiKey: settings.googleMapsApiKey || ''

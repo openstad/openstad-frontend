@@ -372,7 +372,6 @@ module.exports = {
          widget.ideas = excludeThemes.length > 0 ? widget.ideas.filter(idea => idea && idea.extraData && idea.extraData && excludeThemes.indexOf(idea.extraData.theme) === -1) : widget.ideas;
        }
 
-
        // only include ideas with a certain theme
        if (widget.filterIncludeThemes) {
           const includeThemes = widget.filterIncludeThemes.split(',').map(function(item) {

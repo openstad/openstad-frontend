@@ -12,7 +12,7 @@
   >
 	  <span class="box-blue block">
       <span class="flexcontainer">
-        <span class="flexleft" class="counter" id="counter-{{data.widget.counterType}}">
+        <span class="flexleft" id="counter-{{data.widget.counterType}}-{{data.widget.containerId}}">
         </span>
         <span class="flexright">
           {{data.widget.label}}
@@ -36,7 +36,7 @@
        html += '<span id="counter-number-plate-'+i+'" class="number-plate">'+count[i]+'</span>'
      }
      html += '</span>';
-     document.getElementById("counter-{{data.widget.counterType}}").innerHTML = html;
+     document.getElementById("counter-{{data.widget.counterType}}-{{data.widget.containerId}}").innerHTML = html;
    }
    setNumberPlates('{{data.widget.count}}' || 0)
   </script>

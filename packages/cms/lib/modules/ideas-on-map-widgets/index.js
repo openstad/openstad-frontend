@@ -1,4 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
+const sortingOptions  = require('../../../config/sorting.js').ideasOnMapOptions;
 const fs = require('fs');
 const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const imageApiUrl   = process.env.IMAGE_API_URL;
@@ -10,6 +11,52 @@ module.exports = {
   label: 'Kaart applicatie',
   addFields: [
 
+		{
+			type: 'select',
+			name: 'displayType',
+			label: 'Weergave',
+			choices: [
+				{
+					label: 'Simpel',
+					value: 'simple',
+					showFields: [
+						'displayWidth',
+						'displayHeight',
+						'linkToCompleteUrl'
+					]
+				},
+				{
+					label: 'Volledig',
+					value: 'complete',
+					showFields: [
+            'ideaName', 'typeLabel', 'typesFilterLabel'
+					]
+				}
+			],
+      def: 'complete',
+		},
+    {
+      name: 'displayWidth',
+      type: 'string',
+      label: 'Width',
+		},
+    {
+      name: 'displayHeight',
+      type: 'string',
+      label: 'Height',
+		},
+    {
+      name: 'linkToCompleteUrl',
+      type: 'string',
+      label: 'Link naar',
+		},
+
+    {
+      name: 'linkToUserPageUrl',
+      type: 'string',
+      label: 'Link naar gebruikers pagina',
+		},
+    
     { 
       name: 'noSelectionHTML',
       type: 'string',
@@ -66,7 +113,6 @@ module.exports = {
       textarea: true,
       required: false,
     },
-
 		{
 			name: 'mapVariant',
 			type: 'select',
@@ -122,11 +168,33 @@ module.exports = {
       label: 'Gevoeligheid van clusering',
 			def: 40
 		},
+
+		{
+			name: 'ideaName',
+			type: 'string',
+			label: 'Naam voor idea',
+			def: 'Inzending',
+			required: false
+		},
 		{
 			name: 'typeField',
 			type: 'string',
 			label: 'Veld voor type inzending',
 			def: 'extraData.theme',
+			required: false
+		},
+		{
+			name: 'typeLabel',
+			type: 'string',
+			label: 'Label voor type in detail pagina',
+			def: 'Thema',
+			required: false
+		},
+		{
+			name: 'typesFilterLabel',
+			type: 'string',
+			label: 'Label voor type in filters',
+			def: 'Alle thema\'s',
 			required: false
 		},
 
@@ -183,6 +251,19 @@ module.exports = {
 			required: false
 		},
 
+    {
+      type: 'checkboxes',
+      name: 'selectedSorting',
+      label: 'Select sorting available',
+      choices: sortingOptions
+    },
+    {
+      type: 'select',
+      name: 'defaultSorting',
+      label: 'Select the default sorting',
+      choices: sortingOptions
+    },
+    
     // ----------------------------------------------------------------------------------------------------
     // dit komt uit user-form en moet daarmee gelijk getrokken als dat echt werkt
     // {
@@ -196,6 +277,7 @@ module.exports = {
     //   label:    'Intro',
     //   textarea: true
     // },
+    // TODO: dit is al de zovelste kopie en moet dus naar een lib
     {
       name:       'formFields',
       label:      'Form fields',
@@ -205,7 +287,8 @@ module.exports = {
         {
           type:  'string',
           name:  'name',
-          label: 'Name'
+          label: 'Name of the database field',
+			    required: true,
         },
         {
           type:  'string',
@@ -224,10 +307,6 @@ module.exports = {
           type:    'select',
           choices: [
             {
-              label: 'Multiple choice',
-              value: 'multiple-choice',
-            },
-            {
               label: 'Select',
               value: 'select',
             },
@@ -242,6 +321,10 @@ module.exports = {
             {
               label: 'HTML',
               value: 'html-with-counter',
+            },
+            {
+              label: 'Radio buttons',
+              value: 'radios',
             },
             {
               label: 'Image upload',
@@ -300,7 +383,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['typeField']
+        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
       },
       {
         name: 'map',
@@ -310,7 +393,12 @@ module.exports = {
       {
         name: 'content',
         label: 'Content',
-        fields: ['noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['linkToUserPageUrl', 'noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+      },
+      {
+        name: 'sort',
+        label: 'Sorteren',
+        fields: ['selectedSorting', 'defaultSorting']
       },
       {
         name: 'reactions',
@@ -366,6 +454,15 @@ module.exports = {
         if (widget.selectionActiveNotLoggedInHTML) contentConfig.selectionActiveNotLoggedInHTML = widget.selectionActiveNotLoggedInHTML;
         if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
         if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
+
+        // allowMultipleImages to formfields
+        let formFields = [ ...widget.formFields ];
+        let allowMultipleImages = ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.allowMultipleImages ) || false;
+        formFields.forEach((formField) => {
+          if ( formField.inputType ==  "image-upload" ) {
+            formField.allowMultiple = allowMultipleImages;
+          }
+        });
         
 			  widget.config = JSON.stringify({
           // req.data.isAdmin
@@ -380,9 +477,20 @@ module.exports = {
             role:  req.data.openstadUser && req.data.openstadUser.role,
             fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
+
+			    displayType: widget.displayType,
+					displayWidth: widget.displayWidth,
+					displayHeight: widget.displayHeight,
+					linkToCompleteUrl: widget.linkToCompleteUrl,
+
+          linkToUserPageUrl: widget.linkToUserPageUrl,
+
           content: contentConfig,
+          ideaName: widget.ideaName,
           typeField: widget.typeField,
           types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
+          typeLabel: widget.typeLabel,
+          typesFilterLabel: widget.typesFilterLabel,
 			    idea: {
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
@@ -393,12 +501,18 @@ module.exports = {
 				    summaryMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.summaryMaxLength ) || 200,
 				    descriptionMinLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 				    descriptionMaxLength: ( req.data.global.siteConfig && req.data.global.siteConfig.ideas && req.data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
+				    allowMultipleImages,
             imageserver: {
               // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
 				      process: '/image',
 				      fetch: '/image',
             },
-            fields: widget.formFields,
+            fields: formFields,
+            sort: {
+              sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
+              showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
+              defaultSortOrder: widget.defaultSorting,
+            }
 			    },
 			    poll: req.data.global.siteConfig && req.data.global.siteConfig.polls,
 			    argument: {
@@ -425,7 +539,7 @@ module.exports = {
 			    },
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        
+
         const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);

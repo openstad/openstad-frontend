@@ -3,7 +3,7 @@ const moment          = require('moment'); // returns the new locale, in this ca
 const url             = require('url');
 const internalApiUrl  = process.env.INTERNAL_API_URL;
 const cache           = require('../../../../services/cache').cache;
-const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
+const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
 
 module.exports =  function (req, res, next) {
   const globalData = req.data.global;
@@ -49,22 +49,19 @@ module.exports =  function (req, res, next) {
       req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
       next();
     } else {
+
       //const globalData = req.data.global;
       const sort = req.query.sort ? req.query.sort : 'createdate_desc';
 
       var options = {
-           uri: `${apiUrl}/api/site/${globalData.siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeTags=1`,
+           uri: `${apiUrl}/api/site/${globalData.siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeTags=1&includeArgsCount=1`,
            headers: headers,
            json: true // Automatically parses the JSON string in the response
      };
 
-     console.log('fetch again ', options)
-
 
      rp(options)
        .then(function (ideas) {
-         console.log('ideas fpund ', ideas)
-
          const ideaSlug = req.data.global.ideaSlug;
          const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
          const protocol = req.headers['x-forwarded-proto'] || req.protocol;

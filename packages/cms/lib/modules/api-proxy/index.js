@@ -1,7 +1,6 @@
 const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
 const eventEmitter  = require('../../../events').emitter;
-const qs = require('qs');
 
 module.exports = {
   construct: function(self, options) {
@@ -16,6 +15,7 @@ module.exports = {
 
         // add custom header to request
         proxyReq.setHeader('Accept', 'application/json');
+        proxyReq.setHeader('Content-Type', 'application/json');
 
         if (req.session.jwt) {
           proxyReq.setHeader('X-Authorization', `Bearer ${req.session.jwt}`);
@@ -26,15 +26,12 @@ module.exports = {
         if ( (req.method == "POST" ||req.method == "PUT")  && req.body ) {
            // emit event
            eventEmitter.emit('apiPost');
-
            let body = req.body;
            delete req.body;
 
            // turn body object  back into a string
-           let newBody = qs.stringify(body)
-
-           // Update header
-           proxyReq.setHeader( 'content-type', 'application/x-www-form-urlencoded' );
+           //let newBody = qs.stringify(body, { skipNulls: true })
+           let newBody = JSON.stringify(body);
            proxyReq.setHeader( 'content-length', newBody.length );
            proxyReq.write( newBody );
            proxyReq.end();

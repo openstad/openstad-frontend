@@ -93,6 +93,11 @@ module.exports = {
        fields: ['labelAdvice', 'infoAdvice', 'displayAdvice', 'requiredAdvice', 'minAdvice', 'maxAdvice']
      },
      {
+       name: 'budget',
+       label: 'Budget',
+       fields: ['displayBudget']
+     },
+     {
        name: 'submitting',
        label: 'Submitting',
        fields: ['buttonTextSubmit', 'buttonTextSave']
@@ -145,6 +150,14 @@ module.exports = {
 			superLoad(req, widgets, next);
 		};
 
+
+
+  const superPushAssets = self.pushAssets;
+   self.pushAssets = function () {
+     superPushAssets();
+
+     self.pushAsset('script', 'map', { when: 'always' });
+   };
 
    /**
     * Create route for proxying one image to image server, add api token in header

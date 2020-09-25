@@ -104,82 +104,90 @@ module.exports = {
     /** add config **/
     const superLoad = self.load;
 
-    self.load = function (req, widgets, next) {
-      const styles = openstadMap.defaults.styles;
-      const globalData = req.data.global;
+    self.load = function(req, widgets, next) {
+        const styles = openstadMap.defaults.styles;
+        const globalData = req.data.global;
 
-      widgets.forEach((widget) => {
-        const resourceType = widget.resource;
-        const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType);
-        const resourceConfigKey = resourceInfo ? resourceInfo.configKey : false;
-        const resourceConfig = req.data.global.siteConfig && req.data.global.siteConfig[resourceConfigKey] ? req.data.global.siteConfig[resourceConfigKey] : {};
+	      widgets.forEach((widget) => {
+            const resourceType = widget.resource ?  widget.resource : false;
+            const resourceInfo = resourceType  ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
 
-        const siteConfig = req.data.global.siteConfig;
+            if (!resourceInfo) {
+              return;
+            }
 
-        widget.resourceConfig = {
-          titleMinLength: (resourceConfig.titleMinLength) || 10,
-          titleMaxLength: (resourceConfig.titleMaxLength) || 50,
-          summaryMinLength: (resourceConfig.summaryMinLength) || 20,
-          summaryMaxLength: (resourceConfig.summaryMaxLength) || 140,
-          descriptionMinLength: (resourceConfig.descriptionMinLength) || 140,
-          descriptionMaxLength: (resourceConfig.descriptionMaxLength) || 5000,
-        };
+            const resourceConfigKey = resourceInfo ? resourceInfo.configKey : false;
+            const resourceConfig = req.data.global.siteConfig && req.data.global.siteConfig[resourceConfigKey] ? req.data.global.siteConfig[resourceConfigKey] : {};
 
-        widget.resourceEndPoint = resourceInfo.resourceEndPoint;
+	          const siteConfig = req.data.global.siteConfig;
 
-        widget.siteConfig = {
-          openstadMap: {
-            polygon: (siteConfig && siteConfig.openstadMap && siteConfig.openstadMap.polygon) || undefined,
-          },
-        };
+            widget.resourceConfig = {
+              titleMinLength: ( resourceConfig.titleMinLength ) || 10,
+              titleMaxLength: ( resourceConfig.titleMaxLength ) || 50,
+              summaryMinLength: ( resourceConfig.summaryMinLength ) || 20,
+              summaryMaxLength: ( resourceConfig.summaryMaxLength ) || 140,
+              descriptionMinLength: ( resourceConfig.descriptionMinLength ) || 140,
+              descriptionMaxLength: ( resourceConfig.descriptionMaxLength ) || 5000,
+            }
 
-        const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
+            widget.resourceEndPoint = resourceInfo.resourceEndPoint;
 
-        // Todo: refactor this to get resourceId in a different way
-        const activeResource = req.data.activeResource;
-        const resources = activeResource ? [activeResource] : [];
+    				widget.siteConfig = {
+    					openstadMap: {
+    						polygon: ( siteConfig && siteConfig.openstadMap && siteConfig.openstadMap.polygon ) || undefined,
+    					},
+    				}
 
+    				const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
 
-        if(activeResource) {
-          widget.resourceImages = activeResource.extraData.images;
-        }
-        
-        widget.mapConfig = self.getMapConfigBuilder(globalData)
-          .setDefaultSettings({
-            mapCenterLat: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[0]) || globalData.mapCenterLat,
-            mapCenterLng: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[1]) || globalData.mapCenterLng,
-            mapZoomLevel: 16,
-            zoomControl: true,
-            disableDefaultUI: true,
-            styles: styles,
-            googleMapsApiKey: self.apos.settings.getOption(req, 'googleMapsApiKey')
-          })
-          .setMarkersByIdeas(resources)
-          .setMarkerStyle(markerStyle)
-          .setEditorMarker()
-          .setEditorMarkerElement('locationField')
-          .setPolygon(req.data.global.mapPolygons || null)
-          .getConfig();
+            // Todo: refactor this to get resourceId in a different way
+    				const activeResource = req.data.activeResource;
+    				const resources = activeResource ? [activeResource] : [];
+            const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
-      });
+            widget.mapConfig = self.getMapConfigBuilder(globalData)
+                .setDefaultSettings({
+                    mapCenterLat: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[0]) || globalData.mapCenterLat,
+                    mapCenterLng: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[1]) || globalData.mapCenterLng,
+                    mapZoomLevel: 16,
+                    zoomControl: true,
+                    disableDefaultUI : true,
+                    styles: styles,
+                    googleMapsApiKey: googleMapsApiKey,
+                    useMarkerLinks: false
+                })
+                .setMarkerStyle(markerStyle)
+                .setEditorMarker()
+                .setEditorMarkerElement('locationField')
+                .setPolygon(req.data.global.mapPolygons || null)
+                .getConfig();
 
-      superLoad(req, widgets, next);
-    };
-    const superPushAssets = self.pushAssets;
-    self.pushAssets = function () {
-      superPushAssets();
-      self.pushAsset('stylesheet', 'filepond', {when: 'always'});
-      self.pushAsset('stylesheet', 'trix', {when: 'always'});
-      self.pushAsset('stylesheet', 'form', {when: 'always'});
-      self.pushAsset('stylesheet', 'main', {when: 'always'});
+  		});
 
-      self.pushAsset('script', 'editor', {when: 'always'});
+			superLoad(req, widgets, next);
+		}
 
 
-      self.pushAsset('script', 'main', {when: 'always'});
-      self.pushAsset('script', 'delete-form', {when: 'always'});
-      self.pushAsset('script', 'status-form', {when: 'always'});
-    };
-  }
 
+  const superPushAssets = self.pushAssets;
+   self.pushAssets = function () {
+     superPushAssets();
+     self.pushAsset('stylesheet', 'filepond', { when: 'always' });
+     self.pushAsset('stylesheet', 'trix', { when: 'always' });
+     self.pushAsset('stylesheet', 'form', { when: 'always' });
+     self.pushAsset('stylesheet', 'main', { when: 'always' });
+     self.pushAsset('script', 'map', { when: 'always' });
+     self.pushAsset('script', 'editor', { when: 'always' });
+
+
+     self.pushAsset('script', 'main', { when: 'always' });
+     self.pushAsset('script', 'delete-form', { when: 'always' });
+     self.pushAsset('script', 'status-form', { when: 'always' });
+
+     //because of size load in directly in template for now, in future we might consider loading them in user script
+     //and load the user script also when users log in via openstad.
+     //self.pushAsset('script', 'filepond', { when: 'always' });
+     // self.pushAsset('script', 'trix', { when: 'always' });
+   };
+ }
 };

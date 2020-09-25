@@ -724,6 +724,12 @@ const fields = [
        type: 'string',
        label: 'Text for button to save',
     },
+    {
+       name: 'displayBudget',
+       type: 'boolean',
+       label: 'Display budget for moderators?',
+       def: false
+    },
 ];
 
 module.exports = fields;

@@ -44,7 +44,7 @@ apos.define('participatory-budgeting-widgets', {
     	var votingContainer = $widget.find('#multiple-voting-container');
 
       if (votingContainer !== null) {
-      	
+
         $widget.find('.gridder').gridderExpander({
           scroll: true,
           scrollOffset: 100,
@@ -250,13 +250,15 @@ apos.define('participatory-budgeting-widgets', {
   }
 });
 
-
-
-
+  // vars
+  var availableIdeas = 0;
+  var availableBudgetAmount = initialAvailableBudget;
+  var currentSelection = openstadGetStorage('currentSelection') || [];
+  currentSelection = currentSelection ? currentSelection : []
 
   function toggleIdeaInSelection(id) {
-	  var index = currentSelection.indexOf(id);
-	  if (index == -1) {
+	  var index = currentSelection ? currentSelection.indexOf(id) : false;
+	  if (index === -1) {
 		  addIdeaToSelection(id);
 	  } else {
 		  removeIdeaFromSelection(id);
@@ -1403,9 +1405,6 @@ apos.define('participatory-budgeting-widgets', {
 		  if (!elementThema ) {
       	//element.style.display = 'inline-block';
       }
-
-      console.log('elementThema', elementThema)
-      console.log('activeThema', activeThema)
 
 		  if (
 			  // no activeTab selected or

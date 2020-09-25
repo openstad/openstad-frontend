@@ -19,7 +19,6 @@ module.exports = {
         } else {
           next();
         }
-
       }
     };
 
@@ -39,8 +38,12 @@ module.exports = {
         headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
       }
 
+      const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === req.data.activeResourceType);
+
+      const activeResourceEndpoint = resourceInfo.resourceEndPoint;
+
       var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${req.data.activeResourceType}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1`,
+          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1`,
           headers: headers,
           json: true // Automatically parses the JSON string in the response
       };
@@ -52,11 +55,29 @@ module.exports = {
        */
       rp(options)
         .then(function (activeResource) {
-          req.data.activeResource = activeResource
-          callback(null);
+          req.data.activeResource = activeResource;
+
+          if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
+            rp({
+                uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
+                headers: headers,
+                json: true // Automatically parses the JSON string in the response
+            })
+            .then(function (votes) {
+              req.data.ideaVotes = votes;
+              return callback(null);
+            })
+            .catch((e) => {
+              console.log('e', e);
+
+              return callback(null);
+            });
+          } else {
+            callback(null);
+          }
         })
         .catch((e) => {
-          console.log('Resource page e', e)
+          console.log('erroror', e);
 
           //if user not logged into CMS in throw 404
           //for ease of use when someone is logged into CMS it's easier to allow
@@ -66,6 +87,7 @@ module.exports = {
           }
 
           callback(null);
+
         });
     }
 
@@ -75,12 +97,16 @@ module.exports = {
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying
       if (req.data.activeResourceType === 'activeUser') {
-        req.data.activeResource = req.data.openstadUser;
+      //  req.data.activeResource = req.data.openstadUser;
+        req.data.activeResourceId = req.data.openstadUser.id;
+        req.data.activeResourceType = req.data.page.resource;
+
+        self.fetchResourceData(req, callback);
       } else if (!req.user) {
         req.notFound = true;
+        callback(null);
       }
 
-      callback(null);
     });
 
     self.dispatch('/:resourceId', (req, callback) => {
@@ -99,13 +125,7 @@ module.exports = {
       /**
        * In case of activeUser we load in the active Openstad user
        */
-      if (req.data.activeResourceType === 'activeUser') {
-        req.data.activeResource = req.data.openstadUser;
-
-        callback(null);
-      } else {
-        self.fetchResourceData(req, callback);
-      }
+       self.fetchResourceData(req, callback);
     }
   }
 };

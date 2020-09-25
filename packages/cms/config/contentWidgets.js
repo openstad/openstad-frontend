@@ -41,11 +41,13 @@ const contentWidgets = {
   },
   'idea-overview': {
     hideByDefault: true,
+    deprecated: true,
     addLabel: 'Idea overiew (deprecated, use resource overview)',
   },
   'idea-single': {
     adminOnly: false,
     hideByDefault: true,
+    deprecated: true,
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
@@ -137,6 +139,7 @@ const contentWidgets = {
     }
   },
   'user-form': {
+    addLabel: 'Contact form (beta)',
     adminOnly: true,
     hideByDefault: true,
     beta: true

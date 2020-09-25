@@ -126,6 +126,7 @@ setNextButton();
 var previewHTML = '';
 var previewDescriptionHTML = '';
 function selectIdea(newIdeaId, doNotOpen) {
+
   ideaId = newIdeaId;
 
   openstadSetCookie('ideaId' + voteBlockIdentifier, ideaId);
@@ -376,6 +377,9 @@ function hideVoteCreator() {
 
 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
 function openstadGetCookie(name) {
+    
+
+    
   var match = document.cookie.match(new RegExp("(?:^|;\\s*)\\s*" + name +"=([^;]+)\\s*(?:;|$)"));
 
   var value;
@@ -401,7 +405,6 @@ function openstadSetCookie(name, value, days, path) {
       value = JSON.stringify(value);
     } catch(err) {}
   };
-
 
   var expires = "";
   if (days) {

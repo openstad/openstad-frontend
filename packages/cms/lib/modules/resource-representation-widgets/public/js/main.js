@@ -4,9 +4,9 @@ apos.define('resource-representation-widgets', {
         self.play = function($widget, data, options) {
             initResourceVoteForms($widget);
 
-            var mapConfig = resourceMapConfig && resourceMapConfig ? resourceMapConfig : {};
+            var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
             var map = self.createMap(mapConfig);
-            
+
             self.addPolygon(mapConfig);
             self.setIdeaMarker(mapConfig);
         }

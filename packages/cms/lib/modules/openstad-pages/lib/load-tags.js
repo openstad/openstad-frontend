@@ -30,6 +30,7 @@ module.exports =  function (req, res, next) {
       req.data.openstadTags = tags;
       next();
     } else {
+
       var options = {
          uri: `${apiUrl}/api/site/${globalData.siteId}/tag`,
          headers: headers,
