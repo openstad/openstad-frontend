@@ -8,20 +8,23 @@ module.exports = {
     label: 'Map widgets',
     deferWidgetLoading: false,
     construct: function(self, options) {
-        if(config.getMapType() === 'nlmaps-openlayers') {
+      const superPushAssets = self.pushAssets;
+      self.pushAssets = function () {
+        superPushAssets();
+        if (config.getMapType() === 'nlmaps-openlayers') {
 
-            self.pushAsset('stylesheet', 'ol', { when: 'always' });
-            self.pushAsset('stylesheet', 'openlayers', { when: 'always' });
+          self.pushAsset('stylesheet', 'ol', {when: 'always'});
+          self.pushAsset('stylesheet', 'openlayers', {when: 'always'});
 
-            self.pushAsset('script', 'modules/ol', { when: 'always' });
-            self.pushAsset('script', 'modules/nlmaps', { when: 'always' });
-            self.pushAsset('script', 'openlayers/openstad-map', { when: 'always' });
-            self.pushAsset('script', 'nlmaps-openlayers', { when: 'always' });
+          self.pushAsset('script', 'modules/ol', {when: 'always'});
+          self.pushAsset('script', 'modules/nlmaps', {when: 'always'});
+          self.pushAsset('script', 'openlayers/openstad-map', {when: 'always'});
+          self.pushAsset('script', 'nlmaps-openlayers', {when: 'always'});
         } else {
-            self.pushAsset('script', 'googlemaps/openstad-map', { when: 'always' });
-            self.pushAsset('script', 'googlemaps', { when: 'always' });
+          self.pushAsset('script', 'googlemaps/openstad-map', {when: 'always'});
+          self.pushAsset('script', 'googlemaps', {when: 'always'});
         }
-
+      }
         const superLoad = self.load;
         self.load = (req, widgets, callback) => {
             widgets.forEach((widget) => {

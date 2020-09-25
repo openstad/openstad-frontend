@@ -28,7 +28,7 @@ const contentWidgets = {
   },
   'cookie-warning': {
     adminOnly: true,
-    hideByDefault: true
+    hideByDefault: false
   },
   'date-bar': {},
   'idea-form': {

@@ -1,21 +1,5 @@
-const rp            = require('request-promise');
-const proxy         = require('http-proxy-middleware');
-const url           = require('url');
-const request       = require('request');
-const pick          = require('lodash/pick')
-const eventEmitter  = require('../../../events').emitter;
-
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
-
-const toSqlDatetime = (inputDate) => {
-    const date = new Date()
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
-        .toISOString()
-        .slice(0, 19)
-        .replace('T', ' ')
-}
 
 const fields = require('./lib/fields.js');
 
@@ -23,7 +7,8 @@ module.exports = {
   extend: 'map-widgets',
   label: 'Resource form',
   addFields: fields,
-  beforeConstruct: function(self, options) {
+  playerData: ['mapConfig', 'resourceImages'],
+  beforeConstruct: function (self, options) {
 
     if (options.resources) {
       self.resources = options.resources;
@@ -33,88 +18,88 @@ module.exports = {
           type: 'select',
           name: 'resource',
           label: 'Resource (from config)',
-          choices : options.resources
+          choices: options.resources
         }
       ].concat(options.addFields || [])
     }
   },
-  construct: function(self, options) {
-   options.arrangeFields = (options.arrangeFields || []).concat([
+  construct: function (self, options) {
+    options.arrangeFields = (options.arrangeFields || []).concat([
 
-     {
-       name: 'general',
-       label: 'Algemeen',
-       fields: ['resource', 'redirect', 'formType', 'dynamicFormSections']
-     },
-     {
-       name: 'title',
-       label: 'Title',
-       fields: ['labelTitle', 'infoTitle', 'requiredTitle', 'minTitle', 'maxTitle']
-     },
-     {
-       name: 'summary',
-       label: 'Summary',
-       fields: ['labelSummary', 'infoSummary', 'requiredSummary', 'typeSummary', 'minSummary', 'maxSummary']
-     },
-     {
-       name: 'description',
-       label: 'Description',
-       fields: ['labelDescription', 'infoDescription', 'editorDescription', 'requiredDescription', 'minDescription', 'maxDescription']
-     },
-     {
-       name: 'images',
-       label: 'Images Upload',
-       fields: ['labelImages', 'infoImages', 'uploadMultiple', 'requiredImages']
-     },
-     {
-       name: 'themes',
-       label: 'Themes',
-       fields: ['labelThemes', 'infoThemes', 'requiredThemes']
-     },
-     {
-       name: 'areas',
-       label: 'Areas',
-       fields: ['labelAreas', 'infoAreas', 'requiredAreas']
-     },
-     {
-       name: 'location',
-       label: 'Location',
-       fields: ['labelLocation', 'infoLocation', 'displayLocation', 'requiredLocation']
-     },
-     {
-         name: 'Estimate',
-         label: 'Estimate costs',
-         fields: ['labelEstimate', 'infoEstimate', 'displayEstimate', 'requiredEstimate', 'typeEstimate', 'minEstimate', 'maxEstimate']
-     },
-     {
-         name: 'Role',
-         label: 'Role',
-         fields: ['labelRole', 'infoRole', 'displayRole', 'requiredRole', 'typeRole', 'minRole', 'maxRole']
-     },
-     {
-         name: 'Phone',
-         label: 'Phone number',
-         fields: ['labelPhone', 'infoPhone', 'displayPhone', 'requiredPhone', 'minPhone', 'maxPhone']
-     },
-     {
-       name: 'advice',
-       label: 'Tip',
-       fields: ['labelAdvice', 'infoAdvice', 'displayAdvice', 'requiredAdvice', 'minAdvice', 'maxAdvice']
-     },
-     {
-       name: 'submitting',
-       label: 'Submitting',
-       fields: ['buttonTextSubmit', 'buttonTextSave']
-     },
-     {
-       name: 'budget',
-       label: 'Budget',
-       fields: ['displayBudget']
-     }
+      {
+        name: 'general',
+        label: 'Algemeen',
+        fields: ['resource', 'redirect', 'formType', 'dynamicFormSections']
+      },
+      {
+        name: 'title',
+        label: 'Title',
+        fields: ['labelTitle', 'infoTitle', 'requiredTitle', 'minTitle', 'maxTitle']
+      },
+      {
+        name: 'summary',
+        label: 'Summary',
+        fields: ['labelSummary', 'infoSummary', 'requiredSummary', 'typeSummary', 'minSummary', 'maxSummary']
+      },
+      {
+        name: 'description',
+        label: 'Description',
+        fields: ['labelDescription', 'infoDescription', 'editorDescription', 'requiredDescription', 'minDescription', 'maxDescription']
+      },
+      {
+        name: 'images',
+        label: 'Images Upload',
+        fields: ['labelImages', 'infoImages', 'uploadMultiple', 'requiredImages']
+      },
+      {
+        name: 'themes',
+        label: 'Themes',
+        fields: ['labelThemes', 'infoThemes', 'requiredThemes']
+      },
+      {
+        name: 'areas',
+        label: 'Areas',
+        fields: ['labelAreas', 'infoAreas', 'requiredAreas']
+      },
+      {
+        name: 'location',
+        label: 'Location',
+        fields: ['labelLocation', 'infoLocation', 'displayLocation', 'requiredLocation']
+      },
+      {
+        name: 'Estimate',
+        label: 'Estimate costs',
+        fields: ['labelEstimate', 'infoEstimate', 'displayEstimate', 'requiredEstimate', 'typeEstimate', 'minEstimate', 'maxEstimate']
+      },
+      {
+        name: 'Role',
+        label: 'Role',
+        fields: ['labelRole', 'infoRole', 'displayRole', 'requiredRole', 'typeRole', 'minRole', 'maxRole']
+      },
+      {
+        name: 'Phone',
+        label: 'Phone number',
+        fields: ['labelPhone', 'infoPhone', 'displayPhone', 'requiredPhone', 'minPhone', 'maxPhone']
+      },
+      {
+        name: 'advice',
+        label: 'Tip',
+        fields: ['labelAdvice', 'infoAdvice', 'displayAdvice', 'requiredAdvice', 'minAdvice', 'maxAdvice']
+      },
+      {
+        name: 'submitting',
+        label: 'Submitting',
+        fields: ['buttonTextSubmit', 'buttonTextSave']
+      },
+      {
+        name: 'budget',
+        label: 'Budget',
+        fields: ['displayBudget']
+      }
 
-   ]);
+    ]);
 
-   require('./lib/submit.js')(self, options);
+    require('./lib/submit.js')(self, options);
 
     /** add config **/
     const superLoad = self.load;
@@ -205,5 +190,4 @@ module.exports = {
      // self.pushAsset('script', 'trix', { when: 'always' });
    };
  }
-
 };

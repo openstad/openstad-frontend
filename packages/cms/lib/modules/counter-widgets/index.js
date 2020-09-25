@@ -3,6 +3,7 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 module.exports = {
   extend: 'openstad-widgets',
   label: 'Counter',
+  playerData: ['count', 'statsUrl', 'counterType'],
   addFields: [
     {
       name: 'label',
@@ -42,12 +43,7 @@ module.exports = {
 					showFields: [
 						'staticCount'
 					]
-        },
-/*         {
-          label: 'Arguments count',
-          value: 'argumentsCount',
-        },
-        */
+        }
       ]
     },
     {
@@ -104,28 +100,36 @@ module.exports = {
         });
     };
 
+    self.formatCount = (count) => {
+      const len = count.toString().length;
 
+      return ('000' + count).slice(-len);
+    };
+
+    self.getCount = (widget) => {
+      switch(widget.counterType) {
+        case 'ideasCount':
+            return self.formatCount(widget.ideasCount || 0);
+        case 'votedUserCount':
+          return self.formatCount(0);
+        case 'staticCount':
+          return self.formatCount(widget.staticCount);
+        default:
+          return self.formatCount(0);
+      }
+    };
 
     const superOutput = self.output;
     self.output = function(widget, options) {
-      var count;
-
-  //    console.log('----idget.counterTypes', widget);
-
-
       switch(widget.counterType) {
 
         case 'ideasCount':
-          if (widget.ideasCount) {
-            count = widget.ideasCount;
-          } else {
-            count = 0;
+          if (!widget.ideasCount) {
             widget.statsUrl = "/stats/site/" + widget.siteId + "/idea/total"
           }
           break;
 
         case 'voteCount':
-          count = 0;
           widget.statsUrl = "/stats/site/" + widget.siteId + "/vote/total"
           if (widget.voteOpinion) {
             widget.statsUrl += '?opinion=' + widget.voteOpinion;
@@ -133,21 +137,11 @@ module.exports = {
           break;
 
         case 'votedUserCount':
-          count = 0;
           widget.statsUrl = "/stats/site/" + widget.siteId + "/vote/no-of-users"
           break;
-
-        case 'staticCount':
-          count = widget.staticCount;
-          break;
-
-        default:
-          count = 0;
-
       }
 
-      let len = count.toString().length;
-      widget.count = ('000' + count).slice(-len);
+      widget.count = self.getCount(widget);
 
       var result = superOutput(widget, options);
       return result;
@@ -157,6 +151,8 @@ module.exports = {
     self.pushAssets = function() {
       superPushAssets();
       self.pushAsset('stylesheet', 'main', { when: 'always' });
+      self.pushAsset('script', 'main', { when: 'always' });
     };
+
   }
 };

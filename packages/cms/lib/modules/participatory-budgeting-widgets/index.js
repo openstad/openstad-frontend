@@ -26,8 +26,6 @@ module.exports = {
        self.pushAsset('script', 'accordion', { when: 'always' });
        self.pushAsset('script', 'jquery.gridder', { when: 'always' });
 
-       self.pushAsset('script', 'ideas-lister', { when: 'always' });
-
        self.pushAsset('script', 'find-polyfill', { when: 'always' });
        self.pushAsset('script', 'voting', { when: 'always' });
        self.pushAsset('script', 'westbegroot-enhancements', { when: 'always' });
