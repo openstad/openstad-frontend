@@ -26,10 +26,10 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       } catch (err) {
       }
 
-      let oldValue =  this.getDataValue('extraData');
+      let oldValue =  this.getDataValue('extraData') || {};
 
       // new images replace old images
-      if (value.images) {
+      if (value && value.images) {
         oldValue.images = [];
       }
 
