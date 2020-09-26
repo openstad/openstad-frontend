@@ -1,6 +1,8 @@
 //const archiver = require('archiver');
-var ncp = require('ncp').ncp;
-ncp.limit = 16;
+//const ncp = require('ncp').ncp;
+// ncp.limit = 16;
+
+const templateParser = require('templateParser.js')
 
 /**
  * @param {String} source
@@ -23,12 +25,34 @@ function zipDirectory(source, out) {
   });
 }
 
+
+const templates = {
+  navigation : {
+
+  },
+  import : {
+    line: "import [:name] from [:path];"
+  }
+}
+
 /**
  * Compile defined UI to an app
  * buildData : {
     settings: {
       appTemplate: String
-    }
+    },
+    screens: {
+      settings: {},
+      screens: []
+    },
+    navigation: {
+      settings: {},
+      tabMenuItems: [],
+      drawerMenuItems: [{
+        screenName
+      }]
+    },
+
  * }
  */
 
@@ -53,15 +77,22 @@ const Compiler = async function (buildData) {
    ncp(appTemplateDir, appDir)
 
    //create custom files based upon appData
+   const appImports = [];
 
    //layout
 
    //screens
+   //
+   const screens = buildData.screens.screens.map(() => {
+
+   });
 
    //navigation
 
+   //render app screen
 
    //output code as zip
+
    //zipDirectory();
 };
 
