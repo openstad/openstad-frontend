@@ -28,15 +28,21 @@ function zipDirectory(source, out) {
   });
 }
 
+const renderComponents = (components, nunjucks) => {
+  componentString = componentString ? componentString : '';
 
-const templates = {
-  navigation : {
-    line: "import [:name] from [:path];"
-  },
-  import : {
-    line: "import [:name] from [:path];"
-  }
+  components.forEach((component) => {
+    componentJs = nunjucks.render('components/'component.type'.tpl', {
+      ...component.variables,
+      components: renderComponents(component.components, nunjucks)
+    });
+
+    componentString = componentString + componentJs;
+  });
+
+  return componentString;
 }
+
 
 /**
  * Compile defined UI to an app
@@ -110,21 +116,13 @@ const Compiler = async function (buildData) {
    //screens
    buildData.screens.screens.forEach((screen) => {
      const screenJs = nunjucks.render('screen.tpl', {
-       screen: screen
+       ...component.variables,
+       screen: screen,
+       components: renderComponents(screen.components)
      });
 
      fs.writeFileSync(appTemplateDir + '/screens/'+screen.componentName+'.js', screenJs)
    });
-
-   //navigation
-   /*
-    tabScreens
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Settings" component={SettingsScreen} />
-    */
-
-
-   //render app screen
 
    //output code as zip
 
