@@ -537,6 +537,12 @@ module.exports = [
     label: 'Allow for liking on ideas directly in overview',
     help: 'Note: voting only works for ideas with OPEN status'
   },
+  {
+    type: 'string',
+    name: 'siteId',
+    label: 'Site ID',
+  },
+
 ].concat(
   ideaStates.map((state) => {
     return {
