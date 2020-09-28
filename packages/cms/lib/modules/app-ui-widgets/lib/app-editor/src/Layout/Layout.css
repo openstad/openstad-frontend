@@ -1,0 +1,38 @@
+.TopPanel {
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #f4f4f4;
+      z-index: 2;
+      position: relative;
+}
+
+.LeftPanel {
+  width: 320px;
+  bottom: 0;
+  left: 0;
+  top: 60px;
+  position: absolute;
+  background: #fdfdfd;
+  border-right: 1px solid #f4f4f4;
+  z-index: 1;
+}
+
+.MiddlePanel {
+  position: absolute;
+  left: 320px;
+  right: 0;
+  bottom: 0;
+  top: 60px;
+  background: #f7f9fa;
+}
+
+.RightPanel {
+  display: none;
+      width: 300px;
+  bottom: 0;
+  right: 0;
+  top: 60px;
+  position: absolute;
+  background: #fdfdfd;
+  border-left: 1px solid #f4f4f4;
+}
