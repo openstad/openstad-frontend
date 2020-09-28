@@ -59,7 +59,7 @@ module.exports = [
       {
         value: 'gridder',
         label: 'Card in a grid - opens item into on the same page',
-        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter', 'displayDescription', 'displayShareButtons']
+        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title']
       },
       {
         value: 'raw',

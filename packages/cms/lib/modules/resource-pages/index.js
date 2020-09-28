@@ -15,6 +15,7 @@ module.exports = {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
 
+
           self.loadResourceData(req, next);
         } else {
           next();
@@ -115,6 +116,10 @@ module.exports = {
       /**
        * In case of activeUser we load in the active Openstad user
        */
+
+       const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === req.data.activeResourceType);
+       req.data.activeResourceEndpoint = resourceInfo.resourceEndPoint;
+
       if (req.data.activeResourceType === 'activeUser') {
         req.data.activeResource = req.data.openstadUser;
 

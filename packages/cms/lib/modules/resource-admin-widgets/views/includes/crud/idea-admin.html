@@ -1,5 +1,5 @@
-{% if data.widget.activeResourceId %}
-{% set idea = data.widget.activeResource %}
+{% if data.activeResourceId %}
+{% set idea = data.activeResource %}
 <h2 class="edit-header">Beheren</h2>
 
 
@@ -12,8 +12,8 @@
     <option {{'selected' if idea.status==='BUSY'}}     value="BUSY">    Status: In behandeling</option>
     <option {{'selected' if idea.status==='DONE'}}     value="DONE">    Status: Afgerond</option>
   </select>
-  <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
-  <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
+  <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
   <input type="hidden" name="_method" value="PUT">
 </form>
 

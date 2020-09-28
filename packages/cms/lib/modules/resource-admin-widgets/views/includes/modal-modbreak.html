@@ -1,4 +1,4 @@
-{% set idea = data.widget.activeResource %}
+{% set idea = data.activeResource %}
 <div id="modbreak" class="content-modal content-modal--s">
   <div class="content-modal-content">
     <div class="content-modal-header">
@@ -18,8 +18,8 @@
         </div>
 
         <input type="hidden" name="redirect-url" class="redirect-url"  value="{{data.currentUrl}}"  />
-        <input type="hidden" name="resourceId" value="{{data.widget.activeResourceId}}" />
-        <input type="hidden" name="resourceType" value="{{data.widget.activeResourceType}}" />
+        <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
+        <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
 
         <div class="row">
           <button type="submit" href="/oauth/login?returnTo={{data.currentUrl}}" class="btn-primary btn-primary--blue">

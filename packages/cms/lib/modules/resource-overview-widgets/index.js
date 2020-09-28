@@ -432,7 +432,7 @@ module.exports = {
       widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
       widget.activeResources = response.records ? response.records.map((record)=> {
         // delete because they are added to the data-attr and will get very big
-        delete record.description;
+      //  delete record.description;
         return record;
       }) : [];
 

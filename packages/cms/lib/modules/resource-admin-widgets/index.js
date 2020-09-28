@@ -76,6 +76,8 @@ module.exports = {
        widget.activeResourceEndpoint = options.activeResourceType;
 
        widget.extraFields = extraFields;
+
+       
        return superOutput(widget, options);
      };
 

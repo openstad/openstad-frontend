@@ -15,6 +15,6 @@
 
 {% if data.hasModeratorRights  %}
 {# Automatically look for an admin template to manage a resource, not all with have one #}
-{% include 'includes/crud/' + data.widget.activeResourceType + '-admin.html' ignore missing %}
+{% include 'includes/crud/' + data.activeResourceType + '-admin.html' ignore missing %}
 {% endif %}
 </div>
