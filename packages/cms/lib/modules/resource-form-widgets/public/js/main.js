@@ -338,6 +338,10 @@ function bindResourceFormValidation(resourceForm) {
         data: $(form).serialize(),
         dataType: 'json',
         success:function(response) {
+          console.log('->>>>', response);
+
+          var  redirectUrl = response.redirectUrl ? response.redirectUrl : false;
+
           $(form).removeClass('submitting');
           $(form).addClass('success-submit');
 
@@ -355,13 +359,18 @@ function bindResourceFormValidation(resourceForm) {
           }
 
           if (submittingFormCount === 0 && submittingErrorCount === 0) {
+
             var redirect = $(form).find('.form-redirect-uri').val();
             redirect = redirect.replace(':id', response.id);
+
+            redirectUrl = redirectUrl ? redirectUrl : redirect;
             //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-            window.location.replace(redirect);
+            window.location.href = (redirectUrl);
           }
         },
         error:function(response) {
+          console.log('->>>> eerr', response);
+
           $(form).removeClass('submitting');
           $(form).addClass('error-submit');
 

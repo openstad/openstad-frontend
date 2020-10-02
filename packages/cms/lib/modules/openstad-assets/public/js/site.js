@@ -163,6 +163,9 @@ function initAjaxForms ($e) {
        data: $form.serialize(),
   //     dataType: 'json',
        success:function(response) {
+
+         redirectUrl = response.redirectUrl ? response.redirectUrl : redirectUrl;
+
          if ($form.hasClass('ajax-refresh-after-submit')) {
            ajaxRefresh();
          } else if (redirectUrl) {

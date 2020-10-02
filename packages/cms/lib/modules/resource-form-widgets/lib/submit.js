@@ -26,6 +26,7 @@ module.exports = async function(self, options) {
         'Accept': 'application/json',
         "X-Authorization" : `Bearer ${req.session.jwt}`,
     };
+
     const data = req.body;
 
     //format image
@@ -59,9 +60,7 @@ module.exports = async function(self, options) {
     rp(options)
     .then(function (response) {
        res.setHeader('Content-Type', 'application/json');
-       res.end(JSON.stringify({
-         id: response.id
-       }));
+       res.end(JSON.stringify(response));
     })
     .catch(function (err) {
       console.log('err', err);

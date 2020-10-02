@@ -16,7 +16,7 @@ const fields = [
               label: "Static (default)"
             },
             {
-              value: 'checkout',
+              value: 'order',
               label: "Checkout (default)"
             },
             {

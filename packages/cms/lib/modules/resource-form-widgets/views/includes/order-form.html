@@ -16,13 +16,6 @@
   </div>
 </div>
 
-
-<div class="mb-3">
-  <label for="email">E-mail <span class="text-muted"></span></label>
-  <input type="text" class="form-control" id="email" name="email" placeholder="email">
-</div>
-
-
 <div class="mb-3">
   <label for="company">Bedrijf <span class="text-muted">(Optioneel)</span></label>
   <input type="text" class="form-control" id="company" name="company"  placeholder="">
@@ -49,20 +42,18 @@
 </div>
 
 
-
-
 <div>
 <label for="postcode">Stad <span class="text-muted"></span></label>
 <input type="text" class="form-control" id="city" name="city" placeholder="">
 </div>
 
 <div>
-<label for="postcode">Telefoon numme <span class="text-muted"></span></label>
-<input type="text" class="form-control" id="city" name="city" placeholder="">
+<label for="postcode">Telefoon nummer <span class="text-muted"></span></label>
+<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="">
 </div>
 
 {% for item in data.cart.items %}
-<input type="hidden" name="orderItems[{{loop.index}}][qty]" value="{{item.qty}}"  />
+<input type="hidden" name="orderItems[{{loop.index}}][quantity]" value="{{item.qty}}"  />
 <input type="hidden" name="orderItems[{{loop.index}}][productId]" value="{{item.id}}"  />
 {% endfor %}
 
