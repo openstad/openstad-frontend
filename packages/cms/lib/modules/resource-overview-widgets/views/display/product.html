@@ -44,7 +44,7 @@
 {% endif %}
 <ul
   id="ideaList"
-  class="ideas-list gridder"
+  class="ideas-list gridder shop"
   onclick="ideaListClick(event);"
   {% if data.widget.defaultSorting %}
   data-default-sort="{{data.widget.defaultSorting}}"
@@ -96,21 +96,21 @@
       <div class="row">
         <div class="col-xs-6">
         	<h3 class="title">{{idea.name}}</h3>
-          <p class="price"> {{idea.price}}</p>
+          <p class="price"> {{idea.price | currency}}</p>
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-6 product-change">
           {% if idea.cartItem and idea.cartItem.qty > 0 %}
-          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty + 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty + 1}}" data-product-id="{{idea.id}}" class="cart-add btn-group-last pull-right btn btn-primary">
             +
           </a>
-          <span class="qty">
+          <span class="qty pull-right btn btn-primary btn-qty">
             {{idea.cartItem.qty}}
           </span>
-          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty - 1}}" data-product-id="{{idea.id}}" class="cart-add pull-right btn btn-primary">
+          <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty - 1}}" data-product-id="{{idea.id}}" class="cart-add btn-group-first pull-right btn btn-primary">
             -
           </a>
           {% else %}
-          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" data-quantity="1"  class="cart-add pull-right btn btn-primary">
+          <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" data-quantity="1"  class="cart-add pull-right btn btn-primary cart-btn-add-circle">
             +
           </a>
           {% endif %}

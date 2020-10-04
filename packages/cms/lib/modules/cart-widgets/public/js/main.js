@@ -61,11 +61,11 @@ apos.define('cart-widgets', {
     }
 
     self.displayAddToCartSuccess = function () {
-      alert('toegevoegd')
+      //alert('toegevoegd')
     }
 
     self.displayAddToCartError = function () {
-      alert('error')
+      //alert('error')
     }
 
     self.bindCartActions();

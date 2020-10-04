@@ -19,6 +19,7 @@ module.exports = {
       self.pushAssets = function () {
         superPushAssets();
         self.pushAsset('script', 'main', { when: 'always' });
+        self.pushAsset('stylesheet', 'main', { when: 'always' });
       };
 
       self.expressMiddleware = {
@@ -29,12 +30,6 @@ module.exports = {
           next();
         }
       };
-
-      self.apos.app.get('/cart', (req, res) => {
-          let sess = req.session;
-          let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
-          return self.sendPage(req, '/cart', {});
-      });
 
       self.apos.app.get('/cart/remove/:id', (req, res) => {
         console.log('remove', req.session.cart)
@@ -52,8 +47,6 @@ module.exports = {
         let productId = parseInt(req.params.productId, 10);
         let qty = req.query.q ? parseInt(req.query.q, 10) : 1;
         const cart = req.session.cart ? {...req.session.cart} : false;
-
-        console.log('qty', qty)
 
         if (qty === 0) {
           Cart.removeFromCart(productId, req.session.cart);
@@ -78,13 +71,5 @@ module.exports = {
         res.redirect('/');
       });
 
-/*
-      self.apos.app.get('/checkout', (req, res) => {
-        let sess = req.session;
-        let cart = (typeof sess.cart !== 'undefined') ? sess.cart : false;
-
-        return self.sendPage(req, '/checkout', {});
-      });
-*/
     }
 };

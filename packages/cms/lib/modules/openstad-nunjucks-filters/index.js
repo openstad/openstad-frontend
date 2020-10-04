@@ -1,8 +1,9 @@
-const sanitize = require('sanitize-html');
-const dateFormat  = require('./dateFormat');
-const sanitizeConfig =  require('./sanitizeConfig');
-const addHttp =  require('./addHttp');
-const slugify =  require('./slugify');
+const sanitize        = require('sanitize-html');
+const dateFormat      = require('./dateFormat');
+const sanitizeConfig  =  require('./sanitizeConfig');
+const addHttp         =  require('./addHttp');
+const slugify         =  require('./slugify');
+const currency        =  require('./currency');
 
 module.exports = {
   construct: function(self, options) {
@@ -12,6 +13,11 @@ module.exports = {
 
     self.apos.templates.addFilter('ensureHttp', function (s) {
       return s ? addHttp(s) : '';
+    });
+
+    currency
+    self.apos.templates.addFilter('currency', function (s) {
+      return s ? currency(s) : '';
     });
 
 
