@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+* Add id & extraData to properties included in idea GET call with param includeUser=1
+* On update user of for all sites add check if site exists, otherwise update breaks
+
 ## 0.7.5 (2020-10-05)
 * Correct lat & lng parsing when uploading a polygon with geoJSON, it's lng, lat instead of more common used lat, lng
 
