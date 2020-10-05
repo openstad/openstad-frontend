@@ -42,7 +42,7 @@ router.route('/')
   .post(function(req, res, next) {
     // if geodata is set transform to polygon format this api expects
     if (req.body.geoJSON) {
-      req.body.polygon = formatGeoJsonToPolygon(req.body.geoJSON);;
+      req.body.polygon = formatGeoJsonToPolygon(req.body.geoJSON);
     }
 
     next();
