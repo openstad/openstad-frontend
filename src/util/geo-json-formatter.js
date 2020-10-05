@@ -13,7 +13,7 @@ exports.formatPolygonToGeoJson = (polygons) => {
         "geometry": {
           "type": "Polygon",
           "coordinates": polygons ? [polygons.map((polygon) => {
-            return [polygon.lat, polygon.lng];
+            return [polygon.lng, polygon.lat];
           })] : []
         }
       }
@@ -23,5 +23,5 @@ exports.formatPolygonToGeoJson = (polygons) => {
 
 exports.formatGeoJsonToPolygon = (geoJSON) => {
   if (!geoJSON || !geoJSON.features || !geoJSON.features[0] || !geoJSON.features[0].geometry || !geoJSON.features[0].geometry.coordinates || !geoJSON.features[0].geometry.coordinates[0]) return {};
-  return convertDbPolygonToLatLng(geoJSON.features[0].geometry);
+  return convertDbPolygonToLatLng(geoJSON.features[0].geometry, 1, 0);
 }

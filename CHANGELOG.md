@@ -1,7 +1,10 @@
 # Changelog
 
-## 0.7.4 (2020-09-22)
+## 0.7.5 (2020-10-05)
 * Hide exposed user fields
+
+## 0.7.4 (2020-09-22)
+* Define per user fields which role is allowed to see it
 
 ## 0.7.3 (2020-09-16)
 * Fix turned around clientId for admin site creation
