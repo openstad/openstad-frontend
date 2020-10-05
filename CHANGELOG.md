@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.7.5 (2020-10-05)
-* Hide exposed user fields
+* Correct lat & lng parsing when uploading a polygon with geoJSON, it's lng, lat instead of more common used lat, lng
 
 ## 0.7.4 (2020-09-22)
 * Define per user fields which role is allowed to see it
