@@ -160,11 +160,6 @@ module.exports = [
     label: 'Google Tag Manager Property ID (like GTM-xxxxx)'
   },
   {
-    type: 'boolean',
-    name: 'showAdminBar',
-    label: 'Show the admin bar for oauth admin users.'
-  },
-  {
     name: 'siteLogo',
     type: 'attachment',
     svgImages: true,
