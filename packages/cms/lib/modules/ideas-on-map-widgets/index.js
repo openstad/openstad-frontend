@@ -29,7 +29,7 @@ module.exports = {
 					label: 'Volledig',
 					value: 'complete',
 					showFields: [
-            'ideaName', 'typeLabel', 'typesFilterLabel'
+            'ideaName', 'typeLabel', 'typesFilterLabel', 'startWithListOpenOnMobile'
 					]
 				}
 			],
@@ -45,6 +45,7 @@ module.exports = {
       type: 'string',
       label: 'Height',
 		},
+
     {
       name: 'linkToCompleteUrl',
       type: 'string',
@@ -56,15 +57,76 @@ module.exports = {
       type: 'string',
       label: 'Link naar gebruikers pagina',
 		},
+
+		{
+			type: 'select',
+			name: 'startWithListOpenOnMobile',
+			label: 'Op mobiel opent de lijst van ideeen over de kaart',
+      def: false,
+			choices: [
+				{
+					label: 'Nee',
+					value: false
+				},
+				{
+					label: 'Ja',
+					value: true,
+				},
+			]
+		},
+
+		{
+			type: 'select',
+			name: 'canSelectLocation',
+			label: 'Op de kaart klikken selecteert een locatie',
+      def: true,
+			choices: [
+				{
+					label: 'Ja',
+					value: true,
+				},
+				{
+					label: 'Nee',
+					value: false
+				},
+			]
+		},
     
     { 
-      name: 'noSelectionHTML',
+      name: 'noSelectionLoggedInHTML',
       type: 'string',
-      label: 'noSelectionHTML',
-      help: 'Er is geen punt of plan geselecteerd',
+      label: 'noSelectionLoggedInHTML',
+      help: 'Er is geen punt of plan geselecteerd, met een {loginButton}.',
       textarea: true,
       required: false,
     },
+    { 
+      name: 'noSelectionNotLoggedInHTML',
+      type: 'string',
+      label: 'noSelectionNotLoggedInHTML',
+      help: 'Er is geen punt of plan geselecteerd, met een {addButton}.',
+      textarea: true,
+      required: false,
+    },
+
+		{
+			type: 'select',
+			name: 'showNoSelectionOnMobile',
+			label: 'Toon het noSelection blok op mobiel',
+      def: false,
+			choices: [
+				{
+					label: 'Nee',
+					value: false
+				},
+				{
+					label: 'Ja',
+					value: true,
+				},
+			]
+		},
+
+
     { 
       name: 'selectionActiveLoggedInHTML',
       type: 'string',
@@ -263,6 +325,48 @@ module.exports = {
       label: 'Select the default sorting',
       choices: sortingOptions
     },
+
+    {
+      name: 'showShareButtons',
+      type: 'boolean',
+      label: 'Display share buttons?',
+      choices: [
+        {
+          value: true,
+          label: "Yes",
+          showFields: ['shareChannelsSelection']
+        },
+        {
+          value: false,
+          label: "No"
+        },
+      ],
+      def: true
+    },
+    {
+      name: 'shareChannelsSelection',
+      type: 'checkboxes',
+      label: 'Select which share buttons you want to display (if left empty all social buttons will be shown)',
+      choices: [
+        {
+          value: 'facebook',
+          label: "Facebook"
+        },
+        {
+          value: 'twitter',
+          label: "Twitter"
+        },
+        {
+          value: 'mail',
+          label: "E-mail"
+        },
+        {
+          value: 'whatsapp',
+          label: "Whatsapp"
+        },
+      ]
+    },
+
     
     // ----------------------------------------------------------------------------------------------------
     // dit komt uit user-form en moet daarmee gelijk getrokken als dat echt werkt
@@ -277,6 +381,12 @@ module.exports = {
     //   label:    'Intro',
     //   textarea: true
     // },
+    {
+			type:	 'string',
+			name:	 'formUrl',
+      help:  'dit overschrijft de onderstaande formulier definitie',
+			label: 'Form Url',
+		},
     // TODO: dit is al de zovelste kopie en moet dus naar een lib
     {
       name:       'formFields',
@@ -383,17 +493,17 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typeLabel', 'typesFilterLabel']
+        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typeLabel', 'typesFilterLabel', 'startWithListOpenOnMobile']
       },
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius' ]
+        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation' ]
       },
       {
         name: 'content',
         label: 'Content',
-        fields: ['linkToUserPageUrl', 'noSelectionHTML', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['linkToUserPageUrl', 'noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'sort',
@@ -401,14 +511,19 @@ module.exports = {
         fields: ['selectedSorting', 'defaultSorting']
       },
       {
+        name: 'idea-details',
+        label: 'Idee details',
+        fields: ['showShareButtons', 'shareChannelsSelection']
+      },
+      {
         name: 'reactions',
         label: 'Reacties',
         fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'closeReactionsForIdeaIds', ]
       },
       {
-        name: 'form',
-        label: 'Formulier',
-        fields: ['formFields', 'beforeUrl', 'beforeLabel', 'afterUrl', 'afterLabel',]
+        name: 'idea-form',
+        label: 'Idee formulier',
+        fields: ['formUrl', 'formFields']
       },
     ]);
 
@@ -447,13 +562,16 @@ module.exports = {
         let contentConfig = {
           ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
         };
-        if (widget.noSelectionHTML) contentConfig.noSelectionHTML = widget.noSelectionHTML;
+        if (widget.noSelectionHTML) contentConfig.noSelectionHTML = widget.noSelectionHTML; // tmp voor oude data
+        if (widget.noSelectionLoggedInHTML) contentConfig.noSelectionLoggedInHTML = widget.noSelectionLoggedInHTML;
+        if (widget.noSelectionNotLoggedInHTML) contentConfig.noSelectionNotLoggedInHTML = widget.noSelectionNotLoggedInHTML;
         if (widget.selectionActiveLoggedInHTML) contentConfig.selectionActiveLoggedInHTML = widget.selectionActiveLoggedInHTML;
         if (widget.selectionInactiveLoggedInHTML) contentConfig.selectionInactiveLoggedInHTML = widget.selectionInactiveLoggedInHTML;
         if (widget.mobilePreviewLoggedInHTML) contentConfig.mobilePreviewLoggedInHTML = widget.mobilePreviewLoggedInHTML;
         if (widget.selectionActiveNotLoggedInHTML) contentConfig.selectionActiveNotLoggedInHTML = widget.selectionActiveNotLoggedInHTML;
         if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
         if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
+        contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
 
         // allowMultipleImages to formfields
         let formFields = [ ...widget.formFields ];
@@ -483,6 +601,9 @@ module.exports = {
 					displayHeight: widget.displayHeight,
 					linkToCompleteUrl: widget.linkToCompleteUrl,
 
+          canSelectLocation: widget.canSelectLocation,
+          startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
+
           linkToUserPageUrl: widget.linkToUserPageUrl,
 
           content: contentConfig,
@@ -492,6 +613,7 @@ module.exports = {
           typeLabel: widget.typeLabel,
           typesFilterLabel: widget.typesFilterLabel,
 			    idea: {
+            formUrl: widget.formUrl,
             showVoteButtons: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? req.data.global.siteConfig.ideas.showVoteButtons : true,
             showLabels: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.showLabels != 'undefined' ? req.data.global.siteConfig.ideas.showLabels : true,
             canAddNewIdeas: req.data.global.siteConfig && req.data.global.siteConfig.ideas && typeof req.data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? req.data.global.siteConfig.ideas.canAddNewIdeas : true,
@@ -508,6 +630,7 @@ module.exports = {
 				      fetch: '/image',
             },
             fields: formFields,
+            shareChannelsSelection: widget.showShareButtons ? widget.shareChannelsSelection : [],
             sort: {
               sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
               showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,

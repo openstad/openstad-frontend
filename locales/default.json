@@ -604,5 +604,16 @@
 	"Successful": "Successful",
 	"Errors": "Errors",
 	"Completed": "Completed",
-	"Groot Midden Amsterdams": "Groot Midden Amsterdams"
+	"Groot Midden Amsterdams": "Groot Midden Amsterdams",
+	"Idee details": "Idee details",
+	"Idee formulier": "Idee formulier",
+	"Op mobiel opent de lijst van ideeen over de kaart": "Op mobiel opent de lijst van ideeen over de kaart",
+	"Op de kaart klikken selecteert een locatie": "Op de kaart klikken selecteert een locatie",
+	"noSelectionLoggedInHTML": "noSelectionLoggedInHTML",
+	"Er is geen punt of plan geselecteerd, met een {loginButton}.": "Er is geen punt of plan geselecteerd, met een {loginButton}.",
+	"noSelectionNotLoggedInHTML": "noSelectionNotLoggedInHTML",
+	"Er is geen punt of plan geselecteerd, met een {addButton}.": "Er is geen punt of plan geselecteerd, met een {addButton}.",
+	"Toon het noSelection blok op mobiel": "Toon het noSelection blok op mobiel",
+	"Form Url": "Form Url",
+	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie"
 }
