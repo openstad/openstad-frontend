@@ -8,7 +8,8 @@
 * Add siteId option to resource overview, allowing for displaying
 * Add ability to link to resource pages with complexer placeholder url (For example #idea:id)
 * Remove deprecated show admin bar
-* Update default openstad logo 
+* Update default openstad logo
+* Add raw, hidden input field and option to fill from url
 
 ## 0.7.2 (2020-09-28)
 * Fix for resource admin buttons not appearing
