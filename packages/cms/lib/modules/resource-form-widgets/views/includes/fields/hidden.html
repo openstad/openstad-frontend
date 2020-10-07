@@ -1,3 +1,4 @@
+
 {% if activeResource %}
   {% if field.notExtraDataKey %}
   {% set fieldValue = activeResource[field.fieldKey] %}
@@ -14,9 +15,8 @@
   {% endif %}
 {% endif %}
 
-
 <input
-  type="text"
+  type="hidden"
   id="{{field.fieldKey}}_input"
   class="chars-counter"
   minlength="{{field.fieldMin if field.fieldMin else 2}}"
@@ -26,8 +26,9 @@
   {% else %}
   name="extraData[{{field.fieldKey}}]"
   {% endif %}
+  {% if fieldValue %}
   value="{{fieldValue}}"
-
+  {% endif %}
   {% if field.fieldRequired %}required{% endif %}
 />
 <div id="charsLeft{{field.fieldKey}}" class="charsLeft">

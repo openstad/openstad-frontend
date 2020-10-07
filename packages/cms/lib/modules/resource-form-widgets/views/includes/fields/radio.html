@@ -1,3 +1,20 @@
+{% if activeResource %}
+  {% if field.notExtraDataKey %}
+  {% set fieldValue = activeResource[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = activeResource.extraData[field.fieldKey] %}
+  {% endif %}
+{% endif %}
+
+{% if not fieldValue %}
+  {% if data.query[field.fieldKey] %}
+  {% set fieldValue = data.query[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = field.fieldValue %}
+  {% endif %}
+{% endif %}
+
+
 <div class="radio-container">
   {% for option in field.fieldOptions %}
   <div class="radio">
@@ -10,8 +27,11 @@
       {% endif %}
       value="{{option.value}}"
       id="radio-{{loop.index}}-{{option.value}}"
+      {% if fieldValue %}
+      checked
+      {% endif %}
       {% if field.fieldRequired %}required{% endif %}
-      {% if activeResource.extraData[field.fieldKey] === option.value %}checked{% endif %}
+      {% if fieldValue === option.value %}checked{% endif %}
     />
 
     <label for="radio-{{loop.index}}-{{option.value}}" class="radio-label">

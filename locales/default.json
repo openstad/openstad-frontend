@@ -604,5 +604,15 @@
 	"Successful": "Successful",
 	"Errors": "Errors",
 	"Completed": "Completed",
-	"Groot Midden Amsterdams": "Groot Midden Amsterdams"
+	"Groot Midden Amsterdams": "Groot Midden Amsterdams",
+	"Hidden": "Hidden",
+	"Raw": "Raw",
+	"Default value (will be overwritten by url and resource value)": "Default value (will be overwritten by url and resource value)",
+	"Save field in root if data object and not in extraData, will only work if column exists in database)": "Save field in root if data object and not in extraData, will only work if column exists in database)",
+	"Only show to moderators": "Only show to moderators",
+	"This related item may also be visible on the page. Please consider it first so that your final commit is more complete.": "This related item may also be visible on the page. Please consider it first so that your final commit is more complete.",
+	"Commit all like this": "Commit all like this",
+	"Skip all like this": "Skip all like this",
+	"Skip": "Skip",
+	"The document was committed successfully.": "The document was committed successfully."
 }
