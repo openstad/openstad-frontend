@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.6 (2020-10-07)
+* Votes were viewable when they should not be
+
 ## 0.7.5 (2020-10-05)
 * Correct lat & lng parsing when uploading a polygon with geoJSON, it's lng, lat instead of more common used lat, lng
 

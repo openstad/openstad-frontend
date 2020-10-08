@@ -22,6 +22,23 @@ router
 
     req.scope.push('includeSite');
 
+    // in case the votes are archived don't use these queries
+    // this means they can be cleaned up from the main table for performance reason
+    if (!req.site.config.archivedVotes) {
+      if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+        req.scope.push('includeVoteCount');
+      }
+
+      if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
+        // ik denk dat je daar niet het hele object wilt?
+        req.scope.push({ method: ['includeUserVote', req.user.id] });
+      }
+    }
+    // because includeVoteCount is used in other locations but should only be active if isViewable
+    if (req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+      req.canIncludeVoteCount = true; // scope.push(undefined) would be easier but creates an error
+    }
+
     /**
      * Old sort for backward compatibility
      */
@@ -30,7 +47,7 @@ router
       //res.cookie('idea_sort', sort, { expires: 0 });
 
       if (sort == 'votes_desc' || sort == 'votes_asc') {
-        req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
+        if (req.canIncludeVoteCount) req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
       }
       req.scope.push({ method: ['sort', req.query.sort] });
     }
@@ -79,19 +96,6 @@ router
 
     if (req.query.includeUser) {
       req.scope.push('includeUser');
-    }
-
-    // in case the votes are archived don't use these queries
-    // this means they can be cleaned up from the main table for performance reason
-    if (!req.site.config.archivedVotes) {
-      if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-        req.scope.push('includeVoteCount');
-      }
-
-      if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
-        // ik denk dat je daar niet het hele object wilt?
-        req.scope.push({ method: ['includeUserVote', req.user.id] });
-      }
     }
 
     // todo? volgens mij wordt dit niet meer gebruikt
@@ -212,7 +216,8 @@ router.route('/')
 		  .setTags(req.body.tags)
 			.then(tags => {
 		    // refetch. now with tags
-		    let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+		    let scope = [...req.scope, 'includeTags']
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
 			  return db.Idea
 				  .scope(...scope)
 				  .findOne({
@@ -237,8 +242,11 @@ router.route('/:ideaId(\\d+)')
 	.all(function(req, res, next) {
 		var ideaId = parseInt(req.params.ideaId) || 1;
 
+		let scope = [...req.scope];
+    if (req.canIncludeVoteCount) scope.push('includeVoteCount')
+
 		db.Idea
-			.scope(...req.scope, 'includeVoteCount')
+			.scope(...scope)
 			.findOne({
 				where: { id: ideaId, siteId: req.params.siteId }
 			})
@@ -325,7 +333,8 @@ router.route('/:ideaId(\\d+)')
 			.setTags(req.tags)
 			.then(result => {
         // refetch. now with tags
-        let scope = [...req.scope, 'includeVoteCount', 'includeTags']
+        let scope = [...req.scope, 'includeTags']
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
 		    return db.Idea
 			    .scope(...scope)
 			    .findOne({
