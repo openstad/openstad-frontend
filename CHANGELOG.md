@@ -4,8 +4,13 @@
 * Add id & extraData to properties included in idea GET call with param includeUser=1
 * On update user of for all sites add check if site exists, otherwise update breaks
 * If extraData.images is set then the new value ovreplaces the old value instead of being merged (it waas impossible to delete images)
+
+## 0.7.6 (2020-10-07)
+* Votes were viewable when they should not be
+
 ## 0.7.5 (2020-10-05)
 * Correct lat & lng parsing when uploading a polygon with geoJSON, it's lng, lat instead of more common used lat, lng
+
 ## 0.7.4 (2020-09-22)
 * Define per user fields which role is allowed to see it
 
