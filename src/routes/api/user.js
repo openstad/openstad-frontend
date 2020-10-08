@@ -238,9 +238,52 @@ router.route('/:userId(\\d+)')
 
 // delete idea
 // ---------
-	.delete(auth.can('user:delete'))
-	.delete(function(req, res, next) {
-		req.results
+	.delete(auth.can('User', 'delete'))
+	.delete(async function(req, res, next) {
+    const user = req.results;
+
+    /**
+     * An oauth user can have multiple users in the api, every site has it's own user and right
+     * In case for this oauth user there is only one site user in the API we also delete the oAuth user
+     * Otherwise we keep the oAuth user since it's still needed for the other website
+     */
+    const userForAllSites = await db.User.findAndCountAll({ where: { externalUserId: user.externalUserId } });
+
+    if (userForAllSites.length > 0) {
+      let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default'] ) || {};
+      let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+      let authUserDeleteUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId + '/delete';
+      let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+      let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+
+      const apiCredentials = {
+       client_id: authClientId,
+       client_secret: authClientSecret,
+      }
+
+      const options = {
+       method: 'post',
+       hseaders: {
+         'Content-Type': 'application/json',
+       },
+       mode: 'cors',
+       body: JSON.stringify(Object.assign(apiCredentials, data))
+      }
+
+      await fetch(authUserDeleteUrl, options);
+    }
+
+   /**
+    * Delete all connected arguments, votes and ideas created by the user
+    */
+    await db.Idea.where({ userId: req.results.id }).destroy();
+    await db.Argument.where({ userId: req.results.id }).destroy();
+    await db.Vote.where({ userId: req.results.id }).destroy();
+
+    /**
+     * Make anonymous? Delete posts
+     */
+		return req.results
 			.destroy()
 			.then(() => {
 				res.json({ "user": "deleted" });

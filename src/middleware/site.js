@@ -22,7 +22,7 @@ module.exports = function( req, res, next ) {
 
   const where = { id: siteId }
 
-  db.Site
+  return db.Site
   	.findOne({ where })
   	.then(function( found ) {
   		if (!found) return next(new createError('400', 'Site niet gevonden'));
