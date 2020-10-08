@@ -1,4 +1,4 @@
-	# Changelog
+# Changelog
 
 ## UNRELEASED
 * Feature: ideas-on-map has a simple view
@@ -10,6 +10,13 @@
 * Remove deprecated show admin bar
 * Update default openstad logo
 * Add raw, hidden input field and option to fill from url
+
+## 0.7.4
+* Hotfix: make resource form is usable by any moderator, not just admins
+
+## 0.7.3
+* Fix for html containerId using widget._id for icon-section, otherwise when duplicating multiple sections share the same html id
+* Fix for styling issue CTA button in hamburger menu
 
 ## 0.7.2 (2020-09-28)
 * Fix for resource admin buttons not appearing
