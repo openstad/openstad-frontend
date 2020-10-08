@@ -59,7 +59,7 @@ module.exports = {
           req.data.activeResource = activeResource;
 
           if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
-            rp({
+            return rp({
                 uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
                 headers: headers,
                 json: true // Automatically parses the JSON string in the response
@@ -99,13 +99,15 @@ module.exports = {
       // for editing that's really annoying
       if (req.data.activeResourceType === 'activeUser') {
       //  req.data.activeResource = req.data.openstadUser;
-        req.data.activeResourceId = req.data.openstadUser.id;
+        req.data.activeResourceId = req.data.openstadUser && req.data.openstadUser.id ? req.data.openstadUser.id : false;
         req.data.activeResourceType = req.data.page.resource;
 
-        self.fetchResourceData(req, callback);
+        return self.fetchResourceData(req, callback);
       } else if (!req.user) {
         req.notFound = true;
-        callback(null);
+        return callback(null);
+      } else {
+        return callback(null);
       }
 
     });

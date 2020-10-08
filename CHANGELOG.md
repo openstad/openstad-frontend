@@ -2,14 +2,19 @@
 
 ## UNRELEASED
 * Feature: ideas-on-map has a simple view
-* Feature: ideas-on-map details can link to userpage
+* Feature: ideas-on-map details can link to user profile page
 * Bugfix: counterbuttons will now work if multiple buttons on exist on a page
-* Bugfix: counterbuttons will no longer show -1
-* Add siteId option to resource overview, allowing for displaying
-* Add ability to link to resource pages with complexer placeholder url (For example #idea:id)
-* Remove deprecated show admin bar
+* Bugfix: counterbuttons will no longer show -1 on zero votes
+* Bugfix: Edit url in resource overview with gridder would only work with resource type Idea, now will work with every resource type
+* Bugfix: added callback for resource page, in some cases an endless loading page would appear
+* Add field to resource overview  edit to base edit url for gridder overview edit link ("bewerken")
+* Add siteId option to resource overview, allowing for displaying ideas and other resources from other site in an overview
+* Add ability to link to resource pages with complexer placeholder url (For example #idea:id -> #idea8)
+* Remove deprecated show admin bar field from global
 * Update default openstad logo
-* Add raw, hidden input field and option to fill from url
+* Add raw and hidden input field to resource form, and option to prefill dynamic fields from url
+* Resource form give warning when leaving with unsaved changes
+
 
 ## 0.7.2 (2020-09-28)
 * Fix for resource admin buttons not appearing

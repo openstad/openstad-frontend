@@ -615,5 +615,8 @@
 	"Er is geen punt of plan geselecteerd, met een {addButton}.": "Er is geen punt of plan geselecteerd, met een {addButton}.",
 	"Toon het noSelection blok op mobiel": "Toon het noSelection blok op mobiel",
 	"Form Url": "Form Url",
-	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie"
+	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie",
+	"Save Iframe": "Save Iframe",
+	"Url": "Url",
+	"Styles for the iFrame": "Styles for the iFrame"
 }
