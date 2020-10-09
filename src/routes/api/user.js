@@ -9,6 +9,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
+const fetch = require('node-fetch');
 
 
 const router = express.Router({ mergeParams: true });
@@ -252,9 +253,13 @@ router.route('/:userId(\\d+)')
      * In case for this oauth user there is only one site user in the API we also delete the oAuth user
      * Otherwise we keep the oAuth user since it's still needed for the other website
      */
-    const userForAllSites = await db.User.findAndCountAll({ where: { externalUserId: user.externalUserId } });
+    const userForAllSites = await db.User.findAll({ where: { externalUserId: user.externalUserId } });
 
-    if (userForAllSites.length > 0) {
+
+    if (userForAllSites.length <= 1) {
+      /*
+        @todo move this calls to oauth to own apiClient
+       */
       let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default'] ) || {};
       let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
       let authUserDeleteUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId + '/delete';
@@ -267,23 +272,25 @@ router.route('/:userId(\\d+)')
       }
 
       const options = {
-       method: 'post',
-       hseaders: {
+       method: 'POST',
+       headers: {
          'Content-Type': 'application/json',
        },
        mode: 'cors',
-       body: JSON.stringify(Object.assign(apiCredentials, data))
+       body: JSON.stringify(apiCredentials)
       }
 
-      await fetch(authUserDeleteUrl, options);
+      authUserDeleteUrl = authUserDeleteUrl + '?client_id=' +authClientId +'&client_secret=' + authClientSecret;
+
+      const result = await fetch(authUserDeleteUrl, options);
     }
 
    /**
     * Delete all connected arguments, votes and ideas created by the user
     */
-    await db.Idea.where({ userId: req.results.id }).destroy();
-    await db.Argument.where({ userId: req.results.id }).destroy();
-    await db.Vote.where({ userId: req.results.id }).destroy();
+    await db.Idea.destroy({where:{ userId: req.results.id }});
+    await db.Argument.destroy({where:{ userId: req.results.id }});
+    await db.Vote.destroy({where:{ userId: req.results.id }});
 
     /**
      * Make anonymous? Delete posts
@@ -291,7 +298,7 @@ router.route('/:userId(\\d+)')
 		return req.results
 			.destroy()
 			.then(() => {
-				res.json({ "user": "deleted" });
+				 res.json({ "user": "deleted" });
 			})
 			.catch(next);
 	})
