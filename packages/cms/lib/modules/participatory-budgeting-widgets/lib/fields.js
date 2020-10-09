@@ -57,7 +57,7 @@ const fields = [
       {
         label: 'Budgeting',
         value: 'budgeting',
-        showFields: [ 'initialAvailableBudget', 'minimalBudgetSpent' ]
+        showFields: [ 'maxIdeas', 'minIdeas', 'initialAvailableBudget', 'minimalBudgetSpent' ]
       },
       {
         label: 'Budgeting per thema',
@@ -67,7 +67,6 @@ const fields = [
         label: 'Count',
         value: 'count',
         showFields: [ 'maxIdeas', 'minIdeas' ]
-
       },
     ]
   },
