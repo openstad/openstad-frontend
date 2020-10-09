@@ -72,6 +72,33 @@ module.exports = {
           return req.res.redirect(pageData.notLoggedInRedirect);
         }
 
+        const globalData = req.data.global;
+        const requiredUserFieldsFilled = function (user, requiredFields) {
+          let filled = !!requiredFields;
+
+
+          if (requiredFields) {
+            const userData = {
+              ...user,
+              ...user.extraData
+            }
+            
+            requiredFields.forEach((field) => {
+              if (!userData[field.key]) {
+                filled = false;
+              }
+            })
+          }
+
+          return filled;
+        }
+        //move to gla
+        if (pageData && pageData.requiredAccountPage) {
+          if (!req.data.loggedIn || !requiredUserFieldsFilled(req.data.openstadUser, globalData.requiredUserFields)) {
+            if (pageData.url !== globalData.requiredUserFieldsPage) return req.res.redirect(globalData.requiredUserFieldsPage);
+          }
+        }
+
         self.setActiveIdeaId(req);
         self.addRankingToIdeas(req);
 
