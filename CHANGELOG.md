@@ -14,7 +14,7 @@
 * Update default openstad logo
 * Add raw and hidden input field to resource form, and option to prefill dynamic fields from url
 * Resource form give warning when leaving with unsaved changes
-* Add, ability to hide the edit and delete button in resource admin button, for existing sites need to be set to display manually
+* Add ability to hide the edit and delete button in resource admin button, for existing sites need to be set to display manually
 
 
 ## 0.7.2 (2020-09-28)
