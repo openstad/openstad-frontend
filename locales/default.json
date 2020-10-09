@@ -618,5 +618,18 @@
 	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie",
 	"Save Iframe": "Save Iframe",
 	"Url": "Url",
-	"Styles for the iFrame": "Styles for the iFrame"
+	"Styles for the iFrame": "Styles for the iFrame",
+	"Edit Ideas": "Edit Ideas",
+	"Korte beschrijving:": "Korte beschrijving:",
+	"Stemmen voor:": "Stemmen voor:",
+	"Stemmen tegen:": "Stemmen tegen:",
+	"Aantal argumenten:": "Aantal argumenten:",
+	"Area Structure": "Area Structure",
+	"Show edit button?": "Show edit button?",
+	"Show delete button?": "Show delete button?",
+	"Hidden": "Hidden",
+	"Raw": "Raw",
+	"Default value (will be overwritten by url and resource value)": "Default value (will be overwritten by url and resource value)",
+	"Save field in root if data object and not in extraData, will only work if column exists in database)": "Save field in root if data object and not in extraData, will only work if column exists in database)",
+	"Only show to moderators": "Only show to moderators"
 }
