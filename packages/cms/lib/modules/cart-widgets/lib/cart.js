@@ -31,7 +31,9 @@ class Cart {
 
       if (productInCart) {
         cart.items = cart.items.map((item) => {
-          item.qty = replaceQuantity ? qty : (qty + qty);
+          if (product.id === item.product.id) {
+            item.qty = replaceQuantity ? qty : (qty + qty);
+          }
           return item;
         });
       } else {

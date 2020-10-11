@@ -50,7 +50,7 @@ module.exports = {
 
         if (qty === 0) {
           Cart.removeFromCart(productId, req.session.cart);
-        } else if(qty > 0) {
+        } else if (qty > 0) {
           const product = req.data.products.find(product => product.id === productId);
           const cart = req.session.cart ? {...req.session.cart} : false;
 

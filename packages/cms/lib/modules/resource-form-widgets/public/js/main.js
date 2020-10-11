@@ -8,6 +8,22 @@ apos.define('resource-form-widgets', {
   extend: 'map-widgets',
   construct: function (self, options) {
 
+    self.initPlaceholderLabel = function ($widget) {
+      var $hipInputElements = $widget.find('.hip-label input, .hip-label textarea');
+      var handleElementClass = function (el) {
+        var $el = $(el);
+
+        if ($el.val().length > 0) {
+          $el.closest('.hip-label').addClass('hip-active');
+        } else {
+          $el.closest('.hip-label').removeClass('hip-active');
+        }
+      }
+
+      $hipInputElements.each(function() { handleElementClass(this) });
+      $hipInputElements.on('keyup', function (el) { handleElementClass(this) });
+    }
+
     self.initRepeatableForm = function ($widget) {
       // add first form
 
@@ -101,6 +117,8 @@ apos.define('resource-form-widgets', {
       }
 
       self.initRepeatableForm($widget);
+
+      self.initPlaceholderLabel($widget);
 
       $widget.find('.resource-form').each(function(){
         var form = this;

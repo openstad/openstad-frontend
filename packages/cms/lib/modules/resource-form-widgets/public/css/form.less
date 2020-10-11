@@ -15,6 +15,8 @@
     font: inherit;
     padding: .4em .6em;
     width: 100%;
+		box-shadow: none;
+
 	}
 
 	textarea,
@@ -336,4 +338,41 @@ textarea:disabled {
 	border: 0;
   width: 320px;
   height: 180px;
+}
+
+
+.hip-label {
+	position: relative;
+
+	input[type="text"],
+	input[type="date"],
+	input[type="phone"],
+	input[type="email"],
+	input[type="number"],
+	textarea,
+	trix-editor{
+		border-radius: 4px;
+    padding: 13px 5px;
+    height: auto;
+    border-color: #848484;
+    color: #979797;
+	}
+
+	label.hip {
+		position: absolute;
+    top: 13px;
+    left: 1rem;
+    transition: all .1s ease-in-out;
+    cursor: text;
+    color: #979797;
+    font-weight: normal;
+    background: transparent;
+	}
+
+	&.hip-active label.hip,  :focus + label.hip{
+		color: #66afe9;
+    top: -3px;
+    font-size: 11px;
+	}
+
 }

@@ -11,17 +11,17 @@
               </div>
               <div class="col-xs-4 text-right product-change">
                   {% if item and item.qty > 0 %}
-                  <a href="/cart/{{idea.id}}" data-quantity="{{item.qty + 1}}" data-product-id="{{idea.id}}" class="cart-add btn-group-last pull-right btn btn-primary">
+                  <a href="/cart/{{item.product.id}}" data-quantity="{{item.qty + 1}}" data-product-id="{{item.product.id}}" class="cart-add btn-group-last pull-right btn btn-primary">
                     +
                   </a>
                   <span class="qty pull-right btn btn-primary btn-qty">
                     {{item.qty}}
                   </span>
-                  <a href="/cart/{{idea.id}}" data-quantity="{{item.qty - 1}}" data-product-id="{{idea.id}}" class="cart-add btn-group-first pull-right btn btn-primary">
+                  <a href="/cart/{{item.product.id}}" data-quantity="{{item.qty - 1}}" data-product-id="{{item.product.id}}" class="cart-add btn-group-first pull-right btn btn-primary">
                     -
                   </a>
                   {% else %}
-                  <a href="/cart/{{idea.id}}" data-product-id="{{idea.id}}" data-quantity="1"  class="cart-add pull-right btn btn-primary cart-btn-add-circle">
+                  <a href="/cart/{{item.product.id}}" data-product-id="{{idea.id}}" data-quantity="1"  class="cart-add pull-right btn btn-primary cart-btn-add-circle">
                     +
                   </a>
                   {% endif %}
@@ -46,5 +46,4 @@
       <br />
       <strong>Total: {{ data.cart.totals.toFixed(2) | currency }}</strong>
   </div>
-  <hr>
 </div>

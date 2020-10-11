@@ -4,9 +4,33 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+const newResourceObject = {
+  type: 'step',
+  data: {}
+}
+
+const listItems = [
+  {
+    type: 'step',
+    data: {
+      title: 'Step 1',
+    }
+  },
+  {
+    type: 'step',
+    data: {
+      title: 'Step 2',
+    }
+  },
+]
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      newResourceObject={newResourceObject}
+      resourceItems={listItems}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
