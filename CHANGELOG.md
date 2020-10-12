@@ -10,6 +10,7 @@
 * Remove deprecated show admin bar
 * Update default openstad logo
 * Add raw, hidden input field and option to fill from url
+* Add min/max number of to budgeting voting
 
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
