@@ -300,11 +300,14 @@ router.route('/*')
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
 			budget += idea.budget;
 		});
-		if (budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget) {
-			return next();
+		if (!( budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget )) {
+		  return next(createError(400, 'Budget klopt niet'));
 		}
-		return next(createError(400, 'Budget klopt niet'));
-	})
+		if (!( req.votes.length >= req.site.config.votes.minIdeas && req.votes.length <= req.site.config.votes.maxIdeas )) {
+		  return next(createError(400, 'Aantal ideeen klopt niet'));
+		}
+		return next();
+  })
 
   // validaties voor voteType=budgeting-per-theme
 	.post(function(req, res, next) {
