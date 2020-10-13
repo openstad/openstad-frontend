@@ -36,6 +36,7 @@
   background: #fdfdfd;
   border-left: 1px solid #f4f4f4;
   transition: all 1000ms ease-in-out;
+  z-index: 1000;
 }
 
 .RightPanel.open {
