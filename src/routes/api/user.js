@@ -296,7 +296,7 @@ router.route('/:userId(\\d+)')
      * Make anonymous? Delete posts
      */
 		return req.results
-			.destroy()
+			.destroy({force: true})
 			.then(() => {
 				 res.json({ "user": "deleted" });
 			})
