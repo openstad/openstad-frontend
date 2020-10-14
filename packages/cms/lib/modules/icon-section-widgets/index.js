@@ -118,7 +118,7 @@ module.exports = {
         self.load       = (req, widgets, callback) => {
             widgets.forEach((widget) => {
                 if (widget.containerStyles) {
-                    const containerId               = widget.containerId ? widget.containerId : widget._id;
+                    const containerId               = widget._id;
                     widget.containerId              = containerId;
                     widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
                 }

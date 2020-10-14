@@ -1,4 +1,4 @@
-	# Changelog
+# Changelog
 
 ## UNRELEASED
 * Feature: ideas-on-map has a simple view
@@ -15,7 +15,15 @@
 * Add raw and hidden input field to resource form, and option to prefill dynamic fields from url
 * Resource form give warning when leaving with unsaved changes
 * Add ability to hide the edit and delete button in resource admin button, for existing sites need to be set to display manually
+* Add min/max number of to budgeting voting
 
+## 0.7.4
+* Hotfix: make resource form is usable by any moderator, not just admins
+
+## 0.7.3
+* Fix for html containerId using widget._id for icon-section, otherwise when duplicating multiple sections share the same html id
+* Fix for styling issue CTA button in hamburger menu
+>>>>>>> cbffc150714c14d324c7ee9303cb0c9ef5272757
 
 ## 0.7.2 (2020-09-28)
 * Fix for resource admin buttons not appearing
