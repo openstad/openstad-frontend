@@ -9,7 +9,7 @@
 <div class="flex-col flex-col-{{columns}}">
 {% for idea in data.widget.activeResources %}
 
-{% if data.widget.pathForResource.includes(':id') %}
+{% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
 {% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
 {% else %}
 {% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
