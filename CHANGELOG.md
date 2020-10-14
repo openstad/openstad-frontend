@@ -7,6 +7,7 @@
 * Bugfix: counterbuttons will no longer show -1 on zero votes
 * Bugfix: Edit url in resource overview with gridder would only work with resource type Idea, now will work with every resource type
 * Bugfix: added callback for resource page, in some cases an endless loading page would appear
+* Bugfix: Display showVoteCounter field when gridder option is selected in resource overview widget
 * Add field to resource overview  edit to base edit url for gridder overview edit link ("bewerken")
 * Add siteId option to resource overview, allowing for displaying ideas and other resources from other site in an overview
 * Add ability to link to resource pages with complexer placeholder url (For example #idea:id -> #idea8)
