@@ -45,10 +45,6 @@ const flagChoices = [
     value: 'red'
   },
   {
-    label: 'Donkerrood',
-    value: 'dark-red'
-  },
-  {
     label: 'Paars',
     value: 'purple'
   },
