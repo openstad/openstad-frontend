@@ -36,6 +36,7 @@ module.exports = {
            //let newBody = qs.stringify(body, { skipNulls: true })
              try {
                newBody = JSON.stringify(body);
+               proxyReq.setHeader( 'content-length', Buffer.byteLength(newBody, 'utf8'));
                proxyReq.write( newBody );
                proxyReq.end();
              } catch (e) {
