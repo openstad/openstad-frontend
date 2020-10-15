@@ -17,6 +17,7 @@
 * Resource form give warning when leaving with unsaved changes
 * Add ability to hide the edit and delete button in resource admin button, for existing sites need to be set to display manually
 * Add min/max number of to budgeting voting
+* Remove content-length for body api proxy, this breaks with special characters
 
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
