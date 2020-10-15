@@ -2,8 +2,8 @@
   height: 60px;
   background: #ffffff;
   border-bottom: 1px solid #f4f4f4;
-      z-index: 2;
-      position: relative;
+  z-index: 2;
+  position: relative;
 }
 
 .LeftPanel {
@@ -41,4 +41,35 @@
 
 .RightPanel.open {
   right: 0;
+}
+
+.device-wrapper-mobile {
+  background-image: url(/mobile-device.png);
+  width: 340px;
+  height: 632px;
+  margin: 0 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  padding: 1px;
+}
+
+.device-wrapper-inner {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  position: absolute;
+  top: 43px;
+  left: 17px;
+  right: 16px;
+  bottom: 43px;
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
 }

@@ -8,10 +8,15 @@ import TopPanel from './Layout/TopPanel.js';
 import MiddlePanel from './Layout/MiddlePanel.js';
 import RightPanel from './Layout/RightPanel.js';
 import ListItem from './Layout/ListItem.js';
+import AppPreviewer from './Layout/AppPreviewer.js';
 
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
+
+
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 const position = [52.370216, 4.895168]
 
@@ -25,9 +30,10 @@ L.Icon.Default.mergeOptions({
 });
 
 function TourMap(props) {
+
   return (<Map center={position} zoom={17} style={{ width: '100%', height: '500px'}}>
     <TileLayer
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
       attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
     />
     {props.steps.map(function(step) {
@@ -50,9 +56,12 @@ function TourList () {
 }
 
 function TourAudioPlayer () {
-  return (<div>
-
-  </div>)
+  return (<div className="bottom-bar"><AudioPlayer
+    autoPlay={false}
+    src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    onPlay={e => console.log("onPlay")}
+    // other props here
+  /></div>)
 }
 
 function TourDetailView () {
@@ -66,6 +75,7 @@ const listItems = [
   {
     type: 'step',
     data: {
+      id: 1,
       title: 'Step 1',
       position: [52.370216, 4.895168],
     }
@@ -73,6 +83,7 @@ const listItems = [
   {
     type: 'step',
     data: {
+      id: 2,
       title: 'Step 2',
       position: [52.360506, 4.908971],
     }
@@ -99,25 +110,13 @@ function UI (props) {
   )
 }
 
-/**
- * AppPreviewer allows for different devices views regardless of it's content
- */
-function AppPreviewer (props) {
-  return (
-    <div className>
-      <a href="#"> M </a> | <a href="#"> D </a>
-      <div className="device-wrapper">
-        {props.children}
-      </div>
-    </div>
-  );
-}
 
 class Tour extends Component {
   render() {
     return (
       <div>
         <TourMap steps={this.props.steps} />
+
         <TourAudioPlayer />
         <TourList />
         <TourDetailView />
@@ -127,29 +126,21 @@ class Tour extends Component {
 }
 
 class LocationPicker extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentPos: this.props.position
-    };
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-
   handleClick(e){
-    this.setState({ currentPos: e.latlng });
+    this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
   }
 
   render() {
+    var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
+
+    console.log('currentPos', currentPos)
     return (
-      <Map center={position} zoom={17} style={{ width: '100%', height: '250px'}} onClick={this.handleClick}>
+      <Map center={currentPos} zoom={17} style={{ width: '100%', height: '250px'}} onClick={this.handleClick.bind(this)}>
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
-        {this.state.currentPos && <Marker position={this.state.currentPos}>
+        {currentPos && <Marker position={currentPos}>
           <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
         </Marker>}
       </Map>
@@ -159,6 +150,7 @@ class LocationPicker extends Component {
 
 function Sidebar (props) {
   return <div>
+
     {props.resourceItems.map(function(resourceItem) {
         return(
           <ListItem>
@@ -186,20 +178,23 @@ function Sidebar (props) {
 }
 
 function ResourceForm (props) {
+  console.log('props.resource', props.resource)
   return (
     <div>{props.resource ?
       <div>
         <div className="form-group">
           <label> Location </label>
           <LocationPicker
-            position={props.resource.data.position}
-            updatePosition={function (position) {
-              this.props.updateResource({
+            lat={props.resource.data.position && props.resource.data.position[0] ? props.resource.data.position[0] : null}
+            lng={props.resource.data.position && props.resource.data.position[1] ? props.resource.data.position[1] : null}
+            onPositionChange={function (lat, lng) {
+              props.updateResource({
+                ...props.resource,
                 data: {
                   ...props.resource.data,
-                  position
+                  position: [lat, lng]
                 }
-              )
+              })
             }}
           />
         </div>
@@ -249,17 +244,22 @@ class App extends Component {
   }
 
   updateResource(updateResource) {
-    const resourceItems = this.state.resourceItems.map(function(resource) {
+    var activeResource = this.state.activeResource;
+    var resourceItems = this.state.resourceItems.map(function(resource) {
       if (resource.data.id === updateResource.data.id) {
         resource = updateResource;
       }
 
-      return updateResource;
+      if (activeResource && activeResource.data.id === resource.data.id) {
+        activeResource = resource;
+      }
+
+      return resource;
     });
 
-
     this.setState({
-      resourceItems: resourceItems
+      resourceItems: resourceItems,
+      activeResource: activeResource
     })
   }
 
@@ -278,7 +278,7 @@ class App extends Component {
           />
         }
         main={
-          <div>
+          <AppPreviewer>
             <Tour
               steps={
                 this.state.resourceItems
@@ -286,7 +286,7 @@ class App extends Component {
                   .map(function(step){ return step.data; } )
               }
             />
-          </div>
+          </AppPreviewer>
         }
         rightPanel={
           this.state.activeResource ?
