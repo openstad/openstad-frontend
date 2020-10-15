@@ -52,8 +52,12 @@ function showIdeaDetails() {
 		infoblock.querySelector('.idea-details #edit-idea-link').innerHTML = '<a href="' + editIdeaPage.replace(/\[ideaId\]/, currentIdea.id) + '">Bewerk deze melding</a>';
 	}
 
-	var buttonText = 'Plaats de eerste reactie'
+	var buttonText = 'Geen reacties'
+	infoblock.querySelector('#show-idea-arguments-button').onclick = null;
+  infoblock.querySelector('#show-idea-arguments-button').className = infoblock.querySelector('#show-idea-arguments-button').className.replace(/ arrow-right/g, '');
 	if (currentIdea.argumentsFor && currentIdea.argumentsFor.length) {
+	  infoblock.querySelector('#show-idea-arguments-button').onclick = showIdeaArguments;
+	  infoblock.querySelector('#show-idea-arguments-button').className = infoblock.querySelector('#show-idea-arguments-button').className + ' arrow-right';
 		buttonText = 'Bekijk de ' + currentIdea.argumentsFor.length + ' reacties'
 		if (currentIdea.argumentsFor.length == 1) {
 			buttonText = 'Bekijk de reactie'
