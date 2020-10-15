@@ -88,7 +88,15 @@ const listItems = [
       position: [52.360506, 4.908971],
     }
   },
-]
+];
+
+const blancResource =   {
+    type: 'step',
+    data: {
+      title: 'New...',
+      position: [52.360506, 4.908971],
+    }
+  };
 
 function UI (props) {
   return (
@@ -173,7 +181,7 @@ function Sidebar (props) {
           </ListItem>
         )
       })}
-      <button onClick={props.edit}> + Add </button>
+      <button onClick={props.new}> + Add </button>
   </div>
 }
 
@@ -238,8 +246,23 @@ class App extends Component {
   }
 
   newResource() {
+    var newResource = JSON.parse(JSON.stringify(blancResource));
+    var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
+    console.log('lastResource', lastResource)
+
+    var lastResourceId = lastResource.data.id;
+
+    console.log('lastResourceId', lastResourceId)
+
+    newResource.data.id = lastResourceId + 1;
+    console.log('newResource', newResource)
+
+    this.state.resourceItems.push(Object.assign({}, newResource));
+    console.log('this.state.resourceItems', this.state.resourceItems)
+
     this.setState({
-      activeResource: this.props.newResourceObject
+      resourceItems: this.state.resourceItems,
+      activeResource: newResource
     })
   }
 
@@ -263,6 +286,26 @@ class App extends Component {
     })
   }
 
+  deleteResource(resource) {
+    var activeResource = this.state.activeResource;
+
+    for (var i = 0; i < this.state.resourceItems.length; i++) {
+      var resourceItem = this.state.resourceItems[i];
+       if (resourceItem.data.id === resource.data.id) {
+        this.state.resourceItems.splice(i, 1);
+        i--;
+        if (activeResource && activeResource.data.id === resource.data.id) {
+          activeResource = null;
+        }
+       }
+    }
+
+    this.setState({
+      resourceItems: this.state.resourceItems,
+      activeResource: activeResource
+    })
+  }
+
   render() {
     return (
       <UI
@@ -275,6 +318,7 @@ class App extends Component {
               })
             }}
             new={this.newResource.bind(this)}
+            delete={this.deleteResource.bind(this)}
           />
         }
         main={
