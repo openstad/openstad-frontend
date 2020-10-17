@@ -6,13 +6,19 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "filepond": "^4.21.1",
+    "filepond-plugin-image-exif-orientation": "^1.0.9",
+    "filepond-plugin-image-preview": "^4.6.4",
     "leaflet": "^1.7.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-filepond": "^7.1.0",
     "react-h5-audio-player": "^3.4.1",
+    "react-image-sortable-uploader": "^1.0.12",
     "react-leaflet": "^2.7.0",
     "react-leaflet-location-picker": "^1.4.2",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "react-upload-gallery": "^0.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

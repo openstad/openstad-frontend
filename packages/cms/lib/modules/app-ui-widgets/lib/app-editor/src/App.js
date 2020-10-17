@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, useLocation } from 'react';
+import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
 
 /* Layout elements */
@@ -10,66 +10,8 @@ import RightPanel from './Layout/RightPanel.js';
 import ListItem from './Layout/ListItem.js';
 import AppPreviewer from './Layout/AppPreviewer.js';
 
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import "leaflet/dist/leaflet.css";
-import L from 'leaflet';
-
-
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
-
-const position = [52.370216, 4.895168]
-
-
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
-
-function TourMap(props) {
-
-  return (<Map center={position} zoom={17} style={{ width: '100%', height: '500px'}}>
-    <TileLayer
-      url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
-      attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-    />
-    {props.steps.map(function(step) {
-
-      return (
-        <Marker position={step.position}>
-          <Popup>{}.<br />Easily customizable.</Popup>
-        </Marker>
-      )
-    })}
-
-  </Map>
-)
-}
-
-function TourList () {
-  return (<div>
-
-  </div>)
-}
-
-function TourAudioPlayer () {
-  return (<div className="bottom-bar"><AudioPlayer
-    autoPlay={false}
-    src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-    onPlay={e => console.log("onPlay")}
-    // other props here
-  /></div>)
-}
-
-function TourDetailView () {
-  return (<div>
-
-  </div>)
-}
-
+import ResourceForm from './ResourceForm.js';
+import TourApp from './TourApp.js';
 
 const listItems = [
   {
@@ -77,7 +19,9 @@ const listItems = [
     data: {
       id: 1,
       title: 'Step 1',
+      description: 'Lorem ipsum....',
       position: [52.370216, 4.895168],
+      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
     }
   },
   {
@@ -85,18 +29,20 @@ const listItems = [
     data: {
       id: 2,
       title: 'Step 2',
+      description: 'Lorem ipsum....',
       position: [52.360506, 4.908971],
+      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
     }
   },
 ];
 
-const blancResource =   {
+const blancResource = {
     type: 'step',
     data: {
       title: 'New...',
       position: [52.360506, 4.908971],
     }
-  };
+};
 
 function UI (props) {
   return (
@@ -118,120 +64,24 @@ function UI (props) {
   )
 }
 
-
-class Tour extends Component {
-  render() {
-    return (
-      <div>
-        <TourMap steps={this.props.steps} />
-
-        <TourAudioPlayer />
-        <TourList />
-        <TourDetailView />
-      </div>
-    )
-  }
-}
-
-class LocationPicker extends Component {
-  handleClick(e){
-    this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
-  }
-
-  render() {
-    var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
-
-    console.log('currentPos', currentPos)
-    return (
-      <Map center={currentPos} zoom={17} style={{ width: '100%', height: '250px'}} onClick={this.handleClick.bind(this)}>
-        <TileLayer
-          url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
-        {currentPos && <Marker position={currentPos}>
-          <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-        </Marker>}
-      </Map>
-    )
-  }
-}
-
 function Sidebar (props) {
   return <div>
 
     {props.resourceItems.map(function(resourceItem) {
         return(
-          <ListItem>
-            {resourceItem.data.title}
-              <button onClick={() => {
-                props.delete(resourceItem)
-              }}>
-                move
-              </button>
-              <button onClick={() => {
-                props.delete(resourceItem)
-              }}>
-                delete
-              </button>
-              <button onClick={() => {
-                props.edit(resourceItem)
-              }}>
-                edit
-              </button>
+          <ListItem active={props.activeResource && resourceItem.data.id === props.activeResource.data.id}>
+            <a onClick={() => {
+              props.edit(resourceItem)
+            }} href="#">
+              {resourceItem.data.title}
+            </a>
           </ListItem>
         )
       })}
-      <button onClick={props.new}> + Add </button>
+      <a href="#" style={{float: 'right'}} onClick={props.new}> +</a>
   </div>
 }
 
-function ResourceForm (props) {
-  console.log('props.resource', props.resource)
-  return (
-    <div>{props.resource ?
-      <div>
-        <div className="form-group">
-          <label> Location </label>
-          <LocationPicker
-            lat={props.resource.data.position && props.resource.data.position[0] ? props.resource.data.position[0] : null}
-            lng={props.resource.data.position && props.resource.data.position[1] ? props.resource.data.position[1] : null}
-            onPositionChange={function (lat, lng) {
-              props.updateResource({
-                ...props.resource,
-                data: {
-                  ...props.resource.data,
-                  position: [lat, lng]
-                }
-              })
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label> Name </label>
-          <input type="" name="name"/>
-        </div>
-        <div className="form-group">
-          <label> Description </label>
-          <input type="" name="name"/>
-        </div>
-        <div className="form-group">
-          <label> Audio </label>
-          <input type="" name="name"/>
-        </div>
-        <div className="form-group">
-          <label> Images </label>
-          <input type="" name="name"/>
-        </div>
-        <div className="form-group">
-          <label> Videos </label>
-          <input type="" name="name"/>
-        </div>
-      </div>
-      :
-      <div />}
-    </div>
-  )
-}
 
 // Our app
 class App extends Component {
@@ -248,17 +98,11 @@ class App extends Component {
   newResource() {
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
-    console.log('lastResource', lastResource)
-
     var lastResourceId = lastResource.data.id;
 
-    console.log('lastResourceId', lastResourceId)
-
     newResource.data.id = lastResourceId + 1;
-    console.log('newResource', newResource)
 
-    this.state.resourceItems.push(Object.assign({}, newResource));
-    console.log('this.state.resourceItems', this.state.resourceItems)
+    this.state.resourceItems.push(newResource);
 
     this.setState({
       resourceItems: this.state.resourceItems,
@@ -312,6 +156,7 @@ class App extends Component {
         sidebar={
           <Sidebar
             resourceItems={this.state.resourceItems}
+            activeResource={this.state.activeResource}
             edit={(resource) => {
               this.setState({
                 activeResource: resource
@@ -323,7 +168,7 @@ class App extends Component {
         }
         main={
           <AppPreviewer>
-            <Tour
+            <TourApp
               steps={
                 this.state.resourceItems
                   .filter(function(resource){ return resource.type === 'step'; })
