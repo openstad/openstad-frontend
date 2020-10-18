@@ -3,6 +3,7 @@ import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
+import Section from './Layout/Section.js';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
@@ -49,7 +50,7 @@ class LocationPicker extends Component {
 
 class ResourceForm extends Component {
   render() {
-    var update = function (resource, key, value) {
+    var update = (resource, key, value) => {
       this.props.updateResource({
         ...this.props.resource,
         data: {
@@ -71,8 +72,7 @@ class ResourceForm extends Component {
     return (
       <div>{this.props.resource ?
         <div>
-          <div className="form-group">
-            <label> Location </label>
+          <Section title="location">
             <LocationPicker
               lat={this.props.resource.data.position && this.props.resource.data.position[0] ? this.props.resource.data.position[0] : null}
               lng={this.props.resource.data.position && this.props.resource.data.position[1] ? this.props.resource.data.position[1] : null}
@@ -86,39 +86,49 @@ class ResourceForm extends Component {
                 })
               }.bind(this)}
             />
-          </div>
-          <div className="form-group">
-            <label> Title </label>
-            <br />
+          </Section>
+          <Section title="Title">
             <input
               type=""
               name="title"
               defaultValue={this.props.resource.data.title}
-              onChange={function(event) {
+              onChange={(event) => {
                 update(this.props.resource, 'title', event.currentTarget.value)
               }}
             />
-          </div>
-          <div className="form-group">
-            <label> Description </label>
-            <br />
+            </Section>
+          <Section title="Description">
             <textarea
               type=""
               name="title"
               defaultValue={this.props.resource.data.description}
-              onChange={function(event) {
+              onChange={(event) => {
                 update(this.props.resource, 'description', event.currentTarget.value)
               }}
             />
-          </div>
-          <div className="form-group">
-            <label> Audio </label>
-            <br />
-            <input type="" name="name"/>
-          </div>
-          <div className="form-group">
-            <label> Images </label>
-            <br />
+            </Section>
+          <Section title="Audio">
+            {this.props.resource.data.audio
+              ?
+              <div className="audio-display flex justify-content">
+                <small><em>{this.props.resource.data.audio.filename}</em></small>
+                <a href="#" className="ui-button"> x </a>
+              </div>
+              :
+              <div class="flex justify-content">
+                <a href="#" className="ui-button">
+                  Upload audio
+                </a>
+                <small>
+                  or
+                </small>
+                <a href="#" className="ui-button">
+                  Record audio
+                </a>
+              </div>
+            }
+          </Section>
+          <Section title="Images">
             <FilePond
               files={files}
               onupdatefiles={setFiles}
@@ -130,7 +140,7 @@ class ResourceForm extends Component {
               name="files"
               labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
             />
-          </div>
+            </Section>
           {/*
             <div className="form-group">
             <label> Videos </label>

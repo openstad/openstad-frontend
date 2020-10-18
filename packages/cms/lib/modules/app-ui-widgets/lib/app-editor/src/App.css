@@ -2,16 +2,29 @@
 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+
+a, a:hover {
+  color: black;
+  text-decoration: none;
 }
+
+.App-logo {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #000000;
+  padding: 0;
+  border-radius: 5px;
+}
+
+/*
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+*/
 
 .App-header {
   background-color: #282c34;

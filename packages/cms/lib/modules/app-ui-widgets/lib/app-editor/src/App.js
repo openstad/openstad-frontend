@@ -9,6 +9,8 @@ import MiddlePanel from './Layout/MiddlePanel.js';
 import RightPanel from './Layout/RightPanel.js';
 import ListItem from './Layout/ListItem.js';
 import AppPreviewer from './Layout/AppPreviewer.js';
+import Section from './Layout/Section.js';
+
 
 import ResourceForm from './ResourceForm.js';
 import TourApp from './TourApp.js';
@@ -21,7 +23,10 @@ const listItems = [
       title: 'Step 1',
       description: 'Lorem ipsum....',
       position: [52.370216, 4.895168],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
+      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500'],
+      audio: {
+        filename: 'test.mp3'
+      }
     }
   },
   {
@@ -48,7 +53,7 @@ function UI (props) {
   return (
     <div className="App">
       <TopPanel>
-        <a href="#"> My Apps </a>
+        <a href="#" className="App-logo"> Edu Apps </a>
       </TopPanel>
       <LeftPanel>
         {props.sidebar}
@@ -57,7 +62,7 @@ function UI (props) {
         {props.main}
       </MiddlePanel>
       <RightPanel open={!!props.rightPanel}>
-        <button onClick={props.rightPanelClose}> x </button>
+        <a href="#" style={{float: 'right'}} className="plus-icon" onClick={props.rightPanelClose}> x </a>
         {props.rightPanel ? props.rightPanel : <div />}
       </RightPanel>
   </div>
@@ -65,21 +70,24 @@ function UI (props) {
 }
 
 function Sidebar (props) {
-  return <div>
-
+  return <Section title="Steps">
     {props.resourceItems.map(function(resourceItem) {
-        return(
-          <ListItem active={props.activeResource && resourceItem.data.id === props.activeResource.data.id}>
-            <a onClick={() => {
-              props.edit(resourceItem)
-            }} href="#">
-              {resourceItem.data.title}
-            </a>
-          </ListItem>
-        )
-      })}
-      <a href="#" style={{float: 'right'}} onClick={props.new}> +</a>
-  </div>
+      var active = props.activeResource && resourceItem.data.id === props.activeResource.data.id ;
+      var linkClassName = active ? "list-link active" : "list-link";
+      return(
+        <ListItem active={active}>
+          <a className={linkClassName} onClick={() => {
+            props.edit(resourceItem)
+          }} href="#">
+            {resourceItem.data.title}
+          </a>
+        </ListItem>
+      )
+    })}
+    <div style={{textAlign: 'right'}}>
+    <a href="#" className="plus-icon" onClick={props.new}> +</a>
+    </div>
+  </Section>
 }
 
 
@@ -158,6 +166,7 @@ class App extends Component {
             resourceItems={this.state.resourceItems}
             activeResource={this.state.activeResource}
             edit={(resource) => {
+
               this.setState({
                 activeResource: resource
               })
