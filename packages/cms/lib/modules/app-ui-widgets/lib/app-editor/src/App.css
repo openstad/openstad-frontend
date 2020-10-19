@@ -49,3 +49,33 @@ a, a:hover {
     transform: rotate(360deg);
   }
 }
+
+
+/**
+ * Filepond
+ */
+
+body .filepond--root {
+  font-size: 12px;
+}
+
+body .filepond--panel-top {
+  background: white;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-top: 1px solid #d9d9d9;
+}
+
+body .filepond--panel-bottom {
+  background: white;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+body .filepond--panel-center {
+  background: white;
+
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
