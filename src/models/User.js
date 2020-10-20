@@ -300,9 +300,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( zipCode ) {
-				zipCode = zipCode != null ?
-				  String(zipCode).trim() :
-				  null;
+				zipCode = zipCode ? String(zipCode).trim() : null;
 				this.setDataValue('zipCode', zipCode);
 			},
 
