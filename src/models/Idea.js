@@ -846,6 +846,12 @@ module.exports = function (db, sequelize, DataTypes) {
         // 				});
       },
 
+      includeSite: {
+        include: [{
+          model: db.Site,
+        }]
+      },
+
       includeVoteCount: {
         attributes: {
           include: [
