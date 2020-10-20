@@ -14,5 +14,13 @@ module.exports = {
         next();
       }
     };
+
+    self.route('get', 'refresh', function(req, res) {
+      self.refreshSiteConfig();
+      res.end(JSON.stringify({
+        status: 'ok'
+      }));
+
+    }
   }
 };
