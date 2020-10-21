@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
 import Section from './Layout/Section.js';
+import AudioRecorder from 'react-mp3-recorder';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
@@ -44,6 +45,108 @@ class LocationPicker extends Component {
           <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
         </Marker>}
       </Map>
+    )
+  }
+}
+
+function AudioRecordField (props) {
+  return (
+    <div>
+      <AudioRecorder
+         onRecordingComplete={(blob) => {
+           console.log('recording', blob);
+         }}
+         onRecordingError={(err) => {
+           console.log('recording error', err)
+         }}
+       />
+    </div>
+  )
+}
+
+function AudioUploadField (props) {
+  function setFiles ( ) {
+
+  }
+  return (
+    <div>
+      <FilePond
+        onupdatefiles={setFiles}
+        allowMultiple={true}
+        maxFiles={1}
+        imagePreviewMinHeight={22}
+        imagePreviewMaxHeight={100}
+        server="/api"
+        name="files"
+        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+      />
+    </div>
+
+  )
+}
+
+class AudioFormField extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      action: null
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.audio
+          ?
+          <div className="audio-display flex justify-content">
+            <small><em>{this.props.audio.filename}</em></small>
+            <a href="#" className="ui-button" onClick={() => {
+              this.props.update(null);
+            }}> x </a>
+          </div>
+          :
+          <div>{!this.state.action && <div class="flex justify-content">
+            <a href="#" className="ui-button" onClick={() => {
+              this.setState({
+                action: 'upload'
+              })
+            }}>
+              Upload audio
+            </a>
+            <small>
+              or
+            </small>
+            <a href="#" className="ui-button"  onClick={() => {
+              this.setState({
+                action: 'record'
+              })
+            }}>
+              Record audio
+            </a>
+          </div>}</div>
+        }
+
+
+        {!this.props.audio && this.state.action &&
+          <div style={{textAlign: 'right'}}>
+            <a href="#" className="ui-button inline-block" onClick={() => {
+              this.setState({
+                action: null
+              })
+            }}> x </a>
+          </div>
+        }
+        {!this.props.audio && this.state.action && this.state.action === 'record' &&
+
+          <AudioRecordField />
+        }
+        {!this.props.audio && this.state.action && this.state.action === 'upload' &&
+          <AudioUploadField
+
+          />
+        }
+      </div>
     )
   }
 }
@@ -96,7 +199,7 @@ class ResourceForm extends Component {
                 update(this.props.resource, 'title', event.currentTarget.value)
               }}
             />
-            </Section>
+          </Section>
           <Section title="Description">
             <textarea
               type=""
@@ -108,25 +211,12 @@ class ResourceForm extends Component {
             />
             </Section>
           <Section title="Audio">
-            {this.props.resource.data.audio
-              ?
-              <div className="audio-display flex justify-content">
-                <small><em>{this.props.resource.data.audio.filename}</em></small>
-                <a href="#" className="ui-button"> x </a>
-              </div>
-              :
-              <div class="flex justify-content">
-                <a href="#" className="ui-button">
-                  Upload audio
-                </a>
-                <small>
-                  or
-                </small>
-                <a href="#" className="ui-button">
-                  Record audio
-                </a>
-              </div>
-            }
+            <AudioFormField
+              audio={this.props.resource.data.audio}
+              update={(value) => {
+                update(this.props.resource, 'audio', value)
+              }}
+            />
           </Section>
           <Section title="Images">
             <FilePond

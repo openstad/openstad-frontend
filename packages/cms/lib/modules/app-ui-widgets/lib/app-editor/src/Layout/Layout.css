@@ -9,24 +9,39 @@
   padding: 0 10px;
 }
 
+.ContentPlane {
+  display: flex;
+  justify-content: space-between;
+  background: #f7f9fa;
+}
+
 .LeftPanel {
   width: 280px;
   bottom: 0;
   left: 0;
   top: 60px;
   position: absolute;
+  position: relative;
   background: #fdfdfd;
   border-right: 1px solid #d4d4d4;
   z-index: 1;
+
+  position: relative;
+  top: 0;
 }
 
 .MiddlePanel {
   position: absolute;
+
   left: 281px;
   right: 0;
   bottom: 0;
   top: 60px;
   background: #f7f9fa;
+
+  position: relative;
+  top: 0;
+  left: 0;
 }
 
 .RightPanel {
@@ -36,12 +51,17 @@
   right: -300px;
   top: 60px;
   position: fixed;
+  position: relative;
+
   background: #fdfdfd;
-  border-left: 1px solid #f4f4f4;
+  border-left: 1px solid #d4d4d4;
   transition: all 1000ms ease-in-out;
   z-index: 1000;
   overflow: scroll;
   padding: 0;
+
+  position: relative;
+  top: 0;
 }
 
 .RightPanel.open {
@@ -154,46 +174,12 @@
   display: flex;
 }
 
+.inline-block {
+  display: inline-block !important;
+}
+
 .justify-content {
   justify-content: space-between;
-}
-
-.section {
-  border-bottom: 1px solid #d4d4d4;
-  margin-bottom: 10px;
-}
-
-.section .section-content {
-  display: none;
-}
-
-.section.open .section-content {
-  display: block;
-}
-
-.section input, .section textarea {
-  width: 100%;
-    box-sizing: border-box;
-    padding: 11px 9px;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    font-size: 11px;
-}
-
-.section-header {
-  padding: 0 10px;
-  display: block;
-}
-
-.section-header h3 {
-  text-transform: uppercase;
-  margin-bottom: 0;
-  color: #888;
-  font-size: 11px;
-}
-
-.section-content {
-  padding: 10px;
 }
 
 .ui-button {
@@ -210,4 +196,10 @@
   font-size: 24px;
   font-weight: 300;
   color: #616161;
+}
+
+
+.device-selector {
+  margin: 10px 0;
+  text-align: center;
 }

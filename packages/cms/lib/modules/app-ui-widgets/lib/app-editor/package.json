@@ -14,11 +14,9 @@
     "react-dom": "^16.13.1",
     "react-filepond": "^7.1.0",
     "react-h5-audio-player": "^3.4.1",
-    "react-image-sortable-uploader": "^1.0.12",
     "react-leaflet": "^2.7.0",
-    "react-leaflet-location-picker": "^1.4.2",
     "react-scripts": "3.4.3",
-    "react-upload-gallery": "^0.2.0"
+    "react-mp3-recorder": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
