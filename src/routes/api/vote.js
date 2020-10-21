@@ -415,6 +415,35 @@ router.route('/*')
 			.catch(next)
 	})
 
+	router.route('/:voteId(\\d+)')
+		.all(( req, res, next ) => {
+			var voteId = req.params.voteId;
+
+			db.Vote
+			.findOne({
+				where: { id: voteId }
+			})
+			.then(function( vote ) {
+				if( vote ) {
+					req.results = vote;
+				}
+				next();
+			})
+			.catch(next);
+		})
+	.delete(auth.useReqUser)
+	.delete(function(req, res, next) {
+		const vote = req.results;
+		if (!( vote && vote.can && vote.can('delete') )) return next( new Error('You cannot delete this vote') );
+
+		vote
+			.destroy()
+			.then(() => {
+				res.json({ "vote": "deleted" });
+			})
+			.catch(next);
+	})
+
 	router.route('/:voteId(\\d+)/toggle')
 		.all(( req, res, next ) => {
 			var voteId = req.params.voteId;

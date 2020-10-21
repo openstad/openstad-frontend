@@ -109,11 +109,11 @@ module.exports = function( db, sequelize, DataTypes ) {
     viewableBy: 'all',
     createableBy: 'member',
     updateableBy: ['editor', 'owner'],
-    deleteableBy: 'admin',
+    deleteableBy: ['editor', 'owner'],
     canToggle: function(user, self) {
       return userHasRole(user, 'editor', self.userId);
     }
   }
-  
+
 	return Vote;
 };

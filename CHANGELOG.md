@@ -6,6 +6,7 @@
 * If extraData.images is set then the new value ovreplaces the old value instead of being merged (it waas impossible to delete images)
 * Add min/max number of to budgeting voting
 * Make sure postcode validation doesn't fail on an empty string
+* Add Delete route for vote
 
 ## 0.7.6 (2020-10-07)
 * Votes were viewable when they should not be
