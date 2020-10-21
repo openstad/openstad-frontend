@@ -1,7 +1,10 @@
 # Changelog
 
-## v0.8.0-PRERLEASE (2020-17-07)
 
+## UNRELEASED
+* Update NPM modules for security
+
+## v0.8.0-PRERLEASE (2020-17-07)
 * Feature: ideas-on-map has a simple view
 * Feature: ideas-on-map details can link to user profile page
 * Bugfix: counterbuttons will now work if multiple buttons on exist on a page
