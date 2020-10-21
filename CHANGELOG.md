@@ -20,6 +20,7 @@
 * Add min/max number of to budgeting voting
 * Bugfix use Buffer.byteLength instead of .length for content-length for body api proxy, this breaks with special characters
 * Add refreshSiteConfig call after updating a site config
+* Correct metaTitle for idea and other resources
 
 
 ## 0.7.4
