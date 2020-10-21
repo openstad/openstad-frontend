@@ -24,10 +24,13 @@ module.exports = {
 
         //bodyParser middleware parses the body into an object
         //for proxying to worl we need to turn it back into a string
+
+        if (req.method == "POST" ||req.method == "PUT") {
+          eventEmitter.emit('apiPost');
+        }
+
         if ( (req.method == "POST" ||req.method == "PUT")  && req.body ) {
            // emit event
-           eventEmitter.emit('apiPost');
-
            let body = req.body;
            let newBody = '';
            delete req.body;
@@ -43,8 +46,8 @@ module.exports = {
              console.log('stringify err', e)
            }
 
-           if ()
          }
+
      },
      onError: function(err) {
        console.log('errerrerr newBody', err);

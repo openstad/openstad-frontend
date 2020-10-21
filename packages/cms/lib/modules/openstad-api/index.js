@@ -20,7 +20,6 @@ module.exports = {
       res.end(JSON.stringify({
         status: 'ok'
       }));
-
-    }
+    })
   }
 };
