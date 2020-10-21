@@ -145,24 +145,22 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				 body: JSON.stringify(Object.assign(apiCredentials, oauthClient))
 			 }
 
-
 			 updates.push(fetch(authUpdateUrl, options));
 		});
 
 		Promise.all(updates)
 			.then(() => {
-				// when succesfull return site JSON
-				res.json(req.site);
+				next()
 			})
 			.catch((e) => {
-				console.log('errr', e);
+				console.log('errr oauth', e);
 				next(e)
 			});
 	})
 	// call the site, to let the site know a refresh of the siteConfig is needed
 	.put(function (req, res, next) {
 		const site = req.results;
-		const cmsUrl = siteconfig.cms.url;
+		const cmsUrl = site.config.cms.url;
 
 		if (!cmsUrl) {
 			next();
@@ -170,7 +168,11 @@ router.route('/:siteIdOrDomain') //(\\d+)
 
 		return fetch(cmsUrl + '/modules/openstad-api/refresh')
 			.then(function () { 	next();  })
-			.catch(function () { next();	});
+			.catch(function (err) { console.log('errrr', err); next();	});
+	})
+	.put(function (req, res, next) {
+		// when succesfull return site JSON
+		res.json(req.results);
 	})
 // delete site
 // ---------
