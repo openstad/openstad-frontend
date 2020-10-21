@@ -99,6 +99,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	.put(function(req, res, next) {
 		const site = req.results;
     if (!( site && site.can && site.can('update') )) return next( new Error('You cannot update this site') );
+
 		req.results
 			.authorizeData(req.body, 'update')
 			.update(req.body)
@@ -113,6 +114,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				next();
 			});
 	})
+
 	// update certain parts of config to the oauth client
 	// mainly styling settings are synched so in line with the CMS
 	.put(function (req, res, next) {
@@ -156,6 +158,19 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				console.log('errr', e);
 				next(e)
 			});
+	})
+	// call the site, to let the site know a refresh of the siteConfig is needed
+	.put(function (req, res, next) {
+		const site = req.results;
+		const cmsUrl = siteconfig.cms.url;
+
+		if (!cmsUrl) {
+			next();
+		}
+
+		return fetch(cmsUrl + '/modules/openstad-api/refresh')
+			.then(function () { 	next();  })
+			.catch(function () { next();	});
 	})
 // delete site
 // ---------
