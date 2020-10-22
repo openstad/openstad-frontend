@@ -3,6 +3,7 @@
 
 ## UNRELEASED
 * Update NPM modules for security
+* Don't add JWT when doing a resource overview call since results are cached
 
 ## v0.8.0-PRERLEASE (2020-17-07)
 * Feature: ideas-on-map has a simple view
