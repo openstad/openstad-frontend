@@ -166,7 +166,12 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			next();
 		}
 
-		return fetch(cmsUrl + '/modules/openstad-api/refresh')
+		//return fetch(cmsUrl + '/modules/openstad-api/refresh')
+		/*
+			@todo The /modules/openstad-api/refresh is cleaner, doesn't require a restart
+			but needs basichAuth headers in case a site is password protected
+		 */
+		return fetch(cmsUrl + '/config-reset')
 			.then(function () { 	next();  })
 			.catch(function (err) { console.log('errrr', err); next();	});
 	})
