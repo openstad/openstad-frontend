@@ -15,7 +15,7 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.12.2",
     "aws-sdk": "^2.775.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "co": "^4.6.0",
     "compression": "^1.7.4",
     "config": "^3.3.2",
@@ -31,7 +31,7 @@
     "html-to-text": "^5.1.1",
     "http-errors": "^1.8.0",
     "ip": "^1.1.5",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "mariadb": "^2.5.0",
     "marked": "^0.7.0",
