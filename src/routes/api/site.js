@@ -160,7 +160,9 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	// call the site, to let the site know a refresh of the siteConfig is needed
 	.put(function (req, res, next) {
 		const site = req.results;
-		const cmsUrl = site.config.cms.url;
+
+		// assume https, wont work for some dev environments
+		const cmsUrl = 'https://' + site.domain;
 
 		if (!cmsUrl) {
 			next();
