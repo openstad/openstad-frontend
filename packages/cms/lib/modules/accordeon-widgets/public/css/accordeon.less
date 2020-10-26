@@ -5,6 +5,7 @@
         &:hover {
             .title {
                 background: #b4b4b4!important;
+                text-decoration: none;
             }
         }
 
@@ -16,6 +17,8 @@
             position: relative;
             font-size: 16px;
             line-height: 1.38;
+            display: block;
+            color: #000;
 
             &:after {
                 content: '';
@@ -28,6 +31,11 @@
                 background-repeat: no-repeat;
                 top: 50%;
                 transform: translateY(-50%) rotate(180deg);
+            }
+
+            &:focus {
+                background: #b4b4b4 !important;
+                outline: 3px solid #e3e4e5;
             }
         }
 
