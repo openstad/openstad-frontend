@@ -19,7 +19,11 @@
   style=""
 >
   {% if data.widget.icon %}
-	<img src="{{apos.attachments.url(data.widget.icon)}}" />
+	<img src="{{apos.attachments.url(data.widget.icon)}}"
+       {% if data.widget.iconAltText %}
+        alt="{{data.widget.iconAltText}}"
+       {% endif %}
+  />
   {% endif %}
 
   {{ data.widget.label  }}

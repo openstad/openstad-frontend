@@ -29,6 +29,11 @@ module.exports = {
       trash: true
     },
     {
+      name: 'iconAltText',
+      type: 'string',
+      label: 'Alt text for the icon'
+    },
+    {
       name: 'targetBlank',
       type: 'boolean',
       label: 'Open in new window',
@@ -93,7 +98,7 @@ module.exports = {
       {
         name: 'stylingGroup',
         label: 'Styling',
-        fields: ['icon', 'style', 'containerStyles']
+        fields: ['icon', 'iconAltText', 'style', 'containerStyles']
       },
       {
         name: 'advancedGroup',
