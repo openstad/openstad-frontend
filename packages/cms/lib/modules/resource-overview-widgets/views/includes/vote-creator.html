@@ -34,12 +34,12 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 		<div id="steps-content">
 
 			<div id="steps-content-1a" class="step active">
-				<div class="content">
+				<div class="content" tabindex="0">
 					{{data.widget.step_1_intro | sanitize | safe}}
 
 					<input type="hidden" name="ideaId" value="">
 					<div class="preview-container">
-						<div class="preview" onclick="ideaOverviewClickPreview(event)">
+						<div class="preview" tabindex="0" title="Kies een ontwerp." onclick="ideaOverviewClickPreview(event)" onkeydown="ideaOverviewKeyDownPreview(event)">
 							<div class="nothingYet">
 								<div class="inner-container">
 									<div class="text">
@@ -57,7 +57,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 			</div>
 
 			<div id="steps-content-2a" class="step">
-				<div class="content">
+				<div class="content" tabindex="0">
 					<div class="vote-not-logged-in">
 						{{data.widget.step_2_intro}}
 					</div>
@@ -132,7 +132,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 			</div>
 
 			<div id="steps-content-error" class="step">
-				<div class="content">
+				<div class="content" tabindex="0">
 					<h4 class="error">Het opslaan van je stem is niet gelukt</h4>
 
 					<div class="info-block error">
@@ -164,12 +164,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 			<div style="height: 50px;"></div>
 			<div id="button-bar">
-				<div id="previous-button" onclick="votingPreviousStep();">
+				<a id="previous-button" href="javascript:votingPreviousStep();">
 					Vorige
-				</div>
-				<div id="next-button" onclick="votingNextStep();">
+					<div class="sr-only">stap</div>
+				</a>
+				<a id="next-button" href="javascript:votingNextStep();">
 					Volgende
-				</div>
+					<div class="sr-only">stap</div>
+				</a>
 			</div>
 		</div>
 		<div id="waitLayer"></div>

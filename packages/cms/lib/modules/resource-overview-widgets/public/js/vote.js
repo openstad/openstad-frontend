@@ -176,6 +176,8 @@ function selectIdea(newIdeaId, doNotOpen) {
     } else {
       $('.selected-idea-title').text(ideaTitle);
     }
+    
+    previewElement.setAttribute('title', 'Ontwerp "' + ideaTitle + '" gekozen. Druk op enter om deze te verwijderen.');
 
     if (doShowImage) {
       doShowImage(ideaId, previewElement);
@@ -211,6 +213,7 @@ function unSelectIdea(event) {
 
   var previewElement = stepElement.querySelector('.preview');
   previewElement.innerHTML = '<div class="nothingYet"><div class="inner-container"><div class="text">'+ placeholderText +'</div></div></div>';
+  previewElement.setAttribute('title', 'Kies een ontwerp.');
 
   setNextButton();
 
@@ -243,6 +246,16 @@ function ideaOverviewClickPreview(event) {
     // previewElement.innerHTML = {
     //
     // };
+  }
+}
+
+function ideaOverviewKeyDownPreview(event) {
+  if (event.keyCode == 13) {
+    if (ideaId) {
+      unSelectIdea(event);
+    } else {
+      overviewScrollToIdeas();
+    }
   }
 }
 

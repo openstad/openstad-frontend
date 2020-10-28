@@ -242,6 +242,13 @@
 			background-color: @amsterdam-lightgrey;
 		}
 
+		#previous-button, #next-button {
+			&:focus {
+				outline: 3px solid @amsterdam-lightgreen;
+				text-decoration: underline;
+			}
+		}
+
 		#previous-button {
 			position: absolute;
 			bottom: 25px;
@@ -422,6 +429,10 @@
 		height: 110px;
 		max-width: 110px;
 		max-height: 110px;
+
+	    &:focus {
+		    outline: 3px solid @amsterdam-navyblue;
+	    }
 
 		.image {
 			width: 110px;
