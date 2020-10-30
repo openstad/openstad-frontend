@@ -204,7 +204,7 @@
 
       {% include 'includes/modbreak.html' %}
 
-      {% if data.hasModeratorRights %}
+      {% if data.widget.displayEditLinkForModerator and data.hasModeratorRights %}
       <div class="description"><a href="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}?resourceId={{idea.id}}&resourceType={{data.widget.resource}}" target="_blank">Bewerk</a></div>
       {% endif %}
 

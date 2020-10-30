@@ -1,3 +1,12 @@
+
+{% if data.idea %}
+{% set activeResource = data.idea %}
+{% else %}
+{% set activeResource = data.activeResource %}
+{% endif %}
+
+
+
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
@@ -7,8 +16,11 @@
 {% if data.piece %}
 {{ data.piece.title }} | {{data.global.siteTitle}}
 {% elseif data.page %}
+
 {% if data.page.metaTitle %}
 {{data.page.metaTitle}}
+{% elif activeResource and activeResource.title %}
+{{ activeResource.title }} | {{data.global.siteTitle}}
 {% else %}
 {{ data.page.title }} | {{data.global.siteTitle}}
 {% endif %}
@@ -49,15 +61,14 @@
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
 
-{% if data.idea %}
-{% set activeIdea = data.idea %}
-<meta property="og:title" content="{{activeIdea.title}}">
+{% if activeResource %}
+<meta property="og:title" content="{{activeResource.title}}">
 <meta property="og:type" content="website">
-<meta property="og:description" content="{{activeIdea.summary}}">
+<meta property="og:description" content="{{activeResource.summary}}">
 <meta property="og:locale" content="nl_NL">
 
-{% if activeIdea.extraData.images[0] %}
-<meta property="og:image" content="{{activeIdea.extraData.images[0]}}/:/rs=w:600,h:315">
+{% if activeResource.extraData.images[0] %}
+<meta property="og:image" content="{{activeResource.extraData.images[0]}}/:/rs=w:600,h:315">
 <meta property="og:image:width" content="600">
 <meta property="og:image:height" content="315">
 {% endif %}
@@ -82,7 +93,6 @@
 	{% endif %}
   {# will be defined later, but will cause errors otherwise #}
   var doShowImage;
-  </script>
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}

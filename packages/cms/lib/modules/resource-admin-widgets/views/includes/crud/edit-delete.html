@@ -19,7 +19,9 @@
 {% endif %}
 
 {% else %}
+{% if data.hasModeratorRights %}
 <div class="alert alert-warning">
   {{ __('Warning: no active resource is found for editing.') }}
 </div>
+{% endif %}
 {% endif %}

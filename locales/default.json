@@ -503,5 +503,7 @@
 	"Show last name for arguments?": "Show last name for arguments?",
 	"No, only for administrators": "No, only for administrators",
 	"Show last name for reactions?": "Show last name for reactions?",
-	"Edit Arguments": "Edit Arguments"
+	"Edit Arguments": "Edit Arguments",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience."
 }

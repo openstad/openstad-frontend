@@ -112,6 +112,12 @@ module.exports = [
     def: true
   },
   {
+    name: 'displayEditLinkForModerator',
+    label: 'Display edit link for Moderator?',
+    type: 'boolean',
+    def: true
+  },
+  {
     name: 'pathForResource',
     label: 'Url structure for the resource ',
     help: 'For instance /article, the code turns that into /article/10.',

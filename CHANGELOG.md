@@ -1,6 +1,12 @@
 # Changelog
 
+
 ## UNRELEASED
+* Update NPM modules for security
+* Don't add JWT when doing a resource overview call since results are cached
+* Empty cache on DELETE call via api proxy
+
+## v0.8.0-PRERLEASE (2020-17-07)
 * Feature: ideas-on-map has a simple view
 * Feature: ideas-on-map details can link to user profile page
 * Bugfix: counterbuttons will now work if multiple buttons on exist on a page
@@ -18,6 +24,9 @@
 * Add ability to hide the edit and delete button in resource admin button, for existing sites need to be set to display manually
 * Add min/max number of to budgeting voting
 * Bugfix use Buffer.byteLength instead of .length for content-length for body api proxy, this breaks with special characters
+* Add refreshSiteConfig call after updating a site config
+* Correct metaTitle for idea and other resources
+
 
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
