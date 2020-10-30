@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
 import Section from './Layout/Section.js';
-import AudioRecorder from 'react-mp3-recorder';
+import { ReactMic } from '@cleandersonlobo/react-mic';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
@@ -25,6 +25,18 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
+
+var toMMSS = function (string) {
+    var sec_num = parseInt(string, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return minutes+':'+seconds;
+}
 
 class LocationPicker extends Component {
   handleClick(e){
@@ -49,34 +61,217 @@ class LocationPicker extends Component {
   }
 }
 
-function AudioRecordField (props) {
+
+export class AudioRecordField extends React.Component {
+  constructor(props) {
+    super(props);
+    this.timer = null;
+
+    this.state = {
+      record: false,
+      recordingTime: 0
+    }
+
+  }
+
+
+  toggleRecording = () => {
+    var recording = !this.state.record;
+
+    if (recording) {
+      this.startTimer();
+    } else {
+      this.stopTimer()
+    }
+
+    this.setState({
+      record: recording
+    });
+  }
+
+  startTimer () {
+    this.timer = setInterval(() => {
+       this.setState({
+        recordingTime: this.state.recordingTime + 1
+      });
+    }, 1000)
+  }
+
+  stopTimer () {
+
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
+
+  onData(recordedBlob) {
+  //  console.log('chunk of real-time data is: ', recordedBlob);
+  }
+
+  onStop(recordedBlob) {
+    console.log('recordedBlob is: ', recordedBlob);
+    this.setState({
+      recordedBlob: recordedBlob
+    })
+  }
+
+  resetRecording () {
+    this.setState({
+      recordedBlob: null,
+      recordingTime: 0
+    })
+  }
+
+  saveRecording () {
+
+  }
+
+  render() {
+    return (
+      <div  style={{textAlign: 'center'}}>
+        <div style={{display: 'none'}}>
+
+          <ReactMic
+            record={this.state.record}
+            visualSetting="frequencyBars"
+            className="sound-wave"
+            onStop={this.onStop.bind(this)}
+            onData={this.onData.bind(this)}
+            strokeColor="#000000"
+            width={120}
+            height={50}
+            backgroundColor="#FF4081"
+          />
+        </div>
+        <div style={{textAlign: 'center'}}>
+          {this.state.recordedBlob &&
+            <a href="javascript: false" onClick={this.resetRecording.bind(this)}>
+              <img src="/x.svg" style={{
+                width: '15px',
+                padding: '7px',
+                opacity: '0.6'
+              }} />
+            </a>
+          }
+          <button
+            className={this.state.record ? 'recorder Rec' : 'recorder notRec'}
+            onClick={this.toggleRecording.bind(this)} type="button">
+          </button>
+          {this.state.recordedBlob &&
+            <a href="javascript: false" onClick={this.saveRecording.bind(this)}>
+              <img src="/check.svg" style={{
+                width: '15px',
+                padding: '7px',
+                opacity: '0.6'
+              }}/>
+            </a>
+          }
+        </div>
+        <div className="duration">{toMMSS(this.state.recordingTime)}</div>
+    </div>
+    );
+  }
+}
+
+function ImageUploadField (props) {
+
+  const defaultImages = props.images ? props.images.map(function (image) {
+    return {
+      source: image,
+      options: {
+        type: "local",
+        metadata: {
+          poster: image,
+        }
+      },
+    }
+  }) : [];
+
+
   return (
     <div>
-      <AudioRecorder
-         onRecordingComplete={(blob) => {
-           console.log('recording', blob);
-         }}
-         onRecordingError={(err) => {
-           console.log('recording error', err)
-         }}
-       />
+      <FilePond
+        onupdatefiles={(files) => {
+          console.log('files updated', files)
+        }}
+        files={defaultImages}
+        allowMultiple={true}
+        maxFiles={10}
+        name='image'
+        maxTotalFileSize="10MB"
+        imagePreviewMinHeight={22}
+        imagePreviewMaxHeight={100}
+        onupdatefiles={fileItems => {
+          //fieldProps.input.onChange('test:image');
+          console.log('fileItems', fileItems);
+
+          if (fileItems[0]) {
+            console.log('fileItems[0].file', fileItems[0].file);
+          }
+        }}
+        server={{
+          process: {
+            url: process.env.IMAGE_API_URL,
+            onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
+              const file = JSON.parse(response);
+              //fieldProps.input.value = JSON.parse(response);
+            //  fieldProps.input.onChange( JSON.parse(response) );
+              return JSON.parse(response).url;
+            },
+            onerror: (response) => { // If error transpires, add error to value with error message.
+              //fieldProps.input.value = '';
+            //  fieldProps.input.onChange('');
+              return false;
+            }
+          }
+        }}
+        name="files"
+        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+      />
     </div>
+
   )
 }
 
 function AudioUploadField (props) {
-  function setFiles ( ) {
 
-  }
+
   return (
     <div>
       <FilePond
-        onupdatefiles={setFiles}
+        onupdatefiles={() => {
+          
+        }}
         allowMultiple={true}
         maxFiles={1}
+        name='image'
+        maxTotalFileSize="10MB"
         imagePreviewMinHeight={22}
         imagePreviewMaxHeight={100}
-        server="/api"
+        onupdatefiles={fileItems => {
+          //fieldProps.input.onChange('test:image');
+          console.log('fileItems', fileItems);
+
+          if (fileItems[0]) {
+            console.log('fileItems[0].file', fileItems[0].file);
+          }
+        }}
+        server={{
+          process: {
+            url: process.env.IMAGE_API_URL,
+            onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
+              const file = JSON.parse(response);
+              //fieldProps.input.value = JSON.parse(response);
+            //  fieldProps.input.onChange( JSON.parse(response) );
+              return JSON.parse(response).url;
+            },
+            onerror: (response) => { // If error transpires, add error to value with error message.
+              //fieldProps.input.value = '';
+            //  fieldProps.input.onChange('');
+              return false;
+            }
+          }
+        }}
         name="files"
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
@@ -138,12 +333,10 @@ class AudioFormField extends Component {
           </div>
         }
         {!this.props.audio && this.state.action && this.state.action === 'record' &&
-
           <AudioRecordField />
         }
         {!this.props.audio && this.state.action && this.state.action === 'upload' &&
           <AudioUploadField
-
           />
         }
       </div>
@@ -219,16 +412,11 @@ class ResourceForm extends Component {
             />
           </Section>
           <Section title="Images">
-            <FilePond
+            <ImageUploadField
               files={files}
-              onupdatefiles={setFiles}
-              allowMultiple={true}
-              maxFiles={3}
-              imagePreviewMinHeight={22}
-              imagePreviewMaxHeight={100}
-              server="/api"
-              name="files"
-              labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+              update={(images) => {
+                update(this.props.resource, 'images', images)
+              }}
             />
             </Section>
           {/*

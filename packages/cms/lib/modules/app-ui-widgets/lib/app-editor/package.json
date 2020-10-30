@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cleandersonlobo/react-mic": "^1.2.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -15,8 +16,8 @@
     "react-filepond": "^7.1.0",
     "react-h5-audio-player": "^3.4.1",
     "react-leaflet": "^2.7.0",
-    "react-scripts": "3.4.3",
-    "react-mp3-recorder": "^1.1.2"
+    "react-mp3-recorder": "^1.1.2",
+    "react-scripts": "3.4.3"
   },
   "scripts": {
     "start": "react-scripts start",
