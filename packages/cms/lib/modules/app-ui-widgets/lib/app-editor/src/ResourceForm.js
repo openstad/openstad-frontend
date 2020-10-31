@@ -1,4 +1,4 @@
-import React, { Component, useLocation } from 'react';
+  import React, { Component, useLocation } from 'react';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
@@ -12,11 +12,16 @@ import 'filepond/dist/filepond.min.css'
 // Import the Image EXIF Orientation and Image Preview plugins
 // Note: These need to be installed separately
 // `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
+
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFilePoster, FilePondPluginFileValidateType)
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -110,6 +115,7 @@ export class AudioRecordField extends React.Component {
 
   onStop(recordedBlob) {
     console.log('recordedBlob is: ', recordedBlob);
+
     this.setState({
       recordedBlob: recordedBlob
     })
@@ -123,7 +129,31 @@ export class AudioRecordField extends React.Component {
   }
 
   saveRecording () {
+    // Turns out getAsFile will return a blob, not a file
+    var form = new FormData();
+    var request = new XMLHttpRequest();
+    var blob =  this.state.recordedBlob.blob;
+    console.log('blob',  this.state.recordedBlob);
+    console.log('blob', blob);
 
+    form.append("file", blob, 'recording.mp3');
+
+    request.open("POST", "/file", true );
+
+    request.send(form);
+
+    request.onreadystatechange = () => {
+      if (request.readyState === 4) {
+        var response = JSON.parse(request.responseText);
+        console.log('response', response);
+          if (request.status === 200) {
+             console.log('successful', response);
+             this.props.update(response.url);
+          } else {
+             console.log('failed');
+          }
+      }
+    }
   }
 
   render() {
@@ -173,64 +203,100 @@ export class AudioRecordField extends React.Component {
   }
 }
 
-function ImageUploadField (props) {
+class ImageUploadField extends Component {
+    constructor(props) {
+      super(props);
 
-  const defaultImages = props.images ? props.images.map(function (image) {
-    return {
-      source: image,
-      options: {
-        type: "local",
-        metadata: {
-          poster: image,
-        }
-      },
+      this.state = {
+        images: []
+      };
     }
-  }) : [];
 
-
-  return (
-    <div>
-      <FilePond
-        onupdatefiles={(files) => {
-          console.log('files updated', files)
-        }}
-        files={defaultImages}
-        allowMultiple={true}
-        maxFiles={10}
-        name='image'
-        maxTotalFileSize="10MB"
-        imagePreviewMinHeight={22}
-        imagePreviewMaxHeight={100}
-        onupdatefiles={fileItems => {
-          //fieldProps.input.onChange('test:image');
-          console.log('fileItems', fileItems);
-
-          if (fileItems[0]) {
-            console.log('fileItems[0].file', fileItems[0].file);
-          }
-        }}
-        server={{
-          process: {
-            url: process.env.IMAGE_API_URL,
-            onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
-              const file = JSON.parse(response);
-              //fieldProps.input.value = JSON.parse(response);
-            //  fieldProps.input.onChange( JSON.parse(response) );
-              return JSON.parse(response).url;
-            },
-            onerror: (response) => { // If error transpires, add error to value with error message.
-              //fieldProps.input.value = '';
-            //  fieldProps.input.onChange('');
-              return false;
+    handleInit() {
+      const currentImages = this.props.images ? this.props.images.map(function (image) {
+        return {
+          source: {url: image},
+          options: {
+            type: "local",
+            file: {
+                name: image,
+           //		 size: 3001025,
+             //	 type: 'image/png'
+           },
+            metadata: {
+              poster: image,
             }
-          }
-        }}
-        name="files"
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-      />
-    </div>
+          },
+        }
+      }) : false;
 
-  )
+      this.setState({
+        images: currentImages
+      })
+    }
+
+    updateImages(images, newImage) {
+      if (images) {
+      images = images
+        .filter(function (fileItem) {
+          return fileItem.serverId;
+        })
+        .map(function (fileItem) {
+          console.log('fileItem', fileItem)
+          const file = fileItem.file;
+          const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
+
+          console.log('fileItem.id', url)
+          return url;
+        });
+
+        if (newImage) {
+          images = [newImage].concat(images);
+        }
+
+        this.props.update(images);
+      }
+    }
+
+    render () {
+      return (
+        <div>
+          <FilePond
+            ref={ref => (this.pond = ref)}
+            files={this.state.images}
+            acceptedFileTypes={['image/png', 'image/jpeg']}
+            allowMultiple={true}
+            allowReorder={true}
+            maxFiles={10}
+            oninit={() => this.handleInit()}
+            server={{
+              process: {
+                url: '/image',
+                onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
+                  const file = JSON.parse(response);
+                  this.updateImages(this.pond.getFiles(), file);
+                  return JSON.parse(response).url;
+                },
+                onerror: (response) => {
+                  return false;
+                }
+              }
+            }}
+            onremovefile={(error, file) => {
+              this.updateImages(this.pond.getFiles());
+            }}
+            onreorderfiles={(files, origin, target) => {
+              this.updateImages(this.pond.getFiles());
+            }}
+            maxTotalFileSize="10MB"
+            imagePreviewMinHeight={22}
+            imagePreviewMaxHeight={100}
+            name="image"
+            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          />
+        </div>
+      );
+  }
 }
 
 function AudioUploadField (props) {
@@ -239,40 +305,27 @@ function AudioUploadField (props) {
   return (
     <div>
       <FilePond
-        onupdatefiles={() => {
-          
-        }}
         allowMultiple={true}
+        acceptedFileTypes={['audio/mpeg', 'audio/mp3']}
         maxFiles={1}
-        name='image'
+        name='file'
         maxTotalFileSize="10MB"
         imagePreviewMinHeight={22}
         imagePreviewMaxHeight={100}
-        onupdatefiles={fileItems => {
-          //fieldProps.input.onChange('test:image');
-          console.log('fileItems', fileItems);
-
-          if (fileItems[0]) {
-            console.log('fileItems[0].file', fileItems[0].file);
-          }
-        }}
         server={{
           process: {
-            url: process.env.IMAGE_API_URL,
+            url: '/file',
             onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
               const file = JSON.parse(response);
-              //fieldProps.input.value = JSON.parse(response);
-            //  fieldProps.input.onChange( JSON.parse(response) );
+              props.update(file.url);
               return JSON.parse(response).url;
             },
-            onerror: (response) => { // If error transpires, add error to value with error message.
-              //fieldProps.input.value = '';
-            //  fieldProps.input.onChange('');
+            onerror: (response) => {
               return false;
             }
           }
         }}
-        name="files"
+        name="file"
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
     </div>
@@ -295,7 +348,12 @@ class AudioFormField extends Component {
         {this.props.audio
           ?
           <div className="audio-display flex justify-content">
-            <small><em>{this.props.audio.filename}</em></small>
+            <small>
+              <em>
+                recording.mp3
+                {/*this.props.audio.file*/}
+              </em>
+            </small>
             <a href="#" className="ui-button" onClick={() => {
               this.props.update(null);
             }}> x </a>
@@ -321,8 +379,6 @@ class AudioFormField extends Component {
             </a>
           </div>}</div>
         }
-
-
         {!this.props.audio && this.state.action &&
           <div style={{textAlign: 'right'}}>
             <a href="#" className="ui-button inline-block" onClick={() => {
@@ -333,10 +389,29 @@ class AudioFormField extends Component {
           </div>
         }
         {!this.props.audio && this.state.action && this.state.action === 'record' &&
-          <AudioRecordField />
+          <AudioRecordField
+            update={(file) => {
+              this.props.update({
+                file: file
+              });
+
+              this.setState({
+                action: null
+              })
+            }}
+          />
         }
         {!this.props.audio && this.state.action && this.state.action === 'upload' &&
           <AudioUploadField
+            update={(file) => {
+              this.props.update({
+                file: file
+              });
+
+              this.setState({
+                action: null
+              })
+            }}
           />
         }
       </div>
@@ -367,7 +442,7 @@ class ResourceForm extends Component {
     var setFiles = () => {};
     return (
       <div>{this.props.resource ?
-        <div>
+        <div key={this.props.resource.data.id}>
           <Section title="location">
             <LocationPicker
               lat={this.props.resource.data.position && this.props.resource.data.position[0] ? this.props.resource.data.position[0] : null}
@@ -413,7 +488,7 @@ class ResourceForm extends Component {
           </Section>
           <Section title="Images">
             <ImageUploadField
-              files={files}
+              images={this.props.resource.data.images}
               update={(images) => {
                 update(this.props.resource, 'images', images)
               }}

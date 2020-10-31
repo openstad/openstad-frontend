@@ -176,10 +176,9 @@ class App extends Component {
             resourceItems={this.state.resourceItems}
             activeResource={this.state.activeResource}
             edit={(resource) => {
-
               this.setState({
                 activeResource: resource
-              })
+              });
             }}
             new={this.newResource.bind(this)}
             delete={this.deleteResource.bind(this)}
