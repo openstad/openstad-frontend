@@ -2,6 +2,8 @@ import React, { Component, useLocation } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
 
+import axios = fron 'axios';
+
 /* Layout elements */
 import LeftPanel from './Layout/LeftPanel.js';
 import TopPanel from './Layout/TopPanel.js';
@@ -145,7 +147,33 @@ class App extends Component {
     this.setState({
       resourceItems: resourceItems,
       activeResource: activeResource
+    });
+
+
+  }
+
+  synchData() {
+    var app = this.state.app;
+
+    app.revisions = app.revisions ? app.revisions : [];
+
+    app.revisions.push({
+      name: 'App demo 1',
+      settings: {},
+      steps: this.state.resourceItems,
     })
+
+    axios.post('/api/tour', app)
+      .then(function (response) {
+        console.log('success response', response);
+        this.setState({
+          app: response
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   deleteResource(resource) {

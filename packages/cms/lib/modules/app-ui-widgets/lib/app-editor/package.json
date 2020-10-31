@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.21.0",
     "filepond": "^4.21.1",
     "filepond-plugin-file-poster": "^2.3.1",
     "filepond-plugin-file-validate-type": "^1.2.5",
