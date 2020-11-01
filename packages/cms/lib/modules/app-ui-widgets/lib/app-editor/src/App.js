@@ -1,8 +1,9 @@
 import React, { Component, useLocation } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
+import scriptLoader from 'react-async-script-loader';
 
-import axios = fron 'axios';
+import axios from 'axios';
 
 /* Layout elements */
 import LeftPanel from './Layout/LeftPanel.js';
@@ -13,9 +14,9 @@ import ListItem from './Layout/ListItem.js';
 import AppPreviewer from './Layout/AppPreviewer.js';
 import Section from './Layout/Section.js';
 
-
 import ResourceForm from './ResourceForm.js';
 import TourApp from './TourApp.js';
+import AppSettingsForm from './AppSettingsForm.js';
 
 const listItems = [
   {
@@ -77,29 +78,43 @@ function UI (props) {
           <div />}
         </RightPanel>
       </div>
+
   </div>
   )
 }
 
 function Sidebar (props) {
-  return <Section title="Steps">
-    {props.resourceItems.map(function(resourceItem) {
-      var active = props.activeResource && resourceItem.data.id === props.activeResource.data.id ;
-      var linkClassName = active ? "list-link active" : "list-link";
-      return(
-        <ListItem active={active}>
-          <a className={linkClassName} onClick={() => {
-            props.edit(resourceItem)
-          }} href="#">
-            {resourceItem.data.title}
-          </a>
-        </ListItem>
-      )
-    })}
-    <div style={{textAlign: 'right'}}>
-    <a href="#" className="plus-icon" onClick={props.new}> +</a>
-    </div>
-  </Section>
+  return (
+    <>
+      <Section title="General">
+      <ListItem active={false} >
+        <a className="list-link" onClick={() => {
+          props.openAppSettings();
+        }} href="#">
+          Settings
+        </a>
+      </ListItem>
+      </Section>
+      <Section title="Steps">
+        {props.resourceItems.map(function(resourceItem) {
+          var active = props.activeResource && resourceItem.data.id === props.activeResource.data.id ;
+          var linkClassName = active ? "list-link active" : "list-link";
+          return(
+            <ListItem active={active}>
+              <a className={linkClassName} onClick={() => {
+                props.edit(resourceItem)
+              }} href="#">
+                {resourceItem.data.title}
+              </a>
+            </ListItem>
+          )
+        })}
+        <div style={{textAlign: 'right'}}>
+        <a href="#" className="plus-icon" onClick={props.new}> +</a>
+        </div>
+      </Section>
+    </>
+  )
 }
 
 
@@ -109,9 +124,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    console.log('props', props)
+
     this.state = {
       activeResource: null,
-      resourceItems: listItems
+      resourceItems: props.resourceItems,
+      appResource:  props.appResource,
     };
   }
 
@@ -126,7 +144,9 @@ class App extends Component {
 
     this.setState({
       resourceItems: this.state.resourceItems,
-      activeResource: newResource
+      activeResource: newResource,
+      displaySettingsModal: true
+
     })
   }
 
@@ -153,14 +173,14 @@ class App extends Component {
   }
 
   synchData() {
-    var app = this.state.app;
+    var app = this.state.appResource;
 
     app.revisions = app.revisions ? app.revisions : [];
 
     app.revisions.push({
-      name: 'App demo 1',
+      title: 'App demo 1',
       settings: {},
-      steps: this.state.resourceItems,
+      resourceItems: this.state.resourceItems,
     })
 
     axios.post('/api/tour', app)
@@ -197,12 +217,20 @@ class App extends Component {
   }
 
   render() {
+    console.log('this.state.displaySettingsModal', this.state)
+
     return (
       <UI
         sidebar={
           <Sidebar
             resourceItems={this.state.resourceItems}
             activeResource={this.state.activeResource}
+            openAppSettings={() => {
+              this.setState({
+                displaySettingsModal: true
+              });
+
+            }}
             edit={(resource) => {
               this.setState({
                 activeResource: resource
@@ -213,6 +241,18 @@ class App extends Component {
           />
         }
         main={
+          <div>
+          {this.state.displaySettingsModal &&
+            <Modal show={true} handleClose={() => {
+              this.setState({
+                displaySettingsModal: false
+              })
+            }}>
+            <AppSettingsForm
+              resource={this.state.appResource}
+            />
+            </Modal>
+          }
           <AppPreviewer>
             <TourApp
               steps={
@@ -222,6 +262,8 @@ class App extends Component {
               }
             />
           </AppPreviewer>
+
+          </div>
         }
         rightPanel={
           this.state.activeResource ?
@@ -240,5 +282,18 @@ class App extends Component {
   }
 }
 
+const Modal = ({ handleClose, show, children }) => {
+  const showHideClassName = show ? "modal display-block" : "modal display-none";
 
-export default App;
+  return (
+    <div className={showHideClassName}>
+      <section className="modal-main">
+        {children}
+        <button onClick={handleClose}>close</button>
+      </section>
+    </div>
+  );
+};
+
+
+export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places'])(App);

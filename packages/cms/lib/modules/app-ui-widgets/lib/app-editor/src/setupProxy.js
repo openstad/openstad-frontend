@@ -46,4 +46,16 @@ module.exports = function(app) {
       }
     })
   );
+
+  app.use(
+    '/api',
+    createProxyMiddleware({
+      target: 'http://localhost:8111/api/site/148',
+      changeOrigin: true,
+      onProxyReq : (proxyReq, req, res) => {
+         // add custom header to request
+         proxyReq.setHeader('Authorization', `Bearer VkajDDVm0KnDaajsjA23AdS`);
+      }
+    })
+  )
 };

@@ -188,9 +188,14 @@
   border-radius: 5px;
   font-size: 12px;
   padding: 2px 10px;
-  display: block;
+  display: inline-block;
 
 }
+
+ .ui-button--primary {
+   background: #47afff;
+   color: white;
+ }
 
 .plus-icon {
   font-size: 24px;

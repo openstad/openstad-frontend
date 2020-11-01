@@ -1,4 +1,4 @@
-  import React, { Component, useLocation } from 'react';
+import React, { Component, useLocation } from 'react';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
@@ -76,9 +76,7 @@ export class AudioRecordField extends React.Component {
       record: false,
       recordingTime: 0
     }
-
   }
-
 
   toggleRecording = () => {
     var recording = !this.state.record;
@@ -430,12 +428,6 @@ class ResourceForm extends Component {
         }
       })
     }
-
-    var handleSort = (sortedData) => {
-      const url = '/api/HotelPhotos/PhotoSort';
-      console.log('sortedData', sortedData);
-    }
-
   //  const [files, setFiles] = useState([])
 
     var files = [];
