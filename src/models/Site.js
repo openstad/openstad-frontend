@@ -428,12 +428,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					maxIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 100,
 					},
 
 					minIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 1,
 					},
 
 					minBudget: {
