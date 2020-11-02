@@ -881,7 +881,7 @@ module.exports = function (db, sequelize, DataTypes) {
       includeUser: {
         include: [{
           model: db.User,
-          attributes: ['role', 'nickName', 'firstName', 'lastName', 'email']
+          attributes: ['id','role', 'nickName', 'firstName', 'lastName', 'email', 'extraData']
         }]
       },
 

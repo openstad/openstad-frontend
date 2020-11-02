@@ -9,6 +9,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
+const fetch = require('node-fetch');
 
 
 const router = express.Router({ mergeParams: true });
@@ -178,7 +179,7 @@ router.route('/:userId(\\d+)')
 				})
 			 .then((json) => {
 				 //update values from API
-				 //
+
 				 db.User
 				  .scope(['includeSite'])
 				  .findAll({where : {
@@ -195,19 +196,24 @@ router.route('/:userId(\\d+)')
 
 				     if (users) {
 				       users.forEach((user) => {
-				         actions.push(function() {
-									 return new Promise((resolve, reject) => {
-				           user
-				            .authorizeData(data, 'update', req.user)
-				            .update(data)
-				            .then((result) => {
-				              resolve();
-				            })
-				            .catch((err) => {
-											console.log('err', err)
-				              reject(err);
-				            })
-									})}())
+
+                 //only update users with active site (they can be deleteds)
+                 if (user.site) {
+  				         actions.push(function() {
+  									 return new Promise((resolve, reject) => {
+  				           user
+  				            .authorizeData(data, 'update', req.user)
+  				            .update(data)
+  				            .then((result) => {
+  				              resolve();
+  				            })
+  				            .catch((err) => {
+  											console.log('err', err)
+  				              reject(err);
+  				            })
+  									})}())
+                  }
+
 				       });
 				     }
 
@@ -238,12 +244,61 @@ router.route('/:userId(\\d+)')
 
 // delete idea
 // ---------
-	.delete(auth.can('user:delete'))
-	.delete(function(req, res, next) {
-		req.results
-			.destroy()
+	.delete(auth.can('User', 'delete'))
+	.delete(async function(req, res, next) {
+    const user = req.results;
+
+    /**
+     * An oauth user can have multiple users in the api, every site has it's own user and right
+     * In case for this oauth user there is only one site user in the API we also delete the oAuth user
+     * Otherwise we keep the oAuth user since it's still needed for the other website
+     */
+    const userForAllSites = await db.User.findAll({ where: { externalUserId: user.externalUserId } });
+
+
+    if (userForAllSites.length <= 1) {
+      /*
+        @todo move this calls to oauth to own apiClient
+       */
+      let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default'] ) || {};
+      let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+      let authUserDeleteUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId + '/delete';
+      let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+      let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+
+      const apiCredentials = {
+       client_id: authClientId,
+       client_secret: authClientSecret,
+      }
+
+      const options = {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       mode: 'cors',
+       body: JSON.stringify(apiCredentials)
+      }
+
+      authUserDeleteUrl = authUserDeleteUrl + '?client_id=' +authClientId +'&client_secret=' + authClientSecret;
+
+      const result = await fetch(authUserDeleteUrl, options);
+    }
+
+   /**
+    * Delete all connected arguments, votes and ideas created by the user
+    */
+    await db.Idea.destroy({where:{ userId: req.results.id }});
+    await db.Argument.destroy({where:{ userId: req.results.id }});
+    await db.Vote.destroy({where:{ userId: req.results.id }});
+
+    /**
+     * Make anonymous? Delete posts
+     */
+		return req.results
+			.destroy({force: true})
 			.then(() => {
-				res.json({ "user": "deleted" });
+				 res.json({ "user": "deleted" });
 			})
 			.catch(next);
 	})

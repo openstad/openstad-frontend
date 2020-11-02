@@ -300,11 +300,14 @@ router.route('/*')
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
 			budget += idea.budget;
 		});
-		if (budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget) {
-			return next();
+		if (!( budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget )) {
+		  return next(createError(400, 'Budget klopt niet'));
 		}
-		return next(createError(400, 'Budget klopt niet'));
-	})
+		if (!( req.votes.length >= req.site.config.votes.minIdeas && req.votes.length <= req.site.config.votes.maxIdeas )) {
+		  return next(createError(400, 'Aantal ideeen klopt niet'));
+		}
+		return next();
+  })
 
   // validaties voor voteType=budgeting-per-theme
 	.post(function(req, res, next) {
@@ -410,6 +413,35 @@ router.route('/*')
 				}}));
 			})
 			.catch(next)
+	})
+
+	router.route('/:voteId(\\d+)')
+		.all(( req, res, next ) => {
+			var voteId = req.params.voteId;
+
+			db.Vote
+			.findOne({
+				where: { id: voteId }
+			})
+			.then(function( vote ) {
+				if( vote ) {
+					req.results = vote;
+				}
+				next();
+			})
+			.catch(next);
+		})
+	.delete(auth.useReqUser)
+	.delete(function(req, res, next) {
+		const vote = req.results;
+		if (!( vote && vote.can && vote.can('delete') )) return next( new Error('You cannot delete this vote') );
+
+		vote
+			.destroy()
+			.then(() => {
+				res.json({ "vote": "deleted" });
+			})
+			.catch(next);
 	})
 
 	router.route('/:voteId(\\d+)/toggle')

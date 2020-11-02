@@ -168,7 +168,7 @@ router
 			email: req.userData.email || null,
 			firstName: req.userData.firstName,
 			siteId: req.site.id,
-			zipCode: req.userData.postcode,
+			zipCode: req.userData.postcode ? req.userData.postcode : null,
 			lastName: req.userData.lastName,
 			// xxx
 			role: req.userData.role || ( ( req.userData.email || req.userData.phoneNumber || req.userData.hashedPhoneNumber ) ? 'member' : 'anonymous' ),
