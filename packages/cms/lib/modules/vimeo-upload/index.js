@@ -73,11 +73,18 @@ module.exports = {
      * Allow vimeo uploads
      */
     self.apos.app.use('/vimeo-upload', fileUpload, (req, res, next) => {
-         // add custom header to request
-         //proxyReq.setHeader('Authorization', `Bearer ${imageApiToken}`);
-         const _clientSecret = req.data.global.vimeoClientId;
-         const _clientId = req.data.global.vimeoClientId;
-         const bearerToken = req.data.global.vimeoAcccesToken;
+
+         const vimeoConfig = req.data.global && req.data.global.siteConfig && req.data.global.siteConfig.vimeo ? req.data.global.siteConfig.vimeo : false;
+
+         if (!vimeoConfig) {
+           res.status(500).json({
+             error: 'Vimeoconfig not existing'
+           });
+         }
+
+         const _clientSecret = vimeoConfig.secret;
+         const _clientId = vimeoConfig.clientId;
+         const bearerToken = vimeoConfig.accessToken;
 
          const vimeoClient = new Vimeo(_clientSecret, _clientId, bearerToken);
 
@@ -103,6 +110,7 @@ module.exports = {
            function (bytesUploaded, bytesTotal) {
              var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
            },
+
            function (error) {
              console.log('error', error);
              res.status(500).json({
