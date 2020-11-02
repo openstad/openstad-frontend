@@ -28,15 +28,19 @@
         margin-top: 0;
     }
   </style>
-  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script>
+    alert(44)
+    </script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
   <link rel="stylesheet" href="/modules/admin-widgets/css/main.css">
-  <script src="/modules/admin-widgets/js/index.js"></script>
+  <script src="/modules/admin-widgets/js/index.js?v=4444"></script>
   <div id="{{data.widget.containerId}}" class="osc-component">
   	<div id="admin-root"></div>
   </div>
   <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    window.addEventListener('load', function(event) {
       var appProps = {
         user: {
           id: {{data.openstadUser.id}}
@@ -87,6 +91,10 @@
           },
         }
       };
+
+      console.log('OpenstadReactAdmin.default', OpenstadReactAdmin.default)
+      console.log('OpenstadReactAdmin.default', OpenstadReactAdmin)
+      console.log('doc get by id', document.getElementById('admin-root'))
 
       ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
     });
