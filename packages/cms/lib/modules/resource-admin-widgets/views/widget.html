@@ -1,13 +1,16 @@
+{% if data.activeResourceType === 'user' or data.activeResourceType === 'activeUser' %}
+{% set userResourceId = data.activeResource.id %}
+{% else %}
+{% set userResourceId = data.activeResource.userId %}
+{% endif %}
 
 {% set idea = data.activeResource %}
-{% set isOwner = data.openstadUser.id === idea.userId %}
+{% set isOwner = (data.openstadUser.id) and (data.openstadUser.id === userResourceId) %}
 {% set isReactedTo = (idea.yes > 0 or idea.no > 0 or idea.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
 {% set isOwnerOrAdmin = ((notReactedTo or not data.widget.hideAdminAfterPublicAction) and isOwner) or data.hasModeratorRights %}
 
 <div class="resource-admin-edit-container">
-
-
 {% if isOwnerOrAdmin %}
 {# Add edit and delete button #}
 {% include 'includes/crud/edit-delete.html' %}

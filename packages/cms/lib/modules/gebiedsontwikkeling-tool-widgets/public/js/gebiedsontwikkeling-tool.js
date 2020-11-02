@@ -129,41 +129,7 @@ function showIdeasOnMap(startWithIdeaId) {
 
 function onClickMap(args) {
 
-	if (displayType == 'simple') {
-		return;
-	}
-
-	if ( !map.config.polygon || !map.isPointInPolygon( args.latlng, map.config.polygon )) {
-		return;
-	}
-
-	if (currentMarker) {
-		markerMakeInactive(currentMarker)
-	}
-
-	if (currentInput.marker) {
-
-		map.updateMarker({ marker: currentInput.marker, lat: args.latlng.lat, lng: args.latlng.lng });
-		showNewIdeaForm();
-		markerMakeActive(currentInput.marker)
-
-	} else {
-
-		currentInput.marker = map.addMarker({ lat: args.latlng.lat, lng: args.latlng.lng, href: onClickMarker, icon: mapIconActive, doNotCluster: true });
-		currentInput.marker.isInput = true;
-
-		showNewIdeaForm();
-
-	}
-
-	currentMarker = currentInput.marker
-	var infoblock = document.querySelector('#info-block');
-	if (infoblock && infoblock.querySelector('#location')) {
-		infoblock.querySelector('#location').value = JSON.stringify([args.latlng.lat, args.latlng.lng]);
-	}
-
-
-	map.getPointInfo(args.latlng, currentMarker, setAddress)
+  return;
 
 }
 
@@ -183,12 +149,8 @@ function onClickMarker(marker) {
 
 	markerMakeActive(marker)
 
-	if (marker.isInput) {
-		showNewIdeaForm();
-	} else {
-		currentIdea = marker.idea;
-		showIdeaDetails();
-	}
+	currentIdea = marker.idea;
+	showIdeaDetails();
 
 	currentMarker = marker;
 

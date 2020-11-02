@@ -6,7 +6,7 @@
     - info
     - formfields: key, info, type(summary, text,)
   #}
-  
+
   {% for formSection in data.widget.dynamicFormSections %}
   <div class="form-group">
     {% if formSection.title %}
@@ -22,12 +22,13 @@
     {% endif %}
 
     {% for field in formSection.fields %}
+    {% if not field.onlyForModerator %}
     <div class="form-field-container">
       <p> {{field.fieldInfo}} </p>
       {% include 'includes/fields/' + field.type + '.html' ignore missing %}
     </div>
     <br />
-
+    {% endif %}
     {% endfor %}
     <br />
   </div>

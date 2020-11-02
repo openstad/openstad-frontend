@@ -21,6 +21,38 @@ const fields = [
     def: false
   },
   {
+    name: 'showEditButton',
+    label: 'Show edit button?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+    def: true
+  },
+  {
+    name: 'showDeleteButton',
+    label: 'Show delete button?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+    def: true
+  },
+  {
     name: 'redirectUrlAfterDelete',
     label: 'Where to redirect to after delete?',
     type: 'string',
@@ -77,7 +109,7 @@ module.exports = {
 
        widget.extraFields = extraFields;
 
-       
+
        return superOutput(widget, options);
      };
 

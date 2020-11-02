@@ -70,6 +70,8 @@ if (fieldsetElement) {
   var pondEl = document.querySelector('.filepond--root');
 }
 
+var formHasChanged = false;
+
 $(document).ready(function () {
   var ideaForm = document.getElementById('js-form');
 
@@ -136,6 +138,9 @@ $(document).ready(function () {
 
   if (ideaForm) {
 
+
+    initLeavePageWarningForForm();
+
     /*$.validator.addClassRules('filepond', {
       validateFilePond: true,
     });*/
@@ -183,6 +188,7 @@ $(document).ready(function () {
           data: $(form).serialize(),
           dataType: 'json',
           success:function(response) {
+              formHasChanged = false;
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
               //use href to simulate a link click! Not replace, that doesn't allow for back button to work
@@ -349,6 +355,30 @@ window.addEventListener('load', function() {
 
 // einde characters counters ------------------------------
 
+function initLeavePageWarningForForm () {
+  if ($('.add-warning-when-leaving-page').length > 0) {
+
+    $(document).on('change', 'form.add-warning-when-leaving-page input, form.add-warning-when-leaving-page select, form.add-warning-when-leaving-page textarea', function (e) {
+      formHasChanged = true;
+    });
+
+    $(document).ready(function () {
+
+      $(window).on('beforeunload', function(e){
+        console.log('formHasChanged in here', formHasChanged)
+
+        if (formHasChanged) {
+          var message = 'Weet u zeker dat u de pagina wilt verlaten? (Het formulier wordt dan geleegd)', e = e || window.event;
+          if (e) {  e.returnValue = message; }
+          return message;
+        } else {
+        }
+      });
+
+
+    });
+  }
+}
 
 
 
