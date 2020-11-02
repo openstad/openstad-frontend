@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.1 (2020-11-02)
+* Vimeo fix for old idea form
+* Vimeo secrets moved to siteConfig
+
 ## v0.8.0 (2020-11-02)
 * Feature: ideas-on-map has a simple view
 * Feature: ideas-on-map details can link to user profile page
