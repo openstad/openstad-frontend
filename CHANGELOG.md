@@ -2,8 +2,9 @@
 
 ## UNRELEASED
 * Update NPM modules for security
+* Fix site reset config
 
-## v0.8.0-PRERLEASE (2020-17-07)
+## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
 * On update user of for all sites add check if site exists, otherwise update breaks
 * If extraData.images is set then the new value ovreplaces the old value instead of being merged (it waas impossible to delete images)
