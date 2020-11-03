@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.8.2 (2020-11-03)
+* Update react-admin
+
 ## v0.8.1 (2020-11-02)
 * Vimeo fix for old idea form
 * Vimeo secrets moved to siteConfig
