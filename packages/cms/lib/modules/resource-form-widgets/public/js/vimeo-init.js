@@ -33,6 +33,8 @@ function handleFileSelect(evt) {
  function uploadFile(file) {
    clearErrors();
 
+   $('#vimeo-dropzone-container').removeClass();
+
    var allowedFileTypes = [
      'video/mp4',
      'video/quicktime',
