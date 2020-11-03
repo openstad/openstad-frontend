@@ -74,7 +74,8 @@ module.exports = {
      */
     self.apos.app.use('/vimeo-upload', fileUpload, (req, res, next) => {
 
-         const vimeoConfig = req.data.global && req.data.global.siteConfig && req.data.global.siteConfig.vimeo ? req.data.global.siteConfig.vimeo : false;
+         const siteConfig = self.apos.settings.options.siteConfig;
+         const vimeoConfig = siteConfig && siteConfig.vimeo ? siteConfig.vimeo : false;
 
          if (!vimeoConfig) {
            res.status(500).json({
