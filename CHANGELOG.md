@@ -1,12 +1,16 @@
 # Changelog
 
-
 ## UNRELEASED
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
 
-## v0.8.0-PRERLEASE (2020-17-07)
+
+## v0.8.1 (2020-11-02)
+* Vimeo fix for old idea form
+* Vimeo secrets moved to siteConfig
+
+## v0.8.0 (2020-11-02)
 * Feature: ideas-on-map has a simple view
 * Feature: ideas-on-map details can link to user profile page
 * Bugfix: counterbuttons will now work if multiple buttons on exist on a page
@@ -27,14 +31,11 @@
 * Add refreshSiteConfig call after updating a site config
 * Correct metaTitle for idea and other resources
 
-
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
 
 ## 0.7.3
 * Fix for html containerId using widget._id for icon-section, otherwise when duplicating multiple sections share the same html id
-* Fix for styling issue CTA button in hamburger menu
->>>>>>> cbffc150714c14d324c7ee9303cb0c9ef5272757
 
 ## 0.7.2 (2020-09-28)
 * Fix for resource admin buttons not appearing
