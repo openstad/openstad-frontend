@@ -36,16 +36,16 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    let queryConditions = req.queryConditions ? req.queryConditions : {};
+    let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
     queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
     db.User
       .scope(...req.scope)
       .findAndCountAll({
-        where: queryConditions,
         offset: req.dbQuery.offset,
         limit: req.dbQuery.limit,
 				...dbQuery,
+        where: queryConditions
       })
       .then(function(result) {
         req.results = result.rows;
