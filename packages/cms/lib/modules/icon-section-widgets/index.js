@@ -12,11 +12,6 @@ module.exports = {
             required: true
         },
         {
-            name:     'containerId',
-            type:     'string',
-            label:    'HTML Container id (must be unique on the page for css)',
-        },
-        {
             type:    'boolean',
             name:    'sectionOpen',
             default: true,
