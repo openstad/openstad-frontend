@@ -88,9 +88,7 @@ function Sidebar (props) {
     <>
       <Section title="General">
       <ListItem active={false} >
-        <a className="list-link" onClick={() => {
-          props.openAppSettings();
-        }} href="#">
+        <a className="list-link" href="#settings">
           Settings
         </a>
       </ListItem>
@@ -133,6 +131,32 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener("hashchange", this.handleHashChange.bind(this), false);
+    this.handleHashChange();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this.handleHashChange.bind(this), false);
+  }
+
+  handleHashChange() {
+    var location =  window.location;
+    var hash = location.hash;
+
+    this.setState({
+      displaySettingsModal: false
+    });
+
+
+    if (hash.startsWith('#settings')) {
+      this.setState({
+        displaySettingsModal: true
+      });
+    }
+
+  }
+
   newResource() {
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
@@ -145,7 +169,7 @@ class App extends Component {
     this.setState({
       resourceItems: this.state.resourceItems,
       activeResource: newResource,
-      displaySettingsModal: true
+      displaySettingsModal: false
 
     })
   }
@@ -169,7 +193,7 @@ class App extends Component {
       activeResource: activeResource
     });
 
-
+    this.synchData()
   }
 
   synchData() {
@@ -182,6 +206,8 @@ class App extends Component {
       settings: {},
       resourceItems: this.state.resourceItems,
     })
+
+    console.log('app.revisions', app.revisions)
 
     axios.post('/api/tour', app)
       .then(function (response) {
@@ -217,7 +243,8 @@ class App extends Component {
   }
 
   render() {
-    console.log('this.state.displaySettingsModal', this.state)
+    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
 
     return (
       <UI
@@ -225,12 +252,6 @@ class App extends Component {
           <Sidebar
             resourceItems={this.state.resourceItems}
             activeResource={this.state.activeResource}
-            openAppSettings={() => {
-              this.setState({
-                displaySettingsModal: true
-              });
-
-            }}
             edit={(resource) => {
               this.setState({
                 activeResource: resource
@@ -242,27 +263,22 @@ class App extends Component {
         }
         main={
           <div>
-          {this.state.displaySettingsModal &&
-            <Modal show={true} handleClose={() => {
-              this.setState({
-                displaySettingsModal: false
-              })
-            }}>
-            <AppSettingsForm
-              resource={this.state.appResource}
-            />
-            </Modal>
-          }
-          <AppPreviewer>
-            <TourApp
-              steps={
-                this.state.resourceItems
-                  .filter(function(resource){ return resource.type === 'step'; })
-                  .map(function(step){ return step.data; } )
-              }
-            />
+            {this.state.displaySettingsModal &&
+              <Modal show={true}>
+              <AppSettingsForm
+                resource={this.state.appResource}
+              />
+              </Modal>
+            }
+            <AppPreviewer>
+              <TourApp
+                steps={
+                  this.state.resourceItems
+                    .filter(function(resource){ return resource.type === 'step'; })
+                    .map(function(step){ return step.data; } )
+                }
+              />
           </AppPreviewer>
-
           </div>
         }
         rightPanel={
@@ -289,11 +305,10 @@ const Modal = ({ handleClose, show, children }) => {
     <div className={showHideClassName}>
       <section className="modal-main">
         {children}
-        <button onClick={handleClose}>close</button>
+        <a class="modal-close" href="#">✕</a>
       </section>
     </div>
   );
 };
 
-
-export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places'])(App);
+export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(App);

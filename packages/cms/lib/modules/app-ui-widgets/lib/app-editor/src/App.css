@@ -140,6 +140,12 @@ body .filepond--panel-center {
   box-shadow: 0px 0px 3px 3px rgb(0 0 0 / 10%);
   border: 1px solid #eee;
   border-radius: 3px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 
 }
 
@@ -149,4 +155,28 @@ body .filepond--panel-center {
 
 .display-none {
   display: none;
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  background: white;
+  left: 0px;
+  top: -3px;
+  border-left: 1px solid #d8d8d8;
+  border-right: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+  box-sizing: border-box;
+  right: 0px;
+  border-radius: 0 0 5px 5px;
+  padding: 0 10px 0;
+  display: block;
+
+  &--active {
+    display: block;
+  }
+}
+
+.suggestion-item, .suggestion-item--active {
+  font-size: 12px;
+  padding: 10px 0;
 }

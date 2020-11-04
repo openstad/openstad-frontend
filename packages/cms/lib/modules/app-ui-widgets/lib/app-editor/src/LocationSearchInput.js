@@ -17,6 +17,10 @@ class LocationSearchInput extends React.Component {
   };
 
   handleSelect = address => {
+    this.setState({
+      address: address
+    });
+
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => console.log('Success', latLng))
@@ -24,21 +28,28 @@ class LocationSearchInput extends React.Component {
   };
 
   render() {
+
+
     return (
       <PlacesAutocomplete
         value={this.state.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => {
+
+      
+        return (
           <div>
             <input
+              value={this.state.address}
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <div style={{position: 'relative'}}>
+            <div className="autocomplete-dropdown-container ">
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
@@ -59,15 +70,13 @@ class LocationSearchInput extends React.Component {
                   </div>
                 );
               })}
+              </div>
             </div>
           </div>
-        )}
+        )}}
       </PlacesAutocomplete>
     );
   }
 }
 
 export default LocationSearchInput;
-
-//
-//export default scriptLoader(['https://maps.googleapis.com/maps/api/js?key=API_KEY'])(LocationSearchInput);

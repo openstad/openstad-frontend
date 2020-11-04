@@ -4,6 +4,10 @@ import Section from './Layout/Section.js';
 
 
 class AppSettingsForm extends Component {
+  handleSave() {
+    window.location.hash = '#';
+  }
+
   render() {
     var update = (resource, key, value) => {
       this.props.updateResource({
@@ -25,25 +29,17 @@ class AppSettingsForm extends Component {
             <input
               type=""
               name="title"
-              defaultValue=""
-              onChange={(event) => {
-                update(this.props.resource, 'title', event.currentTarget.value)
-              }}
+              defaultValue={this.props.resource.title}
+
             />
           </Section>
 
-          <Section title="Location">
-            Where is the tour located (or starts)?
+          <Section title="Start Location">
             <LocationSearchInput />
           </Section>
 
           <div style={{display: "flex", justifyContent: 'flex-end', padding: '20px 0'}}>
-            <button class="ui-button" style={{marginRight: '5px'}}>
-              Cancel
-            </button>
-            <button class="ui-button ui-button--primary" onclick={() => {
-
-            }}>
+            <button class="ui-button ui-button--primary" onClick={this.handleSave.bind(this)}>
               Ok
             </button>
           </div>
