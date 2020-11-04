@@ -39,7 +39,7 @@ module.exports = {
       {
         name: 'displaySettings',
         label: 'Display settings',
-        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons']
+        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator']
       },
       {
         name: 'gridder',

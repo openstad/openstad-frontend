@@ -532,5 +532,6 @@
 	"Max length": "Max length",
 	"Save field in root if data object and not in extraData, will only work if column exists in database)": "Save field in root if data object and not in extraData, will only work if column exists in database)",
 	"Only show to moderators": "Only show to moderators",
-	"Field options": "Field options"
+	"Field options": "Field options",
+	"Display edit link for Moderator?": "Display edit link for Moderator?"
 }
