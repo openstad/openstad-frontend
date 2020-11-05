@@ -156,6 +156,16 @@ module.exports = {
     					},
     				}
 
+            // Add function for rendering raw string with nunjucks templating engine
+            // Yes this ia a powerful but dangerous plugin :), admin only
+            widget.renderString = (rawInput, data) => {
+                try {
+                  return self.apos.templates.renderStringForModule(req, rawInput, data, self);
+                } catch (e) {
+                  return 'Error....'
+                }
+             }
+
     				const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
 
             // Todo: refactor this to get resourceId in a different way

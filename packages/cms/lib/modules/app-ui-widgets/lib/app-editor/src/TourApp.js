@@ -14,6 +14,46 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
+L.NumberedDivIcon = L.Icon.extend({
+	options: {
+    // EDIT THIS TO POINT TO THE FILE AT http://www.charliecroom.com/marker_hole.png (or your own marker)
+    iconUrl: '/map-marker.png',
+    number: '',
+    shadowUrl: null,
+    iconSize: new L.Point(25, 41),
+		iconAnchor: new L.Point(13, 41),
+		popupAnchor: new L.Point(0, -33),
+    iconSize:     [38, 38],
+    shadowSize:    [38, 38],
+    iconAnchor:   [10, 20],
+    shadowAnchor: [4, 62],
+    popupAnchor:  [-3, -76],
+		/*
+		iconAnchor: (Point)
+		popupAnchor: (Point)
+		*/
+		className: 'leaflet-div-icon'
+	},
+
+	createIcon: function () {
+		var div = document.createElement('div');
+		var img = this._createImg(this.options['iconUrl']);
+    img.setAttribute ( "class", "icon-img" );
+		var numdiv = document.createElement('div');
+		numdiv.setAttribute ( "class", "number" );
+		numdiv.innerHTML = this.options['number'] || '';
+		div.appendChild ( img );
+		div.appendChild ( numdiv );
+		this._setIconStyles(div, 'icon');
+		return div;
+	},
+
+	//you could change this to add a shadow like in the normal marker if you really wanted
+	createShadow: function () {
+		return null;
+	}
+});
+
 const mapCenter = [52.370216, 4.895168];
 
 function TourList () {
@@ -85,12 +125,16 @@ class TourMap extends Component {
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
-        {this.props.steps.map(function(step) {
+        {this.props.steps.map(function(step, i) {
           return (
-            <Marker position={step.position} onClick={function () {
-              var location =  window.location;
-              location.hash = '#step-detail-' + step.id;
-            }}>
+            <Marker
+              position={step.position}
+              onClick={function () {
+                var location =  window.location;
+                location.hash = '#step-detail-' + step.id;
+              }}
+              icon={new L.NumberedDivIcon({number: i + 1})}
+            >
             {/*  <Popup>
                 {step.images && step.images[0] && <img src={step.images[0]} />}
                 {step.title}.<br />

@@ -180,3 +180,23 @@ body .filepond--panel-center {
   font-size: 12px;
   padding: 10px 0;
 }
+
+.icon-img {
+  width: 20px;
+}
+
+body .leaflet-div-icon {
+	background: transparent;
+	border: none;
+}
+
+body .leaflet-marker-icon .number {
+    position: relative;
+    top: -26px;
+    font-size: 12px;
+    width: 25px;
+    text-align: center;
+    left: -2px;
+    color: white;
+    font-weight: bold;
+}

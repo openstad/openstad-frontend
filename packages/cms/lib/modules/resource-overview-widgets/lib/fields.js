@@ -64,7 +64,7 @@ module.exports = [
       {
         value: 'gridder',
         label: 'Card in a grid - opens item into on the same page',
-        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter', 'displayDescription', 'displayShareButtons']
+        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'editUrl', 'showVoteCounter']
       },
       {
         value: 'product',
@@ -76,6 +76,12 @@ module.exports = [
         showFields: ['rawInput']
       },
     ]
+  },
+  {
+    name: 'editUrl',
+    label: 'Edit url ',
+    type: 'string',
+    required: false
   },
   {
     name: 'cardStyle',
@@ -111,6 +117,12 @@ module.exports = [
   {
     name: 'displayPagination',
     label: 'Display pagination',
+    type: 'boolean',
+    def: true
+  },
+  {
+    name: 'displayEditLinkForModerator',
+    label: 'Display edit link for Moderator?',
     type: 'boolean',
     def: true
   },
@@ -546,6 +558,12 @@ module.exports = [
     label: 'Allow for liking on ideas directly in overview',
     help: 'Note: voting only works for ideas with OPEN status'
   },
+  {
+    type: 'string',
+    name: 'siteId',
+    label: 'Site ID',
+  },
+
 ].concat(
   ideaStates.map((state) => {
     return {

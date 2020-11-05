@@ -201,7 +201,6 @@ class App extends Component {
   fetchApp () {
     axios.get(`/api/tour/${this.props.appId}`)
       .then( (response) => {
-        console.log('success response', response.data);
         const appResource =  response.data;
 
         this.setState({
@@ -226,11 +225,8 @@ class App extends Component {
       resourceItems: this.state.resourceItems,
     })
 
-    console.log('app.revisions', app.revisions)
-
     axios.put(`/api/tour/${app.id}`, app)
       .then(function (response) {
-        console.log('success response', response);
         this.setState({
           app: response
         })

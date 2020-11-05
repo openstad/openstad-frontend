@@ -17,11 +17,13 @@ if (votingContainer !== null) {
 
   // config vars; overwritten in template
   var votingType = votingType || 'budgeting'; // budgeting-per-theme or budgeting or count
-  var maxIdeas = maxIdeas || 5;
-  var minIdeas = minIdeas || 5;
+  var maxIdeas = maxIdeas || 100;
+  var minIdeas = minIdeas || 1;
   var initialAvailableBudget = initialAvailableBudget || 300000;
   var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
+  console.log(initialAvailableBudget, minimalBudgetSpent);
+  
   var currentTheme;
 
   // dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
@@ -67,7 +69,9 @@ if (votingContainer !== null) {
 
 	  if (votingType === 'count' && currentSelection.length < maxIdeas) {
 		  currentSelection.push(id);
-	  } else if (( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
+	  } else if (votingType === 'budgeting' && availableBudgetAmount >= element.budgetValue && currentSelection.length < maxIdeas && currentSelection.indexOf(id) == -1) {
+		  currentSelection.push(id);
+	  } else if (votingType === 'budgeting-per-theme' && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
 		  currentSelection.push(id);
 	  }
 
@@ -105,10 +109,12 @@ if (votingContainer !== null) {
     switch (votingType) {
 
       case 'count':
-		    availableIdeas = sortedElements && currentSelection ? sortedElements.length - currentSelection.length : 0;
+		    availableIdeas = sortedElements && currentSelection ? sortedElements.length - currentSelection.length : 0; // not used?
         break;
 
       case 'budgeting':
+		    availableIdeas = sortedElements && currentSelection ? sortedElements.length - currentSelection.length : 0; // not used?
+
 		    availableBudgetAmount = initialAvailableBudget;
 
 		    if (currentSelection) {
@@ -248,7 +254,19 @@ if (votingContainer !== null) {
 			  if ((votingType === 'count' && currentSelection.length === 0) || ( ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) && initialAvailableBudget - availableBudgetAmount == 0 )) {
 				  message = 'Je hebt nog geen plannen geselecteerd.'
 			  } else {
-				  message = ( votingType === 'count' ? 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.' : 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.' );
+          if (votingType === 'count') {
+            message = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+          }
+          if (votingType === 'budgeting') {
+            if (initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent) {
+				      message = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
+            } else {
+              message = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+            }
+			    }
+          if (votingType === 'budgeting-per-theme') {
+				    message = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
+			    }
 			  }
 			  addError(document.querySelector('#current-budget-preview'), message)
 			  return;
@@ -402,7 +420,7 @@ if (votingContainer !== null) {
 
 			    previewImages.innerHTML = '';
 			    currentSelection.forEach( function(id) {
-				    var element = sortedElements.find( function(el) { console.log (el.ideaId, el, id); return el.ideaId == id } );
+				    var element = sortedElements.find( function(el) { return el.ideaId == id } );
 				    var previewImage = element ? element.querySelector('.idea-image-mask').cloneNode(true) : null;
 
             if (previewImage) {
@@ -747,7 +765,7 @@ if (votingContainer !== null) {
         break;
 
       case 'budgeting':
-		    return initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent && availableBudgetAmount >= 0
+		    return ( currentSelection.length >= minIdeas && currentSelection.length <= maxIdeas ) && ( initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent && availableBudgetAmount >= 0 )
         break;
 
       case 'budgeting-per-theme':
@@ -1285,8 +1303,9 @@ if (votingContainer !== null) {
 
 			    // is available, i.e. amount is smaller than the available budget
 			    if (
-				    (votingType === 'count' && maxIdeas <= currentSelection.length)
-				      || element.budgetValue > availableBudgetAmount
+				    (( votingType === 'count' ) && maxIdeas <= currentSelection.length)
+				      || ( votingType === 'budgeting' && ( maxIdeas <= currentSelection.length || element.budgetValue > availableBudgetAmount ) )
+				      || ( votingType === 'budgeting-per-theme' && element.budgetValue > availableBudgetAmount )
 			    ) {
 				    $('.budget-' + element.ideaId).addClass('unavailable');
 				    $('.button-add-idea-to-budget-' + element.ideaId).addClass('unavailable');

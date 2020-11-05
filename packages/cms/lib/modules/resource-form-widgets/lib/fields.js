@@ -79,6 +79,8 @@ const fields = [
       ],
       def: true
     },
+
+
     {
       name: 'dynamicFormSections',
       label: 'Form Sections',
@@ -110,17 +112,22 @@ const fields = [
                   {
                       value: 'radio',
                       label: "Radio",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions']
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
                   },
                   {
                       value: 'text',
                       label: "Text",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'hidden',
+                      label: "Hidden",
+                      showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey']
                   },
                   {
                       value: 'textarea',
                       label: "Textarea",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
                   },
                   {
                       value: 'tags',
@@ -131,6 +138,11 @@ const fields = [
                       value: 'price',
                       label: "Price",
                       showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'raw',
+                      label: "Raw",
+                      showFields: ['rawInput']
                   },
                   {
                       value: 'advice',
@@ -248,6 +260,11 @@ const fields = [
               label: 'Info',
             },
             {
+              name: 'fieldValue',
+              type: 'string',
+              label: 'Default value (will be overwritten by url and resource value)',
+            },
+            {
               name: 'fieldRequired',
               label: 'Required',
               type: 'boolean'
@@ -261,6 +278,44 @@ const fields = [
               name: 'fieldMax',
               label: 'Max length',
               type: 'string',
+            },
+            {
+              name: 'rawInput',
+              label: 'Raw input',
+              type: 'string',
+              textarea: true
+            },
+            {
+              name: 'notExtraDataKey',
+              label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',
+              type: 'boolean',
+              choices: [
+                {
+                  label: 'Yes',
+                  value: true,
+                },
+                {
+                  label: 'No',
+                  value: false,
+                }
+              ],
+              def: false
+            },
+            {
+              name: 'onlyForModerator',
+              label: 'Only show to moderators',
+              type: 'boolean',
+              choices: [
+                {
+                  label: 'Yes',
+                  value: true,
+                },
+                {
+                  label: 'No',
+                  value: false,
+                }
+              ],
+              def: false
             },
             {
               name: 'fieldOptions',

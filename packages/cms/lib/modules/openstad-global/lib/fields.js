@@ -45,10 +45,6 @@ const flagChoices = [
     value: 'red'
   },
   {
-    label: 'Donkerrood',
-    value: 'dark-red'
-  },
-  {
     label: 'Paars',
     value: 'purple'
   },
@@ -158,11 +154,6 @@ module.exports = [
     type: 'string',
     name: 'tagmanager',
     label: 'Google Tag Manager Property ID (like GTM-xxxxx)'
-  },
-  {
-    type: 'boolean',
-    name: 'showAdminBar',
-    label: 'Show the admin bar for oauth admin users.'
   },
   {
     name: 'siteLogo',
@@ -564,21 +555,7 @@ module.exports = [
       }
     ]
   },
-  {
-    name: 'vimeoClientId',
-    label: 'Vimeo client id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoClientSecret',
-    label: 'Vimeo secret id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoAcccesToken',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
+
   {
     name: 'vimeoViewSettings',
     //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',

@@ -48,19 +48,27 @@ class LocationPicker extends Component {
     this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
   }
 
+  getZoomLevel() {
+    return this.map && this.map.leafletElement ? this.map.leafletElement.getZoom() : 12;
+  }
+
   render() {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
     console.log('currentPos', currentPos)
     return (
-      <Map center={currentPos} zoom={12} style={{ width: '100%', height: '250px'}} onClick={this.handleClick.bind(this)}>
+      <Map
+        center={currentPos}
+        ref={(ref) => { this.map = ref; }}
+        zoom={this.getZoomLevel()}
+        style={{ width: '100%', height: '250px'}}
+        onClick={this.handleClick.bind(this)}
+      >
         <TileLayer
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
-        {currentPos && <Marker position={currentPos}>
-          <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-        </Marker>}
+        {currentPos && <Marker position={currentPos} />}
       </Map>
     )
   }
@@ -131,8 +139,6 @@ export class AudioRecordField extends React.Component {
     var form = new FormData();
     var request = new XMLHttpRequest();
     var blob =  this.state.recordedBlob.blob;
-    console.log('blob',  this.state.recordedBlob);
-    console.log('blob', blob);
 
     form.append("file", blob, 'recording.mp3');
 
@@ -257,10 +263,18 @@ class ImageUploadField extends Component {
     }
 
     render () {
+      console.log('this.state.images', this.state.images);
+
       return (
         <div>
           <FilePond
             ref={ref => (this.pond = ref)}
+            onupdatefiles={fileItems => {
+              // Set currently active file objects to this.state
+              this.setState({
+                images: fileItems.map(fileItem => fileItem.file)
+              });
+            }}
             files={this.state.images}
             acceptedFileTypes={['image/png', 'image/jpeg']}
             allowMultiple={true}

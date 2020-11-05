@@ -18,7 +18,6 @@ const sortingOptions      = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT   = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey    = process.env.GOOGLE_MAPS_API_KEY;
 
-
 const MAX_PAGE_SIZE = 100;
 
 module.exports = {
@@ -41,7 +40,7 @@ module.exports = {
       {
         name: 'displaySettings',
         label: 'Display settings',
-        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons']
+        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator']
       },
       {
         name: 'gridder',
@@ -282,8 +281,10 @@ module.exports = {
           };
         }
 
+        const siteId = widget.siteId ? widget.siteId : req.data.global.siteId;
+
         // format string
-        const getUrl = `/api/site/${req.data.global.siteId}/${resource}?${qs.stringify(params)}`;
+        const getUrl = `/api/site/${siteId}/${resource}?${qs.stringify(params)}`;
         const cacheKey = encodeURIComponent(getUrl);
 
         const options = {
@@ -292,9 +293,12 @@ module.exports = {
           json: true
         };
 
-        if (req.session.jwt) {
-          options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
-        }
+        /*
+           We explicitly don't add JWT since results are cached
+          if (req.session.jwt) {
+            options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
+          }
+        */
 
         const queryParams = Object.assign({}, queryObject);
 
@@ -329,7 +333,6 @@ module.exports = {
             return new Promise((resolve, reject) => {
               rp(options)
               .then((response) => {
-
                 // set the cache by url key, this is perfect unique identifier
                 if (globalData.cacheIdeas) {
                   cache.set(cacheKey, JSON.stringify(response), {
@@ -432,6 +435,7 @@ module.exports = {
       widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
       widget.activeResources = response.records ? response.records.map((record)=> {
         // delete because they are added to the data-attr and will get very big
+
         delete record.description;
 
         if (widget.resource === 'product') {
@@ -496,8 +500,6 @@ module.exports = {
 
          widget.activeResources = resourceIds.length > 0 ? widget.activeResources.filter(idea => resourceIds.indexOf(idea.id) !== -1) : widget.activeResources;
        }
-
-
 
        return superOutput(widget, options);
      };

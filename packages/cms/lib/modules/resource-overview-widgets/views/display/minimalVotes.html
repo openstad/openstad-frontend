@@ -1,4 +1,5 @@
 {% set columns = 3 %}
+
 <div
   class="tile-list ideas-list list "
   {% if data.widget.defaultSorting %}
@@ -8,6 +9,11 @@
 <div class="flex-col flex-col-{{columns}}">
 {% for idea in data.widget.activeResources %}
 
+{% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
+{% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
+{% else %}
+{% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
+{% endif %}
 <div
   class="tile idea-item list-item {{idea.status}} {{'USER' if data.openstadUser.id === idea.userId}} theme-{{idea.extraData.theme | slugify}} {{data.widget.cardStyle}}"
   data-createdtime="{{data.widget.parseDateToTime(idea.createdAt)}}"
@@ -18,7 +24,8 @@
   data-theme="{{idea.extraData.theme}}"
   data-area="{{idea.extraData.area}}"
 >
-  <a href="{{data.widget.pathForResource}}/{{idea.id}}">
+
+  <a href="{{ideaUrl}}">
     {% if data.widget.displayRanking and idea.status != 'DENIED' and idea.ranking %}
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}

@@ -1,6 +1,6 @@
 <div id="default-info-block">
 	<div class="header">
-		Klik op de kaart om te starten
+		Klik op een punt om te starten
 	</div>
 </div>
 
@@ -378,7 +378,7 @@
 	<div class="header clickable" onclick="toggleInfoBlock()">
 		Probleem details
 	</div>
-	<div class="sub-header arguments-icon arrow-right is-link" onclick="showIdeaArguments()">
+	<div id="show-idea-arguments-button" class="sub-header arguments-icon arrow-right is-link">
 		<span id="show-idea-arguments-button-text"></span>
 	</div>
 	<div class="content">
@@ -439,37 +439,10 @@
 	</div>
 	<div class="content arguments">
 		<div class="not-logged-in">
-			<p class="font-16">
-				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
-			</p>
-			<p>
-				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
-			</p>
-			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showArguments=[[ideaId]]" class="button-blue">
-				Aanmelden
-			</a>
+      <br/>
 		</div>
 		<div class="arguments-form">
-			<form id="argument-form">
-				<div id="step-0" class="step open">
-					<p class="font-16">
-						<strong>Ervaar jij dit probleem ook? Of wil je op dit probleem aanvullen? Laat het ons hieronder weten!</strong>
-					</p>
-					<p>
-						<h4>Toelichting:</h4>
-						<textarea id="description" onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
-						<div id="charsLeftDescription" class="charsLeft">
-							<div class="min">Nog minimaal <span>0</span> tekens</div>
-							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
-						</div>
-						<span id="form-warning-description" class="form-warning">Je toelichting is te [[langkort]]</span>
-					</p>
-					<br/>
-					<a id="submitButton" href="javascript: void submitNewArgument(currentIdea, document.querySelector('#argument-form'));" class="button-blue">
-						Plaats reactie
-					</a>
-				</div>
-			</form>
+      <br/>
 		</div>
 		<div class="argument">
 			<div class="description"></div>
@@ -477,7 +450,7 @@
 				<span class="username"></span> | <span class="date"></span>
 			</p>
 			<div class="votes-and-reactions">
-				<div class="votes" onclick="voteForArgument(currentIdea, [[argumentId]])">
+				<div class="votes">
 					Mee eens (<span class="no-of-votes"></span>)
 				</div>
 				<div class="reactions" onclick="showIdeaArgumentReactions(currentIdea, [[argumentId]])">
@@ -508,41 +481,16 @@
 				<span class="username"></span> | <span class="date"></span>
 			</p>
 			<div class="votes-and-reactions">
-				<div class="votes" onclick="voteForArgument(currentIdea, [[argumentId]])">
+				<div class="votes">
 					Mee eens (<span class="no-of-votes"></span>)
 				</div>
 			</div>
 		</div>
 		<div class="not-logged-in">
-			<p>
-				<strong>Om mee te kunnen praten moet je eerst aangemeld zijn.</strong>
-			</p>
-			<p>
-				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
-			</p>
-			<a href="/oauth/login?returnTo={{data.currentUrl}}#ideaId=[[ideaId]]&showReactions=[[argumentId]]" class="button-blue">
-				Aanmelden
-			</a>
+      <br/>
 		</div>
 		<div class="argument-reactions-form">
-			<form id="argument-reactions-form">
-				<div class="step open">
-					<p>
-						<h4>Je reactie hierop:</h4>
-						<textarea id="description" onfocus="document.querySelector('#form-warning-description').style.display = 'none'"></textarea>
-						<div id="charsLeftDescription" class="charsLeft">
-							<div class="min">Nog minimaal <span>0</span> tekens</div>
-							<div class="max">Je hebt nog <span>0</span> tekens over.</div>
-						</div>
-						<span id="form-warning-description" class="form-warning">Je toelichting is te [[langkort]]</span>
-					</p>
-					<br/>
-					<a id="submitButton" href="javascript: void submitNewArgumentReaction(currentIdea, document.querySelector('#argument-reactions-form'));" class="button-blue">
-						Plaats reactie
-					</a>
-					<input id="argumentId" type="hidden" value="[[argumentId]]"/>
-				</div>
-			</form>
+      <br/>
 		</div>
 		<h4>Reacties van anderen:</h4>
 		<div class="argument-reaction">

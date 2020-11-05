@@ -15,7 +15,8 @@ module.exports = {
 
         // add custom header to request
         proxyReq.setHeader('Accept', 'application/json');
-        proxyReq.setHeader('Content-Type', 'application/json');
+        proxyReq.setHeader('Content-Type', 'application/json; charset=utf-8');
+
 
         if (req.session.jwt) {
           proxyReq.setHeader('X-Authorization', `Bearer ${req.session.jwt}`);
@@ -23,22 +24,33 @@ module.exports = {
 
         //bodyParser middleware parses the body into an object
         //for proxying to worl we need to turn it back into a string
+
+        if (req.method == "POST" || req.method == "PUT" || req.method == "DELETE") {
+          eventEmitter.emit('apiPost');
+        }
+
         if ( (req.method == "POST" ||req.method == "PUT")  && req.body ) {
            // emit event
-           eventEmitter.emit('apiPost');
            let body = req.body;
+           let newBody = '';
            delete req.body;
 
            // turn body object  back into a string
            //let newBody = qs.stringify(body, { skipNulls: true })
-           let newBody = JSON.stringify(body);
-           proxyReq.setHeader( 'content-length', newBody.length );
-           proxyReq.write( newBody );
-           proxyReq.end();
+           try {
+             newBody = JSON.stringify(body);
+             proxyReq.setHeader( 'content-length', Buffer.byteLength(newBody, 'utf8'));
+             proxyReq.write( newBody );
+             proxyReq.end();
+           } catch (e) {
+             console.log('stringify err', e)
+           }
+
          }
+
      },
      onError: function(err) {
-       //console.log('errerrerr newBody', err);
+       console.log('errerrerr newBody', err);
      }
    }));
 
