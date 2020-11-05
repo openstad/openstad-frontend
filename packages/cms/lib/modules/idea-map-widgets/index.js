@@ -55,11 +55,26 @@ module.exports = {
         },
       ]
     },
-
     {
       name: 'counterText',
       type: 'string',
       label: 'Counter text',
+    },
+    {
+      name: 'useMarkerLinks',
+      type: 'boolean',
+      label: 'Flags link to details page',
+      def: true,
+      choices: [
+        {
+          value: true,
+          label: "Yes",
+        },
+        {
+          value: false,
+          label: "No"
+        },
+      ]
     },
     {
       type: 'string',
@@ -80,6 +95,11 @@ module.exports = {
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
+        name: 'map',
+        label: 'Map',
+        fields: ['useMarkerLinks']
+      },
+      {
         name: 'ctaButon',
         label: 'Call-To-Action button',
         fields: ['displayCtaButton', 'ctaUrl', 'ctaText']
@@ -88,6 +108,11 @@ module.exports = {
         name: 'counter',
         label: 'Counter',
         fields: ['displayCounter', 'counterText']
+      },
+      {
+        name: 'content',
+        label: 'Content',
+        fields: ['filterIdeas', 'filterExcludeThemes', 'filterIncludeThemes']
       }
     ]);
 
@@ -153,6 +178,7 @@ module.exports = {
                   mapCenterLng: globalData.mapCenterLng,
                   mapZoomLevel: globalData.mapZoomLevel,
                   styles: styles,
+                  useMarkerLinks: widget.useMarkerLinks,
                   googleMapsApiKey: googleMapsApiKey
               })
               .setPolygon(globalData.mapPolygons)

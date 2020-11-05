@@ -533,4 +533,18 @@
 	"Save field in root if data object and not in extraData, will only work if column exists in database)": "Save field in root if data object and not in extraData, will only work if column exists in database)",
 	"Only show to moderators": "Only show to moderators",
 	"Field options": "Field options"
+	"Edit Date countdown bar": "Edit Date countdown bar",
+	"Save Ideas map": "Save Ideas map",
+	"Call-To-Action button": "Call-To-Action button",
+	"Counter": "Counter",
+	"Content": "Content",
+	"Flags link to details page": "Flags link to details page",
+	"Display CTA button": "Display CTA button",
+	"CTA url": "CTA url",
+	"CTA text": "CTA text",
+	"Display counter": "Display counter",
+	"Counter text": "Counter text",
+	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
+	"Exclude ideas with this theme: (theme names, comma seperated)": "Exclude ideas with this theme: (theme names, comma seperated)",
+	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)"
 }
