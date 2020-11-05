@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased updates
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+
 ## v0.8.2 (2020-11-03)
 * Update react-admin
 
