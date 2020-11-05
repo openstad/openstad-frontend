@@ -44,8 +44,9 @@ const appResource = {
 ReactDOM.render(
   <React.StrictMode>
     <App
+      appId={1}
       newResourceObject={newResourceObject}
-      resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
+    //  resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
       appResource={appResource}
     />
   </React.StrictMode>,

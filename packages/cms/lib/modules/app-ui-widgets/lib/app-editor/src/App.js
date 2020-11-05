@@ -122,16 +122,18 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    console.log('props', props)
 
     this.state = {
       activeResource: null,
       resourceItems: props.resourceItems,
       appResource:  props.appResource,
+      app: false
     };
   }
 
   componentDidMount() {
+    this.fetchApp();
+
     window.addEventListener("hashchange", this.handleHashChange.bind(this), false);
     this.handleHashChange();
   }
@@ -196,6 +198,23 @@ class App extends Component {
     this.synchData()
   }
 
+  fetchApp () {
+    axios.get(`/api/tour/${this.props.appId}`)
+      .then( (response) => {
+        console.log('success response', response.data);
+        const appResource =  response.data;
+
+        this.setState({
+          app: appResource,
+          resourceItems: appResource.revisions[appResource.revisions.length -1].resourceItems
+        });
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   synchData() {
     var app = this.state.appResource;
 
@@ -209,7 +228,7 @@ class App extends Component {
 
     console.log('app.revisions', app.revisions)
 
-    axios.post('/api/tour', app)
+    axios.put(`/api/tour/${app.id}`, app)
       .then(function (response) {
         console.log('success response', response);
         this.setState({
@@ -245,6 +264,10 @@ class App extends Component {
   render() {
     console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
     console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
+
+    if (!this.state.app) {
+      return <Loader />
+    }
 
     return (
       <UI
@@ -310,5 +333,9 @@ const Modal = ({ handleClose, show, children }) => {
     </div>
   );
 };
+
+const Loader = function () {
+  return <div style={{position: 'fixed', top: '50%', width: '100%', textAlign: 'center'  }}> Loading... </div>
+}
 
 export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(App);

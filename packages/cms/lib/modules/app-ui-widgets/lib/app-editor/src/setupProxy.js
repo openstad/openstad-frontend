@@ -52,9 +52,12 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: 'http://localhost:8111/api/site/148',
       changeOrigin: true,
+      pathRewrite: {
+        '^/api':'' //remove /service/api
+      },
       onProxyReq : (proxyReq, req, res) => {
          // add custom header to request
-         proxyReq.setHeader('Authorization', `Bearer VkajDDVm0KnDaajsjA23AdS`);
+         proxyReq.setHeader('X-Authorization', `xxxxxxx`);
       }
     })
   )
