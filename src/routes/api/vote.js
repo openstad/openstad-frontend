@@ -309,10 +309,34 @@ router.route('/*')
 		return next();
   })
 
+  // validaties voor voteType=count-per-theme
+	.post(function(req, res, next) {
+		if (req.site.config.votes.voteType != 'count-per-theme') return next();
+
+    let themes = req.site.config.votes.themes || [];
+
+    req.votes.forEach((vote) => {
+			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      let themename = idea && idea.extraData && idea.extraData.theme;
+      let theme = themes.find( theme => theme.value == themename );
+      if (theme) {
+	      theme.noOf = theme.noOf || 0;
+        theme.noOf++;
+      }
+		});
+
+    let isOk = true;
+    themes.forEach((theme) => {
+		  if (!theme.noOf || theme.noOf < theme.minIdeas || theme.noOf > theme.maxIdeas) {
+        isOk = false;
+		  }
+    });
+		return next( isOk ? null : createError(400, 'Count per thema klopt niet') );
+	})
+
   // validaties voor voteType=budgeting-per-theme
 	.post(function(req, res, next) {
 		if (req.site.config.votes.voteType != 'budgeting-per-theme') return next();
-    let budget = 0;
     let themes = req.site.config.votes.themes || [];
 		req.votes.forEach((vote) => {
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
@@ -355,10 +379,7 @@ router.route('/*')
 				break;
 
 			case 'count':
-				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
-				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
-				break;
-
+			case 'count-per-theme':
 			case 'budgeting':
 			case 'budgeting-per-theme':
 				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );

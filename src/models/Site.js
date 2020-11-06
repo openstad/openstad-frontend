@@ -408,7 +408,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					voteType: {
 						type: 'enum',
-						values: ['likes', 'count', 'budgeting', 'budgeting-per-theme'],
+						values: ['likes', 'count', 'budgeting', 'count-per-theme', 'budgeting-per-theme'],
 						default: 'likes',
 					},
 
