@@ -97,7 +97,7 @@ module.exports = (self, options) => {
   };
 
   self.getAllPolygons = async () => {
-    const options = self.getOptionsWithAuth({
+    const options = self.getOptions({
       method: 'GET',
       uri: `${self.apiUrl}/api/area`,
     });
