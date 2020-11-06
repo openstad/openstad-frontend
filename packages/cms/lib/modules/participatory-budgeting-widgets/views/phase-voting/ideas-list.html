@@ -115,7 +115,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						</div>
             {% endif %}
 					</div>
-					{% if not (data.widget.votingType == 'budgeting-per-theme') %}
+					{% if not (data.widget.votingType == 'budgeting-per-theme' or data.widget.votingType == 'count-per-theme') %}
 					<div class="share-buttons">
 						<table class="table-center">
 							<tr>
