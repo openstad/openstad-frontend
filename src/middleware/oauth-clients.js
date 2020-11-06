@@ -78,7 +78,7 @@ exports.withAllForSite = (req, res, next) => {
       fetchActions.push(fetchClient(req, oauthClientId));
     })
   } else {
-    fetchActions.push(fetchClient(req, oauthClientId));
+    fetchActions.push(fetchClient(req, authClientId));
   }
 
   return Promise
