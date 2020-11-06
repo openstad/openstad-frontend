@@ -343,7 +343,17 @@ module.exports = [
         type: 'select',
         label: 'Minimum budget that has to be selected (momenteel alleen voor Budgeting per thema)',
         type: 'integer',
-      }
+      },
+      {
+        name: 'maxIdeas',
+        type: 'integer',
+        label: 'Maximum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
+      {
+        name: 'minIdeas',
+        type: 'integer',
+        label: 'Minimum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
     ]
   },
   {
