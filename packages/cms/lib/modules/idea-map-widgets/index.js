@@ -62,6 +62,22 @@ module.exports = {
       label: 'Counter text',
     },
     {
+      name: 'useMarkerLinks',
+      type: 'boolean',
+      label: 'Flags link to details page',
+      def: true,
+      choices: [
+        {
+          value: true,
+          label: "Yes",
+        },
+        {
+          value: false,
+          label: "No"
+        },
+      ]
+    },
+    {
       type: 'string',
       name: 'filterIdeas',
       label: 'Show only following ideas: (idea id\'s, comma seperated)',
@@ -80,6 +96,11 @@ module.exports = {
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
+        name: 'map',
+        label: 'Map',
+        fields: ['useMarkerLinks']
+      },
+      {
         name: 'ctaButon',
         label: 'Call-To-Action button',
         fields: ['displayCtaButton', 'ctaUrl', 'ctaText']
@@ -88,6 +109,11 @@ module.exports = {
         name: 'counter',
         label: 'Counter',
         fields: ['displayCounter', 'counterText']
+      },
+      {
+        name: 'content',
+        label: 'Content',
+        fields: ['filterIdeas', 'filterExcludeThemes', 'filterIncludeThemes']
       }
     ]);
 
@@ -148,16 +174,17 @@ module.exports = {
           self.filterIdeas(widget);
 
           widget.mapConfig = self.getMapConfigBuilder(globalData)
-              .setDefaultSettings({
-                  mapCenterLat: globalData.mapCenterLat,
-                  mapCenterLng: globalData.mapCenterLng,
-                  mapZoomLevel: globalData.mapZoomLevel,
-                  styles: styles,
-                  googleMapsApiKey: googleMapsApiKey
-              })
-              .setPolygon(globalData.mapPolygons)
-              .setMarkersByIdeas(widget.ideas)
-              .getConfig()
+            .setDefaultSettings({
+              mapCenterLat: globalData.mapCenterLat,
+              mapCenterLng: globalData.mapCenterLng,
+              mapZoomLevel: globalData.mapZoomLevel,
+              styles: styles,
+              useMarkerLinks: widget.useMarkerLinks,
+              googleMapsApiKey: googleMapsApiKey
+            })
+            .setPolygon(globalData.mapPolygons)
+            .setMarkersByIdeas(widget.ideas)
+            .getConfig()
         });
 
         return superLoad(req, widgets, callback);
