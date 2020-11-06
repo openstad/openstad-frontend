@@ -5,6 +5,7 @@
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Better explanations in global newsletter settings
 
 ## v0.8.1 (2020-11-02)
 * Vimeo fix for old idea form
