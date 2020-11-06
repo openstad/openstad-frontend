@@ -127,7 +127,8 @@ class App extends Component {
       activeResource: null,
       resourceItems: props.resourceItems,
       appResource:  props.appResource,
-      app: false
+      app: false,
+      lineCoords: false,
     };
   }
 
@@ -140,6 +141,41 @@ class App extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.handleHashChange.bind(this), false);
+  }
+
+  fetchRoutes() {
+    const coordinates =  this.state.resourceItems ? this.state.resourceItems.filter(resourceItem => resourceItem.data && resourceItem.data.position).map(function (resourceItem) {
+      return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
+    }).join(';') : false;
+
+    console.log(coordinates);
+
+    const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+
+
+
+    if (coordinates) {
+
+      console.log('apiUrl', apiUrl);
+
+      axios.get(apiUrl)
+        .then( (response) => {
+        //  console.log('coords response', response);
+          const routes = response.data.routes[0];
+          console.log('coords routes', routes);
+          const coordinates = routes.geometry.coordinates;
+          console.log('coords routes', routes.geometry.coordinates);
+
+
+          this.setState({
+            coordinates: coordinates,
+            duration: routes.duration
+          })
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 
   handleHashChange() {
@@ -208,6 +244,8 @@ class App extends Component {
           resourceItems: appResource.revisions[appResource.revisions.length -1].resourceItems
         });
 
+
+        this.fetchRoutes();
       })
       .catch(function (error) {
         console.log(error);
@@ -291,6 +329,7 @@ class App extends Component {
             }
             <AppPreviewer>
               <TourApp
+                coordinates={this.state.coordinates}
                 steps={
                   this.state.resourceItems
                     .filter(function(resource){ return resource.type === 'step'; })

@@ -17,15 +17,15 @@ L.Icon.Default.mergeOptions({
 L.NumberedDivIcon = L.Icon.extend({
 	options: {
     // EDIT THIS TO POINT TO THE FILE AT http://www.charliecroom.com/marker_hole.png (or your own marker)
-    iconUrl: '/map-marker.png',
+    iconUrl: '/marker.png',
     number: '',
     shadowUrl: null,
-    iconSize: new L.Point(25, 41),
-		iconAnchor: new L.Point(13, 41),
-		popupAnchor: new L.Point(0, -33),
+//    iconSize: new L.Point(25, 41),
+	//	iconAnchor: new L.Point(13, 41),
+		//popupAnchor: new L.Point(0, -33),
     iconSize:     [38, 38],
     shadowSize:    [38, 38],
-    iconAnchor:   [10, 20],
+    iconAnchor:   [10, 26],
     shadowAnchor: [4, 62],
     popupAnchor:  [-3, -76],
 		/*
@@ -119,6 +119,7 @@ function TitleBar (props) {
 
 class TourMap extends Component {
   render() {
+    console.log('this.props.coordinates', this.props.coordinates)
     return (
       <Map center={mapCenter} zoom={12} style={{ position: 'absolute', top: '48px', bottom: '67px', width: '100%'}}>
         <TileLayer
@@ -143,12 +144,23 @@ class TourMap extends Component {
             </Marker>
           )
         })}
+
+        {this.props.coordinates &&
+        <Polyline
+          positions={this.props.coordinates.map(function(step) {
+            return [step[1], step[0]];
+          })}
+          color={'black'}
+        />
+        }
+        {/*
         <Polyline
           positions={this.props.steps.map(function(step) {
             return step.position;
           })}
           color={'blue'}
         />
+        */}
       </Map>
     )
   }
@@ -194,6 +206,7 @@ class TourApp extends Component {
         <TitleBar title="Tour Demo" />
         <TourMap
           steps={this.props.steps}
+          coordinates={this.props.coordinates}
         />
         <TourAudioPlayer />
         <TourList />
