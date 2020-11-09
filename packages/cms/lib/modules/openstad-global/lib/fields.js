@@ -343,7 +343,17 @@ module.exports = [
         type: 'select',
         label: 'Minimum budget that has to be selected (momenteel alleen voor Budgeting per thema)',
         type: 'integer',
-      }
+      },
+      {
+        name: 'maxIdeas',
+        type: 'integer',
+        label: 'Maximum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
+      {
+        name: 'minIdeas',
+        type: 'integer',
+        label: 'Minimum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
     ]
   },
   {
@@ -481,13 +491,15 @@ module.exports = [
   {
     name:       'newsletterModalFormFields',
     label:      'Newsletter form fields',
+    help: 'The form default shows a Name and an Email field; if you would like something different you can define that here',
     type:       'array',
     titleField: 'title',
     schema:     [
       {
         type:  'string',
         name:  'name',
-        label: 'Name'
+        label: 'Fieldname',
+        help: 'Name of this field in the API: email, firstName, lastName or extraData.xxx',
       },
       {
         type:  'string',
@@ -498,7 +510,7 @@ module.exports = [
         type:     'string',
         name:     'placeholder',
         label:    'Placeholder tekst',
-        textarea: true
+        help: 'Text that is placed in an empty field',
       },
       {
         name:    'inputType',
@@ -518,15 +530,15 @@ module.exports = [
 		  {
 			  type: 'select',
 			  name: 'required',
-			  label: 'Is verplicht',
+			  label: 'Required',
         def: 'none',
 			  choices: [
 				  {
-					  label: 'Ja',
+					  label: 'Yes',
 					  value: true,
 				  },
 				  {
-					  label: 'Nee',
+					  label: 'No',
 					  value: false
 				  },
 			  ]

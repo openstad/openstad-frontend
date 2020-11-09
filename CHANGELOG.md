@@ -8,6 +8,14 @@
 * In moderator warning change the if statement so no extra div's are rendered when no warning is shown
 * Remove global field translations, not used anymore
 
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Better explanations in global newsletter settings
+* Feature: Add option count-per-theme to voting in participatory budgeting
+* Bugfix: participatory budgeting per theme showed error in the wrong tab
+* Bugfix: participatory budgeting showed wrong button text in count mode
+* Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
+* Bugfix: participatory budgeting next button in step 0 showed an incorrect error
+
 
 ## v0.8.1 (2020-11-02)
 * Vimeo fix for old idea form
