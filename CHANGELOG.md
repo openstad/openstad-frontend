@@ -4,8 +4,9 @@
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
-* Styling: alignment of carter in list-style link button
-* In moderator warning change the if so no extra div's are rendered when no warning is shown
+* Styling: alignment of caret in list-style link button
+* In moderator warning change the if statement so no extra div's are rendered when no warning is shown
+* Remove global field translations, not used anymore
 
 
 ## v0.8.1 (2020-11-02)
