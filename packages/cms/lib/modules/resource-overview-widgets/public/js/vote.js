@@ -17,7 +17,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 var voteCreatorElement = document.getElementById('vote-creator');
-console.log('->>> voteCreatorElement', voteCreatorElement)
+
 if (voteCreatorElement !== null) {
 
 var placeholderText = $('.nothingYet .text').first().text();
@@ -145,42 +145,68 @@ function selectIdea(newIdeaId, doNotOpen) {
 
   var node = document.createElement('div');
   node.className = 'image';
+
   var ideaContainer = document.querySelector('#idea-' + ideaId);
-  if (ideaContainer) {
-    var imageContainer = ideaContainer.querySelector('.image');
+  var imageContainer = ideaContainer ? ideaContainer.querySelector('.image') : false;
+  var imageHtml = imageContainer ? imageContainer.innerHTML : false;
+  var imageUrl = imageContainer ? $(imageContainer).attr('data-image-url') :  false;
 
-    if (imageContainer) {
-      node.innerHTML = imageContainer.innerHTML;
-    }
+  console.log('imageUrl222', imageUrl)
+  console.log('imageHtmlimageHtmlimageHtml', imageHtml)
 
+  if (!imageHtml) {
+    imageUrl = localStorage.getItem('ideaImageUrl'+ ideaId);
 
-    previewElement.innerHTML = '';
-    previewElement.appendChild(node)
-
-    previewHTML = previewElement.innerHTML;
-
-    // dit zou  gewoon in de title moeten, maar die is heel anders opgebouwd. Dat moet dus een keer gerefactored...
-    var previewDescription = stepElement.querySelector('.preview-description');
-    var desciptionContainer = ideaContainer.querySelector('.voteblock-description');
-    if (desciptionContainer) {
-      previewDescriptionHTML = desciptionContainer.innerHTML;
-      if (previewDescription) {
-        previewDescription.innerHTML = desciptionContainer.innerHTML;
-      }
-    }
-
-    //add idea-title
-    var ideaTitle = $('#idea-' + ideaId + ' .title').first().text();
-    if (previewDescriptionHTML) {
-      $('.selected-idea-title').html(previewDescriptionHTML);
-    } else {
-      $('.selected-idea-title').text(ideaTitle);
-    }
-
-    if (doShowImage) {
-      doShowImage(ideaId, previewElement);
+    console.log('imageUrl', imageUrl)
+    if (imageUrl) {
+      imageHtml = '<div style="background-image:url(\''+ imageUrl +'\');  top: 0px; left: 0px; width: 100%; height: 100%;   background-position: center center; background-size: cover;"></div>';
     }
   }
+
+  console.log('imageHtml imageHtml', imageHtml);
+
+
+  if (imageHtml) {
+  //  imageHtml = imageHtml.replace('&quot;', '\'');
+    $(node).html(imageHtml);
+  }
+
+  if (imageUrl) {
+    localStorage.setItem('ideaImageUrl'+ ideaId, imageUrl);
+  }
+
+  console.log(node);
+
+
+  previewElement.innerHTML = '';
+  previewElement.appendChild(node)
+
+  previewHTML = previewElement.innerHTML;
+
+  // dit zou  gewoon in de title moeten, maar die is heel anders opgebouwd. Dat moet dus een keer gerefactored...
+  var previewDescription = stepElement.querySelector('.preview-description');
+
+  var desciptionContainer = ideaContainer ? ideaContainer.querySelector('.voteblock-description'): false;
+
+  if (desciptionContainer) {
+    previewDescriptionHTML = desciptionContainer.innerHTML;
+    if (previewDescription) {
+      previewDescription.innerHTML = desciptionContainer.innerHTML;
+    }
+  }
+
+  //add idea-title
+  var ideaTitle = $('#idea-' + ideaId + ' .title').first().text();
+  if (previewDescriptionHTML) {
+    $('.selected-idea-title').html(previewDescriptionHTML);
+  } else {
+    $('.selected-idea-title').text(ideaTitle);
+  }
+
+  if (doShowImage) {
+    doShowImage(ideaId, previewElement);
+  }
+
   setNextButton();
   setLoginUrlWithIdeaId(ideaId);
 
@@ -369,7 +395,7 @@ function showVoteCreator() {
     doUpdateIdea = true;
   }
   document.getElementById('vote-creator').className = 'open';
-  if (ideaId && doUpdateIdea) selectIdea(ideaId, true);
+  if (ideaId && doUpdateIdea) (ideaId, true);
 }
 function hideVoteCreator() {
   document.getElementById('vote-creator').className = 'closed';
@@ -377,9 +403,9 @@ function hideVoteCreator() {
 
 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
 function openstadGetCookie(name) {
-    
 
-    
+
+
   var match = document.cookie.match(new RegExp("(?:^|;\\s*)\\s*" + name +"=([^;]+)\\s*(?:;|$)"));
 
   var value;

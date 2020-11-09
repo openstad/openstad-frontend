@@ -21,7 +21,7 @@
    if (div) {
      div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
      var img = div.querySelector('div.image-upload');
-     img.style.backgroundImage = "url('" + imageUrl[ideaId] + "')";
+     img.style.backgroundImage = "url(" + imageUrl[ideaId] + ")";
      /*
     		var factor = target.offsetWidth / 300;
     		img.style.top    = Math.round( 23 * factor ) + 'px';
@@ -37,6 +37,8 @@
      img.style.height = '100%';
      img.style.backgroundPosition = 'center';
      img.style.backgroundSize = 'cover';
+
+     div.setAttribute('data-image-url',  imageUrl[ideaId]);
    }
  }
 
