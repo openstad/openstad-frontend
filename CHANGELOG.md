@@ -11,6 +11,7 @@
 * Bugfix: participatory budgeting showed wrong button text in count mode
 * Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
 * Bugfix: participatory budgeting next button in step 0 showed an incorrect error
+* Make cookie max age configurable
 
 ## v0.8.1 (2020-11-02)
 * Vimeo fix for old idea form
