@@ -535,26 +535,6 @@ module.exports = [
   },
   // einde form
   // ----------------------------------------------------------------------------------------------------
-  {
-    name: 'translations',
-    type: 'array',
-    titleField: 'label',
-    label: 'Translations',
-    schema: [
-      {
-        name: 'translation',
-        type: 'text',
-        label: 'Translation',
-        type: 'string',
-      },
-      {
-        name: 'translationUrl',
-        type: 'text',
-        label: 'Translation page URL',
-        type: 'string',
-      }
-    ]
-  },
 
   {
     name: 'vimeoViewSettings',
