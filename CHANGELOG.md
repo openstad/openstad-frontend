@@ -17,7 +17,10 @@
 * Bugfix: voting in resource overview widget no also works in conjunction with pagination
 * Make cookie max age configurable
 * Add ability to make cookie message fixed to the bottom per page
+* Fix: api/area needs to be called without authentication header
 
+## v0.8.2 (2020-11-03)
+* Update react-admin
 
 ## v0.8.1 (2020-11-02)
 * Vimeo fix for old idea form
