@@ -1,12 +1,20 @@
-# An implementation of apostrophecms for Amsterdam open democracy
+# Openstad CMS 
+## An implementation of apostrophecms for Amsterdam open democracy
+This is the Openstad cms package based on [ApostropheCms](https://github.com/apostrophecms/apostrophe/) framework
 
-## Prerequisites
+### Prerequisites
  - [Git](https://git-scm.com/)
  - [Node.js and npm](https://nodejs.org/en/)
  - [Mongodb](https://www.mongodb.com/)
 
+### Getting started
+If you want to configure your project manually follow the steps below. You can also start with this boilerplate project: [OpenstadCms](https://github.com/amsterdam/openstad-frontend) TODO: create boilerplate project
 
-#### 1. Set .env values
+
+#### 1. Install package
+`npm install --save @openstad/cms`
+
+#### 2. Set .env values
 ```
 PORT=3000
 #default name of db in mongodb, in doubt leave this to localhost
@@ -21,14 +29,41 @@ MAP_TYPE=googlemaps
 OPENSTAD_COMPONENTS_URL=https://CDNURL
 ```
 
-#### 2. Run NPM install
+#### 3. Run NPM install
 
 ```
 npm i
 ```
 
+#### 4. Setup your application
+create a index.js file with this content:
+```js
+const openstadCms = require('@openstad/cms');
 
-#### 3. Create admin user
+require('dotenv').config();
+
+var apos = openstadCms.site({
+  bundles: ['@openstad/cms'],
+  // See lib/modules for basic project-level configuration of our modules
+  // responsible for serving static assets, managing page templates and
+  // configuring user accounts.
+
+  modules: {  }
+});
+```
+If you want to use the cli, create a apostrophe.js file with this content:
+```js
+const openstadCms = require('@openstad/cms');
+const modules = require('./modules').default;
+
+const config = openstadCms.getDefaultConfig(modules);
+const app = openstadCms.getSingleApp();
+
+app(config);
+
+```
+
+#### 5. Create admin user
 
 Run the following command to create a user named admin, belonging to the group admin.
 
@@ -40,10 +75,10 @@ Then visit your local website. This will trigger a password prompt in your termi
 You can now login to the cms at /login.
 
 
-#### 3. Run dev server
+#### 6. Run dev server
 
 ```
-npm run dev
+node index.js
 ```
 
 ## Running multiple sites
@@ -103,3 +138,30 @@ apos.define('idea-single-widgets', {
     }
 });
 ```
+
+## Sync api config fields 
+Sync widget fields with the api config:
+- Enable the sync by setting this property in the widget: `openstadApiConfigSync: true,`
+- Select config field from the api config: `apiSyncField: 'ideas.minimumYesVotes',`
+
+Full widget example: 
+```node
+ module.exports = {
+   extend: 'openstad-widgets',
+   openstadApiConfigSync: true,
+   addFields: [{
+      name: 'minimumVotes',
+      type: 'integer',
+      label: 'Minimum votes for an idea',
+      apiSyncField: 'ideas.minimumYesVotes',
+   }]
+   construct: function(self, options) {
+
+   }
+ });
+```
+
+## Overriding modules
+Every module from the Openstad Cms package is overridable, just like apostrophecms modules. ApostropheCms documentation: 
+https://docs.apostrophecms.org/core-concepts/technical-overview.html#project-level-overriding-and-extending-apostrophe-in-your-project
+
