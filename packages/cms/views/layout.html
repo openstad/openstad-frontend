@@ -1,12 +1,8 @@
-
 {% if data.idea %}
 {% set activeResource = data.idea %}
 {% else %}
 {% set activeResource = data.activeResource %}
 {% endif %}
-
-
-
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
@@ -380,7 +376,6 @@
   {% endif %}
 
   {% include 'partials/moderator-warnings.html'%}
-  ======== end Main
   {% endblock %}
 
   {% block main %}

@@ -603,5 +603,6 @@
 	"Label for photo: DONE": "Label for photo: DONE",
 	"Thema:": "Thema:",
 	"Count per thema": "Count per thema",
-	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting"
+	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting",
+	"Warning to adminstrator: voting type is not set to count in site settings!": "Warning to adminstrator: voting type is not set to count in site settings!"
 }
