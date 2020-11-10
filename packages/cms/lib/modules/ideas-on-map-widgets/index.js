@@ -20,7 +20,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typeLabel', 'typesFilterLabel', 'startWithListOpenOnMobile']
+        fields: ['displayType', 'displayWidth', 'displayHeight', 'linkToCompleteUrl', 'ideaName', 'typeField', 'typesFilterLabel', 'startWithListOpenOnMobile']
       },
       {
         name: 'map',
@@ -40,7 +40,12 @@ module.exports = {
       {
         name: 'idea-details',
         label: 'Idee details',
-        fields: ['showShareButtons', 'shareChannelsSelection']
+        fields: ['metaDataTemplate', 'showShareButtons', 'shareChannelsSelection']
+      },
+      {
+        name: 'filters',
+        label: 'Filterbalk',
+        fields: ['searchIn', 'searchPlaceHolder']
       },
       {
         name: 'reactions',

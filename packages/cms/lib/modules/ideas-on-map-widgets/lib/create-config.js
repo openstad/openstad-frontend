@@ -63,11 +63,15 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
 
     linkToUserPageUrl: widget.linkToUserPageUrl,
 
+    search: {
+      searchIn: { 'ideas and addresses': ['ideas', 'addresses'], 'ideas': ['ideas'], 'addresses': ['addresses'], 'none': [] }[ widget.searchIn ] || [],
+      placeholder: widget.searchPlaceHolder,
+    },
+
     content: contentConfig,
     ideaName: widget.ideaName,
     typeField: widget.typeField,
     types: widget.typeField == 'typeId' ? ideaTypes : themeTypes,
-    typeLabel: widget.typeLabel,
     typesFilterLabel: widget.typesFilterLabel,
 		idea: {
       formUrl: widget.formUrl,
@@ -92,7 +96,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
         sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
         showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
         defaultSortOrder: widget.defaultSorting,
-      }
+      },
+      metaDataTemplate: widget.metaDataTemplate,
 		},
 		poll: data.global.siteConfig && data.global.siteConfig.polls,
 		argument: {

@@ -43,7 +43,12 @@
 * Bugfix use Buffer.byteLength instead of .length for content-length for body api proxy, this breaks with special characters
 * Add refreshSiteConfig call after updating a site config
 * Correct metaTitle for idea and other resources
+* Extra config options in ideas-on-map for search and details presentations
 
+## v0.8.0-PRERLEASE (2020-17-07)
+* Feature: ideas-on-map has extra configuration options on search and idea details
+
+>>>>>>> Stashed changes
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
 
