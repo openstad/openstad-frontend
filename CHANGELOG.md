@@ -13,6 +13,7 @@
 * Add min/max number of to budgeting voting
 * Make sure postcode validation doesn't fail on an empty string
 * Add Delete route for vote
+* Feature: Add option count-per-theme to voting in participatory budgeting
 
 ## 0.7.6 (2020-10-07)
 * Votes were viewable when they should not be

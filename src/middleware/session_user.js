@@ -60,7 +60,7 @@ module.exports = function getSessionUser( req, res, next ) {
 	let which = req.session.useOauth || 'default';
 	let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 
-	getUserInstance(userId, siteOauthConfig, isFixedUser)
+	return getUserInstance(userId, siteOauthConfig, isFixedUser)
 		.then(function( user ) {
 			//console.log('fetched user id', user.id)
 
@@ -68,10 +68,12 @@ module.exports = function getSessionUser( req, res, next ) {
 			// Pass user entity to template view.
 			res.locals.user = user;
 			next();
+      return null;
 		})
 		.catch((err) => {
-			console.log('ererer', err);
+			console.log('error', err);
 			next(err);
+      return null;
 		});
 
 }

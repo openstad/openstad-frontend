@@ -28,8 +28,10 @@ module.exports = function( req, res, next ) {
   		if (!found) return next(new createError('400', 'Site niet gevonden'));
   		req.site = found;
   		next();
+      return null;
   	})
   	.catch( err => {
   		next(err)
+      return null;
   	});
 }
