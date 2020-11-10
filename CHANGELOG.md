@@ -15,6 +15,7 @@
 * Bugfix: participatory budgeting showed wrong button text in count mode
 * Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
 * Bugfix: participatory budgeting next button in step 0 showed an incorrect error
+* Bugfix: voting in resource overview widget no also works in conjunction with pagination
 
 
 ## v0.8.1 (2020-11-02)
