@@ -547,17 +547,6 @@ module.exports = [
   },
   // einde form
   // ----------------------------------------------------------------------------------------------------
-
-  {
-    name: 'vimeoViewSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
-    name: 'vimeoEmbedSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
   {
     name: 'footer',
     type: 'array',

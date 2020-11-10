@@ -51,11 +51,6 @@ module.exports = [
       fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel']
     },
     {
-        name: 'vimeo',
-        label: 'Vimeo',
-        fields: ['vimeoClientId', 'vimeoClientSecret', 'vimeoAcccesToken', 'vimeoEmbedSettings', 'vimeoViewSettings']
-    },
-    {
         name: 'themes-areas',
         label: 'Themes & areas',
         fields: ['themes', 'areas']

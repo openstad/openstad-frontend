@@ -93,8 +93,8 @@ module.exports = {
            req.file.path,
            {
              privacy: {
-               view: req.data.global.vimeoViewSettings ? req.data.global.vimeoViewSettings : 'unlisted',
-               embed:req.data.global.vimeoEmbedSettings ? req.data.global.vimeoEmbedSettings : 'public',
+               view: vimeoConfig.vimeoViewSettings ? vimeoConfig.vimeoViewSettings : 'unlisted',
+               embed: vimeoConfig.vimeoEmbedSettings ? vimeoConfig.vimeoEmbedSettings : 'public',
              }
            },
            function (uri) {
