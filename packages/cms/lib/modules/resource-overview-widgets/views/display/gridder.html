@@ -19,26 +19,31 @@
  function doShowImage(ideaId, target) {
    var div = target.querySelector('div.image');
    if (div) {
-     div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
-     var img = div.querySelector('div.image-upload');
-     img.style.backgroundImage = "url(" + imageUrl[ideaId] + ")";
-     /*
-    		var factor = target.offsetWidth / 300;
-    		img.style.top    = Math.round( 23 * factor ) + 'px';
-    		img.style.left   = Math.round( 46 * factor ) + 'px';
-    		img.style.width  = Math.round( 210 * factor ) + 'px';
-    		img.style.height = Math.round( 263 * factor ) + 'px';
-    		img.style.backgroundSize = Math.round( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
-    		//	 img.style.backgroundPosition = Math.round( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
-      */
-     img.style.top    = '0px';
-     img.style.left   = '0px';
-     img.style.width  = '100%';
-     img.style.height = '100%';
-     img.style.backgroundPosition = 'center';
-     img.style.backgroundSize = 'cover';
 
+     div.style.height = ( target.offsetWidth / aspect_width ) * aspect_height + 'px';
      div.setAttribute('data-image-url',  imageUrl[ideaId]);
+
+     var img = div.querySelector('div.image-upload');
+
+     if (img) {
+       img.style.backgroundImage = "url(" + imageUrl[ideaId] + ")";
+       /*
+      		var factor = target.offsetWidth / 300;
+      		img.style.top    = Math.round( 23 * factor ) + 'px';
+      		img.style.left   = Math.round( 46 * factor ) + 'px';
+      		img.style.width  = Math.round( 210 * factor ) + 'px';
+      		img.style.height = Math.round( 263 * factor ) + 'px';
+      		img.style.backgroundSize = Math.round( ( imageData[ideaId].width / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].height / 520 ) * 263 * factor ) + 'px';
+      		//	 img.style.backgroundPosition = Math.round( ( imageData[ideaId].left / 415 ) * 210 * factor ) + 'px ' + Math.round( ( imageData[ideaId].top / 520 ) * 263 * factor ) + 'px';
+        */
+       img.style.top    = '0px';
+       img.style.left   = '0px';
+       img.style.width  = '100%';
+       img.style.height = '100%';
+       img.style.backgroundPosition = 'center';
+       img.style.backgroundSize = 'cover';
+     }
+
    }
  }
 

@@ -72,6 +72,7 @@ function showStep(step, doNotOpen) {
 
 function setNextButton(showPrevious, hideNext) {
   var step = steps[currentStep];
+
   var isValid = step && step.validate ? steps[currentStep].validate() : true;
   if (steps[currentStep+1]) {
     if (isValid && !hideNext) {
@@ -127,6 +128,9 @@ var previewHTML = '';
 var previewDescriptionHTML = '';
 function selectIdea(newIdeaId, doNotOpen) {
 
+  if (!doNotOpen) showVoteCreator();
+  voteCreatorElement = document.getElementById('vote-creator')
+
   ideaId = newIdeaId;
 
   openstadSetCookie('ideaId' + voteBlockIdentifier, ideaId);
@@ -150,20 +154,16 @@ function selectIdea(newIdeaId, doNotOpen) {
   var imageContainer = ideaContainer ? ideaContainer.querySelector('.image') : false;
   var imageHtml = imageContainer ? imageContainer.innerHTML : false;
   var imageUrl = imageContainer ? $(imageContainer).attr('data-image-url') :  false;
+  var ideaPresentOnPage = imageContainer ? true : false;
 
-  console.log('imageUrl222', imageUrl)
-  console.log('imageHtmlimageHtmlimageHtml', imageHtml)
 
   if (!imageHtml) {
     imageUrl = localStorage.getItem('ideaImageUrl'+ ideaId);
 
-    console.log('imageUrl', imageUrl)
     if (imageUrl) {
       imageHtml = '<div style="background-image:url(\''+ imageUrl +'\');  top: 0px; left: 0px; width: 100%; height: 100%;   background-position: center center; background-size: cover;"></div>';
     }
   }
-
-  console.log('imageHtml imageHtml', imageHtml);
 
 
   if (imageHtml) {
@@ -174,9 +174,6 @@ function selectIdea(newIdeaId, doNotOpen) {
   if (imageUrl) {
     localStorage.setItem('ideaImageUrl'+ ideaId, imageUrl);
   }
-
-  console.log(node);
-
 
   previewElement.innerHTML = '';
   previewElement.appendChild(node)
@@ -203,7 +200,7 @@ function selectIdea(newIdeaId, doNotOpen) {
     $('.selected-idea-title').text(ideaTitle);
   }
 
-  if (doShowImage) {
+  if (doShowImage && ideaPresentOnPage) {
     doShowImage(ideaId, previewElement);
   }
 
@@ -212,7 +209,6 @@ function selectIdea(newIdeaId, doNotOpen) {
 
   location.href = "#vote-creator-anchor";
 
-  if (!doNotOpen) showVoteCreator();
   return false;
 }
 
@@ -223,6 +219,7 @@ function setLoginUrlWithIdeaId(ideaId) {
 }
 
 function unSelectIdea(event) {
+  voteCreatorElement = document.getElementById('vote-creator');
 
   ideaId = undefined;
   openstadEraseCookie('ideaId' + voteBlockIdentifier);

@@ -56,7 +56,10 @@ $(document).ready(function () {
 });
 
 $(document).on('openstadAjaxRefresh', function () {
-	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier)
+	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
 	showVoteCreator();
-	selectIdea(ideaId, true);
+
+	if (ideaId) {
+		selectIdea(ideaId, true);
+	}
 });

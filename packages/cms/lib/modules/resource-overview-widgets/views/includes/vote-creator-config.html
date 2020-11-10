@@ -14,6 +14,7 @@
 	 barId: 'steps-bar-1',
 	 contentId: 'steps-content-1a',
 	 validate: function(showError) {
+     console.log(document.querySelector('input[name=ideaId]'))
 		 if ( document.querySelector('input[name=ideaId]').value ) {
 			 return true;
 		 } else {
