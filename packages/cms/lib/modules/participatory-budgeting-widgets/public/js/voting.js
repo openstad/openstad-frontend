@@ -732,7 +732,7 @@ if (votingContainer !== null) {
 		    })
 		    .forEach( function(element) {
 			    if (element) {
-				    var width = votingType === 'count' ? parseInt( availableWidth / maxIdeas ) : parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
+				    var width = votingType === 'count' || votingType === 'count-per-theme' ? parseInt( availableWidth / maxIdeas ) : parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
 				    if (width < minwidth) {
 					    availableWidth = availableWidth - ( minwidth - width );
 					    width = minwidth
