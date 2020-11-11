@@ -1,4 +1,11 @@
 {% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
+{% if data.widget.unavailableButton %}
+<style>
+ .begroot-container .button-add-idea-to-budget.unavailable:after {
+	 content: "{{data.widget.unavailableButton}}";
+ }
+</style>
+{% endif %}
 <ul
 id="ideaList"
 class="gridder ideas-list"

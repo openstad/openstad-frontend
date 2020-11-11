@@ -95,6 +95,13 @@ const fields = [
     label: 'Minimum budget that has to be selected',
   },
   {
+    name: 'unavailableButton',
+    type: 'string',
+    label: 'Unavailable button',
+    help: 'Text on the \'Add\' button when the count or budget limits are reached',
+    def: 'Geen ruimte',
+  },
+  {
     name: 'displayBudgetLabel',
     type: 'boolean',
     label: 'Display price label',
