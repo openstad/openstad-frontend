@@ -1,0 +1,62 @@
+<script src="/modules/app-widgets/js/index.js"></script>
+
+<div id="{{data.widget.containerId}}">
+	<div id="admin-root"></div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var appProps = {
+      user: {
+        id: {{data.openstadUser.id}}
+      },
+      site: {
+        id: {{data.global.siteId}}
+      },
+      imageApi: {
+        url: '/image'
+      },
+      restApi: {
+        url: '/api/site/{{data.global.siteId}}'
+      },
+      csrf: $.cookie(apos.csrfCookieName),
+      resources: {
+        idea: {
+          active: true
+        },
+        user: {
+          active: true
+        },
+        product: {
+          active: false
+        },
+        order: {
+          active: false
+        },
+        vote: {
+          active: true
+        },
+        article: {
+          active: false
+        },
+        argument: {
+          active: true
+        },
+        area: {
+          active: true
+        },
+        site: {
+          active: true
+        },
+        newsletterSignup: {
+          active: true
+        },
+        tag: {
+          active: true
+        },
+      }
+    };
+
+    ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+  });
+</script>
+{% endif %}

@@ -162,10 +162,7 @@ class App extends Component {
         .then( (response) => {
         //  console.log('coords response', response);
           const routes = response.data.routes[0];
-          console.log('coords routes', routes);
           const coordinates = routes.geometry.coordinates;
-          console.log('coords routes', routes.geometry.coordinates);
-
 
           this.setState({
             coordinates: coordinates,

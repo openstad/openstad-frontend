@@ -57,6 +57,13 @@ const resources = [
     //config is used in API config
     configKey: 'game'
   },
+  {
+    label: 'Tour',
+    value: 'tour ',
+    resourceEndPoint: 'tour',
+    //config is used in API config
+    configKey: 'tour'
+  },
 ]
 
 exports.schemaFormat = resources;
