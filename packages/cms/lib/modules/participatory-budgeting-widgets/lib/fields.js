@@ -71,6 +71,7 @@ const fields = [
       {
         label: 'Count per thema',
         value: 'count-per-theme',
+        showFields: [ 'maxIdeas', 'minIdeas' ]
       },
     ]
   },
@@ -78,11 +79,13 @@ const fields = [
     name: 'maxIdeas',
     type: 'integer',
     label: 'Maximum selectable ideas',
+    def: 1000,
   },
   {
     name: 'minIdeas',
     type: 'integer',
     label: 'Minimum selectable ideas',
+    def: 0,
   },
   {
     name: 'initialAvailableBudget',
