@@ -148,16 +148,11 @@ class App extends Component {
       return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
     }).join(';') : false;
 
-    console.log(coordinates);
 
     const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
 
-
     if (coordinates) {
-
-      console.log('apiUrl', apiUrl);
-
       axios.get(apiUrl)
         .then( (response) => {
         //  console.log('coords response', response);
@@ -167,7 +162,10 @@ class App extends Component {
           this.setState({
             coordinates: coordinates,
             duration: routes.duration
-          })
+          });
+
+          this.synchData();
+
         })
         .catch(function (error) {
           console.log(error);
@@ -228,7 +226,10 @@ class App extends Component {
       activeResource: activeResource
     });
 
-    this.synchData()
+    // might not be necessary after every
+    this.fetchRoutes();
+
+    this.synchData();
   }
 
   fetchApp () {
@@ -240,7 +241,6 @@ class App extends Component {
           app: appResource,
           resourceItems: appResource.revisions[appResource.revisions.length -1].resourceItems
         });
-
 
         this.fetchRoutes();
       })
@@ -258,6 +258,7 @@ class App extends Component {
       title: 'App demo 1',
       settings: {},
       resourceItems: this.state.resourceItems,
+      coordinates: this.state.coordinates
     })
 
     axios.put(`/api/tour/${app.id}`, app)

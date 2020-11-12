@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -36,21 +37,33 @@ const appResource = {
   }],
 };
 
+axios.get(`/api/tour/1`)
+  .then( (response) => {
+    const appResource =  response.data;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App
-      id={appResource.id}
-      title={appResource.title}
-      styling={{}}
-      views={[{
-        type: "TourGuide",
-        elements: appResource.revisions[0].resourceItems
-      }]}
-    />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+    console.log('start here', appResource.revisions[appResource.revisions.length -1])
+
+    ReactDOM.render(
+      <React.StrictMode>
+        <App
+          id={appResource.id}
+          title={appResource.title}
+          styling={{}}
+          views={[{
+            type: "TourGuide",
+            elements: appResource.revisions[appResource.revisions.length -1].resourceItems,
+            coordinates: appResource.revisions[appResource.revisions.length -1].coordinates,
+          }]}
+        />
+      </React.StrictMode>,
+      document.getElementById('root')
+    );
+
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

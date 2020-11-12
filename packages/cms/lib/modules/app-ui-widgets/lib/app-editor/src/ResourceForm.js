@@ -312,8 +312,6 @@ class ImageUploadField extends Component {
 }
 
 function AudioUploadField (props) {
-
-
   return (
     <div>
       <FilePond
@@ -341,7 +339,6 @@ function AudioUploadField (props) {
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
     </div>
-
   )
 }
 
