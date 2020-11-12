@@ -283,7 +283,7 @@ if (votingContainer !== null) {
 
         var errorTheme = '';
         if (votingType === 'budgeting-per-theme' || votingType === 'count-per-theme') {
-          let totalNoOf = 0;
+          var totalNoOf = 0;
           themes.forEach( function(theme, i) {
             if (i > 0) {
               if (votingType === 'budgeting-per-theme') {
@@ -813,7 +813,7 @@ if (votingContainer !== null) {
 
       case 'count-per-theme':
         var result = true;
-        let totalNoOf = 0;
+        var totalNoOf = 0;
         themes.forEach( function(theme, i) {
           totalNoOf += theme.currentSelection.length;
           if ( i > 0 && !(theme.currentSelection.length >= theme.minIdeas && theme.currentSelection.length <= theme.maxIdeas) ) {
