@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.8.1 (2020-11-13)
+* Remove auth express session and refactor user middleware
+* Fix fallback authClientId
+* Use correct env variable for default client_id and client_secret values
+
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
 * On update user of for all sites add check if site exists, otherwise update breaks

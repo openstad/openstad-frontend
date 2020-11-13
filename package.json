@@ -1,6 +1,6 @@
 {
   "name": "openstad-api",
-  "version": "0.0.1",
+  "version": "0.8.1",
   "description": "OpenStad API serrver",
   "main": "server.js",
   "scripts": {
