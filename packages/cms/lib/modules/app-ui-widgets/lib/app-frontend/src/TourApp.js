@@ -70,20 +70,23 @@ function TourAudioPlayer (props) {
       </small>
       <h3>  {props.title}</h3>
 
+      {!props.audioFile &&
+      <em> No audio available for this step </em>
+      }
+
       <a href="javascript:void(0);" onClick={() => {
         props.resetAudio();
       }} className="tour-detail-close">✕</a>
-
 
       <AudioPlayer
         showSkipControls={true}
         showJumpControls={false}
         onClickPrevious={props.previous}
-        onClickPrevious={props.next}
+        onClickNext={props.next}
         autoPlay={true}
         customAdditionalControls={[]}
         customVolumeControls={[]}
-        src={props.audioFile}
+        src={props.audioFile? props.audioFile : null }
         onPlay={e => console.log("onPlay")}
         // other props here
       />
@@ -93,7 +96,7 @@ function TourAudioPlayer (props) {
 
 function TourDetailView (props) {
   return (
-    <div>
+    <div key={props.step.id}>
       {props.step ?
         <div>
           <a href="#" className="tour-detail-close">✕</a>
@@ -119,15 +122,17 @@ function TourDetailView (props) {
               </Fotorama>
               }
               <div className="tour-detail-view-inner-content">
-                <div className="flex">
-                  <a href="javascript:void(0);" onClick={() => {
-                    props.previousStep();
-                  }}>
+                <div style={{display: 'flex', justifyContent:'space-evenly'}}>
+                  <a href="javascript:void(0);"
+                    style={{opacity: props.isPreviousAvailable ? 1 : 0.4 }}
+                    onClick={props.previousStep}
+                  >
                     ← Previous step
                   </a>
-                  <a href="javascript:void(0);" onClick={() => {
-                    props.nextStep();
-                  }}>
+                  <a href="javascript:void(0);"
+                    style={{opacity: props.isNextAvailable ? 1 : 0.4 }}
+                    onClick={props.nextStep}
+                  >
                     Next step →
                   </a>
                 </div>
@@ -138,11 +143,15 @@ function TourDetailView (props) {
                   {props.stepActiveIndex + 1} of {props.stepTotal}
                 </div>
 
+                {props.step.audio && props.step.audio.file ?
                 <a href="javascript:void(0);" onClick={() => {
                   props.selectAudioStep(props.step.id);
                 }}>
                   <img src="/play-circle.svg" /> <b> Play </b>
                 </a>
+                :
+                <small> This step has no audio </small>
+                }
 
                 <h1>{props.step.title}</h1>
                 <p>{props.step.description}</p>
@@ -304,35 +313,64 @@ class TourApp extends Component {
            title={this.state.activeAudioStep.title}
            stepActiveIndex={this.state.activeAudioStepIndex}
            stepTotal={this.props.steps.length}
-           audioFile={this.state.activeAudioStep.audio.file}
+           audioFile={this.state.activeAudioStep && this.state.activeAudioStep.audio ? this.state.activeAudioStep.audio.file : false}
            resetAudio={this.resetAudio.bind(this)}
-           isPreviousAvailable={true}
-           isNextAvailable={true}
+           isPreviousAvailable={(() => {
+             return !!this.props.steps[this.state.activeAudioStepIndex - 1];
+           })()}
+           isNextAvailable={(() => {
+             return !!this.props.steps[this.state.activeAudioStepIndex + 1];
+           })()}
            previous={() => {
-             if(this.props.steps[this.state.activeAudioStepIndex -1]) {
-               this.selectAudioStep(this.props.steps[this.state.activeAudioStepIndex -1].id)
+             const previousStep = this.props.steps[this.state.activeAudioStepIndex - 1];
+
+             console.log('previousStep', previousStep);
+
+             if (previousStep) {
+               this.selectAudioStep(previousStep.id)
              }
            }}
            next={() => {
-             if(this.props.steps[this.state.activeAudioStepIndex + 1]) {
-               this.selectAudioStep(this.props.steps[this.state.activeAudioStepIndex +1].id)
+             const nextStep = this.props.steps[this.state.activeAudioStepIndex + 1];
+
+             if(nextStep) {
+               this.selectAudioStep(nextStep.id)
              }
            }}
          />
         }
         <TourList />
+
+        {this.state.activeViewStep &&
         <TourDetailView
           step={this.state.activeViewStep}
           selectAudioStep={this.selectAudioStep.bind(this)}
           stepActiveIndex={this.state.activeViewStepIndex}
           stepTotal={this.props.steps.length}
+          isPreviousAvailable={(() => {
+            const previousStep = this.props.steps[this.state.activeViewStepIndex - 1];
+            console.log('previousStep', previousStep, !!previousStep)
+            return previousStep;
+          })()}
+          isNextAvailable={(() => {
+            return this.props.steps[this.state.activeViewStepIndex + 1];
+          })()}
           previousStep={() => {
+            const previousStep = this.props.steps[this.state.activeViewStepIndex - 1];
 
+            if (previousStep) {
+              window.location.hash = '#step-detail-' + previousStep.id;
+            }
           }}
           nextStep={() => {
+            const nextStep = this.props.steps[this.state.activeViewStepIndex + 1];
 
+            if (nextStep) {
+              window.location.hash = '#step-detail-' + nextStep.id;
+            }
           }}
         />
+        }
       </div>
     )
   }

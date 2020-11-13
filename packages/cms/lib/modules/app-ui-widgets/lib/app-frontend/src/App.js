@@ -7,10 +7,10 @@ function App(props) {
   return (
     <TourApp
       title={props.title}
-      steps={props.views[0].elements.map(function(el){
+      steps={props.screens[0].elements.map(function(el){
         return el.data;
       })}
-      coordinates={props.views[0].coordinates}
+      coordinates={props.screens[0].coordinates}
     />
   );
 }

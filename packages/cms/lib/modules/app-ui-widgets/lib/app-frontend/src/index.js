@@ -41,15 +41,13 @@ axios.get(`/api/tour/1`)
   .then( (response) => {
     const appResource =  response.data;
 
-    console.log('start here', appResource.revisions[appResource.revisions.length -1])
-
     ReactDOM.render(
       <React.StrictMode>
         <App
           id={appResource.id}
           title={appResource.title}
           styling={{}}
-          views={[{
+          screens={[{
             type: "TourGuide",
             elements: appResource.revisions[appResource.revisions.length -1].resourceItems,
             coordinates: appResource.revisions[appResource.revisions.length -1].coordinates,
