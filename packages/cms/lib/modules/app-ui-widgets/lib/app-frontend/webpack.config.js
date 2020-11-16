@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-//const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
 
@@ -8,14 +8,14 @@ module.exports = {
 	devtool: 'none',
 //	mode: 'development',
 	mode: 'production',
-	entry: ['babel-polyfill', './src/index.js'],
+	entry: [ './src/lib.js'],
 
 	output: {
-	//	path: __dirname + '/../../openstad-landing/packages/cms/lib/modules/admin-widgets/public/', //
+//		path: __dirname + '/../../openstad-landing/packages/cms/lib/modules/admin-widgets/public/', //
 		path: __dirname + '/dist',
 		filename: 'js/index.js',
 	//	filename: 'js/openstad-component.js',
-    library: 'OpenstadReactAdmin',
+    library: 'AppFrontend',
     libraryTarget: 'window',
 	},
 
@@ -23,6 +23,7 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM',
 	},
+
 
   plugins: [
     new MiniCssExtractPlugin({
@@ -32,17 +33,15 @@ module.exports = {
     }),
   ],
 
-/*
   optimization: {
 		minimize: true,
     minimizer: [new TerserPlugin({
 			test: /\.jsx?$/,
 		})],
   },
-*/
+
 	module: {
 		rules: [
-
 			{
 				test: /\.json$/,
 				loader: "json-loader"
@@ -56,9 +55,9 @@ module.exports = {
 
         }
 			},
-
       {
-        test: /\.less$/,
+        test: /\.css/,
+				exclude: [],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -73,20 +72,9 @@ module.exports = {
         ],
       },
 			{
-				test: /\.css/,
-				use: [
-					{
-						loader: MiniCssExtractPlugin.loader,
-						options: {
-							hmr: process.env.NODE_ENV === 'development',
-					//		publicPath: '/public/path/to/',
-			//				publicPath: '/../openstad-landing/lib/modules/choices-guide-widgets/public/css/', //
-						},
-					},
-					'css-loader',
-				],
-			},
-
+			  test: /\.(png|jpg|svg)$/,
+			  loader: 'url-loader'
+			}
 		],
 	},
 

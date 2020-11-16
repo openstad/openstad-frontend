@@ -7,20 +7,22 @@
 <div id="{{data.widget.containerId}}">
 	<div id="app-root"></div>
 </div>
+
 <script>
+	console.log('AppFrontend', AppFrontend);
+
   document.addEventListener("DOMContentLoaded", function(event) {
     var appProps = {
-			id: data.activeResource.id,
-			title: data.activeResource.title,
+			id: {{data.activeResource.id}},
+			title: '{{data.activeResource.title}}',
 			styling:{},
 			screens:[{
 				type: "TourGuide",
-				elements: data.activeResource.revisions[appResource.revisions.length -1].resourceItems,
-				coordinates: data.activeResource.revisions[appResource.revisions.length -1].coordinates,
+				elements: {{data.activeResource.revisions[data.activeResource.revisions.length -1].resourceItems  | json}},
+				coordinates: {{data.activeResource.revisions[data.activeResource.revisions.length -1].coordinates  | json}},
 			}]
     };
 
-    ReactDOM.render(React.createElement(AppFrontend.default, appProps), document.getElementById('app-root'));
+    ReactDOM.render(React.createElement(AppFrontend, appProps), document.getElementById('app-root'));
   });
 </script>
-{% endif %}

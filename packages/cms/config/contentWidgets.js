@@ -5,6 +5,7 @@
 // all shared within one multisite installation
 
 const contentWidgets = {
+  'app': {},
   'agenda': {},
   'accordeon': {},
   'arguments': {

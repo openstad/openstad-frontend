@@ -167,6 +167,7 @@ module.exports = {
         'local-video-widgets': {},
         'image-widgets': {},
         'location-widgets': {},
+        'app-widgets': {},
         'share-widgets': {},
         'recource-raw-widgets': {},
         'recource-image-widgets': {},

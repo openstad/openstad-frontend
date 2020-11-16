@@ -59,7 +59,7 @@ const resources = [
   },
   {
     label: 'Tour',
-    value: 'tour ',
+    value: 'tour',
     resourceEndPoint: 'tour',
     //config is used in API config
     configKey: 'tour'
