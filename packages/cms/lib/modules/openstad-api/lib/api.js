@@ -42,6 +42,8 @@ module.exports = (self, options) => {
     config.title = siteData.title;
     config.area = siteData.area;
 
+
+
     self.apos.settings.options.siteConfig = config;
   };
 
@@ -97,7 +99,7 @@ module.exports = (self, options) => {
   };
 
   self.getAllPolygons = async () => {
-    const options = self.getOptionsWithAuth({
+    const options = self.getOptions({
       method: 'GET',
       uri: `${self.apiUrl}/api/area`,
     });

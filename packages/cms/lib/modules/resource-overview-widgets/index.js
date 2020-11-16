@@ -39,7 +39,7 @@ module.exports = {
       {
         name: 'displaySettings',
         label: 'Display settings',
-        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons']
+        fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription',  'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea',  'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator']
       },
       {
         name: 'gridder',
@@ -291,9 +291,12 @@ module.exports = {
           json: true
         };
 
-        if (req.session.jwt) {
-          options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
-        }
+        /*
+           We explicitly don't add JWT since results are cached
+          if (req.session.jwt) {
+            options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
+          }
+        */
 
         const queryParams = Object.assign({}, queryObject);
 

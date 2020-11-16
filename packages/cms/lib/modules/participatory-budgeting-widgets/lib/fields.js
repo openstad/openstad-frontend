@@ -68,6 +68,10 @@ const fields = [
         value: 'count',
         showFields: [ 'maxIdeas', 'minIdeas' ]
       },
+      {
+        label: 'Count per thema',
+        value: 'count-per-theme',
+      },
     ]
   },
   {

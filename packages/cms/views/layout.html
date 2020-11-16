@@ -1,12 +1,8 @@
-
 {% if data.idea %}
 {% set activeResource = data.idea %}
 {% else %}
 {% set activeResource = data.activeResource %}
 {% endif %}
-
-
-
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
@@ -93,7 +89,6 @@
 	{% endif %}
   {# will be defined later, but will cause errors otherwise #}
   var doShowImage;
-  </script>
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}
@@ -381,7 +376,6 @@
   {% endif %}
 
   {% include 'partials/moderator-warnings.html'%}
-
   {% endblock %}
 
   {% block main %}

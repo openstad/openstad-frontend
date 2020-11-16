@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.9.0 (Pre release)
+
+* Update NPM modules for security
+* Don't add JWT when doing a resource overview call since results are cached
+* Empty cache on DELETE call via api proxy
+* Styling: alignment of caret in list-style link button
+* In moderator warning change the if statement so no extra div's are rendered when no warning is shown
+* Remove global field translations, not used anymore
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Better explanations in global newsletter settings
+* Feature: Add option count-per-theme to voting in participatory budgeting
+* Bugfix: participatory budgeting per theme showed error in the wrong tab
+* Bugfix: participatory budgeting showed wrong button text in count mode
+* Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
+* Bugfix: participatory budgeting next button in step 0 showed an incorrect error
+* Bugfix: voting in resource overview widget no also works in conjunction with pagination
+* Make cookie max age configurable
+* Add ability to make cookie message fixed to the bottom per page
+* Fix: api/area needs to be called without authentication header
+
 ## v0.8.2 (2020-11-03)
 * Update react-admin
 
@@ -27,7 +47,12 @@
 * Bugfix use Buffer.byteLength instead of .length for content-length for body api proxy, this breaks with special characters
 * Add refreshSiteConfig call after updating a site config
 * Correct metaTitle for idea and other resources
+* Extra config options in ideas-on-map for search and details presentations
 
+## v0.8.0-PRERLEASE (2020-17-07)
+* Feature: ideas-on-map has extra configuration options on search and idea details
+
+>>>>>>> Stashed changes
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
 

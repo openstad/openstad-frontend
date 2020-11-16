@@ -16,26 +16,23 @@ if (votingContainer !== null) {
   // config
 
   // config vars; overwritten in template
-  var votingType = votingType || 'budgeting'; // budgeting-per-theme or budgeting or count
+  var votingType = votingType || 'budgeting'; // budgeting or count or budgeting-per-theme or count-per-theme
   var maxIdeas = maxIdeas || 100;
   var minIdeas = minIdeas || 1;
   var initialAvailableBudget = initialAvailableBudget || 300000;
   var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
-  console.log(initialAvailableBudget, minimalBudgetSpent);
-  
   var currentTheme;
 
   // dit is een wat generiekere versie van westbegroot; ik ben begonnen om de term budget er uit te halen, maar dat is nog niet af
   // de config is wel bijgewerkt
 
   // vars
-  var availableIdeas = 0;
   var availableBudgetAmount = initialAvailableBudget;
   var currentSelection = openstadGetStorage('currentSelection') || [];
   currentSelection = currentSelection ? currentSelection : []
 
-  var currentStep = votingType === 'budgeting-per-theme' ? 0 : 1;
+  var currentStep = votingType === 'budgeting-per-theme' || votingType === 'count-per-theme' ? 0 : 1;
 
   function toggleIdeaInSelection(id) {
 	  var index = currentSelection ? currentSelection.indexOf(id) : false;
@@ -71,13 +68,15 @@ if (votingContainer !== null) {
 		  currentSelection.push(id);
 	  } else if (votingType === 'budgeting' && availableBudgetAmount >= element.budgetValue && currentSelection.length < maxIdeas && currentSelection.indexOf(id) == -1) {
 		  currentSelection.push(id);
+	  } else if (votingType === 'count-per-theme' && currentSelection.length < maxIdeas) {
+		  currentSelection.push(id);
 	  } else if (votingType === 'budgeting-per-theme' && availableBudgetAmount >= element.budgetValue && currentSelection.indexOf(id) == -1) {
 		  currentSelection.push(id);
 	  }
 
 	  recalculateAvailableAmount();
 
-    var storeSelection = votingType == 'budgeting-per-theme' ? themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []) : currentSelection;
+    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []) : currentSelection;
 	  openstadSetStorage('currentSelection', storeSelection)
 	  document.querySelector('#budgeting-edit-mode').checked = false;
 	  addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
@@ -95,7 +94,7 @@ if (votingContainer !== null) {
 
 	  recalculateAvailableAmount();
 
-    var storeSelection = votingType == 'budgeting-per-theme' ? themes.map( function(theme) { return theme.currentSelection } ) : currentSelection;
+    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.map( function(theme) { return theme.currentSelection } ) : currentSelection;
 	  openstadSetStorage('currentSelection', storeSelection)
 
 	  // scrollToBudget()
@@ -109,12 +108,9 @@ if (votingContainer !== null) {
     switch (votingType) {
 
       case 'count':
-		    availableIdeas = sortedElements && currentSelection ? sortedElements.length - currentSelection.length : 0; // not used?
         break;
 
       case 'budgeting':
-		    availableIdeas = sortedElements && currentSelection ? sortedElements.length - currentSelection.length : 0; // not used?
-
 		    availableBudgetAmount = initialAvailableBudget;
 
 		    if (currentSelection) {
@@ -125,6 +121,15 @@ if (votingContainer !== null) {
 				    }
 			    });
 		    }
+        break;
+
+      case 'count-per-theme':
+
+        if (currentTheme) {
+          currentSelection = themes[currentTheme].currentSelection;
+          minIdeas = themes[currentTheme].minIdeas;
+          maxIdeas = themes[currentTheme].maxIdeas;
+        }
         break;
 
       case 'budgeting-per-theme':
@@ -205,7 +210,7 @@ if (votingContainer !== null) {
   function previousStep() {
 	  scrollToBudget()
 
-	  if (votingType == 'budgeting-per-theme' && currentStep == 2) {
+	  if (( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) && currentStep == 2) {
       currentStep = 0;
     } else {
 	    currentStep--;
@@ -240,35 +245,49 @@ if (votingContainer !== null) {
 
 	  if (currentStep == 0) {
 		  if (!isSelectionValid()) {
-        // deze slaat nu alleen op minbudget = 0; de generieke foutmelding is nog niet ontworpen (https://trello.com/c/v3e19Av1)
-				message = 'Je hebt nog geen plannen geselecteerd.'
-			  addError(document.querySelector('#current-budget-preview'), message)
-        return;
+        currentStep = 1;
       }
     }
 
-
 	  if (currentStep == 1) {
 		  if (!isSelectionValid()) {
-			  var message;
-			  if ((votingType === 'count' && currentSelection.length === 0) || ( ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) && initialAvailableBudget - availableBudgetAmount == 0 )) {
-				  message = 'Je hebt nog geen plannen geselecteerd.'
+			  var errorMessage;
+			  if (( votingType === 'count' && currentSelection.length === 0) || ( votingType === 'budgeting' && initialAvailableBudget - availableBudgetAmount == 0 )) {
+				  errorMessage = 'Je hebt nog geen plannen geselecteerd.'
 			  } else {
           if (votingType === 'count') {
-            message = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+            errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
           }
           if (votingType === 'budgeting') {
             if (initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent) {
-				      message = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
+				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
             } else {
-              message = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+              errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
             }
 			    }
-          if (votingType === 'budgeting-per-theme') {
-				    message = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
-			    }
 			  }
-			  addError(document.querySelector('#current-budget-preview'), message)
+
+        var errorTheme = '';
+        if (votingType === 'budgeting-per-theme' || votingType === 'count-per-theme') {
+          themes.forEach( function(theme, i) {
+            if (i > 0) {
+              if (votingType === 'budgeting-per-theme') {
+                if (!(theme.initialAvailableBudget - theme.availableBudgetAmount >= theme.minimalBudgetSpent && theme.availableBudgetAmount >= 0) ) {
+                  errorTheme = i;
+				          errorMessage = 'Je hebt nog niet voor ' + formatEuros(theme.minimalBudgetSpent) + ' aan plannen geselecteerd.';
+                }
+              } else {
+                if (!(theme.currentSelection.length >= theme.minIdeas)) {
+                  errorTheme = i;
+                  errorMessage = 'Je moet ' + ( theme.minIdeas != theme.maxIdeas ? 'minimaal ' + theme.minIdeas : theme.minIdeas ) + ' plannen selecteren.';
+                }
+              }
+            }
+          });
+        }
+
+        if (errorTheme) setTheme(errorTheme);
+        addError(document.querySelector('#current-budget-preview'), errorMessage)
 			  return;
 		  }
 	  }
@@ -279,7 +298,7 @@ if (votingContainer !== null) {
 		  return;
 	  }
 
-	  if (votingType == 'budgeting-per-theme' && currentStep == 0) {
+	  if (( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) && currentStep == 0) {
       currentStep = 2;
     } else {
 	    currentStep++;
@@ -313,7 +332,7 @@ if (votingContainer !== null) {
   }
 
   function updateIdeaCounters() {
-	  if (votingType === 'count') {
+	  if (votingType === 'count' || votingType == 'count-per-theme') {
 		  $('.current-ideas-count').text(currentSelection.length);
 		  $('.available-ideas-count').text(maxIdeas - currentSelection.length);
 
@@ -369,7 +388,7 @@ if (votingContainer !== null) {
 
 		    case 0:
 
-          // only available in budgeting-per-theme
+          // only available in budgeting-per-theme en count-per-theme
 			    addToClassName(document.querySelector('#steps-bar-1'), 'active')
 			    addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('.sticky-expand'), 'hidden')
@@ -460,7 +479,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden')
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
-          if ( votingType == 'budgeting-per-theme' ) {
+          if ( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#budget-text'), 'hidden')
           } else {
 			      removeFromClassName(document.querySelector('#budget-text'), 'hidden')
@@ -480,7 +499,7 @@ if (votingContainer !== null) {
 
 			    overview.innerHTML = '';
 
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType === 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-expand'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -490,13 +509,13 @@ if (votingContainer !== null) {
 			      removeFromClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
 			    }
 
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType === 'count-per-theme' ) {
+
             var warningThemes = [];
             themes.forEach( function(theme, i) {
-              //if ( i > 0 ) createOverview(theme.currentSelection, theme.initialAvailableBudget, theme.availableBudgetAmount, theme.value);
               if ( i > 0 ) {
                 if (theme.currentSelection.length > 0) {
-                  createOverview(theme.currentSelection, theme.initialAvailableBudget, theme.availableBudgetAmount, theme.value);
+                    createOverview(theme.currentSelection, theme.initialAvailableBudget, theme.availableBudgetAmount, theme.value);
                 } else {
                   warningThemes.push(theme.value);
                 }
@@ -508,6 +527,7 @@ if (votingContainer !== null) {
             } else {
 			        addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
             }
+
           } else {
             createOverview(currentSelection, initialAvailableBudget, availableBudgetAmount, 'Overzicht van mijn selectie');
           }
@@ -522,10 +542,10 @@ if (votingContainer !== null) {
 				      imageEl.setAttribute('data-idea-id', id);
 				      imageEl.className += ' idea-' + id;
 				      imageEl = imageEl.innerHTML;
-
+              
 				      overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td>';
 				      if ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) {
-					      var budgetEl = element.querySelector('.budget').cloneNode(true).innerHTML;
+					      var budgetEl = element.querySelector('.budget') && element.querySelector('.budget').cloneNode(true).innerHTML;
 					      overviewHtml += '<td class="text-align-right primary-color">' +budgetEl+ '</td>'
 				      }
 				      overviewHtml += '</tr>';
@@ -584,7 +604,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden')
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
-          if ( votingType == 'budgeting-per-theme' ) {
+          if ( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#budget-text'), 'hidden')
           } else {
 			      removeFromClassName(document.querySelector('#budget-text'), 'hidden')
@@ -604,7 +624,7 @@ if (votingContainer !== null) {
 				    addToClassName(document.querySelector('.error-block'), 'hidden');
 			    }
 
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-expand'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -624,7 +644,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
-          if ( votingType == 'budgeting-per-theme' ) {
+          if ( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#budget-text'), 'hidden')
           } else {
 			      removeFromClassName(document.querySelector('#budget-text'), 'hidden')
@@ -638,7 +658,7 @@ if (votingContainer !== null) {
 			    addToClassName(previewImages, 'hidden');
 			    addToClassName(previewTable, 'hidden');
 
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-expand'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -660,7 +680,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-expand'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -682,7 +702,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
-			    if ( votingType === 'budgeting-per-theme' ) {
+			    if ( votingType === 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			      addToClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-expand'), 'hidden')
 			      addToClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -768,6 +788,16 @@ if (votingContainer !== null) {
 		    return ( currentSelection.length >= minIdeas && currentSelection.length <= maxIdeas ) && ( initialAvailableBudget - availableBudgetAmount >= minimalBudgetSpent && availableBudgetAmount >= 0 )
         break;
 
+      case 'count-per-theme':
+        var result = true;
+        themes.forEach( function(theme, i) {
+          if ( i > 0 && !(theme.currentSelection.length >= theme.minIdeas && theme.currentSelection.length <= theme.maxIdeas) ) {
+            result = false;
+          }
+        });
+        return result;
+        break;
+
       case 'budgeting-per-theme':
         var completeSelection = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
         var result = completeSelection.length > 0;
@@ -815,12 +845,20 @@ if (votingContainer !== null) {
 	      var minwidth = isPhone ? 10 : 20;
 	      var totalWidth = document.querySelector('#themes-bar').offsetWidth - 16 - ( themes && 4 * themes.length - 4 );
 	      var availableWidth = document.querySelector('#themes-bar').offsetWidth - 16 - ( themes && 4 * themes.length - 4 );
-        var totalInitialAvailableBudget = themes.reduce( function(sum, theme) { return sum + ( theme.initialAvailableBudget || 0 ) }, 0);
+        if (votingType == 'budgeting-per-theme') {
+          var totalInitialSpace = themes.reduce( function(sum, theme) { return sum + ( theme.initialAvailableBudget || 0 ) }, 0);
+        } else {
+          var totalInitialSpace = themes.reduce( function(sum, theme) { return sum + ( theme.maxIdeas || 0 ) }, 0);
+        }
 	      var usedWidth = 0;
         for (var i=1; i<themes.length; i++) {
           var theme = themes[i];
 			    if (theme) {
-				    var width = parseInt(availableWidth * ( theme.initialAvailableBudget / totalInitialAvailableBudget ));
+            if (votingType == 'budgeting-per-theme') {
+				      var width = parseInt(availableWidth * ( theme.initialAvailableBudget / totalInitialSpace ));
+            } else {
+				      var width = parseInt(availableWidth * ( theme.maxIdeas / totalInitialSpace ));
+            }
 				    if (width < minwidth) {
 					    availableWidth = availableWidth - ( minwidth - width );
 					    width = minwidth
@@ -828,7 +866,11 @@ if (votingContainer !== null) {
 				    usedWidth += width;
             var bar = document.querySelector('#steps-content').querySelector('.theme-bar.' + theme.className)
             bar.style.width = width + 'px';
-            var amountWidth = parseInt(width * ( ( theme.initialAvailableBudget - theme.availableBudgetAmount ) / theme.initialAvailableBudget ));
+            if (votingType == 'budgeting-per-theme') {
+              var amountWidth = parseInt(width * ( ( theme.initialAvailableBudget - theme.availableBudgetAmount ) / theme.initialAvailableBudget ));
+            } else {
+              var amountWidth = parseInt(width * ( theme.currentSelection.length / theme.maxIdeas ));
+            }
             bar.querySelector('.theme-bar-amount-spent').style.width = amountWidth + 'px';
 			    }
 		    }
@@ -859,7 +901,7 @@ if (votingContainer !== null) {
 			  break;
 
 		  case 1:
-        if ( votingType == 'budgeting-per-theme' ) {
+        if ( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) {
 			    previousButton.innerHTML = 'Overzicht';
 			    nextButton.innerHTML = 'Bekijk selectie';
 			    removeFromClassName(previousButton, 'hidden');
@@ -983,7 +1025,7 @@ if (votingContainer !== null) {
 	  var data = {
 		  budgetVote: currentSelection,
 	  }
-    if (votingType == 'budgeting-per-theme') {
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
       data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
     }
 
@@ -1285,7 +1327,7 @@ if (votingContainer !== null) {
 	  function updateElement(element) {
 		  // is added to the budgeting selection
 
-	    if (votingType == 'budgeting-per-theme' && currentStep == 0) {
+	    if (( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) && currentStep == 0) {
 
 				$('.budget-' + element.ideaId).removeClass('unavailable');
 			  $('.button-add-idea-to-budget-' + element.ideaId).addClass('hidden');
@@ -1305,6 +1347,7 @@ if (votingContainer !== null) {
 			    if (
 				    (( votingType === 'count' ) && maxIdeas <= currentSelection.length)
 				      || ( votingType === 'budgeting' && ( maxIdeas <= currentSelection.length || element.budgetValue > availableBudgetAmount ) )
+				      || ( votingType === 'count-per-theme' && maxIdeas <= currentSelection.length )
 				      || ( votingType === 'budgeting-per-theme' && element.budgetValue > availableBudgetAmount )
 			    ) {
 				    $('.budget-' + element.ideaId).addClass('unavailable');
@@ -1640,7 +1683,7 @@ if (votingContainer !== null) {
   // ----------------------------------------------------------------------------------------------------
   // init
 
-  if (votingType == 'budgeting-per-theme') {
+  if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
     themes.forEach( function(theme, i) {
       theme.currentSelection = [];
       currentSelection.forEach( function(id) {

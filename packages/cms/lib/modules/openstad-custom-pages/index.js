@@ -43,6 +43,14 @@ module.exports = {
         type: 'boolean',
         label: 'Hide the footer?',
       },
+      {
+        name: 'cookieBarFixed',
+        type: 'boolean',
+        label: 'Set the cookiebar fixed at the footer?',
+        def: false,
+      },
+
+
 
     ];
 

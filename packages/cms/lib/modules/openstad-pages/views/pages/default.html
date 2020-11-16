@@ -1,14 +1,10 @@
 {% extends "layout.html" %}
-
 {% block main %}
-
-
 {% if data.userCan('add-sections') %}
 {% set readOnly = false %}
 {% else %}
 {% set readOnly = true %}
 {% endif %}
-
 
 <div class="section-container {% if not data.userCan('add-sections')%} hide-section-controls {% endif %}">
 {{ apos.area(data.page, 'body', {
