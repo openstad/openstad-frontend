@@ -620,7 +620,7 @@ module.exports = function (db, sequelize, DataTypes) {
         } else {
           return {
             where: sequelize.or(
-              {viewableByRole: 'all' },
+              { viewableByRole: 'all' },
               { viewableByRole: null },
               { viewableByRole: roles[userRole] || '' },
             )

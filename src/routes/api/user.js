@@ -25,6 +25,8 @@ router
 router
   .all('*', function(req, res, next) {
     req.scope = ['includeSite'];
+    req.scope.push({ method: ['onlyVisible', req.user.id, req.user.role]});
+    
     next();
   });
 

@@ -6,6 +6,7 @@ const Password      = require('../lib/password');
 const sanitize      = require('../util/sanitize');
 const userHasRole 	= require('../lib/sequelize-authorization/lib/hasRole');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
+const roles = require('../lib/sequelize-authorization/lib/roles');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
@@ -168,6 +169,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 			set          : function( value ) {
 				this.setDataValue('lastName', sanitize.noTags(value));
 			}
+		},
+
+		viewableByRole: {
+			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+			defaultValue: 'editor',
+			auth:  {
+				updateableBy: ['editor', 'owner'],
+			},
+			allowNull: true,
 		},
 
 		phoneNumber: {
@@ -342,11 +352,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 			unique: true
 		}],*/
 
-		includeSite: {
-			include: [{
-				model: db.Site,
-			}]
-		},
 
 		validate: {
 			hasValidUserRole: function() {
@@ -389,6 +394,26 @@ module.exports = function( db, sequelize, DataTypes ) {
           model: db.Site,
         }]
       },
+
+			onlyVisible: function (userId, userRole) {
+				if (userId) {
+					return {
+						where: sequelize.or(
+							{ userId },
+							{ viewableByRole: 'all' },
+							{ viewableByRole: null },
+							{ viewableByRole: roles[userRole] || '' },
+						)
+					};
+				} else {
+					return {
+						where: sequelize.or(
+							{ viewableByRole: 'all' },
+							{ viewableByRole: roles[userRole] || '' },
+						)
+					};
+				}
+			},
 
 		}
 	}
@@ -546,11 +571,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 	User.auth = User.prototype.auth = {
-    listableBy: 'editor',
+    listableBy: 'all',
     viewableBy: 'all',
     createableBy: 'editor',
     updateableBy: ['editor','owner'],
     deleteableBy: ['editor','owner'],
+
+		/*canView: function(user, self) {
+			if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
+				return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
+			} else {
+				return true
+			}
+		},*/
   }
 
 	return User;
