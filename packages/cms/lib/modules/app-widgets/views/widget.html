@@ -5,7 +5,7 @@
 <script src="/modules/app-widgets/js/index.js"></script>
 
 <div id="{{data.widget.containerId}}">
-	<div id="app-root"></div>
+	<div id="app-root" style="height:500px;"></div>
 </div>
 
 <script>
@@ -23,6 +23,6 @@
 			}]
     };
 
-    ReactDOM.render(React.createElement(AppFrontend, appProps), document.getElementById('app-root'));
+    ReactDOM.render(React.createElement(AppFrontend.default, appProps), document.getElementById('app-root'));
   });
 </script>

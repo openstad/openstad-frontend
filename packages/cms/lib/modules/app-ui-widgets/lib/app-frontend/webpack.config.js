@@ -11,8 +11,8 @@ module.exports = {
 	entry: [ './src/lib.js'],
 
 	output: {
-//		path: __dirname + '/../../openstad-landing/packages/cms/lib/modules/admin-widgets/public/', //
-		path: __dirname + '/dist',
+		path: __dirname + '/../../../app-widgets/public/', //
+	//	path: __dirname + '/dist',
 		filename: 'js/index.js',
 	//	filename: 'js/openstad-component.js',
     library: 'AppFrontend',

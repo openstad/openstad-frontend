@@ -3,7 +3,7 @@ import './App.css';
 import TourApp from './TourApp.js';
 
 
-function App(props) {
+const App = (props) => {
   return (
     <TourApp
       title={props.title}
