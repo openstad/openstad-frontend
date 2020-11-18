@@ -149,7 +149,7 @@
 
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
-
+{% if not data.page.hideHeader %}
 <header>
   <div class="container relative">
     <div class="row">
@@ -239,9 +239,11 @@
     </div>
   </div>
 </header>
+{% endif %}
 {% include 'partials/flash.html' %}
 <div id="page" class="{{ 'cms-admin' if data.user }}">
 
+  {% if not data.page.hideNavigation %}
   <nav id="navbar" class="navbar navbar-static-top">
       <div class="container">
         <div class="row">
@@ -399,6 +401,7 @@
     </div>
   </div>
   </nav>
+  {% endif %}
   {% endif %}
 
   {% include 'partials/moderator-warnings.html'%}

@@ -49,6 +49,16 @@ module.exports = {
         label: 'Redirect to account page if required',
       },
       {
+        name: 'hideHeader',
+        type: 'boolean',
+        label: 'Hide the header??',
+      },
+      {
+        name: 'hideNavigation',
+        type: 'boolean',
+        label: 'Hide the navigation?',
+      },
+      {
         name: 'hideFooter',
         type: 'boolean',
         label: 'Hide the footer?',

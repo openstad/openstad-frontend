@@ -295,16 +295,3 @@ body .rhap_container {
 .rhap_additional-controls {
   display: none;
 }
-
-.fa-map-marker.fa {
-  background: white;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: block;
-  margin: auto;
-  top: 7px;
-  position: absolute;
-  left: 7px;
-  border: 2px solid black;
-}

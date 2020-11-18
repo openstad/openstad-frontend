@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 L.NumberedDivIcon = L.Icon.extend({
 	options: {
     // EDIT THIS TO POINT TO THE FILE AT http://www.charliecroom.com/marker_hole.png (or your own marker)
-    iconUrl: '/marker.png',
+    iconUrl: '/images/marker.png',
     number: '',
     shadowUrl: null,
 //    iconSize: new L.Point(25, 41),
@@ -170,7 +170,7 @@ function TitleBar (props) {
   return (
     <div className="title-bar">
       <a href="#" className="title-bar-back-button">
-        <img src="/arrow-left-circle.svg" />
+        <img src="/images/arrow-left-circle.svg" />
       </a>
       <span className="title-bar-title">
         {props.title}
