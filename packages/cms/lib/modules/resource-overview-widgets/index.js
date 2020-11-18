@@ -1,6 +1,7 @@
-const styleSchema = require('../../../config/styleSchema.js').default;
-const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
-const cache               = require('../../../services/cache').cache;
+const styleSchema   = require('../../../config/styleSchema.js').default;
+const cacheLifespan = 15*60;   // set lifespan of 15 minutes;
+const cache         = require('../../../services/cache').cache;
+const Cart          = require('../cart-widgets/lib/cart.js');
 
 /*
   CURRENTLY IN TRANSITION.
@@ -171,6 +172,7 @@ module.exports = {
         widget.areas = req.data.global.areas;
 
         const containerId = widget._id;
+
         widget.containerId = containerId;
 
         widget.parseDateToTime = (date) => {
@@ -325,7 +327,7 @@ module.exports = {
 
         if (response) {
           // pass query obj without reference
-          widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
+          widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query, req.session), req.data.currentPathname,  req.session);
         } else {
           promises.push(function (req, self){
             return new Promise((resolve, reject) => {
@@ -339,7 +341,7 @@ module.exports = {
                 }
 
                 // pass query obj without reference
-                widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query), req.data.currentPathname);
+                widget = self.formatWidgetResponse(widget, response,  Object.assign({}, req.query,), req.data.currentPathname,  req.session);
 
                 resolve(response);
               })
@@ -425,7 +427,7 @@ module.exports = {
       return params && Array.isArray(params.oTags) && params.oTags.includes(tag.id);
     }
 
-    self.formatWidgetResponse = (widget, response, queryParams, pathname) => {
+    self.formatWidgetResponse = (widget, response, queryParams, pathname, session) => {
       widget.paginationIndex = response.metadata.page + 1;
       widget.totalItems = response.metadata.totalCount;
       widget.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, pathname, queryParams);
@@ -433,9 +435,18 @@ module.exports = {
       widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
       widget.activeResources = response.records ? response.records.map((record)=> {
         // delete because they are added to the data-attr and will get very big
-      //  delete record.description;
+
+        delete record.description;
+
+        if (widget.resource === 'product') {
+          record.cartItem = session && session.cart ? Cart.getItem(record.id, session.cart) : null;
+        }
+
         return record;
       }) : [];
+
+
+
 
       return widget;
     }

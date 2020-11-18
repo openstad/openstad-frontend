@@ -1,0 +1,154 @@
+.TopPanel {
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #f4f4f4;
+  z-index: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.ContentPlane {
+  display: flex;
+  justify-content: space-between;
+  background: #f7f9fa;
+}
+
+.LeftPanel {
+  width: 280px;
+  bottom: 0;
+  left: 0;
+  top: 60px;
+  position: absolute;
+  position: relative;
+  background: #fdfdfd;
+  border-right: 1px solid #d4d4d4;
+  z-index: 1;
+
+  position: relative;
+  top: 0;
+}
+
+.MiddlePanel {
+  position: absolute;
+
+  left: 281px;
+  right: 0;
+  bottom: 0;
+  top: 60px;
+  background: #f7f9fa;
+
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.RightPanel {
+  display: block;
+  width: 280px;
+  bottom: 0;
+  right: -300px;
+  top: 60px;
+  position: fixed;
+  position: relative;
+
+  background: #fdfdfd;
+  border-left: 1px solid #d4d4d4;
+  transition: all 1000ms ease-in-out;
+  z-index: 1000;
+  overflow: scroll;
+  padding: 0;
+
+  position: relative;
+  top: 0;
+}
+
+.RightPanel.open {
+  right: 0;
+}
+
+.device-wrapper-mobile {
+  background-image: url(/mobile-device.png);
+  width: 340px;
+  height: 632px;
+  margin: 0 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  padding: 1px;
+}
+
+.device-wrapper-inner {
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  position: absolute;
+  top: 43px;
+  left: 17px;
+  right: 16px;
+  bottom: 43px;
+}
+
+
+.ListItem {
+  /*border-bottom: 1px solid #d4d4d4;*/
+  padding: 8px;
+}
+
+.ListItem:first-child {
+  /*border-top: 1px solid #d4d4d4;*/
+}
+
+.ListItem.active, .ListItem.active a {
+  background: #47afff;
+  color: white;
+  border-radius: 5px;
+}
+
+.list-link {
+  color: black;
+  font-weight: bold;
+  display: block;
+  font-size: 11px;
+}
+
+.flex {
+  display: flex;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.justify-content {
+  justify-content: space-between;
+}
+
+.ui-button {
+  background: white;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 2px 10px;
+  display: inline-block;
+
+}
+
+ .ui-button--primary {
+   background: #47afff;
+   color: white;
+ }
+
+.plus-icon {
+  font-size: 24px;
+  font-weight: 300;
+  color: #616161;
+}
+
+
+.device-selector {
+  margin: 10px 0;
+  text-align: center;
+}

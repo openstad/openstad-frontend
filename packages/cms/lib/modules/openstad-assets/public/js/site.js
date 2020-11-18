@@ -163,6 +163,9 @@ function initAjaxForms ($e) {
        data: $form.serialize(),
   //     dataType: 'json',
        success:function(response) {
+
+         redirectUrl = response.redirectUrl ? response.redirectUrl : redirectUrl;
+
          if ($form.hasClass('ajax-refresh-after-submit')) {
            ajaxRefresh();
          } else if (redirectUrl) {
@@ -353,6 +356,8 @@ function initTrashPageWarning () {
 //
 function initAjaxRefresh () {
 
+
+
   $('body').on('click', '.openstad-ajax-refresh-link', function (ev) {
     ev.preventDefault();
 
@@ -404,6 +409,11 @@ function initAjaxRefresh () {
 
     //update DOM
     ajaxRefresh($(this).attr('data-reset-hash'));
+  });
+
+  $('body').on('ajaxRefresh', function (ev) {
+    //update DOM
+    ajaxRefresh();
   });
 
   $('body').on('change', '.openstad-ajax-refresh-input', function (ev) {

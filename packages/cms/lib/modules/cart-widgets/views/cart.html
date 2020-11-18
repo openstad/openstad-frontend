@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="cart-container" style="max-width: 550; margin: 0 auto;">
+  {% if data.cart.items %}
+      {% include 'includes/cart-display.html' %}
+      <a href="/checkout">
+        Checkout
+      </a>
+  {% else %}
+      Geen producten.
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{#
+  Fields in section
+  - title
+  - info
+  - formfields: key, info, type(summary, text,)
+#}
+
+{% for formSection in data.widget.dynamicFormSections %}
+<div class="form-group">
+  {% if formSection.title %}
+  <h2>
+    {{ formSection.title }}
+  </h2>
+  {% endif %}
+
+  {% if formSection.info %}
+  <div class="form-info">
+    {{ formSection.info  | nlbr | sanitize | safe }}
+  </div>
+  {% endif %}
+
+  {% for field in formSection.fields %}
+  <div class="form-field-container form-field-container-{{field.key}}">
+    {% if field.fieldInfo %}
+    <p> {{field.fieldInfo}} </p>
+    {% endif %}
+    {% include 'includes/fields/' + field.type + '.html' ignore missing %}
+  </div>
+  <br />
+
+  {% endfor %}
+  <br />
+</div>
+{% endfor %}

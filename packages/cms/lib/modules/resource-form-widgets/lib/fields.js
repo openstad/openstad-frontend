@@ -16,11 +16,52 @@ const fields = [
               label: "Static (default)"
             },
             {
+              value: 'order',
+              label: "Checkout (default)"
+            },
+            {
               value: 'dynamic',
               label: "Dynamic",
               showFields: ['dynamicFormSections']
             },
+            {
+              value: 'repeatable',
+              label: "Repeatable",
+              showFields: ['dynamicFormSections']
+            },
         ]
+    },
+    {
+      name: 'allowGuestFormSubmission',
+      label: 'Allow guest form submissions?',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: false
+    },
+    {
+      name: 'displayUserInfoAtTop',
+      label: 'Display user info at the top?',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
     },
     {
       name: 'hideAdminAfterPublicAction',
@@ -94,6 +135,11 @@ const fields = [
                       showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
                   },
                   {
+                      value: 'price',
+                      label: "Price",
+                      showFields: ['fieldRequired']
+                  },
+                  {
                       value: 'raw',
                       label: "Raw",
                       showFields: ['rawInput']
@@ -120,7 +166,8 @@ const fields = [
                   },
                   {
                       value: 'image',
-                      label: "Image"
+                      label: "Image",
+                      showFields: ["uploadMultiple", "requiredImages"]
                   },
                   {
                       value: 'map',
@@ -141,6 +188,10 @@ const fields = [
                   {
                       value: 'theme',
                       label: "Theme"
+                  },
+                  {
+                      value: 'name',
+                      label: "Name"
                   },
                   {
                       value: 'title',
@@ -356,6 +407,7 @@ const fields = [
             },
         ]
     },
+
     {
        name: 'labelDescription',
        type: 'string',

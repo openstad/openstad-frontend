@@ -5,6 +5,7 @@
 // all shared within one multisite installation
 
 const contentWidgets = {
+  'app': {},
   'agenda': {},
   'accordeon': {},
   'arguments': {
@@ -23,6 +24,7 @@ const contentWidgets = {
   },
   'slider': {
   },
+  'cart': { },
   'counter': {
     addLabel: 'Counter',
   },

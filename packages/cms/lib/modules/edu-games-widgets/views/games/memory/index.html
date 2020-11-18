@@ -1,0 +1,24 @@
+<script>
+var memoryCards = [
+  {% for card in data.widget.activeMemoryCards %}
+    {
+      name: "{{card.name}}",
+      img: "{{apos.attachments.url(card.image)}}",
+      id: {{loop.index + 1}},
+    },
+  {% endfor %}
+];
+</script>
+
+<div class="memory-game">
+  <div class="wrap">
+    <div class="memory-game"></div>
+
+    	<div class="memory-modal-overlay">
+    		<div class="memory-modal">
+    			<h2 class="winner">You Rock!</h2>
+    			<button class="restart">Play Again?</button>
+    		</div>
+    	</div>
+  </div><!-- End Wrap -->
+</div><!-- End Wrap -->

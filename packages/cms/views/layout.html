@@ -27,10 +27,8 @@
 
 {% block extraHead %}
 
-{% if data.global.applyPaletteStyling %}
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
-{% endif %}
 
 {{ apos.logger.renderClientProvider() | safe }}
 
@@ -41,9 +39,7 @@
 
 {% if data.envStyleSheets %}
 {% for stylesheet in data.envStyleSheets %}
-{% if (stylesheet) %}
 <link rel="stylesheet" href="{{stylesheet}}?{{data.assetsGeneration}}">
-{% endif %}
 {% endfor %}
 {% endif %}
 
@@ -149,12 +145,12 @@
 
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
-
-<header class="{{ 'amsterdam-header' if data.global.siteLogo === 'amsterdam'  }}">
+{% if not data.page.hideHeader %}
+<header>
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-
+          {% if not data.global.logoPlacement or data.global.logoPlacement === 'aboveMenu' %}
           {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
@@ -172,6 +168,7 @@
           <a href="{{logoLink}}/" class="logo-default logo-main-container">
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
           </a>
+          {% endif %}
           {% endif %}
         <div class="header-side-container">
           <div class="row">
@@ -226,16 +223,28 @@
           </ul>
         </div>
         {% endif %}
+        {% if data.global.displayCart %}
+        <a id="cart-link" href="/cart" class="cart-menu openstad-ajax-refresh">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          <div class="cart-counter">
+          {{data.cart.items.length if data.cart.items.length else 0 }}
+          </div>
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>
 </header>
+{% endif %}
 {% include 'partials/flash.html' %}
 <div id="page" class="{{ 'cms-admin' if data.user }}">
 
+  {% if not data.page.hideNavigation %}
   <nav id="navbar" class="navbar navbar-static-top">
-    <div class="container">
-      <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
+      <div class="container">
+        <div class="row">
+        <div class="col-xs-8 col-sm-2 {% if not data.global.logoPlacement === 'inMenu' %} visible-xs {% endif %}">
+        <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
         <span class="sr-only">Toggle navigation</span>
         <div class="visible-active">
           <span class="icon-bar"></span>
@@ -247,6 +256,19 @@
           <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
         </div>
       </button>
+
+      {% if data.global.logoPlacement === 'inMenu' %}
+      <a href="{{logoLink}}/" class="logo-main-container logo-uploaded">
+        {% if data.global.siteLogo %}
+        <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
+        {% else %}
+        <h2> {{data.global.siteTitle}} </h2>
+        {% endif %}
+      </a>
+      {% endif %}
+      </div>
+      <div class="{{ 'col-sm-10  col-xs-4' if data.global.logoPlacement === 'inMenu' else 'col-xs-12' }}" style="position: static">
+
       {% if data.global.displayMyAcount %}
       <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
         <div class="visible-active">
@@ -371,8 +393,11 @@
         	</nav>
         </nav>
       </div>
+      </div>
     </div>
+  </div>
   </nav>
+  {% endif %}
   {% endif %}
 
   {% include 'partials/moderator-warnings.html'%}

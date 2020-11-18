@@ -591,6 +591,33 @@ module.exports = [
     ]
   },
   {
+    name: 'displayLoginTopLink',
+    type: 'boolean',
+    label: 'Display login and logout link in top links?'
+  },
+  {
+    name: 'displayCart',
+    type: 'boolean',
+    label: 'Display cart in header?'
+  },
+
+  {
+    name: 'logoPlacement',
+    label: 'Where should the logo be placed?',
+    type: 'select',
+    choices: [
+      {
+        label: 'Above menu',
+        value: 'aboveMenu'
+      },
+      {
+        label: 'In the menu',
+        value: 'inMenu'
+      },
+    ],
+//      def: 'aboveMenu'
+  },
+  {
     name: 'roleToLike',
     type: 'select',
     label: 'What role is necessary to like an idea?',

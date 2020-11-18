@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemeen',
-        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
+        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon']
     },
     {
         name: 'api',
@@ -23,7 +23,7 @@ module.exports = [
     {
         name: 'design',
         label: 'Vormgeving',
-        fields: ['siteLogo', 'logoLink', 'stylesheets', 'inlineCss', 'applyPaletteStyling']
+        fields: ['siteLogo', 'logoLink', 'stylesheets', 'inlineCss']
     },
     {
         name: 'footer',
@@ -38,7 +38,7 @@ module.exports = [
     {
         name: 'mainMenu',
         label: 'Hoofdmenu',
-        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount']
+        fields: ['logoPlacement', 'arrangeMainMenu', 'displayLoginTopLink', 'displayCart', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', 'translations']
     },
     {
         name: 'userRights',
@@ -51,9 +51,9 @@ module.exports = [
       fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel']
     },
     {
-        name: 'themes-areas',
-        label: 'Themes & areas',
-        fields: ['themes', 'areas']
+        name: 'vimeo',
+        label: 'Vimeo',
+        fields: ['vimeoClientId', 'vimeoClientSecret', 'vimeoAcccesToken', 'vimeoEmbedSettings', 'vimeoViewSettings']
     },
 
     // this is a bit of a hack. We hide the section link with CSS

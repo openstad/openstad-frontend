@@ -1,89 +1,32 @@
-{% if data.hasModeratorRights %}
-<style>
-  {{data.widget.formattedContainerStyles}}
-
-  .layout header {
-    position: relative !important;
-    transform: none !important;
-    visibility: visible !important;
-    padding: 0 !important;
-    height: 48px;
-    background-color: rgb(255, 255, 255) !important;
-    color: black !important;
-    margin-top: -20px;
-    box-shadow: none;
-    border-bottom: 1px solid #eeeeee;
-  }
-
-  .RaLayout-root-1 {
-    background: white;
-  }
-
-  .RaLayout-appFrame-2 {
-      margin-top: 0;
-  }
-</style>
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<link rel="stylesheet" href="/modules/admin-widgets/css/main.css">
-<script src="/modules/admin-widgets/js/index.js"></script>
-<div id="{{data.widget.containerId}}" class="osc-component">
-	<div id="admin-root"></div>
+
+<link rel="stylesheet" href="/modules/app-widgets/css/main.css">
+<script src="/modules/app-widgets/js/index.js"></script>
+
+<div id="{{data.widget.containerId}}">
+	<div id="app-root" style="    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;"></div>
 </div>
+
 <script>
+	console.log('AppFrontend', AppFrontend);
+
   document.addEventListener("DOMContentLoaded", function(event) {
     var appProps = {
-      user: {
-        id: {{data.openstadUser.id}}
-      },
-      site: {
-        id: {{data.global.siteId}}
-      },
-      imageApi: {
-        url: '/image'
-      },
-      restApi: {
-        url: '/api/site/{{data.global.siteId}}'
-      },
-      csrf: $.cookie(apos.csrfCookieName),
-      resources: {
-        idea: {
-          active: true
-        },
-        user: {
-          active: true
-        },
-        product: {
-          active: false
-        },
-        order: {
-          active: false
-        }, 
-        vote: {
-          active: true
-        },
-        article: {
-          active: false
-        },
-        argument: {
-          active: true
-        },
-        area: {
-          active: true
-        },
-        site: {
-          active: true
-        },
-        newsletterSignup: {
-          active: true
-        },
-        tag: {
-          active: true
-        },
-      }
+			id: {{data.activeResource.id}},
+			title: '{{data.activeResource.title}}',
+			styling:{},
+			screens:[{
+				type: "TourGuide",
+				elements: {{data.activeResource.revisions[data.activeResource.revisions.length -1].resourceItems  | json}},
+				coordinates: {{data.activeResource.revisions[data.activeResource.revisions.length -1].coordinates  | json}},
+			}]
     };
 
-    ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+    ReactDOM.render(React.createElement(AppFrontend.default, appProps), document.getElementById('app-root'));
   });
 </script>
-{% endif %}

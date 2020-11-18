@@ -1,0 +1,137 @@
+.quiz-container {
+    padding: 1em;
+    max-width: 100%;
+    margin: 1em auto;
+}
+
+.quiz-container a {
+    text-decoration: none;
+    color: #333;
+}
+
+#quiz-header,
+#quiz-start-screen,
+#quiz-results-screen,
+#quiz-counter {
+    text-align: center;
+}
+
+.question {
+    font-size: 1.25em;
+}
+
+.answers {
+    list-style: none;
+    padding: 0;
+}
+
+.answers a {
+    display: block;
+    padding: 0.5em 1em;
+    margin-bottom: 0.5em;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.answers a.correct {
+    background: #090;
+}
+.answers a.incorrect {
+    background: #c00;
+}
+
+#quiz-controls {
+  background: #fff;
+      color: #000;
+      padding: .5em 1em;
+      text-align: center;
+      border-radius: 10px;
+      font-weight: bold;
+}
+
+#quiz-response {}
+#quiz-results {
+    font-size: 1.25em;
+}
+
+#quiz-buttons a,
+.quiz-container .quiz-button {
+    display: inline-block;
+    padding: 10px 30px;
+    background: #eff8ff;
+    color: #000;
+    border-radius: 4px;
+    font-weight: bold;
+}
+#quiz-buttons a {
+    background: #eff8ff;
+    color: #000;
+}
+
+/* Quiz State Overrides */
+
+.quiz-results-state #quiz-controls {
+    background: none;
+    padding: 0;
+}
+.quiz-results-state #quiz-buttons a {
+    background: #333;
+    color: #fff;
+}
+
+#quiz-counter {
+  margin: 10px 0;
+}
+
+.quiz-container  {
+
+  .answers {
+    text-align: center;
+  }
+
+  .answers li {
+    display: inline-block;
+    width: 28%;
+    margin: 2%
+  }
+
+
+  .answers a {
+    display: block;
+    background: aliceblue;
+    padding: 50px 0;
+    text-align: center;
+    font-size: 40px;
+    box-sizing: border-box;
+
+    &.correct {
+      background: #90f190;
+
+    }
+    &.incorrect {
+      background: #ff7e7e;
+    }
+  }
+
+  .question-title, .quiz-title {
+    text-align: center;
+    font-size: 38px;
+    margin: 105px auto 80px;
+    font-weight: bold;
+
+  }
+
+  .question-audio {
+    margin: 10px auto 50px;
+    display: block;
+  }
+
+  .question-image-container {
+    text-align: center;
+
+    img {
+      max-height: 300px;
+    }
+  }
+
+}

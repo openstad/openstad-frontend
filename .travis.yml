@@ -3,8 +3,8 @@ language: minimal
 # easy way to get your local config: cat ${HOME}/.kube/config | base64 | pbcopy
 env:
   global:
-    - DOCKER_PUBLIC_USERNAME=openstad
-    - DOCKER_IMAGE_NAME=frontend
+    - DOCKER_PUBLIC_USERNAME=toshkoevoets
+    - DOCKER_IMAGE_NAME=appbuilder-frontend
     - K8S_DEPLOYMENT_NAME=openstad-frontend
     - K8S_NAMESPACE=openstad
     - FRONTED_PORT=4444
@@ -42,7 +42,7 @@ deploy:
       # Either Create different config in travis to deploy to different cluster
       # Or add a different namespace for ACC
       # condition: $TRAVIS_BRANCH =~ ^(development|release)$
-      condition: $TRAVIS_BRANCH =~ ^(feature/docker-travis)$
+      condition: $TRAVIS_BRANCH =~ ^(app-development)$
   # master automatically pushes new docker container with latest tag to docker
   # master automatically pushes new docker container with latest tag to docker
   - provider: script

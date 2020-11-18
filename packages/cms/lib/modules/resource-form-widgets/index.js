@@ -4,6 +4,7 @@ const url           = require('url');
 const request       = require('request');
 const pick          = require('lodash/pick')
 const eventEmitter  = require('../../../events').emitter;
+const guestService  = require('../../../services/guest');
 
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
@@ -24,7 +25,6 @@ module.exports = {
   label: 'Resource form',
   addFields: fields,
   beforeConstruct: function(self, options) {
-
     if (options.resources) {
       self.resources = options.resources;
 
@@ -40,7 +40,6 @@ module.exports = {
   },
   construct: function(self, options) {
    options.arrangeFields = (options.arrangeFields || []).concat([
-
      {
        name: 'general',
        label: 'Algemeen',
@@ -119,11 +118,11 @@ module.exports = {
     /** add config **/
     const superLoad = self.load;
 
-    self.load = function(req, widgets, next) {
+    self.load = async function(req, widgets, next) {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
 
-	      widgets.forEach((widget) => {
+	      widgets.forEach(async (widget) => {
             const resourceType = widget.resource ?  widget.resource : false;
             const resourceInfo = resourceType  ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
 
@@ -145,7 +144,11 @@ module.exports = {
               descriptionMaxLength: ( resourceConfig.descriptionMaxLength ) || 5000,
             }
 
-            widget.resourceEndPoint = resourceInfo.resourceEndPoint;
+            widget.guestHash = await guestService.getHash(req);
+
+            console.log('widget.guestHash', widget.guestHash)
+
+            widget.resourceEndPoint =  resourceInfo.resourceEndPoint;
 
     				widget.siteConfig = {
     					openstadMap: {
@@ -190,9 +193,7 @@ module.exports = {
   		});
 
 			superLoad(req, widgets, next);
-		}
-
-
+	}
 
   const superPushAssets = self.pushAssets;
    self.pushAssets = function () {

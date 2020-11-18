@@ -48,7 +48,7 @@ module.exports = {
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,
-        }, 
+        },
         'apostrophe-express': {
           port: process.env.PORT,
           session: {
@@ -101,7 +101,7 @@ module.exports = {
         },
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
-        'openstad-admin-bar': {},
+        'cart-widgets': {},
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
@@ -167,6 +167,7 @@ module.exports = {
         'local-video-widgets': {},
         'image-widgets': {},
         'location-widgets': {},
+        'app-widgets': {},
         'share-widgets': {},
         'recource-raw-widgets': {},
         'recource-image-widgets': {},

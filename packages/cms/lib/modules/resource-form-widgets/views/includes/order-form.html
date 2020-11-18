@@ -1,0 +1,86 @@
+{% include 'includes/form-header.html' %}
+
+<div class="mb-3 form-group ">
+  <div class="hip-label">
+    <input type="email" class="form-control" id="email" />
+    <label for="email" class="hip">E-mail </label>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-md-6 mb-3">
+    <div class="hip-label">
+    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
+    <label for="firstName"  class="hip">Voornaam</label>
+    </div>
+  </div>
+  <div class="col-md-6 mb-3">
+    <div class="hip-label">
+      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
+      <label for="lastName" class="hip">Achternaam</label>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3 form-group">
+  <div class="hip-label">
+    <input type="text" class="form-control" id="company" name="company"  placeholder="">
+    <label for="company" class="hip">Bedrijf <span class="text-muted">(Optioneel)</span></label>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-md-6 mb-3">
+    <div class="hip-label">
+      <input type="text" class="form-control" id="streetName" name="streetName" placeholder="" required>
+      <label for="streetName" class="hip">Straat</label>
+    </div>
+  </div>
+  <div class="col-md-3 mb-3">
+    <div class="hip-label">
+      <input type="text" class="form-control" id="houseNumber" name="houseNumber" placeholder="" required>
+      <label for="houseNumber" class="hip">Huis nr.</label>
+    </div>
+  </div>
+  <div class="col-md-3 mb-3">
+    <div class="hip-label">
+      <input type="text" class="form-control" id="suffix" name="suffix" placeholder="">
+      <label for="suffix" class="hip">Toev.</label>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3 form-group">
+  <div class="hip-label">
+    <input type="text" class="form-control" id="postcode" name="postcode" required>
+    <label for="postcode" class="hip">Postcode <span class="text-muted"></span></label>
+  </div>
+</div>
+<div class="mb-3 form-group">
+  <div class="hip-label">
+    <input type="text" class="form-control" id="city" name="city" placeholder="" required />
+    <label for="postcode" class="hip">Stad <span class="text-muted"></span></label>
+  </div>
+</div>
+
+<div class="mb-3 form-group">
+  <div class="hip-label">
+    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="" />
+    <label for="postcode" class="hip">Telefoon nummer <span class="text-muted"></span></label>
+  </div>
+</div>
+
+<div class="mb-3 form-group">
+  <div class="hip-label">
+    <textarea name="name" type="text" class="form-control" id="orderNote" name="orderNote" placeholder=""></textarea>
+    <label for="orderNote" class="hip">Opmerkingen</label>
+  </div>
+</div>
+
+{% for item in data.cart.items %}
+<input type="hidden" name="orderItems[{{loop.index}}][quantity]" value="{{item.qty}}"  />
+<input type="hidden" name="orderItems[{{loop.index}}][productId]" value="{{item.id}}"  />
+{% endfor %}
+
+<hr class="mb-4">
+{% include 'includes/form-footer.html' %}

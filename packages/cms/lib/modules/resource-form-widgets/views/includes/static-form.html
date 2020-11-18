@@ -1,8 +1,6 @@
   {% include 'includes/form-header.html' %}
 
     <div id="titleAndSummary">
-
-
       <div class="form-group">
         <h2>
           {{ data.widget.labelTitle if data.widget.labelTitle else 'Titel plan' }}
@@ -14,8 +12,6 @@
         {% include 'includes/fields/title.html' %}
         <br />
       </div>
-
-
       <div class="form-group">
         <h2>
           {{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
@@ -27,9 +23,6 @@
         {% include 'includes/fields/summary.html' %}
         <br />
       </div>
-
-
-
     </div>
     <div class="form-group">
       {% if data.global.areas and data.global.areas.length > 0 %}

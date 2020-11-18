@@ -1,0 +1,43 @@
+<script>
+  var quizQuestions = [
+    {% for question in data.widget.activeQuizQuestions %}
+    {
+      'q': '{{question.title}}',
+      'type' : '{{question.type}}',
+      displayTitle: {{question.displayTitle if question.displayTitle else false}},
+      'sound': '{{apos.attachments.url(question.sound) if question.sound else '' }}',
+      'image': '{{apos.attachments.url(question.image) if question.image else ''}}',
+      'options': [
+        {% for answer in question.answers %}
+          {
+            label: '{{answer.label}}',
+            sound: '{{apos.attachments.url(answer.sound) if answer.sound else '' }}',
+            image: '{{apos.attachments.url(answer.image) if answer.image else ''}}',
+            isCorrect: {{answer.isCorrect if answer.isCorrect else false}},
+          },
+        {% endfor %}
+      ],
+      'correctIndex': {{loop.index}},
+      'correctResponse': 'Goed zo!',
+      'incorrectResponse': 'Jammer!',
+       counterFormat : '%current/%total',
+    },
+    {% endfor %}
+  ];
+</script>
+
+<div id="quiz">
+  <div id="quiz-start-screen">
+    <h1 class="quiz-title">{{data.widget.title}}</h1>
+    <br />
+    <div><a href="#" id="quiz-start-btn" class="quiz-button">Begin</a></div>
+  </div>
+  <div id="quiz-results-screen">
+    <h2>Goed zo!</h2>
+  </div>
+  <div id="quiz-gameover-screen">
+    <h2>Foutje!</h2>
+    <p id="quiz-gameover-response"></p>
+    <p><a href="#" id="quiz-retry-btn">Retry</a></p>
+  </div>
+</div>

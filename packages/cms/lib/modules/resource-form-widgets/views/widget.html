@@ -4,12 +4,14 @@
 {% set isOwner = data.openstadUser.id === activeResource.userId %}
 {% set isReactedTo = (activeResource.yes > 0 or activeResource.no > 0 or activeResource.argumentCount > 0) %}
 {% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hactiveResourcedminAfterPublicAction and isOwner) or data.hasModeratorRights %}
+{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hideAdminAfterPublicAction and isOwner) or data.hasModeratorRights %}
 
 
 {% if activeResource and isOwnerOrAdmin %}
 {% set showForm = true %}
 {% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
+{% set showForm = true %}
+{% elseif data.widget.allowGuestFormSubmission %}
 {% set showForm = true %}
 {% else %}
 {% set showForm = false %}
@@ -29,7 +31,11 @@
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
-			{% if data.widget.formType === 'dynamic' %}
+			{% if data.widget.formType === 'repeatable' %}
+			{% include 'includes/repeatable.html' %}
+			{% elseif data.widget.formType === 'order' %}
+			{% include 'includes/order-form.html' %}
+			{% elseif data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}
 			{% include 'includes/static-form.html' %}
