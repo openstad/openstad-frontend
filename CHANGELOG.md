@@ -21,6 +21,7 @@
 * Fix: api/area needs to be called without authentication header
 * Remove button-blue class from vote counter
 * Fix wrong error in budgeting
+* Fix previous/next buttons CSS in budgeting
 
 ## v0.8.2 (2020-11-03)
 * Update react-admin
@@ -54,7 +55,6 @@
 ## v0.8.0-PRERLEASE (2020-17-07)
 * Feature: ideas-on-map has extra configuration options on search and idea details
 
->>>>>>> Stashed changes
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins
 
