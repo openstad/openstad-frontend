@@ -19,6 +19,7 @@
 * Make cookie max age configurable
 * Add ability to make cookie message fixed to the bottom per page
 * Fix: api/area needs to be called without authentication header
+* Remove button-blue class from vote counter
 
 ## v0.8.2 (2020-11-03)
 * Update react-admin
