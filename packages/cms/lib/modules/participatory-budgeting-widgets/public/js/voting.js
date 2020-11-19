@@ -259,7 +259,8 @@ if (votingContainer !== null) {
             errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
           }
           if (votingType === 'budgeting') {
-            if (initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent) {
+            console.log(initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent, initialAvailableBudget, availableBudgetAmount, minimalBudgetSpent);
+            if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
             } else {
               errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
