@@ -276,4 +276,9 @@
 	"Text to show after the set date has passed": "Text to show after the set date has passed",
 	"Styles for the container": "Styles for the container",
 	"Skip": "Skip"
+	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
+	"Loading...": "Loading...",
+	"Name": "Name",
+	"Email": "Email",
+	"Server error, please try again.": "Server error, please try again."
 }
