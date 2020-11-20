@@ -76,7 +76,11 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			.scope('withArea')
 			.findOne(query)
 			.then(found => {
-				if ( !found ) throw new Error('Site not found');
+				if (!found) {
+					console.log('Site not found for siteId or domain query: ', query);
+					throw new Error('Site not found for siteId or domain: ' + siteIdOrDomain);
+				};
+				
 				req.results = found;
 				req.site = req.results; // middleware expects this to exist
 				next();
@@ -167,7 +171,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 		if (!cmsUrl) {
 			next();
 		}
-		
+
 		return fetch(cmsUrl + '/modules/openstad-api/refresh')
 			.then(function () { 	next();  })
 			.catch(function (err) { console.log('errrr', err); next();	});
