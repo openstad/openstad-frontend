@@ -211,5 +211,19 @@
 	"Server error, please try again.": "Server error, please try again.",
 	"Mijn account": "Mijn account",
 	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
-	"Inloggen": "Inloggen"
+	"Inloggen": "Inloggen",
+	"Loading...": "Loading...",
+	"Nieuwste eerst": "Nieuwste eerst",
+	"Oudste eerst": "Oudste eerst",
+	"Willekeurig": "Willekeurig",
+	"Meeste likes": "Meeste likes",
+	"Minste likes": "Minste likes",
+	"Thema:": "Thema:",
+	"Druk op enter om dit plan toe te voegen.": "Druk op enter om dit plan toe te voegen.",
+	"Plan is toegevoegd, druk op enter om dit plan te verwijderen.": "Plan is toegevoegd, druk op enter om dit plan te verwijderen.",
+	"Kosten:": "Kosten:",
+	"Edit Date countdown bar": "Edit Date countdown bar",
+	"Edit Begroot": "Edit Begroot",
+	"Warning to adminstrator: participatory budgeting is turned on but the vote count is public!": "Warning to adminstrator: participatory budgeting is turned on but the vote count is public!",
+	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting"
 }
