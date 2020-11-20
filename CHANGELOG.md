@@ -1,7 +1,6 @@
 # Changelog
 
 ## v0.9.0 (Pre release)
-
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
@@ -22,6 +21,7 @@
 * Remove button-blue class from vote counter
 * Fix wrong error in budgeting
 * Fix previous/next buttons CSS in budgeting
+* Possibility to display top links dependent on user logged in status
 
 ## v0.8.2 (2020-11-03)
 * Update react-admin

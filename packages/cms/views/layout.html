@@ -200,6 +200,7 @@
                 </li>
                 {% endif %}
                 {% for topLink in data.global.topLinks.reverse() %}
+                {% if (not topLink.displayWhen) or (topLink.displayWhen === 'always') or (topLink.displayWhen === 'loggedIn' and  data.loggedIn) or (topLink.displayWhen === 'notLoggedIn' and  not data.loggedIn)  %}
                 <li>
                   <a
                   href="{{topLink.url}}"
@@ -209,7 +210,7 @@
                     {{topLink.label}}
                   </a>
                 </li>
-
+                {% endif%}
                 {% endfor %}
 
               </ul>
