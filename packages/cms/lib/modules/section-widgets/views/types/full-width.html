@@ -1,14 +1,4 @@
-<div class="full-width-container"
-{% if data.widget.backgroundImage %}
-  style="
-    background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    "
-{% endif %}
->
+<div class="full-width-container">
   {{
     apos.area(data.widget, 'area1', {
       widgets: data.widget.contentWidgets

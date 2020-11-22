@@ -22,6 +22,7 @@
 * Fix wrong error in budgeting
 * Fix previous/next buttons CSS in budgeting
 * Possibility to display top links dependent on user logged in status
+* Allow public profile status (viewablebyRole) to be edited by the user
 
 ## v0.8.2 (2020-11-03)
 * Update react-admin
