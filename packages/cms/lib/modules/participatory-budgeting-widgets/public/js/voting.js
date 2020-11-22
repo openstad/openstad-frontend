@@ -18,7 +18,9 @@ if (votingContainer !== null) {
   // config vars; overwritten in template
   var votingType = votingType || 'budgeting'; // budgeting or count or budgeting-per-theme or count-per-theme
   var maxIdeas = maxIdeas || 100;
+  var totalMaxIdeas = maxIdeas; // used by count-per-theme
   var minIdeas = minIdeas || 1;
+  var totalMinIdeas = minIdeas; // used by count-per-theme
   var initialAvailableBudget = initialAvailableBudget || 300000;
   var minimalBudgetSpent = minimalBudgetSpent || 200000;
 
@@ -239,12 +241,24 @@ if (votingContainer !== null) {
 	  return currentSelection.length
   }
 
-  function nextStep() {
+  function nextStep(errorMessage) {
 
 	  scrollToBudget()
 
 	  if (currentStep == 0) {
 		  if (!isSelectionValid()) {
+        if (votingType === 'count-per-theme') {
+          var totalNoOf = 0; themes.forEach( function(theme, i) {
+            if (i > 0) {
+              totalNoOf += theme.currentSelection.length;
+            }
+          });
+          if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) {
+            errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
+            addError(document.querySelector('#current-budget-preview'), errorMessage)
+			      return;
+          };
+        }
         currentStep = 1;
       }
     }
@@ -269,6 +283,7 @@ if (votingContainer !== null) {
 
         var errorTheme = '';
         if (votingType === 'budgeting-per-theme' || votingType === 'count-per-theme') {
+          var totalNoOf = 0;
           themes.forEach( function(theme, i) {
             if (i > 0) {
               if (votingType === 'budgeting-per-theme') {
@@ -277,6 +292,7 @@ if (votingContainer !== null) {
 				          errorMessage = 'Je hebt nog niet voor ' + formatEuros(theme.minimalBudgetSpent) + ' aan plannen geselecteerd.';
                 }
               } else {
+                totalNoOf += theme.currentSelection.length;
                 if (!(theme.currentSelection.length >= theme.minIdeas)) {
                   errorTheme = i;
                   errorMessage = 'Je moet ' + ( theme.minIdeas != theme.maxIdeas ? 'minimaal ' + theme.minIdeas : theme.minIdeas ) + ' plannen selecteren.';
@@ -284,6 +300,13 @@ if (votingContainer !== null) {
               }
             }
           });
+
+          if (votingType === 'count-per-theme') {
+            if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) {
+              errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
+            };
+          }
+          
         }
 
         if (errorTheme) setTheme(errorTheme);
@@ -732,7 +755,7 @@ if (votingContainer !== null) {
 		    })
 		    .forEach( function(element) {
 			    if (element) {
-				    var width = votingType === 'count' ? parseInt( availableWidth / maxIdeas ) : parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
+				    var width = votingType === 'count' || votingType === 'count-per-theme' ? parseInt( availableWidth / maxIdeas ) : parseInt(availableWidth * ( element.budgetValue / initialAvailableBudget ));
 				    if (width < minwidth) {
 					    availableWidth = availableWidth - ( minwidth - width );
 					    width = minwidth
@@ -790,11 +813,14 @@ if (votingContainer !== null) {
 
       case 'count-per-theme':
         var result = true;
+        var totalNoOf = 0;
         themes.forEach( function(theme, i) {
+          totalNoOf += theme.currentSelection.length;
           if ( i > 0 && !(theme.currentSelection.length >= theme.minIdeas && theme.currentSelection.length <= theme.maxIdeas) ) {
             result = false;
           }
         });
+        if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) result = false;
         return result;
         break;
 
