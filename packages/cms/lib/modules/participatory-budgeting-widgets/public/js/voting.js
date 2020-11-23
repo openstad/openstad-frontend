@@ -990,7 +990,7 @@ if (votingContainer !== null) {
 
 	  var votesToSubmit = [];
 	  for (var i = 0; i < data.budgetVote.length; i++) {
-      if ( sortedElements.find(element => element.ideaId == data.budgetVote[i]) ) { // filter old data from the vote
+      if ( sortedElements.find(function (element) { return element.ideaId == data.budgetVote[i]}) ) { // filter old data from the vote
         votesToSubmit.push({
 			    opinion: "yes",
 			    ideaId: data.budgetVote[i]
