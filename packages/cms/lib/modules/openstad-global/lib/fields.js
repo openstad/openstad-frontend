@@ -445,12 +445,31 @@ module.exports = [
         type: 'boolean',
         label: 'Open in new tab',
       },
+      {
+        name: 'displayWhen',
+        label: 'Display depending on user logged in status?',
+        type: 'select',
+        choices: [
+          {
+            value: 'always',
+            label: "Always display",
+          },
+          {
+            value: 'loggedIn',
+            label: "Display when logged in",
+          },
+          {
+            value: 'notLoggedIn',
+            label: "Display when not logged in",
+          }
+        ]
+      },
     ]
   },
   {
     name: 'displayMyAcount',
     type: 'boolean',
-    label: 'Display my account in menu?'
+    label: 'Display my account in main menu?'
   },
   {
     name: 'cacheIdeas',
