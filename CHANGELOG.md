@@ -23,6 +23,13 @@
 * Fix wrong error in budgeting
 * Fix previous/next buttons CSS in budgeting
 
+## Unreleased updates
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Feature: Better explanations in global newsletter settings
+
+## v0.8.3 (2020-11-06)
+* Fix: api/area needs to be called without authentication header
+
 ## v0.8.2 (2020-11-03)
 * Update react-admin
 
