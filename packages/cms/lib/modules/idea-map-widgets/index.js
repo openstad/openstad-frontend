@@ -55,7 +55,6 @@ module.exports = {
         },
       ]
     },
-
     {
       name: 'counterText',
       type: 'string',
