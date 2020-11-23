@@ -1,5 +1,15 @@
 var sanitize = require('sanitize-html');
 
+// Decorator for the sanitize function
+// This prevents the bug where sanitize returns the string 'null' when null is passed
+const sanitizeIfNotNull = (text, tags) => {
+	if (text === null) {
+		return null;
+	}
+	
+	return sanitize(text, tags);
+}
+
 var remoteURL = /^(?:\/\/)|(?:\w+?:\/{0,2})/;
 var noTags = {
 	allowedTags       : [],
@@ -47,25 +57,25 @@ var allSafeTags = {
 module.exports = {
 	title: function( text ) {
 		// TODO: de replace is natuurlijk belachelijk, maar ik heb nergens een combi kunnen vinden waarin sanatize en nunjucks dit fatsoenlijk oplossen. Ik denk dat de weergaven van title naar |safe moeten, want ze zijn toch gesanatized, maar daar heb ik nu geen tijd voor
-		return sanitize(text, noTags).replace('&amp;', '&');
+		return sanitizeIfNotNull(text, noTags).replace('&amp;', '&');
 	},
 	summary: function( text ) {
-		return sanitize(text, noTags);
+		return sanitizeIfNotNull(text, noTags);
 	},
 	content: function( text ) {
-		return sanitize(text, allSafeTags);
+		return sanitizeIfNotNull(text, allSafeTags);
 	},
-
+	
 	argument: function( text ) {
-		return sanitize(text, noTags);
+		return sanitizeIfNotNull(text, noTags);
 	},
-
+	
 	// TODO: Transform all call to these two options, instead
 	//       of the content-type-named versions above.
 	safeTags: function( text ) {
-		return sanitize(text, allSafeTags);
+		return sanitizeIfNotNull(text, allSafeTags);
 	},
 	noTags: function( text ) {
-		return sanitize(text, noTags);
+		return sanitizeIfNotNull(text, noTags);
 	}
 };
