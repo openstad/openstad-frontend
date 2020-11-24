@@ -2,6 +2,7 @@
 
 ## Unreleased updates
 * Make description textarea in icon-section
+* Show message that user needs to be logged in for viewing admin widget
 
 ## v0.9.0 (Pre release)
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
