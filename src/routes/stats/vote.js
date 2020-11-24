@@ -20,10 +20,6 @@ let router = express.Router({mergeParams: true});
 router
 	.all('*', function(req, res, next) {
 
-    let isViewable = req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable;
-    isViewable = isViewable || ( req.user && req.user.role == 'admin' )
-
-    if (!isViewable) return next(createError(401, 'Je kunt deze stats niet bekijken'));
     return next();
 
 	})
@@ -33,6 +29,10 @@ router.route('/total')
 // count votes
 // -----------
 	.get(function(req, res, next) {
+
+    let isViewable = req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable;
+    isViewable = isViewable || ( req.user && ( req.user.role == 'admin' || req.user.role == 'moderator' ) )
+    if (!isViewable) return next(createError(401, 'Je kunt deze stats niet bekijken'));
 
     let query = "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?";
     let bindvars = [req.params.siteId]

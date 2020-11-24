@@ -26,7 +26,7 @@ router
   .all('*', function(req, res, next) {
     req.scope = ['includeSite'];
     req.scope.push({ method: ['onlyVisible', req.user.id, req.user.role]});
-    
+
     next();
   });
 
@@ -138,7 +138,7 @@ router.route('/:userId(\\d+)')
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
     let data = {}
 
-	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData'];
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'viewableByRole'];
 	  keys.forEach((key) => {
 		  if (req.body[key]) {
 			  data[key] = req.body[key];

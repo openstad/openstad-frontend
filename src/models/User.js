@@ -401,15 +401,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 						where: sequelize.or(
 							{ id: userId },
 							{ viewableByRole: 'all' },
-							{ viewableByRole: null },
-							{ viewableByRole: roles[userRole] || '' },
+							{ viewableByRole: roles[userRole] || 'all' },
 						)
 					};
 				} else {
 					return {
 						where: sequelize.or(
 							{ viewableByRole: 'all' },
-							{ viewableByRole: roles[userRole] || '' },
+							{ viewableByRole: roles[userRole]  || 'all' },
 						)
 					};
 				}
