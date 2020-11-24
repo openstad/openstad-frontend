@@ -1,7 +1,7 @@
 {
 	"Spring naar inhoud": "Spring naar inhoud",
+	"Inloggen": "Inloggen",
 	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
-	"Loading...": "Loading...",
 	"Name": "Name",
 	"Email": "Email",
 	"Server error, please try again.": "Server error, please try again.",
@@ -505,6 +505,6 @@
 	"Search...": "Search...",
 	"Browse": "Browse",
 	"editor2": "editor2",
-	"editor": "editor"
+	"editor": "editor",
+	"Server error, please try again.": "Server error, please try again."
 }
-

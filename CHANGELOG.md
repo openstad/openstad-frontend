@@ -1,11 +1,5 @@
 # Changelog
 
-
-## Unreleased updates
-* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
-* Feature: Better explanations in global newsletter settings
-* Add admin warning to vote counter if vote count is not publicly available
-
 ## v0.9.0 (Pre release)
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
@@ -28,7 +22,11 @@
 * Fix wrong error in budgeting
 * Fix previous/next buttons CSS in budgeting
 * Possibility to display top links dependent on user logged in status
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Feature: Better explanations in global newsletter settings
+* Add admin warning to vote counter if vote count is not publicly available
 * Allow public profile status (viewablebyRole) to be edited by the user
+
 
 ## v0.8.3 (2020-11-06)
 * Fix: api/area needs to be called without authentication header
