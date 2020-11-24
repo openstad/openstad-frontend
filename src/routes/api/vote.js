@@ -315,8 +315,10 @@ router.route('/*')
 
     let themes = req.site.config.votes.themes || [];
 
+    let totalNoOfVotes = 0;
     req.votes.forEach((vote) => {
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      totalNoOfVotes += idea ? 1 : 0;
       let themename = idea && idea.extraData && idea.extraData.theme;
       let theme = themes.find( theme => theme.value == themename );
       if (theme) {
@@ -327,11 +329,18 @@ router.route('/*')
 
     let isOk = true;
     themes.forEach((theme) => {
-		  if (!theme.noOf || theme.noOf < theme.minIdeas || theme.noOf > theme.maxIdeas) {
+	    theme.noOf = theme.noOf || 0;
+		  if (theme.noOf < theme.minIdeas || theme.noOf > theme.maxIdeas) {
         isOk = false;
 		  }
     });
+
+		if (( req.site.config.votes.minIdeas && totalNoOfVotes < req.site.config.votes.minIdeas ) || ( req.site.config.votes.maxIdeas && totalNoOfVotes > req.site.config.votes.maxIdeas )) {
+      isOk = false;
+		}
+
 		return next( isOk ? null : createError(400, 'Count per thema klopt niet') );
+
 	})
 
   // validaties voor voteType=budgeting-per-theme
