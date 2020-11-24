@@ -4,7 +4,8 @@
 * Update NPM modules for security
 * Fix site reset config
 * Remove unused global vimeo fields
-* Added possibility to query GET overview routes with NOT (!=) and substring (like%%) operator 
+* Added possibility to query GET overview routes with NOT (!=) and substring (like%%) operator
+* Open /stats/site/:SITE_ID/vote/total for everybody
 
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
