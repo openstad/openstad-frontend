@@ -60,6 +60,7 @@ module.exports = {
                     label: 'Description',
                     type: 'text',
                     type: 'string',
+                    textarea: true
                 },
                 {
                   name: 'image',
