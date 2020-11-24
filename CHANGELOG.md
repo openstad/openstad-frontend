@@ -6,6 +6,7 @@
 * Remove unused global vimeo fields
 * Added possibility to query GET overview routes with NOT (!=) and substring (like%%) operator
 * Open /stats/site/:SITE_ID/vote/total for everybody
+* Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
 
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
