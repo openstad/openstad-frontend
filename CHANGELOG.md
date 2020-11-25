@@ -15,6 +15,7 @@
 * Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
 * Bugfix: participatory budgeting next button in step 0 showed an incorrect error
 * Bugfix: voting in resource overview widget no also works in conjunction with pagination
+* Bugfix: remove images after update of idea resource
 * Make cookie max age configurable
 * Add ability to make cookie message fixed to the bottom per page
 * Fix: api/area needs to be called without authentication header
