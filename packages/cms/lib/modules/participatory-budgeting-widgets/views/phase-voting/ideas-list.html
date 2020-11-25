@@ -1,4 +1,11 @@
 {% macro showIdeasList(runningIdeas, fullHost, user, userHasVoted, isAdmin, data) %}
+{% if data.widget.unavailableButton %}
+<style>
+ .begroot-container .button-add-idea-to-budget.unavailable:after {
+	 content: "{{data.widget.unavailableButton}}";
+ }
+</style>
+{% endif %}
 <ul
 id="ideaList"
 class="gridder ideas-list"
@@ -62,7 +69,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					{% endif %}
 
 					{% if data.widget.showVoteCount %}
-					<div class="btn--blue noOfVotes stretch ">
+					<div class="noOfVotes stretch ">
 						<span class="sr-only">{{ __('Stemmen voor:') }}</span>
 						{% if idea.extraData.voteCount %}
 						{{idea.extraData.voteCount}}
@@ -115,7 +122,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						</div>
             {% endif %}
 					</div>
-					{% if not (data.widget.votingType == 'budgeting-per-theme') %}
+					{% if not (data.widget.votingType == 'budgeting-per-theme' or data.widget.votingType == 'count-per-theme') %}
 					<div class="share-buttons">
 						<table class="table-center">
 							<tr>

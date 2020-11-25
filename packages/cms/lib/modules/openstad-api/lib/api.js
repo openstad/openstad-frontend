@@ -42,6 +42,8 @@ module.exports = (self, options) => {
     config.title = siteData.title;
     config.area = siteData.area;
 
+
+
     self.apos.settings.options.siteConfig = config;
   };
 

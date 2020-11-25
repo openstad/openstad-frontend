@@ -53,4 +53,13 @@ $(document).ready(function () {
 		showVoteCreator();
 		selectIdea(window.ideaId, true);
 	}
-})
+});
+
+$(document).on('openstadAjaxRefresh', function () {
+	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
+	showVoteCreator();
+
+	if (ideaId) {
+		selectIdea(ideaId, true);
+	}
+});

@@ -343,7 +343,17 @@ module.exports = [
         type: 'select',
         label: 'Minimum budget that has to be selected (momenteel alleen voor Budgeting per thema)',
         type: 'integer',
-      }
+      },
+      {
+        name: 'maxIdeas',
+        type: 'integer',
+        label: 'Maximum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
+      {
+        name: 'minIdeas',
+        type: 'integer',
+        label: 'Minimum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
     ]
   },
   {
@@ -435,12 +445,31 @@ module.exports = [
         type: 'boolean',
         label: 'Open in new tab',
       },
+      {
+        name: 'displayWhen',
+        label: 'Display depending on user logged in status?',
+        type: 'select',
+        choices: [
+          {
+            value: 'always',
+            label: "Always display",
+          },
+          {
+            value: 'loggedIn',
+            label: "Display when logged in",
+          },
+          {
+            value: 'notLoggedIn',
+            label: "Display when not logged in",
+          }
+        ]
+      },
     ]
   },
   {
     name: 'displayMyAcount',
     type: 'boolean',
-    label: 'Display my account in menu?'
+    label: 'Display my account in main menu?'
   },
   {
     name: 'cacheIdeas',
@@ -537,51 +566,6 @@ module.exports = [
   },
   // einde form
   // ----------------------------------------------------------------------------------------------------
-  {
-    name: 'translations',
-    type: 'array',
-    titleField: 'label',
-    label: 'Translations',
-    schema: [
-      {
-        name: 'translation',
-        type: 'text',
-        label: 'Translation',
-        type: 'string',
-      },
-      {
-        name: 'translationUrl',
-        type: 'text',
-        label: 'Translation page URL',
-        type: 'string',
-      }
-    ]
-  },
-  {
-    name: 'vimeoClientId',
-    label: 'Vimeo client id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoClientSecret',
-    label: 'Vimeo secret id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoAcccesToken',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
-    name: 'vimeoViewSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
-    name: 'vimeoEmbedSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
   {
     name: 'footer',
     type: 'array',

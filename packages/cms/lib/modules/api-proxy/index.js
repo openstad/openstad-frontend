@@ -25,7 +25,7 @@ module.exports = {
         //bodyParser middleware parses the body into an object
         //for proxying to worl we need to turn it back into a string
 
-        if (req.method == "POST" ||req.method == "PUT") {
+        if (req.method == "POST" || req.method == "PUT" || req.method == "DELETE") {
           eventEmitter.emit('apiPost');
         }
 

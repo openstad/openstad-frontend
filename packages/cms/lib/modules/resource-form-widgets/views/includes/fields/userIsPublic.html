@@ -1,0 +1,43 @@
+{% if activeResource %}
+  {% set fieldValue = activeResource.viewableByRole %}
+
+  {# in case fieldValue is empty, it defaults to viewableByRole editor, so we set it here#}
+
+  {% if not fieldValue %}
+  {% set fieldValue = 'editor' %}
+  {% endif %}
+{% endif %}
+
+<br />
+
+
+<div class="radio-container">
+  <div class="radio">
+    <input
+      type="radio"
+      name="viewableByRole"
+      value="all"
+      id="radio-user-public-yes"
+      {% if field.fieldRequired %}required{% endif %}
+      {% if fieldValue === 'all' %}checked{% endif %}
+    />
+
+    <label for="radio-user-public-yes" class="radio-label">
+       Ja
+    </label>
+  </div>
+  <div class="radio">
+    <input
+      type="radio"
+      name="viewableByRole"
+      value="editor"
+      id="radio-user-public-no"
+      {% if field.fieldRequired %}required{% endif %}
+      {% if fieldValue === 'editor' %}checked{% endif %}
+    />
+
+    <label for="radio-user-public-no" class="radio-label">
+       nee
+    </label>
+  </div>
+</div>

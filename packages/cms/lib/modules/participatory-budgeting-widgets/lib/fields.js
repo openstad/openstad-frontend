@@ -68,17 +68,24 @@ const fields = [
         value: 'count',
         showFields: [ 'maxIdeas', 'minIdeas' ]
       },
+      {
+        label: 'Count per thema',
+        value: 'count-per-theme',
+        showFields: [ 'maxIdeas', 'minIdeas' ]
+      },
     ]
   },
   {
     name: 'maxIdeas',
     type: 'integer',
     label: 'Maximum selectable ideas',
+    def: 1000,
   },
   {
     name: 'minIdeas',
     type: 'integer',
     label: 'Minimum selectable ideas',
+    def: 0,
   },
   {
     name: 'initialAvailableBudget',
@@ -89,6 +96,13 @@ const fields = [
     name: 'minimalBudgetSpent',
     type: 'integer',
     label: 'Minimum budget that has to be selected',
+  },
+  {
+    name: 'unavailableButton',
+    type: 'string',
+    label: 'Unavailable button',
+    help: 'Text on the \'Add\' button when the count or budget limits are reached',
+    def: 'Geen ruimte',
   },
   {
     name: 'displayBudgetLabel',
