@@ -45,7 +45,7 @@ module.exports = [
       {
         label: 'Nee',
         value: false,
-        showFields: ['displayType']
+      //  showFields: ['displayType']
       }
     ],
     def: false
@@ -59,12 +59,12 @@ module.exports = [
         value: 'minimalVotes',
         label: 'Card in a row - linking to item on another page',
         value: 'minimalVotes',
-        showFields: ['gridder_text_open', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'showVoteCounter', 'pathForResource', 'cardStyle', 'allowVotingInOverview']
+        showFields: ['gridder_text_open', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'pathForResource', 'cardStyle', 'allowVotingInOverview']
       },
       {
         value: 'gridder',
         label: 'Card in a grid - opens item into on the same page',
-        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'editUrl', 'showVoteCounter']
+        showFields: ['gridder_text_open', 'gridder_text_open', '', 'gridder_tile_image_aspect_ratio', 'gridder_use_field_as_title', 'editUrl']
       },
       {
         value: 'product',

@@ -247,6 +247,11 @@ const fields = [
                       label: "User: neighborhood",
                       showFields: ['fieldRequired']
                   },
+                  {
+                      value: 'userIsPublic',
+                      label: "User: public status",
+                      showFields: ['fieldRequired']
+                  },
                 ]
             },
             {

@@ -2,6 +2,12 @@
  {{data.widget.formattedContainerStyles}}
 </style>
 
+{% if data.hasModeratorRights and not data.widget.isCountPublic %}
+<div class="alert alert-warning">
+  Warning to adminstrator: this value is not publicly available and will not be shown to normal users
+</div>
+{% endif %}
+
 {% if data.widget.url %}
 <a href="{{data.widget.url}}"
 {% else %}

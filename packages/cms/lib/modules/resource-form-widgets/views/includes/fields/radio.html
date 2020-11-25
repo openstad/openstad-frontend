@@ -27,9 +27,7 @@
       {% endif %}
       value="{{option.value}}"
       id="radio-{{loop.index}}-{{option.value}}"
-      {% if fieldValue %}
-      checked
-      {% endif %}
+
       {% if field.fieldRequired %}required{% endif %}
       {% if fieldValue === option.value %}checked{% endif %}
     />

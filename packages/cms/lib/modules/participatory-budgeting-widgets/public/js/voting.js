@@ -273,7 +273,8 @@ if (votingContainer !== null) {
             errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
           }
           if (votingType === 'budgeting') {
-            if (initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent) {
+            console.log(initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent, initialAvailableBudget, availableBudgetAmount, minimalBudgetSpent);
+            if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
             } else {
               errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
@@ -1039,6 +1040,7 @@ if (votingContainer !== null) {
   }
 
   function submitBudget() {
+
 	  removeFromClassName(document.querySelector('#waitLayer'), 'hidden');
 
 	  if (!userIsLoggedIn) {
@@ -1057,12 +1059,13 @@ if (votingContainer !== null) {
 
 	  var votesToSubmit = [];
 	  for (var i = 0; i < data.budgetVote.length; i++) {
-
-      votesToSubmit.push({
-			  opinion: "yes",
-			  ideaId: data.budgetVote[i]
-		  })
-	  }
+      if ( sortedElements.find(function (element) { return element.ideaId == data.budgetVote[i]}) ) { // filter old data from the vote
+        votesToSubmit.push({
+			    opinion: "yes",
+			    ideaId: data.budgetVote[i]
+		    })
+	    }
+    }
 
 	  //var url = '/api/site/'+siteId+'/vote';
 	  var url = '/vote';
