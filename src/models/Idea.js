@@ -278,7 +278,7 @@ module.exports = function (db, sequelize, DataTypes) {
       allowNull: true,
       set: function (budget) {
         budget = budget ? budget : null
-        this.setDataValue('budget', budget);
+        this.setDataValue('budget', parseInt(budget, 10));
       }
     },
 
@@ -620,7 +620,7 @@ module.exports = function (db, sequelize, DataTypes) {
         } else {
           return {
             where: sequelize.or(
-              {viewableByRole: 'all' },
+              { viewableByRole: 'all' },
               { viewableByRole: null },
               { viewableByRole: roles[userRole] || '' },
             )

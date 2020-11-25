@@ -408,7 +408,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					voteType: {
 						type: 'enum',
-						values: ['likes', 'count', 'budgeting', 'budgeting-per-theme'],
+						values: ['likes', 'count', 'budgeting', 'count-per-theme', 'budgeting-per-theme'],
 						default: 'likes',
 					},
 
@@ -428,12 +428,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					maxIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 100,
 					},
 
 					minIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 1,
 					},
 
 					minBudget: {

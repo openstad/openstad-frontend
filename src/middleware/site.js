@@ -31,8 +31,10 @@ module.exports = function( req, res, next ) {
       }
   		req.site = found;
   		next();
+      return null;
   	})
   	.catch( err => {
   		next(err)
+      return null;
   	});
 }
