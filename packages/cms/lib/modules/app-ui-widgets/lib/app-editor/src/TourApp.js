@@ -122,7 +122,6 @@ class TourMap extends Component {
     console.log('this.props.coordinates', this.props.coordinates)
     return (
       <Map center={mapCenter} zoom={12} style={{ position: 'absolute', top: '48px', bottom: '67px', width: '100%'}}>
-        <LocateControl startDirectly/>
 
         <TileLayer
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
