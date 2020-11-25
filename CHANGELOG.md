@@ -8,6 +8,7 @@
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
 * Feature: Better explanations in global newsletter settings
 * Add admin warning to vote counter if vote count is not publicly available
+
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
@@ -22,6 +23,7 @@
 * Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
 * Bugfix: participatory budgeting next button in step 0 showed an incorrect error
 * Bugfix: voting in resource overview widget no also works in conjunction with pagination
+* Bugfix: remove images after update of idea resource
 * Make cookie max age configurable
 * Add ability to make cookie message fixed to the bottom per page
 * Fix: api/area needs to be called without authentication header
@@ -29,7 +31,11 @@
 * Fix wrong error in budgeting
 * Fix previous/next buttons CSS in budgeting
 * Possibility to display top links dependent on user logged in status
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Feature: Better explanations in global newsletter settings
+* Add admin warning to vote counter if vote count is not publicly available
 * Allow public profile status (viewablebyRole) to be edited by the user
+
 
 ## v0.8.3 (2020-11-06)
 * Fix: api/area needs to be called without authentication header

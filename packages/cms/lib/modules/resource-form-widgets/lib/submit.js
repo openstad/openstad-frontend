@@ -28,6 +28,8 @@ module.exports = async function(self, options) {
     };
     const data = req.body;
 
+    data.extraData = data.extraData ? data.extraData : {};
+
     //format image
     if (data.image) {
       // when only one image filepondjs sadly just returns object, not array with one file,
@@ -41,11 +43,12 @@ module.exports = async function(self, options) {
       }) : [];
 
       // add the formatedd images
-      data.extraData = data.extraData ? data.extraData : {};
       data.extraData.images = images;
 
       //clean up data object
       delete data.image;
+   } else {
+     data.extraData.images = [];
    }
 
     const options = {

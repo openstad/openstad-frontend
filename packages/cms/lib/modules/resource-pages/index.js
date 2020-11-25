@@ -15,6 +15,8 @@ module.exports = {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
 
+          console.log('req.qyert', req.query)
+
 
           self.loadResourceData(req, next);
         } else {
