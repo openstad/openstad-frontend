@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.9.0 (Pre release)
+## v0.9.0 (2020-11-25)
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
