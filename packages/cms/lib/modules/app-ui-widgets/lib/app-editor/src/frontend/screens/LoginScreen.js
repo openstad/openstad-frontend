@@ -1,7 +1,7 @@
 /* Layout elements */
 import React, { Component } from 'react';
 import { ComponentManager } from '../ComponentManager';
-import { View } from "react-native-web";
+import { View } from "react-native";
 
 
 class LoginScreen extends Component {

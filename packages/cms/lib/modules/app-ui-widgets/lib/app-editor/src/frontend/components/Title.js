@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native-web";
+import { Text, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   titleText: {
@@ -8,12 +8,16 @@ const styles = StyleSheet.create({
   }
 });
 
-const Title = () => {
-  return
+const Title = (props) => {
+  return props.resource ? <ResourceTitle {...props} /> : <StaticTitle  {...props} />;
 }
 
 const ResourceTitle = () => {
-
+  return (
+      <Text style={styles.titleText}>
+        {props.activeResource[props.keyTitle]}
+      </Text>
+  );
 }
 
 const StaticTitle = (props) => {

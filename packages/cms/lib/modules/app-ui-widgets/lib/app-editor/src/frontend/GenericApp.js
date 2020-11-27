@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { StaticScreen, ResourceScreen, LoginScreen, SplashScreen } from './screens';
 import { Switch,  } from "react-router";
-import { View } from "react-native-web";
+import { View } from "react-native";
 
 /*
 screen = {

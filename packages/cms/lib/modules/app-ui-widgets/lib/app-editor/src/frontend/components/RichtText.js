@@ -8,9 +8,21 @@ const styles = StyleSheet.create({
 });
 
 const RichText = (props) => {
+  return props.resource ? <ResourceRichText {...props} /> : <StaticRichText  {...props} />;
+}
+
+const StaticRichText = (props) => {
   return (
       <Text style={styles.baseText}>
         {props.text}
+      </Text>
+  );
+};
+
+const ResourceRichText = (props) => {
+  return (
+      <Text style={styles.baseText}>
+        {props.activeResource[props.keyContent]}
       </Text>
   );
 };

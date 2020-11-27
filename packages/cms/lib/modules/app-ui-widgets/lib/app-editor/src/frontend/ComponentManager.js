@@ -1,6 +1,6 @@
 import React from 'react';
 import { Title, Text, Images, Button, Video, Overview, Form, Grid, Game, Tour, Login, Splash } from '/components';
-import { View } from "react-native-web";
+import { View } from "react-native";
 
 const componentstMap = {
   'title'   :{

@@ -10,7 +10,8 @@ import reportWebVitals from './reportWebVitals';
 
 const defaultResources = [
   {
-    apiUrl: '', // if empty fetch from default settings
+    apiBase: '', // if empty fetch from default settings
+    apiPath: 'game',
     name: 'games',
     nameSingle: 'game',
     namePlural: 'games',
