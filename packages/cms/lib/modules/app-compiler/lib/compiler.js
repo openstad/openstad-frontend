@@ -33,8 +33,9 @@ const renderComponents = (components, nunjucks) => {
 
   components.forEach((component) => {
     componentJs = nunjucks.render('components/'component.type'.tpl', {
-      ...component.variables,
-      components: renderComponents(component.components, nunjucks)
+      ...component.props,
+    //  components: component.props ? renderComponents(component.components, nunjucks),
+      areas: component.areas ? renderComponents(component.components, nunjucks) : ,
     });
 
     componentString = componentString + componentJs;
@@ -46,7 +47,7 @@ const renderComponents = (components, nunjucks) => {
 
 /**
  * Compile defined UI to an app
- * buildData : {
+ * appData : {
     settings: {
       appTemplate: String
     },
@@ -65,7 +66,7 @@ const renderComponents = (components, nunjucks) => {
  */
 
 
-const Compiler = async function (buildData) {
+const Compiler = async function (appData) {
   /**
    * 1. Create app build folder
    */
@@ -78,9 +79,7 @@ const Compiler = async function (buildData) {
      fs.mkdirSync(appDir);
    }
 
-
-
-   const appTemplate = buildData.settings.appTemplate ? buildData.settings.appTemplate : 'clean';
+   const appTemplate = appData.settings.appTemplate ? appData.settings.appTemplate : 'clean';
    const appTemplateDir = path.resolve(__dirname + '/templates/' + appTemplate);
 
    //copy template directory to files
@@ -102,20 +101,23 @@ const Compiler = async function (buildData) {
    //create custom files based upon appData
    const appImports = [];
 
+
    // render app.js, with navigator
    const appJs  = nunjucks.render('app.tpl', {
-     tabScreens: buildData.screens.screens.filter(screen => screen.inTabMenu).map(() => {
+     tabScreens: appData.screens.filter(screen => screen.inTabMenu).map(() => {
        return screen;
-     });
+     })
    });
 
-  fs.writeFileSync(appTemplateDir + '/App.js', appJs)
+
+  fs.writeFileSync(appTemplateDir + '/App.js', appJs);
    //layout
    //
 
    //screens
-   buildData.screens.screens.forEach((screen) => {
-     const screenJs = nunjucks.render('screen.tpl', {
+   appData.screens.forEach((screen) => {
+     const screenTpl = screen.type === 'resource' ? 'screen-resource.tpl' : 'screen-default.tpl';
+     const screenJs = nunjucks.render(screenTpl, {
        ...component.variables,
        screen: screen,
        components: renderComponents(screen.components)

@@ -14,9 +14,6 @@ class StaticScreen extends Component {
       <View>
         <ComponentManager
           components={props.components}
-          componentProps={{
-            resource: false
-          }}
         />
       </View>
     )

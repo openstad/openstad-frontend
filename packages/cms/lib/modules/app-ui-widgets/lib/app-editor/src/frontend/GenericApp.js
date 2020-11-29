@@ -66,6 +66,7 @@ class GenericApp extends Component {
 \
             <Route path={path}>
               <ScreenComponents[screen.type]
+                resources={props.resources}
                 {...screen}
               />
             </Route>

@@ -10,18 +10,52 @@ import reportWebVitals from './reportWebVitals';
 
 const defaultResources = [
   {
-    apiBase: '', // if empty fetch from default settings
+    apiBase: 'https://reqres.in/api/', // if empty fetch from default settings
     apiPath: 'game',
+    responseKey: 'data',
     name: 'games',
     nameSingle: 'game',
     namePlural: 'games',
     defaultComponents: [
       {
+        type: 'title',
+        resource: true,
+        keyTitle: 'title'
+      },
+      {
         type: 'game',
+        resource: true,
         props: {
 
         }
       }
+    ]
+  },
+  {
+    apiUrl: '', // if empty fetch from default settings
+    name: 'article',
+    nameSingle: 'article',
+    namePlural: 'articles',
+    defaultComponents: [
+      {
+        type: 'title',
+        props: {
+          keyTitle: 'title'
+        }
+      },
+      {
+        type: 'images',
+        multiple: false,
+        props: {
+          keyImage: 'src'
+        }
+      },
+      {
+        type: 'richText',
+        props: {
+          key: 'content'
+        }
+      },
     ]
   },
   {
@@ -89,6 +123,7 @@ const defaultNavigation = {
 const defaultResourceScreens = defaultResources.map((resource, i) => {
   return {
     id : 100000 + i,
+    type: 'resource',
     name: `${resource.nameSingle.ucFirst()} screen`,
     components: resource.defaultComponents
   }
@@ -111,8 +146,10 @@ const defaultScreens = {
         {
           type: 'overview',
           props: {
-            resource: 'games',
+            resource: 'game',
             amount: 12,
+            titleKey: 'title',
+            imageKey: 'image'
           }
         },
 

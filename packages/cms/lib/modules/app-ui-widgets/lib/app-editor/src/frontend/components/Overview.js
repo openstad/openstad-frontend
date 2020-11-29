@@ -11,18 +11,18 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const NoResults = (props) => {
   return <Text> No results </Text>;
 }
 
 const Loader = (props) => {
-  return <Text> Loading </Text>;
+  return <Text> Loading... </Text>;
 }
 
 const CardItem = (props) => {
   const titleKey = props.titleKey ? props.titleKey : 'title';
-  return <Text>  </Text>;
+
+  return <Text> {props.item[titleKey]}  </Text>;
 }
 
 const ListItem = (props) => {
@@ -50,17 +50,21 @@ const ResourceOverview = (props) => {
     return props.resource === resourceType.;
   });
 
-  const [resources, setResources] = useState({resources: [], isFetching: false});
+  const apiUrl = `${resourceType.apiBase}/${resourceType.apiPath}`;
+
+  const [resources, setResources] = useState({items: [], isFetching: false});
 
   useEffect(() => {
     const fetchResources = async () => {
       try {
-          setResources({items: resources.items, isFetching: true});
-          const response = await axios.get(USER_SERVICE_URL);
-          setResources({resources: response, isFetching: false});
+        setResources({items: resources.items, isFetching: true});
+        const response = await axios.get(apiUrl);
+        // if response key isset the items are found there, otherwise they are directly at the root of the response opbject
+        const items = resourceType.responseKey ? response[resourceType.responseKey] : response;
+        setResources({items: items, isFetching: false});
       } catch (e) {
-          console.log(e);
-          setResources({users: data.resources, isFetching: false});
+        console.log(e);
+        setResources({items: resources.items, isFetching: false});
       }
     };
     fetchResources();
