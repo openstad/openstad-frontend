@@ -8,8 +8,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const Memory = (props) => {
-  return <Text> Todo login </Text>;
+const ShapeRecognition = (props) => {
+  return <Text>
+
+   </Text>;
 }
 
-export default Memory;
+export default ShapeRecognition;

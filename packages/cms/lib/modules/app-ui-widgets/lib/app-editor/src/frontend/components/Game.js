@@ -1,15 +1,62 @@
-import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import React from 'react';
+import { Title, Text, Images, Button, Video, Overview, Form, Grid, Game, Tour, Login, Splash } from '/components';
+import { View } from "react-native";
 
-const styles = StyleSheet.create({
-  titleText: {
-    fontSize: 20,
-    fontWeight: "bold"
+const componentstMap = {
+  'title'   :{
+    component Title,
+  },
+  'text'    : {
+    component Text,
+  },
+  'image'   : {
+    component Image,
+  },
+  'button'  : {
+    component Button,
+  },
+  'video'  : {
+    component Video,
+  },
+  'overview'  : {
+    component Overview,
+  },
+  'form'  : {
+    component Form,
+  },
+  'grid'   : {
+    component Grid,
+  },
+  'game'   :{
+    component Game,
+  },
+  'tour'   : {
+    component Tour,
+  },
+  'map'   : {
+    component Map,
   }
-});
+  'login'   : {
+    component Login,
+  },
+  'splash'   : {
+    component Splash,
+  }
+}
 
-const Game = (props) => {
-  return <Text> Game coming up! </Text>;
+function Game(props) {
+  var className = props.active ? 'ListItem active' : 'ListItem';
+
+  return (
+    <View props={className}>
+      {props.components.map(component : {
+        <componentstMap[component.type].component
+          {...props.componentProps}
+          {...component.props}
+        />
+      })}
+    </View>
+  );
 }
 
 export default Game;

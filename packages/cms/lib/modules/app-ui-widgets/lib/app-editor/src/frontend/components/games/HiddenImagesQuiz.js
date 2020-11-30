@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const Memory = (props) => {
+const HiddenImagesQuiz = (props) => {
   return <Text> Todo login </Text>;
 }
 
-export default Memory;
+export default HiddenImagesQuiz;
