@@ -4,6 +4,10 @@
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
 
+## v0.9.1 (2020-11-26)
+* Content fields in ideas-on-map now include an old deprecated value as fallback
+* Content fields helptekst is updated
+
 ## v0.9.0 (Pre release)
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
 * Feature: Better explanations in global newsletter settings

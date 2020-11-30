@@ -30,7 +30,7 @@ module.exports = {
       {
         name: 'content',
         label: 'Content',
-        fields: ['linkToUserPageUrl', 'noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['linkToUserPageUrl', 'noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'noSelectionHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'sort',
