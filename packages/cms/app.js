@@ -28,8 +28,13 @@ const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
 
+
+// Storing all site data in the site config
+const sites                   = {};
+let sitesRepsonse           = [];
 const configForHosts          = {};
 const aposStartingUp          = {};
+const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
 var aposServer = {};
 
@@ -41,56 +46,85 @@ app.set('trust proxy', true);
  * Route for resetting the config of the server so the server will refetch
  * Necessary when making changes in the site config.
  */
-app.get('/config-reset', (req, res, next) => {
+app.get('/config-reset', async (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
   host = host.replace(['http://', 'https://'], ['']);
-  delete configForHosts[host];
+  await fetchAllSites(req, res);
   res.json({ message: 'Ok'});
 });
 
-function serveSites (req, res, next) {
-  let thisHost = req.headers['x-forwarded-host'] || req.get('host');
+function fetchAllSites (req, res, startSites) {
+  const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
 
-  thisHost = thisHost.replace(['http://', 'https://'], ['']);
+  console.log('Fetch all sites')
 
-  // if the config is existing it means the site has been loaded already, serve site
-  if (configForHosts[thisHost]) {
-    try {
-      serveSite(req, res, configForHosts[thisHost], false);
-    } catch (e) {
-      console.log('-->> e', e);
-    }
-  } else {
+  if (!process.env.SITE_API_KEY) {
+    console.log('Site api key is not set!');
+    if (res) res.status(500).json({ error: 'Site api key is not set!' });
+    return;
+  }
 
-    /**
-     * Fetch the config for site by making a call with the domain
-     */
-    const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
+  const siteOptions = {
+      uri:`${apiUrl}/api/site`, //,
+      headers: {
+          'Accept': 'application/json',
+          "Cache-Control": "no-cache",
+          "X-Authorization": process.env.SITE_API_KEY
+      },
+      json: true // Automatically parses the JSON string in the response
+  };
 
-    const siteOptions = {
-        uri:`${apiUrl}/api/site/${thisHost}`, //,
-        headers: {
-            'Accept': 'application/json',
-            "Cache-Control": "no-cache"
-        },
-        json: true // Automatically parses the JSON string in the response
-    };
+  rp(siteOptions)
+    .then((response) => {
 
-    // ADD site key if set, necessary for sensitive admin info
-    if (process.env.SITE_API_KEY) {
-      siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
-    }
+      sitesRepsonse = response;
 
-    rp(siteOptions)
-      .then((siteConfig) => {
-        console.info('Caching config for site: %s -> %j:', thisHost);
+      console.log('response', response);
 
-        configForHosts[thisHost] = siteConfig;
-        serveSite(req, res, siteConfig, true);
-      }).catch((e) => {
-          console.error('An error occurred fetching the site config:', e);
-          res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
+      response.forEach((site, i) => {
+        // for convenience and speed we set the domain name as the key
+        sites[site.domain] = site;
+
+        if (startSites) {
+          serveSite(req, res, site, true);
+        }
+
       });
+    }).catch((e) => {
+        console.error('An error occurred fetching the site config:', e);
+        if (res) res.status(500).json({ error: 'An error occured fetching the sites data: ' + e });
+    });
+}
+
+
+async function  serveSites (req, res, next) {
+  console.log('serveSites', Object.keys(sites))
+  if (Object.keys(sites).length === 0) {
+    console.log('await ')
+    await fetchAllSites(req, res);
+  }
+
+  if (Object.keys(sites).length === 0) {
+    res.status(500).json({ error: 'No sites found'});
+  }
+
+  let domain = req.headers['x-forwarded-host'] || req.get('host');
+  domain = domain.replace(['http://', 'https://'], ['']);
+  //
+  let domainAndBase = domain + req.baseUrl;
+
+  // first check if domain and base exist, then this will be the site, if no
+  const site = sites[domainAndBase] ? sites[domainAndBase]  : sites[domain];
+
+  if (!site) {
+    res.status(404).json({ error: 'Site not found'});
+  }
+
+  // serve the site
+  try {
+    serveSite(req, res, site, false);
+  } catch (e) {
+    console.log('-->> e', e);
   }
 }
 
@@ -184,5 +218,9 @@ module.exports.getMultiSiteApp = (options) => {
     serveSites(req, res, next);
   });
 
+  /**
+   * Update the siteconfig every few minutes
+   */
+  setInterval(fetchAllSites, REFRESH_SITES_INTERVAL);
   return app;
 };
