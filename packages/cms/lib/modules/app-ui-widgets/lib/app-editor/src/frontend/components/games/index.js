@@ -1,11 +1,5 @@
-export { Quiz }    from '/Quiz.js';
-export { Memory } from '/RichText.js';
-export { Images }   from '/Images.js';
-export { Button }   from '/Button.js';
-export { Video }    from '/Video.js';
-export { Overview } from '/Overview.js';
-export { Form }     from '/Form.js';
-export { Columns }  from '/Columns.js';
-export { Tour }     from '/Tour.js';
-export { Login }    from '/Login.js';
-export { Splash }   from '/Splash.js';
+export { Quiz }               from '/Quiz.js';
+export { Memory }             from '/Memory.js';
+export { HiddenImagesQuiz }   from '/HiddenImagesQuiz.js';
+export { ShapeRecognition }   from '/ShapeRecognition.js';
+export { ShapeAndColorsPick } from '/ShapeAndColorsPick.js';

@@ -4,6 +4,40 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+if (process.env.ONLY_FRONTEND) {
+
+import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults.js';
+import GenericApp from './frontend/GenericApp';
+
+
+  axios.get(`/api/app/1`)
+    .then( (response) => {
+      const appResource =  response.data;
+      const latestRevisions = appResource.revisions[appResource.revisions.length -1];
+
+      ReactDOM.render(
+        <React.StrictMode>
+          <GenericApp
+            id={appResource.id}
+            title={appResource.title}
+            styling={latestRevisions.styling}
+            settings={latestRevisions.settings}
+            resources={latestRevisions.resources}
+            navigationSettings={latestRevisions.navigationSettings}
+            screens={latestRevisions.screens}
+          />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+} else {
+
+
 const newResourceObject = {
   type: 'step',
   data: {}
@@ -52,6 +86,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
