@@ -4,16 +4,16 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-if (process.env.ONLY_FRONTEND) {
-
 import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults.js';
 import GenericApp from './frontend/GenericApp';
 
+if (process.env.ONLY_FRONTEND) {
 
-  axios.get(`/api/app/1`)
-    .then( (response) => {
-      const appResource =  response.data;
-      const latestRevisions = appResource.revisions[appResource.revisions.length -1];
+
+//  axios.get(`/api/app/1`)
+//    .then( (response) => {
+//      const appResource =  response.data;
+//      const latestRevisions = appResource.revisions[appResource.revisions.length -1];
 
       ReactDOM.render(
         <React.StrictMode>
@@ -30,10 +30,10 @@ import GenericApp from './frontend/GenericApp';
         document.getElementById('root')
       );
 
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+//    })
+  //  .catch(function (error) {
+  //    console.log(error);
+  //  });
 
 } else {
 
