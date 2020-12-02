@@ -405,5 +405,21 @@
 	"Form Url": "Form Url",
 	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie",
 	"Form fields": "Form fields",
-	"Styles for the container": "Styles for the container"
+	"Styles for the container": "Styles for the container",
+	"Save Title": "Save Title",
+	"Title ": "Title ",
+	"Select appearance modus for title": "Select appearance modus for title",
+	"Heading 1": "Heading 1",
+	"Heading 2": "Heading 2",
+	"Heading 3": "Heading 3",
+	"Heading 4": "Heading 4",
+	"Select HTML styling class": "Select HTML styling class",
+	"Heavy bold": "Heavy bold",
+	"Set Custom classname": "Set Custom classname",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"Click Commit to make these changes live.": "Click Commit to make these changes live.",
+	"Edit List": "Edit List",
+	"%s was committed successfully.": "%s was committed successfully.",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience."
 }

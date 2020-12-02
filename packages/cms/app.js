@@ -79,7 +79,7 @@ function fetchAllSites (req, res, startSites) {
 
       sitesRepsonse = response;
 
-      console.log('response', response);
+      //console.log('response', response);
 
       response.forEach((site, i) => {
         // for convenience and speed we set the domain name as the key
@@ -94,38 +94,6 @@ function fetchAllSites (req, res, startSites) {
         console.error('An error occurred fetching the site config:', e);
         if (res) res.status(500).json({ error: 'An error occured fetching the sites data: ' + e });
     });
-}
-
-
-async function  serveSites (req, res, next) {
-  console.log('serveSites', Object.keys(sites))
-  if (Object.keys(sites).length === 0) {
-    console.log('await ')
-    await fetchAllSites(req, res);
-  }
-
-  if (Object.keys(sites).length === 0) {
-    res.status(500).json({ error: 'No sites found'});
-  }
-
-  let domain = req.headers['x-forwarded-host'] || req.get('host');
-  domain = domain.replace(['http://', 'https://'], ['']);
-  //
-  let domainAndBase = domain + req.baseUrl;
-
-  // first check if domain and base exist, then this will be the site, if no
-  const site = sites[domainAndBase] ? sites[domainAndBase]  : sites[domain];
-
-  if (!site) {
-    res.status(404).json({ error: 'Site not found'});
-  }
-
-  // serve the site
-  try {
-    serveSite(req, res, site, false);
-  } catch (e) {
-    console.log('-->> e', e);
-  }
 }
 
 function serveSite(req, res, siteConfig, forceRestart) {
@@ -199,6 +167,8 @@ function run(id, siteData, options, callback) {
     _.merge(siteConfig, siteData)
   );
 
+  console.log('apos', apos)
+
 }
 
 module.exports.getDefaultConfig = (options) => {
@@ -210,13 +180,77 @@ module.exports.getApostropheApp = () => {
 };
 
 module.exports.getMultiSiteApp = (options) => {
+
+  /**
+   * First fetch the data of all sites
+   */
+  app.use(async function (req, res, next) {
+    if (Object.keys(sites).length === 0) {
+      await fetchAllSites(req, res);
+    }
+
+    if (Object.keys(sites).length === 0) {
+      res.status(500).json({ error: 'No sites found'});
+    }
+
+    // add custom openstad configuration to ApostrhopheCMS
+    req.options = options;
+
+    //format domain to our specification
+    let domain = req.headers['x-forwarded-host'] || req.get('host');
+    domain = domain.replace(['http://', 'https://'], ['']);
+    domain = domain.replace(['www'], ['']);
+
+    req.openstadDomain = domain;
+
+    next()
+  });
+
+  /**
+   * Check if a site is running under the first path
+   *
+   * So for instance, following should work:
+   *  openstad.org/site2
+   *  openstad.org/site3
+   *
+   * If not existing openstad.org will handle the above examples as pages,
+   * if openstad.org exists of course.
+   */
+  app.use('/:firstPath', function(req, res, next) {
+     const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
+     console.log('domainAndPath', domainAndPath);
+     console.log('domain', req.openstadDomain);
+
+     const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
+
+     // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
+     if (site) {
+       serveSite(req, res, site, false);
+     } else {
+       next();
+     }
+  });
+
+  /**
+   * Check if reques
+   */
   app.use(function(req, res, next) {
+
     /**
      * Start the servers
      */
-    req.options = options;
-    serveSites(req, res, next);
+
+    const site = sites[req.openstadDomain] ? sites[req.openstadDomain]  : false;
+
+    // if site exists serve it, otherwise give a 404
+    if (site) {
+      serveSite(req, res, site, false);
+    } else {
+      res.status(404).json({ error: 'Site not found'});
+    }
   });
+
+
 
   /**
    * Update the siteconfig every few minutes
