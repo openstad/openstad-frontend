@@ -21,7 +21,10 @@
     "react-h5-audio-player": "^3.4.1",
     "react-leaflet": "^2.7.0",
     "react-mp3-recorder": "^1.1.2",
+    "react-native-web": "^0.14.8",
     "react-places-autocomplete": "^7.3.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3"
   },
   "scripts": {

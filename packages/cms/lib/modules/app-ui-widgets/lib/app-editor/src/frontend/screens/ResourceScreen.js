@@ -1,34 +1,34 @@
 /* Layout elements */
-import React, { Component } from 'react';
-import { ComponentManager } from '../ComponentManager';
-import { View } from "react-native";
+import React, { Component, useEffect, useState } from "react";
+import ComponentManager from '../ComponentManager';
+import { View, Text } from "react-native";
+import axios from 'axios';
 
 const Loader = (props) => {
   return <Text> Loading... </Text>;
 }
 
-const ResourceScreen = (props) {
+const ResourceScreen = (props) => {
 
-  render() {
-    const resourceType = props.resourceTypes.find((resourceType) => {
-      return props.resource === resourceType.;
+    const resourceInfo = props.resources.find((resource) => {
+      return props.resource === resource.name;
     });
 
     const resourceId = props.resourceId;
 
-    const apiUrl = `${resourceType.apiBase}/${resourceType.apiPath}/${resourceId}`;
+    const apiUrl = `${resourceInfo.apiBase}/${resourceInfo.apiPath}/${resourceId}`;
 
     const [resource, setResource] = useState({item: [], isFetching: false});
 
     useEffect(() => {
       const fetchResource = async () => {
         try {
-          setResource({item: resources.item, isFetching: true});
+          setResource({item: resource.item, isFetching: true});
           const response = await axios.get(apiUrl);
           setResource({item: response, isFetching: false});
         } catch (e) {
           console.log(e);
-          setResource({item: resources.item, isFetching: false});
+          setResource({item: resource.item, isFetching: false});
         }
       };
       fetchResource();
@@ -46,7 +46,6 @@ const ResourceScreen = (props) {
         }
       </View>
     )
-  }
 }
 
 export default ResourceScreen;

@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const Game = (props) => {
-  return <Text> Todo form </Text>;
+const Video = (props) => {
+  return <Video> Todo form </Video>;
 }
 
 
-export default Game;
+export default Video;

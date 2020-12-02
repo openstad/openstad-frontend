@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
-import { ComponentManager } from '../ComponentManager';
+import { View, Text, StyleSheet } from "react-native";
+import ComponentManager from '../ComponentManager';
 
 const styles = StyleSheet.create({
   baseText: {
@@ -16,10 +16,10 @@ const Columns = (props) => {
       <View style={{
         width: `${columnWidth}%`
       }}>
-        {props.areas.map(column, index) => (
+        {props.areas.map((column, index) => (
           <View key={index}>
             <ComponentManager components={column.components} />
-          </view>
+          </View>
         ))}
       </View>
   );

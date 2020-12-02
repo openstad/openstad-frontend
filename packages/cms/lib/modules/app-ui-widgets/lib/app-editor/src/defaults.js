@@ -1,4 +1,5 @@
 
+const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 
 const defaultResources = [
   {
@@ -116,7 +117,7 @@ const defaultResourceScreens = defaultResources.map((resource, i) => {
   return {
     id : 100000 + i,
     type: 'resource',
-    name: `${resource.nameSingle.ucFirst()} screen`,
+    name: `${capitalize(resource.nameSingle)} screen`,
     components: resource.defaultComponents
   }
 });
@@ -151,7 +152,7 @@ const defaultScreens = {
   ],
 }
 
-const appResource = {
+exports.appResource = {
   id: 1,
   title: 'New app...',
   revisions: [{

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, StyleSheet } from "react-native";
+import { Text, Button, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   buttonText: {
@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const Button = (props) => {
+const FrontendButton = (props) => {
   return props.resource ? <ResourceButton {...props} /> : <StaticButton  {...props} />;
 }
 
-const ResourceButton = () => {
+const ResourceButton = (props) => {
   return (
       <Text style={styles.buttonText}>
         {props.activeResource[props.keyButton]}
@@ -29,4 +29,4 @@ const StaticButton = (props) => {
 };
 
 
-export default Button;
+export default FrontendButton;

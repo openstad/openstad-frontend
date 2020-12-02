@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -31,23 +31,25 @@ const ListItem = (props) => {
 }
 
 const displayTypes = {
-  'list' => ListItem,
-  'card' => CardItem
+  'list' : ListItem,
+  'card' : CardItem
 }
 
 const DisplayItems = (props) => {
+  const DisplayItem = displayTypes[props.displayType];
+
   return (
     <View>
     {props.items.map((item) => {
-      <displayTypes[props.displayType] {...props} item={item} />
+      return <DisplayItem {...props} item={item} />
     })}
     </View>
   )
 }
 
 const ResourceOverview = (props) => {
-  const resourceType = props.resourceTypes.find((resourceType) => {
-    return props.resource === resourceType.;
+  const resourceType = props.resources.find((resource) => {
+    return props.resource === resource.name;
   });
 
   const apiUrl = `${resourceType.apiBase}/${resourceType.apiPath}`;

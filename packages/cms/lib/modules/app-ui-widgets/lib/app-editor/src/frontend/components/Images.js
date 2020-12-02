@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Image } from "react-native";
 
 const styles = StyleSheet.create({
   titleText: {
@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const Image = (props) => {
+const FrontendImage = (props) => {
   return props.resource ? <ResourceImage {...props} /> : <StaticImage  {...props} />;
 }
 
-const ResourceImage = () => {
+const ResourceImage = (props) => {
   return (
       <Image style={styles.titleText} src={props.activeResource[props.keyImage]} />
   );
@@ -24,4 +24,4 @@ const StaticImage = (props) => {
   );
 };
 
-export default Image;
+export default FrontendImage;

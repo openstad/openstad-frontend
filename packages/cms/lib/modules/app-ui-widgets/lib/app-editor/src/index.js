@@ -7,13 +7,14 @@ import * as serviceWorker from './serviceWorker';
 import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults.js';
 import GenericApp from './frontend/GenericApp';
 
-if (process.env.ONLY_FRONTEND) {
+if (true || process.env.FRONTEND) {
+
 
 
 //  axios.get(`/api/app/1`)
 //    .then( (response) => {
 //      const appResource =  response.data;
-//      const latestRevisions = appResource.revisions[appResource.revisions.length -1];
+      const latestRevisions = appResource.revisions[appResource.revisions.length -1];
 
       ReactDOM.render(
         <React.StrictMode>
@@ -43,7 +44,7 @@ const newResourceObject = {
   data: {}
 };
 
-const appResource = {
+ appResource = {
   id: 1,
   title: 'New app...',
   revisions: [{

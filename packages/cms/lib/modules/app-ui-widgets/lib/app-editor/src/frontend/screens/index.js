@@ -1,4 +1,4 @@
-export { LoginScreen }    from './LoginScreen.js';
-export { ResourceScreen } from './ResourceScreen.js';
-export { SplashScreen }   from './SplashScreen.js';
-export { StaticScreen }   from './StaticScreen.js';
+export { default as LoginScreen }    from './LoginScreen.js';
+export { default as ResourceScreen } from './ResourceScreen.js';
+export { default as SplashScreen }   from './SplashScreen.js';
+export { default as StaticScreen }   from './StaticScreen.js';

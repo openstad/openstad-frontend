@@ -1,7 +1,7 @@
 /* Layout elements */
 import React, { Component } from 'react';
-import { ComponentManager } from '../ComponentManager';
-import { View } from "react-native";
+import ComponentManager from '../ComponentManager';
+import { View, Text } from "react-native";
 
 
 class LoginScreen extends Component {
@@ -14,7 +14,7 @@ class LoginScreen extends Component {
     return (
       <View>
         <ComponentManager
-          components={props.components}
+          components={this.props.components}
           componentProps={{
             resource: true
           }}
@@ -24,4 +24,4 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen=;
+export default LoginScreen;

@@ -12,7 +12,7 @@ const Title = (props) => {
   return props.resource ? <ResourceTitle {...props} /> : <StaticTitle  {...props} />;
 }
 
-const ResourceTitle = () => {
+const ResourceTitle = (props) => {
   return (
       <Text style={styles.titleText}>
         {props.activeResource[props.keyTitle]}

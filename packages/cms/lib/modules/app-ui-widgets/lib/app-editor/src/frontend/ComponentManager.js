@@ -1,59 +1,61 @@
 import React from 'react';
-import { Title, Text, Images, Button, Video, Overview, Form, Grid, Game, Tour, Login, Splash } from '/components';
-import { View } from "react-native";
+import { Title, RichText, Images, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash } from './components';
+import { View, Text } from "react-native";
 
 const componentstMap = {
   'title'   :{
-    component Title,
+    component: Title,
   },
-  'text'    : {
-    component Text,
+  'richText'    : {
+    component: RichText,
   },
   'image'   : {
-    component Image,
+    component :Image,
   },
   'button'  : {
-    component Button,
+    component :Button,
   },
   'video'  : {
-    component Video,
+    component :Video,
   },
   'overview'  : {
-    component Overview,
+    component :Overview,
   },
   'form'  : {
-    component Form,
+    component :Form,
   },
-  'grid'   : {
-    component Grid,
+  'column'   : {
+    component :Columns,
   },
   'game'   :{
-    component Game,
+    component :Game,
   },
   'tour'   : {
-    component Tour,
+    component :Tour,
   },
   'map'   : {
-    component Map,
-  }
+    component :Map,
+  },
   'login'   : {
-    component Login,
+    component :Login,
   },
   'splash'   : {
-    component Splash,
+    component :Splash,
   }
 }
 
 function ComponentManager(props) {
-  var className = props.active ? 'ListItem active' : 'ListItem';
+  const className = props.active ? 'ListItem active' : 'ListItem';
 
   return (
     <View props={className}>
-      {props.components.map(component : {
-        <componentstMap[component.type].component
+      {props.components.map((component)  => {
+        const FrontendComponent = componentstMap[component.type].component;
+
+        return (<FrontendComponent
           {...props.componentProps}
           {...component.props}
-        />
+        />)
       })}
     </View>
   );

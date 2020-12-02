@@ -1,8 +1,13 @@
 /* Layout elements */
 import React, { Component } from 'react';
 import { StaticScreen, ResourceScreen, LoginScreen, SplashScreen } from './screens';
-import { Switch,  } from "react-router";
-import { View } from "react-native";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { View, Text } from "react-native";
 
 /*
 screen = {
@@ -13,10 +18,10 @@ screen = {
 */
 
 const ScreenComponents = {
-  'static' => StaticScreen,
-  'resource' => ResourceScreen,
-  'login' => LoginScreen,
-  'splash' => SplashScreen
+  'static' : StaticScreen,
+  'resource' : ResourceScreen,
+  'login' : LoginScreen,
+  'splash' : SplashScreen
 }
 
 class GenericApp extends Component {
@@ -40,21 +45,28 @@ class GenericApp extends Component {
 
     this.setState({
       activeStepId: activeStepId
-    }) ;
+    });
   }
 
   render() {
     const startScreenId = this.props.screens.startScreenId;
 
     if (!startScreenId)  {
-      return <View> <Text> Start screen not selected </Text> </View>'                               '
+      return (
+        <View>
+          <Text> Start screen not selected </Text>
+        </View>
+    );
     }
+
 
     return (
       <View>
+      <Router>
         <Switch>
           {this.props.screens.items.map((screen) => {
             let path;
+            const ScreenComponent = ScreenComponents[screen.type];
 
             if (startScreenId === screen.id) {
               path = '/';
@@ -63,18 +75,24 @@ class GenericApp extends Component {
             } else {
               path = `/page/${screen.id}`
             }
-\
-            <Route path={path}>
-              <ScreenComponents[screen.type]
-                resources={props.resources}
-                {...screen}
-              />
-            </Route>
+
+            return (
+              <Route path={path}>
+                <ScreenComponent
+                  resources={this.props.resources}
+                  resource={screen.resourceType}
+                  {...screen}
+                />
+              </Route>
+            )
           })}
         </Switch>
+        </Router>
+
       </View>
     )
   }
 }
 
-export default GenericApp=;
+
+export default GenericApp;

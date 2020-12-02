@@ -1,7 +1,7 @@
 /* Layout elements */
 import React, { Component } from 'react';
-import { ComponentManager } from '../ComponentManager';
-import { View } from "react-native";
+import ComponentManager from '../ComponentManager';
+import { View, Text } from "react-native";
 
 class StaticScreen extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class StaticScreen extends Component {
     return (
       <View>
         <ComponentManager
-          components={props.components}
+          components={this.props.components}
         />
       </View>
     )
