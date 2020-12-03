@@ -26,7 +26,11 @@ const CardItem = (props) => {
 }
 
 const ListItem = (props) => {
+  console.log('props', props);
+
   const titleKey = props.titleKey ? props.titleKey : 'title';
+  console.log('props.item[titleKey]', props.item[titleKey]);
+
   return <Text> {props.item[titleKey]} </Text>;
 }
 
@@ -36,18 +40,20 @@ const displayTypes = {
 }
 
 const DisplayItems = (props) => {
-  const DisplayItem = displayTypes[props.displayType];
+  const DisplayItem = props.displayType ? displayTypes[props.displayType] : displayTypes['list'];
 
   return (
     <View>
-    {props.items.map((item) => {
-      return <DisplayItem {...props} item={item} />
+    {props.items.map((item, i) => {
+      return <DisplayItem {...props} item={item} key={i}/>
     })}
     </View>
   )
 }
 
 const ResourceOverview = (props) => {
+  console.log('ResourceOverview', props);
+
   const resourceType = props.resources.find((resource) => {
     return props.resource === resource.name;
   });
@@ -61,8 +67,10 @@ const ResourceOverview = (props) => {
       try {
         setResources({items: resources.items, isFetching: true});
         const response = await axios.get(apiUrl);
+        const json = response.data;
         // if response key isset the items are found there, otherwise they are directly at the root of the response opbject
-        const items = resourceType.responseKey ? response[resourceType.responseKey] : response;
+
+        const items = resourceType.responseKey ? json[resourceType.responseKey] : json;
         setResources({items: items, isFetching: false});
       } catch (e) {
         console.log(e);
@@ -71,6 +79,8 @@ const ResourceOverview = (props) => {
     };
     fetchResources();
   }, []);
+
+  console.log('resources.items', resources.items)
 
   return (
     <View style={styles.container}>
@@ -83,6 +93,7 @@ const ResourceOverview = (props) => {
 };
 
 const Overview = (props) => {
+
   return <ResourceOverview {...props} />;
 }
 

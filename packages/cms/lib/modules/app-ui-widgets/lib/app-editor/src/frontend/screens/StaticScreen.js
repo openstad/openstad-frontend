@@ -10,10 +10,11 @@ class StaticScreen extends Component {
     this.state = {};
   }
   render() {
+    console.log('StaticScreen', this.props)
     return (
       <View>
         <ComponentManager
-          components={this.props.components}
+          {...this.props}
         />
       </View>
     )

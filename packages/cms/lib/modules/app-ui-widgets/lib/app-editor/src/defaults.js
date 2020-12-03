@@ -3,10 +3,10 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 
 const defaultResources = [
   {
-    apiBase: 'https://reqres.in/api/', // if empty fetch from default settings
+    apiBase: 'https://reqres.in/api', // if empty fetch from default settings
     apiPath: 'game',
     responseKey: 'data',
-    name: 'games',
+    name: 'game',
     nameSingle: 'game',
     namePlural: 'games',
     defaultComponents: [
@@ -19,7 +19,7 @@ const defaultResources = [
         type: 'game',
         resource: true,
         props: {
-
+          keyTitle: 'title'
         }
       }
     ]
@@ -141,7 +141,7 @@ const defaultScreens = {
           props: {
             resource: 'game',
             amount: 12,
-            titleKey: 'title',
+            titleKey: 'name',
             imageKey: 'image'
           }
         },
@@ -156,9 +156,7 @@ exports.appResource = {
   id: 1,
   title: 'New app...',
   revisions: [{
-    resources: {
-      items: defaultResources,
-    },
+    resources:defaultResources,
     settings: defaultSettings,
     navigationSettings: defaultNavigation,
     screens: defaultScreens

@@ -14,7 +14,7 @@ class LoginScreen extends Component {
     return (
       <View>
         <ComponentManager
-          components={this.props.components}
+          {...this.props}
           componentProps={{
             resource: true
           }}

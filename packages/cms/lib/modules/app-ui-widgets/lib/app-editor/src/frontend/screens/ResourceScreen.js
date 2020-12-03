@@ -40,7 +40,7 @@ const ResourceScreen = (props) => {
           <Loader />
         :
           <ComponentManager
-            components={props.components}
+            {...this.props}
             resource={resource.item}
           />
         }

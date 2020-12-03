@@ -51,10 +51,12 @@ function ComponentManager(props) {
     <View props={className}>
       {props.components.map((component)  => {
         const FrontendComponent = componentstMap[component.type].component;
+        console.log('component.prop', component.props)
+
 
         return (<FrontendComponent
-          {...props.componentProps}
           {...component.props}
+          resources={props.resources}
         />)
       })}
     </View>
