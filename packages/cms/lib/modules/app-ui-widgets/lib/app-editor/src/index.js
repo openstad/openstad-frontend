@@ -26,6 +26,7 @@ if (true || process.env.FRONTEND) {
             resources={latestRevisions.resources}
             navigationSettings={latestRevisions.navigationSettings}
             screens={latestRevisions.screens}
+            isSignedIn={true}
           />
         </React.StrictMode>,
         document.getElementById('root')

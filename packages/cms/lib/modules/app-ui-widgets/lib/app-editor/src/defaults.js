@@ -113,6 +113,16 @@ const defaultNavigation = {
 
 }
 
+const defaultStyling = {
+  header: {
+    logo: {
+      src: 'https://neuromindset.com/wp-content/uploads/2019/10/Logo_NeuroMindset_Blanco_horizontal_web-contorno.png',
+      width: 55,
+      image: 55
+    }
+  }
+}
+
 const defaultResourceScreens = defaultResources.map((resource, i) => {
   return {
     id : 100000 + i,
@@ -159,6 +169,7 @@ exports.appResource = {
     resources:defaultResources,
     settings: defaultSettings,
     navigationSettings: defaultNavigation,
-    screens: defaultScreens
+    screens: defaultScreens,
+    styling:defaultStyling,
   }],
 };

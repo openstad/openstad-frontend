@@ -56,6 +56,7 @@ class GenericApp extends Component {
   render() {
     const startScreenId = this.props.screens.startScreenId;
 
+
     if (!startScreenId)  {
       return (
         <View>
@@ -64,24 +65,27 @@ class GenericApp extends Component {
       );
     }
 
+    console.log('this.props.styling.header', this.props.styling)
+
     return (
-      <NavigationContainer
-      screenOptions={{
-          headerTitle: <Logo image={styling.header.logo.image} width={styling.header.logo.width} height={styling.header.logo.height}/>,
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-      >
-        <Stack.Navigator>
-          {props.signedIn ? (
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+              headerTitle: props => <Logo {...this.props.styling.header.logo} />,
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#f4511e',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+          }}
+        >
+          {this.props.isSignedIn ? (
+            <>
             {this.props.screens.items.map((screen) => {
               let path;
-              const ScreenComponent = ScreenComponents[screen.type];
 
               if (startScreenId === screen.id) {
                 path = '/';
@@ -91,23 +95,25 @@ class GenericApp extends Component {
                 path = `/page/${screen.id}`
               }
 
+              const ScreenComponent = ScreenComponents[screen.type];
+              const screenComponent = <ScreenComponent resources={this.props.resources} resource={screen.resourceType} {...screen} />
+              const screenName = screen.name ? screen.name : 'Naam';
+
               return (
-                <Stack.Screen path={path} component={<ScreenComponent
-                  resources={this.props.resources}
-                  resource={screen.resourceType}
-                  {...screen}
-                />}
+                <Stack.Screen name={screenName}>
+                    {props => screenComponent}
+                </Stack.Screen>
               )
             })}
-          )
+          </>)
           :
           (
           <>
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
           </>
-          )
-      </Stack.Navigator>
+          )}
+          </Stack.Navigator>
       </NavigationContainer>
     )
   }
