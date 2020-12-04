@@ -25,15 +25,17 @@ router
 router
   .all('*', function(req, res, next) {
     req.scope = ['includeSite'];
-    req.scope.push({ method: ['onlyVisible', req.user.id, req.user.role]});
-
     next();
   });
 
 router.route('/')
   // list users
   // ----------
-  .get(auth.can('User', 'list'))
+  // .get(auth.can('User', 'list')) -> now handled by onlyListable
+  .get(function(req, res, next) {
+    req.scope.push({ method: ['onlyListable', req.user.id, req.user.role]});
+    next();
+  })
   .get(pagination.init)
   .get(function(req, res, next) {
     let { dbQuery } = req;

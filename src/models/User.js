@@ -171,7 +171,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 			}
 		},
 
-		viewableByRole: {
+		listableByRole: {
 			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
 			defaultValue: 'editor',
 			auth:  {
@@ -388,6 +388,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	});
 
 	User.scopes = function scopes() {
+
 		return {
 			includeSite: {
         include: [{
@@ -395,23 +396,37 @@ module.exports = function( db, sequelize, DataTypes ) {
         }]
       },
 
-			onlyVisible: function (userId, userRole) {
-				if (userId) {
-					return {
-						where: sequelize.or(
-							{ id: userId },
-							{ viewableByRole: 'all' },
-							{ viewableByRole: roles[userRole] || 'all' },
-						)
-					};
-				} else {
-					return {
-						where: sequelize.or(
-							{ viewableByRole: 'all' },
-							{ viewableByRole: roles[userRole]  || 'all' },
-						)
-					};
-				}
+			onlyListable: function (userId, userRole = 'all') {
+
+        // todo: hij kan alleen tegen een enkelvoudige listableBy
+        // todo: owner wordt nu altijd toegevoegd, dat moet alleen als die in listableBy staat, maar zie vorige regel
+        // todo: gelijkttrekken met Idea.onlyVisible: die is nu exclusive en deze inclusive
+        
+        let requiredRole = this.auth && this.auth.listableBy || 'all';
+
+        // if requiredRole == all then listableByRole is not relevant and neither is userRole
+        if (requiredRole == 'all') return;
+
+        // if requiredRole != all then listableByRole is allowing
+
+        // null should be seen as requiredRole
+        let requiredRoleEscaped = sequelize.escape(requiredRole);
+        let rolesEscaped = sequelize.escape(roles[userRole])
+        let nullCondition = `${requiredRoleEscaped} IN (${rolesEscaped})`;
+        
+        let where = sequelize.or(
+          { id: userId },
+          // allow when userRole is good enough
+          { listableByRole: roles[userRole] || 'none' },
+          // or null and userRole is at least requiredRole
+          sequelize.and(
+            { listableByRole: null },
+            sequelize.literal(nullCondition)
+          ),
+        )
+
+        return { where };
+
 			},
 
 		}
@@ -490,7 +505,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}
 
 	User.auth = User.prototype.auth = {
-    listableBy: 'all',
+    listableBy: 'editor',
     viewableBy: 'all',
     createableBy: 'editor',
     updateableBy: ['editor','owner'],

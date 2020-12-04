@@ -9,6 +9,7 @@
 * Allow viewablebyRole to be edited by the user
 * Open /stats/site/:SITE_ID/vote/total for everybody
 * Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
+* Rename users.viewableByRole to listableByRole and fix the corresponding scope
 
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1

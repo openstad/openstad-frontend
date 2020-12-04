@@ -366,6 +366,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 				}
 			},
+      users: {
+				type: 'object',
+				subset: {
+          extraDataMustBeDefined: {
+					  type: 'boolean',
+            default: false,
+				  },
+          extraData: {
+					  type: 'object',
+				  },
+          canCreateNewUsers: {
+					  type: 'boolean',
+					  default: true,
+				  },
+				},
+      },
 			votes: {
 				type: 'object',
 				subset: {
