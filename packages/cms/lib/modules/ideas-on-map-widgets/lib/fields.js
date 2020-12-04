@@ -94,6 +94,16 @@ module.exports = [
 	},
 
   { 
+    name: 'noSelectionHTML',
+    type: 'string',
+    label: 'noSelectionHTML',
+    help: '[ VEROUDERD ] Er is geen punt of plan geselecteerd. LET OP: dit invoerveld is verouderd en wordt in de toekomst helemaal vervangen door noSelectionLoggedInHTML en noSelectionNotLoggedInHTML. Gebruik deze twee invoervelden, als deze nieuwe invoervelden in gebruik zijn, dan wordt dit verouderde invoerveld overschreven.',
+    readOnly: true,
+    textarea: true,
+    required: false,
+  },
+  
+  { 
     name: 'noSelectionLoggedInHTML',
     type: 'string',
     label: 'noSelectionLoggedInHTML',
