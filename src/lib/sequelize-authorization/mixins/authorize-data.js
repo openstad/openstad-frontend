@@ -24,8 +24,15 @@ module.exports = function authorizeData(data, action, user, self, site) {
       if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
         if (self.rawAttributes[key].auth.authorizeData) {
           data[key] = self.rawAttributes[key].auth.authorizeData(data[key], action, user, self, site);
+          // todo: ik denk dat hij hier moet return-en; een beetje heftige aanpassing voor even tussendoor
         } else {
           testRole = self.rawAttributes[key].auth[action+'ableBy'];
+          let detailsFieldName = 'details' + action[0].toUpperCase() + action.substring(1) + 'ableByRole';
+          if (Array.isArray(testRole) ? testRole.includes(detailsFieldName) : testRole == detailsFieldName) {
+            if (self.detailsViewableByRole) {
+              testRole = self.detailsViewableByRole;
+            }
+          }
         }
       }
 

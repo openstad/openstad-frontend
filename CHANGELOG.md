@@ -10,6 +10,7 @@
 * Open /stats/site/:SITE_ID/vote/total for everybody
 * Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
 * Rename users.viewableByRole to listableByRole and fix the corresponding scope
+* Add users.detailsViewableByRole, i.e. authorisation on fields defined per instance
 
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1

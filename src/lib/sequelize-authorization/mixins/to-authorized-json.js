@@ -55,7 +55,13 @@ module.exports = function toAuthorizedJSON(user) {
       if (self.rawAttributes[key].auth.authorizeData) {
         return self.rawAttributes[key].auth.authorizeData(null, 'view', user, self, self.site);
       } else {
+        // todo: waarom loopt dit niet via authorizeData
         testRole = self.rawAttributes[key].auth.viewableBy;
+        if (Array.isArray(testRole) ? testRole.includes('detailsViewableByRole') : testRole == 'detailsViewableByRole') {
+          if (self.detailsViewableByRole) {
+            testRole = self.detailsViewableByRole;
+          }
+        }
       }
     }
     testRole = testRole || ( self.auth && self.auth.viewableBy );

@@ -173,8 +173,19 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		listableByRole: {
 			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
-			defaultValue: 'editor',
+			defaultValue: null,
 			auth:  {
+        viewableBy: ['editor','owner'],
+				updateableBy: ['editor', 'owner'],
+			},
+			allowNull: true,
+		},
+
+		detailsViewableByRole: {
+			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+			defaultValue: null,
+			auth:  {
+        viewableBy: ['editor','owner'],
 				updateableBy: ['editor', 'owner'],
 			},
 			allowNull: true,

@@ -11,6 +11,6 @@ module.exports = {
 		}
 	},
 	down: function() {
-		return db.query(`ALTER TABLE ideas DROP listableByRole;`);
+		return db.query(`ALTER TABLE users DROP listableByRole;`);
 	}
 }
