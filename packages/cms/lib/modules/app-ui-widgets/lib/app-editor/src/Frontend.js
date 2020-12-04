@@ -22,6 +22,7 @@ axios.get(`/api/app/1`)
           resources={latestRevisions.resources}
           navigationSettings={latestRevisions.navigationSettings}
           screens={latestRevisions.screens}
+          isSignedIn={true}
         />
       </React.StrictMode>,
       document.getElementById('root')

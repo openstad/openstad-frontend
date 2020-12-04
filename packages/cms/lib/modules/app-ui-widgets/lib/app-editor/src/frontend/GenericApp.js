@@ -1,6 +1,7 @@
 /* Layout elements */
 import React, { Component } from 'react';
-import { StaticScreen, ResourceScreen, LoginScreen, SplashScreen } from './screens';
+import { StaticScreen, ResourceScreen, LoginScreen, SplashScreen, SignInScreen, SignUpScreen } from './screens';
+import { Logo } from './layout';
 import {
   BrowserRouter as Router,
   Switch,
@@ -60,37 +61,54 @@ class GenericApp extends Component {
         <View>
           <Text> Start screen not selected </Text>
         </View>
-    );
+      );
     }
 
-
     return (
-      <NavigationContainer>
+      <NavigationContainer
+      screenOptions={{
+          headerTitle: <Logo image={styling.header.logo.image} width={styling.header.logo.width} height={styling.header.logo.height}/>,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+      >
         <Stack.Navigator>
-              {this.props.screens.items.map((screen) => {
-                let path;
-                const ScreenComponent = ScreenComponents[screen.type];
+          {props.signedIn ? (
+            {this.props.screens.items.map((screen) => {
+              let path;
+              const ScreenComponent = ScreenComponents[screen.type];
 
-                if (startScreenId === screen.id) {
-                  path = '/';
-                } else if (screen.type === 'resource' ) {
-                  path = `/${screen.resourceType}/:resourceId`;
-                } else {
-                  path = `/page/${screen.id}`
-                }
+              if (startScreenId === screen.id) {
+                path = '/';
+              } else if (screen.type === 'resource' ) {
+                path = `/${screen.resourceType}/:resourceId`;
+              } else {
+                path = `/page/${screen.id}`
+              }
 
-                return (
-                  <Stack.Screen path={path} component={<ScreenComponent
-                    resources={this.props.resources}
-                    resource={screen.resourceType}
-                    {...screen}
-                  />} 
-                )
-              })}
-              </Stack.Navigator>
-            </NavigationContainer
-
-      </View>
+              return (
+                <Stack.Screen path={path} component={<ScreenComponent
+                  resources={this.props.resources}
+                  resource={screen.resourceType}
+                  {...screen}
+                />}
+              )
+            })}
+          )
+          :
+          (
+          <>
+            <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+          </>
+          )
+      </Stack.Navigator>
+      </NavigationContainer>
     )
   }
 }
