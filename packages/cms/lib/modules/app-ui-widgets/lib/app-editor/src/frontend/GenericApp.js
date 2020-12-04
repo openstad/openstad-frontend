@@ -8,6 +8,10 @@ import {
   Link
 } from "react-router-dom";
 import { View, Text } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
 
 /*
 screen = {
@@ -61,33 +65,30 @@ class GenericApp extends Component {
 
 
     return (
-      <View>
-      <Router>
-        <Switch>
-          {this.props.screens.items.map((screen) => {
-            let path;
-            const ScreenComponent = ScreenComponents[screen.type];
+      <NavigationContainer>
+        <Stack.Navigator>
+              {this.props.screens.items.map((screen) => {
+                let path;
+                const ScreenComponent = ScreenComponents[screen.type];
 
-            if (startScreenId === screen.id) {
-              path = '/';
-            } else if (screen.type === 'resource' ) {
-              path = `/${screen.resourceType}/:resourceId`;
-            } else {
-              path = `/page/${screen.id}`
-            }
+                if (startScreenId === screen.id) {
+                  path = '/';
+                } else if (screen.type === 'resource' ) {
+                  path = `/${screen.resourceType}/:resourceId`;
+                } else {
+                  path = `/page/${screen.id}`
+                }
 
-            return (
-              <Route path={path}>
-                <ScreenComponent
-                  resources={this.props.resources}
-                  resource={screen.resourceType}
-                  {...screen}
-                />
-              </Route>
-            )
-          })}
-        </Switch>
-        </Router>
+                return (
+                  <Stack.Screen path={path} component={<ScreenComponent
+                    resources={this.props.resources}
+                    resource={screen.resourceType}
+                    {...screen}
+                  />} 
+                )
+              })}
+              </Stack.Navigator>
+            </NavigationContainer
 
       </View>
     )
