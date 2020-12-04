@@ -9,7 +9,7 @@
 * Content fields in ideas-on-map now include an old deprecated value as fallback
 * Content fields helptekst is updated
 
-## v0.9.0 (Pre release)
+## v0.9.0 (2020-11-25)
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
 * Feature: Better explanations in global newsletter settings
 * Add admin warning to vote counter if vote count is not publicly available
