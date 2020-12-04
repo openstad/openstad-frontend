@@ -18,6 +18,7 @@ router
   .all('*', function(req, res, next) {
     if (!req.body) return next();
     // incomming data is too flat when send as enctype=application/x-www-form-urlencoded
+    // todo: geldt dat dan niet ook voor users en idas, en moet dis dan niet een generieke middleware worden?
     let data = { extraData: {} };
     Object.keys(req.body).forEach((key) => {
       let match = key.match(/^extraData\.([a-zA-Z][a-zA-Z0-9_]*)/);
@@ -129,7 +130,6 @@ router.route('/$')
     data.externalUserId = req.user.externalUserId;
     data.signoutToken = generateToken({ length: 256 });
 
-
     db.NewsletterSignup
       .create(data)
       .then((result) => {
@@ -233,8 +233,8 @@ router.route('/:newslettersignupId(\\d+)')
       .catch(next);
   })
 
-// delete idea
-// ---------
+// delete newslettersignup
+// -----------------------
   .delete(auth.can('NewsletterSignup', 'delete'))
   .delete(function(req, res, next) {
     req.results
