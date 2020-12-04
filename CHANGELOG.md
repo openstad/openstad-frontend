@@ -3,6 +3,7 @@
 ## Unreleased updates
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
+* Add SVG captcha to newsletter signup
 
 ## v0.9.1 (2020-11-26)
 * Content fields in ideas-on-map now include an old deprecated value as fallback
