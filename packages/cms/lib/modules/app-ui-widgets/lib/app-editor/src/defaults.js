@@ -117,8 +117,16 @@ const defaultStyling = {
   header: {
     logo: {
       src: 'https://neuromindset.com/wp-content/uploads/2019/10/Logo_NeuroMindset_Blanco_horizontal_web-contorno.png',
-      width: 55,
-      image: 55
+      width: 330,
+      height: 55
+    },
+    styles: {
+      backgroundColor: '#000'
+    }
+  },
+  body: {
+    styles: {
+      backgroundColor: '#000'
     }
   }
 }

@@ -8,11 +8,21 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { View, Text } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
+import { View, Text, Platform, StyleSheet } from "react-native";
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
+const styles = StyleSheet.create({
+  fullHeight: {
+    height: Platform.OS === 'web' ? '100vh' : '100%'
+  }
+})
+
+const theme = {
+  bodyBackgroundColor: '#000000',
+  headerBackgroundColor: '#000000',
+}
 
 /*
 screen = {
@@ -55,6 +65,13 @@ class GenericApp extends Component {
 
   render() {
     const startScreenId = this.props.screens.startScreenId;
+    const MyTheme = {
+     ...DefaultTheme,
+     colors: {
+       ...DefaultTheme.colors,
+       background: '#000',
+     },
+   };
 
 
     if (!startScreenId)  {
@@ -65,56 +82,60 @@ class GenericApp extends Component {
       );
     }
 
-    console.log('this.props.styling.header', this.props.styling)
-
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-              headerTitle: props => <Logo {...this.props.styling.header.logo} />,
-              headerTitleAlign: 'center',
-              headerStyle: {
-                backgroundColor: '#f4511e',
+        <View style={styles.fullHeight} >
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+                headerTitle: props => <Logo {...this.props.styling.header.logo} />,
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: this.props.styling.header.backgroundColor || '#000000',
+                  elevation: 0, // remove shadow on Android
+                  shadowOpacity: 0, // remove shadow on iOS
+                  borderBottomWidth: 0,
+                },
+                cardStyle: {backgroundColor: this.props.styling.header.backgroundColor || '#000000', },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
               },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-          }}
-        >
-          {this.props.isSignedIn ? (
+            }}
+          >
+            {this.props.isSignedIn ? (
+              <>
+              {this.props.screens.items.map((screen) => {
+                let path;
+
+                if (startScreenId === screen.id) {
+                  path = '/';
+                } else if (screen.type === 'resource' ) {
+                  path = `/${screen.resourceType}/:resourceId`;
+                } else {
+                  path = `/page/${screen.id}`
+                }
+
+                const ScreenComponent = ScreenComponents[screen.type];
+                const screenComponent = <ScreenComponent resources={this.props.resources} resource={screen.resourceType} {...screen} />
+                const screenName = screen.name ? screen.name : 'Naam';
+
+                return (
+                  <Stack.Screen name={screenName}>
+                      {props => screenComponent}
+                  </Stack.Screen>
+                )
+              })}
+            </>)
+            :
+            (
             <>
-            {this.props.screens.items.map((screen) => {
-              let path;
-
-              if (startScreenId === screen.id) {
-                path = '/';
-              } else if (screen.type === 'resource' ) {
-                path = `/${screen.resourceType}/:resourceId`;
-              } else {
-                path = `/page/${screen.id}`
-              }
-
-              const ScreenComponent = ScreenComponents[screen.type];
-              const screenComponent = <ScreenComponent resources={this.props.resources} resource={screen.resourceType} {...screen} />
-              const screenName = screen.name ? screen.name : 'Naam';
-
-              return (
-                <Stack.Screen name={screenName}>
-                    {props => screenComponent}
-                </Stack.Screen>
-              )
-            })}
-          </>)
-          :
-          (
-          <>
-            <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-          </>
-          )}
-          </Stack.Navigator>
-      </NavigationContainer>
+              <Stack.Screen name="SignIn" component={SignInScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+            </>
+            )}
+            </Stack.Navigator>
+        </NavigationContainer>
+        </View>
     )
   }
 }

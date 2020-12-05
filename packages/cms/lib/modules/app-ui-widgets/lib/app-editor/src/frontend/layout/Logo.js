@@ -8,7 +8,7 @@ const Logo = (props) => {
 
   return (
     <Image
-      style={{ width: 300, height: 60 }}
+      style={{ width: width, height: height }}
       source={{
           uri: src,
         }}
