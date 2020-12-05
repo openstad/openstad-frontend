@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Image} from "react-native";
+import { Image, StyleSheet } from "react-native";
 
-let { StyleSheet } = React;
-
-let styles = StyleSheet.create({
+const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover', // or 'stretch'
@@ -11,7 +9,7 @@ let styles = StyleSheet.create({
 });
 
 const BackgroundImage = (props) => {
-  return <Image source={require(props.image)} style={styles.backgroundImage} />
+  return <Image source={{uri : props.src}} style={styles.backgroundImage} />
 }
 
 export default BackgroundImage;

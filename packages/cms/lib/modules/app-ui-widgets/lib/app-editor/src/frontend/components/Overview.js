@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground} from "react-native";
+import { BackgroundImage } from "./presentation";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,6 +11,15 @@ const styles = StyleSheet.create({
     fontFamily: "Cochin"
   }
 });
+
+const defaultListItemStylesOuter = {
+  marginBottom: 8
+}
+
+const defaultListItemStylesInner = {
+  padding: 5,
+  minHeight: 80,
+}
 
 const NoResults = (props) => {
   return <Text> No results </Text>;
@@ -25,13 +35,34 @@ const CardItem = (props) => {
   return <Text> {props.item[titleKey]}  </Text>;
 }
 
+const SafeBackgroundImage = (props) => {
+  console.log()
+  return (props.backgroundImage ?
+      <ImageBackground source={{
+        uri: props.backgroundImage
+      }}> {props.children} </ImageBackground> :
+        <> props.children </>
+    )
+}
+
 const ListItem = (props) => {
-  console.log('props', props);
+  console.log('ListItem props', props);
 
   const titleKey = props.titleKey ? props.titleKey : 'title';
-  console.log('props.item[titleKey]', props.item[titleKey]);
+  const backgroundImage = props.backgroundImageKey  && props.item[props.backgroundImageKey] ?  props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
+  const innerStyles = {...defaultListItemStylesInner, ...(props.styles || {})}
 
-  return <Text> {props.item[titleKey]} </Text>;
+
+  return (
+    <View style={defaultListItemStylesOuter}>
+      <SafeBackgroundImage backgroundImage={backgroundImage}>
+        <Text style={innerStyles}>
+          {props.item[titleKey]}
+        </Text>
+      </SafeBackgroundImage>
+    </View>
+  );
+    ;
 }
 
 const displayTypes = {

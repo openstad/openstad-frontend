@@ -8,13 +8,20 @@ const styles = StyleSheet.create({
   }
 });
 
+const defaultStyles = {
+  marginTop: 10,
+  fontSize: 22,
+}
+
 const Title = (props) => {
-  return props.resource ? <ResourceTitle {...props} /> : <StaticTitle  {...props} />;
+  const styles = {...defaultStyles, ...(props.styles || {})}
+
+  return props.resource ? <ResourceTitle {...props} styles={styles} /> : <StaticTitle  {...props} styles={styles} />;
 }
 
 const ResourceTitle = (props) => {
   return (
-      <Text style={styles.titleText}>
+      <Text style={props.styles}>
         {props.activeResource[props.keyTitle]}
       </Text>
   );
@@ -22,7 +29,7 @@ const ResourceTitle = (props) => {
 
 const StaticTitle = (props) => {
   return (
-      <Text style={styles.titleText}>
+      <Text style={props.styles}>
         {props.title}
       </Text>
   );

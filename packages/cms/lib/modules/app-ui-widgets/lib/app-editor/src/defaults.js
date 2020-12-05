@@ -4,7 +4,7 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 const defaultResources = [
   {
     apiBase: 'https://reqres.in/api', // if empty fetch from default settings
-    apiPath: 'game',
+    apiPath: 'users',
     responseKey: 'data',
     name: 'game',
     nameSingle: 'game',
@@ -13,7 +13,7 @@ const defaultResources = [
       {
         type: 'title',
         resource: true,
-        keyTitle: 'title'
+        keyTitle: 'first_name'
       },
       {
         type: 'game',
@@ -121,6 +121,9 @@ const defaultStyling = {
       height: 55
     },
     styles: {
+      elevation: 0, // remove shadow on Android
+      shadowOpacity: 0, // remove shadow on iOS
+      borderBottomWidth: 0,
       backgroundColor: '#000'
     }
   },
@@ -159,8 +162,8 @@ const defaultScreens = {
           props: {
             resource: 'game',
             amount: 12,
-            titleKey: 'name',
-            imageKey: 'image'
+            titleKey: 'first_name',
+            backgroundImageKey: 'avatar'
           }
         },
 
