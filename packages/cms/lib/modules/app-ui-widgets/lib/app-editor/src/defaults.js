@@ -51,32 +51,7 @@ const defaultResources = [
       },
     ]
   },
-  {
-    apiUrl: '', // if empty fetch from default settings
-    name: 'article',
-    nameSingle: 'article',
-    namePlural: 'articles',
-    defaultComponents: [
-      {
-        type: 'title',
-        props: {
-          key: 'title'
-        }
-      },
-      {
-        type: 'images',
-        props: {
-          key: 'src'
-        }
-      },
-      {
-        type: 'richText',
-        props: {
-          key: 'content'
-        }
-      },
-    ]
-  },
+
   {
     apiUrl: '', // if empty fetch from default settings
     name: 'product',
@@ -138,7 +113,8 @@ const defaultResourceScreens = defaultResources.map((resource, i) => {
   return {
     id : 100000 + i,
     type: 'resource',
-    name: `${capitalize(resource.nameSingle)} screen`,
+    title: `${capitalize(resource.nameSingle)} screen`,
+    name: resource.name,
     components: resource.defaultComponents
   }
 });
@@ -169,9 +145,11 @@ const defaultScreens = {
 
       ]
     },
-    {...defaultResourceScreens}
+    ...defaultResourceScreens
   ],
 }
+
+console.log('defaultScreens', defaultScreens)
 
 exports.appResource = {
   id: 1,

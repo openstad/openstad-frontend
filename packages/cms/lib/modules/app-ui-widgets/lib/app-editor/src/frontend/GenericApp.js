@@ -59,17 +59,26 @@ class GenericApp extends Component {
       );
     }
 
+    const linking = {
+    ///  prefixes: ['https://mychat.com', 'mychat://'],
+      config: {
+        screens: {
+          game: 'game/:id',
+        },
+      },
+    };
+
     return (
         <View style={{
           ...styles.fullHeight,
           ...this.props.styling.body
         }}>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <Stack.Navigator
             screenOptions={{
                 headerTitle: props => <Logo {...this.props.styling.header.logo} />,
                 headerTitleAlign: 'center',
-                headerStyle:    this.props.styling.header, 
+                headerStyle:    this.props.styling.header,
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
@@ -90,12 +99,15 @@ class GenericApp extends Component {
                 }
 
                 const ScreenComponent = ScreenComponents[screen.type];
-                const screenComponent = <ScreenComponent resources={this.props.resources} resource={screen.resourceType} {...screen} />
                 const screenName = screen.name ? screen.name : 'Naam';
+                const resourceName = screen.type === 'resource' ? screen.name : false;
+
+                console.log('screen', screen)
+                console.log('screenName', screenName)
 
                 return (
                   <Stack.Screen name={screenName}>
-                      {props => screenComponent}
+                      {props => <ScreenComponent {...props} resources={this.props.resources} resource={resourceName} {...screen}  />}
                   </Stack.Screen>
                 )
               })}

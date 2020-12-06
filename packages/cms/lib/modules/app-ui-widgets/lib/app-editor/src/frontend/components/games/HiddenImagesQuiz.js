@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
+import { hiddenImagesQuizDefaults } from "defaults";
 
 const styles = StyleSheet.create({
   titleText: {
@@ -9,7 +10,12 @@ const styles = StyleSheet.create({
 });
 
 const HiddenImagesQuiz = (props) => {
-  return <Text> Todo login </Text>;
+  return (
+    <Quiz
+      autoNext={5000}
+      questions={hiddenImagesQuizDefaults.questions}
+    />
+  );
 }
 
 export default HiddenImagesQuiz;

@@ -10,13 +10,17 @@ const Loader = (props) => {
 
 const ResourceScreen = (props) => {
 
-    const resourceInfo = props.resources.find((resource) => {
+    console.log('ResourceScreen props', props)
+
+    const { id } = props.route.params;
+
+    const resourceType = props.resources.find((resource) => {
       return props.resource === resource.name;
     });
 
     const resourceId = props.resourceId;
 
-    const apiUrl = `${resourceInfo.apiBase}/${resourceInfo.apiPath}/${resourceId}`;
+    const apiUrl = `${resourceType.apiBase}/${resourceType.apiPath}/${id}`;
 
     const [resource, setResource] = useState({item: [], isFetching: false});
 
@@ -40,7 +44,7 @@ const ResourceScreen = (props) => {
           <Loader />
         :
           <ComponentManager
-            {...this.props}
+            {...props}
             resource={resource.item}
           />
         }

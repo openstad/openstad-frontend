@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { View, Text, StyleSheet, ImageBackground} from "react-native";
-import { BackgroundImage } from "./presentation";
+import { View, Text, StyleSheet, ImageBackground, TouchableHighlight} from "react-native";
+import { SafeBackgroundImage } from "./presentation";
+import { Link } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,15 +36,7 @@ const CardItem = (props) => {
   return <Text> {props.item[titleKey]}  </Text>;
 }
 
-const SafeBackgroundImage = (props) => {
-  console.log()
-  return (props.backgroundImage ?
-      <ImageBackground source={{
-        uri: props.backgroundImage
-      }}> {props.children} </ImageBackground> :
-        <> props.children </>
-    )
-}
+
 
 const ListItem = (props) => {
   console.log('ListItem props', props);
@@ -69,6 +62,8 @@ const displayTypes = {
   'list' : ListItem,
   'card' : CardItem
 }
+//  <Link to="/game/1" style={{display: 'flex'}}>
+//</Link>
 
 const DisplayItems = (props) => {
   const DisplayItem = props.displayType ? displayTypes[props.displayType] : displayTypes['list'];
@@ -76,7 +71,11 @@ const DisplayItems = (props) => {
   return (
     <View>
     {props.items.map((item, i) => {
-      return <DisplayItem {...props} item={item} key={i}/>
+      return (
+        <TouchableHighlight onPress={() => props.navigation.navigate(props.resource, {id: item.id})}>
+          <DisplayItem {...props} item={item} key={i}/>
+        </TouchableHighlight>
+      )
     })}
     </View>
   )

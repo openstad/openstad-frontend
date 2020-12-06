@@ -9,9 +9,11 @@ const styles = StyleSheet.create({
 });
 
 const ShapeRecognition = (props) => {
-  return <Text>
-
-   </Text>;
+  return <Quiz
+    autoNext={5000}
+    questions={hiddenImagesQuizDefaults.questions}
+    backgroundImage
+  />;
 }
 
 export default ShapeRecognition;
