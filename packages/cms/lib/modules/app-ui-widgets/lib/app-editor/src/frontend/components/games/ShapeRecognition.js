@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
+import { shapeRecognitionDefaults } from "defaults";
 
 const styles = StyleSheet.create({
   titleText: {
@@ -11,9 +12,9 @@ const styles = StyleSheet.create({
 const ShapeRecognition = (props) => {
   return <Quiz
     autoNext={5000}
-    questions={hiddenImagesQuizDefaults.questions}
-    backgroundImage
-  />;
+    shuffle={true}
+    questions={shapeRecognitionDefaults.questions}
+  />
 }
 
 export default ShapeRecognition;
