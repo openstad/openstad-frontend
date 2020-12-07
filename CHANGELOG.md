@@ -1,9 +1,19 @@
 # Changelog
 
+## Unreleased updates
+* Make description textarea in icon-section
+* Show message that user needs to be logged in for viewing admin widget
+* Add SVG captcha to newsletter signup
+* Content fields in ideas-on-map now include an old deprecated value as fallback
+* Content fields helptekst is updated
+
 ## v0.9.1 (2020-12-07)
-* Turning of synchronising incorrect idea settings to the API 
+* Turning of synchronising incorrect idea settings to the API
 
 ## v0.9.0 (2020-11-25)
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Feature: Better explanations in global newsletter settings
+* Add admin warning to vote counter if vote count is not publicly available
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy

@@ -58,7 +58,7 @@
         },
         order: {
           active: false
-        }, 
+        },
         vote: {
           active: true
         },
@@ -86,4 +86,6 @@
     ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
   });
 </script>
+{% else %}
+{% include 'login-required.html' %}
 {% endif %}
