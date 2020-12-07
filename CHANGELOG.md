@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased updates
+## pre-v0.10.0 (UNRELEAED)
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
 * Add SVG captcha to newsletter signup
