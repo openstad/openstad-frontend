@@ -426,6 +426,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         let nullCondition = `${requiredRoleEscaped} IN (${rolesEscaped})`;
         
         let where = sequelize.or(
+          // owner
           { id: userId },
           // allow when userRole is good enough
           { listableByRole: roles[userRole] || 'none' },
