@@ -1,5 +1,11 @@
 # Changelog
 
+## pre-v0.9.0 (UNRELEASED)
+* Open /stats/site/:SITE_ID/vote/total for everybody
+* Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
+* Rename users.viewableByRole to listableByRole and fix the corresponding scope
+* Add users.detailsViewableByRole, i.e. authorisation on fields defined per instance
+
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security
 * Fix site reset config
@@ -7,10 +13,7 @@
 * Added possibility to query GET overview routes with NOT (!=) and substring (like%%) operator
 * Add option to list user data publically or per role
 * Allow viewablebyRole to be edited by the user
-* Open /stats/site/:SITE_ID/vote/total for everybody
-* Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
-* Rename users.viewableByRole to listableByRole and fix the corresponding scope
-* Add users.detailsViewableByRole, i.e. authorisation on fields defined per instance
+
 
 ## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
