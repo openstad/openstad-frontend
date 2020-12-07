@@ -1,3 +1,5 @@
+// TODO: verplaatsen; hoort niet in de generieke sequelize-authoriztion
+
 const userHasRole = require('./hasRole');
 var sanitize = require('../../../util/sanitize');
 
@@ -82,7 +84,12 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
             let testRole = site.config && site.config[siteConfigKey] && site.config[siteConfigKey].extraData && site.config[siteConfigKey].extraData[key] && site.config[siteConfigKey].extraData[key].auth && site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
             testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
 
-
+            if (Array.isArray(testRole) ? testRole.includes('detailsViewableByRole') : testRole == 'detailsViewableByRole') {
+              if (self.detailsViewableByRole) {
+                testRole = self.detailsViewableByRole;
+              }
+            }
+            
             if (userHasRole(user, testRole, self.userId)) {
               result[key] = data[key];
             }

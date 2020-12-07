@@ -25,15 +25,17 @@ router
 router
   .all('*', function(req, res, next) {
     req.scope = ['includeSite'];
-    req.scope.push({ method: ['onlyVisible', req.user.id, req.user.role]});
-
     next();
   });
 
 router.route('/')
   // list users
   // ----------
-  .get(auth.can('User', 'list'))
+  // .get(auth.can('User', 'list')) -> now handled by onlyListable
+  .get(function(req, res, next) {
+    req.scope.push({ method: ['onlyListable', req.user.id, req.user.role]});
+    next();
+  })
   .get(pagination.init)
   .get(function(req, res, next) {
     let { dbQuery } = req;
@@ -179,10 +181,11 @@ router.route('/:userId(\\d+)')
 
 					 throw createError('Updaten niet gelukt', response);
 				})
-			 .then((json) => {
-				 //update values from API
+			.then((json) => {
 
-				 db.User
+				//update values from API
+
+				return db.User
 				  .scope(['includeSite'])
 				  .findAll({where : {
 						externalUserId: json.id,
@@ -194,54 +197,61 @@ router.route('/:userId(\\d+)')
 					  }
 					}})
 				  .then(function( users ) {
-				     const actions = [];
+				    const actions = [];
 
-				     if (users) {
-				       users.forEach((user) => {
+				    if (users) {
+				      users.forEach((user) => {
 
-                 //only update users with active site (they can be deleteds)
-                 if (user.site) {
-  				         actions.push(function() {
-  									 return new Promise((resolve, reject) => {
-  				           user
-  				            .authorizeData(data, 'update', req.user)
-  				            .update(data)
-  				            .then((result) => {
-  				              resolve();
-  				            })
-  				            .catch((err) => {
-  											console.log('err', err)
-  				              reject(err);
-  				            })
+                // only update users with active site (they can be deleteds)
+                if (user.site) {
+  				        actions.push(function() {
+  									return new Promise((resolve, reject) => {
+  				            user
+  				              .authorizeData(data, 'update', req.user)
+  				              .update(data)
+  				              .then((result) => {
+  				                resolve();
+  				              })
+  				              .catch((err) => {
+  											  console.log('err', err)
+  				                reject(err);
+  				              })
   									})}())
-                  }
+                }
 
-				       });
-				     }
+				      });
+				    }
 
-				     return Promise.all(actions)
-				        .then(() => { next(); })
-				        .catch(next)
+				    return Promise.all(actions)
+            // response has been sent; next has no meaning here
+				    // .then(() => { next(); })
+				      .catch(err => {
+                console.log(err);
+                throw(err)
+              });
 
 				  })
-				  .catch(next);
-			  })
-				.then( (result) => {
-					return db.User
-						.scope(['includeSite'])
-						.findOne({
-					 			where: { id: userId, siteId: req.params.siteId }
-								//where: { id: parseInt(req.params.userId) }
-						})
-				})
-				.then(found => {
-					if ( !found ) throw new Error('User not found');
-					res.json(found);
-				})
-			 .catch(err => {
-				 console.log(err);
-				 return next(err);
-			 });
+				  .catch(err => {
+            console.log(err);
+            throw(err)
+          });
+			})
+			.then( (result) => {
+				return db.User
+					.scope(['includeSite'])
+					.findOne({
+					 	where: { id: userId, siteId: req.params.siteId }
+						//where: { id: parseInt(req.params.userId) }
+					})
+			})
+			.then(found => {
+				if ( !found ) throw new Error('User not found');
+				res.json(found);
+			})
+			.catch(err => {
+				console.log(err);
+				return next(err);
+			});
 	})
 
 // delete idea
