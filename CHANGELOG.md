@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.1 (2020-12-07)
+* Turning of synchronising incorrect idea settings to the API 
+
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
