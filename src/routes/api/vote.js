@@ -237,7 +237,14 @@ router.route('/*')
 		db.Idea
 			.findAll({ where: { id:ids, siteId: req.site.id } })
 			.then(found => {
-				if (req.votes.length != found.length) return next(createError(400, 'Idee niet gevonden'));
+
+				if (req.votes.length != found.length) {
+					console.log('req.votes', req.votes);
+					console.log('found', found);
+					console.log('req.body',req.body);
+
+					return next(createError(400, 'Idee niet gevonden'));
+				}
 				req.ideas = found;
 				return next();
 			})

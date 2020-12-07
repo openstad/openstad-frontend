@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## v0.8.0 (2020-11-25)
 * Update NPM modules for security
 * Fix site reset config
 * Remove unused global vimeo fields

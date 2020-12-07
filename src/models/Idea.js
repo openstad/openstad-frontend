@@ -691,9 +691,11 @@ module.exports = function (db, sequelize, DataTypes) {
               if (filter.extraData) {
                 filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
 
+                const escapedKey = sequelize.escape(`$.${filter.key}`);
                 filterValue.forEach((value, key)=>{
+                  const escapedValue = sequelize.escape(value);
                   conditions[Sequelize.Op.and].push({
-                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"='${value}'`)
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->${escapedKey}=${escapedValue}`)
                   });
                 });
 
@@ -714,9 +716,11 @@ module.exports = function (db, sequelize, DataTypes) {
                 excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
 
                 //filter out multiple conditions
+                const escapedKey = sequelize.escape(`$.${filter.key}`);
                 excludeFilterValue.forEach((value, key)=>{
+                  const escapedValue = sequelize.escape(value);
                   conditions[Sequelize.Op.and].push({
-                    [Sequelize.Op.and] : sequelize.literal(`extraData->"$.${filter.key}"!='${value}'`)
+                    [Sequelize.Op.and] : sequelize.literal(`extraData->${escapedKey}!=${escapedValue}`)
                   });
 
 

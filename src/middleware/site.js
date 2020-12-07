@@ -25,7 +25,10 @@ module.exports = function( req, res, next ) {
   return db.Site
   	.findOne({ where })
   	.then(function( found ) {
-  		if (!found) return next(new createError('400', 'Site niet gevonden'));
+      if (!found) {
+        console.log('Site not found for siteId query: ', where);
+        return next(new createError('400', 'Site niet gevonden for siteId: '+ siteId));
+      }
   		req.site = found;
   		next();
       return null;
