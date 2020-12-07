@@ -4,13 +4,13 @@ module.exports = {
 	up: function() {
 		try {
 			return db.query(`
-			  ALTER TABLE users ADD COLUMN viewableByRole varchar(255) NULL;
+			  ALTER TABLE users ADD detailsViewableByRole VARCHAR(255) NULL DEFAULT NULL AFTER listableByRole; 
 			`);
 		} catch(e) {
 			return true;
 		}
 	},
 	down: function() {
-		return db.query(`ALTER TABLE users DROP viewableByRole;`);
+		return db.query(`ALTER TABLE users DROP detailsViewableByRole;`);
 	}
 }
