@@ -9,8 +9,6 @@ import GenericApp from './frontend/GenericApp';
 
 if (true || process.env.FRONTEND) {
 
-
-
 //  axios.get(`/api/app/1`)
 //    .then( (response) => {
 //      const appResource =  response.data;

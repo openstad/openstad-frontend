@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
-import { shapeRecognitionDefaults } from "defaults";
+import { shapeRecognitionDefaults } from "./defaults";
+import Quiz from './quiz/Quiz.js';
 
 const styles = StyleSheet.create({
   titleText: {

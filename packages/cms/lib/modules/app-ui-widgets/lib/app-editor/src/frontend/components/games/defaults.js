@@ -2,7 +2,7 @@ exports.hiddenImagesQuizDefaults = {
   questions: [{
     id: 1,
     title: {
-      text: '',
+      text: 'Triangle',
       image: {
         src: "",
         width: 120,
@@ -14,26 +14,24 @@ exports.hiddenImagesQuizDefaults = {
       text: '',
       image: ''
     }],
-    correctAnswerId:
+    correctAnswerId: false
   }]
 };
 
 exports.shapeRecognitionDefaults = {
   questions: [{
     id: 2,
-    title: {
-      text: '',
-      image: {
+    title:  'What shape?',
+    imageFalse: {
         src: "",
         width: 120,
         height: 120
-      }
     },
     answers:[{
       id: 1,
-      text: '',
+      text: 'Triangle',
       image: ''
     }],
-    correctAnswerId:
+    correctAnswerId: 1
   }]
 }

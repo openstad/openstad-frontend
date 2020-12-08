@@ -54,6 +54,7 @@ function ComponentManager(props) {
 
         return (<FrontendComponent
           {...component.props}
+          activeResource={props.activeResource}
           resources={props.resources}
           navigation={props.navigation}
         />)

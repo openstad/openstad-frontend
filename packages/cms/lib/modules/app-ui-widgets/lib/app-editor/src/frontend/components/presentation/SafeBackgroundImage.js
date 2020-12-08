@@ -1,12 +1,12 @@
 import React from "react";
-import { Image } from "react-native";
+import { ImageBackground } from "react-native";
 
 const SafeBackgroundImage = (props) => {
   return (props.backgroundImage ?
       <ImageBackground source={{
         uri: props.backgroundImage
       }}> {props.children} </ImageBackground> :
-        <> props.children </>
+        <> {props.children} </>
     )
 }
 

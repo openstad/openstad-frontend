@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
-import { hiddenImagesQuizDefaults } from "defaults";
+import { hiddenImagesQuizDefaults } from "./defaults";
+import Quiz from './quiz/Quiz.js';
 
 const styles = StyleSheet.create({
   titleText: {

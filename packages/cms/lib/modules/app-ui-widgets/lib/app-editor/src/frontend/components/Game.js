@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
+import { ShapeRecognition, HiddenImagesQuiz } from './games';
 
 const styles = StyleSheet.create({
   titleText: {
@@ -8,8 +9,14 @@ const styles = StyleSheet.create({
   }
 });
 
+const displayTypes = {
+  'ShapeRecognition' : ShapeRecognition,
+  'HiddenImagesQuiz' : HiddenImagesQuiz
+}
+
 const Game = (props) => {
-  return <Text> Todo form </Text>;
+  const GameComponent = displayTypes[props.activeResource.game];
+  return <GameComponent />;
 }
 
 

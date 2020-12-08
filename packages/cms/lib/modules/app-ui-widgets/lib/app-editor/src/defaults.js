@@ -115,7 +115,37 @@ const defaultResourceScreens = defaultResources.map((resource, i) => {
     type: 'resource',
     title: `${capitalize(resource.nameSingle)} screen`,
     name: resource.name,
-    components: resource.defaultComponents
+    components: resource.defaultComponents,
+    localResources: [
+      {
+        id: 1,
+        game: 'ShapeRecognition',
+      },
+      {
+        id: 2,
+        game: 'HiddenImagesQuiz',
+      },
+      {
+        id: 3,
+        game: 'ShapeRecognition',
+      },
+      {
+        id: 3,
+        game: 'ShapeRecognition',
+      },
+      {
+        id: 4,
+        game: 'ShapeRecognition',
+      },
+      {
+        id: 5,
+        game: 'ShapeRecognition',
+      },
+      {
+        id: 6,
+        game: 'ShapeRecognition',
+      },
+    ]
   }
 });
 

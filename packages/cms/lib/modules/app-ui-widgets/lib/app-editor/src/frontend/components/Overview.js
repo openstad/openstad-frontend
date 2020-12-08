@@ -36,11 +36,7 @@ const CardItem = (props) => {
   return <Text> {props.item[titleKey]}  </Text>;
 }
 
-
-
 const ListItem = (props) => {
-  console.log('ListItem props', props);
-
   const titleKey = props.titleKey ? props.titleKey : 'title';
   const backgroundImage = props.backgroundImageKey  && props.item[props.backgroundImageKey] ?  props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
   const innerStyles = {...defaultListItemStylesInner, ...(props.styles || {})}
@@ -82,8 +78,6 @@ const DisplayItems = (props) => {
 }
 
 const ResourceOverview = (props) => {
-  console.log('ResourceOverview', props);
-
   const resourceType = props.resources.find((resource) => {
     return props.resource === resource.name;
   });

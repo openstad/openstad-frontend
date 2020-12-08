@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SafeBackgroundImage } from "../../presentation";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, TouchableHighlight, Image } from "react-native";
 
 const centeredStyles = {
   position: 'absolute',
@@ -10,19 +10,19 @@ const centeredStyles = {
   height: 150
 }
 
-const shuffle = useCallback((items) => {
+const shuffle = (items) => {
   for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [items[i], items[j]] = [items[j], items[i]];
   }
   return items;
-}, []);
+};
 
-const QuizEnd = ({answers}) => {
+const QuizEnd = (props) => {
   return (
     <View style={centeredStyles}>
       <Text> Quiz finished! </Text>
-      <Button onPress={props.start}> Start </button>
+      <Button onPress={props.start} title="Start" />
     </View>
   )
 }
@@ -46,35 +46,40 @@ const WrongAnswer = () => {
 const QuizStart = (props) => {
   return (
     <View style={centeredStyles}>
-      <Button onPress={props.start}> Start </button>
+      <Button onPress={props.start} title="Start" />
     </View>
   )
 }
 
 const QuizQuestion = ({giveAnswer, question}) => {
   return (<>
-    <Question text={question.text} image={question.image}   />
-    <Answers giveAnswer={answer} question={question} answers={question.answers}/>
-  </>
+    <Question title={question.title} image={question.image}   />
+    <Answers giveAnswer={giveAnswer} question={question} answers={question.answers}/>
+  </>)
 }
 
 const Answers = ({answers, giveAnswer, question}) => {
   return (
     <View>
       {answers.map((answer) => {
-        <TouchableHightlight onPress={(answer) => giveAnswer(question, answer)}>
-          {text && <Text>{text}</Text>}
-          {image && <Image src={{uri: image.src}} style={{height: image.height, width: image.width}}  />}
-        </TouchableHightlight>
+        const {text, image} = answer;
+        return (
+          <TouchableHighlight onPress={(answer) => giveAnswer(question, answer)}>
+            <View>
+              {text && <Text>{text}</Text>}
+              {image && <Image src={{uri: image.src}} style={{height: image.height, width: image.width}}  />}
+            </View>
+          </TouchableHighlight>
+        )
       })}
     </View>
   )
 }
 
-const Question = ({text, image}) => {
+const Question = ({title, image}) => {
   return (
     <View>
-      {text && <Text>{text}</Text>}
+      {title && <Text>{title}</Text>}
       {image && <Image src={{uri: image.src}} style={{height: image.height, width: image.width}}  />}
     </View>
   )
@@ -84,7 +89,7 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
 
-    this.answerFeedbackDisplayTime = 5000;
+    this.answerFeedbackDisplayTime = 3000;
 
     this.state = {
       quizSession : {
@@ -108,7 +113,7 @@ class Quiz extends Component {
     this.setQuestions();
   }
 
-  answer(question, answerId) {
+  giveAnswer(question, answerId) {
     const quizSession = this.state.quizSession;
     const isCorrect = question.id === answerId;
 
@@ -125,6 +130,13 @@ class Quiz extends Component {
       wrong: !isCorrect,
       correct: isCorrect,
     });
+
+
+  //  if (!this.props.autoNext) {
+      setTimeout(() => {
+        this.setNextQuestion();
+      }, this.answerFeedbackDisplayTime)
+  //  }
   }
 
   setQuestions() {
@@ -158,40 +170,44 @@ class Quiz extends Component {
     // @todo sync the quiz session
   }
 
-  getNextQuestion() {
-    const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(activeQuestion.id) : false;
-    const nextActiveViewstepIndex = activeQuestionIndex + 1;
+  setNextQuestion() {
+    const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id) : false;
+    const nextActiveViewstepIndex = activeQuestionIndex ? activeQuestionIndex + 1 : 0;
     const nextActiveQuestion = this.props.questions[nextActiveViewstepIndex] ? this.props.questions[nextActiveViewstepIndex] : false;
 
-    setState({
+
+    this.setState({
       finished: !nextActiveQuestion,
       activeQuestion: nextActiveQuestion,
       activeQuestionIndex: nextActiveViewstepIndex
     });
 
     // this get next question automatic, despite answer
-    if (this.props.autoNext) {
+    if (false && this.props.autoNext) {
       setTimeout(() => {
-        this.getgetNextQuestion();
+        this.getNextQuestion();
       }, this.props.autoNext);
     }
   }
 
   start () {
-    this.setSetstate({
+    this.setState({
       quizSession: {
         ...this.state.quizSession,
         startedAt: new Date().toISOString()
-      },
-      activeQuestion: this.getNextQuestion()
+      }
     })
+
+    this.setNextQuestion();
   }
 
   render () {
+    console.log('this.state.activeQuestion', this.state.activeQuestion)
+
     return (
       <SafeBackgroundImage backgroundImage={this.props.backgroundImage}>
         {!this.state.activeQuestion && <QuizStart start={this.start.bind(this)} />}
-        {this.state.activeQuestion && <QuizQuestion question={this.state.activeQuestion} giveAnswer={this.answer.bind(this)} />}
+        {this.state.activeQuestion && <QuizQuestion question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
         {this.state.wrong && <WrongAnswer />}
         {this.state.correct && <CorrectAnswer />}
         {this.state.finished && <QuizEnd />}
