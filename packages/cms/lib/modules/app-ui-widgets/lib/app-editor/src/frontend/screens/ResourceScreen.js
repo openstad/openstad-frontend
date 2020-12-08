@@ -58,11 +58,10 @@ const ResourceScreen = (props) => {
       fetchResource();
     }, []);
 
-
-    console.log('resource resource', resource)
-
     return (
-      <View>
+      <View style={{
+        flex: 1
+      }}>
         {resource.isFetching ?
           <Loader />
         :

@@ -70,8 +70,10 @@ class GenericApp extends Component {
 
     return (
         <View style={{
-          ...styles.fullHeight,
-          ...this.props.styling.body
+          height: Platform.OS === 'web' ? '100vh' : '100%',
+          backgroundColor: 'red',
+          flex: 1
+        //  ...this.props.styling.body.styles
         }}>
         <NavigationContainer linking={linking}>
           <Stack.Navigator

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Text, StyleSheet } from "react-native";
+import { hiddenImagesQuizDefaults } from "./defaults";
+import Quiz from './quiz/Quiz.js';
+
 
 const styles = StyleSheet.create({
   titleText: {
@@ -9,7 +12,11 @@ const styles = StyleSheet.create({
 });
 
 const ShapeAndColorsPick = (props) => {
-  return <Text> Todo login </Text>;
+  return     <Quiz
+        autoNext={5000}
+        shuffle={true}
+        questions={hiddenImagesQuizDefaults.questions}
+      />;
 }
 
 export default ShapeAndColorsPick;

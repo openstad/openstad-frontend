@@ -12,8 +12,11 @@ const styles = StyleSheet.create({
 
 const ShapeRecognition = (props) => {
   return <Quiz
-    autoNext={5000}
+    backgroundImage={shapeRecognitionDefaults.backgroundImage}
+    autoNext={3000}
     shuffle={true}
+    answerPosition={'top'}
+    questionPosition={'bottom'}
     questions={shapeRecognitionDefaults.questions}
   />
 }

@@ -45,10 +45,8 @@ const componentstMap = {
 }
 
 function ComponentManager(props) {
-  const className = props.active ? 'ListItem active' : 'ListItem';
-
   return (
-    <View props={className}>
+    <>
       {props.components.map((component)  => {
         const FrontendComponent = componentstMap[component.type].component;
 
@@ -59,7 +57,7 @@ function ComponentManager(props) {
           navigation={props.navigation}
         />)
       })}
-    </View>
+    </>
   );
 }
 
