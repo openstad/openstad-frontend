@@ -96,7 +96,7 @@ function unsetSessionUser() {
 
 function getUserInstance( userId, siteOauthConfig, isFixedUser ) {
 
-	return db.User.findByPk(userId)
+	return db.User.scope(['includeVote']).findByPk(userId)
 		.then(function( dbuser ) {
 			if( !dbuser ) {
 				return {};

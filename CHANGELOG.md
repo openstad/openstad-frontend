@@ -1,10 +1,15 @@
 # Changelog
 
-## pre-v0.9.0 (UNRELEASED)
+
+## pre-v0.10.0 (UNRELEASED)
 * Open /stats/site/:SITE_ID/vote/total for everybody
 * Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
 * Rename users.viewableByRole to listableByRole and fix the corresponding scope
 * Add users.detailsViewableByRole, i.e. authorisation on fields defined per instance
+
+## v0.9.1 (2020-12-9)
+* Add idea votes to user me call
+
 
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security
