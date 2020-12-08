@@ -395,6 +395,13 @@ module.exports = function( db, sequelize, DataTypes ) {
         }]
       },
 
+			includeVote: {
+				include: [{
+					model: db.Vote,
+				}]
+			},
+
+
 			onlyVisible: function (userId, userRole) {
 				if (userId) {
 					return {

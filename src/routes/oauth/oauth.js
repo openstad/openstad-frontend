@@ -325,6 +325,7 @@ router
 			"createdAt": req.user.createdAt,
 			"updatedAt": req.user.updatedAt,
 			"deletedAt": req.user.deletedAt,
+			'votes': req.user.votes
 		};
 
 		res.json(data);
