@@ -439,7 +439,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
         return { where };
 
-			}
+			},
 
 			includeVote: {
 				include: [{
