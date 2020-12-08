@@ -6,6 +6,7 @@
 * Add SVG captcha to newsletter signup
 * Content fields in ideas-on-map now include an old deprecated value as fallback
 * Content fields helptekst is updated
+* Limit user cache to 5 seconds, and only for CMS users
 
 ## v0.9.1 (2020-12-07)
 * Turning of synchronising incorrect idea settings to the API

@@ -1,5 +1,10 @@
+/**
+ * The resource image widget will display an image of the active resource
+ * or fallback to an image configured in the widget
+ *
+ * Needs to be on a page with active resource to work
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
-
 
 const fields = [
   {

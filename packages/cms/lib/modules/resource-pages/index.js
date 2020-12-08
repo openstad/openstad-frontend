@@ -1,3 +1,11 @@
+/**
+ * The Resource page manages fetching the data from the REST api
+ *
+ * 2 ways of doing this:
+ * 1. Through query params: ?resourceType=idea&resourceId=1
+ * 2 Through CMS user configured page settings, like so /idea/1
+ */
+
 const rp  = require('request-promise');
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 
@@ -14,9 +22,6 @@ module.exports = {
         if (req.query.resourceId && req.query.resourceType) {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
-
-          console.log('req.qyert', req.query)
-
 
           self.loadResourceData(req, next);
         } else {
