@@ -38,6 +38,7 @@ exports.shapeRecognitionDefaults = {
           height: 127
       },
     }],
+    correctAnswerId: null
   },
   {
       id: 3,
@@ -83,6 +84,25 @@ exports.shapeRecognitionDefaults = {
     title:  false,
     image: {
         src: "http://localhost:3333/image/robot_triangle.png",
+        width: 248,
+        height: 245
+    },
+    answers:[{
+      id: 1,
+      text: '',
+      image: {
+          src: "http://localhost:3333/image/triangle.png",
+          width: 136,
+          height: 127
+      },
+    }],
+    correctAnswerId: 1
+  },
+  {
+    id: 6,
+    title:  false,
+    image: {
+        src: "http://localhost:3333/image/robot_square.png",
         width: 248,
         height: 245
     },

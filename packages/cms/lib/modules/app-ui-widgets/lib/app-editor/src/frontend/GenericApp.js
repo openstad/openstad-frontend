@@ -104,9 +104,6 @@ class GenericApp extends Component {
                 const screenName = screen.name ? screen.name : 'Naam';
                 const resourceName = screen.type === 'resource' ? screen.name : false;
 
-                console.log('screen', screen)
-                console.log('screenName', screenName)
-
                 return (
                   <Stack.Screen name={screenName}>
                       {props => <ScreenComponent {...props} resources={this.props.resources} resource={resourceName} {...screen}  />}

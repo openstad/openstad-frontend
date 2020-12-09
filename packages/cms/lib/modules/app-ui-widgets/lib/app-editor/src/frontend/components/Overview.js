@@ -103,9 +103,7 @@ const ResourceOverview = (props) => {
     };
     fetchResources();
   }, []);
-
-  console.log('resources.items', resources.items)
-
+  
   return (
     <View style={styles.container}>
       {resources.items ?

@@ -37,7 +37,6 @@ const positionStyles = {
 }
 
 
-
 const shuffle = (items) => {
   for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -50,7 +49,7 @@ const QuizEnd = (props) => {
   return (
     <View style={centeredStyles}>
       <Text> Quiz finished! </Text>
-      <Button onPress={props.start} title="Start" />
+      <Button onPress={props.start} title="Restart" />
     </View>
   )
 }
@@ -117,7 +116,8 @@ class Quiz extends Component {
   constructor(props) {
     super(props);
 
-    this.answerFeedbackDisplayTime = 3000;
+    this.answerFeedbackDisplayTime = 400;
+
 
     this.state = {
       quizSession : {
@@ -163,7 +163,7 @@ class Quiz extends Component {
 //    if (!this.props.autoNext) {
       setTimeout(() => {
         this.setNextQuestion();
-      }, 200)
+      }, 3000)
   //  }
   }
 
@@ -180,14 +180,24 @@ class Quiz extends Component {
   }
 
   componentDidUpdate () {
-    this.syncQuizSession();
+    this.syncQuizSession()
 
-    if (this.state.wrongAnswer || this.state.correctAnswer) {
-      this.setTimeout(this.hideAnswerFeedback, this.answerFeedbackDisplayTime)
+    console.log('componentDidUpdate', this.state);
+
+    if (this.state.wrong || this.state.correct) {
+      console.log('componentDidUpdate run time out');
+
+      setTimeout(()=> {
+        console.log('hideAnswerFeedback run time out');
+
+        this.hideAnswerFeedback();
+      }, this.answerFeedbackDisplayTime)
     }
   }
 
   hideAnswerFeedback () {
+    console.log('hideAnswerFeedback run time out');
+
     this.setState({
       wrong: false,
       correct: false,
@@ -199,16 +209,12 @@ class Quiz extends Component {
   }
 
   setNextQuestion() {
-    console.log('setNextQuestion',this.state.activeQuestion );
-
     const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id) : false;
-    const nextActiveViewstepIndex = activeQuestionIndex === false ? 0 :  activeQuestionIndex + 1;
+    const nextActiveViewstepIndex = activeQuestionIndex === false && !this.state.finished ? 0 :  activeQuestionIndex + 1;
     const nextActiveQuestion = this.props.questions[nextActiveViewstepIndex] ? this.props.questions[nextActiveViewstepIndex] : false;
 
 
     console.log('activeQuestionIndex',this.state.questions.map(function(e) { return e.id; }), this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id), activeQuestionIndex );
-
-    console.log('nextActiveViewstepIndex',nextActiveViewstepIndex );
 
     this.setState({
       finished: !nextActiveQuestion,
@@ -242,11 +248,11 @@ class Quiz extends Component {
 
     return (
       <SafeBackgroundImage backgroundImage={this.props.backgroundImage} style={{flex: 1}}>
-        {!this.state.activeQuestion && <QuizStart start={this.start.bind(this)} />}
-        {this.state.activeQuestion && <QuizQuestion questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
+        {!this.state.activeQuestion && !this.state.finished && <QuizStart start={this.start.bind(this)} />}
+        {this.state.activeQuestion && <Quiz Question questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
         {this.state.wrong && <WrongAnswer />}
         {this.state.correct && <CorrectAnswer />}
-        {this.state.finished && <QuizEnd />}
+        {this.state.finished && <QuizEnd start={this.start.bind(this)} />}
       </SafeBackgroundImage>
     )
   }

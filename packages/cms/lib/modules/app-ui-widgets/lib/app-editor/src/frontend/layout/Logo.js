@@ -4,8 +4,6 @@ import { Image } from "react-native";
 const Logo = (props) => {
   const { height, width, src } = props;
 
-  console.log('orporopr', props)
-
   return (
     <Image
       style={{ width: width, height: height }}
