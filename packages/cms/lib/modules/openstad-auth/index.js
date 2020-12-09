@@ -122,13 +122,13 @@ module.exports = {
            });
          }
 
-         const FIVE_SECONDS = 5000;
+         const FIVE_MINUTES = 5 * 60 * 1000;
          const date = new Date();
          const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
          // apostropheCMS does a lot calls on page load
          // if user is a CMS user and last apicheck was within 5 seconds ago don't repeat
-         if (req.user && req.session.openstadUser && ((date - dateToCheck) < FIVE_SECONDS)) {
+         if (req.user && req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
             setUserData(req, next);
          } else {
              rp(options)
