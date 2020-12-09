@@ -1,3 +1,8 @@
+/**
+ * The openstad-auth Module contains routes and logic for authenticating users with the openstad API
+ * and if valid fetches the user data
+ */
+
 const rp = require('request-promise');
 const Url = require('url');
 const apiLogoutUrl = process.env.API_LOGOUT_URL;
@@ -33,8 +38,6 @@ module.exports = {
     		var method   = req.method;
     		var userId   = req.user && req.user.id;
     		var userRole = req.user && req.user.role;
-    		console.log(`${method} "${url}" ${userRole}(${userId})`);
-
         self.authenticate(req, res, next);
       }
     };
@@ -119,12 +122,13 @@ module.exports = {
            });
          }
 
-         const FIVE_MINUTES =5*60*1000;
+         const FIVE_MINUTES = 5 * 60 * 1000;
          const date = new Date();
          const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
-
-         if (req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
+         // apostropheCMS does a lot calls on page load
+         // if user is a CMS user and last apicheck was within 5 seconds ago don't repeat
+         if (req.user && req.session.openstadUser && ((date - dateToCheck) < FIVE_MINUTES)) {
             setUserData(req, next);
          } else {
              rp(options)

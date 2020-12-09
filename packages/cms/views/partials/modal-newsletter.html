@@ -120,16 +120,16 @@
         </div>
         {% endif %}
 
-        <div class="form-field">
+      {#
           <label>  {{ __('Please enter the words you see into the field below ') }} </label>
           <br />
           {{data.captcha.data | safe}}
           <input type="text" class="input-field" required name="areYouABot" />
         </div>
+        #}
 
         <div class="error-message error-block" style="display: none;"> </div>
         <div class="success-message success-block" style="display: none;"> </div>
-
 
 
         <button href="/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">

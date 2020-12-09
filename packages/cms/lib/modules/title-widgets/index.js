@@ -1,3 +1,7 @@
+/**
+ * A widget for display a title with static content
+ * 
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {

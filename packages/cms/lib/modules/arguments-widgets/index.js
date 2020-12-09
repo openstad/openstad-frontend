@@ -1,3 +1,7 @@
+/**
+ * A widget for displaying a list of arguments it's reactions, and a reaction form
+ * Needs to be placed on a resource form 
+ */
 const rp = require('request-promise');
 
 module.exports = {

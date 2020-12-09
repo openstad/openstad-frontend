@@ -1,3 +1,7 @@
+/**
+ * Module is responsible for syncing values from global to the API Settings
+ * Notably the CSS and logo settings are synched with the API and Auth server
+ */
 module.exports = {
   name: 'openstad-api',
   alias: 'openstadApi',
