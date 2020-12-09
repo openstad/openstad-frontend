@@ -19,7 +19,7 @@
   <div class="radio">
     <input
     type="radio"
-    name="viewableByRole"
+    name="listableByRole"
     value="all"
     id="radio-user-public-yes"
     onchange="syncIsUserPublic(this.value)"
@@ -34,7 +34,7 @@
   <div class="radio">
     <input
     type="radio"
-    name="viewableByRole"
+    name="listableByRole"
     value="editor"
     id="radio-user-public-no"
     {% if field.fieldRequired %}required{% endif %}
@@ -50,6 +50,7 @@
   <script>
    function syncIsUserPublic(value) {
      document.getElementById('detailsViewableByRole_input').value = value;
+     
    }
   </script>
 
