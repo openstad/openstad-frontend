@@ -5,11 +5,11 @@
  * In the siteonfig is determined what role a user needs to like
  *
  * Admin has choice for how to display
- * Needs to be on a page with active resource to work 
+ * Needs to be on a page with active resource to work
  */
 
 /**
- * Status: WIP currently only Claps display  and a postive likes work
+ * Status: WIP currently only Claps display  and a postive likes work, currently has beta status therefore.
  */
 const styleSchema = require('../../../config/styleSchema.js').default;
 

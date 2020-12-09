@@ -1,3 +1,7 @@
+/**
+ * GENERIC form submisson widget, developed in Den Haag,
+ * Currently not active, not properly tested!!!
+ */
 const rp = require('request-promise');
 
 module.exports = {

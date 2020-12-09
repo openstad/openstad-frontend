@@ -1,3 +1,7 @@
+/**
+ * A widget for display an argument form
+ * Mostly used on a resource page, that loads in an idea data from the url
+ */
 const rp = require('request-promise');
 const eventEmitter  = require('../../../events').emitter;
 
