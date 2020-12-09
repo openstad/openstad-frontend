@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.10.1 (2020-12-09)
+* Cache openstad user longer when logged in to cms
+
 ## v0.10.0 (2020-12-09)
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
