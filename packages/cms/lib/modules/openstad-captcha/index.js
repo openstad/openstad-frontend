@@ -3,6 +3,8 @@
  * Now using an independent SVG captcha,
  * Need to see if this is not causing performance issues in the future
  * The validation is done by default in de api-proxy since the
+ *
+ * Status: just created, some usability issue with bad captcha's looking at creating a refresh option before releasing it live
  */
 const svgCaptcha = require('svg-captcha');
 
