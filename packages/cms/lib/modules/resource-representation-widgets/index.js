@@ -1,7 +1,9 @@
 /**
- * [fields description]
- * @type {[type]}
+ * The Resource representation widget allows for the active
+ *
+ *
  */
+
 const fields = require('./lib/fields.js');
 const eventEmitter  = require('../../../events').emitter;
 const extraFields =  require('../../../config/extraFields.js').fields;

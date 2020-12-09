@@ -1,3 +1,7 @@
+/**
+ * This module allows for uploading attachments to the ApostrhopheCMS
+ * This is used when creating or importing a file, since the attachments need to be uploaded some where
+ */
 const fs = require('fs');
 const multer = require('multer');
 const upload = multer();

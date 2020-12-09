@@ -1,5 +1,5 @@
 /**
- * This widget load the react-admin library for managing the apply_filters
+ * This widget load the react-admin library for managing the site settings, and resources in one panel found under /admin
  * It can be included in a page, has it's own routers.
  */
 const styleSchema = require('../../../config/styleSchema.js').default;

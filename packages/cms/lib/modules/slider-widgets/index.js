@@ -1,3 +1,8 @@
+/**
+ * A simple slider widget with static content
+ * 
+ */
+
 const styleSchema = require('../../../config/styleSchema.js').default;
 const textFieldType = process.env.USE_RICH_TEXT_FIELDS === 'yes' ? 'singleton' : 'text';
 const widgetType = textFieldType === 'singleton' ? 'apostrophe-rich-text' : null;
@@ -72,7 +77,7 @@ module.exports = {
                 fields: ['containerStyles']
             }
         ]);
-        
+
         const superLoad = self.load;
 
         self.load = (req, widgets, callback) => {

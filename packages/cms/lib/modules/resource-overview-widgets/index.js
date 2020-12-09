@@ -1,3 +1,11 @@
+/**
+ * Resource overview is a generic widget for display data from the openstad REST api
+ * The widget allows for different settings in resource type, display and pagination settings etc.
+ *
+ * Different view and vote settings are resource specific and dependent on API settings
+ *
+ * Status: Allows for voting on one idea, participatory budget widget allows for voting on multiple ideas, refactor plans are to move voting to one module and a refactored JS 
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const cacheLifespan  = 15*60;   // set lifespan of 15 minutes;
 const cache               = require('../../../services/cache').cache;

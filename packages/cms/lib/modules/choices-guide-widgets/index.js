@@ -1,3 +1,9 @@
+/**
+ * Widget for displaying the choice guide.
+ *
+ * The choice guide is a slightly complex user enquiry form, with certain results possible.
+ * It's powered by a react application, currently in beta
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
 const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
