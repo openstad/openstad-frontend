@@ -38,8 +38,6 @@ module.exports = {
     		var method   = req.method;
     		var userId   = req.user && req.user.id;
     		var userRole = req.user && req.user.role;
-    		console.log(`${method} "${url}" ${userRole}(${userId})`);
-
         self.authenticate(req, res, next);
       }
     };
@@ -124,13 +122,13 @@ module.exports = {
            });
          }
 
-         const FIVE_SECONDS = 5000;
+         const TWO_SECONDS = 2000;
          const date = new Date();
          const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
          // apostropheCMS does a lot calls on page load
          // if user is a CMS user and last apicheck was within 5 seconds ago don't repeat
-         if (req.user && req.session.openstadUser && ((date - dateToCheck) < FIVE_SECONDS)) {
+         if (req.user && req.session.openstadUser && ((date - dateToCheck) < TWO_SECONDS)) {
             setUserData(req, next);
          } else {
              rp(options)
