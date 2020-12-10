@@ -44,7 +44,7 @@ module.exports = function authorizeData(data, action, user, self, site) {
         }
       }
 
-      testRole = testRole || (self.auth && self.auth[action+'ableBy']);
+      testRole = testRole && testRole.length ? testRole : (self.auth && self.auth[action+'ableBy']);
 
       if (!hasRole(user, testRole, userId)) {
         data[key] = undefined;

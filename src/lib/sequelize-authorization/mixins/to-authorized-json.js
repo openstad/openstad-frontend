@@ -81,7 +81,7 @@ module.exports = function toAuthorizedJSON(user) {
       }
     }
 
-    testRole = testRole || ( self.auth && self.auth.viewableBy );
+    testRole = testRole && testRole.length ? testRole : ( self.auth && self.auth.viewableBy );
 
     if ( hasRole(user, testRole, userId)) {
       return value;
