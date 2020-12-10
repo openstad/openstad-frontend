@@ -75,6 +75,9 @@ const newResourceObject = {
   }],
 };
 
+
+const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'generic'];
+
 ReactDOM.render(
   <React.StrictMode>
     <App
@@ -82,6 +85,7 @@ ReactDOM.render(
       newResourceObject={newResourceObject}
     //  resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
       appResource={appResource}
+      editableResource={settings.editableResources}
     />
   </React.StrictMode>,
   document.getElementById('root')

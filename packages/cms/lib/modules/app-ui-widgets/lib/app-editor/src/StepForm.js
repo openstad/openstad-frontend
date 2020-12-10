@@ -460,11 +460,7 @@ class StepForm extends Component {
             />
           </Section>
 
-          location
-          title
-          description
-          audio
-          images
+
 
           <Section title="Title">
             <input
