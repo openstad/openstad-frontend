@@ -412,7 +412,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         // todo: hij kan alleen tegen een enkelvoudige listableBy
         // todo: owner wordt nu altijd toegevoegd, dat moet alleen als die in listableBy staat, maar zie vorige regel
         // todo: gelijkttrekken met Idea.onlyVisible: die is nu exclusive en deze inclusive
-        
+
         let requiredRole = this.auth && this.auth.listableBy || 'all';
 
         // if requiredRole == all then listableByRole is not relevant and neither is userRole
@@ -424,7 +424,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         let requiredRoleEscaped = sequelize.escape(requiredRole);
         let rolesEscaped = sequelize.escape(roles[userRole])
         let nullCondition = `${requiredRoleEscaped} IN (${rolesEscaped})`;
-        
+
         let where = sequelize.or(
           // owner
           { id: userId },
@@ -440,6 +440,32 @@ module.exports = function( db, sequelize, DataTypes ) {
         return { where };
 
 			},
+
+			includeVote: {
+				include: [{
+					model: db.Vote,
+				}]
+			},
+
+
+			onlyVisible: function (userId, userRole) {
+				if (userId) {
+					return {
+						where: sequelize.or(
+							{ id: userId },
+							{ viewableByRole: 'all' },
+							{ viewableByRole: roles[userRole] || 'all' },
+						)
+					};
+				} else {
+					return {
+						where: sequelize.or(
+							{ viewableByRole: 'all' },
+							{ viewableByRole: roles[userRole]  || 'all' },
+						)
+					};
+				}
+ 			},
 
 		}
 	}
