@@ -50,16 +50,20 @@ function ComponentManager(props) {
       {props.components.map((component)  => {
         const FrontendComponent = componentstMap[component.type].component;
 
-        // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
-        const preCompononent =  ?
-        const postCompononent =  ?
+        // preCompononent / postCompononent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
 
-        return (<FrontendComponent
-          {...component.props}
-          activeResource={props.activeResource}
-          resources={props.resources}
-          navigation={props.navigation}
-        />)
+        return (
+          <>
+            {props.preCompononent && props.preCompononent}
+            <FrontendComponent
+              {...component.props}
+              activeResource={props.activeResource}
+              resources={props.resources}
+              navigation={props.navigation}
+            />
+            {props.postCompononent && props.postCompononent}
+          </>
+        )
       })}
     </>
   );

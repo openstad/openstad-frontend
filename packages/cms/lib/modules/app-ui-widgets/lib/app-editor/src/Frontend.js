@@ -7,6 +7,23 @@ import reportWebVitals from './reportWebVitals';
 
 /* Obfucscate the data structure */
 
+const preCompononent = (props) => {
+  return (
+    <>
+      <DropZone />
+      <ResourceButtons />
+    </>
+  )
+}
+
+const postCompononent = (props) => {
+  return (
+    <>
+      <DropZone />
+    </>
+  )
+}
+
 axios.get(`/api/app/1`)
   .then( (response) => {
     const appResource =  response.data;
@@ -15,6 +32,8 @@ axios.get(`/api/app/1`)
     ReactDOM.render(
       <React.StrictMode>
         <App
+          preCompononent={preCompononent}
+          postCompononent={postCompononent}
           id={appResource.id}
           title={appResource.title}
           styling={latestRevisions.styling}

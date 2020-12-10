@@ -459,6 +459,13 @@ class StepForm extends Component {
               }.bind(this)}
             />
           </Section>
+
+          location
+          title
+          description
+          audio
+          images
+
           <Section title="Title">
             <input
               type=""
