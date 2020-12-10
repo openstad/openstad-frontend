@@ -33,7 +33,16 @@ const positionStyles = {
     top: '50%',
     height: '50%',
   },
-  center: centeredStyles
+  center: centeredStyles,
+  bottomLeft : {
+    position: 'absolute',
+    margin: 'auto',
+    width: '100%',
+    justifyContent: 'left',
+    alignItems: 'bottom',
+    top: '50%',
+    height: '50%',
+  }
 }
 
 
@@ -108,6 +117,14 @@ const Question = ({title, image, position}) => {
     <View style={positionStyles[position]}>
       {title && <Text>{title}</Text>}
       {image && <Image source={{uri: image.src}} style={{height: image.height, width: image.width}} />}
+    </View>
+  )
+}
+
+const AnswerTime =  ({time}) => {
+  return (
+    <View style={positionStyles.bottomLeft}>
+      {time && <Text>{time}</Text>}
     </View>
   )
 }
@@ -211,10 +228,12 @@ class Quiz extends Component {
   setNextQuestion() {
     const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id) : false;
     const nextActiveViewstepIndex = activeQuestionIndex === false && !this.state.finished ? 0 :  activeQuestionIndex + 1;
-    const nextActiveQuestion = this.props.questions[nextActiveViewstepIndex] ? this.props.questions[nextActiveViewstepIndex] : false;
+    const nextActiveQuestion = this.state.questions[nextActiveViewstepIndex] ? this.state.questions[nextActiveViewstepIndex] : false;
 
 
     console.log('activeQuestionIndex',this.state.questions.map(function(e) { return e.id; }), this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id), activeQuestionIndex );
+
+    console.log('nextActiveQuestion', nextActiveQuestion)
 
     this.setState({
       finished: !nextActiveQuestion,
@@ -249,17 +268,18 @@ class Quiz extends Component {
     return (
       <SafeBackgroundImage backgroundImage={this.props.backgroundImage} style={{flex: 1}}>
         {!this.state.activeQuestion && !this.state.finished && <QuizStart start={this.start.bind(this)} />}
-        {this.state.activeQuestion && <Quiz Question questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
+        {this.state.activeQuestion && <QuizQuestion questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
         {this.state.wrong && <WrongAnswer />}
         {this.state.correct && <CorrectAnswer />}
         {this.state.finished && <QuizEnd start={this.start.bind(this)} />}
+        {this.props.autoNext && this.props.displayAnswerTime && <AnswerTime time={this.state.answerTimeLeft} />}
       </SafeBackgroundImage>
     )
   }
 }
 
 Quiz.propTypes = {
-  questions: PropTypes.object,
+  questions: PropTypes.array,
   shuffle: PropTypes.bool,
   autoNext: PropTypes.number,
   backgroundImage:  PropTypes.string,

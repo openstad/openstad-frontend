@@ -13,7 +13,28 @@ exports.hiddenImagesQuizDefaults = {
       id: 1,
       text: '',
       image: ''
-    }],
+    },
+    {
+      id: 2,
+      text: '',
+      image: {
+          src: "http://localhost:3333/image/circle1.png",
+          width: 136,
+          height: 127
+      },
+    },
+    {
+      id: 3,
+      text: '',
+      image: {
+          src: "http://localhost:3333/image/circle1.png",
+          width: 136,
+          height: 127
+      },
+    }
+
+
+    ],
     correctAnswerId: false
   }]
 };

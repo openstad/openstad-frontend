@@ -16,6 +16,7 @@ const ShapeAndColorsPick = (props) => {
         autoNext={5000}
         shuffle={true}
         questions={hiddenImagesQuizDefaults.questions}
+        displayAnswerTime
       />;
 }
 
