@@ -11,10 +11,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const displayTypes = {
-  'ShapeRecognition' : ShapeRecognition,
-  'HiddenImagesQuiz' : HiddenImagesQuiz
-}
 
 const Map = (props) => {
   return <<WebViewLeaflet

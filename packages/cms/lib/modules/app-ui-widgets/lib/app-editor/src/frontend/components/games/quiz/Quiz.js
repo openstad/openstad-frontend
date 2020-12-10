@@ -124,7 +124,7 @@ const Question = ({title, image, position}) => {
 const AnswerTime =  ({time}) => {
   return (
     <View style={positionStyles.bottomLeft}>
-      {time && <Text>{time}</Text>}
+      {time && <Text> Answertime left: {time}</Text>}
     </View>
   )
 }
@@ -226,10 +226,12 @@ class Quiz extends Component {
   }
 
   setNextQuestion() {
+    console.log('===== next');
+
     const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id) : false;
     const nextActiveViewstepIndex = activeQuestionIndex === false && !this.state.finished ? 0 :  activeQuestionIndex + 1;
     const nextActiveQuestion = this.state.questions[nextActiveViewstepIndex] ? this.state.questions[nextActiveViewstepIndex] : false;
-
+    const finished = !finished;
 
     console.log('activeQuestionIndex',this.state.questions.map(function(e) { return e.id; }), this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id), activeQuestionIndex );
 
@@ -242,8 +244,36 @@ class Quiz extends Component {
     });
 
     // this get next question automatic, despite answer
-    if (this.props.autoNext) {
-      setTimeout(() => {
+    if (!finished && this.props.autoNext) {
+      const SECOND = 1000;
+
+      if (this.timeLeftInterval) {
+        clearInterval(this.timeLeftInterval);
+      }
+
+      const setTimer = () => {
+        const timeLeft = this.state.answerTimeLeft ? this.state.answerTimeLeft - SECOND : this.props.autoNext;
+
+        //console.log('this.props.autoNext', this.props.autoNext)
+        this.setState({
+          'answerTimeLeft': timeLeft
+        });
+
+        if (!timeLeft) {
+          clearInterval(this.timeLeftInterval)
+        }
+      }
+
+
+      setTimer();
+      this.timeLeftInterval = setInterval(setTimer, SECOND);
+
+      if (this.nextAnswerTimeout) {
+        clearTimeout(this.nextAnswerTimeout);
+      }
+
+
+      this.nextAnswerTimeout = setTimeout(() => {
         //give an empty answers
         this.giveAnswer(nextActiveQuestion, null);
         //

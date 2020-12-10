@@ -14,7 +14,7 @@ import ListItem from './Layout/ListItem.js';
 import AppPreviewer from './Layout/AppPreviewer.js';
 import Section from './Layout/Section.js';
 
-import ResourceForm from './ResourceForm.js';
+import StepForm from './StepForm.js';
 import TourApp from './TourApp.js';
 import AppSettingsForm from './AppSettingsForm.js';
 
@@ -339,7 +339,7 @@ class App extends Component {
         }
         rightPanel={
           this.state.activeResource ?
-            <ResourceForm
+            <StepForm
               resource={this.state.activeResource}
               updateResource={this.updateResource.bind(this)}
             /> : false

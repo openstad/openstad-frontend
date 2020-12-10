@@ -3,7 +3,7 @@ import { Title, RichText, Images, Button, Video, Overview, Form, Columns, Game, 
 import { View, Text } from "react-native";
 
 const componentstMap = {
-  'title'   :{
+  'AudioUploadField'   :{
     component: Title,
   },
   'richText'    : {
@@ -44,25 +44,29 @@ const componentstMap = {
   }
 }
 
-function ComponentManager(props) {
+function FormFieldManager(props) {
   return (
     <>
       {props.components.map((component)  => {
-        const FrontendComponent = componentstMap[component.type].component;
+        const FormField = componentstMap[component.type].component;
 
         // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
         const preCompononent =  ?
         const postCompononent =  ?
 
-        return (<FrontendComponent
-          {...component.props}
-          activeResource={props.activeResource}
-          resources={props.resources}
-          navigation={props.navigation}
-        />)
+        return (
+          <>
+            <FormField
+              {...component.props}
+              activeResource={props.activeResource}
+              resources={props.resources}
+              navigation={props.navigation}
+            />
+          </>
+        )
       })}
     </>
   );
 }
 
-export default ComponentManager;
+export default FormFieldManager;
