@@ -1,3 +1,5 @@
+import React, { Component, useLocation } from 'react';
+
 class LocationPicker extends Component {
   handleClick(e){
     this.props.onPositionChange(e.latlng.lat, e.latlng.lng);

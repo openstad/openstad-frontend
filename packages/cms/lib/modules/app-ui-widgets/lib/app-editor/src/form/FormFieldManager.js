@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title, RichText, Images, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash } from './components';
+import { AudioUploadField, ImagesUploadField, TextField, LocationPicker} from './components';
 import { View, Text } from "react-native";
 
 const componentstMap = {
@@ -21,19 +21,17 @@ function FormFieldManager(props) {
   return (
     <>
       {props.fields.map((field)  => {
-        const FormField = componentstMap[field.type].component;
+        const FormField =  componentstMap[field.type] ? componentstMap[field.type].component : false;
 
         // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
-        const preCompononent =  ?
-        const postCompononent =  ?
 
         return (
           <Section title={field.label}>
-            <FormField
+            {FormField && <FormField
               {...field.settings}
               activeResource={props.activeResource}
               resources={props.resources}
-            />
+            />}
           </Section>
         )
       })}
