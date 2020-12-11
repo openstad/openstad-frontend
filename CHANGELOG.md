@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add html class name to resource overview
+
 ## v0.10.1 (2020-12-09)
 * Cache openstad user longer when logged in to cms
 
