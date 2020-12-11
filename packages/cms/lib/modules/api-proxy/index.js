@@ -50,6 +50,12 @@ module.exports = {
           eventEmitter.emit('apiPost');
         }
 
+        // empty openstadUser, this doesn't logout user
+        // but clears it's session cache so it will be fetched freshly
+        // this is necessary in case of voting or logging out
+        if (req.session.openstadUser) {
+          req.session.openstadUser = null;
+        }
 
 
         if ( (req.method == "POST" ||req.method == "PUT")  && req.body ) {
@@ -68,7 +74,6 @@ module.exports = {
            } catch (e) {
              console.log('stringify err', e)
            }
-
          }
 
      },
