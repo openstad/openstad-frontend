@@ -59,5 +59,11 @@
 	"Unpublished": "Unpublished",
 	"Edit Recource raw widget": "Edit Recource raw widget",
 	"Edit Resource form": "Edit Resource form",
-	"Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown": "Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown"
+	"Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown": "Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown",
+	"Server error, please try again.": "Server error, please try again.",
+	"Mijn account": "Mijn account",
+	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
+	"Loading...": "Loading...",
+	"Name": "Name",
+	"Email": "Email"
 }
