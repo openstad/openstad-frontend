@@ -46,8 +46,6 @@ RUN npm install -g nodemon
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
-COPY  /home/app
-
 RUN mkdir -p /home/app/public
 RUN mkdir -p /home/app/public/modules
 RUN mkdir -p /home/app/public/css
