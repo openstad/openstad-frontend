@@ -46,6 +46,8 @@ RUN npm install -g nodemon
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
+COPY  /home/app
+
 RUN mkdir -p /home/app/public
 RUN mkdir -p /home/app/public/modules
 RUN mkdir -p /home/app/public/css
@@ -53,6 +55,8 @@ RUN mkdir -p /home/app/public/js
 RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
+
+COPY generation /home/app/generation
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
