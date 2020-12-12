@@ -54,14 +54,12 @@ RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
 
-
-
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
 USER node
 
 # Mount persistent storage
-VOLUME /home/app/data
+#VOLUME /home/app/data
 VOLUME /home/app/public/uploads
 
 # Exposed ports for application
