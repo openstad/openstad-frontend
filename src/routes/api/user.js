@@ -49,7 +49,7 @@ router.route('/')
      * Handle query with search
      */
     if(queryConditions.hasOwnProperty('q')) {
-      const searchColumns = ['firstName', 'lastName', 'role'];
+      const searchColumns = ['firstName', 'lastName', 'role', 'id'];
       // const searchColumns = ['firstName', 'lastName', 'role', 'id'];
       const searchTerm = queryConditions.q;
       const searchQuery = {};
