@@ -28,6 +28,7 @@ ENV DEFAULT_DB=""
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 
+
 # Set the working directory to the root of the container
 WORKDIR /home/app
 
@@ -54,7 +55,9 @@ RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
 
-COPY generation /home/app/data/generation
+COPY generation /home/app/data/generation2
+
+RUN echo -e $(date +%s) >> /home/app/data/generation
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
