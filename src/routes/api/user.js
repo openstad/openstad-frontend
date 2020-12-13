@@ -40,17 +40,13 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    console.log('dbQuery')
-    console.log(dbQuery)
-
     let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
 
     /**
-     * Handle query with search
+     * Handle queries with search
      */
     if(queryConditions.hasOwnProperty('q')) {
       const searchColumns = ['firstName', 'lastName', 'role', 'id'];
-      // const searchColumns = ['firstName', 'lastName', 'role', 'id'];
       const searchTerm = queryConditions.q;
       const searchQuery = {};
 
@@ -63,9 +59,11 @@ router.route('/')
       }
     }
     delete queryConditions.q;
-    console.log('queryConditions')
-    console.log(queryConditions)
 
+    /**
+     * Add siteId to query conditions
+     * @type {{siteId: *}}
+     */
     queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
     db.User
