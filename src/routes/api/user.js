@@ -49,11 +49,11 @@ router.route('/')
       const searchQuery = {};
 
       searchColumns.forEach((key) => {
-        searchQuery[key] = { [Sequelize.Op.like]: searchTerm };
+        searchQuery[key] = { [Op.like]: searchTerm };
       })
 
       if(Object.keys(searchQuery).length > 0) {
-        queryConditions[Sequelize.Op.or] = searchQuery;
+        queryConditions[Op.or] = searchQuery;
       }
     }
     delete queryConditions.q;
