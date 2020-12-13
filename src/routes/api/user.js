@@ -40,6 +40,7 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
+    console.log('dbQuery')
     console.log(dbQuery)
 
     let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
@@ -48,18 +49,22 @@ router.route('/')
      * Handle query with search
      */
     if(queryConditions.hasOwnProperty('q')) {
-      const searchColumns = ['firstName'];
+      const searchColumns = ['firstName', 'lastName', 'role'];
       // const searchColumns = ['firstName', 'lastName', 'role', 'id'];
       const searchTerm = queryConditions.q;
+      const searchQuery = {};
 
       searchColumns.forEach((key) => {
-        queryConditions[key] = searchTerm;
+        searchQuery[key] = { [Sequelize.Op.like]: searchTerm };
       })
+
+      if(Object.keys(searchQuery).length > 0) {
+        queryConditions[Sequelize.Op.or] = searchQuery;
+      }
     }
     delete queryConditions.q;
     console.log('queryConditions')
     console.log(queryConditions)
-
 
     queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
