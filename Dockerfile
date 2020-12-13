@@ -54,7 +54,7 @@ RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
 
-COPY generation /home/app/generation
+COPY generation /home/app/data/generation
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
