@@ -119,11 +119,12 @@
           <input type="email" class="input-field" required name="email" />
         </div>
         {% endif %}
-
-      {#
-          <label>  {{ __('Please enter the words you see into the field below ') }} </label>
+          <label>
+            {{data.global.captchLabel}}
+          </label>
           <br />
-          {{data.captcha.data | safe}}
+          <a href="#" class="captcha-refresh" />refresh</a>
+          <img src="/modules/openstad-captcha/captcha" width="200" />
           <input type="text" class="input-field" required name="areYouABot" />
         </div>
         #}

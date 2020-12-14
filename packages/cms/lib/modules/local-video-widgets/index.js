@@ -1,3 +1,7 @@
+/**
+ * Widget for displaying a video directly from the CMS
+ * For large video's it's advised to use external service like vimeo and use an iframe
+ */
 module.exports = {
   extend: 'openstad-widgets',
   name: 'local-video',

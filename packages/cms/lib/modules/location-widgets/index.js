@@ -1,3 +1,6 @@
+/**
+ * Display a map with location for an idea, needs to be on an idea page
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const openstadMap = require('../../../config/map').default;
 

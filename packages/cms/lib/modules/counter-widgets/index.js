@@ -1,3 +1,7 @@
+/**
+ * Widget displays a counter with dynamic count of votes, users voted and ideas submitted
+ * Often used to display "120 ideas submitted" "3000 users voted"
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {

@@ -1,3 +1,9 @@
+/**
+ * Customiizing Apostrophe Global settings
+ *
+ * Be aware that apostropheCMS puts all global settings in the HTML source so global fields are not suited for sensitive settings
+ * 
+ */
 const auth              = require('basic-auth');
 const compare           = require('tsscmp');
 const fs     = require('fs');

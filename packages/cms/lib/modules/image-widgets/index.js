@@ -1,3 +1,6 @@
+/**
+ * Add an image
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -41,7 +44,7 @@ module.exports = {
         fields: ['imageStyles']
       }
     ]);
-    
+
     const superLoad = self.load;
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {

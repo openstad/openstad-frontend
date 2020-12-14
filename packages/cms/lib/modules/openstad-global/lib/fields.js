@@ -140,6 +140,13 @@ module.exports = [
     required: true,
   },
   {
+    type: 'string',
+    name: 'captchLabel',
+    label: "Label for captcha",
+    def: 'Please enter the words you see into the field below ',
+    required: true,
+  },
+  {
     type: 'boolean',
     name: 'hideSiteTitle',
     label: 'Hide the site title in the header?',
