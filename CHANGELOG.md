@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Make the (Google) Analytics block configurable to provide for a new version and also other options
+
 ## v0.10.0 (2020-12-09)
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
