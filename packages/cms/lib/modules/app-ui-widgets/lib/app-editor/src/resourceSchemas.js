@@ -31,7 +31,11 @@ const stepSchema = {
       type: 'image',
       multiple: true
     },
-  ]
+  ],
+  default: {
+      title: 'New...',
+      position: [52.360506, 4.908971],
+  };
 }
 
 const wordCategories = {

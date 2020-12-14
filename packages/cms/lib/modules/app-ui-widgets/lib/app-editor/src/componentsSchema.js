@@ -10,35 +10,31 @@ const componentsDefaultSchema = {
   fields: [
     {
       key: 'style',
-      type: 'text',
-      label: 'Word (single)'
+      type: 'style',
+      label: 'Styles'
     },
     {
       key: 'plural',
       type: 'text',
-      label: 'Word (plural)'
+      label: 'Name (plural)'
     },
     {
-      key: 'images',
+      key: 'backgroundImage',
       type: 'image',
-      multiple: true,
-      label: 'Images'
+      multiple: false,
+      label: 'Background Image'
     },
-    {
-      key: 'sound',
-      type: 'audio',
-    },
-    {
-      key: 'categories',
-      type: 'relationship',
-      multiple: true
-    },
-  ]
+  ],
 }
 
-const componentFields = [
+const componentTypes = [
   'title'   :{
-    component: Title,
+    ...componentsDefaultSchema,
+    fields: [
+      ...componentsDefaultSchema.fields,
+      [],
+
+    ]
   },
   'richText'    : {
     component: RichText,

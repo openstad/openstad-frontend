@@ -6,51 +6,19 @@ import scriptLoader from 'react-async-script-loader';
 import axios from 'axios';
 
 /* Layout elements */
-import LeftPanel from './Layout/LeftPanel.js';
-import TopPanel from './Layout/TopPanel.js';
-import MiddlePanel from './Layout/MiddlePanel.js';
-import RightPanel from './Layout/RightPanel.js';
-import ListItem from './Layout/ListItem.js';
-import AppPreviewer from './Layout/AppPreviewer.js';
-import Section from './Layout/Section.js';
+import LeftPanel from './editor-ui/layout/LeftPanel.js';
+import TopPanel from './editor-ui/layout/TopPanel.js';
+import MiddlePanel from './editor-ui/layout/MiddlePanel.js';
+import RightPanel from './editor-ui/layout/RightPanel.js';
+import ListItem from './editor-ui/layout/ListItem.js';
+import AppPreviewer from './editor-ui/layout/AppPreviewer.js';
+import Section from './editor-ui/layout/Section.js';
 
 import StepForm from './StepForm.js';
-import TourApp from './TourApp.js';
-import AppSettingsForm from './AppSettingsForm.js';
+import TourApp from './frontend/components/TourApp';
+import AppSettingsForm from './editor-ui/AppSettingsForm.js';
 
-const listItems = [
-  {
-    type: 'step',
-    data: {
-      id: 1,
-      title: 'Step 1',
-      description: 'Lorem ipsum....',
-      position: [52.370216, 4.895168],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500'],
-      audio: {
-        filename: 'test.mp3'
-      }
-    }
-  },
-  {
-    type: 'step',
-    data: {
-      id: 2,
-      title: 'Step 2',
-      description: 'Lorem ipsum....',
-      position: [52.360506, 4.908971],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
-    }
-  },
-];
 
-const blancResource = {
-    type: 'step',
-    data: {
-      title: 'New...',
-      position: [52.360506, 4.908971],
-    }
-};
 
 function UI (props) {
   return (

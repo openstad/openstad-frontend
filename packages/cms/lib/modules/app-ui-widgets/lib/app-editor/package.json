@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.13.1",
+    "react-feather": "^2.0.9",
     "react-filepond": "^7.1.0",
     "react-h5-audio-player": "^3.4.1",
     "react-leaflet": "^2.7.0",

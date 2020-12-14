@@ -19,6 +19,14 @@ import TourApp from './TourApp.js';
 import AppSettingsForm from './AppSettingsForm.js';
 
 
+const defaultResource = {
+    type: 'step',
+    data: {
+      title: 'New...',
+      position: [52.360506, 4.908971],
+    }
+};
+
 // Our app
 class Editor extends Component {
 
