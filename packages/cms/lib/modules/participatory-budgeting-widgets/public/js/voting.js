@@ -307,7 +307,7 @@ if (votingContainer !== null) {
               errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
             };
           }
-          
+
         }
 
         if (errorTheme) setTheme(errorTheme);
@@ -566,7 +566,7 @@ if (votingContainer !== null) {
 				      imageEl.setAttribute('data-idea-id', id);
 				      imageEl.className += ' idea-' + id;
 				      imageEl = imageEl.innerHTML;
-              
+
 				      overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td>';
 				      if ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) {
 					      var budgetEl = element.querySelector('.budget') && element.querySelector('.budget').cloneNode(true).innerHTML;

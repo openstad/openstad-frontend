@@ -1,3 +1,6 @@
+/**
+ * Deprecated, see resource page
+ */
 const rp  = require('request-promise');
 const Url = require('url');
 const eventEmitter  = require('../../../events').emitter;

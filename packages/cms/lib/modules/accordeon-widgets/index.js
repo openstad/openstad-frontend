@@ -1,3 +1,6 @@
+/**
+ * A widget that allows for displaying an accordeon, made with static content
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {

@@ -1,6 +1,5 @@
 /**
  * Module that renders the cookie warning
- *
  */
 module.exports = {
   extend: 'apostrophe-widgets',

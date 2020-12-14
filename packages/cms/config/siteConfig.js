@@ -105,6 +105,7 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
+        //'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
