@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults.js';
 import GenericApp from './frontend/GenericApp';
+import editorSettings  from './editorSettings';
 
 if (true || process.env.FRONTEND) {
 
@@ -24,6 +25,8 @@ if (true || process.env.FRONTEND) {
             resources={latestRevisions.resources}
             navigationSettings={latestRevisions.navigationSettings}
             screens={latestRevisions.screens}
+            preCompononen={}
+            postCompononen={}
             isSignedIn={true}
           />
         </React.StrictMode>,
@@ -76,19 +79,19 @@ const newResourceObject = {
 };
 
 
-const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'generic'];
+  const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'generic'];
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App
-      appId={1}
-      newResourceObject={newResourceObject}
-    //  resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
-      appResource={appResource}
-      editableResource={settings.editableResources}
-    />
-  </React.StrictMode>,
-  document.getElementById('root')
+  ReactDOM.render(
+    <React.StrictMode>
+      <App
+        appId={1}
+        newResourceObject={newResourceObject}
+      //  resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
+        appResource={appResource}
+        editableResource={settings.editableResources}
+      />
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 }
 

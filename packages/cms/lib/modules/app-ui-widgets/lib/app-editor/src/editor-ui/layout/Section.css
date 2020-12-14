@@ -1,0 +1,62 @@
+
+
+.section {
+  border-bottom: 1px solid #d4d4d4;
+  padding: 10px 0;
+  position: relative;
+}
+
+.section .section-content {
+  display: none;
+  margin: 10px 0 0;
+  padding: 0 10px;
+}
+
+.section.open .section-content {
+  display: block;
+}
+
+.section input, .section textarea {
+  width: 100%;
+    box-sizing: border-box;
+    padding: 11px 9px;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.section-header {
+  padding: 0 10px;
+  display: block;
+}
+
+.section-header h3 {
+  text-transform: uppercase;
+  margin: 0;
+  color: #888;
+  font-size: 11px;
+}
+
+.section-content {
+  display: none;
+  margin: 10px 0 0;
+  padding: 0 10px;
+  position: relative;
+}
+
+.section-toggle-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.section-toggle-icon img {
+  width: 16px;
+  transform: rotate(270deg);
+  display: block;
+}
+
+
+.section.open .section-toggle-icon img {
+  transform: rotate(0deg);
+}

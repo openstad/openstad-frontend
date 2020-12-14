@@ -35,7 +35,7 @@ exports.hiddenImagesQuizDefaults = {
 
 
     ],
-    correctAnswerId: false
+    correctAnswerId: null
   }]
 };
 
@@ -136,6 +136,6 @@ exports.shapeRecognitionDefaults = {
           height: 127
       },
     }],
-    correctAnswerId: 1
+    correctAnswerId: null
   }
 ]}

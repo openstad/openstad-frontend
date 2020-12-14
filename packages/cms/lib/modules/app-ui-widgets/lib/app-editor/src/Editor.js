@@ -18,73 +18,9 @@ import StepForm from './StepForm.js';
 import TourApp from './TourApp.js';
 import AppSettingsForm from './AppSettingsForm.js';
 
-const listItems = [
-  {
-    type: 'step',
-    data: {
-      id: 1,
-      title: 'Step 1',
-      description: 'Lorem ipsum....',
-      position: [52.370216, 4.895168],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500'],
-      audio: {
-        filename: 'test.mp3'
-      }
-    }
-  },
-  {
-    type: 'step',
-    data: {
-      id: 2,
-      title: 'Step 2',
-      description: 'Lorem ipsum....',
-      position: [52.360506, 4.908971],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
-    }
-  },
-];
-
-const blancResource = {
-    type: 'step',
-    data: {
-      title: 'New...',
-      position: [52.360506, 4.908971],
-    }
-};
-
-function UI (props) {
-  return (
-    <div className="App">
-      <TopPanel>
-        <a href="#" className="App-logo"> Edu Apps </a>
-      </TopPanel>
-      <div className="ContentPlane">
-        <LeftPanel>
-          {props.sidebar}
-        </LeftPanel>
-        <MiddlePanel>
-          {props.main}
-        </MiddlePanel>
-        <RightPanel open={!!props.rightPanel}>
-
-          {props.rightPanel ?
-            <div>
-            <Section style={{textAlign: 'right'}} collapsible={false}>
-              <a href="#" style={{fontSize: '16px', color: '#8f8f8f'}} className="plus-icon" onClick={props.rightPanelClose}> ✕ </a>
-            </Section>
-            {props.rightPanel}
-            </div> :
-
-          <div />}
-        </RightPanel>
-      </div>
-
-  </div>
-  )
-}
 
 // Our app
-class App extends Component {
+class Editor extends Component {
 
   constructor(props) {
     super(props);
@@ -321,21 +257,4 @@ class App extends Component {
   }
 }
 
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        {children}
-        <a class="modal-close" href="#">✕</a>
-      </section>
-    </div>
-  );
-};
-
-const Loader = function () {
-  return <div style={{position: 'fixed', top: '50%', width: '100%', textAlign: 'center'  }}> Loading... </div>
-}
-
-export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(App);
+export default Editor;;

@@ -10,6 +10,7 @@ const centeredStyles = {
   justifyContent: 'center',
   alignItems: 'center',
   height: '100%',
+  zIndex: 10
 }
 
 
@@ -89,6 +90,7 @@ const QuizStart = (props) => {
 
 const QuizQuestion = ({giveAnswer, question, questionPosition, answerPosition}) => {
   return (<>
+    <Text> Question: {question.id} </Text>
     <Question title={question.title} position={questionPosition} image={question.image}   />
     <Answers giveAnswer={giveAnswer} position={answerPosition} question={question} answers={question.answers}/>
   </>)
@@ -159,28 +161,32 @@ class Quiz extends Component {
   }
 
   giveAnswer(question, answerId) {
-    const quizSession = this.state.quizSession;
-    const isCorrect = question.correctAnswerId === answerId;
+    if (this.isQuestionAnswered(question)) {
 
-    quizSession.answers.push({
-      answerId: answerId,
-      //safe question for reference purposes in case it's changed later on
-      question: question,
-      answeredAt: new Date().toISOString(),
-      isCorrect
-    });
+    } else {
+      const quizSession = this.state.quizSession;
+      const isCorrect = question.correctAnswerId === answerId;
 
-    this.setState({
-      quizSession: quizSession,
-      wrong: !isCorrect,
-      correct: isCorrect,
-    });
+      quizSession.answers.push({
+        answerId: answerId,
+        //safe question for reference purposes in case it's changed later on
+        question: question,
+        answeredAt: new Date().toISOString(),
+        isCorrect
+      });
+
+      this.setState({
+        quizSession: quizSession,
+        wrong: !isCorrect,
+        correct: isCorrect,
+      });
 
 
-//    if (!this.props.autoNext) {
+  //    if (!this.props.autoNext) {
       setTimeout(() => {
         this.setNextQuestion();
       }, 3000)
+    }
   //  }
   }
 
@@ -199,12 +205,10 @@ class Quiz extends Component {
   componentDidUpdate () {
     this.syncQuizSession()
 
-    console.log('componentDidUpdate', this.state);
-
     if (this.state.wrong || this.state.correct) {
       console.log('componentDidUpdate run time out');
 
-      setTimeout(()=> {
+     setTimeout(()=> {
         console.log('hideAnswerFeedback run time out');
 
         this.hideAnswerFeedback();
@@ -228,14 +232,21 @@ class Quiz extends Component {
   setNextQuestion() {
     console.log('===== next');
 
+    if (this.nextAnswerTimeout) {
+      clearTimeout(this.nextAnswerTimeout);
+    }
+
+    if (this.timeLeftInterval) {
+      clearInterval(this.timeLeftInterval);
+    }
+
+
     const activeQuestionIndex = this.state.activeQuestion ? this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id) : false;
     const nextActiveViewstepIndex = activeQuestionIndex === false && !this.state.finished ? 0 :  activeQuestionIndex + 1;
     const nextActiveQuestion = this.state.questions[nextActiveViewstepIndex] ? this.state.questions[nextActiveViewstepIndex] : false;
-    const finished = !finished;
+    const finished = !nextActiveQuestion;
 
     console.log('activeQuestionIndex',this.state.questions.map(function(e) { return e.id; }), this.state.questions.map(function(e) { return e.id; }).indexOf(this.state.activeQuestion.id), activeQuestionIndex );
-
-    console.log('nextActiveQuestion', nextActiveQuestion)
 
     this.setState({
       finished: !nextActiveQuestion,
@@ -264,14 +275,13 @@ class Quiz extends Component {
         }
       }
 
-
       setTimer();
+
       this.timeLeftInterval = setInterval(setTimer, SECOND);
 
       if (this.nextAnswerTimeout) {
         clearTimeout(this.nextAnswerTimeout);
       }
-
 
       this.nextAnswerTimeout = setTimeout(() => {
         //give an empty answers
@@ -293,15 +303,25 @@ class Quiz extends Component {
     this.setNextQuestion();
   }
 
-  render () {
+  getAnswerForQuestion (question) {
+    return this.state.quizSession.answers.find(answer => answer.questionId === question.id);
+  }
 
+  isQuestionAnswered (question) {
+    console.log(' this.state.quizSessio',  this.state.quizSession);
+    console.log(' this.state.getAnswerForQuestion',  this.getAnswerForQuestion(question));
+
+    return !! this.getAnswerForQuestion(question);
+  }
+
+  render () {
     return (
       <SafeBackgroundImage backgroundImage={this.props.backgroundImage} style={{flex: 1}}>
         {!this.state.activeQuestion && !this.state.finished && <QuizStart start={this.start.bind(this)} />}
-        {this.state.activeQuestion && <QuizQuestion questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
+        {!this.isQuestionAnswered(this.state.activeQuestion) && this.state.activeQuestion && <QuizQuestion questionPosition={this.props.questionPosition} answerPosition={this.props.answerPosition} question={this.state.activeQuestion} giveAnswer={this.giveAnswer.bind(this)} />}
         {this.state.wrong && <WrongAnswer />}
         {this.state.correct && <CorrectAnswer />}
-        {this.state.finished && <QuizEnd start={this.start.bind(this)} />}
+        { this.state.finished && <QuizEnd start={this.start.bind(this)} />}
         {this.props.autoNext && this.props.displayAnswerTime && <AnswerTime time={this.state.answerTimeLeft} />}
       </SafeBackgroundImage>
     )
