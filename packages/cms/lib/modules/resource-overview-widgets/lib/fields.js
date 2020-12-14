@@ -75,6 +75,13 @@ module.exports = [
     required: false
   },
   {
+    name: 'className',
+    label: 'Html class for the main container',
+    type: 'string',
+    required: false
+  },
+
+  {
     name: 'cardStyle',
     label: 'Card style',
     type: 'select',

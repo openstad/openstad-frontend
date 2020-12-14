@@ -1,6 +1,6 @@
 {% import 'includes/vote-creator.html' as voteCreator %}
 
-<div>
+<div class="{{ data.widget.className if data.widget.className }}">
 	<div id="ideas-overview" class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
 		{{ __('Loading...') }}
 	</div>

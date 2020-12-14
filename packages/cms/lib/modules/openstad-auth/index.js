@@ -209,7 +209,16 @@ module.exports = {
 
     // nice route for admin login
     self.apos.app.get('/admin/login', (req, res, next) => {
-      res.redirect('/oauth/login?loginPriviliged=1');
+      // empty openstadUser, this doesn't logout user
+      // but clears it's session cache so it will be fetched freshly
+      // this is necessary in case of voting or logging out
+      if (req.session.openstadUser) {
+        req.session.openstadUser = null;
+      }
+
+      req.session.save(() => {
+        res.redirect('/oauth/login?loginPriviliged=1');
+      })
     });
 
     self.apos.app.get('/oauth/login', (req, res, next) => {
