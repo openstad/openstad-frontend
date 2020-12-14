@@ -42,8 +42,10 @@
       </a>
       #}
   </div>
+  {% if data.cart %}
   <div class="text-right">
       <br />
       <strong>Total: {{ data.cart.totals.toFixed(2) | currency }}</strong>
   </div>
+  {% endif %}
 </div>
