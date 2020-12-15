@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults.js';
 import GenericApp from './frontend/GenericApp';
+import Editor  from './Editor';
 import editorSettings  from './editorSettings';
 
 if (true || process.env.FRONTEND) {
@@ -79,16 +80,17 @@ const newResourceObject = {
 };
 
 
-  const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'generic'];
+  const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'tour'];
 
   ReactDOM.render(
     <React.StrictMode>
-      <App
+      <Editor
         appId={1}
         newResourceObject={newResourceObject}
       //  resourceItems={appResource.revisions[appResource.revisions.length -1].resourceItems}
         appResource={appResource}
         editableResource={settings.editableResources}
+        resources={}
       />
     </React.StrictMode>,
     document.getElementById('root')

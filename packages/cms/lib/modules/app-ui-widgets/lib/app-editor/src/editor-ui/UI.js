@@ -1,5 +1,14 @@
 import React, { Component, useLocation } from 'react';
 
+/* Layout elements */
+import LeftPanel from './Layout/LeftPanel.js';
+import TopPanel from './Layout/TopPanel.js';
+import MiddlePanel from './Layout/MiddlePanel.js';
+import RightPanel from './Layout/RightPanel.js';
+import ListItem from './Layout/ListItem.js';
+import AppPreviewer from './Layout/AppPreviewer.js';
+import Section from './Layout/Section.js';
+
 function UI (props) {
   return (
     <div className="App">

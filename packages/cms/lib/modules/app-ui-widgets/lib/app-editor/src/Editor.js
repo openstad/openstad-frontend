@@ -5,19 +5,11 @@ import scriptLoader from 'react-async-script-loader';
 
 import axios from 'axios';
 
-/* Layout elements */
-import LeftPanel from './Layout/LeftPanel.js';
-import TopPanel from './Layout/TopPanel.js';
-import MiddlePanel from './Layout/MiddlePanel.js';
-import RightPanel from './Layout/RightPanel.js';
-import ListItem from './Layout/ListItem.js';
-import AppPreviewer from './Layout/AppPreviewer.js';
-import Section from './Layout/Section.js';
-
 import StepForm from './StepForm.js';
 import TourApp from './TourApp.js';
 import AppSettingsForm from './AppSettingsForm.js';
-
+import AppPreviewer from './editor-ui/Layout/AppPreviewer.js';
+import Sidebar from './editor-ui/Sidebar';
 
 const defaultResource = {
     type: 'step',
@@ -54,6 +46,11 @@ class Editor extends Component {
     window.removeEventListener("hashchange", this.handleHashChange.bind(this), false);
   }
 
+
+  /**
+   * @todo: only fetchroutes after step update, maybe callbacks to specific routes?
+   * @return {[type]} [description]
+   */
   fetchRoutes() {
     const coordinates =  this.state.resourceItems ? this.state.resourceItems.filter(resourceItem => resourceItem.data && resourceItem.data.position).map(function (resourceItem) {
       return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
@@ -70,8 +67,16 @@ class Editor extends Component {
           const routes = response.data.routes[0];
           const coordinates = routes.geometry.coordinates;
 
+          const resources = this.state.resources.map((resource) => {
+            if (resource.name === 'coordinates') {
+              resource.items = coordinates;
+            }
+
+            return resource;
+          });
+
           this.setState({
-            coordinates: coordinates,
+            resources: resources,
             duration: routes.duration
           });
 
@@ -101,9 +106,16 @@ class Editor extends Component {
 
   }
 
-  newResource() {
-    var newResource = JSON.parse(JSON.stringify(blancResource));
-    var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
+  getDefaultResource (resourceName) {
+    const default = this.state.resources.find(resource => resource.name === resourceName).default;
+    return default ? default : {};
+  }
+
+  newResource(resourceName) {
+    const newResource = this.getDefaultResource(resourceName);
+    const resourceItems = this.getResourceItems(resourceName);
+
+    var lastResource = [resourceItems.length - 1];
     var lastResourceId = lastResource.data.id;
 
     newResource.data.id = lastResourceId + 1;
@@ -118,22 +130,29 @@ class Editor extends Component {
     })
   }
 
-  updateResource(updateResource) {
+  updateResource(resourceName, updateResource) {
     var activeResource = this.state.activeResource;
-    var resourceItems = this.state.resourceItems.map(function(resource) {
-      if (resource.data.id === updateResource.data.id) {
-        resource = updateResource;
-      }
+    var resourceItems = this.getResourceItems(type);
 
-      if (activeResource && activeResource.data.id === resource.data.id) {
-        activeResource = resource;
+    var resources = this.state.resources.map(function(resource) {
+      if (resourceName === resource.name) {
+
+        // update activeResource so changes are cascaded
+        if (this.state.activeResourceName === resource.name && activeResource && activeResource.id === updateResource.id) {
+          activeResource = updateResource;
+        }
+
+        //add
+        resource.items = resource.items.map(function (resourceItem) {
+          return updateResource.id === resourceItem.id ? updateResource : resourceItem;
+        });
       }
 
       return resource;
     });
 
     this.setState({
-      resourceItems: resourceItems,
+      resources: resources,
       activeResource: activeResource
     });
 
@@ -150,7 +169,7 @@ class Editor extends Component {
 
         this.setState({
           app: appResource,
-          resourceItems: appResource.revisions[appResource.revisions.length -1].resourceItems
+          resources: appResource.revisions[appResource.revisions.length -1].resources
         });
 
         this.fetchRoutes();
@@ -168,8 +187,7 @@ class Editor extends Component {
     app.revisions.push({
       title: 'App demo 1',
       settings: {},
-      resourceItems: this.state.resourceItems,
-      coordinates: this.state.coordinates
+      resources: this.state.resourceItems
     })
 
     axios.put(`/api/tour/${app.id}`, app)
@@ -204,6 +222,11 @@ class Editor extends Component {
     })
   }
 
+  getResourceItems (name) {
+    const resource = this.state.resources.filter(function(resource){ return resource.name === name; };
+    return resource.items ? resource.items : [];
+  }
+
   render() {
     console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
     console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
@@ -216,7 +239,7 @@ class Editor extends Component {
       <UI
         sidebar={
           <Sidebar
-            resourceItems={this.state.resourceItems}
+            resources={this.state.resources.filter((resource) => this.props.editableResource && this.props.editableResources.includes(resource.name))}
             activeResource={this.state.activeResource}
             edit={(resource) => {
               this.setState({
@@ -238,12 +261,8 @@ class Editor extends Component {
             }
             <AppPreviewer>
               <TourApp
-                coordinates={this.state.coordinates}
-                steps={
-                  this.state.resourceItems
-                    .filter(function(resource){ return resource.type === 'step'; })
-                    .map(function(step){ return step.data; } )
-                }
+                coordinates={this.getResourceItems('coorrdinates')}
+                steps={this.getResourceItems('step')}
               />
           </AppPreviewer>
           </div>
@@ -252,6 +271,7 @@ class Editor extends Component {
           this.state.activeResource ?
             <StepForm
               resource={this.state.activeResource}
+              resourceType={this.state.activeResourceType}
               updateResource={this.updateResource.bind(this)}
             /> : false
         }
