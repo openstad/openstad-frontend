@@ -7,26 +7,32 @@ import axios from 'axios';
 
 import StepForm from './StepForm';
 import TourApp from './frontend/components/tour/TourApp';
-import AppSettingsForm from './AppSettingsForm';
-import AppPreviewer from './editor-ui/Layout/AppPreviewer';
+import AppSettingsForm from './editor-ui/AppSettingsForm';
+import AppPreviewer from './editor-ui/layout/AppPreviewer';
 import Sidebar from './editor-ui/Sidebar';
+import {Loader, Modal} from'./editor-ui/elements';
+import UI from'./editor-ui/UI';
+
+
 // Our app
 class Editor extends Component {
 
   constructor(props) {
     super(props);
 
+    console.log('propsprops', props)
+
     this.state = {
       activeResource: null,
       resources: props.resources,
       appResource:  props.appResource,
-      app: false,
+      app: true,
       lineCoords: false,
     };
   }
 
   componentDidMount() {
-    this.fetchApp();
+  //  this.fetchApp();
 
     window.addEventListener("hashchange", this.handleHashChange.bind(this), false);
     this.handleHashChange();
@@ -35,7 +41,6 @@ class Editor extends Component {
   componentWillUnmount() {
     window.removeEventListener("hashchange", this.handleHashChange.bind(this), false);
   }
-
 
   /**
    * @todo: only fetchroutes after step update, maybe callbacks to specific routes?
@@ -95,8 +100,8 @@ class Editor extends Component {
   }
 
   getDefaultResource (resourceName) {
-    const default = this.state.resources.find(resource => resource.name === resourceName).default;
-    return default ? default : {};
+    const defaultResource = this.state.resources.find(resource => resource.name === resourceName).default;
+    return defaultResource ? defaultResource : {};
   }
 
   newResource(resourceName) {
@@ -111,7 +116,7 @@ class Editor extends Component {
 
     resourceItems.push(newResource);
 
-    resources = this.state.resources.map(resource => {
+    const resources = this.state.resources.map(resource => {
       if (resourceName.name === resourceName) {
         resource.items = resourceItems;
       }
@@ -184,11 +189,12 @@ class Editor extends Component {
     app.revisions.push({
       title: 'App demo 1',
       settings: {},
-      resources: this.state.resourceItems
+      resources: this.state.resources
     })
 
     axios.put(`/api/tour/${app.id}`, app)
       .then(function (response) {
+
         this.setState({
           app: response
         })
@@ -220,7 +226,7 @@ class Editor extends Component {
   }
 
   getResourceItems (name) {
-    const resource = this.state.resources.filter(function(resource){ return resource.name === name; };
+    const resource = this.state.resources.filter(function(resource){ return resource.name === name; });
     return resource.items ? resource.items : [];
   }
 
@@ -229,11 +235,13 @@ class Editor extends Component {
       return <Loader />
     }
 
+    console.log('---- this.state.resources', this.state.resources)
+
     return (
       <UI
         sidebar={
           <Sidebar
-            resources={this.state.resources.filter((resource) => this.props.editableResource && this.props.editableResources.includes(resource.name))}
+            resources={this.state.resources.filter((resource) => this.props.editableResources && this.props.editableResources.includes(resource.name))}
             activeResource={this.state.activeResource}
             edit={(resourceName, resource) => {
               this.setState({
@@ -249,9 +257,9 @@ class Editor extends Component {
           <div>
             {this.state.displaySettingsModal &&
               <Modal show={true}>
-              <AppSettingsForm
-                resource={this.state.appResource}
-              />
+                <AppSettingsForm
+                  resource={this.state.appResource}
+                />
               </Modal>
             }
             <AppPreviewer>
@@ -259,7 +267,7 @@ class Editor extends Component {
                 coordinates={this.getResourceItems('coorrdinates')}
                 steps={this.getResourceItems('step')}
               />
-          </AppPreviewer>
+            </AppPreviewer>
           </div>
         }
         rightPanel={

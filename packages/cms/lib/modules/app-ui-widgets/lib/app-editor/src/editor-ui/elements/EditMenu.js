@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const EditMenu = (props) => {
-  return <div> Todo form </div>;
+  return <div> {props.children}  </div>;
 }
 
 export default EditMenu;

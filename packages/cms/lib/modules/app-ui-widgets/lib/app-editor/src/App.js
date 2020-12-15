@@ -124,6 +124,7 @@ class App extends Component {
   }
 
   newResource() {
+
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
     var lastResourceId = lastResource.data.id;

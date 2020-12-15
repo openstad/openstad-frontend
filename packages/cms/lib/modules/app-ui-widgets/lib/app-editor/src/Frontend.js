@@ -5,7 +5,6 @@ import './index.css';
 import GenericApp from './frontend/GenericApp';
 import reportWebVitals from './reportWebVitals';
 import {ComponentEditMenu} from './editor-ui/elements';
-ComponentEditMenu
 
 /* Obfucscate the data structure */
 

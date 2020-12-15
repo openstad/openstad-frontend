@@ -1,15 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults';
 import GenericApp from './frontend/GenericApp';
 import Editor  from './Editor';
 import editorSettings  from './editorSettings';
+import {ComponentEditMenu} from './editor-ui/elements';
 
-if (true || process.env.FRONTEND) {
+
+const preCompononent = (props) => {
+  return (
+    <div>
+      <ComponentEditMenu {...props} />
+    </div>
+  )
+}
+
+const postCompononent = (props) => {
+  return (
+    <>
+
+    </>
+  )
+}
+
+if (process.env.FRONTEND) {
 
 //  axios.get(`/api/app/1`)
 //    .then( (response) => {
@@ -26,8 +43,8 @@ if (true || process.env.FRONTEND) {
             resources={latestRevisions.resources}
             navigationSettings={latestRevisions.navigationSettings}
             screens={latestRevisions.screens}
-            preCompononen={}
-            postCompononen={}
+            preCompononent={preCompononent}
+            postCompononent={postCompononent}
             isSignedIn={true}
           />
         </React.StrictMode>,
@@ -47,7 +64,7 @@ const newResourceObject = {
   data: {}
 };
 
- appResource = {
+ const appResource = {
   id: 1,
   title: 'New app...',
   revisions: [{
@@ -74,17 +91,21 @@ const newResourceObject = {
   }],
 };
 
-const settings = editorSettings[process.env.EDITOR ? process.env.EDITOR : 'tour'];
+
+const editorType = process.env.EDITOR ? process.env.EDITOR : 'tour'
+console.log('editorSettings', editorSettings);
+
+const latestRevision = appResource.revisions[appResource.revisions.length -1]
+const settings = editorSettings[editorType];
+console.log('latestRevision', latestRevision);
 
   ReactDOM.render(
     <React.StrictMode>
       <Editor
         appId={1}
-        newResourceObject={newResourceObject}
-       resourceItems={appResource.revisions[appResource.revisions.length -1].resources}
+        resources={latestRevision.resources}
         appResource={appResource}
-        editableResource={settings.editableResources}
-        resources={}
+        editableResources={settings.editableResources}
       />
     </React.StrictMode>,
     document.getElementById('root')

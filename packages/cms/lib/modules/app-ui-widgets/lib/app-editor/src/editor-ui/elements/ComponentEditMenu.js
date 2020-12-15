@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Edit, Trash, Move } from 'react-feather';
+import EditMenu from './EditMenu';
 
 const ComponentEditMenu = (props) => {
   return (

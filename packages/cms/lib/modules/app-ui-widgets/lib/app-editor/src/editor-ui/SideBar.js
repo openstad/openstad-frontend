@@ -1,6 +1,6 @@
 import React, { Component, useLocation } from 'react';
-import Section from './Layout/Section';
-import ListItem from './editor-ui/layout/ListItem';
+import Section from './layout/Section';
+import ListItem from './layout/ListItem';
 
 function OldSidebar (props) {
   return (
@@ -36,7 +36,6 @@ function OldSidebar (props) {
 
 
 function Sidebar (props) {
-
   return (
     <>
       <Section title="General">
@@ -76,8 +75,7 @@ function Sidebar (props) {
             </div>
         </Section>
         )
-      })
-
+      })}
     </>
   )
 }

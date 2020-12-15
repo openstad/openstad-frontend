@@ -23,7 +23,7 @@ const generic = {
   ]
 }
 
-exports = {
+export default {
   tour,
   workout,
   games,
