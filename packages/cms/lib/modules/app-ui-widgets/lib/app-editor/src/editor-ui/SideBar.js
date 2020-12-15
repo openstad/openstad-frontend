@@ -1,6 +1,6 @@
 import React, { Component, useLocation } from 'react';
-import Section from './Layout/Section.js';
-import ListItem from './editor-ui/layout/ListItem.js';
+import Section from './Layout/Section';
+import ListItem from './editor-ui/layout/ListItem';
 
 function OldSidebar (props) {
   return (
@@ -64,7 +64,7 @@ function Sidebar (props) {
               return(
                 <ListItem active={active}>
                   <a className={linkClassName} onClick={() => {
-                    props.edit(resourceItem)
+                    props.edit(resource.name, resourceItem)
                   }} href="#">
                     {resourceItem.title}
                   </a>

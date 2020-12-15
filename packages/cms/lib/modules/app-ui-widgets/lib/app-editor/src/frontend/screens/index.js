@@ -1,6 +1,6 @@
-export { default as LoginScreen }    from './LoginScreen.js';
-export { default as ResourceScreen } from './ResourceScreen.js';
-export { default as SplashScreen }   from './SplashScreen.js';
-export { default as StaticScreen }   from './StaticScreen.js';
-export { default as SignInScreen }   from './SignInScreen.js';
-export { default as SignUpScreen }   from './SignUpScreen.js';
+export { default as LoginScreen }    from './LoginScreen';
+export { default as ResourceScreen } from './ResourceScreen';
+export { default as SplashScreen }   from './SplashScreen';
+export { default as StaticScreen }   from './StaticScreen';
+export { default as SignInScreen }   from './SignInScreen';
+export { default as SignUpScreen }   from './SignUpScreen';

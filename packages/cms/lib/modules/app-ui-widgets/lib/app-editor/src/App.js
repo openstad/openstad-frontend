@@ -6,17 +6,16 @@ import scriptLoader from 'react-async-script-loader';
 import axios from 'axios';
 
 /* Layout elements */
-import LeftPanel from './editor-ui/layout/LeftPanel.js';
-import TopPanel from './editor-ui/layout/TopPanel.js';
-import MiddlePanel from './editor-ui/layout/MiddlePanel.js';
-import RightPanel from './editor-ui/layout/RightPanel.js';
-import ListItem from './editor-ui/layout/ListItem.js';
-import AppPreviewer from './editor-ui/layout/AppPreviewer.js';
-import Section from './editor-ui/layout/Section.js';
+import LeftPanel from './editor-ui/layout/LeftPanel';
+import TopPanel from './editor-ui/layout/TopPanel';
+import MiddlePanel from './editor-ui/layout/MiddlePanel';
+import RightPanel from './editor-ui/layout/RightPanel';
+import AppPreviewer from './editor-ui/layout/AppPreviewer';
+import Section from './editor-ui/layout/Section';
 
-import StepForm from './StepForm.js';
+import StepForm from './StepForm';
 import TourApp from './frontend/components/TourApp';
-import AppSettingsForm from './editor-ui/AppSettingsForm.js';
+import AppSettingsForm from './editor-ui/AppSettingsForm';
 
 
 
@@ -34,7 +33,6 @@ function UI (props) {
           {props.main}
         </MiddlePanel>
         <RightPanel open={!!props.rightPanel}>
-
           {props.rightPanel ?
             <div>
             <Section style={{textAlign: 'right'}} collapsible={false}>

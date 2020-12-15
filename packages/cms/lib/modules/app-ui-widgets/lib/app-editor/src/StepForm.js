@@ -3,7 +3,7 @@ import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
-import Section from './Layout/Section.js';
+import Section from './Layout/Section';
 import { ReactMic } from '@cleandersonlobo/react-mic';
 
 // Import FilePond styles

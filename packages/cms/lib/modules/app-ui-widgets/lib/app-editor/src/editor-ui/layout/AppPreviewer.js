@@ -6,8 +6,6 @@ import './Layout.css';
  * AppPreviewer allows for different devices views regardless of it's content
  */
 function AppPreviewer (props) {
-
-
   return (
     <div className>
       <div class="device-selector">

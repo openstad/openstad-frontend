@@ -5,30 +5,20 @@ import scriptLoader from 'react-async-script-loader';
 
 import axios from 'axios';
 
-import StepForm from './StepForm.js';
-import TourApp from './TourApp.js';
-import AppSettingsForm from './AppSettingsForm.js';
-import AppPreviewer from './editor-ui/Layout/AppPreviewer.js';
+import StepForm from './StepForm';
+import TourApp from './frontend/components/tour/TourApp';
+import AppSettingsForm from './AppSettingsForm';
+import AppPreviewer from './editor-ui/Layout/AppPreviewer';
 import Sidebar from './editor-ui/Sidebar';
-
-const defaultResource = {
-    type: 'step',
-    data: {
-      title: 'New...',
-      position: [52.360506, 4.908971],
-    }
-};
-
 // Our app
 class Editor extends Component {
 
   constructor(props) {
     super(props);
 
-
     this.state = {
       activeResource: null,
-      resourceItems: props.resourceItems,
+      resources: props.resources,
       appResource:  props.appResource,
       app: false,
       lineCoords: false,
@@ -56,9 +46,7 @@ class Editor extends Component {
       return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
     }).join(';') : false;
 
-
     const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
-
 
     if (coordinates) {
       axios.get(apiUrl)
@@ -116,23 +104,32 @@ class Editor extends Component {
     const resourceItems = this.getResourceItems(resourceName);
 
     var lastResource = [resourceItems.length - 1];
-    var lastResourceId = lastResource.data.id;
+    var lastResourceId = lastResource.id;
 
-    newResource.data.id = lastResourceId + 1;
+    // increment ID and add to resourceItems
+    newResource.id = lastResourceId + 1;
 
-    this.state.resourceItems.push(newResource);
+    resourceItems.push(newResource);
+
+    resources = this.state.resources.map(resource => {
+      if (resourceName.name === resourceName) {
+        resource.items = resourceItems;
+      }
+
+      return resource;
+    })
 
     this.setState({
-      resourceItems: this.state.resourceItems,
+      resources: resources,
       activeResource: newResource,
+      activeResourceName: resourceName,
       displaySettingsModal: false
-
     })
   }
 
   updateResource(resourceName, updateResource) {
     var activeResource = this.state.activeResource;
-    var resourceItems = this.getResourceItems(type);
+    var resourceItems = this.getResourceItems(resourceName);
 
     var resources = this.state.resources.map(function(resource) {
       if (resourceName === resource.name) {
@@ -228,9 +225,6 @@ class Editor extends Component {
   }
 
   render() {
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
-
     if (!this.state.app) {
       return <Loader />
     }
@@ -241,9 +235,10 @@ class Editor extends Component {
           <Sidebar
             resources={this.state.resources.filter((resource) => this.props.editableResource && this.props.editableResources.includes(resource.name))}
             activeResource={this.state.activeResource}
-            edit={(resource) => {
+            edit={(resourceName, resource) => {
               this.setState({
-                activeResource: resource
+                activeResource: resource,
+                activeResourceName: resourceName
               });
             }}
             new={this.newResource.bind(this)}
@@ -271,7 +266,7 @@ class Editor extends Component {
           this.state.activeResource ?
             <StepForm
               resource={this.state.activeResource}
-              resourceType={this.state.activeResourceType}
+              resourceName={this.state.activeResourceName}
               updateResource={this.updateResource.bind(this)}
             /> : false
         }

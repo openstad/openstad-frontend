@@ -1,5 +1,5 @@
-export { default as AudioUploadField }   from './AudioUploadField.js';
-export { default as ImageUploadField }   from './ImageUploadField.js';
-export { default as TextField }          from './TextField.js';
-export { default as LocationPicker }     from './LocationPicker.js';
-export { default as FormFieldManager }   from './FormFieldManager.js';
+export { default as AudioUploadField }   from './AudioUploadField';
+export { default as ImageUploadField }   from './ImageUploadField';
+export { default as TextField }          from './TextField';
+export { default as LocationPicker }     from './LocationPicker';
+export { default as FormFieldManager }   from './FormFieldManager';
