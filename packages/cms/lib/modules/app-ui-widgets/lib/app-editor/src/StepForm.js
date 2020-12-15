@@ -431,10 +431,7 @@ class StepForm extends Component {
     var update = (resource, key, value) => {
       this.props.updateResource({
         ...this.props.resource,
-        data: {
-          ...this.props.resource.data,
-          [key]:value
-        }
+        [key]:value
       })
     }
   //  const [files, setFiles] = useState([])
@@ -443,11 +440,11 @@ class StepForm extends Component {
     var setFiles = () => {};
     return (
       <div>{this.props.resource ?
-        <div key={this.props.resource.data.id}>
+        <div key={this.props.resource.id}>
           <Section title="location">
             <LocationPicker
-              lat={this.props.resource.data.position && this.props.resource.data.position[0] ? this.props.resource.data.position[0] : null}
-              lng={this.props.resource.data.position && this.props.resource.data.position[1] ? this.props.resource.data.position[1] : null}
+              lat={this.props.resource.position && this.props.resource.position[0] ? this.props.resource.position[0] : null}
+              lng={this.props.resource.position && this.props.resource.position[1] ? this.props.resource.position[1] : null}
               onPositionChange={function (lat, lng) {
                 this.props.updateResource({
                   ...this.props.resource,
@@ -466,7 +463,7 @@ class StepForm extends Component {
             <input
               type=""
               name="title"
-              defaultValue={this.props.resource.data.title}
+              defaultValue={this.props.resource.title}
               onChange={(event) => {
                 update(this.props.resource, 'title', event.currentTarget.value)
               }}
@@ -476,7 +473,7 @@ class StepForm extends Component {
             <textarea
               type=""
               name="title"
-              defaultValue={this.props.resource.data.description}
+              defaultValue={this.props.resource.description}
               onChange={(event) => {
                 update(this.props.resource, 'description', event.currentTarget.value)
               }}
@@ -484,7 +481,7 @@ class StepForm extends Component {
             </Section>
           <Section title="Audio">
             <AudioFormField
-              audio={this.props.resource.data.audio}
+              audio={this.props.resource.audio}
               update={(value) => {
                 update(this.props.resource, 'audio', value)
               }}
@@ -492,7 +489,7 @@ class StepForm extends Component {
           </Section>
           <Section title="Images">
             <ImageUploadField
-              images={this.props.resource.data.images}
+              images={this.props.resource.images}
               update={(images) => {
                 update(this.props.resource, 'images', images)
               }}
