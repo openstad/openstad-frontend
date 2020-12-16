@@ -9,7 +9,7 @@ import "./tour.css";
 
 import TourDetailView from './TourDetailView';
 import TourAudioPlayer from './TourAudioPlayer';
-
+import TourTimelineView from './TourTimelineView';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -170,6 +170,18 @@ class TourApp extends Component {
           step={this.props.steps.find((step) => {
             return step.id === this.state.activeStepId;
           })}
+        />
+        <TourTimelineView
+          steps={this.props.steps.find((step) => {
+            return step.id === this.state.activeStepId;
+          })}
+          
+          playAudio={() => {
+
+          }}
+          openDetailScreen={() => {
+
+          }}
         />
       </div>
     )
