@@ -69,6 +69,12 @@ const newResourceObject = {
   title: 'New app...',
   revisions: [{
     resources: [{
+      default: {
+        title: 'New step...',
+        description: 'Lorem ipsum....',
+          position: [52.360506, 4.908971],
+        images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
+      },
       name: 'step',
       items: [{
         id: 1,

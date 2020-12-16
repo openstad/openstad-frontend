@@ -47,39 +47,54 @@ class Editor extends Component {
    * @return {[type]} [description]
    */
   fetchRoutes() {
-    const coordinates =  this.state.resourceItems ? this.state.resourceItems.filter(resourceItem => resourceItem.data && resourceItem.data.position).map(function (resourceItem) {
-      return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
-    }).join(';') : false;
 
-    const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+    const resourceItems = this.getResourceItems('step');
 
-    if (coordinates) {
+    const stepCoordinates = resourceItems.items ?  resourceItems.items.map((resourceItem) => {
+      return resourceItem.position[1] + ',' + resourceItem.position[0];
+    }) : '';
+
+
+    if (stepCoordinates) {
+      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+
       axios.get(apiUrl)
         .then( (response) => {
         //  console.log('coords response', response);
           const routes = response.data.routes[0];
           const coordinates = routes.geometry.coordinates;
 
-          const resources = this.state.resources.map((resource) => {
-            if (resource.name === 'coordinates') {
-              resource.items = coordinates;
-            }
+          this.updateResourceItems('coordinates', coordinates);
 
-            return resource;
-          });
-
+          // add duration, needs to be moved to resourcs
           this.setState({
-            resources: resources,
             duration: routes.duration
           });
 
           this.synchData();
-
         })
         .catch(function (error) {
           console.log(error);
         });
     }
+  }
+
+  updateResourceItems(resourceName, newResourceItems) {
+    const resources = this.state.resources.map((resource) => {
+      if (resource.name === resourceName) {
+        resource.items = newResourceItems;
+      }
+
+      return resource;
+    });
+
+
+    console.log('resourceName', resourceName)
+    console.log('newResourceItems', newResourceItems)
+
+    this.setState({
+      resources: resources,
+    });
   }
 
   handleHashChange() {
@@ -101,31 +116,33 @@ class Editor extends Component {
 
   getDefaultResource (resourceName) {
     const defaultResource = this.state.resources.find(resource => resource.name === resourceName).default;
+    console.log()
     return defaultResource ? defaultResource : {};
   }
 
   newResource(resourceName) {
     const newResource = this.getDefaultResource(resourceName);
+    console.log('this.state.newResource', newResource)
+
     const resourceItems = this.getResourceItems(resourceName);
 
-    var lastResource = [resourceItems.length - 1];
+    var lastResource = resourceItems[resourceItems.length - 1];
     var lastResourceId = lastResource.id;
+
+    console.log('lastResource', lastResource)
 
     // increment ID and add to resourceItems
     newResource.id = lastResourceId + 1;
+    console.log('newResource', newResource)
 
     resourceItems.push(newResource);
 
-    const resources = this.state.resources.map(resource => {
-      if (resourceName.name === resourceName) {
-        resource.items = resourceItems;
-      }
 
-      return resource;
-    })
+    console.log('this.state.resource', this.state.resources)
+
+    this.updateResourceItems(resourceName, resourceItems)
 
     this.setState({
-      resources: resources,
       activeResource: newResource,
       activeResourceName: resourceName,
       displaySettingsModal: false
@@ -133,10 +150,12 @@ class Editor extends Component {
   }
 
   updateResource(resourceName, updateResource) {
+
     var activeResource = this.state.activeResource;
+
     var resourceItems = this.getResourceItems(resourceName);
 
-    var resources = this.state.resources.map(function(resource) {
+    var resources = this.state.resources.map((resource) => {
       if (resourceName === resource.name) {
 
         // update activeResource so changes are cascaded
@@ -225,9 +244,15 @@ class Editor extends Component {
     })
   }
 
-  getResourceItems (name) {
-    const resource = this.state.resources.filter(function(resource){ return resource.name === name; });
-    return resource.items ? resource.items : [];
+  getResourceItems (resourceName) {
+    console.log('this.state.resourceName', resourceName)
+
+    console.log('this.state.resources', this.state.resources)
+
+    const resource = this.state.resources.find(function(resource){ return resource.name === resourceName; });
+    console.log('getResourceItems', resourceName, resource);
+
+    return resource && resource.items ? resource.items : [];
   }
 
   render() {
@@ -288,4 +313,4 @@ class Editor extends Component {
   }
 }
 
-export default Editor;;
+export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(Editor);

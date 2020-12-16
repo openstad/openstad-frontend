@@ -429,7 +429,9 @@ class AudioFormField extends Component {
 class StepForm extends Component {
   render() {
     var update = (resource, key, value) => {
-      this.props.updateResource({
+      this.props.updateResource(
+        'step',
+        {
         ...this.props.resource,
         [key]:value
       })
@@ -446,12 +448,11 @@ class StepForm extends Component {
               lat={this.props.resource.position && this.props.resource.position[0] ? this.props.resource.position[0] : null}
               lng={this.props.resource.position && this.props.resource.position[1] ? this.props.resource.position[1] : null}
               onPositionChange={function (lat, lng) {
-                this.props.updateResource({
+                this.props.updateResource(
+                  'step',
+                  {
                   ...this.props.resource,
-                  data: {
-                    ...this.props.resource.data,
                     position: [lat, lng]
-                  }
                 })
               }.bind(this)}
             />

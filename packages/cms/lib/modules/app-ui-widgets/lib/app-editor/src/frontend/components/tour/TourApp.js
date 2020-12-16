@@ -5,6 +5,7 @@ import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 
 import 'react-h5-audio-player/lib/styles.css';
 import "leaflet/dist/leaflet.css";
+import "./tour.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -67,15 +68,9 @@ function TourAudioPlayer () {
         showSkipControls={true}
         showJumpControls={false}
         autoPlay={false}
-        customProgressBarSection={
-          [
-            RHAP_UI.PROGRESS_BAR
-          ]
-        }
+        customProgressBarSection={[RHAP_UI.PROGRESS_BAR]}
         customAdditionalControls={[]}
-        customVolumeControls={[RHAP_UI.CURRENT_TIME,
-                    <div>/</div>,
-                    RHAP_UI.DURATION,]}
+        customVolumeControls={[RHAP_UI.CURRENT_TIME, <div>/</div>,  RHAP_UI.DURATION,]}
         src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
         onPlay={e => console.log("onPlay")}
         // other props here
@@ -175,7 +170,6 @@ class TourApp extends Component {
     this.state = {
       activeStepId: null,
     };
-
   }
 
   componentDidMount() {
@@ -204,7 +198,7 @@ class TourApp extends Component {
   render() {
     return (
       <div>
-        <TitleBar title="Tour Demo" />
+        <TitleBar title={this.props.title} />
         <TourMap
           steps={this.props.steps}
           coordinates={this.props.coordinates}

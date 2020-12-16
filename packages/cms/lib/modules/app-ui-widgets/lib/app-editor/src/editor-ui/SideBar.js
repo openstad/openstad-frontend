@@ -71,7 +71,9 @@ function Sidebar (props) {
               )
             })}
             <div style={{textAlign: 'right'}}>
-            <a href="#" className="plus-icon" onClick={props.new}> +</a>
+            <a href="#" className="plus-icon" onClick={() => {
+              props.new(resource.name)
+            }}> +</a>
             </div>
         </Section>
         )
