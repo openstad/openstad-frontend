@@ -7,6 +7,10 @@ import 'react-h5-audio-player/lib/styles.css';
 import "leaflet/dist/leaflet.css";
 import "./tour.css";
 
+import TourDetailView from './TourDetailView';
+import TourAudioPlayer from './TourAudioPlayer';
+
+
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -57,47 +61,6 @@ L.NumberedDivIcon = L.Icon.extend({
 
 const mapCenter = [52.370216, 4.895168];
 
-function TourList () {
-  return (<div></div>)
-}
-
-function TourAudioPlayer () {
-  return (
-    <div className="bottom-bar">
-      <AudioPlayer
-        showSkipControls={true}
-        showJumpControls={false}
-        autoPlay={false}
-        customProgressBarSection={[RHAP_UI.PROGRESS_BAR]}
-        customAdditionalControls={[]}
-        customVolumeControls={[RHAP_UI.CURRENT_TIME, <div>/</div>,  RHAP_UI.DURATION,]}
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-        onPlay={e => console.log("onPlay")}
-        // other props here
-      />
-    </div>
-  )
-}
-
-function TourDetailView (props) {
-  return (
-    <div>
-      {props.step ?
-      <div className="tour-detail-view">
-        <div className="tour-detail-view-inner">
-          <a href="#">X</a>
-          {props.step.images && props.step.images[0] && <img src={props.step.images[0]} />}
-          <h1>{props.step.title}</h1>
-          <p>{props.step.description}</p>
-        </div>
-      </div>
-      :
-      <div />
-      }
-    </div>
-  )
-}
-
 function TitleBar (props) {
   return (
     <div className="title-bar">
@@ -110,7 +73,6 @@ function TitleBar (props) {
     </div>
   )
 }
-
 
 class TourMap extends Component {
   render() {
@@ -204,7 +166,6 @@ class TourApp extends Component {
           coordinates={this.props.coordinates}
         />
         <TourAudioPlayer />
-        <TourList />
         <TourDetailView
           step={this.props.steps.find((step) => {
             return step.id === this.state.activeStepId;
