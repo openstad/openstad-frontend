@@ -22,6 +22,7 @@ module.exports = {
         if (req.query.resourceId && req.query.resourceType) {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
+          req.data.activeResourceHash = req.query.hash;
 
           self.loadResourceData(req, next);
         } else {
@@ -51,7 +52,7 @@ module.exports = {
       const activeResourceEndpoint = resourceInfo.resourceEndPoint;
 
       var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`,
+          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.resourceHash}`,
           headers: headers,
           json: true // Automatically parses the JSON string in the response
       };
