@@ -123,6 +123,27 @@ router.route('/')
 			...dbQuery.where,
     };
 
+		if(dbQuery.hasOwnProperty('order')) {
+			/**
+			 * Handle yes/no sorting
+			 */
+			dbQuery.sortingYesNo = [];
+
+			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+					if (sortingQuery[0] === 'yes' || sortingQuery[0] === 'no') {
+						dbQuery.sortingYesNo.push(sortingQuery);
+					} else {
+						return true;
+					}
+			});
+
+			// dbQuery.order.forEach((sortingQuery) => {
+			// 	if(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no') {
+			// 		sortingYesNo.push(sortingQuery[0]);
+			// 	}
+			// })
+		}
+
 		db.Idea
 			.scope(...req.scope)
       .findAndCountAll(dbQuery)
@@ -142,6 +163,8 @@ router.route('/')
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
+
+		console.log(req.results)
 		res.json(req.results);
   })
 
