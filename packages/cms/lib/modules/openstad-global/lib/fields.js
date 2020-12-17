@@ -535,6 +535,11 @@ module.exports = [
     def: 'Submit'
   },
   {
+    name: 'captchaLabel',
+    type: 'string',
+    label: 'Captcha Label',
+  },
+  {
     name: 'newsletterModalCancel',
     type: 'string',
     label: 'Cancel button',
