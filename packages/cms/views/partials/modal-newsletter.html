@@ -120,17 +120,17 @@
         </div>
         {% endif %}
 
-
-        <label>
-           {% if data.global.captchaLabel %}
-              {{data.global.captchaLabel}}
-           {% else %}
-             {{ __('Please enter the words you see into the field below ') }}
-           {% endif %}
-        </label>
+        <div class="form-field">
+          <label>
+             {% if data.global.captchaLabel %}
+                {{data.global.captchaLabel}}
+             {% else %}
+               {{ __('Please enter the words you see into the field below ') }}
+             {% endif %}
+          </label>
           <br />
-          <img src="/modules/openstad-captcha/" />
-          <a href="#" class="captcha-refresh"> <small>Refresh</small> </a>
+          <a href="#" class="captcha-refresh" />refresh</a>
+          <img src="/modules/openstad-captcha/captcha" class="openstad-refresh" width="200" />
           <input type="text" class="input-field" required name="areYouABot" />
         </div>
 

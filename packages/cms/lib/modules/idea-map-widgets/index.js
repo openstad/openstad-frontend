@@ -1,3 +1,6 @@
+/**
+ * Overview of idea resources on a map
+ */
 const openstadMap = require('../../../config/map').default;
 
 module.exports = {

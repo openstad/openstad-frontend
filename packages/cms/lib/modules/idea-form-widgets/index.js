@@ -1,5 +1,5 @@
 /**
- * Deprecated, see resource overview
+ * Deprecated, see resource form
  */
 const rp            = require('request-promise');
 const proxy         = require('http-proxy-middleware');

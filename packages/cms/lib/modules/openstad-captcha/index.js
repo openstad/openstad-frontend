@@ -13,23 +13,28 @@ const ignoreCaptchaChars = '0o1ilg9';
 module.exports = {
   name: 'openstad-captcha',
   construct(self, options) {
-    self.apos.app('/captcha', function () {
-        // fetch the captcha from the session so it doesn't change every request and will be impossible to Validate
-        // problem might be that a captcha is hard to decifer and the user can't refresh for a new one
-        if (!req.query.refresh && req.session.captcha && req.session.captcha.text) {
-          req.data.captcha = req.session.captcha;
-        } else {
-          const captcha = svgCaptcha.create({
-            ignoreChars: ignoreCaptchaChars
-          });
 
-          req.session.captcha = captcha;
-          req.data.captcha = captcha;
-        }
+    self.pushAsset('script', 'main', { when: 'always' });
 
-        res.type('svg');
-        res.status(200).send(captcha.data);
+    self.apos.app.get('/captcha', () => {
+      // fetch the captcha from the session so it doesn't change every request and will be impossible to Validate
+      // problem might be that a captcha is hard to decifer and the user can't refresh for a new one
+
+      if (!req.query.refresh && (req.session.captcha && req.session.captcha.text)) {
+        req.data.captcha = req.session.captcha;
+      } else {
+        const captcha = svgCaptcha.create({
+          ignoreChars: ignoreCaptchaChars
+        });
+        req.session.captcha = captcha;
+        req.data.captcha = captcha;
       }
+
+      // render the captcha as a SVG
+
+
+      res.type('svg');
+      res.status(200).send(captcha.data);
     })
   }
 };
