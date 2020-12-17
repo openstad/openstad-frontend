@@ -1,0 +1,18 @@
+{% if data.activeResource %}
+<div class="order-" style="text-align: center">
+   {% if data.activeResource.paymentStatus === 'PAID' %}
+    <h1> Bedankt voor uw bestelling! </h1>
+    <p>
+        We hebben uw betaling ontvangen en zullen uw bestelling zo spoedig mogelijk verzenden.
+    </p>
+
+   {% else %}
+   <h1> Betaling nog niet bevestigd </h1>
+   <p>
+      Uw betaling is nog niet bevestigd. Mocht u de betaling hebben afgerond dan kan dit soms enkele minuten duren voor dit wordt doorgegeven. U ontvangt een e-mail bevestiging wanneer dit gebeurd.
+   </p>
+   {% endif %}
+</div>
+{% else %}
+<h3> <em> Geen bestelling gevonden </em> </h3>
+{% endif %}
