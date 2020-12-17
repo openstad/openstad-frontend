@@ -5,7 +5,7 @@ import scriptLoader from 'react-async-script-loader';
 
 import axios from 'axios';
 
-import StepForm from './StepForm';
+import StepForm from './form/StepForm';
 import TourApp from './frontend/components/tour/TourApp';
 import AppSettingsForm from './editor-ui/AppSettingsForm';
 import AppPreviewer from './editor-ui/layout/AppPreviewer';
@@ -47,13 +47,11 @@ class Editor extends Component {
    * @return {[type]} [description]
    */
   fetchRoutes() {
-
     const resourceItems = this.getResourceItems('step');
 
     const stepCoordinates = resourceItems.items ?  resourceItems.items.map((resourceItem) => {
       return resourceItem.position[1] + ',' + resourceItem.position[0];
     }) : '';
-
 
     if (stepCoordinates) {
       const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;

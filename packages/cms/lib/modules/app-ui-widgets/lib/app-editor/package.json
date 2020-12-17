@@ -16,6 +16,7 @@
     "filepond-plugin-image-exif-orientation": "^1.0.9",
     "filepond-plugin-image-preview": "^4.6.4",
     "leaflet": "^1.7.1",
+    "leaflet.locatecontrol": "^0.72.0",
     "react": "^16.13.1",
     "react-async-script-loader": "^0.3.0",
     "react-dom": "^16.13.1",
