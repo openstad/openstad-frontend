@@ -1,3 +1,6 @@
+/**
+ * Widget for displaying buttons or links in different styles with static content
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -101,7 +104,7 @@ module.exports = {
         fields: ['targetBlank', 'classNameCustom', 'addTelephoneProtocol']
       }
     ]);
-    
+
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

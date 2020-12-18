@@ -1,3 +1,8 @@
+/**
+ * Widget that display a colord bar with days left to set date
+ * Often used for showing days left to submit a plan or vote
+ * For example: "10 days left to vote"
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
