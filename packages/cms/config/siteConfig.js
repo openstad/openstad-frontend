@@ -4,8 +4,7 @@ const palette = require('./palette');
 const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
-  get: (shortName, siteData) => {
-
+  get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
@@ -95,6 +94,24 @@ module.exports = {
             }
           }
         },
+        'apostrophe-multisite-patch-assets': {
+          construct: function(self, options) {
+            // For dev: at least one site has already started up, which
+            // means assets have already been attended to. Steal its
+            // asset generation identifier so they don't fight.
+            // We're not too late because apostrophe-assets doesn't
+            // use this information until afterInit
+            const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
+            self.apos.assets.determineDevGeneration = function() {
+              const original = superDetermineDevGeneration();
+
+              console.log('assetsIdentifier', assetsIdentifier);
+              console.log('original', original);
+
+              return assetsIdentifier ? assetsIdentifier : original;
+            };
+          }
+         },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields

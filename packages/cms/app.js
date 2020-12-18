@@ -36,7 +36,7 @@ const configForHosts          = {};
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
-var aposServer = {};
+const aposServer = {};
 
 app.use(express.static('public'));
 
@@ -153,8 +153,15 @@ function run(id, siteData, options, callback) {
   const site = { _id: id}
 
   const config = _.merge(siteData, options);
+  let assetsIdentifier;
 
-  const siteConfig = defaultSiteConfig.get(site._id, config);
+  // for dev sites grab the assetsIdentifier from the first site in order to share assets
+  if (Object.keys(aposServer).length > 0) {
+    const firstSite = aposServer[Object.keys(aposServer)[0]];
+    assetsIdentifier = firstSite.assets.generation;
+  }
+
+  const siteConfig = defaultSiteConfig.get(site._id, config, assetsIdentifier);
 
   siteConfig.afterListen = function () {
     apos._id = site._id;
@@ -166,9 +173,6 @@ function run(id, siteData, options, callback) {
   const apos = apostrophe(
     _.merge(siteConfig, siteData)
   );
-
-  console.log('apos', apos)
-
 }
 
 module.exports.getDefaultConfig = (options) => {
@@ -186,10 +190,12 @@ module.exports.getMultiSiteApp = (options) => {
    */
   app.use(async function (req, res, next) {
     if (Object.keys(sites).length === 0) {
+      console.log('Fetching config for all sites');
       await fetchAllSites(req, res);
     }
 
     if (Object.keys(sites).length === 0) {
+      console.log('No config for sites found');
       res.status(500).json({ error: 'No sites found'});
     }
 
@@ -223,6 +229,7 @@ module.exports.getMultiSiteApp = (options) => {
 
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
+
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
      if (site) {
        serveSite(req, res, site, false);
@@ -232,14 +239,12 @@ module.exports.getMultiSiteApp = (options) => {
   });
 
   /**
-   * Check if reques
+   * Check if the requested domain exists and if so serve the site
    */
   app.use(function(req, res, next) {
-
     /**
      * Start the servers
      */
-
     const site = sites[req.openstadDomain] ? sites[req.openstadDomain]  : false;
 
     // if site exists serve it, otherwise give a 404
