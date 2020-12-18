@@ -149,11 +149,8 @@ router.route('/')
         }
 				const { rows } = result;
 
-				console.log('req.query')
-
 				if(req.query.hasOwnProperty('sort') && req.query.sort) {
 					const sort = JSON.parse(req.query.sort);
-					console.log(sort)
 
 					if(Array.isArray(sort) && sort.length > 0){
 						const sortKey = sort[0];
