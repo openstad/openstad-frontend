@@ -1,5 +1,5 @@
 import React, { Component, useLocation } from 'react';
-import { View, Text, Button, TouchableHighlight, Image } from 'react-native';
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import Accordeon from '../Accordeon';
 import Fotorama from './Fotorama';
 import theme from '../theme';
@@ -26,7 +26,7 @@ const styles = {
   },
   small : {
     fontSize: 11,
-    color: theme.defaultTextColor
+    color: theme.emphasisedTextColor
   },
   greyBackground : {
     background: theme.backgroundColor
@@ -36,12 +36,36 @@ const styles = {
   },
   contentContainer : {
     padding: 15
+  },
+  timelineContainer: {
+    paddingLeft: 30
+  },
+  timeline : {
+    position: 'absolute',
+    width: 2,
+    top: 25,
+    left: 15,
+    bottom: 15,
+    background: theme.primaryColor
+  },
+  outlinedButton: {
+    color: theme.primaryColor,
+    backgroundColor: 'transparant',
+    borderColor: theme.primaryColor,
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderRadius: 8,
+    padding: 8,
+    textAlign: 'center',
+    fontSize: 12
+  },
+  colFifty: {
+    width: '50%',
+    display: 'block'
   }
 }
 
 function TourTimelineView (props) {
-  console.log('theme', theme, styles)
-
   return (
       <div className="tour-detail-view" style={{
         ...styles.greyBackground
@@ -58,16 +82,19 @@ function TourTimelineView (props) {
             <Text style={styles.p}>{props.tour.description}</Text>
           </View>
           <View style={{
-            ...styles.contentContainer
+            ...styles.contentContainer,
+            ...styles.timelineContainer
           }}>
+          <View style={styles.timeline} />
+
           {props.steps && props.steps.map((step, i) => {
+            console.log('step', step)
             return (
                 <Accordeon
                   title={
                     <Text style={styles.h2}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
                   }
                 >
-                <Text style={styles.p}>{step.description}</Text>
                 <View style={{
                   display: 'flex',
                 }}>
@@ -75,12 +102,11 @@ function TourTimelineView (props) {
                   {props.step.images &&
                     <View style={{display: 'flex'}}>
                     {props.step.images.map((image, i) => {
-
                       return (
                         <View>
                           <Image source={{uri: image}} className="border-image" style={{
-                            width: 80,
-                            height: 80,
+                            width: 50,
+                            height: 50,
                             borderRadius: 10
                           }} />
 
@@ -89,18 +115,24 @@ function TourTimelineView (props) {
                     })}
                     </View>
                   }
+                  <Text style={styles.p}>{step.description}</Text>
 
-                  {props.step.audio && props.step.audio.file ?
-                  <Button onPress={() => { props.playAudio(step.id) }}>
-                    <img src="/play-circle.svg" /> Play Audio
-                  </Button>
-                  :
-                  <small> This step has no audio </small>
-                  }
-
-                  <TouchableHighlight onPress={() => { props.playAudio(step.id) }}>
-                    <Text> Show on map more </Text>
-                  </TouchableHighlight>
+                  <View style={{display: 'flex'}}>
+                    <View style={styles.colFifty}>
+                      {step.audio && step.audio.filename ?
+                      <TouchableOpacity onPress={() => { props.playAudio(step.id) }} style={styles.outlinedButton}>
+                        <Image uri={{uri:'/play-circle.svg'}} /> Play Audio
+                      </TouchableOpacity>
+                      :
+                      <small> This step has no audio </small>
+                      }
+                    </View>
+                    <View style={styles.colFifty}>
+                      <TouchableOpacity onPress={() => { props.backToMap(step.id) }}>
+                        <Text style={{...styles.h2}}> Show on map more </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </View>
               </Accordeon>
             )
