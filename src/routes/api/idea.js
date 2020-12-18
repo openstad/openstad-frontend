@@ -136,12 +136,6 @@ router.route('/')
 						return true;
 					}
 			});
-
-			// dbQuery.order.forEach((sortingQuery) => {
-			// 	if(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no') {
-			// 		sortingYesNo.push(sortingQuery[0]);
-			// 	}
-			// })
 		}
 
 		db.Idea
@@ -153,7 +147,31 @@ router.route('/')
             if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
           });
         }
-        req.results = result.rows;
+				const { rows } = result;
+
+				console.log('req.query')
+
+				if(req.query.hasOwnProperty('sort') && req.query.sort) {
+					const sort = JSON.parse(req.query.sort);
+					console.log(sort)
+
+					if(Array.isArray(sort) && sort.length > 0){
+						const sortKey = sort[0];
+						const sortDirection = sort[1];
+
+						rows.sort((ideaA, ideaB) => {
+							if ( ideaA[sortKey] < ideaB[sortKey] ){
+								return -1;
+							}
+							if ( ideaA[sortKey] > ideaB[sortKey] ){
+								return 1;
+							}
+							return 0;
+						});
+					}
+				}
+
+        req.results = rows;
         req.dbQuery.count = result.count;
         return next();
 			})
@@ -163,8 +181,6 @@ router.route('/')
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
-
-		console.log(req.results)
 		res.json(req.results);
   })
 
