@@ -4,7 +4,6 @@
  */
 
 const createProxyMiddleware = require('http-proxy-middleware');
-console.log('register proxy for dev')
 
 module.exports = function(app) {
   app.use(

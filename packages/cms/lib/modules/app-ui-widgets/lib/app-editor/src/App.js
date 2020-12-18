@@ -6,51 +6,18 @@ import scriptLoader from 'react-async-script-loader';
 import axios from 'axios';
 
 /* Layout elements */
-import LeftPanel from './Layout/LeftPanel.js';
-import TopPanel from './Layout/TopPanel.js';
-import MiddlePanel from './Layout/MiddlePanel.js';
-import RightPanel from './Layout/RightPanel.js';
-import ListItem from './Layout/ListItem.js';
-import AppPreviewer from './Layout/AppPreviewer.js';
-import Section from './Layout/Section.js';
+import LeftPanel from './editor-ui/layout/LeftPanel';
+import TopPanel from './editor-ui/layout/TopPanel';
+import MiddlePanel from './editor-ui/layout/MiddlePanel';
+import RightPanel from './editor-ui/layout/RightPanel';
+import AppPreviewer from './editor-ui/layout/AppPreviewer';
+import Section from './editor-ui/layout/Section';
 
-import ResourceForm from './ResourceForm.js';
-import TourApp from './TourApp.js';
-import AppSettingsForm from './AppSettingsForm.js';
+import StepForm from './StepForm';
+import TourApp from './frontend/components/TourApp';
+import AppSettingsForm from './editor-ui/AppSettingsForm';
 
-const listItems = [
-  {
-    type: 'step',
-    data: {
-      id: 1,
-      title: 'Step 1',
-      description: 'Lorem ipsum....',
-      position: [52.370216, 4.895168],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500'],
-      audio: {
-        filename: 'test.mp3'
-      }
-    }
-  },
-  {
-    type: 'step',
-    data: {
-      id: 2,
-      title: 'Step 2',
-      description: 'Lorem ipsum....',
-      position: [52.360506, 4.908971],
-      images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
-    }
-  },
-];
 
-const blancResource = {
-    type: 'step',
-    data: {
-      title: 'New...',
-      position: [52.360506, 4.908971],
-    }
-};
 
 function UI (props) {
   return (
@@ -66,7 +33,6 @@ function UI (props) {
           {props.main}
         </MiddlePanel>
         <RightPanel open={!!props.rightPanel}>
-
           {props.rightPanel ?
             <div>
             <Section style={{textAlign: 'right'}} collapsible={false}>
@@ -82,39 +48,6 @@ function UI (props) {
   </div>
   )
 }
-
-function Sidebar (props) {
-  return (
-    <>
-      <Section title="General">
-      <ListItem active={false} >
-        <a className="list-link" href="#settings">
-          Settings
-        </a>
-      </ListItem>
-      </Section>
-      <Section title="Steps">
-        {props.resourceItems.map(function(resourceItem) {
-          var active = props.activeResource && resourceItem.data.id === props.activeResource.data.id ;
-          var linkClassName = active ? "list-link active" : "list-link";
-          return(
-            <ListItem active={active}>
-              <a className={linkClassName} onClick={() => {
-                props.edit(resourceItem)
-              }} href="#">
-                {resourceItem.data.title}
-              </a>
-            </ListItem>
-          )
-        })}
-        <div style={{textAlign: 'right'}}>
-        <a href="#" className="plus-icon" onClick={props.new}> +</a>
-        </div>
-      </Section>
-    </>
-  )
-}
-
 
 // Our app
 class App extends Component {
@@ -191,6 +124,7 @@ class App extends Component {
   }
 
   newResource() {
+
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
     var lastResourceId = lastResource.data.id;
@@ -339,7 +273,7 @@ class App extends Component {
         }
         rightPanel={
           this.state.activeResource ?
-            <ResourceForm
+            <StepForm
               resource={this.state.activeResource}
               updateResource={this.updateResource.bind(this)}
             /> : false

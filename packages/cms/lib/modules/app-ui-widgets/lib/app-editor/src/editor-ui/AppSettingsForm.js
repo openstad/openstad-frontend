@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import LocationSearchInput from './LocationSearchInput.js';
-import Section from './Layout/Section.js';
+import LocationSearchInput from './LocationSearchInput';
+import Section from './layout/Section';
 
 
 class AppSettingsForm extends Component {

@@ -800,6 +800,18 @@ const fields = [
        def: false
     },
     {
+       name: 'agreedRequired',
+       type: 'boolean',
+       label: 'Display agreed checkbox?',
+       def: false
+    },
+    {
+       name: 'agreedLabel',
+       type: 'string',
+       label: 'Text for checkbox (html allowed)',
+       textarea: true
+    },
+    {
         name: 'minAdvice',
         type: 'float',
         label: 'Minimum number of characters needed for advice',
