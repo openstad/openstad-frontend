@@ -9,7 +9,7 @@ import StepForm from './form/StepForm';
 import TourApp from './frontend/components/tour/TourApp';
 import AppSettingsForm from './editor-ui/AppSettingsForm';
 import AppPreviewer from './editor-ui/layout/AppPreviewer';
-import Sidebar from './editor-ui/Sidebar';
+import Sidebar from './editor-ui/SideBar';
 import {Loader, Modal} from'./editor-ui/elements';
 import UI from'./editor-ui/UI';
 
@@ -289,6 +289,14 @@ class Editor extends Component {
               <TourApp
                 coordinates={this.getResourceItems('coorrdinates')}
                 steps={this.getResourceItems('step')}
+                app={{
+                  location: 'Amsterdam, Netherlands',
+                  title: 'Vondelpark & Oud West Neighborhoud', //this.props.title,
+                  description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',//this.props.description,
+                  transportType: 'Walking',
+                  duration: '1',
+                  language: 'English'
+                }}
               />
             </AppPreviewer>
           </div>

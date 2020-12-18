@@ -75,17 +75,16 @@ class TourApp extends Component {
   render() {
     return (
       <div>
-        <TitleBar title={this.props.title} />
+        <TitleBar title={this.props.app.title} />
         <TourMap
           steps={this.props.steps}
           coordinates={this.props.coordinates}
         />
+
         {this.state.activeViewStep &&
         <TourTimelineView
           step={this.state.activeViewStep}
-          tour={{
-            title: this.props.title
-          }}
+          tour={this.props.app}
           playAudio={this.selectAudioStep.bind(this)}
           steps={this.props.steps}
           stepActiveIndex={this.state.activeViewStepIndex}

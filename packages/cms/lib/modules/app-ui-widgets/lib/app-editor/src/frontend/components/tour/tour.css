@@ -201,21 +201,29 @@ body .leaflet-marker-icon .number {
 
 .tour-detail-view {
   position: absolute;
-  z-index: 1000;
+  z-index: 100000;
   overflow: auto;
-  top: 80px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  background: white;
 }
 
 .tour-detail-view-inner {
   overflow: hidden;
   min-height: 700px;
-  margin-left: 8px;
-  margin-right: 8px;
-  background: white;
-  border-radius: 10px 10px 0 0
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+.tour-detail-view-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 5;
 }
 
 .tour-detail-view-inner-content {
@@ -263,8 +271,29 @@ body .leaflet-marker-icon .number {
 .title-bar {
   background: white;
   padding: 15px 5px;
-  border-bottom: 1px solid #efefef;
   text-align: center;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  background: white;
+  padding: 15px 5px;
+  /* border-bottom: 1px solid #efefef; */
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  box-sizing: border-box;
+  height: 300px;
+  pointer-events: none;
 }
 
 .title-bar-title {

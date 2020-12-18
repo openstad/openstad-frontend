@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import LocateControl from "./LocateControl"
+import theme from '../theme';
 
 import "leaflet/dist/leaflet.css";
+
+/*
+var gl = L.mapboxGL({
+  attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+  style: 'https://api.maptiler.com/maps/7a1e9afb-36c0-48fd-830c-7ac80a07d90b/style.json?key=BqThJi6v35FQeB3orVDl'
+})*/
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -61,7 +68,7 @@ class TourMap extends Component {
     console.log('this.props.coordinates', this.props.steps)
 
     const locateOptions = {
-        position: 'topright',
+        position: 'bottomLeft',
         strings: {
             title: 'Show me where I am, yo!'
         },
@@ -69,7 +76,7 @@ class TourMap extends Component {
       }
 
     return (
-      <Map center={mapCenter} zoom={12} style={{ position: 'absolute', top: '48px', bottom: '0', width: '100%'}}>
+      <Map center={mapCenter} zoom={12} style={{ position: 'absolute', top: '0', bottom: '0', width: '100%'}}>
         <LocateControl options={locateOptions} startDirectly />
 
         <TileLayer
@@ -95,7 +102,7 @@ class TourMap extends Component {
           positions={this.props.coordinates.map(function(step) {
             return [step[1], step[0]];
           })}
-          color={'black'}
+          color={theme.primaryColor}
         />
         }
 

@@ -1,33 +1,65 @@
 import React, { Component, useLocation } from 'react';
-import { View, Text, Button, TouchableHighlight } from 'react-native';
+import { View, Text, Button, TouchableHighlight, Image } from 'react-native';
 import Accordeon from '../Accordeon';
 import Fotorama from './Fotorama';
+import theme from '../theme';
 
 const styles = {
   h1 : {
-    fontSize: 22
+    fontSize: 16,
+    display: 'block',
+    color: theme.emphasisedTextColor,
+    marginTop: 10,
+    marginBottom: 5
   },
   h2 : {
-    fontSize: 18
+    fontSize: 16,
+    display: 'block',
+    color: theme.primaryColor
   },
   p  : {
-    fontSize: 12
+    fontSize: 12,
+    display: 'block',
+    color: theme.defaultTextColor,
+    marginTop: 10,
+    marginBottom: 5
   },
   small : {
-    fontSize: 11
+    fontSize: 11,
+    color: theme.defaultTextColor
+  },
+  greyBackground : {
+    background: theme.backgroundColor
+  },
+  whiteBackground : {
+    background: '#FFFFFF'
+  },
+  contentContainer : {
+    padding: 15
   }
 }
 
 function TourTimelineView (props) {
-  return (
-      <div className="tour-detail-view">
-        <div className="tour-detail-view-inner">
-          <a href="#">X</a>
-          <Text style={{...styles.small, opacity: 0.8}}>{props.tour.location}</Text>
-          <Text style={styles.h1}>{props.tour.title}</Text>
-          <Text style={styles.p}>{props.tour.description}</Text>
-          <Text style={styles.small}>{props.tour.transportType | 'walking'} | {props.tour.duration | '1 hour'}  | {props.tour.language | 'english'} </Text>
+  console.log('theme', theme, styles)
 
+  return (
+      <div className="tour-detail-view" style={{
+        ...styles.greyBackground
+      }}>
+        <div className="tour-detail-view-inner">
+          <a href="#" className="tour-detail-view-close">✕</a>
+          <View style={{
+            ...styles.contentContainer,
+            ...styles.whiteBackground
+          }}>
+            <Text style={{...styles.small, opacity: 0.8}}>{props.tour.location}</Text>
+            <Text style={styles.h1}>{props.tour.title}</Text>
+            <Text style={styles.small}>{props.tour.transportType} | {props.tour.duration}  | {props.tour.language } </Text>
+            <Text style={styles.p}>{props.tour.description}</Text>
+          </View>
+          <View style={{
+            ...styles.contentContainer
+          }}>
           {props.steps && props.steps.map((step, i) => {
             return (
                 <Accordeon
@@ -41,23 +73,21 @@ function TourTimelineView (props) {
                 }}>
 
                   {props.step.images &&
-                  <Fotorama
-                     imp
-                     data-allowfullscreen="true"
-                     data-width="100%"
-                     data-arrows="always"
-                     data-min-width="100%"
-                     data-ratio="500/250"
-                     data-maxheight="250"
-                     data-fit="cover"
-                     data-loop="true"
-                     data-keyboard="true"
-                     data-transition="slide"
-                  >
-                    {props.step.images.map((image) => {
-                      return <img src={image} />
+                    <View style={{display: 'flex'}}>
+                    {props.step.images.map((image, i) => {
+
+                      return (
+                        <View>
+                          <Image source={{uri: image}} className="border-image" style={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 10
+                          }} />
+
+                        </View>
+                      )
                     })}
-                  </Fotorama>
+                    </View>
                   }
 
                   {props.step.audio && props.step.audio.file ?
@@ -75,6 +105,7 @@ function TourTimelineView (props) {
               </Accordeon>
             )
           })}
+          </View>
 
       </div>
     </div>
