@@ -160,13 +160,11 @@ router.route('/')
 						const sortDirection = sort[1];
 
 						rows.sort((ideaA, ideaB) => {
-							if ( ideaA[sortKey] < ideaB[sortKey] ){
-								return -1;
+							if(sortDirection === 'ASC') {
+								return ideaA[sortKey] < ideaB[sortKey] ? -1 : 1;
 							}
-							if ( ideaA[sortKey] > ideaB[sortKey] ){
-								return 1;
-							}
-							return 0;
+
+							return ideaA[sortKey] > ideaB[sortKey] ? -1 : 1;
 						});
 					}
 				}
