@@ -140,16 +140,60 @@ module.exports = [
     required: true,
   },
   {
+    type: 'string',
+    name: 'captchLabel',
+    label: "Label for captcha",
+    def: 'Please enter the words you see into the field below ',
+    required: true,
+  },
+  {
     type: 'boolean',
     name: 'hideSiteTitle',
     label: 'Hide the site title in the header?',
     def: true
   },
+
+  {
+    type: 'select',
+    name: 'analyticsType',
+    label: 'Analytics type',
+    def: 'google-analytics-old-style',
+    choices: [
+      {
+        value: 'none',
+        label: "No analytics",
+      },
+      {
+        value: 'google-analytics-old-style',
+        label: "Google Analytics old style (with a property like UA-xxxxx)",
+        showFields: ['analyticsIdentifier']
+      },
+      {
+        value: 'google-analytics-new-style',
+        label: "Google Analytics new style (with a property like G-xxxxx)",
+        showFields: ['analyticsIdentifier']
+      },
+      {
+        value: 'custom',
+        label: "Custom: use a custom codeblock",
+        showFields: ['analyticsCodeBlock']
+      }
+    ]
+  },
+
   {
     type: 'string',
-    name: 'analytics',
-    label: 'Google Analytics Property ID (like UA-xxxxx)'
+    name: 'analyticsCodeBlock',
+    label: 'Custom code',
+    textarea: true,
   },
+
+  {
+    type: 'string',
+    name: 'analyticsIdentifier',
+    label: 'Google Analytics Property ID (like UA-xxxxx or G-xxxxx)'
+  },
+
   {
     type: 'string',
     name: 'tagmanager',
@@ -498,6 +542,11 @@ module.exports = [
     def: 'Submit'
   },
   {
+    name: 'captchaLabel',
+    type: 'string',
+    label: 'Captcha Label',
+  },
+  {
     name: 'newsletterModalCancel',
     type: 'string',
     label: 'Cancel button',
@@ -616,6 +665,7 @@ module.exports = [
     choices: rightsChoices,
     def: 'member'
   },
+  /*
   {
     name: 'canAddNewIdeas',
     type: 'boolean',
@@ -629,7 +679,7 @@ module.exports = [
     label: 'set min title length of an idea',
     apiSyncField: 'ideas.titleMinLength',
     help: 'This field will also update the global settings field (ideas.titleMinLength) in the api'
-  },
+  },*/
   {
     type: 'boolean',
     name: 'applyPaletteStyling',

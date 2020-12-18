@@ -1,3 +1,7 @@
+/**
+ * A speech bubble representation widget that allows for certain static for content in it.
+ * 
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const contentWidgets = {
     'counter' : {

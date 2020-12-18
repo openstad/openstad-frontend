@@ -1,3 +1,9 @@
+/**
+ * Customiizing Apostrophe Global settings
+ *
+ * Be aware that apostropheCMS puts all global settings in the HTML source so global fields are not suited for sensitive settings
+ * 
+ */
 const auth              = require('basic-auth');
 const compare           = require('tsscmp');
 const fs     = require('fs');
@@ -26,10 +32,10 @@ module.exports = {
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
     self.apos.app.use((req, res, next) => {
+
       req.data.global = req.data.global ? req.data.global : {};
 
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
-
 
       /**
        * Run basic-auth middleware.
@@ -75,6 +81,13 @@ module.exports = {
       };
 
       req.data.originalUrl = req.originalUrl;
+
+      // backwards compatibility for analytics
+      // TODO: is there a way to use the value of an old field as default for a new field?
+      if (typeof req.data.global.analyticsType == 'undefined' || ( req.data.global.analyticsType == 'google-analytics-old-style' && req.data.global.analyticsIdentifier == '' && req.data.global.analytics ) ) {
+        req.data.global.analyticsType = 'google-analytics-old-style';
+        req.data.global.analyticsIdentifier = req.data.global.analytics;
+      }
 
       // get the identifier for making sure that the custom js/css files we load in also bust the cache
       req.data.assetsGeneration = fs.existsSync('data/generation') ? fs.readFileSync('data/generation').toString().trim() : Math.random().toString(36).slice(-5);

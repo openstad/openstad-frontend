@@ -1,3 +1,6 @@
+/**
+ * Deprecated, see resource representation and select idea single display type
+ */
 const rp = require('request-promise');
 const eventEmitter  = require('../../../events').emitter;
 const extraFields =  require('../../../config/extraFields.js').fields;

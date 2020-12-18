@@ -1,3 +1,6 @@
+/**
+ * Colored bar for displaying messages with static content on pages
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 const parseCookie = (value) => {

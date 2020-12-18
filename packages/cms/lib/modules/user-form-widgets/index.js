@@ -1,3 +1,7 @@
+/**
+ * GENERIC form contact widget wi, developed in Den Haag,
+ * Currently only show if beta widgets are on, not properly tested!!!
+ */
 const rp          = require('request-promise');
 const styleSchema = require('../../../config/styleSchema.js').default;
 const mapFormValidations = require('./mapFormValidations');

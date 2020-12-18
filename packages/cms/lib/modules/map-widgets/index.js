@@ -1,3 +1,7 @@
+/**
+ * Abstract map widget, is extended by several other map widgets
+ * Offers both implementation with openstreed map and google maps
+ */
 'use strict';
 
 const config = require('./lib/config');

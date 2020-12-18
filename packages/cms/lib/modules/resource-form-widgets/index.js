@@ -1,3 +1,11 @@
+/**
+ * The Resource form widget allows for a generic
+ *
+ * 2 ways of doing this:
+ * 1. Through query params: ?resourceType=idea&resourceId=1
+ * 2 Through CMS user configured page settings, like so /idea/1
+ */
+
 const rp            = require('request-promise');
 const proxy         = require('http-proxy-middleware');
 const url           = require('url');
@@ -105,6 +113,11 @@ module.exports = {
        name: 'submitting',
        label: 'Submitting',
        fields: ['buttonTextSubmit', 'buttonTextSave']
+     },
+     {
+       name: 'agreed',
+       label: 'Agreed checkbox',
+       fields: ['agreedLabel', 'agreedRequired']
      },
      {
        name: 'budget',

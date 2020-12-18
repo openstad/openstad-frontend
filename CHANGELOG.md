@@ -1,14 +1,26 @@
 # Changelog
 
-## Unreleased updates
+## UNRELEASED
+* Make the (Google) Analytics block configurable to provide for a new version and also other options
+* Add html class name to resource overview
+* Clear cached session openstad user when making api call or logging out
+* Add an extra choices type to the choices guide
+
+## v0.10.1 (2020-12-09)
+* Cache openstad user longer when logged in to cms
+
+## v0.10.0 (2020-12-09)
 * Make description textarea in icon-section
 * Show message that user needs to be logged in for viewing admin widget
-
-## v0.9.1 (2020-11-26)
+* Add SVG captcha to newsletter signup
 * Content fields in ideas-on-map now include an old deprecated value as fallback
 * Content fields helptekst is updated
+* Limit user cache to 5 seconds, and only for CMS users
 
-## v0.9.0 (Pre release)
+## v0.9.1 (2020-12-07)
+* Turning of synchronising incorrect idea settings to the API
+
+## v0.9.0 (2020-11-25)
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
 * Feature: Better explanations in global newsletter settings
 * Add admin warning to vote counter if vote count is not publicly available
