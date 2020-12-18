@@ -328,5 +328,22 @@
 	"Lastname": "Lastname",
 	"Estimate": "Estimate",
 	"App widgets": "App widgets",
-	"Cart": "Cart"
+	"Cart": "Cart",
+	"Products": "Products",
+	"Orders": "Orders",
+	"Accounts": "Accounts",
+	"Games": "Games",
+	"Tour": "Tour",
+	"Product": "Product",
+	"Edit Cart": "Edit Cart",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience.",
+	"Edit Vorige volgende knoppen": "Edit Vorige volgende knoppen",
+	"Checkout (default)": "Checkout (default)",
+	"Repeatable": "Repeatable",
+	"Allow guest form submissions?": "Allow guest form submissions?",
+	"Display user info at the top?": "Display user info at the top?",
+	"Display agreed checkbox?": "Display agreed checkbox?",
+	"Text for checkbox (html allowed)": "Text for checkbox (html allowed)",
+	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?"
 }

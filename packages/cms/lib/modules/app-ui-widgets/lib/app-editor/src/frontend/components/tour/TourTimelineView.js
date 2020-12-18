@@ -35,9 +35,6 @@ function TourTimelineView (props) {
                     <Text style={styles.h2}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
                   }
                 >
-                {step.images && step.images[0] && <img src={step.images[0]} />}
-
-                <Text style={styles.h2}>{step.title}</Text>
                 <Text style={styles.p}>{step.description}</Text>
                 <View style={{
                   display: 'flex',
@@ -71,10 +68,8 @@ function TourTimelineView (props) {
                   <small> This step has no audio </small>
                   }
 
-
-
                   <TouchableHighlight onPress={() => { props.playAudio(step.id) }}>
-                    Read more
+                    <Text> Show on map more </Text>
                   </TouchableHighlight>
                 </View>
               </Accordeon>

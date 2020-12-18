@@ -82,9 +82,13 @@ module.exports = {
         label: 'Tags',
         fields: ['displayTagFilters']
       },
-
       {
-        name: 'include_exclude',
+        name: 'agreedCheckbox',
+        label: 'Agreed checkbox',
+        fields: ['agreedRequired', 'agreedLabel']
+      },
+      {
+        name: 'includeExclude',
         label: 'Include & Exclude items',
         fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources']
       },

@@ -54,7 +54,7 @@
   {% for idea in data.widget.activeResources %}
   <li
     id="idea-{{idea.id}}"
-    class="gridder-list idea-item product-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
+    class="gridder-list idea-item product-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}} {{'soldout' if product.extraData.soldOut }}"
     data-griddercontent="#ideaContent{{idea.id}}"
     onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
     onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
@@ -98,6 +98,12 @@
         	<h3 class="title">{{idea.name}}</h3>
           <p class="price"> {{idea.price | currency}}</p>
         </div>
+
+        {% if idea.extraData.soldOut %}
+          <div class="soldout-container">
+            Uitverkocht
+          </div>
+        {% else %}
         <div class="col-xs-6 product-change">
           {% if idea.cartItem and idea.cartItem.qty > 0 %}
           <a href="/cart/{{idea.id}}" data-quantity="{{idea.cartItem.qty + 1}}" data-product-id="{{idea.id}}" class="cart-add btn-group-last pull-right btn btn-primary">
@@ -114,9 +120,8 @@
             +
           </a>
           {% endif %}
-
-
         </div>
+        {% endif %}
       </div>
     </div>
 

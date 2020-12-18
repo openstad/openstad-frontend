@@ -12,6 +12,12 @@
 <input type="hidden" name="guestHash" value="{{data.widget.guestHash}}" />
 {% endif %}
 
+{% if data.widget.agreedRequired %}
+<div class="form-field-container">
+{% include 'includes/fields/agreed-checkbox.html' %}
+</div>
+{% endif %}
+
 {% if activeResource %}
 <input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
 {% else %}

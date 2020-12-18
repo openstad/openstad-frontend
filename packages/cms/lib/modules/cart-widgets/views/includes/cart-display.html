@@ -1,5 +1,6 @@
 <div id="openstad-cart-{{widget._id}}" class="openstad-ajax-refresh">
   <div class="cart  ">
+      {% if data.cart and data.cart.items %}
       <ul class="list-group">
           {% for item in data.cart.items %}
           <li class="list-group-item clearfix card-item">
@@ -37,13 +38,20 @@
           </li>
           {% endfor %}
       </ul>
+      {% else %}
+      <em class="cart-is-empty">
+        Mandje is leeg
+      </em>
+      {% endif %}
     {#  <a href="/cart/empty" class="cart-empty">
         Empty
       </a>
       #}
   </div>
+  {% if data.cart and data.cart.totals %}
   <div class="text-right">
       <br />
       <strong>Total: {{ data.cart.totals.toFixed(2) | currency }}</strong>
   </div>
+  {% endif %}
 </div>
