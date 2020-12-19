@@ -54,11 +54,8 @@ addons:
     – yq
 
 before_install:
-  - echo ${DEV_RELEASE_BRANCHES}
-  - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
-
-script:
   - export IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+  - docker build -t ${IMAGE_TAG} .
   - docker run -e CI=true ${IMAGE_TAG} npm run test -- --coverage
   - export MOUNT_DIR=$(pwd)/public/uploads
   - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation --create-bundle public/uploads/dist
