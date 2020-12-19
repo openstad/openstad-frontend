@@ -18,9 +18,7 @@ env:
     - HELM_REPO_NAME=${HELM_REPO_NAME:-openstad-kubernetes}
     - HELM_CHART_FOLDER=${HELM_CHART_FOLDER:-k8s/openstad}
 
-    - GITOPS_DEV_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH:-develop}
-    - GITOPS_ACC_RELEASE_BRANCH=${GITOPS_ACC_RELEASE_BRANCH:-staging}
-    - GITOPS_PROD_RELEASE_BRANCH=${GITOPS_PROD_RELEASE_BRANCH:-master}
+    - GITOPS_RELEASE_BRANCH=${GITOPS_RELEASE_BRANCH:-master}
 
     - GITOPS_DEV_VALUES_FILE=${GITOPS_DEV_VALUES_FILE:-k8s/openstad/environments/dev.values.yaml}
     - GITOPS_ACC_VALUES_FILE=${GITOPS_ACC_VALUES_FILE:-k8s/openstad/environments/acc.values.yaml}
@@ -114,19 +112,16 @@ jobs:
       env:
         - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
         - GITOPS_VALUES_FILE=${GITOPS_DEV_VALUES_FILE}
-        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
       script: bash gitops_push
     - stage: gitops_acc
       name: "Release and commit new image tag to ACC environment"
       env:
         - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
         - GITOPS_VALUES_FILE=${GITOPS_ACC_VALUES_FILE}
-        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
       script: bash gitops_push
     - stage: gitops_prod
       name: "Release and commit new image tag to PROD environment"
       env:
         - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_TAG}
         - GITOPS_VALUES_FILE=${GITOPS_PROD_VALUES_FILE}
-        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
       script: bash gitops_push
