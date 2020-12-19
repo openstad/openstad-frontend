@@ -1,5 +1,5 @@
 import React, { Component, useLocation } from 'react';
-import { View, Text, TouchableHighlight, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 const styles = {
   open: {
@@ -22,7 +22,7 @@ class Accordion extends Component {
     super(props);
 
     this.state = {
-      open: false,
+      open: this.props.open,
     };
   }
 
@@ -32,13 +32,13 @@ class Accordion extends Component {
      <View style={this.state.open ? styles.open : styles.closed}>
         {this.state.open && <Image style={styles.toggleIcon} source={{uri: '/open-icon.svg'}} />}
         {!this.state.open && <Image style={styles.toggleIcon} source={{uri: '/closed-icon.svg'}} />}
-        <TouchableHighlight onPress={() => {
+        <TouchableOpacity onPress={() => {
           this.setState({
             open: !this.state.open
           })
         }}>
           <View style={styles.title}> {this.props.title} </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         {this.state.open && <View style={styles.contentContainer}> {this.props.children} </View>}
      </View>
    )

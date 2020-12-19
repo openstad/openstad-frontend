@@ -25,7 +25,6 @@ const generateCDNImportString = (URI) => {
 	} else {
 		return -1; // error
 	}
-	console.log(script);
 	return script;
 };
 
@@ -54,7 +53,6 @@ const ExampleArray = [];
 export default class Fotorama extends React.Component {
 	// import those dep!
 	componentDidMount() {
-		console.log(this.props);
 		if (!!this.props.imp) {
 			const dep = [
 				'https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',

@@ -59,13 +59,23 @@ const styles = {
     textAlign: 'center',
     fontSize: 12
   },
+  colContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+  },
   colFifty: {
     width: '50%',
-    display: 'block'
+  },
+  noPreWrap: {
+    whiteSpace: 'normal'
   }
 }
 
 function TourTimelineView (props) {
+  const amountOfImagesInitially = 3;
+
   return (
       <div className="tour-detail-view" style={{
         ...styles.greyBackground
@@ -88,36 +98,44 @@ function TourTimelineView (props) {
           <View style={styles.timeline} />
 
           {props.steps && props.steps.map((step, i) => {
-            console.log('step', step)
             return (
                 <Accordeon
+                  open={props.activeStep.id === step.id}
                   title={
-                    <Text style={styles.h2}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
+                    <Text style={{...styles.h2, ...styles.noPreWrap}}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
                   }
                 >
                 <View style={{
                   display: 'flex',
                 }}>
 
-                  {props.step.images &&
+                  {step.images &&
                     <View style={{display: 'flex'}}>
-                    {props.step.images.map((image, i) => {
-                      return (
-                        <View>
-                          <Image source={{uri: image}} className="border-image" style={{
-                            width: 50,
-                            height: 50,
-                            borderRadius: 10
-                          }} />
+                    {step.images.slice(0, (amountOfImagesInitially - 1)).map((image, i) => {
 
-                        </View>
+                      return (
+                        <TouchableOpacity>
+                          <Image
+                            source={{uri: image}}
+                            resizeMode="cover"
+                            style={{
+                              width: 80,
+                              height: 80,
+                              borderRadius: 10
+                            }}
+                            />
+                          {(i === (amountOfImagesInitially - 1) && step.images.length > amountOfImagesInitially) &&
+                            <Text>+ {(amountOfImagesInitially - step.images.length)} Images </Text>
+                          }
+                        </TouchableOpacity>
                       )
                     })}
                     </View>
                   }
+
                   <Text style={styles.p}>{step.description}</Text>
 
-                  <View style={{display: 'flex'}}>
+                  <View style={styles.colContainer}>
                     <View style={styles.colFifty}>
                       {step.audio && step.audio.filename ?
                       <TouchableOpacity onPress={() => { props.playAudio(step.id) }} style={styles.outlinedButton}>
@@ -129,7 +147,7 @@ function TourTimelineView (props) {
                     </View>
                     <View style={styles.colFifty}>
                       <TouchableOpacity onPress={() => { props.backToMap(step.id) }}>
-                        <Text style={{...styles.h2}}> Show on map more </Text>
+                        <Text style={{...styles.h2, textAlign: 'center'}}> Show on map more </Text>
                       </TouchableOpacity>
                     </View>
                   </View>

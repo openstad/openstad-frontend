@@ -298,6 +298,8 @@ body .leaflet-marker-icon .number {
 
 .title-bar-title {
   font-weight: bold;
+  padding: 0px 20px 0px 40px;
+  font-size: 12px;
 }
 
 

@@ -83,15 +83,17 @@ class TourApp extends Component {
 
         {this.state.activeViewStep &&
         <TourTimelineView
-          step={this.state.activeViewStep}
+          activeStep={this.state.activeViewStep}
           tour={this.props.app}
           playAudio={this.selectAudioStep.bind(this)}
           steps={this.props.steps}
           stepActiveIndex={this.state.activeViewStepIndex}
+          backToMap={() => {
+            window.location.hash = '#';
+          }}
           stepTotal={this.props.steps.length}
           isPreviousAvailable={(() => {
             const previousStep = this.props.steps[this.state.activeViewStepIndex - 1];
-            console.log('previousStep', previousStep, !!previousStep)
             return previousStep;
           })()}
           isNextAvailable={(() => {
@@ -128,8 +130,6 @@ class TourApp extends Component {
            })()}
            previous={() => {
              const previousStep = this.props.steps[this.state.activeAudioStepIndex - 1];
-
-             console.log('previousStep', previousStep);
 
              if (previousStep) {
                this.selectAudioStep(previousStep.id)
