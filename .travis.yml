@@ -1,12 +1,36 @@
-language: minimal
+dist: xenial
+language: shell
+os: linux
 
 # easy way to get your local config: cat ${HOME}/.kube/config | base64 | pbcopy
 env:
   global:
-    - DOCKER_PUBLIC_USERNAME=openstad
-    - DOCKER_IMAGE_NAME=frontend
+    # Docker variables
+    - DOCKER_PUBLIC_USERNAME=${DOCKER_PUBLIC_USERNAME:-openstad}
+    - DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME:-frontend}
+
+    # Deploy variables
+    - DEV_RELEASE_BRANCHES=${DEV_RELEASE_BRANCHES:-^development}
+    - ACC_RELEASE_BRANCHES=${ACC_RELEASE_BRANCHES:-^staging}
+    - PROD_RELEASE_BRANCHES=${PROD_RELEASE_BRANCHES:-^master$}
+
+    # Gitops variables
+    - HELM_REPO_NAME=${HELM_REPO_NAME:-openstad-kubernetes}
+    - HELM_CHART_FOLDER=${HELM_CHART_FOLDER:-k8s/openstad}
+
+    - GITOPS_DEV_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH:-develop}
+    - GITOPS_ACC_RELEASE_BRANCH=${GITOPS_ACC_RELEASE_BRANCH:-staging}
+    - GITOPS_PROD_RELEASE_BRANCH=${GITOPS_PROD_RELEASE_BRANCH:-master}
+
+    - GITOPS_DEV_VALUES_FILE=${GITOPS_DEV_VALUES_FILE:-k8s/openstad/environments/dev.values.yaml}
+    - GITOPS_ACC_VALUES_FILE=${GITOPS_ACC_VALUES_FILE:-k8s/openstad/environments/acc.values.yaml}
+    - GITOPS_PROD_VALUES_FILE=${GITOPS_PROD_VALUES_FILE:-k8s/openstad/environments/prod.values.yaml}
+
+    # Kube deploy variables
     - K8S_DEPLOYMENT_NAME=openstad-frontend
     - K8S_NAMESPACE=openstad
+
+    # Application variables
     - FRONTED_PORT=4444
     - FRONTEND_MONGO_SCHEME=mongodb://mongo
     - FRONTEND_MONGO_DB_HOST=mongo
@@ -21,39 +45,88 @@ env:
     - DEFAULT_DB=localhost2
     - DEFAULT_HOST=localhost:4444
     - APP_URL=http://localhost:4444
+    - APOS_BUNDLE=1
+    - NODE_ENV=production
+
 services:
   - docker
 
+addons:
+  snaps:
+    – yq
+
 before_install:
+  - echo ${DEV_RELEASE_BRANCHES}
   - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
 
 script:
-  - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  npm run test -- --coverage
-  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation
+  - export IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+  - docker run -e CI=true ${IMAGE_TAG} npm run test -- --coverage
+  - export MOUNT_DIR=$(pwd)/public/uploads
+  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation --create-bundle public/uploads/dist
+  - docker run --name openstad -d ${IMAGE_TAG}
+  - docker cp public/uploads/dist/public/apos-minified ${IMAGE_TAG}:/home/app/public
+  - docker cp public/uploads/dist/public/css ${IMAGE_TAG}:/home/app/public
+  - docker cp public/uploads/dist/public/js ${IMAGE_TAG}:/home/app/public
+  - docker cp public/uploads/dist/public/modules ${IMAGE_TAG}:/home/app/public
+  - docker cp public/uploads/dist/public/data/generation ${IMAGE_TAG}:/home/app/data
+  - docker commit openstad ${IMAGE_TAG}
 
-deploy:
-  # what branches to deploy automatically
-  - provider: script
-    script: bash docker_deploy
-    on:
-      all_branches: true
-      # @TODO:
-      # Add an autodeploy setup of the release branche
-      # Either Create different config in travis to deploy to different cluster
-      # Or add a different namespace for ACC
-      # condition: $TRAVIS_BRANCH =~ ^(development|release)$
-      condition: $TRAVIS_BRANCH =~ ^(feature/docker-travis)$
-  # master automatically pushes new docker container with latest tag to docker
-  # master automatically pushes new docker container with latest tag to docker
-  - provider: script
-    #script not yet tested
-    script: bash docker_publish_latest
-    on:
-      branch: master
+stages:
+  - name: docker_push
+    if: branch = master
+  - name: docker_push_tag
+    if: tag IS present
+  - name: kubectl_deploy_dev
+    if: env(KUBE_DEPLOY) IS present AND branch =~ env(DEV_RELEASE_BRANCHES)
+  - name: kubectl_deploy_acc
+    if: env(KUBE_DEPLOY) IS present AND branch =~ env(ACC_RELEASE_BRANCHES)
+  - name: kubectl_deploy_prod
+    if: env(KUBE_DEPLOY) IS present AND branch =~ env(PROD_RELEASE_BRANCHES)
+  - name: gitops_dev
+    if: env(GITOPS) IS present AND branch =~ /development|feature\/.*/
+  - name: gitops_acc
+    if: env(GITOPS) IS present AND branch =~ env(ACC_RELEASE_BRANCHES)
+  - name: gitops_prod
+    if: env(GITOPS) IS present AND tag IS present
 
-  - provider: script
-    #script not yet tested
-    script: bash docker_publish_tag
-    on:
-      tags: true
-      all_branches: true
+jobs:
+  include:
+    - stage: docker_push
+      name: 'Publish new docker image'
+      script: bash docker_publish
+    - stage: docker_push_tag
+      name: 'Push new image with tag to docker'
+      env:
+        - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+      script: bash docker_publish_tag
+    - stage: kubectl_deploy_dev
+      name: "Deploy: Kubectl set image to DEV environment"
+      script: bash docker_deploy
+    - stage: kubectl_deploy_acc
+      name: "Deploy: Kubectl set image to ACC environment"
+      script: bash docker_deploy
+    - stage: kubectl_deploy_prod
+      name: "Deploy: Kubectl set image to PROD environment"
+      script: bash docker_deploy
+    - stage: gitops_dev
+      name: "Release and commit new image tag to DEV environment"
+      env:
+        - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+        - GITOPS_VALUES_FILE=${GITOPS_DEV_VALUES_FILE}
+        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
+      script: bash gitops_push
+    - stage: gitops_acc
+      name: "Release and commit new image tag to ACC environment"
+      env:
+        - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+        - GITOPS_VALUES_FILE=${GITOPS_ACC_VALUES_FILE}
+        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
+      script: bash gitops_push
+    - stage: gitops_prod
+      name: "Release and commit new image tag to PROD environment"
+      env:
+        - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_TAG}
+        - GITOPS_VALUES_FILE=${GITOPS_PROD_VALUES_FILE}
+        - GITOPS_RELEASE_BRANCH=${GITOPS_DEV_RELEASE_BRANCH}
+      script: bash gitops_push

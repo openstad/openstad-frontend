@@ -15,7 +15,8 @@ services:
       DB_PORT: "${FRONTEND_MONGO_PORT}"
       MONGO_DB_HOST: "${FRONTEND_MONGO_DB_HOST}"
       MINIFY_JS: "${FRONTEND_MINIFY_JS}"
-      COOKIE_SECURE_OFF: "${COOKIE_SECURE_OFF}"
+      APOS_BUNDLE: "1"
+      NODE_ENV: "production"
       DOCKER_PUBLIC_USERNAME: "openstad"
       DOCKER_IMAGE_NAME: "frontend"
       K8S_DEPLOYMENT_NAME: "openstad-frontend"
@@ -29,13 +30,13 @@ services:
       API: "http://localhost:8111"
       IMAGE_API_URL: "http://localhost:3333"
       IMAGE_API_ACCESS_TOKEN: "xxxx"
-      IMAGE_API_ACCESS_TOKEN: "xxxx"
       SITE_API_KEY: "xxxx"
       DEFAULT_DB: "localhost2"
       DEFAULT_HOST: "localhost:4444"
       APP_URL: "http://localhost:4444"
       restart: always"
-
+    volumes:
+      - ${MOUNT_DIR}:/home/app/public/uploads
     links:
       - mongo:localhost
     depends_on:
