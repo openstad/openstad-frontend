@@ -68,6 +68,10 @@ const styles = {
   colFifty: {
     width: '50%',
   },
+  colThird: {
+    width: '33.333%',
+    paddingRight: 10
+  },
   noPreWrap: {
     whiteSpace: 'normal'
   }
@@ -105,16 +109,13 @@ function TourTimelineView (props) {
                     <Text style={{...styles.h2, ...styles.noPreWrap}}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
                   }
                 >
-                <View style={{
-                  display: 'flex',
-                }}>
-
+                <View>
                   {step.images &&
-                    <View style={{display: 'flex'}}>
-                    {step.images.slice(0, (amountOfImagesInitially - 1)).map((image, i) => {
+                    <View style={styles.colContainer}>
+                    {step.images.slice(0, (amountOfImagesInitially)).map((image, i) => {
 
                       return (
-                        <TouchableOpacity>
+                        <TouchableOpacity style={{...styles.colThird}}>
                           <Image
                             source={{uri: image}}
                             resizeMode="cover"
@@ -125,7 +126,19 @@ function TourTimelineView (props) {
                             }}
                             />
                           {(i === (amountOfImagesInitially - 1) && step.images.length > amountOfImagesInitially) &&
-                            <Text>+ {(amountOfImagesInitially - step.images.length)} Images </Text>
+                            <Text style={{
+                              width: 80,
+                              backgroundColor: 'rgba(0,0,0,0.6)',
+                              color: 'white',
+                              position: 'absolute',
+                              fontWeight: 'bold',
+                              top: 0,
+                              left: 0,
+                              bottom: 0,
+                              lineHeight: 80,
+                              borderRadius: 10,
+                              textAlign: 'center'
+                            }}>+{(step.images.length - amountOfImagesInitially)}</Text>
                           }
                         </TouchableOpacity>
                       )
