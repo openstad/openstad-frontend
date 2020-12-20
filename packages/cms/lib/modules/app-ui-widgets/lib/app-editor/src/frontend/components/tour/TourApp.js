@@ -9,6 +9,11 @@ import TourMap from './TourMap';
 import TitleBar from './TitleBar';
 
 import SwipeUpView from '../SwipeUpView';
+import Gallery from '../Gallery/Gallery';
+
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
+import styles from './styles';
+
 
 class TourApp extends Component {
   constructor(props) {
@@ -95,12 +100,42 @@ class TourApp extends Component {
       	style={{ backgroundColor: 'green' }} // style for swipe
       />
       */
+        {this.state.gallery &&
+          <View style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 100000000
+          }}>
+            <TouchableOpacity onPress={() => {
+              this.setState({
+                gallery: false
+              })
+            }} style={{...styles.close, color:'white'}}>✕</TouchableOpacity>
+
+            <Gallery
+              style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.9)' }}
+              images={this.state.gallery.images}
+              initialPage={this.state.gallery.initialImage}
+            />
+        </View>
+        }
         {this.state.activeViewStep &&
         <TourTimelineView
           activeStep={this.state.activeViewStep}
           tour={this.props.app}
           playAudio={this.selectAudioStep.bind(this)}
           steps={this.props.steps}
+          openGallery={(images, initialImage) => {
+            this.setState({
+              gallery: {
+                images: images,
+                initialImage: initialImage
+              }
+            })
+          }}
           stepActiveIndex={this.state.activeViewStepIndex}
           backToMap={() => {
             window.location.hash = '#';

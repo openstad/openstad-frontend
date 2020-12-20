@@ -1,7 +1,6 @@
 import React, { Component, useLocation } from 'react';
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import Accordeon from '../Accordeon';
-import Gallery from '../Gallery/Gallery';
 import styles from './styles';
 
 export default class TourDetailView  extends Component {
@@ -19,15 +18,6 @@ export default class TourDetailView  extends Component {
 
     return (
       <View>
-          {this.state.galleryInitialImage !== false &&
-            <Gallery
-              style={{ flex: 1, backgroundColor: 'black' }}
-              images={step.images.map((image) => {
-                return { source: { uri: image } };
-              })}
-              initialPage={this.state.galleryInitialImage}
-            />
-          }
           {step.images &&
             <View style={styles.colContainer}>
 
@@ -36,9 +26,9 @@ export default class TourDetailView  extends Component {
                 <TouchableOpacity
                   style={{...styles.colThird}}
                   onPress={() => {
-                    this.setState({
-                      galleryInitialImage: i
-                    });
+                    this.props.openGallery(step.images.map((image) => {
+                      return { source: { uri: image } };
+                    }), i)
                   }}
                 >
                   <Image

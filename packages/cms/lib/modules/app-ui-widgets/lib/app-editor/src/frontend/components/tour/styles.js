@@ -70,6 +70,12 @@ const styles = {
   },
   noPreWrap: {
     whiteSpace: 'normal'
+  },
+  close: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    zIndex: 5
   }
 }
 

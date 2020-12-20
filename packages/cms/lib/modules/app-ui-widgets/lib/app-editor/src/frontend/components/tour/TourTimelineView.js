@@ -5,7 +5,6 @@ import TourDetailView from './TourDetailView';
 import styles from './styles';
 
 function TourTimelineView (props) {
-  const amountOfImagesInitially = 3;
 
   return (
       <div className="tour-detail-view" style={{
@@ -38,6 +37,7 @@ function TourTimelineView (props) {
                 >
                   <TourDetailView
                     step={step}
+                    openGallery={props.openGallery}
                   />
               </Accordeon>
             )
