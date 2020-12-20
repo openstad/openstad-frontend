@@ -80,7 +80,7 @@ stages:
   - name: gitops_dev
     if: env(GITOPS) IS present AND branch =~ /development|feature\/.*/
   - name: gitops_acc
-    if: env(GITOPS) IS present AND branch =~ env(ACC_RELEASE_BRANCHES)
+    if: env(GITOPS) IS present AND branch =~ /env(ACC_RELEASE_BRANCHES)/
   - name: gitops_prod
     if: env(GITOPS) IS present AND tag IS present
 
