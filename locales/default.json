@@ -345,5 +345,8 @@
 	"Display user info at the top?": "Display user info at the top?",
 	"Display agreed checkbox?": "Display agreed checkbox?",
 	"Text for checkbox (html allowed)": "Text for checkbox (html allowed)",
-	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?"
+	"You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?": "You may be editing that document in another tab or window.\nIf you take control, you could lose work in that tab or window.\nDo you want to take control?",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"Click Commit to make these changes live.": "Click Commit to make these changes live.",
+	"%s was committed successfully.": "%s was committed successfully."
 }

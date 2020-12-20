@@ -23,9 +23,12 @@ module.exports = async function(self, options) {
      * Format headerr
      */
     const httpHeaders = {
-        'Accept': 'application/json',
-        "X-Authorization" : `Bearer ${req.session.jwt}`,
+      'Accept': 'application/json'
     };
+
+    if (req.session.jwt) {
+      httpHeaders["X-Authorization"] = `Bearer ${req.session.jwt}`;
+    }
 
     const data = req.body;
 
