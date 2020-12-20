@@ -5,7 +5,7 @@ const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (shortName, siteData) => {
-
+ 
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {

@@ -37,6 +37,24 @@
               </div>
           </li>
           {% endfor %}
+          {% for orderFee in data.orderFees %}
+          <li class="list-group-item clearfix card-item">
+              <div class="col-xs-2">
+              </div>
+              <div class="col-xs-2">
+                  <strong>{{ orderFee.name }}</strong><br/>
+              </div>
+              <div class="col-xs-4 text-right product-change">
+
+                </div>
+              <div class="col-xs-2 text-right">
+                  {{ orderFee.price | currency}}
+              </div>
+              <div class="col-xs-2 text-right">
+
+              </div>
+            </li>
+          {% endfor %}
       </ul>
       {% else %}
       <em class="cart-is-empty">
@@ -48,10 +66,13 @@
       </a>
       #}
   </div>
-  {% if data.cart and data.cart.totals %}
+
+  {% if data.totalOrder %}
   <div class="text-right">
       <br />
-      <strong>Total: {{ data.cart.totals.toFixed(2) | currency }}</strong>
+      <strong>Total: {{ data.totalOrder.toFixed(2) | currency }}</strong>
   </div>
   {% endif %}
+
+
 </div>
