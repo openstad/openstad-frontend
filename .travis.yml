@@ -46,6 +46,7 @@ env:
     - DEFAULT_HOST=localhost:4444
     - APP_URL=http://localhost:4444
     - APOS_BUNDLE=assets
+    - APOS_MINIFY=1
     - NODE_ENV=production
     - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
 
@@ -62,7 +63,7 @@ before_install:
   - mongo default --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
   - npm install --production
   - mkdir assets
-  - APOS_BUNDLE=assets node apostrophe.js apostrophe:generation --create-bundle assets
+  - NODE_ENV=production APOS_MINIFY=1 APOS_BUNDLE=assets node apostrophe.js apostrophe:generation --create-bundle assets
   - docker build -t ${IMAGE_TAG} .
 
 stages:
