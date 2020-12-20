@@ -30,7 +30,10 @@
     "react-places-autocomplete": "^7.3.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "prop-types": "^15.6.0",
+    "react-mixin": "^3.0.5",
+    "react-timer-mixin": "^0.13.3"
   },
   "scripts": {
     "start": "react-scripts start",

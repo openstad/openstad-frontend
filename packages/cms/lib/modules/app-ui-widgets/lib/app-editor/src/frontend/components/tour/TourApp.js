@@ -8,6 +8,8 @@ import TourTimelineView from './TourTimelineView';
 import TourMap from './TourMap';
 import TitleBar from './TitleBar';
 
+import SwipeUpView from '../SwipeUpView';
+
 class TourApp extends Component {
   constructor(props) {
     super(props);
@@ -81,6 +83,18 @@ class TourApp extends Component {
           coordinates={this.props.coordinates}
         />
 
+        /*
+        <SwipeUpView
+      	itemMini={<div />} // Pass props component when collapsed
+      	itemFull={<div />} // Pass props component when show full
+      	onShowMini={() => console.log('mini')}
+      	onShowFull={() => console.log('full')}
+      	onMoveDown={() => console.log('down')}
+      	onMoveUp={() => console.log('up')}
+      	disablePressToShow={false} // Press item mini to show full
+      	style={{ backgroundColor: 'green' }} // style for swipe
+      />
+      */
         {this.state.activeViewStep &&
         <TourTimelineView
           activeStep={this.state.activeViewStep}
