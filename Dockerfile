@@ -25,7 +25,7 @@ ENV MONGO_DB_HOST=""
 ENV DB_HOST=""
 ENV DEFAULT_DB=""
 
-ENV APOS_BUNDLE="1"
+ENV APOS_BUNDLE="assets"
 ENV NODE_ENV="production"
 
 # Install all base dependencies.
@@ -43,7 +43,7 @@ RUN cp -r ./packages/cms/test test
 RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 # Install node modules
-RUN npm install --loglevel warn
+RUN npm install --loglevel warn --production
 
 RUN npm install -g nodemon
 

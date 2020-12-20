@@ -43,29 +43,25 @@ env:
     - DEFAULT_DB=localhost2
     - DEFAULT_HOST=localhost:4444
     - APP_URL=http://localhost:4444
-    - APOS_BUNDLE=1
+    - APOS_BUNDLE=assets
     - NODE_ENV=production
+    - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
 
 services:
   - docker
+  - mongodb
 
 addons:
   snaps:
     – yq
 
 before_install:
-  - export IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
+  - sleep 15
+  - mongo default --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
+  - npm install --production
+  - mkdir assets
+  - APOS_BUNDLE=assets node apostrophe.js apostrophe:generation --create-bundle assets
   - docker build -t ${IMAGE_TAG} .
-  - docker run -e CI=true ${IMAGE_TAG} npm run test -- --coverage
-  - export MOUNT_DIR=$(pwd)/public/uploads
-  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation --create-bundle public/uploads/dist
-  - docker run --name openstad -d ${IMAGE_TAG}
-  - docker cp public/uploads/dist/public/apos-minified ${IMAGE_TAG}:/home/app/public
-  - docker cp public/uploads/dist/public/css ${IMAGE_TAG}:/home/app/public
-  - docker cp public/uploads/dist/public/js ${IMAGE_TAG}:/home/app/public
-  - docker cp public/uploads/dist/public/modules ${IMAGE_TAG}:/home/app/public
-  - docker cp public/uploads/dist/public/data/generation ${IMAGE_TAG}:/home/app/data
-  - docker commit openstad ${IMAGE_TAG}
 
 stages:
   - name: docker_push
