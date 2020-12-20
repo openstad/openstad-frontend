@@ -130,11 +130,7 @@ router.route('/')
 			dbQuery.sortingYesNo = [];
 
 			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
-					if (sortingQuery[0] === 'yes' || sortingQuery[0] === 'no') {
-						dbQuery.sortingYesNo.push(sortingQuery);
-					} else {
-						return true;
-					}
+				return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
 			});
 		}
 
