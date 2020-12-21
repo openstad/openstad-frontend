@@ -1,3 +1,6 @@
+/**
+ * Widget that allows for adding an iframe
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {

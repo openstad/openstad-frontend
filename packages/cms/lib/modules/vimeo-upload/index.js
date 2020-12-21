@@ -1,5 +1,11 @@
 /**
- * Module for  authenticating and uploading video's to Vimeo
+ * Module for  authenticating and uploading video's to Vimeo.
+ * Endpoints allows for uploading a file, save it in a tmp folder, and upload it to vimeo.
+ *
+ * Be sure to clean up your tmp file.
+ * Vimeo takes a few mintures to 15 minutes to have the video available
+ * The form field in resource form sets it to extraData.vimeoId.
+ * Api keys are fetched from the siteConfig (nog apos global for security reasons)
  */
 const _ = require('lodash');
 const Vimeo   = require('vimeo').Vimeo;
@@ -37,37 +43,11 @@ var fileUpload = multer({
 module.exports = {
   improve: 'apostrophe-global',
 
-/*  addFields: [
-    {
-      name: 'vimeoClientId',
-      label: 'Vimeo client id',
-      type: 'string'
-    },
-    {
-      name: 'vimeoClientSecret',
-      label: 'Vimeo secret id',
-      type: 'string'
-    },
-    {
-      name: 'vimeoAcccesToken',
-      //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-      type: 'string'
-    }
-  ]
-*/
   beforeConstruct: function (self, options) {
 
   },
 
   construct: function(self, options) {
-
-      /*
-    options.addFields = (options.addFields || []).concat([
-
-    ]);
-  options.arrangeFields = (options.arrangeFields || []).concat([
-
-    ]);*/
 
     /**
      * Allow vimeo uploads
@@ -93,8 +73,8 @@ module.exports = {
            req.file.path,
            {
              privacy: {
-               view: req.data.global.vimeoViewSettings ? req.data.global.vimeoViewSettings : 'unlisted',
-               embed:req.data.global.vimeoEmbedSettings ? req.data.global.vimeoEmbedSettings : 'public',
+               view: vimeoConfig.vimeoViewSettings ? vimeoConfig.vimeoViewSettings : 'unlisted',
+               embed: vimeoConfig.vimeoEmbedSettings ? vimeoConfig.vimeoEmbedSettings : 'public',
              }
            },
            function (uri) {

@@ -1,11 +1,56 @@
 # Changelog
 
 ## UNRELEASED
+* Make the (Google) Analytics block configurable to provide for a new version and also other options
+* Add html class name to resource overview
+* Clear cached session openstad user when making api call or logging out
+* Add an extra choices type to the choices guide
+
+## v0.10.1 (2020-12-09)
+* Cache openstad user longer when logged in to cms
+
+## v0.10.0 (2020-12-09)
+* Make description textarea in icon-section
+* Show message that user needs to be logged in for viewing admin widget
+* Add SVG captcha to newsletter signup
+* Content fields in ideas-on-map now include an old deprecated value as fallback
+* Content fields helptekst is updated
+* Limit user cache to 5 seconds, and only for CMS users
+
+## v0.9.1 (2020-12-07)
+* Turning of synchronising incorrect idea settings to the API
+
+## v0.9.0 (2020-11-25)
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Feature: Better explanations in global newsletter settings
+* Add admin warning to vote counter if vote count is not publicly available
 * Update NPM modules for security
 * Don't add JWT when doing a resource overview call since results are cached
 * Empty cache on DELETE call via api proxy
+* Styling: alignment of caret in list-style link button
+* In moderator warning change the if statement so no extra div's are rendered when no warning is shown
+* Remove global field translations, not used anymore
+* Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
+* Better explanations in global newsletter settings
+* Feature: Add option count-per-theme to voting in participatory budgeting
+* Bugfix: participatory budgeting per theme showed error in the wrong tab
+* Bugfix: participatory budgeting showed wrong button text in count mode
+* Bugfix: participatory budgeting ran into a js error when the pricetag was not shown
+* Bugfix: participatory budgeting next button in step 0 showed an incorrect error
+* Bugfix: voting in resource overview widget no also works in conjunction with pagination
+* Bugfix: remove images after update of idea resource
+* Make cookie max age configurable
+* Add ability to make cookie message fixed to the bottom per page
+* Fix: api/area needs to be called without authentication header
+* Remove button-blue class from vote counter
+* Fix wrong error in budgeting
+* Fix previous/next buttons CSS in budgeting
+* Possibility to display top links dependent on user logged in status
 * Fix: Ideas Map had an option to not link Flags. The option had disappeared but is now back.
 * Feature: Better explanations in global newsletter settings
+* Add admin warning to vote counter if vote count is not publicly available
+* Allow public profile status (viewablebyRole) to be edited by the user
+
 
 ## v0.8.3 (2020-11-06)
 * Fix: api/area needs to be called without authentication header
@@ -37,6 +82,10 @@
 * Bugfix use Buffer.byteLength instead of .length for content-length for body api proxy, this breaks with special characters
 * Add refreshSiteConfig call after updating a site config
 * Correct metaTitle for idea and other resources
+* Extra config options in ideas-on-map for search and details presentations
+
+## v0.8.0-PRERLEASE (2020-17-07)
+* Feature: ideas-on-map has extra configuration options on search and idea details
 
 ## 0.7.4
 * Hotfix: make resource form is usable by any moderator, not just admins

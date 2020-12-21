@@ -550,6 +550,7 @@
 
         #overview-themes-warning {
           width: 100%;
+          margin-top: 20px;
           padding: 20px;
           border: 2px solid #ec0000;
           background-color: white;
@@ -594,8 +595,10 @@
     bottom: 0px;
     height: 90px;
     margin-bottom: 24px;
+
 		@media @phone {
 			background-color: @amsterdam-lightgrey;
+      height: 50px;
 		}
 
 		#previous-button {
@@ -606,11 +609,10 @@
 	    color: #004699;
 	    cursor: pointer;
 	    top: 50%;
-		transform: translateY(-50%);
-		-webkit-transform: translateY(-50%);
-	    margin-top: -20px;
-		background: transparent;
-		border: none;
+		  transform: translateY(-25%);
+		  -webkit-transform: translateY(-25%);
+		  background: transparent;
+		  border: none;
 
 			&:before {
 				position: absolute;
@@ -630,7 +632,7 @@
 
 			@media @phone {
 				font-size: 14px;
-		    top: 40px;
+        margin-top: -5px;
 		    left: 15px;
 		    padding-left: 16px;
 
@@ -656,8 +658,8 @@
 			cursor: pointer;
 			opacity: .5;
 			top: 50%;
-			transform: translateY(-50%);
-			-webkit-transform: translateY(-50%);
+			transform: translateY(-25%);
+			-webkit-transform: translateY(-25%);
 			border: none;
 
 

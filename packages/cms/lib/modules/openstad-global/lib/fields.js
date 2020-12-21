@@ -140,16 +140,60 @@ module.exports = [
     required: true,
   },
   {
+    type: 'string',
+    name: 'captchLabel',
+    label: "Label for captcha",
+    def: 'Please enter the words you see into the field below ',
+    required: true,
+  },
+  {
     type: 'boolean',
     name: 'hideSiteTitle',
     label: 'Hide the site title in the header?',
     def: true
   },
+
+  {
+    type: 'select',
+    name: 'analyticsType',
+    label: 'Analytics type',
+    def: 'google-analytics-old-style',
+    choices: [
+      {
+        value: 'none',
+        label: "No analytics",
+      },
+      {
+        value: 'google-analytics-old-style',
+        label: "Google Analytics old style (with a property like UA-xxxxx)",
+        showFields: ['analyticsIdentifier']
+      },
+      {
+        value: 'google-analytics-new-style',
+        label: "Google Analytics new style (with a property like G-xxxxx)",
+        showFields: ['analyticsIdentifier']
+      },
+      {
+        value: 'custom',
+        label: "Custom: use a custom codeblock",
+        showFields: ['analyticsCodeBlock']
+      }
+    ]
+  },
+
   {
     type: 'string',
-    name: 'analytics',
-    label: 'Google Analytics Property ID (like UA-xxxxx)'
+    name: 'analyticsCodeBlock',
+    label: 'Custom code',
+    textarea: true,
   },
+
+  {
+    type: 'string',
+    name: 'analyticsIdentifier',
+    label: 'Google Analytics Property ID (like UA-xxxxx or G-xxxxx)'
+  },
+
   {
     type: 'string',
     name: 'tagmanager',
@@ -343,7 +387,17 @@ module.exports = [
         type: 'select',
         label: 'Minimum budget that has to be selected (momenteel alleen voor Budgeting per thema)',
         type: 'integer',
-      }
+      },
+      {
+        name: 'maxIdeas',
+        type: 'integer',
+        label: 'Maximum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
+      {
+        name: 'minIdeas',
+        type: 'integer',
+        label: 'Minimum selectable ideas (momenteel alleen voor Budgeting - count per thema)',
+      },
     ]
   },
   {
@@ -435,12 +489,31 @@ module.exports = [
         type: 'boolean',
         label: 'Open in new tab',
       },
+      {
+        name: 'displayWhen',
+        label: 'Display depending on user logged in status?',
+        type: 'select',
+        choices: [
+          {
+            value: 'always',
+            label: "Always display",
+          },
+          {
+            value: 'loggedIn',
+            label: "Display when logged in",
+          },
+          {
+            value: 'notLoggedIn',
+            label: "Display when not logged in",
+          }
+        ]
+      },
     ]
   },
   {
     name: 'displayMyAcount',
     type: 'boolean',
-    label: 'Display my account in menu?'
+    label: 'Display my account in main menu?'
   },
   {
     name: 'cacheIdeas',
@@ -467,6 +540,11 @@ module.exports = [
     label: 'Submit button',
     textarea: true,
     def: 'Submit'
+  },
+  {
+    name: 'captchaLabel',
+    type: 'string',
+    label: 'Captcha Label',
   },
   {
     name: 'newsletterModalCancel',
@@ -538,51 +616,6 @@ module.exports = [
   // einde form
   // ----------------------------------------------------------------------------------------------------
   {
-    name: 'translations',
-    type: 'array',
-    titleField: 'label',
-    label: 'Translations',
-    schema: [
-      {
-        name: 'translation',
-        type: 'text',
-        label: 'Translation',
-        type: 'string',
-      },
-      {
-        name: 'translationUrl',
-        type: 'text',
-        label: 'Translation page URL',
-        type: 'string',
-      }
-    ]
-  },
-  {
-    name: 'vimeoClientId',
-    label: 'Vimeo client id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoClientSecret',
-    label: 'Vimeo secret id',
-    type: 'string'
-  },
-  {
-    name: 'vimeoAcccesToken',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
-    name: 'vimeoViewSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
-    name: 'vimeoEmbedSettings',
-    //helpHtml: 'To get an access token need to login into ve<a href="/"> here </a>',
-    type: 'string'
-  },
-  {
     name: 'footer',
     type: 'array',
     titleField: 'title',
@@ -632,6 +665,7 @@ module.exports = [
     choices: rightsChoices,
     def: 'member'
   },
+  /*
   {
     name: 'canAddNewIdeas',
     type: 'boolean',
@@ -645,7 +679,7 @@ module.exports = [
     label: 'set min title length of an idea',
     apiSyncField: 'ideas.titleMinLength',
     help: 'This field will also update the global settings field (ideas.titleMinLength) in the api'
-  },
+  },*/
   {
     type: 'boolean',
     name: 'applyPaletteStyling',

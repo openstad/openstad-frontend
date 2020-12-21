@@ -1,3 +1,6 @@
+/**
+ * Deprecated, see resource page
+ */
 const rp  = require('request-promise');
 const Url = require('url');
 const eventEmitter  = require('../../../events').emitter;
@@ -179,7 +182,7 @@ module.exports = {
    self.pageBeforeSend = (req, callback) => {
      const pageData = req.data.page;
 
-     console.log('req.query.voteOpinion', req.query.voteOpinion);
+     // console.log('req.query.voteOpinion', req.query.voteOpinion);
 
      if (req.query.voteOpinion && req.query.ideaId) {
        req.res.redirect(`/like?ideaId=${req.query.ideaId}&opinion=${req.query.voteOpinion}&redirectUrl=${req.data.currentPath}`)

@@ -63,4 +63,13 @@ $(document).ready(function () {
 			$(this).closest('.gridder-mouse-over').removeClass('hovered');
 		})
 	}
-})
+});
+
+$(document).on('openstadAjaxRefresh', function () {
+	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
+	showVoteCreator();
+
+	if (ideaId) {
+		selectIdea(ideaId, true);
+	}
+});

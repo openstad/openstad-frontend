@@ -26,10 +26,16 @@ services:
 
 before_install:
   - docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} .
-
+  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation
+  - docker run ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} ls -l
+  - docker run ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} ls -l data
+  - docker run ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID} ls -l public/apos-minified
+  
 script:
   - docker run -e CI=true ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}  npm run test -- --coverage
-  - docker-compose -f docker-compose.travis.yml run frontend node apostrophe.js apostrophe:generation
+
+
+
 
 deploy:
   # what branches to deploy automatically
@@ -42,7 +48,7 @@ deploy:
       # Either Create different config in travis to deploy to different cluster
       # Or add a different namespace for ACC
       # condition: $TRAVIS_BRANCH =~ ^(development|release)$
-      condition: $TRAVIS_BRANCH =~ ^(feature/docker-travis)$
+      condition: $TRAVIS_BRANCH =~ ^(development|release)$
   # master automatically pushes new docker container with latest tag to docker
   # master automatically pushes new docker container with latest tag to docker
   - provider: script

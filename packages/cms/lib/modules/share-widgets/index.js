@@ -1,3 +1,8 @@
+/**
+ * Generic share buttons that display the select share buttons
+ * and allows for sharing the current page
+ */
+
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 const fields = [

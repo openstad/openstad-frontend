@@ -31,7 +31,7 @@
 
 	</script>
 
-  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+  {% if ((data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme') and data.global.themes and data.global.themes.length > 0) %}
   <style>
 	 {% for theme in data.global.themes %}
    .theme-{{theme.color | replace("#", "")}} {
@@ -55,6 +55,8 @@
        value: '{{theme.value | sanitize | safe}}',
        initialAvailableBudget: parseInt({{theme.initialAvailableBudget}}) || 300000,
        minimalBudgetSpent: typeof parseInt({{theme.minimalBudgetSpent}}) == 'number' ? parseInt({{theme.minimalBudgetSpent}}) : 200000,
+	     maxIdeas: typeof parseInt({{theme.maxIdeas}}) == 'number' ? parseInt({{theme.maxIdeas}}) : 100,
+	     minIdeas: typeof parseInt({{theme.minIdeas}}) == 'number' ? parseInt({{theme.minIdeas}}) : 100,
        availableBudgetAmount: 0,
        className: 'theme-{{theme.color | replace("#", "")}}',
        currentSelection: [],
@@ -81,7 +83,7 @@
 				{% if (data.global.areas and data.global.areas.length > 0) or (data.global.themes and data.global.themes.length > 0) %}
 				<div class="tab-selector">
 					{% if (data.global.themes and data.global.themes.length > 0) %}
-					<select id="themaSelector" class="default-select" onchange="{% if data.widget.votingType == 'budgeting-per-theme' %}setTheme(this.selectedIndex){% else %}activateTab(this.selectedIndex){% endif %}">
+					<select id="themaSelector" class="default-select" onchange="{% if data.widget.votingType == 'budgeting-per-theme' or data.widget.votingType == 'count-per-theme' %}setTheme(this.selectedIndex){% else %}activateTab(this.selectedIndex){% endif %}">
 						<option value="0" selected >Alle thema's</option>
 						{% for theme in data.global.themes %}
 						<option value="{{theme.value}}">{{theme.value}}</option>

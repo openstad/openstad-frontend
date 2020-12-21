@@ -1,3 +1,7 @@
+/**
+ * A section with static content allowing for a column view with icon and
+ * Technically can also be made with dynamic sections and content, but often used so it's own widget
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -10,11 +14,6 @@ module.exports = {
             type:     'string',
             label:    'Title',
             required: true
-        },
-        {
-            name:     'containerId',
-            type:     'string',
-            label:    'HTML Container id (must be unique on the page for css)',
         },
         {
             type:    'boolean',
@@ -65,6 +64,7 @@ module.exports = {
                     label: 'Description',
                     type: 'text',
                     type: 'string',
+                    textarea: true
                 },
                 {
                   name: 'image',

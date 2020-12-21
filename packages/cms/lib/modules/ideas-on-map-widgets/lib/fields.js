@@ -83,11 +83,31 @@ module.exports = [
 		]
 	},
   
+	{ 
+		name: 'noSelectionHTML',
+		type: 'string',
+		label: 'noSelectionHTML',
+		help: '[ VEROUDERD ] Er is geen punt of plan geselecteerd. LET OP: dit invoerveld is verouderd en wordt in de toekomst helemaal vervangen door noSelectionLoggedInHTML en noSelectionNotLoggedInHTML. Gebruik deze twee invoervelden, als deze nieuwe invoervelden in gebruik zijn, dan wordt dit verouderde invoerveld overschreven.',
+		readOnly: true,
+		textarea: true,
+		required: false,
+	},
+
+  { 
+    name: 'noSelectionHTML',
+    type: 'string',
+    label: 'noSelectionHTML',
+    help: '[ VEROUDERD ] Er is geen punt of plan geselecteerd. LET OP: dit invoerveld is verouderd en wordt in de toekomst helemaal vervangen door noSelectionLoggedInHTML en noSelectionNotLoggedInHTML. Gebruik deze twee invoervelden, als deze nieuwe invoervelden in gebruik zijn, dan wordt dit verouderde invoerveld overschreven.',
+    readOnly: true,
+    textarea: true,
+    required: false,
+  },
+  
   { 
     name: 'noSelectionLoggedInHTML',
     type: 'string',
     label: 'noSelectionLoggedInHTML',
-    help: 'Er is geen punt of plan geselecteerd, met een {loginButton}.',
+    help: 'Er is geen punt of plan geselecteerd, met een {addButton}.',
     textarea: true,
     required: false,
   },
@@ -95,7 +115,7 @@ module.exports = [
     name: 'noSelectionNotLoggedInHTML',
     type: 'string',
     label: 'noSelectionNotLoggedInHTML',
-    help: 'Er is geen punt of plan geselecteerd, met een {addButton}.',
+    help: 'Er is geen punt of plan geselecteerd, met een {loginButton}.',
     textarea: true,
     required: false,
   },
@@ -237,13 +257,6 @@ module.exports = [
 		required: false
 	},
 	{
-		name: 'typeLabel',
-		type: 'string',
-		label: 'Label voor type in detail pagina',
-		def: 'Thema',
-		required: false
-	},
-	{
 		name: 'typesFilterLabel',
 		type: 'string',
 		label: 'Label voor type in filters',
@@ -317,6 +330,15 @@ module.exports = [
     choices: sortingOptions
   },
 
+  { 
+    name: 'metaDataTemplate',
+    type: 'string',
+    label: 'Metadata regel template',
+    help: 'Een regel met {username}, {createDate} en {theme}',
+    def: '<span class="ocs-gray-text">Door </span>{username} <span class="ocs-gray-text"> op </span>{createDate} <span class="ocs-gray-text">&nbsp;&nbsp;|&nbsp;&nbsp;</span> <span class="ocs-gray-text">Thema: </span>{theme}',
+    required: false,
+  },
+
   {
     name: 'showShareButtons',
     type: 'boolean',
@@ -334,6 +356,7 @@ module.exports = [
     ],
     def: true
   },
+
   {
     name: 'shareChannelsSelection',
     type: 'checkboxes',
@@ -357,6 +380,42 @@ module.exports = [
       },
     ]
   },
+
+  {
+    name: 'searchIn',
+    type: 'select',
+    label: 'Waar wordt in gezocht',
+    choices: [
+      {
+        value: 'ideas and addresses',
+        label: "Zoek in ideeën en adressen",
+        showFields: ['searchPlaceHolder']
+      },
+      {
+        value: 'ideas',
+        label: "Zoek in ideeën",
+        showFields: ['searchPlaceHolder']
+      },
+      {
+        value: 'addresses',
+        label: "Zoek in adressen",
+        showFields: ['searchPlaceHolder']
+      },
+      {
+        value: 'none',
+        label: "Geen zoekveld",
+      },
+    ],
+    def: true
+  },
+
+	{
+		name: 'searchPlaceHolder',
+		type: 'string',
+		label: 'Placeholder tekst in het zoekveld',
+    def: 'Zoek op trefwoord',
+		required: false
+	},
 
   
   // ----------------------------------------------------------------------------------------------------

@@ -1,3 +1,6 @@
+/**
+ * Overview of idea resources on a map
+ */
 const openstadMap = require('../../../config/map').default;
 
 module.exports = {
@@ -173,17 +176,17 @@ module.exports = {
           self.filterIdeas(widget);
 
           widget.mapConfig = self.getMapConfigBuilder(globalData)
-              .setDefaultSettings({
-                  mapCenterLat: globalData.mapCenterLat,
-                  mapCenterLng: globalData.mapCenterLng,
-                  mapZoomLevel: globalData.mapZoomLevel,
-                  styles: styles,
-                  useMarkerLinks: widget.useMarkerLinks,
-                  googleMapsApiKey: googleMapsApiKey
-              })
-              .setPolygon(globalData.mapPolygons)
-              .setMarkersByIdeas(widget.ideas)
-              .getConfig()
+            .setDefaultSettings({
+              mapCenterLat: globalData.mapCenterLat,
+              mapCenterLng: globalData.mapCenterLng,
+              mapZoomLevel: globalData.mapZoomLevel,
+              styles: styles,
+              useMarkerLinks: widget.useMarkerLinks,
+              googleMapsApiKey: googleMapsApiKey
+            })
+            .setPolygon(globalData.mapPolygons)
+            .setMarkersByIdeas(widget.ideas)
+            .getConfig()
         });
 
         return superLoad(req, widgets, callback);

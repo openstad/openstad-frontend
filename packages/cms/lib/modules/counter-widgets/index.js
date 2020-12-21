@@ -1,3 +1,7 @@
+/**
+ * Widget displays a counter with dynamic count of votes, users voted and ideas submitted
+ * Often used to display "120 ideas submitted" "3000 users voted"
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -83,14 +87,23 @@ module.exports = {
     const superLoad = self.load;
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {
+
+          const siteConfig = req.data.global.siteConfig;
+          if (widget.counterType == 'voteCount') {
+            widget.isCountPublic = siteConfig && siteConfig.votes && siteConfig.votes.isViewable ? siteConfig.votes.isViewable : false;
+          } else {
+            widget.isCountPublic = true;
+          }
+
           if (widget.containerStyles) {
             const containerId = widget._id;
             widget.containerId = containerId;
             widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
           }
           widget.siteId = req.data.global.siteId;
-
         });
+
+
 
         return superLoad(req, widgets, function (err) {
             if (err) {
@@ -109,9 +122,6 @@ module.exports = {
     const superOutput = self.output;
     self.output = function(widget, options) {
       var count;
-
-  //    console.log('----idget.counterTypes', widget);
-
 
       switch(widget.counterType) {
 

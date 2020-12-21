@@ -17,7 +17,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 var voteCreatorElement = document.getElementById('vote-creator');
-console.log('->>> voteCreatorElement', voteCreatorElement)
+
 if (voteCreatorElement !== null) {
 
 var placeholderText = $('.nothingYet .text').first().text();
@@ -72,6 +72,7 @@ function showStep(step, doNotOpen) {
 
 function setNextButton(showPrevious, hideNext) {
   var step = steps[currentStep];
+
   var isValid = step && step.validate ? steps[currentStep].validate() : true;
   if (steps[currentStep+1]) {
     if (isValid && !hideNext) {
@@ -127,6 +128,9 @@ var previewHTML = '';
 var previewDescriptionHTML = '';
 function selectIdea(newIdeaId, doNotOpen) {
 
+  if (!doNotOpen) showVoteCreator();
+  voteCreatorElement = document.getElementById('vote-creator')
+
   ideaId = newIdeaId;
 
   openstadSetCookie('ideaId' + voteBlockIdentifier, ideaId);
@@ -145,50 +149,69 @@ function selectIdea(newIdeaId, doNotOpen) {
 
   var node = document.createElement('div');
   node.className = 'image';
+
   var ideaContainer = document.querySelector('#idea-' + ideaId);
-  if (ideaContainer) {
-    var imageContainer = ideaContainer.querySelector('.image');
-
-    if (imageContainer) {
-      node.innerHTML = imageContainer.innerHTML;
-    }
+  var imageContainer = ideaContainer ? ideaContainer.querySelector('.image') : false;
+  var imageHtml = imageContainer ? imageContainer.innerHTML : false;
+  var imageUrl = imageContainer ? $(imageContainer).attr('data-image-url') :  false;
+  var ideaPresentOnPage = imageContainer ? true : false;
 
 
-    previewElement.innerHTML = '';
-    previewElement.appendChild(node)
+  if (!imageHtml) {
+    imageUrl = localStorage.getItem('ideaImageUrl'+ ideaId);
 
-    previewHTML = previewElement.innerHTML;
-
-    // dit zou  gewoon in de title moeten, maar die is heel anders opgebouwd. Dat moet dus een keer gerefactored...
-    var previewDescription = stepElement.querySelector('.preview-description');
-    var desciptionContainer = ideaContainer.querySelector('.voteblock-description');
-    if (desciptionContainer) {
-      previewDescriptionHTML = desciptionContainer.innerHTML;
-      if (previewDescription) {
-        previewDescription.innerHTML = desciptionContainer.innerHTML;
-      }
-    }
-
-    //add idea-title
-    var ideaTitle = $('#idea-' + ideaId + ' .title').first().text();
-    if (previewDescriptionHTML) {
-      $('.selected-idea-title').html(previewDescriptionHTML);
-    } else {
-      $('.selected-idea-title').text(ideaTitle);
-    }
-    
-    previewElement.setAttribute('title', 'Ontwerp "' + ideaTitle + '" gekozen. Druk op enter om deze te verwijderen.');
-
-    if (doShowImage) {
-      doShowImage(ideaId, previewElement);
+    if (imageUrl) {
+      imageHtml = '<div style="background-image:url(\''+ imageUrl +'\');  top: 0px; left: 0px; width: 100%; height: 100%;   background-position: center center; background-size: cover;"></div>';
     }
   }
+
+
+  if (imageHtml) {
+  //  imageHtml = imageHtml.replace('&quot;', '\'');
+    $(node).html(imageHtml);
+  }
+
+  if (imageUrl) {
+    localStorage.setItem('ideaImageUrl'+ ideaId, imageUrl);
+  }
+
+  previewElement.innerHTML = '';
+  previewElement.appendChild(node)
+
+  previewHTML = previewElement.innerHTML;
+
+  // dit zou  gewoon in de title moeten, maar die is heel anders opgebouwd. Dat moet dus een keer gerefactored...
+  var previewDescription = stepElement.querySelector('.preview-description');
+
+  var desciptionContainer = ideaContainer ? ideaContainer.querySelector('.voteblock-description'): false;
+
+  if (desciptionContainer) {
+    previewDescriptionHTML = desciptionContainer.innerHTML;
+    if (previewDescription) {
+      previewDescription.innerHTML = desciptionContainer.innerHTML;
+    }
+  }
+
+  //add idea-title
+  var ideaTitle = $('#idea-' + ideaId + ' .title').first().text();
+  if (previewDescriptionHTML) {
+    $('.selected-idea-title').html(previewDescriptionHTML);
+  } else {
+    $('.selected-idea-title').text(ideaTitle);
+  }
+  
+  previewElement.setAttribute('title', 'Ontwerp "' + ideaTitle + '" gekozen. Druk op enter om deze te verwijderen.');
+
+
+  if (doShowImage && ideaPresentOnPage) {
+    doShowImage(ideaId, previewElement);
+  }
+
   setNextButton();
   setLoginUrlWithIdeaId(ideaId);
 
   location.href = "#vote-creator-anchor";
 
-  if (!doNotOpen) showVoteCreator();
   return false;
 }
 
@@ -199,6 +222,7 @@ function setLoginUrlWithIdeaId(ideaId) {
 }
 
 function unSelectIdea(event) {
+  voteCreatorElement = document.getElementById('vote-creator');
 
   ideaId = undefined;
   openstadEraseCookie('ideaId' + voteBlockIdentifier);
@@ -390,9 +414,7 @@ function hideVoteCreator() {
 
 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
 function openstadGetCookie(name) {
-    
 
-    
   var match = document.cookie.match(new RegExp("(?:^|;\\s*)\\s*" + name +"=([^;]+)\\s*(?:;|$)"));
 
   var value;

@@ -33,7 +33,6 @@ module.exports = {
        self.pushAsset('script', 'westbegroot-enhancements', { when: 'always' });
      };
 
-
     const superOutput = self.output;
 
      self.output = function(widget, options) {

@@ -1,3 +1,7 @@
+/**
+ * A widget that allows for displaying an agenda timeline, made with static content
+ */
+
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {

@@ -25,7 +25,7 @@
 						<div class="current-budget-images clearfix"></div>
 					</div>
 					<div id="steps-content">
-					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div id="themes-bar"></div>
             {% endif %}
 						<div id="current-step">
@@ -59,7 +59,7 @@
 								<div class="col-sm-4  col-xs-12 ">
 									<div id="budget-text" class="stretch" tabindex="0">
 										<div>
-											{% if data.widget.votingType === 'count' %}
+											{% if data.widget.votingType === 'count' or data.widget.votingType === 'count-per-theme'  %}
 											<table class="primary-color stretch table-reset">
 												<tr >
 													<td><label>Ideeën gekozen:</label> </td>
@@ -148,7 +148,7 @@
 								</div>
 							</div>
 						</div>
-					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div id="themes-buttons"></div>
             {% endif %}
 					</div>
@@ -161,7 +161,7 @@
 						</button>
 					</div>
 					<div id="steps-content-0" class="step">
-					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div class="themes-bar">
               <div class="theme-bars">
 						    {% for theme in data.global.themes %}
@@ -197,7 +197,7 @@
                   <h4 style="padding-top: 10px;">Kies jouw favoriete plannen per thema!</h4>
                   <ol type="1">
                     <li>Selecteer hieronder een thema om de plannen voor dat thema te bekijken</li>
-                    <li>Kies jouw favoriete plannen voor dat thema binnen het beschikbare budget</li>
+                    <li>Kies jouw favoriete plannen voor dat thema{% if data.widget.votingType == 'budgeting-per-theme' %} binnen het beschikbare budget{% endif %}</li>
                     <li>Ga naar het volgende thema om hetzelfde te doen</li>
                     <li>Klaar en tevreden? In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem</li>
                   </ol>
@@ -217,7 +217,7 @@
 					  {% endif %}
 					</div>
 					<div id="steps-content-1" class="step">
-					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div class="themes-bar">
               <div class="theme-current"></div>
 						  {% for theme in data.global.themes %}
@@ -255,7 +255,7 @@
 					</div>
 
 					<div id="steps-content-2" class="step">
-					  {% if (data.widget.votingType == 'budgeting-per-theme' and data.global.themes and data.global.themes.length > 0) %}
+					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div class="themes-bar">
               <div class="theme-bars">
 						    {% for theme in data.global.themes %}
@@ -377,7 +377,7 @@
 
 				<div class="sticky-expand">
 					<div class="row">
-						{% if data.widget.votingType === 'count' %}
+						{% if data.widget.votingType === 'count' or data.widget.votingType === 'count-per-theme' %}
 						<div class="col-sm-4 col-xs-6 budget-col">
 							<label>
 								<span> Ideeën gekozen: </span>

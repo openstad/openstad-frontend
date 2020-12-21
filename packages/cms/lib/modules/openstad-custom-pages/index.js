@@ -1,3 +1,6 @@
+/**
+ * Module that adds custom fields in the page settings view
+ */
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
@@ -43,6 +46,14 @@ module.exports = {
         type: 'boolean',
         label: 'Hide the footer?',
       },
+      {
+        name: 'cookieBarFixed',
+        type: 'boolean',
+        label: 'Set the cookiebar fixed at the footer?',
+        def: false,
+      },
+
+
 
     ];
 

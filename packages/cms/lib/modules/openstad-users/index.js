@@ -56,8 +56,6 @@ module.exports = {
       criteria.title = group.title;
     }
 
-    console.log('ensureGroupensureGroupensureGroup')
-
     return self.apos.groups.find(req, criteria).joins(false).toObject(function(err, _group) {
       if (err) {
         return callback(err);

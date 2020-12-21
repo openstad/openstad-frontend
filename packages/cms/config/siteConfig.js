@@ -48,7 +48,7 @@ module.exports = {
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,
-        }, 
+        },
         'apostrophe-express': {
           port: process.env.PORT,
           session: {
@@ -59,7 +59,7 @@ module.exports = {
               httpOnly: true,
               secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
               // Default login lifetime between requests is one day
-              maxAge: 86400000
+              maxAge: process.env.COOKIE_MAX_AGE || 86400000
             }
           },
           csrf: {
@@ -105,6 +105,7 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
+        //'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},

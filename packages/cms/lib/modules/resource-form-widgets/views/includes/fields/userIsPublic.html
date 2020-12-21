@@ -1,0 +1,59 @@
+{# The API uses two fields: listableByRole and detailsViewableByRole; for now both fields are set in one formfield; listableByRole overrides detailsViewableByRole #}
+
+{% if activeResource %}
+{% set fieldValue = activeResource.listableByRole %}
+
+{# in case fieldValue is empty, it defaults to viewableByRole editor, so we set it here#}
+{% if not fieldValue %}
+{% set fieldValue = 'editor' %}
+{% endif %}
+{% endif %}
+
+{% if not fieldValue %}
+{% if data.query[field.fieldKey] %}
+{% set fieldValue = data.query[field.fieldKey] %}
+{% endif %}
+{% endif %}
+
+<div class="radio-container">
+  <div class="radio">
+    <input
+    type="radio"
+    name="listableByRole"
+    value="all"
+    id="radio-user-public-yes"
+    onchange="syncIsUserPublic(this.value)"
+    {% if field.fieldRequired %}required{% endif %}
+    {% if fieldValue === 'all' %}checked{% endif %}
+    />
+
+    <label for="radio-user-public-yes" class="radio-label">
+      Ja
+    </label>
+  </div>
+  <div class="radio">
+    <input
+    type="radio"
+    name="listableByRole"
+    value="editor"
+    id="radio-user-public-no"
+    {% if field.fieldRequired %}required{% endif %}
+    {% if fieldValue === 'editor' %}checked{% endif %}
+    onchange="syncIsUserPublic(this.value)"
+    />
+
+    <label for="radio-user-public-no" class="radio-label">
+      nee
+    </label>
+  </div>
+
+  <script>
+   function syncIsUserPublic(value) {
+     document.getElementById('detailsViewableByRole_input').value = value;
+     
+   }
+  </script>
+
+  <input id="detailsViewableByRole_input" name="detailsViewableByRole" value="{{fieldValue}}" type="hidden"/>
+
+</div>

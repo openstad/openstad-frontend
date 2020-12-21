@@ -8,7 +8,9 @@
 <input type="hidden" name="resourceType" value="{{data.widget.resource}}" />
 <input type="hidden" name="resourceEndPoint" value="{{data.widget.resourceEndPoint}}" />
 
-
+{% if data.widget.agreedRequired %}
+{% include 'includes/fields/agreed-checkbox.html' %}
+{% endif %}
 
 {% if activeResource %}
 <input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">

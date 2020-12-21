@@ -1,12 +1,8 @@
-
 {% if data.idea %}
 {% set activeResource = data.idea %}
 {% else %}
 {% set activeResource = data.activeResource %}
 {% endif %}
-
-
-
 {# Automatically extends the right outer layout and also handles AJAX siutations #}
 {% extends data.outerLayout %}
 {% import 'apostrophe-palette-widgets:macros.html' as palette %}
@@ -39,9 +35,9 @@
 {{ apos.logger.renderClientProvider() | safe }}
 
 <!--
-<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-!-->
+     <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+     <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+     !-->
 
 {% if data.envStyleSheets %}
 {% for stylesheet in data.envStyleSheets %}
@@ -80,19 +76,19 @@
 {% endif %}
 
 <script>
-  // global variables!
-  var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
-  var openstadUserRole = '{{data.openstadUser.role}}';
-  var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
+ // global variables!
+ var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
+ var openstadUserRole = '{{data.openstadUser.role}}';
+ var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
 
-  var currentPath = '{{data.currentPath}}';
-  var currentPathname = '{{data.currentPathname}}';
-  var ideaFormToSubmit;
-	{% if data.formToSubmit %}
-	ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
-	{% endif %}
-  {# will be defined later, but will cause errors otherwise #}
-  var doShowImage;
+ var currentPath = '{{data.currentPath}}';
+ var currentPathname = '{{data.currentPathname}}';
+ var ideaFormToSubmit;
+ {% if data.formToSubmit %}
+ ideaFormToSubmit = 'idea-vote-form-{{data.formToSubmit.opinion}}';
+ {% endif %}
+ {# will be defined later, but will cause errors otherwise #}
+ var doShowImage;
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}
@@ -110,20 +106,7 @@
 </style>
 {% endif %}
 
-
-{% if data.cookieConsent and data.global.analytics %}
-<!-- Google Analytics -->
-<script>
- (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
- })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
- ga('create', '{{data.global.analytics}}', 'auto');
- ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
-{% endif %}
+{% include 'partials/analytics.html' %}
 
 {% endblock %}
 {% block startHead %}
@@ -159,24 +142,24 @@
     <div class="row">
       <div class="col-xs-12">
 
-          {% if data.global.siteLogo %}
-            {% if data.global.siteLogo === 'amsterdam' %}
-            <a href="{{logoLink}}/" class="logo-container">
-              <img src="/modules/openstad-assets/img/andreas.svg" alt="logo">
-              <div id="amsterdam">
-                Gemeente<br>Amsterdam
-              </div>
-            </a>
-            {% else %}
-            <a href="{{logoLink}}/" class="logo-uploaded logo-main-container">
-            <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
-            </a>
-            {% endif %}
-          {% else %}
-          <a href="{{logoLink}}/" class="logo-default logo-main-container">
+        {% if data.global.siteLogo %}
+        {% if data.global.siteLogo === 'amsterdam' %}
+        <a href="{{logoLink}}/" class="logo-container">
+          <img src="/modules/openstad-assets/img/andreas.svg" alt="logo">
+          <div id="amsterdam">
+            Gemeente<br>Amsterdam
+          </div>
+        </a>
+        {% else %}
+        <a href="{{logoLink}}/" class="logo-uploaded logo-main-container">
+          <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
+        </a>
+        {% endif %}
+        {% else %}
+        <a href="{{logoLink}}/" class="logo-default logo-main-container">
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
-          </a>
-          {% endif %}
+        </a>
+        {% endif %}
         <div class="header-side-container">
           <div class="row">
             <div class="col-sm-7 col-md-6 col-xs-12">
@@ -204,6 +187,7 @@
                 </li>
                 {% endif %}
                 {% for topLink in data.global.topLinks.reverse() %}
+                {% if (not topLink.displayWhen) or (topLink.displayWhen === 'always') or (topLink.displayWhen === 'loggedIn' and  data.loggedIn) or (topLink.displayWhen === 'notLoggedIn' and  not data.loggedIn)  %}
                 <li>
                   <a
                   href="{{topLink.url}}"
@@ -213,7 +197,7 @@
                     {{topLink.label}}
                   </a>
                 </li>
-
+                {% endif%}
                 {% endfor %}
 
               </ul>
@@ -380,7 +364,6 @@
   {% endif %}
 
   {% include 'partials/moderator-warnings.html'%}
-
   {% endblock %}
 
   {% block main %}

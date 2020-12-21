@@ -1,4 +1,6 @@
-<div id="cookiewarning-container" class="cookie-consent">
+
+{{data.page | json}}
+<div id="cookiewarning-container" class="cookie-consent {% if data.page.cookieBarFixed %} cookie-container-fixed {% endif %}">
   <div class="cookie-consent-change-container">
     <strong>{{ data.widget.statusText }}</strong> {%if data.cookieConsent %}{{ data.widget.statusAllowText }}{% else %}{{ data.widget.statusDenyText }}{% endif %}<br>
     <strong>{{ data.widget.description }}</strong><br>

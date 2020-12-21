@@ -91,6 +91,12 @@
       ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
     });
   </script>
+  {% else %}
+  <div class="container">
+    <div class="col-xs-12">
+    {% include 'login-required.html' %}
+    </div>
+  </div>
   {% endif %}
 
 </div>

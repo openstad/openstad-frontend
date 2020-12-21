@@ -1,4 +1,8 @@
+{% if data.activeResource %}
+{% set idea = data.activeResource %}
+{% else %}
 {% set idea = data.idea %}
+{% endif %}
 
 {% if idea.location %}
 {{
