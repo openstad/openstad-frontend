@@ -52,7 +52,7 @@ module.exports = {
       const activeResourceEndpoint = resourceInfo.resourceEndPoint;
 
       var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.resourceHash}`,
+          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.activeResourceHash}`,
           headers: headers,
           json: true // Automatically parses the JSON string in the response
       };
