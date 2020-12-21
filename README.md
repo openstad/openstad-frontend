@@ -33,7 +33,7 @@ Gitops steps:
 - Push docker image
 - Commit new image to helm repo (based on GITOPS_RELEASE_BRANCH and GITOPS_{environment}_VALUES_FILE )
 
-If you want to enable gitops flow in the ci pipeline of travis you need to configure a view variables:
+If you want to enable gitops flow in the ci pipeline of travis you need to configure a few variables:
 - GITOPS=true
 - DOCKER_PUBLIC_USERNAME=openstad
 - DOCKER_IMAGE_NAME=frontend
