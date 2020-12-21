@@ -7,12 +7,15 @@ apos.define('cart-widgets', {
     self.play = function($widget, data, options) {}
 
     self.bindCartActions = function () {
+
       /**
        * Cart add is called outside of the widget
        */
       $('.cart-add').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
+        $('.openstad-ajax-refresh').addClass('ajax-loading');
+
 
         $.ajax({
           url: '/cart/' + $(this).attr('data-product-id') + '?q=' + $(this).attr('data-quantity'),
@@ -22,6 +25,8 @@ apos.define('cart-widgets', {
             self.displayAddToCartSuccess();
           },
           error: function () {
+            $('body').trigger('ajaxRefresh')
+
             self.displayAddToCartError();
           }
         })
@@ -46,6 +51,8 @@ apos.define('cart-widgets', {
       $('.cart-remove').click(function(ev) {
         ev.preventDefault();
         ev.stopPropagation();
+        $('.openstad-ajax-refresh').addClass('ajax-loading');
+
 
         $.ajax({
           url: '/cart/remove/' + $(this).attr('data-product-id'),
@@ -54,6 +61,8 @@ apos.define('cart-widgets', {
             $('body').trigger('ajaxRefresh')
           },
           error: function () {
+            $('body').trigger('ajaxRefresh')
+
             self.displayAddToCartError();
           }
         })
