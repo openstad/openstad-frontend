@@ -11,11 +11,6 @@ env:
     - DOCKER_PUBLIC_USERNAME=${DOCKER_PUBLIC_USERNAME:-openstad}
     - DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME:-frontend}
 
-    # Deploy variables
-    - DEV_RELEASE_BRANCHES=${DEV_RELEASE_BRANCHES:-^development}
-    - ACC_RELEASE_BRANCHES=${ACC_RELEASE_BRANCHES:-^staging}
-    - PROD_RELEASE_BRANCHES=${PROD_RELEASE_BRANCHES:-^master$}
-
     # Gitops variables
     - HELM_REPO_NAME=${HELM_REPO_NAME:-openstad-kubernetes}
     - HELM_CHART_FOLDER=${HELM_CHART_FOLDER:-k8s/openstad}
@@ -62,6 +57,7 @@ before_install:
   - sleep 15
   - mongo default --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
   - npm install --production
+  - npm run test -- --coverage
   - mkdir assets
   - NODE_ENV=production APOS_MINIFY=1 APOS_BUNDLE=assets node apostrophe.js apostrophe:generation --create-bundle assets
   - docker build -t ${IMAGE_TAG} .
@@ -72,15 +68,15 @@ stages:
   - name: docker_push_tag
     if: tag IS present
   - name: kubectl_deploy_dev
-    if: env(KUBE_DEPLOY) IS present AND branch =~ env(DEV_RELEASE_BRANCHES)
+    if: env(KUBE_DEPLOY) IS present AND branch =~ /development|feature\/.*/
   - name: kubectl_deploy_acc
-    if: env(KUBE_DEPLOY) IS present AND branch =~ env(ACC_RELEASE_BRANCHES)
+    if: env(KUBE_DEPLOY) IS present AND branch =~ /staging|release|release\/.*/
   - name: kubectl_deploy_prod
-    if: env(KUBE_DEPLOY) IS present AND branch =~ env(PROD_RELEASE_BRANCHES)
+    if: env(KUBE_DEPLOY) IS present AND tag IS present
   - name: gitops_dev
     if: env(GITOPS) IS present AND branch =~ /development|feature\/.*/
   - name: gitops_acc
-    if: env(GITOPS) IS present AND branch =~ /env(ACC_RELEASE_BRANCHES)/
+    if: env(GITOPS) IS present AND branch =~ /staging|release|release\/.*/
   - name: gitops_prod
     if: env(GITOPS) IS present AND tag IS present
 
