@@ -1,6 +1,9 @@
+/**
+ * deprecated participatory widget is the new one, will be deleted once old sites are phased out
+ */
+
 const sortingOptions = require('../../../config/sorting.js').options;
 const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
-
 
 const ideaStates = require('../../../config/idea.js').states;
 const fields = [

@@ -1,3 +1,6 @@
+/**
+ * Deprecated, see resource overview
+ */
 const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
 const sortingOptions  = require('../../../config/sorting.js').options;
 const ideaStates      = require('../../../config/idea.js').states;
@@ -295,7 +298,7 @@ module.exports = {
         fields: ['text_', 'text_', 'text_' ]
       },*/
     ]);
-    
+
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 			widgets.forEach((widget) => {

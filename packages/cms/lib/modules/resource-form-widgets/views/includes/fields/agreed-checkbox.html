@@ -10,7 +10,7 @@
       />
       <label for="checkbox-agreed" class="checkbox-label">
         {% if data.widget.agreedLabel %}
-        {{data.widget.agreedLabel | sanitiize | safe}}
+        {{data.widget.agreedLabel | sanitize | safe}}
         {% else %}
         Ik ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden. </a>
         {% endif%}

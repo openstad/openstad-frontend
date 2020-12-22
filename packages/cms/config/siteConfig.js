@@ -5,7 +5,7 @@ const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (shortName, siteData) => {
-
+ 
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
 
     const siteConfig = {
@@ -105,6 +105,7 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
+        //'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},

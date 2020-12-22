@@ -4,7 +4,8 @@
  */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const Cart = require('./lib/cart.js');
-
+const Url = require('url')
+const qs = require('qs');
 
 module.exports = {
   extend: 'openstad-widgets',
@@ -25,7 +26,42 @@ module.exports = {
       self.expressMiddleware = {
         when: 'afterRequired',
         middleware: (req, res, next) => {
+          if (req.query.clearCart) {
+            //empty cart
+            req.session.cart = null;
+
+            req.session.save(() => {
+              // redirect to the same url, but without the cookie url
+              let queryParams = req.query;
+              delete queryParams.clearCart
+              const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
+              const cmsUrl = siteConfig.cms.url;
+
+              const redirectUrl = Url.parse(req.originalUrl);
+              const pathName = redirectUrl ? redirectUrl.pathname : '/';
+              const redirect = cmsUrl + pathName + '?'+ qs.stringify(queryParams);
+              console.log('queryParams', redirectUrl)
+              console.log('pathName', pathName)
+              console.log('redirect', redirect)
+
+              res.redirect(redirect);
+            });
+          }
+
           const cart = (typeof req.session.cart !== 'undefined') ? req.session.cart : false;
+          const orderConfig = req.data.global.siteConfig && req.data.global.siteConfig.order ? req.data.global.siteConfig.order : {};
+          const orderFees = orderConfig.orderFees ? orderConfig.orderFees : [];
+          const cartTotals = cart && cart.totals ? cart.totals : 0;
+          let totalOrderFees = 0;
+
+          // calculer total order fees
+          orderFees.forEach((fee) => {
+            totalOrderFees = totalOrderFees + parseFloat(fee.price);
+          });
+
+          req.data.orderFees = orderFees;
+          req.data.totalOrderFees = totalOrderFees;
+          req.data.totalOrder =  totalOrderFees + cartTotals;
           req.data.cart = cart;
           next();
         }

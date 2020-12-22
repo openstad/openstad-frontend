@@ -9,7 +9,7 @@ const fields = [
     name: 'displayType',
     label: 'Representation',
     type: 'select',
-    choices: [             
+    choices: [
 
       {
         'label': 'Idea Page (only for idea resource)',
@@ -39,6 +39,10 @@ const fields = [
       {
         'label': 'Help needed',
         'value': 'help-needed',
+      },
+      {
+        'label': 'Order status',
+        'value': 'order-status',
       }
     ]
   },

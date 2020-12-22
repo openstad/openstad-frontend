@@ -1,3 +1,6 @@
+/**
+ * Settings for ApostropheCMS attachments
+ */
 module.exports = {
   improve: 'apostrophe-attachments',
   fileGroups: [

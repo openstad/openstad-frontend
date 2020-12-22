@@ -1,3 +1,6 @@
+/**
+ * Module that adds custom fields in the page settings view
+ */
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
