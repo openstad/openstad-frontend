@@ -4,6 +4,7 @@ import Accordeon from '../Accordeon';
 import TourDetailView from './TourDetailView';
 import styles from './styles';
 
+
 function TourTimelineView (props) {
 
   return (
@@ -31,8 +32,11 @@ function TourTimelineView (props) {
             return (
                 <Accordeon
                   open={props.activeStep.id === step.id}
+                  style={{
+                    paddingBottom: props.steps.length === (i + 1) ? 0 : 10
+                  }}
                   title={
-                    <Text style={{...styles.h2, ...styles.noPreWrap}}> <Text style={styles.small}>Location {i + 1}</Text> {step.title}</Text>
+                    <Text style={{...styles.h2, ...styles.noPreWrap}}> <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>Location {i + 1}</Text> {step.title}</Text>
                   }
                 >
                   <TourDetailView

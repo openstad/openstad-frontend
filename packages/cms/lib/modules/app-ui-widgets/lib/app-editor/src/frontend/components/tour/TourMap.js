@@ -65,7 +65,7 @@ const mapCenter = [52.370216, 4.895168];
 class TourMap extends Component {
 
   render() {
-    console.log('this.props.coordinates', this.props.steps)
+    console.log('this.props.coordinates', this.props.coordinates)
 
     const locateOptions = {
         position: 'bottomLeft',

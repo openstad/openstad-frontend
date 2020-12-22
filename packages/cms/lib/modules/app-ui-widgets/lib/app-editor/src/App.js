@@ -80,7 +80,9 @@ class App extends Component {
     const coordinates =  this.state.resourceItems ? this.state.resourceItems.filter(resourceItem => resourceItem.data && resourceItem.data.position).map(function (resourceItem) {
       return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
     }).join(';') : false;
-
+    
+    alert('fertch')
+    console.log('coordinates', coordinates)
 
     const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 

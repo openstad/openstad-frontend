@@ -71,7 +71,7 @@ const newResourceObject = {
     resources: [{
       default: {
         title: 'New step...',
-        description: 'Lorem ipsum....',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
           position: [52.360506, 4.908971],
         images: [
           'https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500',
@@ -83,7 +83,7 @@ const newResourceObject = {
       items: [{
         id: 1,
         title: 'Step 1',
-        description: 'Lorem ipsum....',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation....',
         position: [52.370216, 4.895168],
         images: [
           'https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500',
@@ -100,7 +100,7 @@ const newResourceObject = {
       {
         id: 2,
         title: 'Step 2',
-        description: 'Lorem ipsum....',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation..',
         position: [52.360506, 4.908971],
         images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
       }],

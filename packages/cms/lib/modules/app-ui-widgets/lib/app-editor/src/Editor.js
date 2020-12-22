@@ -29,10 +29,13 @@ class Editor extends Component {
       app: true,
       lineCoords: false,
     };
+
+  //  this.fetchRoutes.bind(this);
   }
 
   componentDidMount() {
   //  this.fetchApp();
+    this.fetchRoutes();
 
     window.addEventListener("hashchange", this.handleHashChange.bind(this), false);
     this.handleHashChange();
@@ -49,15 +52,19 @@ class Editor extends Component {
   fetchRoutes() {
     const resourceItems = this.getResourceItems('step');
 
-    const stepCoordinates = resourceItems.items ?  resourceItems.items.map((resourceItem) => {
+    const stepCoordinates = resourceItems ?  resourceItems.map((resourceItem) => {
       return resourceItem.position[1] + ',' + resourceItem.position[0];
     }) : '';
+
+    console.log('stepCoordinates resourceItems', resourceItems);
+    console.log('stepCoordinates', stepCoordinates)
 
     if (stepCoordinates) {
       const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
       axios.get(apiUrl)
         .then( (response) => {
+
         //  console.log('coords response', response);
           const routes = response.data.routes[0];
           const coordinates = routes.geometry.coordinates;
@@ -72,7 +79,7 @@ class Editor extends Component {
           this.synchData();
         })
         .catch(function (error) {
-          console.log(error);
+          console.log('>>>>> error', error);
         });
     }
   }
@@ -243,13 +250,7 @@ class Editor extends Component {
   }
 
   getResourceItems (resourceName) {
-    console.log('this.state.resourceName', resourceName)
-
-    console.log('this.state.resources', this.state.resources)
-
     const resource = this.state.resources.find(function(resource){ return resource.name === resourceName; });
-    console.log('getResourceItems', resourceName, resource);
-
     return resource && resource.items ? resource.items : [];
   }
 
@@ -257,8 +258,6 @@ class Editor extends Component {
     if (!this.state.app) {
       return <Loader />
     }
-
-    console.log('---- this.state.resources', this.state.resources)
 
     return (
       <UI
@@ -287,14 +286,14 @@ class Editor extends Component {
             }
             <AppPreviewer>
               <TourApp
-                coordinates={this.getResourceItems('coorrdinates')}
+                coordinates={this.getResourceItems('coordinates')}
                 steps={this.getResourceItems('step')}
                 app={{
                   location: 'Amsterdam, Netherlands',
                   title: 'Vondelpark & Oud West Neighborhoud', //this.props.title,
                   description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',//this.props.description,
                   transportType: 'Walking',
-                  duration: '1',
+                  duration: '1 hour',
                   language: 'English'
                 }}
               />

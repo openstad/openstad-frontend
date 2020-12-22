@@ -1,28 +1,35 @@
 import theme from '../theme';
 
+const fontFamily = 'Source Sans Pro, sans-serif';
+
 const styles = {
   h1 : {
     fontSize: 16,
     display: 'block',
     color: theme.emphasisedTextColor,
     marginTop: 10,
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: fontFamily
   },
   h2 : {
-    fontSize: 16,
+    fontSize: 14,
     display: 'block',
-    color: theme.primaryColor
+    color: theme.primaryColor,
+    fontFamily: fontFamily,
+    fontWeight: 'bold'
   },
   p  : {
     fontSize: 12,
     display: 'block',
     color: theme.defaultTextColor,
     marginTop: 10,
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: fontFamily
   },
   small : {
     fontSize: 11,
-    color: theme.emphasisedTextColor
+    color: theme.emphasisedTextColor,
+    fontFamily: fontFamily
   },
   greyBackground : {
     background: theme.backgroundColor
@@ -47,13 +54,15 @@ const styles = {
   outlinedButton: {
     color: theme.primaryColor,
     backgroundColor: 'transparant',
-    borderColor: theme.primaryColor,
+    borderColor: theme.primaryColorLighter,
+    fontWeight: 'bold',
     borderWidth: 2,
     borderStyle: "solid",
     borderRadius: 8,
     padding: 8,
     textAlign: 'center',
-    fontSize: 12
+    fontSize: 14,
+    fontFamily: fontFamily
   },
   colContainer: {
     flex: 1,

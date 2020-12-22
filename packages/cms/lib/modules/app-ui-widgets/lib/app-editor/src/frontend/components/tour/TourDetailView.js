@@ -17,10 +17,9 @@ export default class TourDetailView  extends Component {
     const amountOfImagesInitially = 3;
 
     return (
-      <View>
+      <View style={{paddingTop: 15, paddingBottom: 15, paddingLeft: 5}}>
           {step.images &&
             <View style={styles.colContainer}>
-
             {step.images.slice(0, (amountOfImagesInitially)).map((image, i) => {
               return (
                 <TouchableOpacity
@@ -37,7 +36,8 @@ export default class TourDetailView  extends Component {
                     style={{
                       width: 80,
                       height: 80,
-                      borderRadius: 10
+                      borderRadius: 10,
+                      boxShadow: '0 -2px 19px 0 rgba(51, 61, 72, 0.1)'
                     }}
                     />
                   {(i === (amountOfImagesInitially - 1) && step.images.length > amountOfImagesInitially) &&
@@ -64,7 +64,7 @@ export default class TourDetailView  extends Component {
             </View>
           }
 
-          <Text style={styles.p}>{step.description}</Text>
+          <Text style={{...styles.p, paddingBottom: 15}}>{step.description}</Text>
 
           <View style={styles.colContainer}>
             <View style={styles.colFifty}>
@@ -78,7 +78,7 @@ export default class TourDetailView  extends Component {
             </View>
             <View style={styles.colFifty}>
               <TouchableOpacity onPress={() => { props.backToMap(step.id) }}>
-                <Text style={{...styles.h2, textAlign: 'center'}}> Show on map more </Text>
+                <Text style={{...styles.h2, textAlign: 'center', 'textDecoration' : 'underline'}}>Show on map</Text>
               </TouchableOpacity>
             </View>
           </View>

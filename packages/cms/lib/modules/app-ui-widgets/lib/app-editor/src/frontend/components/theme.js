@@ -1,9 +1,9 @@
 const defaultTheme = {
-  primaryColor: 'orange',
-  textColor: 'black',
+  textColor: '#333d48',
   backgroundColor: 'rgb(247 247 255)',
-  primaryColor: '#fd6f67',
-  defaultTextColor: '#a3a7ac',
+  primaryColor: '#fe5f55',
+  primaryColorLighter: '#ffb4b0',
+  defaultTextColor: '#808386',
   emphasisedTextColor: '#3a434d',
 }
 
