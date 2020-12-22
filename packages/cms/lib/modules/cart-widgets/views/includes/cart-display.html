@@ -67,7 +67,7 @@
       #}
   </div>
 
-  {% if data.totalOrder %}
+  {% if data.cart and data.cart.items and data.totalOrder %}
   <div class="text-right">
       <br />
       <strong>Total: {{ data.totalOrder.toFixed(2) | currency }}</strong>

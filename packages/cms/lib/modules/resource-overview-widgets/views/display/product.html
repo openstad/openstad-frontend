@@ -54,7 +54,7 @@
   {% for idea in data.widget.activeResources %}
   <li
     id="idea-{{idea.id}}"
-    class="gridder-list idea-item product-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}} {{'soldout' if product.extraData.soldOut }}"
+    class="gridder-list idea-item product-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}} {{'soldout' if idea.extraData.soldOut }}"
     data-griddercontent="#ideaContent{{idea.id}}"
     bkponmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
     bkponmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
