@@ -5,10 +5,12 @@
           {% for item in data.cart.items %}
           <li class="list-group-item clearfix card-item">
               <div class="col-xs-2">
-                <img src="{{ item.product.extraData.images[0]}}" />
+                  <small><b> Product </b></small><br/>
+                  {{ item.name }}<br/>
               </div>
-              <div class="col-xs-2">
-                  <strong>{{ item.name }}</strong><br/>
+              <div class="col-xs-2 text-right">
+                  <small><b> Prijs </b></small><br/>
+                  {{ item.price | currency}}
               </div>
               <div class="col-xs-4 text-right product-change">
                   {% if item and item.qty > 0 %}
@@ -28,7 +30,9 @@
                   {% endif %}
               </div>
               <div class="col-xs-2 text-right">
-                  {{ item.price | currency}}
+                  <small><b> Totaal </b></small><br/>
+
+                  {{ (item.price * item.qty)  | currency}}
               </div>
               <div class="col-xs-2 text-right">
                   <a href="/cart/remove/{{item.product.id}}" class="btn btn-default cart-remove" data-product-id="{{item.product.id}}">

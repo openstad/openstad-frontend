@@ -48,6 +48,8 @@ module.exports = {
             });
           }
 
+          Cart.calculateTotals(req.session.cart);
+
           const cart = (typeof req.session.cart !== 'undefined') ? req.session.cart : false;
           const orderConfig = req.data.global.siteConfig && req.data.global.siteConfig.order ? req.data.global.siteConfig.order : {};
           const orderFees = orderConfig.orderFees ? orderConfig.orderFees : [];

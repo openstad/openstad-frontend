@@ -51,8 +51,9 @@ class Cart {
 
           cart.items.push(prod);
 
-          this.calculateTotals(cart);
       }
+      
+      this.calculateTotals(cart);
 
       return cart;
     }
@@ -106,11 +107,19 @@ class Cart {
     }
 
     static calculateTotals(cart) {
+      if (!cart) {
+        return;
+      }
+
         cart.totals = 0.00;
         cart.items.forEach(item => {
             let price = item.price;
             let qty = item.qty;
+            console.log('item', item)
+
             let amount = price * qty;
+
+            console.log('amount', amount)
 
             cart.totals += amount;
         });
