@@ -164,7 +164,7 @@ function sendThankYouMail (resource, user, site) {
 }
 
 // send email to user that submitted an idea
-function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
+function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
