@@ -13,7 +13,7 @@ export default class TourDetailView  extends Component {
   }
 
   render () {
-    const {step, props} = this.props;
+    const {step, playAudio, backToMap} = this.props;
     const amountOfImagesInitially = 3;
 
     return (
@@ -69,7 +69,7 @@ export default class TourDetailView  extends Component {
           <View style={styles.colContainer}>
             <View style={styles.colFifty}>
               {step.audio && step.audio.filename ?
-              <TouchableOpacity onPress={() => { props.playAudio(step.id) }} style={styles.outlinedButton}>
+              <TouchableOpacity onPress={() => { playAudio(step.id) }} style={styles.outlinedButton}>
                 <Image uri={{uri:'/play-circle.svg'}} /> Play Audio
               </TouchableOpacity>
               :
@@ -77,7 +77,7 @@ export default class TourDetailView  extends Component {
               }
             </View>
             <View style={styles.colFifty}>
-              <TouchableOpacity onPress={() => { props.backToMap(step.id) }}>
+              <TouchableOpacity onPress={() => { backToMap(step.id) }}>
                 <Text style={{...styles.h2, textAlign: 'center', 'textDecoration' : 'underline'}}>Show on map</Text>
               </TouchableOpacity>
             </View>

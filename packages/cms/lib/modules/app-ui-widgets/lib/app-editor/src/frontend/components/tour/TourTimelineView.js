@@ -41,6 +41,7 @@ function TourTimelineView (props) {
                 >
                   <TourDetailView
                     step={step}
+                    playAudio={props.playAudio}
                     openGallery={props.openGallery}
                   />
               </Accordeon>

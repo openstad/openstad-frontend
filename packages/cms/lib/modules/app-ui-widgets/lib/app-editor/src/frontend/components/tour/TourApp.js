@@ -15,6 +15,11 @@ import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 
 
+// Research native / web 
+//import TrackPlayer from 'react-native-track-player';
+//TrackPlayer.registerPlaybackService(() => require('./trackService.js'));
+
+
 class TourApp extends Component {
   constructor(props) {
     super(props);

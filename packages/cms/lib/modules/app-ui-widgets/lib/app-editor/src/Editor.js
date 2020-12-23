@@ -26,7 +26,7 @@ class Editor extends Component {
       activeResource: null,
       resources: props.resources,
       appResource:  props.appResource,
-      app: true,
+      loading: true,
       lineCoords: false,
     };
 
@@ -34,8 +34,8 @@ class Editor extends Component {
   }
 
   componentDidMount() {
-  //  this.fetchApp();
-    this.fetchRoutes();
+    this.fetchApp();
+  //  this.fetchRoutes();
 
     window.addEventListener("hashchange", this.handleHashChange.bind(this), false);
     this.handleHashChange();
@@ -194,6 +194,7 @@ class Editor extends Component {
         const appResource =  response.data;
 
         this.setState({
+          loading: false,
           app: appResource,
           resources: appResource.revisions[appResource.revisions.length -1].resources
         });
@@ -255,7 +256,7 @@ class Editor extends Component {
   }
 
   render() {
-    if (!this.state.app) {
+    if (this.state.loading) {
       return <Loader />
     }
 

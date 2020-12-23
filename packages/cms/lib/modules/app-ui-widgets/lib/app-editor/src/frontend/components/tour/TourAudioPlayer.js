@@ -1,24 +1,27 @@
 import React, { Component, useLocation } from 'react';
 import { View, Text } from 'react-native';
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import AudioPlayer from '../AudioPlayer';
 
 import 'react-h5-audio-player/lib/styles.css';
+
+
+/*
+<a href="javascript:void(0);" onClick={() => {
+  props.resetAudio();
+}} className="tour-detail-close">✕</a>
+<small>
+  <b>{props.stepActiveIndex + 1}</b> of {props.stepTotal}
+</small>
+<h3>  {props.title}</h3>
+
+{!props.audioFile &&
+<em> No audio available for this step </em>
+}
+ */
 
 function TourAudioPlayer (props) {
   return (
     <div className="bottom-bar">
-      <small>
-        <b>{props.stepActiveIndex + 1}</b> of {props.stepTotal}
-      </small>
-      <h3>  {props.title}</h3>
-
-      {!props.audioFile &&
-      <em> No audio available for this step </em>
-      }
-
-      <a href="javascript:void(0);" onClick={() => {
-        props.resetAudio();
-      }} className="tour-detail-close">✕</a>
 
       <AudioPlayer
         showSkipControls={true}
