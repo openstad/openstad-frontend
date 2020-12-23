@@ -2,8 +2,6 @@ import React, { Component, useLocation } from 'react';
 import { View, Text } from 'react-native';
 import AudioPlayer from '../AudioPlayer';
 
-import 'react-h5-audio-player/lib/styles.css';
-
 
 /*
 <a href="javascript:void(0);" onClick={() => {
@@ -22,18 +20,11 @@ import 'react-h5-audio-player/lib/styles.css';
 function TourAudioPlayer (props) {
   return (
     <div className="bottom-bar">
-
       <AudioPlayer
-        showSkipControls={true}
-        showJumpControls={false}
-        onClickPrevious={props.previous}
-        onClickNext={props.next}
         autoPlay={true}
-        customAdditionalControls={[]}
-        customVolumeControls={[]}
-        src={props.audioFile? props.audioFile : null }
-        onPlay={e => console.log("onPlay")}
-        // other props here
+        audioFile={props.audioFile ? props.audioFile : null }
+        previous={props.previous}
+        next={props.next}
       />
     </div>
   )
