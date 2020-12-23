@@ -37,20 +37,8 @@ module.exports = {
     return this.config.ideas.feedbackEmail.from;
   },
   
-  getIdeasFeedbackEmailSubject: function () {
-    return this.config.ideas.feedbackEmail.subject;
-  },
-  
   getIdeasFeedbackEmailInzendingPath: function () {
     return this.config.ideas.feedbackEmail.inzendingPath;
-  },
-  
-  getIdeasFeedbackEmailTemplate: function () {
-    return this.config.ideas.feedbackEmail.template;
-  },
-  
-  getIdeasFeedbackEmailAttachments: function () {
-    return this.config.ideas.feedbackEmail.attachments;
   },
   
   getMailMethod: function () {
