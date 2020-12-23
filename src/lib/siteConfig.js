@@ -41,6 +41,16 @@ module.exports = {
     return this.config.ideas.feedbackEmail.inzendingPath;
   },
   
+  getResourceTypeConfig: function (resourceType) {
+    // The resource config for the 'idea' model is saved under the plural 'ideas'
+    // make sure we use the correct key
+    if (resourceType == 'idea') {
+      resourceType = 'ideas';
+    }
+    
+    return this.config && this.config[resourceType] || {};
+  },
+  
   getMailMethod: function () {
     return this.config.mail.method;
   },

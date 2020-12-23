@@ -85,16 +85,14 @@ function sendNotificationMail( data ) {
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail (resource, user, site) {
+function sendThankYouMail (resource, user) {
   let resourceType;
   let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
   if (match) resourceType = match[1];
 
   if (!resourceType) return console.log('sendThankYouMail error: resourceType not found');
 
-  let resourceTypeSiteConfig = site && site.config && site.config[`${resourceType}s`] || {};
-  let resourceTypeApiConfig = config && config[`${resourceType}s`] || {};
-  let resourceTypeConfig = merge.recursive({}, resourceTypeApiConfig, resourceTypeSiteConfig);
+  const resourceTypeConfig = siteConfig.getResourceTypeConfig(resourceType);
 
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
