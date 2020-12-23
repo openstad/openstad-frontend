@@ -58,7 +58,7 @@ module.exports = {
   },
   
   getNewsletterSignupConfirmationEmailAttachments: function () {
-    return this.config.newslettersignup.confirmationEmail.attachments;
+    return this.config.newslettersignup.confirmationEmail.attachments || this.getDefaultEmailAttachments();
   },
   
   getNewsletterSignupConfirmationEmailSubject: function () {
@@ -73,5 +73,22 @@ module.exports = {
     }
     
     return logo;
+  },
+  
+  getDefaultEmailAttachments: function () {
+    const logo = this.getLogo();
+    const attachments = [];
+    
+    // if logo is amsterdam, we fallback to old default logo and include it
+    if (logo === 'amsterdam') {
+      attachments.push('logo.png');
+    }
+  
+    if (!logo) {
+      attachments.push('openstad-logo.png');
+    }
+    
+    return attachments;
   }
+  
 };

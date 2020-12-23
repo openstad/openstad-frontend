@@ -80,7 +80,7 @@ function sendNotificationMail( data ) {
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : getDefaultAttachments(data.logo)
+		attachments : siteConfig.getDefaultEmailAttachments()
 	});
 };
 
@@ -146,7 +146,7 @@ function sendThankYouMail (resource, user, site) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || getDefaultAttachments(logo);
+  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || siteConfig.getDefaultEmailAttachments();
 
   try {
   sendMail({
@@ -160,22 +160,6 @@ function sendThankYouMail (resource, user, site) {
   } catch(err) {
     console.log(err);
   }
-
-}
-
-function getDefaultAttachments(logo) {
-  const attachments = [];
-
-  // if logo is amsterdam, we fallback to old default logo and include it
-  if (logo === 'amsterdam') {
-    attachments.push('logo.png');
-  }
-
-  if (!logo) {
-    attachments.push('openstad-logo.png');
-  }
-
-  return attachments;
 
 }
 
@@ -216,7 +200,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
     uppercaseHeadings: false
   });
 
-  const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments() || getDefaultAttachments(logo);
+  const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments();
 
   sendMail({
     to: newslettersignup.email,
