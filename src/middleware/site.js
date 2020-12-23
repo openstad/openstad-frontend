@@ -1,5 +1,5 @@
 const db = require('../db');
-const createError = require('http-errors')
+const createError = require('http-errors');
 const sessionUser = require('./session_user');
 const siteConfig = require('../lib/siteConfig');
 
