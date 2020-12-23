@@ -2,30 +2,53 @@ var config         = require('config')
 , log            = require('debug')('app:user')
 , pick           = require('lodash/pick');
 
-var auth           = require('../auth');
-var Password       = require('../auth/password');
-var sanitize       = require('../util/sanitize');
+const Password      = require('../lib/password');
+const sanitize      = require('../util/sanitize');
+const userHasRole 	= require('../lib/sequelize-authorization/lib/hasRole');
+const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
+const roles = require('../lib/sequelize-authorization/lib/roles');
 
 // For detecting throwaway accounts in the email address validation.
 var emailBlackList = require('../../config/mail_blacklist')
 
 module.exports = function( db, sequelize, DataTypes ) {
 	var User = sequelize.define('user', {
+		siteId: {
+			type         : DataTypes.INTEGER,
+			defaultValue : config.siteId && typeof config.siteId == 'number' ? config.siteId : 0,
+		},
 
     externalUserId: {
       type         : DataTypes.INTEGER,
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
     externalAccessToken: {
       type         : DataTypes.STRING(2048),
+      auth: {
+        listableBy: 'admin',
+        viewableBy: 'admin',
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 			allowNull    : true,
 			defaultValue : null
     },
 
 		role: {
 			type         : DataTypes.STRING(32),
+      auth: {
+        createableBy : 'admin',
+        updateableBy : 'admin',
+        viewableBy : 'all',
+      },
 			allowNull    : false,
 			defaultValue : 'anonymous',
 			validate     : {
@@ -33,7 +56,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 					args : [['unknown', 'anonymous', 'member', 'admin', 'su', 'editor', 'moderator', 'superAdmin']],
 					msg  : 'Unknown user role'
 				}
-			}
+			},
+      auth: {
+        createableBy: 'admin',
+        updateableBy: 'admin',
+      },
 		},
 		// For unknown/anon: Always `false`.
 		// For members: `true` when the user profile is complete. This is set
@@ -48,8 +75,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 			defaultValue : false
 		},
 
+		extraData: getExtraDataConfig(DataTypes.JSON, 'users'),
+
 		email: {
 			type         : DataTypes.STRING(255),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				isEmail: {
@@ -71,6 +106,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.VIRTUAL,
 			allowNull    : true,
 			defaultValue : null,
+      auth: {
+        listableBy: 'none',
+        viewableBy: 'none',
+      },
 			validate     : {
 				len: {
 					args : [6,64],
@@ -106,6 +145,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		firstName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('firstName', sanitize.noTags(value));
@@ -114,9 +159,119 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		lastName: {
 			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+        viewableBy: 'all',
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
 			allowNull    : true,
 			set          : function( value ) {
 				this.setDataValue('lastName', sanitize.noTags(value));
+			}
+		},
+
+		listableByRole: {
+			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+			defaultValue: null,
+			auth:  {
+        viewableBy: ['editor','owner'],
+				updateableBy: ['editor', 'owner'],
+			},
+			allowNull: true,
+		},
+
+		detailsViewableByRole: {
+			type: DataTypes.ENUM('admin', 'moderator', 'editor', 'member', 'anonymous', 'all'),
+			defaultValue: null,
+			auth:  {
+        viewableBy: ['editor','owner'],
+				updateableBy: ['editor', 'owner'],
+			},
+			allowNull: true,
+		},
+
+		phoneNumber: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('phoneNumber', sanitize.noTags(value));
+			}
+		},
+
+		streetName: {
+			type         : DataTypes.STRING(64),
+			auth: {
+				listableBy: ['editor','owner'],
+				viewableBy: ['editor','owner'],
+				createableBy: ['editor','owner'],
+				updateableBy: ['editor','owner'],
+			},
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('streetName', sanitize.noTags(value));
+			}
+		},
+
+		houseNumber: {
+			type         : DataTypes.STRING(64),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('houseNumber', sanitize.noTags(value));
+			}
+		},
+
+		postcode: {
+			type         : DataTypes.STRING(64),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('postcode', sanitize.noTags(value));
+			}
+		},
+
+		city: {
+			type         : DataTypes.STRING(64),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('city', sanitize.noTags(value));
+			}
+		},
+
+		suffix: {
+			type         : DataTypes.STRING(64),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
+			allowNull    : true,
+			set          : function( value ) {
+				this.setDataValue('suffix', sanitize.noTags(value));
 			}
 		},
 
@@ -152,6 +307,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 		zipCode: {
 			type         : DataTypes.STRING(10),
+      auth: {
+        listableBy: ['editor','owner'],
+        viewableBy: ['editor','owner'],
+        createableBy: ['editor','owner'],
+        updateableBy: ['editor','owner'],
+      },
 			allowNull    : true,
 			validate     : {
 				is: {
@@ -160,11 +321,32 @@ module.exports = function( db, sequelize, DataTypes ) {
 				}
 			},
 			set          : function( zipCode ) {
-				zipCode = zipCode != null ?
-				  String(zipCode).trim() :
-				  null;
+				zipCode = zipCode ? String(zipCode).trim() : null;
 				this.setDataValue('zipCode', zipCode);
-			}
+			},
+
+			postcode: {
+				type         : DataTypes.STRING(10),
+				auth: {
+					listableBy: ['editor','owner'],
+					viewableBy: ['editor','owner'],
+					createableBy: ['editor','owner'],
+					updateableBy: ['editor','owner'],
+				},
+				allowNull    : true,
+				validate     : {
+					is: {
+						args : [/^\d{4} ?[a-zA-Z]{2}$/],
+						msg  : 'Ongeldige postcode'
+					}
+				},
+				set          : function( zipCode ) {
+					zipCode = zipCode != null ?
+						String(zipCode).trim() :
+						null;
+					this.setDataValue('zipCode', zipCode);
+				},
+			},
 		},
 
 		// signedUpForNewsletter: {
@@ -176,10 +358,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 	}, {
 		charset: 'utf8',
 
-		indexes: [{
+	/*	indexes: [{
 			fields: ['email'],
 			unique: true
-		}],
+		}],*/
+
 
 		validate: {
 			hasValidUserRole: function() {
@@ -215,90 +398,84 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	});
 
+	User.scopes = function scopes() {
+
+		return {
+			includeSite: {
+        include: [{
+          model: db.Site,
+        }]
+      },
+
+			onlyListable: function (userId, userRole = 'all') {
+
+        // todo: hij kan alleen tegen een enkelvoudige listableBy
+        // todo: owner wordt nu altijd toegevoegd, dat moet alleen als die in listableBy staat, maar zie vorige regel
+        // todo: gelijkttrekken met Idea.onlyVisible: die is nu exclusive en deze inclusive
+
+        let requiredRole = this.auth && this.auth.listableBy || 'all';
+
+        // if requiredRole == all then listableByRole is not relevant and neither is userRole
+        if (requiredRole == 'all') return;
+
+        // if requiredRole != all then listableByRole is allowing
+
+        // null should be seen as requiredRole
+        let requiredRoleEscaped = sequelize.escape(requiredRole);
+        let rolesEscaped = sequelize.escape(roles[userRole])
+        let nullCondition = `${requiredRoleEscaped} IN (${rolesEscaped})`;
+
+        let where = sequelize.or(
+          // owner
+          { id: userId },
+          // allow when userRole is good enough
+          { listableByRole: roles[userRole] || 'none' },
+          // or null and userRole is at least requiredRole
+          sequelize.and(
+            { listableByRole: null },
+            sequelize.literal(nullCondition)
+          ),
+        )
+
+        return { where };
+
+			},
+
+			includeVote: {
+				include: [{
+					model: db.Vote,
+				}]
+			},
+
+
+			onlyVisible: function (userId, userRole) {
+				if (userId) {
+					return {
+						where: sequelize.or(
+							{ id: userId },
+							{ viewableByRole: 'all' },
+							{ viewableByRole: roles[userRole] || 'all' },
+						)
+					};
+				} else {
+					return {
+						where: sequelize.or(
+							{ viewableByRole: 'all' },
+							{ viewableByRole: roles[userRole]  || 'all' },
+						)
+					};
+				}
+ 			},
+
+		}
+	}
+
 	User.associate = function( models ) {
+		this.hasMany(models.Article);
 		this.hasMany(models.Idea);
 		this.hasMany(models.Vote);
 		this.hasMany(models.Argument);
-	}
-
-	User.findByCredentials = function( email, password ) {
-		if( !email || !password ) {
-			return Promise.reject(createError(400, 'Incomplete credentials'));
-		}
-
-		return this.findOne({where: {email: email}}).then(function( user ) {
-			if( !user || !user.authenticate(password) ) {
-				// TODO: AuthenticationError
-				throw createError(403, 'Login failed');
-			} else {
-				return user;
-			}
-		});
-	}
-
-	User.findMember = function( email ) {
-		if( !email ) {
-			return Promise.reject(createError(400, 'Geen emailadres ingevuld'));
-		}
-
-		return this.findOne({where: {
-			email : email
-		}});
-	}
-
-	User.registerAnonymous = function(values) {
-		values.role = 'anonymous';
-		return this.create(values);
-	}
-
-	// `User.currentUser` is the user instance that the system loaded for
-	// this session.
-	User.registerMember = function( currentUser, email ) {
-		var data = {
-			role  : 'member',
-			email : email
-		};
-
-		return User.findMember(email)
-			.then(function( existingUser ) {
-				if( existingUser ) {
-					// If there is already a member with this email address,
-					// just return that one. This is probably someone who
-					// actually wants to login.
-					return existingUser;
-				} else if( currentUser.isAnonymous() ) {
-					// If the current user is anonymous, it means they already
-					// created an 'account' by filling in their zipcode during
-					// voting. Upgrade this account to a member.
-					return currentUser.update(data);
-				} else {
-					// No existing user, and the current user is of type unknown.
-					// Members should not be able to reach this point; the ACL
-					// prevents it.
-					return User.create(data);
-				}
-			});
-	}
-
-	User.prototype.completeRegistration = function( data ) {
-		var self = this;
-		var filtered = pick(data, [
-			'firstName', 'lastName', 'zipCode', 'gender', 'password', 'signedUpForNewsletter'
-		]);
-		filtered.complete = true;
-		if (self.role === 'anonymous') {
-			filtered.complete = 'member';
-		}
-		return this.update(filtered)
-			.catch(function( error ) {
-				// We need to set `complete` initially for the `isValidMember`
-				// validation to work correctly. There was an error completing
-				// registration however, so we unset `complete` again. The
-				// other properties can remain in memory so they're refilled into
-				// the form together with the error message(s).
-				self.set('complete', false);
-				throw error;
-			});
+		this.belongsTo(models.Site);
 	}
 
 	User.prototype.authenticate = function( password ) {
@@ -364,6 +541,22 @@ module.exports = function( db, sequelize, DataTypes ) {
 				return vote ? true : false;
 			})
 	}
+
+	User.auth = User.prototype.auth = {
+    listableBy: 'editor',
+    viewableBy: 'all',
+    createableBy: 'editor',
+    updateableBy: ['editor','owner'],
+    deleteableBy: ['editor','owner'],
+
+		/*canView: function(user, self) {
+			if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
+				return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
+			} else {
+				return true
+			}
+		},*/
+  }
 
 	return User;
 };

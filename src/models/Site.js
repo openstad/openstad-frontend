@@ -23,28 +23,45 @@ module.exports = function( db, sequelize, DataTypes ) {
 		},
 
 		config: {
-			type				 : DataTypes.TEXT,
+			type				 : DataTypes.JSON,
 			allowNull		 : false,
 			defaultValue : {},
 			get					 : function() {
 				let value = this.getDataValue('config');
-				try {
-					if (typeof value == 'string') {
-						value = JSON.parse(value);
-					}
-				} catch(err) {}
 				return this.parseConfig(value);
 			},
 			set					 : function(value) {
 				var currentconfig = this.getDataValue('config');
-				try {
-					if (typeof currentconfig == 'string') {	currentconfig = JSON.parse(currentconfig); }
-				} catch(err) { currentconfig = {}; }
 				value = value || {};
 				value = merge.recursive(currentconfig, value);
-				this.setDataValue('config', JSON.stringify(this.parseConfig(value)));
-			}
+				this.setDataValue('config', this.parseConfig(value));
+			},
+      auth: {
+        viewableBy: 'admin',
+      },
 		},
+
+		/*
+			HostStatus is used for tracking domain status
+			For instance, mostly managed by checkHostStatus service
+			{
+				"ip": true, // means the IP is set to this server
+				"ingress": false // if on k8s cluster will try to make a ingress host file if IP address is set properly, k8s cert manager will then try get a let's encrypt cert
+			} if
+		 */
+		hostStatus: {
+			type				 : DataTypes.JSON,
+			allowNull		 : false,
+			defaultValue : {},
+      auth: {
+        viewableBy: 'admin',
+      },
+		},
+
+		areaId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		}
 
 	});
 
@@ -52,11 +69,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 		return {
 			defaultScope: {
 			},
+
+			withArea: {
+				include: [{
+					model: db.Area
+				}]
+			}
 		};
 	}
 
 	Site.associate = function( models ) {
 		this.hasMany(models.Idea);
+		this.belongsTo(models.Area);
 	}
 
 	Site.configOptions = function () {
@@ -92,7 +116,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 				subset: {
 					dbName: {
 						type: 'string',
-						default: '',
+						default: 'default_db', //the mongodb database
 					},
 					url: {
 						type: 'string',
@@ -105,7 +129,24 @@ module.exports = function( db, sequelize, DataTypes ) {
 					'after-login-redirect-uri': {
 						type: 'string',
 						default: '/oauth/login?jwt=[[jwt]]',
-					}
+					},
+					"widgetDisplaySettings": {
+	          "type": "object",
+	          "subset": {
+	              "beta": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "deprecated": {
+	                "type": "boolean",
+	                "default": false
+	              },
+	              "visibleWidgets": {
+	                "type": "arrayOfStrings",
+	                "default": []
+	              }
+	           }
+	        }
 				}
 			},
 			notifications: {
@@ -203,6 +244,15 @@ module.exports = function( db, sequelize, DataTypes ) {
 						type: 'int',
 						default: 100,
 					},
+          showVoteButtons: {
+            // momenteel alleen voor de kaart-app
+						type: 'boolean',
+						default: true,
+          },
+					canEditAfterFirstLikeOrArg: {
+						type: 'boolean',
+						default: false,
+					},
 					feedbackEmail: {
 						from: {
 							type: 'string', // todo: add type email/list of emails
@@ -221,6 +271,61 @@ module.exports = function( db, sequelize, DataTypes ) {
 							default: undefined,
 						},
 					},
+          extraDataMustBeDefined: {
+						type: 'boolean',
+            default: false,
+					},
+          extraData: {
+						type: 'object',
+					},
+          types: {
+						type: 'arrayOfObjects',
+						default: [],
+				    subset: {
+							name: {
+								type: 'string',
+								default: 'noName',
+							},
+							label: {
+								type: 'label',
+								default: 'Dit is niets',
+							},
+							auth: {
+								type: 'object', // TODO: werk dit uit
+							},
+							mapIcon: {
+								type: 'string',
+								default: '',
+							},
+							listIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonIcon: {
+								type: 'string',
+								default: '',
+							},
+							buttonLabel: {
+								type: 'string',
+								default: '',
+							},
+							backgroundColor: {
+								type: 'string',
+								default: '#164995',
+							},
+							textColor: {
+								type: 'string',
+								default: 'white',
+							},
+              // TODO: deze komen uit cms thema; werk dat verder uit
+              "flag": { type: 'string', default: '' },
+              "mapUploadedFlag": { type: 'string', default: '' },
+              "mapFlagWidth": { type: 'string', default: '' },
+              "mapFlagHeight": { type: 'string', default: '' },
+              "Initialavailablebudget": { type: 'int', default: 0 },
+              "minimalBudgetSpent": { type: 'int', default: 0 },
+            }
+          }
 				}
 			},
 			arguments: {
@@ -247,9 +352,36 @@ module.exports = function( db, sequelize, DataTypes ) {
 								default: ['zipCode', 'nickName'],
 							}
 						}
-					}
+					},
+
+					isClosed: {
+						type: 'boolean',
+						default: false,
+					},
+
+					closedText: {
+						type: 'string',
+						default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
+					},
+
 				}
 			},
+      users: {
+				type: 'object',
+				subset: {
+          extraDataMustBeDefined: {
+					  type: 'boolean',
+            default: false,
+				  },
+          extraData: {
+					  type: 'object',
+				  },
+          canCreateNewUsers: {
+					  type: 'boolean',
+					  default: true,
+				  },
+				},
+      },
 			votes: {
 				type: 'object',
 				subset: {
@@ -286,13 +418,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					withExisting: {
 						type: 'enum',
-						values: ['error', 'replace'],
+						values: ['error', 'replace', 'merge'],
 						default: 'error',
 					},
 
 					voteType: {
 						type: 'enum',
-						values: ['likes', 'count', 'budgeting', 'budgeting-per-theme'],
+						values: ['likes', 'count', 'budgeting', 'count-per-theme', 'budgeting-per-theme'],
 						default: 'likes',
 					},
 
@@ -312,12 +444,12 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 					maxIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 100,
 					},
 
 					minIdeas: {
 						type: 'int',
-						default: undefined,
+						default: 1,
 					},
 
 					minBudget: {
@@ -344,6 +476,87 @@ module.exports = function( db, sequelize, DataTypes ) {
             }
           },
 
+				},
+			},
+
+			articles: {
+				type: 'object',
+				subset: {
+					canAddNewArticles: {
+						type: 'boolean',
+						default: true,
+					},
+          titleMinLength: {
+						type: 'int',
+						default: 10,
+          },
+          titleMaxLength: {
+						type: 'int',
+						default: 50,
+          },
+          summaryMinLength: {
+						type: 'int',
+						default: 20,
+          },
+          summaryMaxLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMinLength: {
+						type: 'int',
+						default: 140,
+          },
+          descriptionMaxLength: {
+						type: 'int',
+						default: 5000,
+          },
+					minimumYesVotes: {
+						type: 'int',
+						default: 100,
+					},
+					canEditAfterFirstLikeOrArg: {
+						type: 'boolean',
+						default: false,
+					},
+					feedbackEmail: {
+						from: {
+							type: 'string', // todo: add type email/list of emails
+							default: 'EMAIL@NOT.DEFINED',
+						},
+						subject: {
+							type: 'string',
+							default: 'Bedankt voor je artikel',
+						},
+						inzendingPath: {
+							type: 'string',
+							default: "/PATH/TO/ARTICLE/[[articleId]]",
+						},
+						template: {
+							type: 'string',
+							default: undefined,
+						},
+					},
+          extraDataMustBeDefined: {
+						type: 'boolean',
+            default: false,
+					},
+          extraData: {
+						type: 'object',
+          }
+				}
+			},
+
+			polls: {
+				type: 'object',
+				subset: {
+					canAddPolls: {
+						type: 'boolean',
+						default: false,
+					},
+					requiredUserRole: {
+						type: 'string',
+						default: 'anonymous',
+					},
 				},
 			},
 
@@ -382,6 +595,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 				},
 			},
 
+      host: {
+				status: null,
+			},
+
 			"ignoreBruteForce": {
 				type: 'arrayOfStrings',
 				default: [
@@ -393,6 +610,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
 	Site.prototype.parseConfig = function(config) {
 
+
 		try {
 			if (typeof config == 'string') {
 				config = JSON.parse(config);
@@ -402,6 +620,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 		let options = Site.configOptions();
+
+
 
 		config = checkValues(config, options)
 
@@ -417,6 +637,8 @@ module.exports = function( db, sequelize, DataTypes ) {
 					// dit is een oude
 					value[key] = { default: value[key] };
 				}
+
+        // TODO: 'arrayOfObjects' met een subset
 
 				// objects in objects
 				if (options[key].type == 'object' && options[key].subset) {
@@ -448,7 +670,10 @@ module.exports = function( db, sequelize, DataTypes ) {
 						throw new Error(`site.config: ${key} must be an string`);
 					}
 					if (options[key].type && options[key].type === 'boolean' && typeof value[key] !== 'boolean') {
-						throw new Error(`site.config: ${key} must be an boolean`);
+						throw new Error(`site.config: ${key} must be an boolean ${value[key]}, ${options}, ${typeof value[key]}`);
+					}
+					if (options[key].type && options[key].type === 'object' && typeof value[key] !== 'object') {
+						throw new Error(`site.config: ${key} must be an object`);
 					}
 					if (options[key].type && options[key].type === 'arrayOfStrings' && !(typeof value[key] === 'object' && Array.isArray(value[key]) && !value[key].find(val => typeof val !== 'string'))) {
 						throw new Error(`site.config: ${key} must be an array of strings`);
@@ -492,6 +717,14 @@ module.exports = function( db, sequelize, DataTypes ) {
 		}
 
 	}
+
+	Site.auth = Site.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
 
 	return Site;
 

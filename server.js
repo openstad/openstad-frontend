@@ -1,5 +1,7 @@
 const config = require('config');
 
+require('dotenv').config();
+
 // Env variable used by npm's `debug` package.
 process.env.DEBUG = config.logging;
 
@@ -14,5 +16,7 @@ const Cron       = require('./src/Cron');
 // const ImageOptim = require('./src/ImageOptim');
 
 Cron.start();
+
+Server.init();
 Server.start(config.get('express.port'));
 // ImageOptim.start();

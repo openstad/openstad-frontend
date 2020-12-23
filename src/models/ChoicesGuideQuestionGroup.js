@@ -1,0 +1,168 @@
+const config = require('config');
+const merge = require('merge');
+const sanitize = require('../util/sanitize');
+
+module.exports = function( db, sequelize, DataTypes ) {
+  let ChoicesGuideQuestionGroup = sequelize.define('choicesGuideQuestionGroup', {
+
+    choicesGuideId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+    answerDimensions: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      allowNull: false,
+    },
+
+    title: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [2, 255],
+          msg: 'Titel moet tussen 2 en 255 tekens lang zijn'
+        }
+      },
+      set: function( text ) {
+        this.setDataValue('title', sanitize.title(text.trim()));
+      }
+    },
+
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [2, 5000],
+          msg: 'Beschrijving moet tussen 2 en 5000 tekens zijn'
+        },
+      },
+      set: function( text ) {
+        this.setDataValue('description', sanitize.content(text.trim()));
+      }
+    },
+
+    images: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '{}',
+      get: function() {
+        let value = this.getDataValue('images');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        return value;
+      },
+      set: function(value) {
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        this.setDataValue('images', JSON.stringify(value));
+      }
+    },
+
+    seqnr: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+
+  }, {
+
+    hooks: {
+
+      beforeValidate: function( instance, options ) {
+
+        return new Promise((resolve, reject) => {
+
+          if (instance.choicesGuideId) {
+            db.ChoicesGuide.scope('includeSite').findByPk(instance.choicesGuideId)
+              .then( (choicesGuide) => {
+                if (!choicesGuide) throw Error('ChoicesGuide niet gevonden');
+                instance.config = merge.recursive(true, config, choicesGuide.site.config);
+                return choicesGuide;
+              })
+              .then( (choicesGuide) => {
+                return resolve();
+              }).catch((err) => {
+                throw err;
+              });
+
+          } else {
+            instance.config = config;
+            return resolve();
+          }
+
+        });
+
+      },
+
+    },
+
+    individualHooks: true,
+
+  });
+
+  ChoicesGuideQuestionGroup.associate = function( models ) {
+    this.belongsTo(models.ChoicesGuide);
+    this.hasMany(models.ChoicesGuideQuestion, { foreignKey: 'questionGroupId' });
+    this.hasMany(models.ChoicesGuideChoice, { foreignKey: 'questionGroupId' });
+  };
+
+  ChoicesGuideQuestionGroup.scopes = function scopes() {
+
+    return {
+
+      forSiteId: function( siteId ) {
+        return {
+          where: {
+            choicesGuideId: [sequelize.literal(`select id FROM choicesGuides WHERE siteId = ${siteId}`)]
+          }
+        };
+      },
+
+      includeChoicesGuide: {
+        include: [{
+          model: db.ChoicesGuide,
+          attributes: ['id', '', 'status']
+        }]
+      },
+
+      includeChoices: function() {
+        return {
+          include: [{
+            model: db.ChoicesGuideChoice,
+          }]
+        }
+      },
+
+      includeQuestions: function() {
+        return {
+          include: [{
+            model: db.ChoicesGuideQuestion,
+          }]
+        }
+      },
+
+    };
+  };
+
+  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	ChoicesGuideQuestionGroup.auth = ChoicesGuideQuestionGroup.prototype.auth = {
+    listableBy: 'all',
+    viewableBy: 'all',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
+  return ChoicesGuideQuestionGroup;
+
+};

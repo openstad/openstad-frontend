@@ -81,5 +81,13 @@ module.exports = function( db, sequelize, DataTypes ) {
 		};
 	}
 
+	Submission.auth = Submission.prototype.auth = {
+    listableBy: 'admin',
+    viewableBy: ['admin', 'owner'],
+    createableBy: 'all',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+
 	return Submission;
 };

@@ -8,13 +8,13 @@ module.exports = function( req, res, next ) {
 	let domain = ''
 	try {
 		domain = new URL(url).hostname;
-	} catch(err) {}
+	} catch(err) {	}
 
 	let allowedDomains = (req.site && req.site.config && req.site.config.allowedDomains) || config.allowedDomains;
 	if ( !allowedDomains || allowedDomains.indexOf(domain) === -1) {
 		url = config.url || req.protocol + '://' + req.hostname;
 	}
-	
+
 	if (config.dev && config.dev['Header-Access-Control-Allow-Origin']) {
     res.header('Access-Control-Allow-Origin', config.dev['Header-Access-Control-Allow-Origin'] );
   } else {
@@ -35,10 +35,8 @@ module.exports = function( req, res, next ) {
 		res.header('Feature-Policy', 'vibrate \'none\'; geolocation \'none\'');
 	}
 
-	if (req.method == 'OPTIONS') {
+	if (req.method === 'OPTIONS') {
 		return res.end();
 	}
-
 	return next();
-
 }

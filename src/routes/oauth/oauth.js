@@ -35,8 +35,10 @@ router
 			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl
 		  backToHereUrl = encodeURIComponent(backToHereUrl)
 			let url = baseUrl + '/oauth/site/' + req.site.id + '/logout?redirectUrl=' + backToHereUrl;
+
 			return res.redirect(url)
 		}
+
 
 		req.session.save(() => {
 			let which = req.session.useOauth || 'default';
@@ -44,6 +46,10 @@ router
 			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
+			let authServerAdminLoginPath = siteOauthConfig['auth-server-admin-login-path'] || config.authorization['auth-server-admin-login-path'];
+
+			authServerLoginPath = req.query.loginPriviliged ? authServerAdminLoginPath : authServerLoginPath;
+
 			let url = authServerUrl + authServerLoginPath;
 			url = url.replace(/\[\[clientId\]\]/, authClientId);
 			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
@@ -68,12 +74,13 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerExchangeCodePath = siteOauthConfig['auth-server-exchange-code-path'] || config.authorization['auth-server-exchange-code-path'];
 		let url = authServerUrl + authServerExchangeCodePath;
 
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+
 		let postData = {
 			client_id: authClientId,
 			client_secret: authClientSecret,
@@ -93,11 +100,10 @@ router
 			.then(
 				response => {
 					if (response.ok) return response.json()
-					console.log(response);
 					throw createError('Login niet gelukt');
 				},
 				error => {
-					console.log('ERR');
+					console.log('ERR', error);
 				}
 			)
 			.then(
@@ -105,6 +111,7 @@ router
 
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
+
 
 					// todo: alleen in de sessie is wel heel simpel
 					req.session.userAccessToken = accessToken;
@@ -122,7 +129,7 @@ router
 		// get the user info using the access token
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
@@ -147,8 +154,8 @@ router
 				}
 			)
 			.catch(err => {
-				console.log('OAUTH DIGEST - GET USER ERROR');
-				console.log(err);
+				//console.log('OAUTH DIGEST - GET USER ERROR');
+				//console.log(err);
 				next(err);
 			})
 
@@ -160,15 +167,19 @@ router
 			externalAccessToken: req.session.userAccessToken,
 			email: req.userData.email || null,
 			firstName: req.userData.firstName,
-			zipCode: req.userData.postcode,
+			siteId: req.site.id,
+			zipCode: req.userData.postcode ? req.userData.postcode : null,
 			lastName: req.userData.lastName,
-			role: req.userData.role || ( req.userData.email ? 'member' : 'anonymous' ),
+			// xxx
+			role: req.userData.role || ( ( req.userData.email || req.userData.phoneNumber || req.userData.hashedPhoneNumber ) ? 'member' : 'anonymous' ),
 		}
 
+		// if user has same siteId and userId
+		// rows are duplicate for a user
 		let where = {
-			where: Sequelize.or(
+			where: Sequelize.and(
 				{ externalUserId: req.userData.user_id },
-				{ email: req.userData.email || 'anonymous.nowhere.nl' } // do not find users with email = null
+				{ siteId: req.site.id },
 			)
 		}
 
@@ -182,10 +193,19 @@ router
 					// user found; update and use
 					let user = result[0];
 
-					user.update(data);
-					req.setSessionUser(user.id, '');
-					req.userData.id = user.id;
-					return next();
+					user
+						.update(data)
+						.then(() => {
+							req.setSessionUser(user.id, '');
+							req.userData.id = user.id;
+							return next();
+						})
+						.catch((e) => {
+							console.log('update e', e)
+							req.setSessionUser(user.id, '');
+							req.userData.id = user.id;
+							return next();
+						})
 
 				} else {
 
@@ -201,8 +221,8 @@ router
 							return next();
 						})
 						.catch(err => {
-							console.log('OAUTH DIGEST - CREATE USER ERROR');
-							console.log(err);
+							//console.log('OAUTH DIGEST - CREATE USER ERROR');
+							console.log('create e', err);
 							next(err);
 						})
 				}
@@ -215,8 +235,6 @@ router
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
     let returnTo = req.query.returnTo;
-    console.log('==============================');
-    console.log(returnTo);
 		let redirectUrl = returnTo ? returnTo + (returnTo.includes('?') ? '&' : '?') + 'jwt=[[jwt]]' : false;
 		redirectUrl = redirectUrl || ( req.query.returnTo ? req.query.returnTo  + (req.query.returnTo.includes('?') ? '&' : '?') +  'jwt=[[jwt]]' : false );
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
@@ -260,11 +278,14 @@ router
 
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+
 		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 		let authServerGetUserPath = siteOauthConfig['auth-server-logout-path'] || config.authorization['auth-server-logout-path'];
 		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
 		let url = authServerUrl + authServerGetUserPath;
+
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
+
 
 		req.session.destroy();
 
@@ -280,9 +301,10 @@ router
 router
 	.route('(/site/:siteId)?/me')
 	.get(function( req, res, next ) {
-		res.json({
+		const data = {
 			"id": req.user.id,
 			"complete": req.user.complete,
+			"externalUserId": req.user.role == 'admin' ? req.user.externalUserId : null,
 			"role": req.user.role,
 			"email": req.user.email,
 			"firstName": req.user.firstName,
@@ -291,12 +313,22 @@ router
 			"nickName": req.user.nickName,
 			"initials": req.user.initials,
 			"gender": req.user.gender,
+			"extraData": req.user.extraData ?  req.user.extraData : {},
+			"phoneNumber": req.user.phoneNumber,
+			"streetName": req.user.streetName,
+			"city": req.user.city,
+			"houseNumber": req.user.houseNumber,
+			"suffix": req.user.suffix,
+			"postcode": req.user.postcode,
 			"zipCode": req.user.zipCode,
 			"signedUpForNewsletter": req.user.signedUpForNewsletter,
 			"createdAt": req.user.createdAt,
 			"updatedAt": req.user.updatedAt,
 			"deletedAt": req.user.deletedAt,
-		})
+			'votes': req.user.votes
+		};
+
+		res.json(data);
 	})
 
 module.exports = router;

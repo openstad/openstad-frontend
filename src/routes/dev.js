@@ -2,7 +2,6 @@ var express = require('express');
 var config  = require('config');
 var log     = require('debug')('app:http')
 var db      = require('../db');
-var auth    = require('../auth');
 var mail    = require('../lib/mail');
 
 module.exports = function( app ) {
@@ -25,7 +24,7 @@ module.exports = function( app ) {
 		res.success('/', true);
 	});
 
-	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
+	router.post('/reset_fixtures', function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
 			require('../../../fixtures')(db).then(function() {
 				res.json(true);
@@ -85,7 +84,7 @@ module.exports = function( app ) {
 				)
 				.catch(err => {
 				//	console.log('DEV GET USER CATCH ERROR');
-					console.log(err);
+					// console.log(err);
 					next(err);
 				})
 		})

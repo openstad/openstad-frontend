@@ -63,7 +63,9 @@ function sendMail( options ) {
 }
 
 function sendNotificationMail( data ) {
-	// console.log(JSON.stringify(data, null, 2));
+  //site is not present so will fallback to defaults
+  //Email also has a fallback if all is empty
+  data.logo = getLogoForSite(null);
 
 	let html;
 	if (data.template) {
@@ -78,13 +80,22 @@ function sendNotificationMail( data ) {
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : ['logo.png']
+		attachments : getDefaultAttachments(data.logo)
 	});
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail(idea, user) {
-  
+function sendThankYouMail (resource, user, site) {
+  let resourceType;
+  let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
+  if (match) resourceType = match[1];
+
+  if (!resourceType) return console.log('sendThankYouMail error: resourceType not found');
+
+  let resourceTypeSiteConfig = site && site.config && site.config[`${resourceType}s`] || {};
+  let resourceTypeApiConfig = config && config[`${resourceType}s`] || {};
+  let resourceTypeConfig = merge.recursive({}, resourceTypeApiConfig, resourceTypeSiteConfig);
+
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
   const sitename    = siteConfig.getTitle();
@@ -93,47 +104,99 @@ function sendThankYouMail(idea, user) {
   
   const inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
   const inzendingURL  = url + inzendingPath;
-  
-  let data = {
-    date:     new Date(),
-    user:     user,
-    idea:     idea,
+  const logo =  getLogoForSite(site)
+
+  let data    = {
+    date: new Date(),
+    user: user,
+    idea: resource,
+    article: resource,
     HOSTNAME: hostname,
     SITENAME: sitename,
-    inzendingURL,
-    URL:      url,
-    EMAIL:    fromAddress
+		inzendingURL,
+    URL: url,
+    EMAIL: fromAddress,
+    logo: logo
   };
-  
-  let html;
-  const template = siteConfig.getIdeasFeedbackEmailTemplate();
-  if (template) {
-    html = nunjucks.renderString(template, data);
-  } else {
-    html = nunjucks.render('idea_created.njk', data);
-  }
-  
-  const text = htmlToText.fromString(html, {
-    ignoreImage:              true,
+
+	let html;
+	let template = resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.template;
+
+	if (template) {
+    /**
+     * This is for legacy reasons
+     * if contains <html> we assume it doesn't need a layout wrapper then render as a string
+     * if not included then include by rendering the string and then rendering a blanco
+     * the layout by calling the blanco template
+     */
+    if (template.includes("<html>")) {
+      html  = nunjucks.renderString(template, data)
+    } else {
+      html = nunjucks.render('blanco.njk', Object.assign(data, {
+        message: nunjucks.renderString(template, data)
+      }));
+    }
+	} else {
+		html = nunjucks.render(`${resourceType}_created.njk`, data);
+	}
+
+  let text = htmlToText.fromString(html, {
+    ignoreImage: true,
     hideLinkHrefIfSameAsText: true,
-    uppercaseHeadings:        false
+    uppercaseHeadings: false
   });
-  
-  const attachments = siteConfig.getIdeasFeedbackEmailAttachments();
-  
+
+  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || getDefaultAttachments(logo);
+
+  try {
   sendMail({
-             to:      user.email,
-             from:    fromAddress,
-             subject: siteConfig.getIdeasFeedbackEmailSubject() || 'Bedankt voor je inzending',
-             html:    html,
-             text:    text,
-             attachments,
-           });
-  
+    to: user.email,
+    from: fromAddress,
+    subject: (resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.subject) || 'Bedankt voor je inzending',
+    html: html,
+    text: text,
+    attachments,
+  });
+  } catch(err) {
+    console.log(err);
+  }
+
+}
+
+function getDefaultAttachments(logo) {
+  const attachments = [];
+
+  // if logo is amsterdam, we fallback to old default logo and include it
+  if (logo === 'amsterdam') {
+    attachments.push('logo.png');
+  }
+
+  if (!logo) {
+    attachments.push('openstad-logo.png');
+  }
+
+  return attachments;
+
+}
+
+function getLogoForSite (site) {
+  const clientConfigStyling = site && site.config && site.config.styling ? site.config.styling : {};
+
+  let logo;
+
+  if (process.env.LOGO) {
+    logo = process.env.LOGO;
+  }
+
+  if (clientConfigStyling && clientConfigStyling.logo) {
+    logo = clientConfigStyling.logo;
+  }
+
+  return logo;
 }
 
 // send email to user that submitted an idea
-function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
+function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
@@ -142,6 +205,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
   if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
 	const confirmationUrl = siteConfig.getNewsletterSignupConfirmationEmailUrl().replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+  const logo = getLogoForSite(site);
 
   const data    = {
     date: new Date(),
@@ -151,6 +215,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 		confirmationUrl,
     URL: url,
     EMAIL: fromAddress,
+    logo: logo
   };
 
 	let html;
@@ -167,11 +232,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
     uppercaseHeadings: false
   });
 
-  const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments() || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
+  const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments() || getDefaultAttachments(logo);
 
   sendMail({
     to: newslettersignup.email,
@@ -190,4 +251,3 @@ module.exports = {
   sendThankYouMail,
 	sendNewsletterSignupConfirmationMail,
 };
-
