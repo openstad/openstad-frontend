@@ -85,15 +85,10 @@ function sendNotificationMail( data ) {
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail (resource, user) {
-  let resourceType;
-  let match = resource.toString().match(/SequelizeInstance:([a-z]+)/);
-  if (match) resourceType = match[1];
-
-  if (!resourceType) return console.log('sendThankYouMail error: resourceType not found');
-
-  const resourceTypeConfig = siteConfig.getResourceTypeConfig(resourceType);
-
+function sendThankYouMail (resource, resourceType, user) {
+  
+  if (!resourceType) return console.error('sendThankYouMail error: resourceType not provided');
+  
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
   const sitename    = siteConfig.getTitle();
@@ -103,7 +98,7 @@ function sendThankYouMail (resource, user) {
   const inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
   const inzendingURL  = url + inzendingPath;
   const logo =  siteConfig.getLogo();
-
+  
   let data    = {
     date: new Date(),
     user: user,
@@ -118,8 +113,8 @@ function sendThankYouMail (resource, user) {
   };
 
 	let html;
-	let template = resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.template;
-
+	let template = siteConfig.getResourceFeedbackEmailTemplate(resourceType);
+	
 	if (template) {
     /**
      * This is for legacy reasons
@@ -144,13 +139,13 @@ function sendThankYouMail (resource, user) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.attachments ) || siteConfig.getDefaultEmailAttachments();
-
+  let attachments = siteConfig.getResourceFeedbackEmailAttachments(resourceType) || siteConfig.getDefaultEmailAttachments();
+  
   try {
   sendMail({
     to: user.email,
     from: fromAddress,
-    subject: (resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.subject) || 'Bedankt voor je inzending',
+    subject: siteConfig.getResourceFeedbackEmailSubject(resourceType) || 'Bedankt voor je inzending',
     html: html,
     text: text,
     attachments,
