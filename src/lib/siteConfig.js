@@ -76,4 +76,16 @@ module.exports = {
   getNewsletterSignupConfirmationEmailSubject: function () {
     return this.config.newslettersignup.confirmationEmail.subject;
   },
+  
+  getLogo: function () {
+    let logo = this.config.styling.logo;
+  
+    if (process.env.LOGO) {
+      logo = process.env.LOGO;
+    }
+    
+    console.log ('get logo', this.config.styling.logo, process.env.LOGO, logo);
+    
+    return logo;
+  }
 };

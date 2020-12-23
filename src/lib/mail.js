@@ -65,7 +65,7 @@ function sendMail( options ) {
 function sendNotificationMail( data ) {
   //site is not present so will fallback to defaults
   //Email also has a fallback if all is empty
-  data.logo = getLogoForSite(null);
+  data.logo = siteConfig.getLogo();
 
 	let html;
 	if (data.template) {
@@ -104,7 +104,7 @@ function sendThankYouMail (resource, user, site) {
   
   const inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
   const inzendingURL  = url + inzendingPath;
-  const logo =  getLogoForSite(site)
+  const logo =  siteConfig.getLogo();
 
   let data    = {
     date: new Date(),
@@ -179,22 +179,6 @@ function getDefaultAttachments(logo) {
 
 }
 
-function getLogoForSite (site) {
-  const clientConfigStyling = site && site.config && site.config.styling ? site.config.styling : {};
-
-  let logo;
-
-  if (process.env.LOGO) {
-    logo = process.env.LOGO;
-  }
-
-  if (clientConfigStyling && clientConfigStyling.logo) {
-    logo = clientConfigStyling.logo;
-  }
-
-  return logo;
-}
-
 // send email to user that submitted an idea
 function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 
@@ -205,7 +189,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
   if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
 	const confirmationUrl = siteConfig.getNewsletterSignupConfirmationEmailUrl().replace(/\[\[token\]\]/, newslettersignup.confirmToken)
-  const logo = getLogoForSite(site);
+  const logo = siteConfig.getLogo();
 
   const data    = {
     date: new Date(),

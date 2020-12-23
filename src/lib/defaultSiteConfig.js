@@ -43,5 +43,8 @@ module.exports = {
       template: '',
       attachments: []
     }
+  },
+  styling: {
+    logo: ''
   }
 };
