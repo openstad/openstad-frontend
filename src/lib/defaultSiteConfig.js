@@ -13,6 +13,15 @@ module.exports = {
       attachments:   []
     }
   },
+  articles: {
+    feedbackEmail: {
+      from:          '',
+      subject:       '',
+      inzendingPath: '',
+      template:      '',
+      attachments:   []
+    }
+  },
   mail:  {
     method:    '',
     transport: {
