@@ -72,8 +72,6 @@ module.exports = {
       logo = process.env.LOGO;
     }
     
-    console.log ('get logo', this.config.styling.logo, process.env.LOGO, logo);
-    
     return logo;
   }
 };
