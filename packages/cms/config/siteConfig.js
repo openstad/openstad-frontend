@@ -6,6 +6,7 @@ const resourcesSchema = require('./resources.js').schemaFormat;
 module.exports = {
   get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
+    const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
 
     const siteConfig = {
       shortName: shortName,
@@ -37,6 +38,7 @@ module.exports = {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
           alias: 'settings',
+          siteUrl: siteUrl,
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
           apiLogoutUrl: process.env.API_LOGOUT_URL,

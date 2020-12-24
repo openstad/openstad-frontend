@@ -141,7 +141,8 @@ module.exports = {
                } else {
                  // if not valid clear the JWT and redirect
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl +  '/');
                    return;
                  });
                }
@@ -149,11 +150,9 @@ module.exports = {
              })
              .catch((e) => {
                console.log('e', e);
-
-               // if not valid clear the JWT and redirect
-               // ;
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl + '/');
                    return;
                  })
              });
@@ -217,7 +216,8 @@ module.exports = {
       }
 
       req.session.save(() => {
-        res.redirect('/oauth/login?loginPriviliged=1');
+        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+        res.redirect(siteUrl + '/oauth/login?loginPriviliged=1');
       })
     });
 
