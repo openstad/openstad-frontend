@@ -50,20 +50,26 @@ class Editor extends Component {
   fetchRoutes() {
     const resourceItems = this.getResourceItems('step');
 
-    const stepCoordinates = resourceItems ?  resourceItems.map((resourceItem) => {
+    let stepCoordinates = resourceItems ?  resourceItems.map((resourceItem) => {
       return resourceItem.position[1] + ',' + resourceItem.position[0];
     }) : '';
 
 
+    console.log('stepCoordinates', stepCoordinates);
+
     if (stepCoordinates) {
-      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+      console.log('stepCoordinates', stepCoordinates);
+
+
+      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates.join(';'))}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
       axios.get(apiUrl)
         .then( (response) => {
 
-        //  console.log('coords response', response);
+          console.log('coords response', response);
           const routes = response.data.routes[0];
           const coordinates = routes.geometry.coordinates;
+          console.log('coords response coordinates', coordinates);
 
           this.updateResourceItems('coordinates', coordinates);
 
@@ -82,6 +88,7 @@ class Editor extends Component {
 
   updateResourceItems(resourceName, newResourceItems) {
     const resources = this.state.resources.map((resource) => {
+      console.log('resource.name', resource.name)
       if (resource.name === resourceName) {
         resource.items = newResourceItems;
       }

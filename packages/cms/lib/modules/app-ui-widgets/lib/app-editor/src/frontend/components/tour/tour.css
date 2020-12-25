@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,800;1,300;1,400&display=swap');
 
 body {
   font-family: 'Source Sans Pro', sans-serif !important;
@@ -271,7 +271,7 @@ body .leaflet-marker-icon .number {
 
 .title-bar {
   background: white;
-  padding: 15px 5px;
+  padding: 10px 5px;
   text-align: center;
   z-index: 2;
   position: absolute;
@@ -279,7 +279,7 @@ body .leaflet-marker-icon .number {
   left: 0;
   width: 100%;
   z-index: 10000;
-  background: white;
+  background: transparent;
   padding: 15px 5px;
   /* border-bottom: 1px solid #efefef; */
   text-align: center;
@@ -289,25 +289,31 @@ body .leaflet-marker-icon .number {
   left: 0;
   width: 100%;
   z-index: 10000;
-  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
   box-sizing: border-box;
-  height: 300px;
-  pointer-events: none;
+}
+
+.leaflet-control-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
 }
 
 .title-bar-title {
   font-weight: bold;
-  padding: 0px 20px 0px 40px;
+  padding: 0px 12px 0px 40px;
   font-size: 12px;
+  font-size: 14px;
+  color: #333d48;
+  font-weight: bold;
 }
 
 
 .title-bar-back-button {
   position: absolute;
-  top: 12px;
-  left: 10px;
+  top: 7px;
+  left: 14px;
 }
 
 body .rhap_container {
