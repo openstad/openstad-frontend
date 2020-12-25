@@ -37,11 +37,8 @@ class ImageUploadField extends Component {
           return fileItem.serverId;
         })
         .map(function (fileItem) {
-          console.log('fileItem', fileItem)
           const file = fileItem.file;
           const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
-
-          console.log('fileItem.id', url)
           return url;
         });
 

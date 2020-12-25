@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import AudioPlayer from '../AudioPlayer';
 /**
  * For the native app we need to find a way to move a
  */
-import TrackPlayer from 'react-native-track-player';
+//import TrackPlayer from 'react-native-track-player';
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 
 // web audio api
 import {Howl, Howler} from 'howler';
 
+import theme from './theme';
+
 const styles = {
   progressBar: {
-    posi
+    height: 4,
+    background: theme.primaryColor,
   },
   progressBarInner: {
-
+    height: 4,
+    background: theme.primaryColorLighter,
   },
+  colContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+  },
+  colThird: {
+    width: '33.333%',
+    paddingRight: 10
+  },
+
 
 }
 
@@ -37,9 +51,9 @@ const PlayButton = ({pause, style}) => {
    style = style ? style : {};
 
    return (
-     <TouchableHighlight onPress={pause}>
-       <Image sourse={require('../../images/play-orange@2x.png')} style={{height: 14, width: 14, ...style}}/>
-     </TouchableHighlight>
+     <TouchableOpacity onPress={pause}>
+       <Image source={require('../../images/play-orange@2x.png')} style={{height: 14, width: 14, ...style}}/>
+     </TouchableOpacity>
    );
  }
 
@@ -47,9 +61,9 @@ const PauseButton = ({pause, style}) => {
   style = style ? style : {};
 
   return (
-    <TouchableHighlight onPress={pause}>
-      <Image sourse={require('../../images/pause-white@2x.png')} style={{height: 14, width: 14, ...style}}/>
-    </TouchableHighlight>
+    <TouchableOpacity onPress={pause}>
+      <Image source={require('../../images/pause-white@2x.png')} style={{height: 14, width: 14, ...style}}/>
+    </TouchableOpacity>
   );
 }
 
@@ -73,7 +87,7 @@ class AudioPlayer extends React.Component {
      this.audioProgressInterval = setInterval(() => {
        if (this.audio && this.audio.seek) {
          this.setState({
-           currentPosition: this.audio.seek();
+           currentPosition: this.audio.seek()
          })
        }
      })
@@ -122,12 +136,18 @@ class AudioPlayer extends React.Component {
      return (
        <View>
         <View style={styles.progressBar}>
-          <View style={styles.progressBarInner, width: this.getProgressBarPercentage()}></View>
+          <View style={{...styles.progressBarInner, width: this.getProgressBarPercentage()}}></View>
         </View>
-        <View>
-          {this.state.play ? <PauseButton pause={this.pause}></PauseButton> : <PlayButton play={this.play}>Play</PlayButton>}
-          <Text>{this.state.currentPosition + '/' + this.state.duration}</Text>
-          <View> {this.props.trackInfo} </View>
+        <View style={styles.colContainer}>
+          <View style={styles.colThird}>
+            {this.state.play ? <PauseButton pause={this.pause}></PauseButton> : <PlayButton play={this.play}>Play</PlayButton>}
+          </View>
+          <View style={styles.colThird}>
+            <Text>{this.state.currentPosition + '/' + this.state.duration}</Text>
+          </View>
+          <View style={styles.colThird}>
+            <View> {this.props.info} </View>
+          </View>
         </View>
        </View>
       );

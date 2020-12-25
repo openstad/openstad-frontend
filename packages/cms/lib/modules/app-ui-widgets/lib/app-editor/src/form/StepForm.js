@@ -55,7 +55,6 @@ class LocationPicker extends Component {
   render() {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
-    console.log('currentPos', currentPos)
     return (
       <Map
         center={currentPos}
@@ -147,9 +146,7 @@ export class AudioRecordField extends React.Component {
     request.onreadystatechange = () => {
       if (request.readyState === 4) {
         var response = JSON.parse(request.responseText);
-        console.log('response', response);
           if (request.status === 200) {
-             console.log('successful', response);
              this.props.update(response.url);
           } else {
              console.log('failed');
@@ -244,11 +241,9 @@ class ImageUploadField extends Component {
           return fileItem.serverId;
         })
         .map(function (fileItem) {
-          console.log('fileItem', fileItem)
           const file = fileItem.file;
           const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
 
-          console.log('fileItem.id', url)
           return url;
         });
 
@@ -261,8 +256,6 @@ class ImageUploadField extends Component {
     }
 
     render () {
-      console.log('this.state.images', this.state.images);
-
       return (
         <div>
           <FilePond

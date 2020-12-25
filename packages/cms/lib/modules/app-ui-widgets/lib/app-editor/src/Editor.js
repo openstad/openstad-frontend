@@ -20,8 +20,6 @@ class Editor extends Component {
   constructor(props) {
     super(props);
 
-    console.log('propsprops', props)
-
     this.state = {
       activeResource: null,
       resources: props.resources,
@@ -56,8 +54,6 @@ class Editor extends Component {
       return resourceItem.position[1] + ',' + resourceItem.position[0];
     }) : '';
 
-    console.log('stepCoordinates resourceItems', resourceItems);
-    console.log('stepCoordinates', stepCoordinates)
 
     if (stepCoordinates) {
       const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
@@ -94,9 +90,6 @@ class Editor extends Component {
     });
 
 
-    console.log('resourceName', resourceName)
-    console.log('newResourceItems', newResourceItems)
-
     this.setState({
       resources: resources,
     });
@@ -121,29 +114,19 @@ class Editor extends Component {
 
   getDefaultResource (resourceName) {
     const defaultResource = this.state.resources.find(resource => resource.name === resourceName).default;
-    console.log()
     return defaultResource ? defaultResource : {};
   }
 
   newResource(resourceName) {
     const newResource = this.getDefaultResource(resourceName);
-    console.log('this.state.newResource', newResource)
-
     const resourceItems = this.getResourceItems(resourceName);
 
     var lastResource = resourceItems[resourceItems.length - 1];
     var lastResourceId = lastResource.id;
 
-    console.log('lastResource', lastResource)
-
     // increment ID and add to resourceItems
     newResource.id = lastResourceId + 1;
-    console.log('newResource', newResource)
-
     resourceItems.push(newResource);
-
-
-    console.log('this.state.resource', this.state.resources)
 
     this.updateResourceItems(resourceName, resourceItems)
 

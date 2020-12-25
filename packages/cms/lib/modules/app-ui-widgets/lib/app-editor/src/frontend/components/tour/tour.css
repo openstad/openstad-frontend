@@ -181,7 +181,7 @@ body .filepond--panel-center {
 }
 
 .icon-img {
-  width: 20px;
+  width: 22px;
 }
 
 body .leaflet-div-icon {
@@ -191,12 +191,12 @@ body .leaflet-div-icon {
 
 body .leaflet-marker-icon .number {
     position: relative;
-    top: -28px;
+    top: -24px;
     font-size: 10px;
     width: 25px;
     text-align: center;
-    left: -2px;
-    color: black;
+    left: -1px;
+    color: white;
     font-weight: bold;
 }
 

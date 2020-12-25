@@ -12,7 +12,6 @@ class LocationPicker extends Component {
   render() {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
-    console.log('currentPos', currentPos)
     return (
       <Map
         center={currentPos}
