@@ -3,6 +3,14 @@ import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import Accordeon from '../Accordeon';
 import styles from './styles';
 
+const buttonStyles = {
+  verticalAlign: 'middle',
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'center'
+}
+
 export default class TourDetailView  extends Component {
   constructor(props) {
     super(props);
@@ -69,16 +77,22 @@ export default class TourDetailView  extends Component {
           <View style={styles.colContainer}>
             <View style={styles.colFifty}>
               {step.audio && step.audio.filename ?
-              <TouchableOpacity onPress={() => { playAudio(step.id) }} style={styles.outlinedButton}>
-                <Image uri={{uri:'/play-circle.svg'}} /> Play Audio
+              <TouchableOpacity onPress={() => { playAudio(step.id) }} style={{...styles.outlinedButton, ...buttonStyles}}>
+                <Image source={require('../../../images/play-without-circle@2x.png')} style={{height: 11, width: 7, marginRight: 4 }} />
+                <Text style={{...styles.h2,}}>
+                Play Audio
+                </Text>
               </TouchableOpacity>
               :
               <small> This step has no audio </small>
               }
             </View>
             <View style={styles.colFifty}>
-              <TouchableOpacity onPress={() => { backToMap(step.id) }}>
-                <Text style={{...styles.h2, textAlign: 'center', 'textDecoration' : 'underline'}}>Show on map</Text>
+              <TouchableOpacity onPress={() => { backToMap(step.id) }} style={{...styles.outlinedButton, ...buttonStyles, borderColor: 'transparent'}}>
+                <Image source={require('../../../images/marker-orange@2x.png')} style={{height: 11, width: 10, marginRight: 4}} />
+                <Text style={{...styles.h2, 'textDecoration' : 'underline'}}>
+                  Show on map
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

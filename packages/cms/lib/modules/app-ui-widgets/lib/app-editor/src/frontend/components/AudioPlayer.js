@@ -11,13 +11,19 @@ import {Howl, Howler} from 'howler';
 import theme from './theme';
 
 const styles = {
+  audioPlayer: {
+
+  },
+  audioPlayerInner: {
+    padding: 10
+  },
   progressBar: {
     height: 4,
-    background: theme.primaryColor,
+    background:  theme.primaryColorLighter,
   },
   progressBarInner: {
     height: 4,
-    background: theme.primaryColorLighter,
+    background: theme.primaryColor,
   },
   colContainer: {
     flex: 1,
@@ -52,7 +58,7 @@ const PlayButton = ({pause, style}) => {
 
    return (
      <TouchableOpacity onPress={pause}>
-       <Image source={require('../../images/play-orange@2x.png')} style={{height: 14, width: 14, ...style}}/>
+       <Image source={require('../../images/play-orange@2x.png')} style={{height: 28, width: 28, ...style}}/>
      </TouchableOpacity>
    );
  }
@@ -62,10 +68,32 @@ const PauseButton = ({pause, style}) => {
 
   return (
     <TouchableOpacity onPress={pause}>
-      <Image source={require('../../images/pause-white@2x.png')} style={{height: 14, width: 14, ...style}}/>
+      <Image source={require('../../images/pause-white@2x.png')} style={{height: 28, width: 28, ...style}}/>
     </TouchableOpacity>
   );
 }
+
+const PrevousButton = ({previous, style}) => {
+  style = style ? style : {};
+
+  return (
+    <TouchableOpacity onPress={previous}>
+      <Image source={require('../../images/prev@2x.png')} style={{height: 28, width: 28, ...style}}/>
+    </TouchableOpacity>
+  );
+}
+
+
+const NextButton = ({next, style}) => {
+  style = style ? style : {};
+
+  return (
+    <TouchableOpacity onPress={next}>
+      <Image source={require('../../images/next@2x.png')} style={{height: 28, width: 28, ...style}}/>
+    </TouchableOpacity>
+  );
+}
+
 
 class AudioPlayer extends React.Component {
   constructor(props) {
@@ -124,8 +152,10 @@ class AudioPlayer extends React.Component {
    }
 
    getProgressBarPercentage () {
+     return '90.12%';
+
      // in case
-     if (this.state.duration === 0) {
+     if (!this.state.duration || this.state.duration === 0) {
        return 0;
      }
 
@@ -134,19 +164,25 @@ class AudioPlayer extends React.Component {
 
    render() {
      return (
-       <View>
+       <View style={styles.audioPlayer}>
         <View style={styles.progressBar}>
           <View style={{...styles.progressBarInner, width: this.getProgressBarPercentage()}}></View>
         </View>
-        <View style={styles.colContainer}>
-          <View style={styles.colThird}>
-            {this.state.play ? <PauseButton pause={this.pause}></PauseButton> : <PlayButton play={this.play}>Play</PlayButton>}
-          </View>
-          <View style={styles.colThird}>
-            <Text>{this.state.currentPosition + '/' + this.state.duration}</Text>
-          </View>
-          <View style={styles.colThird}>
-            <View> {this.props.info} </View>
+        <View style={styles.audioPlayerInner}>
+          <View style={styles.colContainer}>
+            <View style={styles.colThird}>
+              <View style={styles.colContainer}>
+              <PrevousButton previous={this.props.previoua} />
+              {this.state.play ? <PauseButton pause={this.pause.bind(this)} /> : <PlayButton play={this.play.bind(this)} />}
+              <NextButton  next={this.props.next}  />
+              </View>
+            </View>
+            <View style={styles.colThird}>
+              <Text>{this.state.currentPosition + '/' + this.state.duration}</Text>
+            </View>
+            <View style={styles.colThird}>
+              <View> {this.props.info} </View>
+            </View>
           </View>
         </View>
        </View>

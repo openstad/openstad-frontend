@@ -19,7 +19,15 @@ function TourTimelineView (props) {
           }}>
             <Text style={{...styles.small, opacity: 0.8}}>{props.tour.location}</Text>
             <Text style={styles.h1}>{props.tour.title}</Text>
-            <Text style={styles.small}>{props.tour.transportType} | {props.tour.duration}  | {props.tour.language } </Text>
+            <Text style={styles.small}>
+              {props.tour.transportType}
+              <Image source={require('../../../images/walking@2x.png')} style={{height: 11, width: 6}}/>
+              |
+              {props.tour.duration}
+              <Image source={require('../../../images/clock@2x.png')} style={{height: 9, width: 9}}/>
+              |
+              {props.tour.language }
+            </Text>
             <Text style={styles.p}>{props.tour.description}</Text>
           </View>
           <View style={{

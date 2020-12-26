@@ -15,7 +15,7 @@ import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
 
 
-// Research native / web 
+// Research native / web
 //import TrackPlayer from 'react-native-track-player';
 //TrackPlayer.registerPlaybackService(() => require('./trackService.js'));
 
@@ -26,6 +26,7 @@ class TourApp extends Component {
 
     this.state = {
       activeStepId: null,
+      activeAudioStep: true
     };
   }
 
@@ -133,6 +134,7 @@ class TourApp extends Component {
           tour={this.props.app}
           playAudio={this.selectAudioStep.bind(this)}
           steps={this.props.steps}
+
           openGallery={(images, initialImage) => {
             this.setState({
               gallery: {
@@ -176,6 +178,15 @@ class TourApp extends Component {
            stepTotal={this.props.steps.length}
            audioFile={this.state.activeAudioStep && this.state.activeAudioStep.audio ? this.state.activeAudioStep.audio.file : false}
            resetAudio={this.resetAudio.bind(this)}
+           info={<>
+             <Text style={{...styles.h2, ...styles.noPreWrap}}>
+               <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>
+                  Location {this.state.activeAudioStepIndex + 1}
+               </Text>
+               This is it
+              {this.state.activeAudioStep.title}
+             </Text>
+           </>}
            isPreviousAvailable={(() => {
              return !!this.props.steps[this.state.activeAudioStepIndex - 1];
            })()}
