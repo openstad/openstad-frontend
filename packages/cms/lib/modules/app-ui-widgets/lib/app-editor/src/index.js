@@ -123,6 +123,7 @@ console.log('latestRevision', latestRevision);
         resources={latestRevision.resources}
         appResource={appResource}
         editableResources={settings.editableResources}
+        defaultResources={settings.defaultResources}
       />
     </React.StrictMode>,
     document.getElementById('root')

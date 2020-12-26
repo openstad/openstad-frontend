@@ -1,6 +1,16 @@
 const tour = {
   editableResources: [
     'step'
+  ],
+  defaultResources: [
+    {
+      name: 'step',
+      items: [],
+    },
+    {
+      name: 'coordinates',
+      items: [],
+    },
   ]
 }
 

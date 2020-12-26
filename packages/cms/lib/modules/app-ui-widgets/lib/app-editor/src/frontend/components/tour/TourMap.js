@@ -29,9 +29,9 @@ L.NumberedDivIcon = L.Icon.extend({
 //    iconSize: new L.Point(25, 41),
 	//	iconAnchor: new L.Point(13, 41),
 		//popupAnchor: new L.Point(0, -33),
-    iconSize:     [38, 38],
-    shadowSize:    [38, 38],
-    iconAnchor:   [10, 26],
+    iconSize:     [22, 22],
+    shadowSize:    [22, 22],
+    iconAnchor:   [22, 22],
     shadowAnchor: [4, 62],
     popupAnchor:  [-3, -76],
 		/*

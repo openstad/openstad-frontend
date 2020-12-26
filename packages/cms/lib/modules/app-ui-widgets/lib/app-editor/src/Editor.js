@@ -89,6 +89,7 @@ class Editor extends Component {
   updateResourceItems(resourceName, newResourceItems) {
     const resources = this.state.resources.map((resource) => {
       console.log('resource.name', resource.name)
+
       if (resource.name === resourceName) {
         resource.items = newResourceItems;
       }
@@ -182,11 +183,15 @@ class Editor extends Component {
     axios.get(`/api/tour/${this.props.appId}`)
       .then( (response) => {
         const appResource =  response.data;
+        const resources = appResource.revisions[appResource.revisions.length -1].resources;
 
         this.setState({
           loading: false,
           app: appResource,
-          resources: appResource.revisions[appResource.revisions.length -1].resources
+          resources: this.props.defaultResources.map((defaultResource) => {
+            const resource = resources.find(dataResource => dataResource.name === defaultResource.name)
+            return resource ? resource : defaultResource;
+          })
         });
 
         this.fetchRoutes();
