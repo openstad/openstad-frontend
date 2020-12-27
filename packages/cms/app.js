@@ -31,7 +31,7 @@ const defaultSiteConfig       = require('./config/siteConfig');
 
 // Storing all site data in the site config
 const sites                   = {};
-let sitesRepsonse           = [];
+let sitesResponse           = [];
 const configForHosts          = {};
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
@@ -74,10 +74,10 @@ function fetchAllSites (req, res, startSites) {
       json: true // Automatically parses the JSON string in the response
   };
 
-  rp(siteOptions)
+  return rp(siteOptions)
     .then((response) => {
 
-      sitesRepsonse = response;
+      sitesResponse = response;
 
       //console.log('response', response);
 
