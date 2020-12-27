@@ -33,7 +33,7 @@ function TitleBar (props) {
       <div style={styles.topMe}>
         <a href="#" className="title-bar-back-button">
           <Image src="/arrow-left-circle.svg" />
-          <Image source={require('../../../images/back@2x.png')} style={{height: 11, width: 18}}/>
+          <Image source={require('../../../images/back@2x.png')} style={{height: 10, width: 14}}/>
         </a>
         <span className="title-bar-title">
           {props.title}

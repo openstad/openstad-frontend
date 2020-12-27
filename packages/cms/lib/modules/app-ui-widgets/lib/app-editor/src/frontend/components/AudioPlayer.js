@@ -15,7 +15,7 @@ const styles = {
 
   },
   audioPlayerInner: {
-    padding: 10
+    padding: 18
   },
   progressBar: {
     height: 4,
@@ -31,12 +31,27 @@ const styles = {
     flexWrap: 'wrap',
     alignItems: 'flex-start'
   },
+  controlContainer : {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center'
+  },
   colThird: {
     width: '33.333%',
     paddingRight: 10
   },
+}
 
+const stringFrontPadding = (string,pad,length) => {
+  return (new Array(length+1).join(pad)+string).slice(-length);
+}
 
+const formatSecondsToMinutes = (time) => {
+  time = time ? time : 0;
+  const minutes = Math.floor(time / 60);
+  const seconds = time -  (minutes * 60);
+  return stringFrontPadding(minutes,'0',2)+':'+stringFrontPadding(seconds,'0',2);
 }
 
 /*
@@ -53,11 +68,11 @@ const styles = {
 }
  */
 
-const PlayButton = ({pause, style}) => {
+const PlayButton = ({play, style}) => {
    style = style ? style : {};
 
    return (
-     <TouchableOpacity onPress={pause}>
+     <TouchableOpacity onPress={play}>
        <Image source={require('../../images/play-orange@2x.png')} style={{height: 28, width: 28, ...style}}/>
      </TouchableOpacity>
    );
@@ -68,7 +83,7 @@ const PauseButton = ({pause, style}) => {
 
   return (
     <TouchableOpacity onPress={pause}>
-      <Image source={require('../../images/pause-white@2x.png')} style={{height: 28, width: 28, ...style}}/>
+      <Image source={require('../../images/pause-orange@2x.png')} style={{height: 28, width: 28, ...style}}/>
     </TouchableOpacity>
   );
 }
@@ -78,7 +93,7 @@ const PrevousButton = ({previous, style}) => {
 
   return (
     <TouchableOpacity onPress={previous}>
-      <Image source={require('../../images/prev@2x.png')} style={{height: 28, width: 28, ...style}}/>
+      <Image source={require('../../images/prev@2x.png')} style={{height: 13, width: 16, ...style}}/>
     </TouchableOpacity>
   );
 }
@@ -89,7 +104,7 @@ const NextButton = ({next, style}) => {
 
   return (
     <TouchableOpacity onPress={next}>
-      <Image source={require('../../images/next@2x.png')} style={{height: 28, width: 28, ...style}}/>
+      <Image source={require('../../images/next@2x.png')} style={{height: 13, width: 16, ...style}}/>
     </TouchableOpacity>
   );
 }
@@ -100,7 +115,7 @@ class AudioPlayer extends React.Component {
      super(props);
 
      this.state = {
-       play: false,
+       play: props.audioFile ? true: false,
        audioFile: props.audioFile,
        duration: 0,
        currentPosition: 0
@@ -112,7 +127,7 @@ class AudioPlayer extends React.Component {
 
    runIntervalCheckingAudioProgress () {
      this.audioProgressInterval = setInterval(() => {
-       console.log('this.audio in interval', this.audio.duration());
+      // console.log('this.audio in interval', this.audio.duration());
 
        if (this.audio && this.audio.seek) {
 
@@ -137,8 +152,6 @@ class AudioPlayer extends React.Component {
        src: audioFile
      });
 
-     console.log('audioFile', audioFile)
-
      this.audio.play();
 
      this.setState({
@@ -149,11 +162,13 @@ class AudioPlayer extends React.Component {
 
    play() {
      this.setState({ play: true })
+     console.log('this.audio play', this.audio, this.audio.play)
      this.audio.play();
    }
 
    pause() {
      this.setState({ play: false })
+     console.log('this.audio pause', this.audio, this.audio.pause)
      this.audio.pause();
    }
 
@@ -175,15 +190,15 @@ class AudioPlayer extends React.Component {
         <View style={styles.audioPlayerInner}>
           <View style={styles.colContainer}>
             <View style={styles.colThird}>
-              <View style={styles.colContainer}>
-              <PrevousButton previous={this.props.previoua} />
-              {this.state.play ? <PauseButton pause={this.pause.bind(this)} /> : <PlayButton play={this.play.bind(this)} />}
-              <NextButton  next={this.props.next}  />
+              <View style={styles.controlContainer}>
+                <PrevousButton previous={this.props.previoua} />
+                {this.state.play ? <PauseButton pause={this.pause.bind(this)} /> : <PlayButton play={this.play.bind(this)} />}
+                <NextButton  next={this.props.next}  />
               </View>
             </View>
             <View style={styles.colThird}>
               <Text>
-                {this.state.currentPosition ? this.state.currentPosition.toFixed() : 0}/{this.state.duration ? this.state.duration.toFixed() : 0}
+                {this.state.currentPosition ? formatSecondsToMinutes(this.state.currentPosition) : 0}/{this.state.duration ?  formatSecondsToMinutes(this.state.duration) : 0}
               </Text>
             </View>
             <View style={styles.colThird}>
