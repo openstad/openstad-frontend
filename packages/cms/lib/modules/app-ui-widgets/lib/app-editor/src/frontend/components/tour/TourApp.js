@@ -178,15 +178,14 @@ class TourApp extends Component {
            stepTotal={this.props.steps.length}
            audioFile={this.state.activeAudioStep && this.state.activeAudioStep.audio ? this.state.activeAudioStep.audio.file : false}
            resetAudio={this.resetAudio.bind(this)}
-           info={<>
-             <Text style={{...styles.h2, ...styles.noPreWrap}}>
+           info={
+             <View>
                <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>
                   Location {this.state.activeAudioStepIndex + 1}
                </Text>
-               This is it
-              {this.state.activeAudioStep.title}
-             </Text>
-           </>}
+               <Text>{this.state.activeAudioStep.title}</Text>
+             </View>
+           }
            isPreviousAvailable={(() => {
              return !!this.props.steps[this.state.activeAudioStepIndex - 1];
            })()}

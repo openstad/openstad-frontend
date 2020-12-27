@@ -107,18 +107,22 @@ class AudioPlayer extends React.Component {
      }
 
      this.setAudioFile(props.audioFile);
-
-     this.runIntervalCheckingAudioProgress()
+     this.runIntervalCheckingAudioProgress();
    }
 
    runIntervalCheckingAudioProgress () {
      this.audioProgressInterval = setInterval(() => {
+       console.log('this.audio in interval', this.audio.duration());
+
        if (this.audio && this.audio.seek) {
+
          this.setState({
-           currentPosition: this.audio.seek()
-         })
+           currentPosition: this.audio.seek(),
+           duration: this.audio.duration()
+         });
+
        }
-     })
+     }, 300)
 
    }
 
@@ -132,6 +136,8 @@ class AudioPlayer extends React.Component {
      this.audio = new Howl({
        src: audioFile
      });
+
+     console.log('audioFile', audioFile)
 
      this.audio.play();
 
@@ -152,8 +158,6 @@ class AudioPlayer extends React.Component {
    }
 
    getProgressBarPercentage () {
-     return '90.12%';
-
      // in case
      if (!this.state.duration || this.state.duration === 0) {
        return 0;
@@ -178,10 +182,12 @@ class AudioPlayer extends React.Component {
               </View>
             </View>
             <View style={styles.colThird}>
-              <Text>{this.state.currentPosition + '/' + this.state.duration}</Text>
+              <Text>
+                {this.state.currentPosition ? this.state.currentPosition.toFixed() : 0}/{this.state.duration ? this.state.duration.toFixed() : 0}
+              </Text>
             </View>
             <View style={styles.colThird}>
-              <View> {this.props.info} </View>
+               {this.props.info}
             </View>
           </View>
         </View>
@@ -189,5 +195,10 @@ class AudioPlayer extends React.Component {
       );
    }
 }
+
+/*
+<View> {this.props.info} </View>
+
+ */
 
 export default AudioPlayer;

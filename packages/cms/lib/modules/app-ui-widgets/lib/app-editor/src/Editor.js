@@ -54,22 +54,14 @@ class Editor extends Component {
       return resourceItem.position[1] + ',' + resourceItem.position[0];
     }) : '';
 
-
-    console.log('stepCoordinates', stepCoordinates);
-
     if (stepCoordinates) {
-      console.log('stepCoordinates', stepCoordinates);
-
-
       const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates.join(';'))}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
       axios.get(apiUrl)
         .then( (response) => {
 
-          console.log('coords response', response);
           const routes = response.data.routes[0];
           const coordinates = routes.geometry.coordinates;
-          console.log('coords response coordinates', coordinates);
 
           this.updateResourceItems('coordinates', coordinates);
 
@@ -215,9 +207,9 @@ class Editor extends Component {
     axios.put(`/api/tour/${app.id}`, app)
       .then(function (response) {
 
-        this.setState({
+      /*  this.setState({
           app: response
-        })
+        })*/
       })
       .catch(function (error) {
         console.log(error);
