@@ -73,7 +73,7 @@ class TourMap extends Component {
       }
 
     return (
-      <Map center={mapCenter} zoom={12} style={{ position: 'absolute', top: '0', bottom: '0', width: '100%'}}>
+      <Map center={mapCenter} zoom={12} style={{position: 'absolute', top: '0', bottom: '0', width: '100%', ...this.props.style}}>
         <LocateControl options={locateOptions} startDirectly />
 
         <TileLayer

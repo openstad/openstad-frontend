@@ -44,10 +44,10 @@ function TourTimelineView (props) {
                     paddingBottom: props.steps.length === (i + 1) ? 0 : 10
                   }}
                   title={
-                    <View style={{...styles.h2, ...styles.noPreWrap}}>
+                    <Text>
                       <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>Location {i + 1}</Text>
-                      <Text> {step.title} </Text>
-                    </View>
+                      <Text style={{...styles.h2, ...styles.noPreWrap}}> {step.title} </Text>
+                    </Text>
                   }
                 >
                   <TourDetailView

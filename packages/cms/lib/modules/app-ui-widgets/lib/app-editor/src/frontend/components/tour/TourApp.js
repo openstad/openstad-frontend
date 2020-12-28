@@ -13,6 +13,7 @@ import Gallery from '../Gallery/Gallery';
 
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 import styles from './styles';
+import theme from '../theme';
 
 
 // Research native / web
@@ -92,6 +93,9 @@ class TourApp extends Component {
         <TourMap
           steps={this.props.steps}
           coordinates={this.props.coordinates}
+          style={{
+            bottom: this.state.activeAudioStep ? 68 : 0
+          }}
         />
 
         /*
@@ -179,12 +183,10 @@ class TourApp extends Component {
            audioFile={this.state.activeAudioStep && this.state.activeAudioStep.audio ? this.state.activeAudioStep.audio.file : false}
            resetAudio={this.resetAudio.bind(this)}
            info={
-             <View>
-               <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>
-                  Location {this.state.activeAudioStepIndex + 1}
-               </Text>
-               <Text>{this.state.activeAudioStep.title}</Text>
-             </View>
+            <Text style={{...styles.small, fontWeight: 'bold', textAlignVertical: 'center'}}>
+              <Text style={{color: theme.emphasisedTextColor}}>Location {this.state.activeAudioStepIndex + 1}</Text>
+              <Text style={{color: theme.primaryColor}}> {this.state.activeAudioStep.title} </Text>
+            </Text>
            }
            isPreviousAvailable={(() => {
              return !!this.props.steps[this.state.activeAudioStepIndex - 1];

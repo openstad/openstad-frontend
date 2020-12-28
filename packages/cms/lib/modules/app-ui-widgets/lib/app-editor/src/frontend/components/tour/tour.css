@@ -262,7 +262,7 @@ body .leaflet-marker-icon .number {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 10000;
+  z-index: 10000000;
   box-shadow: 0px 0 30px rgb(86 86 86 / 30%);
   background: white;
 }

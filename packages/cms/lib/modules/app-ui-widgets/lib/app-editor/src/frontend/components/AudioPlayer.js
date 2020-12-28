@@ -14,6 +14,16 @@ const styles = {
   audioPlayer: {
 
   },
+  timer : {
+    fontSize: 10,
+    fontWeight: 500,
+    color: '#979797',
+    height: 28,
+    lineHeight: 28,
+  },
+  timerWidth : {
+
+  },
   audioPlayerInner: {
     padding: 18
   },
@@ -35,10 +45,30 @@ const styles = {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  justifContent : {
+    justifyContent: 'space-evenly'
+  },
+  heightCutoff: {
+    height: 28,
+    overflow: 'hidden',
+    textAlignVertical: 'center',
   },
   colThird: {
     width: '33.333%',
+    paddingRight: 10
+  },
+  colFourth: {
+    width: '25%',
+    paddingRight: 10
+  },
+  colThirty: {
+    width: '30%',
+    paddingRight: 10
+  },
+  colForty: {
+    width: '40%',
     paddingRight: 10
   },
 }
@@ -47,11 +77,15 @@ const stringFrontPadding = (string,pad,length) => {
   return (new Array(length+1).join(pad)+string).slice(-length);
 }
 
-const formatSecondsToMinutes = (time) => {
-  time = time ? time : 0;
-  const minutes = Math.floor(time / 60);
-  const seconds = time -  (minutes * 60);
-  return stringFrontPadding(minutes,'0',2)+':'+stringFrontPadding(seconds,'0',2);
+const formatSecondsToMinutes = (seconds) => {
+  seconds = seconds ? seconds : 0;
+  const minutes = Math.floor(seconds / 60);
+  const secondsLeft = seconds - (minutes * 60);
+
+  console.log('minutes', minutes);
+  console.log('secondsLeftsecondsLeft', secondsLeft);
+
+  return minutes.toFixed().toString().padStart(2, '0') +':'+ secondsLeft.toFixed().padStart(2, '0');
 }
 
 /*
@@ -162,13 +196,11 @@ class AudioPlayer extends React.Component {
 
    play() {
      this.setState({ play: true })
-     console.log('this.audio play', this.audio, this.audio.play)
      this.audio.play();
    }
 
    pause() {
      this.setState({ play: false })
-     console.log('this.audio pause', this.audio, this.audio.pause)
      this.audio.pause();
    }
 
@@ -189,19 +221,21 @@ class AudioPlayer extends React.Component {
         </View>
         <View style={styles.audioPlayerInner}>
           <View style={styles.colContainer}>
-            <View style={styles.colThird}>
-              <View style={styles.controlContainer}>
+            <View style={styles.colThirty}>
+              <View style={{...styles.controlContainer}}>
                 <PrevousButton previous={this.props.previoua} />
                 {this.state.play ? <PauseButton pause={this.pause.bind(this)} /> : <PlayButton play={this.play.bind(this)} />}
                 <NextButton  next={this.props.next}  />
               </View>
             </View>
-            <View style={styles.colThird}>
-              <Text>
-                {this.state.currentPosition ? formatSecondsToMinutes(this.state.currentPosition) : 0}/{this.state.duration ?  formatSecondsToMinutes(this.state.duration) : 0}
-              </Text>
+            <View style={styles.colThirty}>
+              <View style={styles.controlContainer}>
+                <Text style={{...styles.timer, width: 31}}>{formatSecondsToMinutes(this.state.currentPosition)}</Text>
+                <Text style={styles.timer}>/</Text>
+                <Text style={{...styles.timer, width: 31}}>{formatSecondsToMinutes(this.state.duration)}</Text>
+              </View>
             </View>
-            <View style={styles.colThird}>
+            <View style={{...styles.colForty, ...styles.heightCutoff}}>
                {this.props.info}
             </View>
           </View>
