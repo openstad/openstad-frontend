@@ -2,21 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
 
 const styles = {
-  gradientBg : {
-    width: 320,
-    height: 225,
-    padding: 22,
-    marginBottom:  53,
-    filter: 'blur(26px)',
-    backgroundColor: '#f7f7ff',
-    position: 'absolute',
-    top: -150
-  },
-  positionBg1: {
-    left: -130,
-  },
-  positionBg2: {
-    left: 130,
+  positionBg: {
+    left: 0,
+    top: 0,
+    width: '100%',
+    position: 'absolute'
   },
   topMe: {
     position: 'relative',
@@ -27,7 +17,10 @@ const styles = {
 function TitleBar (props) {
   return (
     <div className="title-bar">
-      <View pointerEvents="none" style={{...styles.gradientBg, ...styles.positionBg1}}></View>
+      <View pointerEvents="none" style={{...styles.positionBg}}>
+        <Image source={{uri: '../../../images/oval@4x.png'}} w/>
+      </View>
+
       <View pointerEvents="none" style={{...styles.gradientBg, ...styles.positionBg2}}></View>
 
       <div style={styles.topMe}>

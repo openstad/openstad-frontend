@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, Polyline, MapConsumer } from 'react-leaflet';
 import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
@@ -63,6 +63,17 @@ L.NumberedDivIcon = L.Icon.extend({
 const mapCenter = [52.370216, 4.895168];
 
 class TourMap extends Component {
+
+  panToPosition (position) {
+    if (!this.map) {
+      return;
+    }
+
+    this.map.setView(position, this.map.getZoom(), {
+      animate: true
+    })
+  }
+
   render() {
     const locateOptions = {
         position: 'bottomLeft',
@@ -70,12 +81,26 @@ class TourMap extends Component {
             title: 'Show me where I am, yo!'
         },
         onActivate: () => {} // callback before engine starts retrieving locations
-      }
+    };
+
+    const firstStep = this.props.steps[0];
+
+
+    //this.panToPosition(firstPosition);
 
     return (
-      <Map center={mapCenter} zoom={12} style={{position: 'absolute', top: '0', bottom: '0', width: '100%', ...this.props.style}}>
+      <MapContainer
+        center={mapCenter}
+        zoom={12}
+        style={{position: 'absolute', top: '0', bottom: '0', width: '100%', ...this.props.style}}
+        whenCreated={(map) => {
+          this.map = map;
+          this.panToPosition(firstStep.position);
+          console.log('this.map', this.map);
+          return null;
+        }}
+      >
         <LocateControl options={locateOptions} startDirectly />
-
         <TileLayer
           url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
@@ -84,9 +109,11 @@ class TourMap extends Component {
           return (
             <Marker
               position={step.position}
-              onClick={function () {
-                var location =  window.location;
-                location.hash = '#step-detail-' + step.id;
+              eventHandlers={{
+                click: (e) => {
+                  var location =  window.location;
+                  location.hash = '#step-detail-' + step.id;
+                },
               }}
               icon={new L.NumberedDivIcon({number: i + 1})}
             >
@@ -102,8 +129,7 @@ class TourMap extends Component {
           color={theme.primaryColor}
         />
         }
-
-      </Map>
+      </MapContainer>
     )
   }
 }

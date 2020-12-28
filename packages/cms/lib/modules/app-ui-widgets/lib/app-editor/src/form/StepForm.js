@@ -1,5 +1,5 @@
 import React, { Component, useLocation } from 'react';
-import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, Polyline, useMapEvent } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
@@ -43,6 +43,17 @@ var toMMSS = function (string) {
     return minutes+':'+seconds;
 }
 
+function EventHandler({onPositionChange}) {
+  const map = useMapEvent('click', (e) => {
+    alert(1212)
+    console.log('12123123', e);
+    onPositionChange(e.latlng.lat, e.latlng.lng);
+  //  map.setCenter([50.5, 30.5])
+  })
+
+  return null
+}
+
 class LocationPicker extends Component {
   handleClick(e){
     this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
@@ -56,7 +67,7 @@ class LocationPicker extends Component {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
     return (
-      <Map
+      <MapContainer
         center={currentPos}
         ref={(ref) => { this.map = ref; }}
         zoom={this.getZoomLevel()}
@@ -68,11 +79,11 @@ class LocationPicker extends Component {
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
         {currentPos && <Marker position={currentPos} />}
-      </Map>
+        <EventHandler onPositionChange={this.props.onPositionChange} />
+      </MapContainer>
     )
   }
 }
-
 
 export class AudioRecordField extends React.Component {
   constructor(props) {

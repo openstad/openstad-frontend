@@ -82,9 +82,6 @@ const formatSecondsToMinutes = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const secondsLeft = seconds - (minutes * 60);
 
-  console.log('minutes', minutes);
-  console.log('secondsLeftsecondsLeft', secondsLeft);
-
   return minutes.toFixed().toString().padStart(2, '0') +':'+ secondsLeft.toFixed().padStart(2, '0');
 }
 
