@@ -27,7 +27,7 @@ class TourApp extends Component {
 
     this.state = {
       activeStepId: null,
-      activeAudioStep: true
+      activeAudioStep: false
     };
   }
 
@@ -93,6 +93,7 @@ class TourApp extends Component {
         <TourMap
           steps={this.props.steps}
           coordinates={this.props.coordinates}
+          useGoogleMaps={true}
           style={{
             bottom: this.state.activeAudioStep ? 68 : 0
           }}

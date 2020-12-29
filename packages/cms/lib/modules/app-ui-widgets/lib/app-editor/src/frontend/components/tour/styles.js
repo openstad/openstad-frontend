@@ -4,12 +4,13 @@ const fontFamily = 'Source Sans Pro, sans-serif';
 
 const styles = {
   h1 : {
-    fontSize: 16,
+    fontSize: 18,
     display: 'block',
     color: theme.emphasisedTextColor,
     marginTop: 10,
-    marginBottom: 5,
-    fontFamily: fontFamily
+    marginBottom: 10,
+    fontFamily: fontFamily,
+    fontWeight: 'bold'
   },
   h2 : {
     fontSize: 14,

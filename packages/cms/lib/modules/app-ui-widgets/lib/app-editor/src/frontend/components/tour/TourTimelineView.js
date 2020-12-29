@@ -20,15 +20,19 @@ function TourTimelineView (props) {
             <Text style={{...styles.small, opacity: 0.8}}>{props.tour.location}</Text>
             <Text style={styles.h1}>{props.tour.title}</Text>
             <Text style={styles.small}>
-              {props.tour.transportType}
-              <Image source={require('../../../images/walking@2x.png')} style={{height: 11, width: 6}}/>
-              |
-              {props.tour.duration}
-              <Image source={require('../../../images/clock@2x.png')} style={{height: 9, width: 9}}/>
-              |
-              {props.tour.language }
+              <Text style={{marginRight: 10}}>
+                <Image source={require('../../../images/walking@2x.png')} style={{height: 11, width: 6, marginRight: 4}}/>
+                {props.tour.transportType}
+              </Text>
+              <Text  style={{marginRight: 10}}>
+                <Image source={require('../../../images/clock@2x.png')} style={{height: 9, width: 9, marginRight: 4, top: 1}}/>
+                {props.tour.duration}
+              </Text>
+              <Text>
+                {props.tour.language}
+              </Text>
             </Text>
-            <Text style={styles.p}>{props.tour.description}</Text>
+            <Text style={{...styles.p, marginTop: 18, marginBottom: 18}}>{props.tour.description}</Text>
           </View>
           <View style={{
             ...styles.contentContainer,
@@ -44,9 +48,9 @@ function TourTimelineView (props) {
                     paddingBottom: props.steps.length === (i + 1) ? 0 : 10
                   }}
                   title={
-                    <Text>
+                    <Text style={{fontWeight: 'bold', alignItems: 'center'}}>
                       <Text style={{...styles.small, color: '#333d48', paddingRight: 7, paddingTop: 4, paddingBottom: 5}}>Location {i + 1}</Text>
-                      <Text style={{...styles.h2, ...styles.noPreWrap}}> {step.title} </Text>
+                      <Text style={{...styles.h2, ...styles.noPreWrap, display: 'inline'}}> {step.title} </Text>
                     </Text>
                   }
                 >

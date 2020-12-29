@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer, Polyline, MapConsumer } from 'r
 import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
+import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
 
 import "leaflet/dist/leaflet.css";
 
@@ -101,10 +102,17 @@ class TourMap extends Component {
         }}
       >
         <LocateControl options={locateOptions} startDirectly />
-        <TileLayer
-          url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
+        {this.props.useGoogleMaps ?
+          <ReactLeafletGoogleLayer
+            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+          />
+          :
+          <TileLayer
+            url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
+            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          />
+        }
+
         {this.props.steps.map(function(step, i) {
           return (
             <Marker

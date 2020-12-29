@@ -45,10 +45,7 @@ var toMMSS = function (string) {
 
 function EventHandler({onPositionChange}) {
   const map = useMapEvent('click', (e) => {
-    alert(1212)
-    console.log('12123123', e);
     onPositionChange(e.latlng.lat, e.latlng.lng);
-  //  map.setCenter([50.5, 30.5])
   })
 
   return null

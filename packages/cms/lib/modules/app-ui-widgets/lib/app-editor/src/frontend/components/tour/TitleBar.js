@@ -18,7 +18,7 @@ function TitleBar (props) {
   return (
     <div className="title-bar">
       <View pointerEvents="none" style={{...styles.positionBg}}>
-        <Image source={{uri: '../../../images/oval@4x.png'}} w/>
+        <Image source={require('../../../images/oval@4x.png')} style={{width: '100%', height: 225}} />
       </View>
 
       <View pointerEvents="none" style={{...styles.gradientBg, ...styles.positionBg2}}></View>
