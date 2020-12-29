@@ -25,8 +25,9 @@ L.NumberedDivIcon = L.Icon.extend({
 	options: {
     // EDIT THIS TO POINT TO THE FILE AT http://www.charliecroom.com/marker_hole.png (or your own marker)
     iconUrl: require('../../../images/marker@2x.png'),
+    shadowUrl: require('../../../images/marker-shadow@2x.png'),
     number: '',
-    shadowUrl: null,
+  //  shadowUrl: null,
 //    iconSize: new L.Point(25, 41),
 	//	iconAnchor: new L.Point(13, 41),
 		//popupAnchor: new L.Point(0, -33),
@@ -49,16 +50,21 @@ L.NumberedDivIcon = L.Icon.extend({
 		var numdiv = document.createElement('div');
 		numdiv.setAttribute ( "class", "number" );
 		numdiv.innerHTML = this.options['number'] || '';
+
+  //  var shadowImg = this._createImg(this.options['shadowUrl']);
+  //  shadowImg.setAttribute ( "class", "icon-img" );
+
 		div.appendChild ( img );
+  //  div.appendChild ( shadowImg );
 		div.appendChild ( numdiv );
 		this._setIconStyles(div, 'icon');
 		return div;
 	},
 
 	//you could change this to add a shadow like in the normal marker if you really wanted
-	createShadow: function () {
+/*	createShadow: function () {
 		return null;
-	}
+	}*/
 });
 
 const mapCenter = [52.370216, 4.895168];
