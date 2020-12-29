@@ -4,8 +4,10 @@ import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
 import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
-
+import MapboxGlLayer from '@mongodb-js/react-mapbox-gl-leaflet';
 import "leaflet/dist/leaflet.css";
+
+
 
 /*
 var gl = L.mapboxGL({
@@ -113,10 +115,11 @@ class TourMap extends Component {
             apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           />
           :
-          <TileLayer
-            url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
-            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-          />
+          <MapboxGlLayer
+             accessToken="BqThJi6v35FQeB3orVDl"
+             style="https://api.maptiler.com/maps/0275a5aa-0727-4a78-939c-8489ff711229/style.json"
+             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            />
         }
 
         {this.props.steps.map(function(step, i) {
