@@ -1,5 +1,5 @@
 import React, { Component, useLocation } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, Polyline, useMapEvent } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
@@ -43,13 +43,7 @@ var toMMSS = function (string) {
     return minutes+':'+seconds;
 }
 
-function EventHandler({onPositionChange}) {
-  const map = useMapEvent('click', (e) => {
-    onPositionChange(e.latlng.lat, e.latlng.lng);
-  })
 
-  return null
-}
 
 class LocationPicker extends Component {
   handleClick(e){
@@ -64,7 +58,7 @@ class LocationPicker extends Component {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
     return (
-      <MapContainer
+      <Map
         center={currentPos}
         ref={(ref) => { this.map = ref; }}
         zoom={this.getZoomLevel()}
@@ -76,8 +70,7 @@ class LocationPicker extends Component {
           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
         />
         {currentPos && <Marker position={currentPos} />}
-        <EventHandler onPositionChange={this.props.onPositionChange} />
-      </MapContainer>
+      </Map>
     )
   }
 }

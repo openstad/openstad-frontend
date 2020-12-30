@@ -1,5 +1,5 @@
 import React, { Component, useLocation } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline } from 'react-leaflet';
 
 function EventHandler({onPositionChange}) {
   const map = useMapEvent('click', (e) => {
@@ -23,7 +23,7 @@ class LocationPicker extends Component {
     var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
     return (
-      <MapContainer
+      <Map
         center={currentPos}
         ref={(ref) => { this.map = ref; }}
         zoom={this.getZoomLevel()}
@@ -36,7 +36,7 @@ class LocationPicker extends Component {
         />
         {currentPos && <Marker position={currentPos} />}
         <EventHandler onPositionChange={this.props.onPositionChange}  />
-      </MapContainer>
+      </Map>
     )
   }
 }

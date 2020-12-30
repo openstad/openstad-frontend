@@ -28,7 +28,7 @@
     "react-feather": "^2.0.9",
     "react-filepond": "^7.1.0",
     "react-h5-audio-player": "^3.4.1",
-    "react-leaflet": "^3.0.5",
+    "react-leaflet": "^2.8.0",
     "react-leaflet-google-layer": "^2.0.3",
     "react-mixin": "^3.0.5",
     "react-mp3-recorder": "^1.1.2",

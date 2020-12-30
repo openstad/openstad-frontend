@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { useLeaflet } from "react-leaflet";
 import Locate from "leaflet.locatecontrol";
 
 export default function() {
 
-  const map = useMap();
+  const { map } = useLeaflet();
 
   useEffect(() => {
 

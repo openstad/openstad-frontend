@@ -1,21 +1,13 @@
-import L, { GridLayer, GridLayerOptions } from 'leaflet';
-import React, { Component } from 'react';
+import L from 'leaflet';
 
 // Global imports
 import {} from 'mapbox-gl';
 import {} from 'mapbox-gl-leaflet';
 
 import PropTypes from 'prop-types';
-import { useMap, ControlledLayer } from 'react-leaflet';
+import { GridLayer, withLeaflet } from 'react-leaflet';
 
-
-function MyComponent() {
-  const map = useMap()
-  console.log('map center:', map.getCenter())
-  return null
-}
-
-class MapboxGlLayer extends Component {
+class MapboxGlLayer extends GridLayer {
   constructor(props) {
     super(props);
 
@@ -62,5 +54,5 @@ class MapboxGlLayer extends Component {
   }
 }
 
-//export default MapboxGlLayer;
+export default withLeaflet(MapboxGlLayer);
 export { MapboxGlLayer };
