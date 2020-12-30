@@ -19,6 +19,8 @@
     "howler": "^2.2.1",
     "leaflet": "^1.7.1",
     "leaflet.locatecontrol": "^0.72.0",
+    "mapbox-gl": "^2.0.1",
+    "mapbox-gl-leaflet": "0.0.14",
     "prop-types": "^15.6.0",
     "react": "^16.13.1",
     "react-async-script-loader": "^0.3.0",

@@ -4,8 +4,8 @@ import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
 import ReactLeafletGoogleLayer from 'react-leaflet-google-layer';
-import MapboxGlLayer from '@mongodb-js/react-mapbox-gl-leaflet';
 import "leaflet/dist/leaflet.css";
+import { MapboxGlLayer } from "../maps/MapboxGlLayer";
 
 
 
@@ -66,6 +66,17 @@ L.NumberedDivIcon = L.Icon.extend({
 	//you could change this to add a shadow like in the normal marker if you really wanted
 /*	createShadow: function () {
 		return null;
+    {this.props.useGoogleMaps ?
+      <ReactLeafletGoogleLayer
+        apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+      />
+      :
+      <MapboxGlLayer
+         accessToken="BqThJi6v35FQeB3orVDl"
+         style="https://api.maptiler.com/maps/0275a5aa-0727-4a78-939c-8489ff711229/style.json"
+         attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+        />
+    }
 	}*/
 });
 
@@ -105,22 +116,18 @@ class TourMap extends Component {
         whenCreated={(map) => {
           this.map = map;
           this.panToPosition(firstStep.position);
-          console.log('this.map', this.map);
+
+          var gl = L.mapboxGL({
+            attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+            style: 'https://api.maptiler.com/maps/7a1e9afb-36c0-48fd-830c-7ac80a07d90b/style.json?key=BqThJi6v35FQeB3orVDl'
+          }).addTo(map);
+
           return null;
         }}
       >
+
         <LocateControl options={locateOptions} startDirectly />
-        {this.props.useGoogleMaps ?
-          <ReactLeafletGoogleLayer
-            apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-          />
-          :
-          <MapboxGlLayer
-             accessToken="BqThJi6v35FQeB3orVDl"
-             style="https://api.maptiler.com/maps/0275a5aa-0727-4a78-939c-8489ff711229/style.json"
-             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            />
-        }
+
 
         {this.props.steps.map(function(step, i) {
           return (
