@@ -21,6 +21,7 @@ import theme from '../theme';
 //TrackPlayer.registerPlaybackService(() => require('./trackService.js'));
 
 
+
 class TourApp extends Component {
   constructor(props) {
     super(props);

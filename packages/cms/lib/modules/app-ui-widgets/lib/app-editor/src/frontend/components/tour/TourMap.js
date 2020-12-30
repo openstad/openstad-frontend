@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MapContainer, Marker, Popup, TileLayer, Polyline, MapConsumer } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
@@ -8,6 +8,17 @@ import "leaflet/dist/leaflet.css";
 import { MapboxGlLayer } from "../maps/MapboxGlLayer";
 
 
+function GLTiles() {
+  const map = useMap()
+  console.log('map center:', map.getCenter());
+
+  var gl = L.mapboxGL({
+    attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+    style: 'https://api.maptiler.com/maps/7a1e9afb-36c0-48fd-830c-7ac80a07d90b/style.json?key=BqThJi6v35FQeB3orVDl'
+  }).addTo(map);
+
+  return null;
+}
 
 /*
 var gl = L.mapboxGL({
@@ -117,18 +128,14 @@ class TourMap extends Component {
           this.map = map;
           this.panToPosition(firstStep.position);
 
-          var gl = L.mapboxGL({
-            attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
-            style: 'https://api.maptiler.com/maps/7a1e9afb-36c0-48fd-830c-7ac80a07d90b/style.json?key=BqThJi6v35FQeB3orVDl'
-          }).addTo(map);
+
 
           return null;
         }}
       >
 
         <LocateControl options={locateOptions} startDirectly />
-
-
+        <GLTiles  />
         {this.props.steps.map(function(step, i) {
           return (
             <Marker
