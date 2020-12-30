@@ -22,8 +22,8 @@ function TourAudioPlayer (props) {
     <div className="bottom-bar">
       <AudioPlayer
         autoPlay={true}
-        testaudioFile={props.audioFile ? props.audioFile : null }
-        audioFile={'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3'}
+        audioFile={props.audioFile ? props.audioFile : null }
+        testaudioFile={'https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3'}
         previous={props.previous}
         next={props.next}
         info={props.info}

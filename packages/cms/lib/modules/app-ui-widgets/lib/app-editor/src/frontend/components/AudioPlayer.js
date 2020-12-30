@@ -151,9 +151,6 @@ class AudioPlayer extends React.Component {
        duration: 0,
        currentPosition: 0
      }
-
-     this.setAudioFile(props.audioFile);
-     this.runIntervalCheckingAudioProgress();
    }
 
    runIntervalCheckingAudioProgress () {
@@ -161,34 +158,62 @@ class AudioPlayer extends React.Component {
       // console.log('this.audio in interval', this.audio.duration());
 
        if (this.audio && this.audio.seek) {
-
          this.setState({
            currentPosition: this.audio.seek(),
            duration: this.audio.duration()
          });
-
        }
-     }, 300)
+     }, 150)
 
+   }
+
+   componentWillReceiveProps(nextProps) {
+     console.log('nextProps', nextProps)
+      // You don't have to do this check first, but it can help prevent an unneeded render
+      if (nextProps.audioFile !== this.props.audioFile) {
+        this.setAudioFile(nextProps.audioFile);
+      }
+    }
+
+   componentDidMount () {
+     this.setAudioFile(this.props.audioFile);
+     this.runIntervalCheckingAudioProgress();
    }
 
    componentWillUnmount () {
      if (this.audioProgressInterval) {
        clearInterval(this.audioProgressInterval)
      }
+
+     if (this.audio) {
+       this.audio.unload();
+     }
    }
 
    setAudioFile(audioFile) {
-     this.audio = new Howl({
-       src: audioFile
-     });
+     if (this.audio) {
+       this.audio.unload();
+     }
 
-     this.audio.play();
+     if (audioFile) {
+       this.audio = new Howl({
+         src: audioFile
+       });
 
-     this.setState({
-       duration: this.audio.duration(),
-       play: true
-     })
+       this.audio.play();
+
+       this.setState({
+         duration: this.audio.duration(),
+         play: true,
+         audioFile: audioFile
+       });
+     } else {
+       this.setState({
+         duration: 0,
+         play: false,
+         audioFile: null
+       });
+     }
    }
 
    play() {
@@ -212,10 +237,16 @@ class AudioPlayer extends React.Component {
 
    render() {
      return (
-       <View style={styles.audioPlayer}>
-        <View style={styles.progressBar}>
-          <View style={{...styles.progressBarInner, width: this.getProgressBarPercentage()}}></View>
-        </View>
+       <View style={{
+         opacity: this.state.audioFile ? 1 : 0.8
+       }}>
+        {!this.state.audioFile && <Text style={{...styles.timer, textAlign: 'center'}}>No audio for this location</Text>}
+
+        {this.state.audioFile && (
+          <View style={styles.progressBar}>
+            <View style={{...styles.progressBarInner, width: this.getProgressBarPercentage()}}></View>
+          </View>
+        )}
         <View style={styles.audioPlayerInner}>
           <View style={styles.colContainer}>
             <View style={styles.colThirty}>

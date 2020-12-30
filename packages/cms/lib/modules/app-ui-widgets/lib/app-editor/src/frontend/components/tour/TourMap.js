@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer, Polyline, useMap } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polyline, useLeaflet } from 'react-leaflet';
 import L from 'leaflet';
 import LocateControl from "./LocateControl"
 import theme from '../theme';
@@ -67,18 +67,38 @@ L.NumberedDivIcon = L.Icon.extend({
 	}*/
 });
 
+
 const mapCenter = [52.370216, 4.895168];
 
 class TourMap extends Component {
 
   panToPosition (position) {
-    if (!this.map) {
+    const map = this.map.leafletElement;
+    console.log('map', map)
+    //const { map } = useLeaflet();
+
+
+
+    if (!map) {
       return;
     }
 
-    this.map.setView(position, this.map.getZoom(), {
+    const zoom = 15;
+
+    //this.map.getZoom() - 2
+
+    map.setView(position, zoom, {
       animate: true
     })
+  }
+
+
+  componentDidMount() {
+    const firstStep = this.props.steps[0];
+
+    if (firstStep && firstStep.position) {
+      this.panToPosition(firstStep.position)
+    }
   }
 
   render() {
@@ -90,8 +110,6 @@ class TourMap extends Component {
         onActivate: () => {} // callback before engine starts retrieving locations
     };
 
-    const firstStep = this.props.steps[0];
-
 
     //this.panToPosition(firstPosition);
 
@@ -100,13 +118,8 @@ class TourMap extends Component {
         center={mapCenter}
         zoom={12}
         style={{position: 'absolute', top: '0', bottom: '0', width: '100%', ...this.props.style}}
-        whenCreated={(map) => {
-          this.map = map;
-          this.panToPosition(firstStep.position);
-          return null;
-        }}
+        ref={(ref) => { this.map = ref; }}
       >
-
         <LocateControl options={locateOptions} startDirectly />
         <MapboxGlLayer
            accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
@@ -119,11 +132,9 @@ class TourMap extends Component {
           return (
             <Marker
               position={step.position}
-              eventHandlers={{
-                click: (e) => {
+              onClick={(e) => {
                   var location =  window.location;
                   location.hash = '#step-detail-' + step.id;
-                },
               }}
               icon={new L.NumberedDivIcon({number: i + 1})}
             >
