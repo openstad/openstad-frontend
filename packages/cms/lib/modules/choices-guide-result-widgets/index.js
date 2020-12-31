@@ -35,11 +35,44 @@ module.exports = {
 					value: 'default',
 				},
 				{
+					label: 'Van min naar plus 100',
+					value: 'minus-to-plus-100',
+          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor']
+				},
+				{
 					label: 'In een vlak',
 					value: 'plane'
 				}
 			]
 		},
+    {
+      type:     'string',
+      name:     'choicesPreferenceMinColor',
+      label:    'Kleur van de balken, minimaal',
+      help:     'Dit moet (nu nog) in het formaat #123456',
+      def:      '#ff9100',
+    },
+    {
+      type:     'string',
+      name:     'choicesPreferenceMaxColor',
+      label:    'Kleur van de balken, maximaal',
+      help:     'Dit moet (nu nog) in het formaat #123456',
+      def:      '#bed200',
+    },
+    {
+      type:     'string',
+      name:     'choicesPreferenceTitle',
+      label:    'Titel boven de keuzes, met voorkeur',
+      help:     'Bijvoorbeeld "Jouw voorkeur is {preferredChoice}"',
+      def:      'Jouw voorkeur is {preferredChoice}',
+    },
+    {
+      type:     'string',
+      name:     'choicesNoPreferenceYetTitle',
+      label:    'Titel boven de keuzes, nog geen voorkeur',
+      help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
+      def:      'Je hebt nog geen keuze gemaakt',
+    },
 		{
 			type: 'select',
 			name: 'submissionType',
@@ -114,7 +147,6 @@ module.exports = {
       label:      'Form fields',
       type:       'array',
       titleField: 'title',
-      required:   true,
       schema:     [
         {
           type:  'string',
@@ -216,7 +248,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
+        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesNoPreferenceYetTitle', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
       },
       {
         name: 'form',
@@ -254,6 +286,11 @@ module.exports = {
           questionGroupId: widget.questionGroupId,
           choices: {
             type: widget.choicesType,
+            title: {
+              preference: widget.choicesPreferenceTitle,
+              noPreferenceYet: widget.choicesNoPreferenceYetTitle,
+            },
+            barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
           },
           moreInfoUrl: widget.moreInfoUrl,
           moreInfoLabel: widget.moreInfoLabel,
@@ -268,7 +305,8 @@ module.exports = {
               intro: widget.formIntro,
               fields: widget.formFields,
             },
-          }
+          },
+          preferenceTitle: widget.preferenceTitle,
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
         const containerId = widget._id;
