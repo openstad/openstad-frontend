@@ -466,5 +466,7 @@
 	"Text for button to submit": "Text for button to submit",
 	"Text for button to save": "Text for button to save",
 	"Display budget for moderators?": "Display budget for moderators?",
-	"Hide admin after first public action? (not yet connected to the API)": "Hide admin after first public action? (not yet connected to the API)"
+	"Hide admin after first public action? (not yet connected to the API)": "Hide admin after first public action? (not yet connected to the API)",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience."
 }

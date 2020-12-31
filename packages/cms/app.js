@@ -21,13 +21,14 @@ const rp                      = require('request-promise');
 const Promise                 = require('bluebird');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
+const path= require('path');
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-
+const fileExtension          = ['.jpg', '.js', '.css', '.svg', '.png', '.less', '.gif']
 
 // Storing all site data in the site config
 const sites                   = {};
@@ -42,7 +43,7 @@ const static = express.static('static');
 const aposServer = {};
 
 app.use(express.static('public'));
-app.use('/:firstPath', express.static('public'));
+// serve static also on first level
 
 app.set('trust proxy', true);
 
@@ -228,39 +229,24 @@ module.exports.getMultiSiteApp = (options) => {
    * if openstad.org exists of course.
    */
   app.use('/:firstPath', function(req, res, next) {
-
-
      const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
-     console.log('domainAndPath', domainAndPath, req.originalUrl);
-
-     // declare a handler for the "request end" event
-      function staticReqNotifier() {
-          console.log("static file was served", req.url);
-      }
-
-      // listen to that event in before the static middleware is invoked
-      req.on("end", staticReqNotifier);
-
-      // manually invoke the static middleware with this middleware's arguments
-      // we define the static middleware's next function - if it's called, the
-      // resource requested is not static so detach the listener and forward the response
-      static(req, res, (err) => {
-          req.off("end", staticReqNotifier);
-          console.log("end of static file");
-
-        //  next(err);
-      });
-
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
-
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
      if (site) {
-       // add prefix so it can be used for ApostropheCMS to prefix all internal urls properly
-      app.use(express.static('public'));
 
-       site.prefix = req.params.firstPath;
-       serveSite(req, res, site, false);
+       // Static files for express.static works for root domain but not the subdir the path
+       // The files will get served if this is removed, but every file has to go through ApostropheCMS and this is a big performance hit.
+       // So this is an easy way to serve the files efficiently
+       // It, currently doesn't check if file exists for performance reasons, it's possible to add
+       // it, this will need
+       if (fileExtension.some(extension => req.url.includes(extension))) {
+         // replace the file path so
+         req.url = req.url.replace(req.params.firstPath, '');
+         return res.sendFile(path.resolve('public' + req.url));
+       } else {
+         serveSite(req, res, site, false);
+       }
      } else {
        next();
      }
