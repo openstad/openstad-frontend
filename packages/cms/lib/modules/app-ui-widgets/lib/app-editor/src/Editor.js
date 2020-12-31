@@ -55,7 +55,7 @@ class Editor extends Component {
     }) : '';
 
     if (stepCoordinates) {
-      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates.join(';'))}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+      const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(stepCoordinates.join(';'))}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&overview=full&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
       axios.get(apiUrl)
         .then( (response) => {
