@@ -212,8 +212,8 @@ module.exports = [
     type: 'string',
     label: 'Formatted Logo',
     formatField: function (value, apos, doc, req) {
-      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
-      return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
+    //  const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      return  doc.siteLogo ? apos.attachments.url(doc.siteLogo) : '';
     },
     apiSyncField: 'styling.logo',
   },

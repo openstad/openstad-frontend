@@ -36,9 +36,13 @@ const configForHosts          = {};
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
+const static = express.static('static');
+
+
 const aposServer = {};
 
 app.use(express.static('public'));
+app.use('/:firstPath', express.static('public'));
 
 app.set('trust proxy', true);
 
@@ -212,6 +216,7 @@ module.exports.getMultiSiteApp = (options) => {
     next()
   });
 
+
   /**
    * Check if a site is running under the first path
    *
@@ -223,15 +228,38 @@ module.exports.getMultiSiteApp = (options) => {
    * if openstad.org exists of course.
    */
   app.use('/:firstPath', function(req, res, next) {
+
+
      const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
-     console.log('domainAndPath', domainAndPath);
-     console.log('domain', req.openstadDomain);
+     console.log('domainAndPath', domainAndPath, req.originalUrl);
+
+     // declare a handler for the "request end" event
+      function staticReqNotifier() {
+          console.log("static file was served", req.url);
+      }
+
+      // listen to that event in before the static middleware is invoked
+      req.on("end", staticReqNotifier);
+
+      // manually invoke the static middleware with this middleware's arguments
+      // we define the static middleware's next function - if it's called, the
+      // resource requested is not static so detach the listener and forward the response
+      static(req, res, (err) => {
+          req.off("end", staticReqNotifier);
+          console.log("end of static file");
+
+        //  next(err);
+      });
 
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
      if (site) {
+       // add prefix so it can be used for ApostropheCMS to prefix all internal urls properly
+      app.use(express.static('public'));
+
+       site.prefix = req.params.firstPath;
        serveSite(req, res, site, false);
      } else {
        next();
