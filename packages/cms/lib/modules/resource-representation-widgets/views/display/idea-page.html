@@ -46,7 +46,7 @@
 							<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
 								laden...
 							</div>
-							<form id="idea-vote-form-yes" method="POST" action="/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} ">
+							<form id="idea-vote-form-yes" method="POST" action="/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="yes" />
 								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />

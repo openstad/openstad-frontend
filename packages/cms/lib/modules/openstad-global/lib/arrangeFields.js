@@ -2,7 +2,12 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemeen',
-        fields: ['siteTitle', 'hideSiteTitle', 'analytics', 'tagmanager', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
+        fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
+    },
+    {
+        name: 'analytics',
+        label: 'Analytics',
+      fields: ['analyticsType', 'analyticsIdentifier', 'analyticsCodeBlock', 'tagmanager']
     },
     {
         name: 'api',
@@ -48,7 +53,7 @@ module.exports = [
     {
         name: 'newsletter',
         label: 'Newsletter',
-      fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel']
+      fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel']
     },
     {
         name: 'themes-areas',

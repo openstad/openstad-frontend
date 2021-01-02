@@ -17,10 +17,13 @@
     "
   {% if data.widget.targetBlank %} target="_blank" {% endif %}
   style=""
-  title="{{ data.widget.label }} "
 >
   {% if data.widget.icon %}
-	<img src="{{apos.attachments.url(data.widget.icon)}}" />
+	<img src="{{apos.attachments.url(data.widget.icon)}}"
+       {% if data.widget.iconAltText %}
+        alt="{{data.widget.iconAltText}}"
+       {% endif %}
+  />
   {% endif %}
 
   {{ data.widget.label  }}

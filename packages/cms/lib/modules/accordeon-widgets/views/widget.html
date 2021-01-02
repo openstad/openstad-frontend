@@ -5,9 +5,9 @@
 <div id="{{data.widget.containerId}}" class="accordeon">
 {% for item in data.widget.items %}
     <div class="accordeon-item closed">
-        <div class="title">
+        <a href="#" class="title">
             {{item.title | nlbr | sanitize | safe}}
-        </div>
+        </a>
         <div class="description">
             {% if item.actionText %}
                 <p>

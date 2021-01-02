@@ -1,0 +1,20 @@
+<div class="flex">
+  <div class="checkbox-container">
+    <div class="checkbox">
+      <input
+        type="checkbox"
+        name="agreed"
+        value="yes"
+        id="checkbox-agreed"
+        required
+      />
+      <label for="checkbox-agreed" class="checkbox-label">
+        {% if data.widget.agreedLabel %}
+        {{data.widget.agreedLabel | sanitize | safe}}
+        {% else %}
+        Ik ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden. </a>
+        {% endif%}
+      </label>
+    </div>
+  </div>
+</div>

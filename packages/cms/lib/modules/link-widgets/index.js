@@ -1,3 +1,6 @@
+/**
+ * Widget for displaying buttons or links in different styles with static content
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -27,6 +30,11 @@ module.exports = {
       label: 'Icon',
       required: false,
       trash: true
+    },
+    {
+      name: 'iconAltText',
+      type: 'string',
+      label: 'Alt text for the icon'
     },
     {
       name: 'targetBlank',
@@ -93,7 +101,7 @@ module.exports = {
       {
         name: 'stylingGroup',
         label: 'Styling',
-        fields: ['icon', 'style', 'containerStyles']
+        fields: ['icon', 'iconAltText', 'style', 'containerStyles']
       },
       {
         name: 'advancedGroup',
@@ -101,7 +109,7 @@ module.exports = {
         fields: ['targetBlank', 'classNameCustom', 'addTelephoneProtocol']
       }
     ]);
-    
+
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {
