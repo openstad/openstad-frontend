@@ -6,7 +6,6 @@
   box-sizing: border-box;
   position: relative;
   vertical-align: top;
-  overflow: hidden;
   position: relative;
   display: inline-block;
   &.CLOSED {
@@ -58,11 +57,19 @@
 
 
 
+  a {
+    display: block;
 
+    &, &:hover, &:visited {
+      color: #000;
+      text-decoration: none;
+    }
 
-  a, a:hover, a:visited {
-    color: #000;
-    text-decoration: none;
+    &:focus {
+      outline: 3px solid @amsterdam-navyblue;
+      outline-offset: 0px;
+      background: none;
+    }
   }
 
   h3, p {
