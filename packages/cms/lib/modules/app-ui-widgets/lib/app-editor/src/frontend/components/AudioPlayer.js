@@ -232,7 +232,19 @@ class AudioPlayer extends React.Component {
        return 0;
      }
 
-     return ((this.state.currentPosition / this.state.duration) * 100 ).toFixed(2) + '%';
+     return ((this.state.currentPosition / this.state.duration) * 100).toFixed(2) + '%';
+   }
+
+   getProgressBarWidth() {
+     return Device.width();
+   }
+
+   setPositionAudio (ev) {
+     const pressPosition = ev.currentPosition;
+     const progressBarWidth = this.getProgressBarWidth();
+     const relativePosition = pressPosition / progressBarWidth;
+     const newPosition = relativePosition * this.state.duration;
+     this.audio.goTo(newPosition);
    }
 
    render() {
@@ -243,9 +255,9 @@ class AudioPlayer extends React.Component {
         {!this.state.audioFile && <Text style={{...styles.timer, textAlign: 'center'}}>No audio for this location</Text>}
 
         {this.state.audioFile && (
-          <View style={styles.progressBar}>
+          <TouchableOpacity style={styles.progressBar} onPress={(ev) => { this.setPositionAudio(ev) }}>
             <View style={{...styles.progressBarInner, width: this.getProgressBarPercentage()}}></View>
-          </View>
+          </TouchableOpacity>
         )}
         <View style={styles.audioPlayerInner}>
           <View style={styles.colContainer}>

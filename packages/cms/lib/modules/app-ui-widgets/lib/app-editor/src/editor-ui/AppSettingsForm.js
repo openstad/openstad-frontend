@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LocationSearchInput from './LocationSearchInput';
 import Section from './layout/Section';
+import LanguageSelect from  '../form/LanguageSelect';
 
 
 class AppSettingsForm extends Component {
@@ -12,8 +13,8 @@ class AppSettingsForm extends Component {
     var update = (resource, key, value) => {
       this.props.updateResource({
         ...this.props.resource,
-        data: {
-          ...this.props.resource.data,
+        {
+          ...this.props.resource,
           [key]:value
         }
       })
@@ -32,6 +33,18 @@ class AppSettingsForm extends Component {
               defaultValue={this.props.resource.title}
 
             />
+          </Section>
+
+          <Section title="Categories">
+
+          </Section>
+
+          <Section title="Duration">
+
+          </Section>
+
+          <Section title="Language">
+            <LanguageSelect />
           </Section>
 
           <Section title="Start Location">

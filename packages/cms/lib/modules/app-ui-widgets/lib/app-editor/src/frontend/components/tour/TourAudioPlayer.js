@@ -10,12 +10,8 @@ import AudioPlayer from '../AudioPlayer';
 <small>
   <b>{props.stepActiveIndex + 1}</b> of {props.stepTotal}
 </small>
-<h3>  {props.title}</h3>
-
-{!props.audioFile &&
-<em> No audio available for this step </em>
 }
- */
+*/
 
 function TourAudioPlayer (props) {
   return (

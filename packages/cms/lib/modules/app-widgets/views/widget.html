@@ -2,7 +2,7 @@
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 
 <link rel="stylesheet" href="/modules/app-widgets/css/main.css">
-<script src="/modules/app-widgets/js/index.js"></script>
+<script src="/modules/app-widgets/js/{{data.widget.appType}}.js"></script>
 
 <div id="{{data.widget.containerId}}">
 	<div id="app-root" style="    position: fixed;
@@ -13,7 +13,8 @@
 </div>
 
 <script>
-	console.log('AppFrontend', AppFrontend);
+
+
 
   document.addEventListener("DOMContentLoaded", function(event) {
     var appProps = {

@@ -20,8 +20,6 @@ import theme from '../theme';
 //import TrackPlayer from 'react-native-track-player';
 //TrackPlayer.registerPlaybackService(() => require('./trackService.js'));
 
-
-
 class TourApp extends Component {
   constructor(props) {
     super(props);
@@ -100,18 +98,56 @@ class TourApp extends Component {
           }}
         />
 
-        /*
         <SwipeUpView
-      	itemMini={<div />} // Pass props component when collapsed
-      	itemFull={<div />} // Pass props component when show full
-      	onShowMini={() => console.log('mini')}
-      	onShowFull={() => console.log('full')}
-      	onMoveDown={() => console.log('down')}
-      	onMoveUp={() => console.log('up')}
-      	disablePressToShow={false} // Press item mini to show full
-      	style={{ backgroundColor: 'green' }} // style for swipe
-      />
-      */
+        	itemMini={<Text> Read More </Text>} // Pass props component when collapsed
+        	itemFull={<TourTimelineView
+            activeStep={this.state.activeViewStep}
+            tour={this.props.app}
+            playAudio={this.selectAudioStep.bind(this)}
+            steps={this.props.steps}
+
+            openGallery={(images, initialImage) => {
+              this.setState({
+                gallery: {
+                  images: images,
+                  initialImage: initialImage
+                }
+              })
+            }}
+            stepActiveIndex={this.state.activeViewStepIndex}
+            backToMap={() => {
+              window.location.hash = '#';
+            }}
+            stepTotal={this.props.steps.length}
+            isPreviousAvailable={(() => {
+              const previousStep = this.props.steps[this.state.activeViewStepIndex - 1];
+              return previousStep;
+            })()}
+            isNextAvailable={(() => {
+              return this.props.steps[this.state.activeViewStepIndex + 1];
+            })()}
+            previousStep={() => {
+              const previousStep = this.props.steps[this.state.activeViewStepIndex - 1];
+
+              if (previousStep) {
+                window.location.hash = '#step-detail-' + previousStep.id;
+              }
+            }}
+            nextStep={() => {
+              const nextStep = this.props.steps[this.state.activeViewStepIndex + 1];
+
+              if (nextStep) {
+                window.location.hash = '#step-detail-' + nextStep.id;
+              }
+            }}
+          />} // Pass props component when show full
+        	onShowMini={() => console.log('mini')}
+        	onShowFull={() => console.log('full')}
+        	onMoveDown={() => console.log('down')}
+        	onMoveUp={() => console.log('up')}
+        	disablePressToShow={false} // Press item mini to show full
+        	style={{ backgroundColor: 'green' }} // style for swipe
+        />
         {this.state.gallery &&
           <View style={{
             position: 'absolute',
