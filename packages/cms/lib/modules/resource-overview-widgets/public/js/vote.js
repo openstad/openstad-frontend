@@ -199,6 +199,9 @@ function selectIdea(newIdeaId, doNotOpen) {
   } else {
     $('.selected-idea-title').text(ideaTitle);
   }
+  
+  previewElement.setAttribute('title', 'Ontwerp "' + ideaTitle + '" gekozen. Druk op enter om deze te verwijderen.');
+
 
   if (doShowImage && ideaPresentOnPage) {
     doShowImage(ideaId, previewElement);
@@ -234,6 +237,7 @@ function unSelectIdea(event) {
 
   var previewElement = stepElement.querySelector('.preview');
   previewElement.innerHTML = '<div class="nothingYet"><div class="inner-container"><div class="text">'+ placeholderText +'</div></div></div>';
+  previewElement.setAttribute('title', 'Kies een ontwerp.');
 
   setNextButton();
 
@@ -266,6 +270,16 @@ function ideaOverviewClickPreview(event) {
     // previewElement.innerHTML = {
     //
     // };
+  }
+}
+
+function ideaOverviewKeyDownPreview(event) {
+  if (event.keyCode == 13) {
+    if (ideaId) {
+      unSelectIdea(event);
+    } else {
+      overviewScrollToIdeas();
+    }
   }
 }
 
@@ -392,7 +406,7 @@ function showVoteCreator() {
     doUpdateIdea = true;
   }
   document.getElementById('vote-creator').className = 'open';
-  if (ideaId && doUpdateIdea) (ideaId, true);
+  if (ideaId && doUpdateIdea) selectIdea(ideaId, true);
 }
 function hideVoteCreator() {
   document.getElementById('vote-creator').className = 'closed';
@@ -400,8 +414,6 @@ function hideVoteCreator() {
 
 // todo: dit stat nu hier omdat je anders de indeen nog niet hebt, maar zou natuurlijk in de widget moeten
 function openstadGetCookie(name) {
-
-
 
   var match = document.cookie.match(new RegExp("(?:^|;\\s*)\\s*" + name +"=([^;]+)\\s*(?:;|$)"));
 

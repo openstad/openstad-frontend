@@ -25,6 +25,9 @@ ENV MONGO_DB_HOST=""
 ENV DB_HOST=""
 ENV DEFAULT_DB=""
 
+ENV APOS_BUNDLE="assets"
+ENV NODE_ENV="production"
+
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 
@@ -40,7 +43,7 @@ RUN cp -r ./packages/cms/test test
 RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 # Install node modules
-RUN npm install --loglevel warn
+RUN npm install --loglevel warn --production
 
 RUN npm install -g nodemon
 
@@ -55,15 +58,14 @@ RUN mkdir -p /home/app/public/img
 RUN mkdir -p /home/app/public/apos-minified
 RUN mkdir -p /home/app/data
 
-RUN echo -e $(date +%s) >> /home/app/data/generation
+# Mount persistent storage
+#VOLUME /home/app/data
+VOLUME /home/app/public/uploads
+RUN mkdir -p /home/app/public/uploads/assets
 
 # Set node ownership to/home/app
 RUN chown -R node:node /home/app
 USER node
-
-# Mount persistent storage
-#VOLUME /home/app/data
-VOLUME /home/app/public/uploads
 
 # Exposed ports for application
 EXPOSE 4444/tcp
