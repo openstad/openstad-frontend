@@ -107,6 +107,7 @@ module.exports = {
             const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
             self.apos.assets.determineDevGeneration = function() {
               const original = superDetermineDevGeneration();
+              console.log('->>> original', original)
               return assetsIdentifier ? assetsIdentifier : original;
             };
           }

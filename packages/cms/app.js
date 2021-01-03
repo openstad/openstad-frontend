@@ -28,7 +28,7 @@ const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-const fileExtension          = ['.jpg', '.js', '.css', '.svg', '.png', '.less', '.gif']
+const fileExtension          = ['.jpg', '.js', '.svg', '.png', '.less', '.gif']
 
 // Storing all site data in the site config
 const sites                   = {};
@@ -42,6 +42,7 @@ const static = express.static('static');
 
 const aposServer = {};
 
+//todo move this to extension check fo4 performance
 app.use(express.static('public'));
 // serve static also on first level
 
@@ -161,8 +162,11 @@ function run(id, siteData, options, callback) {
   let assetsIdentifier;
 
   // for dev sites grab the assetsIdentifier from the first site in order to share assets
+  console.log('Object.keys(aposServer).length', Object.keys(aposServer).length)
+
   if (Object.keys(aposServer).length > 0) {
     const firstSite = aposServer[Object.keys(aposServer)[0]];
+    console.log('firstSite', firstSite.assets.generation)
     assetsIdentifier = firstSite.assets.generation;
   }
 
@@ -241,7 +245,8 @@ module.exports.getMultiSiteApp = (options) => {
        // It, currently doesn't check if file exists for performance reasons, it's possible to add
        // it, this will need
        if (fileExtension.some(extension => req.url.includes(extension))) {
-         // replace the file path so
+         // replace the file path so it has correct version
+         // see if express static can work, it's a bit more expensive it seems since it does a file exist check
          req.url = req.url.replace(req.params.firstPath, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
@@ -268,8 +273,6 @@ module.exports.getMultiSiteApp = (options) => {
       res.status(404).json({ error: 'Site not found'});
     }
   });
-
-
 
   /**
    * Update the siteconfig every few minutes
