@@ -422,7 +422,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
       seqnr: req.body.seqnr,
     };
     req.questiongroup
-			.authorizeData(data, 'update')
+			.authorizeData(req.body, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);

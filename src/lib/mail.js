@@ -164,7 +164,8 @@ function sendThankYouMail (resource, user, site) {
 
   try {
   sendMail({
-    to: user.email,
+    // in some cases the resource, like order or account has a different email from the submitted user, default to resource, otherwise send to owner of resource
+    to: resource.email ?  resource.email : user.email,
     from: fromAddress,
     subject: (resourceTypeConfig.feedbackEmail && resourceTypeConfig.feedbackEmail.subject) || 'Bedankt voor je inzending',
     html: html,

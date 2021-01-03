@@ -11,6 +11,10 @@ module.exports = function authorizeData(data, action, user, self, site) {
     if (!user) user = self.auth && self.auth.user;
     if (!user || !user.role) user = { role: 'all' };
 
+    let userId = self.userId;
+    if (self.toString().match('SequelizeInstance:user')) { // TODO: find a better check
+      userId = self.id
+    }
 
     // TODO: dit is een check op jezelf, nu kan de argument:view check uit de routes
     if (!self.can(action, user))  throw 'cannot';
@@ -24,14 +28,25 @@ module.exports = function authorizeData(data, action, user, self, site) {
       if (self.rawAttributes[key] && self.rawAttributes[key].auth) {
         if (self.rawAttributes[key].auth.authorizeData) {
           data[key] = self.rawAttributes[key].auth.authorizeData(data[key], action, user, self, site);
+          // todo: ik denk dat hij hier moet return-en; een beetje heftige aanpassing voor even tussendoor
         } else {
-          testRole = self.rawAttributes[key].auth[action+'ableBy'];
+
+          // dit is generieker dan de extraData versie; TODO: die moet dus ook zo generiek worden
+          testRole = self.rawAttributes[key].auth[action+'ableBy'] || [];
+          if (!Array.isArray(testRole)) testRole = [testRole];
+          let detailsFieldName = 'details' + action[0].toUpperCase() + action.substring(1) + 'ableByRole';
+          if (testRole.includes(detailsFieldName)) {
+            if (self[detailsFieldName]) {
+              testRole = [ self[detailsFieldName], 'owner' ];
+            }
+          }
+
         }
       }
 
-      testRole = testRole || (self.auth && self.auth[action+'ableBy']);
+      testRole = testRole && testRole.length ? testRole : (self.auth && self.auth[action+'ableBy']);
 
-      if (!hasRole(user, testRole, self.userId)) {
+      if (!hasRole(user, testRole, userId)) {
         data[key] = undefined;
       }
 
