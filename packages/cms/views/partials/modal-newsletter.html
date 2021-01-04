@@ -129,8 +129,18 @@
              {% endif %}
           </label>
           <br />
-          <a href="#" class="captcha-refresh" />refresh</a>
-          <img src="/modules/openstad-captcha/captcha" class="openstad-refresh" width="200" />
+          <img src="/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
+          <br />
+          <a href="#" class="captcha-refresh">
+            <small class="underline">
+            {% if data.global.captchaLabel %}
+               {{data.global.captchaRefreshText}}
+            {% else %}
+              refresh
+            {% endif %}
+            </small>
+          </a>
+          <br />
           <input type="text" class="input-field" required name="areYouABot" />
         </div>
 

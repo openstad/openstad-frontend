@@ -18,7 +18,7 @@ module.exports = {
 
        /**
         * Validate the request with captcha if send by a form
-
+        */
        if (req.body && req.body.areYouABot) {
          const captchData = req.session.captcha;
          const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
@@ -31,10 +31,7 @@ module.exports = {
 
          // clean up key before we send it to the api
          delete req.body.areYouABot;
-         // empty session captcha
-         req.session.captcha = false;
        }
-               */
 
         // add custom header to request
         proxyReq.setHeader('Accept', 'application/json');

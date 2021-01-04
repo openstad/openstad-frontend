@@ -5,6 +5,7 @@
 * Add html class name to resource overview
 * Clear cached session openstad user when making api call or logging out
 * Add an extra choices type to the choices guide
+* Accessibility improvements
 
 ## v0.10.1 (2020-12-09)
 * Cache openstad user longer when logged in to cms

@@ -14,6 +14,7 @@ $(function() {
   initTrashPageWarning();
   initAjaxRefresh();
   initFormSubmit();
+  initTrapFocusInOpenModal();
 });
 
 function initLogoutMijnOpenstad() {
@@ -503,4 +504,49 @@ function initFormSubmit () {
  if ($formToSubmit.length > 0) {
    $formToSubmit.submit();
  }
+}
+
+/**
+ * Trap the focus inside the currently open modal when using tab.
+ *
+ * This functionality is required for accessibility compliance.
+ */
+function initTrapFocusInOpenModal () {
+  document.addEventListener('keydown', function(e) {
+    var isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+  
+    if (!isTabPressed) {
+      return;
+    }
+    
+    var focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    var $modal = $('.content-modal').filter(function () {
+      // If we use the :visible selector, we always get all modals. The modals are using 'visibility: hidden;'
+      // and are therefore technically visible, because they consume space in the layout.
+      // We only want the currently visible modal, so we have to filter out all modals with 'visibility: hidden'
+      return $(this).css('visibility') != 'hidden';
+    });
+    
+    if (!$modal || $modal.length <= 0) {
+      return;
+    }
+  
+    var focusableContent = $modal.find(focusableElements);
+    var firstFocusableElement = focusableContent[0];
+    var lastFocusableElement = focusableContent[focusableContent.length - 1];
+    
+    // Based on whether or not the shift key is pressed, always return to the first / last focusable element
+    // when tabbing through the modal's focusable items. This essentially 'locks' the user in the modal when using tab.
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusableElement) {
+        lastFocusableElement.focus();
+        e.preventDefault();
+      }
+    } else {
+      if (document.activeElement === lastFocusableElement) {
+        firstFocusableElement.focus();
+        e.preventDefault();
+      }
+    }
+  });
 }

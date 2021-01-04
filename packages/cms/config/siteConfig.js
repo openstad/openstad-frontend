@@ -107,7 +107,6 @@ module.exports = {
             const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
             self.apos.assets.determineDevGeneration = function() {
               const original = superDetermineDevGeneration();
-              console.log('->>> original', original)
               return assetsIdentifier ? assetsIdentifier : original;
             };
           }
@@ -122,17 +121,8 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
-        'apostrophe-module': {
-          siteUrl: siteUrl
-        },
-    /*    'openstad-module': {
-          improve: 'apostrophe-module',
-          construct: function(self, options) {
-            self.action = siteUrl + '/modules/' + self.__meta.name;
-            console.log('self.action', self.action);
-          }
-        },*/
-        //'openstad-captcha': {},
+
+        'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
