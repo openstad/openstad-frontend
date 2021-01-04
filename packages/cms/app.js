@@ -21,7 +21,7 @@ const rp                      = require('request-promise');
 const Promise                 = require('bluebird');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
-const path= require('path');
+const path                    = require('path');
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
@@ -32,8 +32,7 @@ const fileExtension          = ['.jpg', '.js', '.svg', '.png', '.less', '.gif']
 
 // Storing all site data in the site config
 const sites                   = {};
-let sitesResponse           = [];
-const configForHosts          = {};
+let sitesResponse             = [];
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
@@ -49,8 +48,9 @@ app.use(express.static('public'));
 app.set('trust proxy', true);
 
 /**
- * Route for resetting the config of the server so the server will refetch
- * Necessary when making changes in the site config.
+ * Route for resetting the config of the server
+ * Necessary when making changes in the site config
+ * Currently simple fetches all config again, and then stops the express server
  */
 app.get('/config-reset', async (req, res, next) => {
   let host = req.headers['x-forwarded-host'] || req.get('host');
@@ -162,11 +162,9 @@ function run(id, siteData, options, callback) {
   let assetsIdentifier;
 
   // for dev sites grab the assetsIdentifier from the first site in order to share assets
-  console.log('Object.keys(aposServer).length', Object.keys(aposServer).length)
 
   if (Object.keys(aposServer).length > 0) {
     const firstSite = aposServer[Object.keys(aposServer)[0]];
-    console.log('firstSite', firstSite.assets.generation)
     assetsIdentifier = firstSite.assets.generation;
   }
 
@@ -275,7 +273,7 @@ module.exports.getMultiSiteApp = (options) => {
   });
 
   /**
-   * Update the siteconfig every few minutes
+   * Update the site config every few minutes
    */
   setInterval(fetchAllSites, REFRESH_SITES_INTERVAL);
   return app;
