@@ -41,13 +41,52 @@ module.exports = {
 				{
 					label: 'Standaard',
 					value: 'default',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
+				},
+				{
+					label: 'Van min naar plus 100',
+					value: 'minus-to-plus-100',
+          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
 				},
 				{
 					label: 'In een vlak',
-					value: 'plane'
+					value: 'plane',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
+				},
+				{
+					label: 'Geen: verberg de voorkeuren',
+					value: 'hidden',
 				}
 			]
 		},
+    {
+      type:     'string',
+      name:     'choicesPreferenceMinColor',
+      label:    'Kleur van de balken, minimaal',
+      help:     'Dit moet (nu nog) in het formaat #123456',
+      def:      '#ff9100',
+    },
+    {
+      type:     'string',
+      name:     'choicesPreferenceMaxColor',
+      label:    'Kleur van de balken, maximaal',
+      help:     'Dit moet (nu nog) in het formaat #123456',
+      def:      '#bed200',
+    },
+    {
+      type:     'string',
+      name:     'choicesPreferenceTitle',
+      label:    'Titel boven de keuzes, met voorkeur',
+      help:     'Bijvoorbeeld "Jouw voorkeur is {preferredChoice}"',
+      def:      'Jouw voorkeur is {preferredChoice}',
+    },
+    {
+      type:     'string',
+      name:     'choicesNoPreferenceYetTitle',
+      label:    'Titel boven de keuzes, nog geen voorkeur',
+      help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
+      def:      'Je hebt nog geen keuze gemaakt',
+    },
 		{
 			name: 'beforeUrl',
       type: 'string',
@@ -94,6 +133,11 @@ module.exports = {
             sticky: {
               offsetTop: 10,
             },
+            title: {
+              preference: widget.choicesPreferenceTitle,
+              noPreferenceYet: widget.choicesNoPreferenceYetTitle,
+            },
+            barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
           },
           beforeUrl: widget.beforeUrl,
           afterUrl: widget.afterUrl,
