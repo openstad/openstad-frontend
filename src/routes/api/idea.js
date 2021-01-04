@@ -263,7 +263,7 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 		res.json(req.results);
-		mail.sendThankYouMail(req.results, req.user, req.site) // todo: optional met config?
+		mail.sendThankYouMail(req.results, 'ideas', req.user) // todo: optional met config?
 	})
 
 // one idea
