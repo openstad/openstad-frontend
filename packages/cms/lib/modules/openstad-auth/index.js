@@ -64,6 +64,8 @@ module.exports = {
         const thisHost = req.headers['x-forwarded-host'] || req.get('host');
         const protocol = req.headers['x-forwarded-proto'] || req.protocol;
         const fullUrl = protocol + '://' + thisHost + req.originalUrl;
+        const cmsUrl = self.apos.settings.getOption(req, 'siteUrl');
+
         const parsedUrl = Url.parse(fullUrl, true);
         let fullUrlPath = parsedUrl.path;
 
@@ -72,7 +74,8 @@ module.exports = {
 
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
-        returnTo = returnTo.path;
+
+        returnTo = cmsUrl + returnTo.path;
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
@@ -141,7 +144,8 @@ module.exports = {
                } else {
                  // if not valid clear the JWT and redirect
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl +  '/');
                    return;
                  });
                }
@@ -149,11 +153,9 @@ module.exports = {
              })
              .catch((e) => {
                console.log('e', e);
-
-               // if not valid clear the JWT and redirect
-               // ;
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl + '/');
                    return;
                  })
              });
@@ -199,9 +201,7 @@ module.exports = {
     self.apos.app.get('/oauth/logout', (req, res, next) => {
       req.session.destroy(() => {
         const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
-        const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-        const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-        const fullUrl = protocol + '://' + thisHost;
+        const fullUrl = self.apos.settings.getOption(req, 'siteUrl');
         const url = apiUrl + '/oauth/site/'+req.data.global.siteId+'/logout?redirectUrl=' + fullUrl;
         res.redirect(url);
       });
@@ -217,7 +217,8 @@ module.exports = {
       }
 
       req.session.save(() => {
-        res.redirect('/oauth/login?loginPriviliged=1');
+        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+        res.redirect(siteUrl + '/oauth/login?loginPriviliged=1');
       })
     });
 
@@ -229,7 +230,9 @@ module.exports = {
           const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
           const thisHost = req.headers['x-forwarded-host'] || req.get('host');
           const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-          let returnUrl = protocol + '://' + thisHost;
+          let returnUrl = self.apos.settings.getOption(req, 'siteUrl');
+
+            console.log('returnUrl 1', returnUrl)
 
           if (req.query.returnTo && typeof req.query.returnTo === 'string') {
             //only get the pathname to prevent external redirects
@@ -238,7 +241,12 @@ module.exports = {
             returnUrl = returnUrl + pathToReturnTo;
           }
 
+          console.log('returnUrl 2', returnUrl)
+
           let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${returnUrl}`;
+
+          console.log('url url 2', url)
+
           url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
           url = req.query.loginPriviliged ? url + '&loginPriviliged=1' : url + '&forceNewLogin=1';
           res.redirect(url);

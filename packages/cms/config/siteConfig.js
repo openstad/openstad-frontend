@@ -4,12 +4,13 @@ const palette = require('./palette');
 const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
-  get: (shortName, siteData) => {
-
+  get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
+    const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
 
     const siteConfig = {
       shortName: shortName,
+      prefix: siteUrl ? siteUrl : '/',
       modules: {
         'api-proxy': {},
         'openstad-assets': {
@@ -38,6 +39,7 @@ module.exports = {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
           alias: 'settings',
+          siteUrl: siteUrl,
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
           apiLogoutUrl: process.env.API_LOGOUT_URL,
@@ -95,6 +97,20 @@ module.exports = {
             }
           }
         },
+        'apostrophe-multisite-patch-assets': {
+          construct: function(self, options) {
+            // For dev: at least one site has already started up, which
+            // means assets have already been attended to. Steal its
+            // asset generation identifier so they don't fight.
+            // We're not too late because apostrophe-assets doesn't
+            // use this information until afterInit
+            const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
+            self.apos.assets.determineDevGeneration = function() {
+              const original = superDetermineDevGeneration();
+              return assetsIdentifier ? assetsIdentifier : original;
+            };
+          }
+         },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields
@@ -105,6 +121,7 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
+
         'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},

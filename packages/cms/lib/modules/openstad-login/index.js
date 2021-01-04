@@ -12,7 +12,8 @@ module.exports = {
   improve: 'apostrophe-login',
   construct: function(self, options) {
     self.apos.app.get('/login',  (req, res, next) => {
-      res.redirect('/oauth/login');
+      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      res.redirect(siteUrl + '/oauth/login');
     });
 
     self.pageBeforeSend = (req, callback) => {
@@ -26,9 +27,8 @@ module.exports = {
 
       const user = req.data.openstadUser;
 
-      // this is a hack to allow admin to login with a unique code without email
-      const email = user.email ? user.email : user.id + '@openstadapp.org';
-
+      // this is a hack to allow admin to login with a unique code without email, since email is expected
+      const email = user.email ? user.email : user.id + '@openstad.org';
 
       // if logged in to aposthrophecms, move on
       if (req.user && req.user.email === email) {
@@ -80,7 +80,7 @@ module.exports = {
 
                  const insertOrUpdate = aposUser ? self.apos.users.update : self.apos.users.insert;
 
-                 // In case user relogs in the data gets updateds
+                 // In case user relogs in the data gets updated
                  // one downside, if the user's admin or editor rights are revoked,
                  // this will only go into effect after logging out
                  insertOrUpdate(taskReq, userData, {}, (err, userObject) => {
@@ -89,13 +89,11 @@ module.exports = {
                    self.apos.users.find(req, { username: email }).permission(false).toObject(function(err, aposUser) {
 
                      req.login(aposUser, function(err) {
-
                        if (err) {
-                         //console.log('err', err);
-                         //return next(err)
                          return callback();
                        } else {
-                         return req.res.redirect('/');;
+                         const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                         return req.res.redirect(siteUrl + '/');
                        }
                      });
                    });
