@@ -117,6 +117,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
             config.id = siteConfig.id;
             config.title = siteConfig.title;
             config.area = siteConfig.area;
+            config.firstPath = siteConfig.firstPath;
 
             aposStartingUp[dbName] = true;
 
@@ -248,6 +249,7 @@ module.exports.getMultiSiteApp = (options) => {
          req.url = req.url.replace(req.params.firstPath, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
+         site.firstPath = req.params.firstPath
          serveSite(req, res, site, false);
        }
      } else {
