@@ -47,19 +47,7 @@ app.use(express.static('public'));
 
 app.set('trust proxy', true);
 
-/**
- * Route for resetting the config of the server
- * Necessary when making changes in the site config
- * Currently simple fetches all config again, and then stops the express server
- */
-app.get('/config-reset', async (req, res, next) => {
-  let host = req.headers['x-forwarded-host'] || req.get('host');
-  host = host.replace(['http://', 'https://'], ['']);
-  await fetchAllSites(req, res);
-  res.json({ message: 'Ok'});
-});
-
-function fetchAllSites (req, res, startSites) {
+function fetchAllSites(req, res, startSites) {
   const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
 
   console.log('Fetch all sites')
@@ -112,6 +100,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
+            console.log('(Re)Start apos ', dbName)
             //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
@@ -220,6 +209,22 @@ module.exports.getMultiSiteApp = (options) => {
     next()
   });
 
+  const resetConfigMw = async (req, res, next) => {
+    let host = req.headers['x-forwarded-host'] || req.get('host');
+    host = host.replace(['http://', 'https://'], ['']);
+    console.log('reset host', host)
+    await fetchAllSites(req, res);
+    req.forceRestart = true;
+    next();
+  }
+
+  /**
+   * Route for resetting the config of the server
+   * Necessary when making changes in the site config
+   * Currently simple fetches all config again, and then stops the express server
+   */
+  app.use('/config-reset', resetConfigMw);
+  app.use('/:firstPath/config-reset', resetConfigMw);
 
   /**
    * Check if a site is running under the first path
@@ -250,7 +255,7 @@ module.exports.getMultiSiteApp = (options) => {
          return res.sendFile(path.resolve('public' + req.url));
        } else {
          site.firstPath = req.params.firstPath
-         serveSite(req, res, site, false);
+         serveSite(req, res, site, req.forceRestart);
        }
      } else {
        next();
@@ -268,7 +273,7 @@ module.exports.getMultiSiteApp = (options) => {
 
     // if site exists serve it, otherwise give a 404
     if (site) {
-      serveSite(req, res, site, false);
+      serveSite(req, res, site, req.forceRestart);
     } else {
       res.status(404).json({ error: 'Site not found'});
     }
