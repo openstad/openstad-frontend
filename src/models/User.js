@@ -425,17 +425,25 @@ module.exports = function( db, sequelize, DataTypes ) {
         let rolesEscaped = sequelize.escape(roles[userRole])
         let nullCondition = `${requiredRoleEscaped} IN (${rolesEscaped})`;
 
-        let where = sequelize.or(
-          // owner
-          { id: userId },
-          // allow when userRole is good enough
-          { listableByRole: roles[userRole] || 'none' },
-          // or null and userRole is at least requiredRole
-          sequelize.and(
-            { listableByRole: null },
-            sequelize.literal(nullCondition)
-          ),
-        )
+        let where;
+				if (userId) {
+          where = sequelize.or(
+            { id: userId }, // owner
+            { listableByRole: roles[userRole] || 'none' }, // allow when userRole is good enough
+            sequelize.and( // or null and userRole is at least requiredRole
+              { listableByRole: null },
+              sequelize.literal(nullCondition)
+            ),
+          )
+        } else {
+          where = sequelize.or(
+            { listableByRole: roles[userRole] || 'none' }, // allow when userRole is good enough
+            sequelize.and( // or null and userRole is at least requiredRole
+              { listableByRole: null },
+              sequelize.literal(nullCondition)
+            ),
+          )
+        }
 
         return { where };
 
