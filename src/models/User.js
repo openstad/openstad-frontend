@@ -414,9 +414,9 @@ module.exports = function( db, sequelize, DataTypes ) {
         // todo: gelijkttrekken met Idea.onlyVisible: die is nu exclusive en deze inclusive
 
         let requiredRole = this.auth && this.auth.listableBy || 'all';
-
+				
         // if requiredRole == all then listableByRole is not relevant and neither is userRole
-        if (requiredRole == 'all') return;
+        if (requiredRole === 'all') return;
 
         // if requiredRole != all then listableByRole is allowing
 
