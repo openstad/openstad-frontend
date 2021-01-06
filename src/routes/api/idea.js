@@ -143,24 +143,8 @@ router.route('/')
             if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
           });
         }
+
 				const { rows } = result;
-
-				if(req.query.hasOwnProperty('sort') && req.query.sort) {
-					const sort = JSON.parse(req.query.sort);
-
-					if(Array.isArray(sort) && sort.length > 0){
-						const sortKey = sort[0];
-						const sortDirection = sort[1];
-
-						rows.sort((ideaA, ideaB) => {
-							if(sortDirection === 'ASC') {
-								return ideaA[sortKey] < ideaB[sortKey] ? -1 : 1;
-							}
-
-							return ideaA[sortKey] > ideaB[sortKey] ? -1 : 1;
-						});
-					}
-				}
 
         req.results = rows;
         req.dbQuery.count = result.count;
