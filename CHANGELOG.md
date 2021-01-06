@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED
+* Remove auth express session and refactor user middleware
+* Fix fallback authClientId
+* Use correct env variable for default client_id and client_secret values
+
+
 ## v0.10.0 (2020-12-09)
 * Open /stats/site/:SITE_ID/vote/total for everybody
 * Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'

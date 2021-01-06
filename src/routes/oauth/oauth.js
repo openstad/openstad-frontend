@@ -28,8 +28,6 @@ router
 	.route('(/site/:siteId)?/login')
 	.get(function( req, res, next ) {
 
-		req.session.useOauth = req.query.useOauth;
-
 		if (req.query.forceNewLogin) {
       let baseUrl = config.url
 			let backToHereUrl = baseUrl + '/oauth/site/' + req.site.id + '/login?' + ( req.query.useOauth ? 'useOauth=' + req.query.useOauth : '' ) + '&redirectUrl=' + req.query.redirectUrl
@@ -39,25 +37,23 @@ router
 			return res.redirect(url)
 		}
 
+		// Todo: Refactor this code, this logic also lives in the user middleware
+		let which = req.query.useOauth || 'default';
+		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
+		let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+		let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+		let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
+		let authServerAdminLoginPath = siteOauthConfig['auth-server-admin-login-path'] || config.authorization['auth-server-admin-login-path'];
 
-		req.session.save(() => {
-			let which = req.session.useOauth || 'default';
-			let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
-			let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-			let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-			let authServerLoginPath = siteOauthConfig['auth-server-login-path'] || config.authorization['auth-server-login-path'];
-			let authServerAdminLoginPath = siteOauthConfig['auth-server-admin-login-path'] || config.authorization['auth-server-admin-login-path'];
+		authServerLoginPath = req.query.loginPriviliged ? authServerAdminLoginPath : authServerLoginPath;
 
-			authServerLoginPath = req.query.loginPriviliged ? authServerAdminLoginPath : authServerLoginPath;
+		let url = authServerUrl + authServerLoginPath;
+		url = url.replace(/\[\[clientId\]\]/, authClientId);
+		//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
+		url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?useOauth=' + which + '\&returnTo=' + req.query.redirectUrl));
 
-			let url = authServerUrl + authServerLoginPath;
-			url = url.replace(/\[\[clientId\]\]/, authClientId);
-			//url = url.replace(/\[\[redirectUrl\]\]/, config.url + '/oauth/digest-login');
-      url = url.replace(/\[\[redirectUrl\]\]/, encodeURIComponent(config.url + '/oauth/site/'+ req.site.id +'/digest-login?useOauth=' + which + '\&returnTo=' + req.query.redirectUrl));
+		res.redirect(url);
 
-			res.redirect(url);
-
-		});
 	});
 
 // inloggen 2
@@ -72,6 +68,7 @@ router
 		// TODO: meer afvangingen en betere response
 		if (!code) throw createError(403, 'Je bent niet ingelogd');
 
+		// Todo: Refactor this code, this logic also lives in the user middleware
 		let which = req.query.useOauth || 'default';
 		let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};;
 		let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
@@ -112,9 +109,8 @@ router
 					let accessToken = json.access_token;
 					if (!accessToken) return next(createError(403, 'Inloggen niet gelukt: geen accessToken'));
 
-
 					// todo: alleen in de sessie is wel heel simpel
-					req.session.userAccessToken = accessToken;
+					req.userAccessToken = accessToken;
 					return next();
 				}
 			)
@@ -139,7 +135,7 @@ router
 			url, {
 				method: 'get',
 				headers: {
-					authorization : 'Bearer ' + req.session.userAccessToken,
+					authorization : 'Bearer ' + req.userAccessToken,
 				},
 				mode: 'cors',
 			})
@@ -164,7 +160,7 @@ router
 
 		let data = {
 			externalUserId: req.userData.user_id,
-			externalAccessToken: req.session.userAccessToken,
+			externalAccessToken: req.userAccessToken,
 			email: req.userData.email || null,
 			firstName: req.userData.firstName,
 			siteId: req.site.id,
@@ -196,13 +192,11 @@ router
 					user
 						.update(data)
 						.then(() => {
-							req.setSessionUser(user.id, '');
 							req.userData.id = user.id;
 							return next();
 						})
 						.catch((e) => {
 							console.log('update e', e)
-							req.setSessionUser(user.id, '');
 							req.userData.id = user.id;
 							return next();
 						})
@@ -216,7 +210,6 @@ router
 					db.User
 						.create(data)
 						.then(result => {
-							req.setSessionUser(result.id, '');
 							req.userData.id = result.id;
 							return next();
 						})
@@ -240,25 +233,24 @@ router
 	  redirectUrl = redirectUrl || ( req.site && req.site.config && req.site.config.cms['after-login-redirect-uri'] ) || siteOauthConfig['after-login-redirect-uri'] || config.authorization['after-login-redirect-uri'];
 		redirectUrl = redirectUrl || '/';
 
-		req.session.save(() => {
-			//check if redirect domain is allowed
-			if (isAllowedRedirectDomain(redirectUrl, req.site && req.site.config && req.site.config.allowedDomains)) {
-				if (redirectUrl.match('[[jwt]]')) {
-					jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
-						if (err) return next(err)
-						req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
-						return next();
-					});
-				} else {
-					req.redirectUrl = redirectUrl;
+		//check if redirect domain is allowed
+		if (isAllowedRedirectDomain(redirectUrl, req.site && req.site.config && req.site.config.allowedDomains)) {
+			if (redirectUrl.match('[[jwt]]')) {
+				jwt.sign({userId: req.userData.id}, config.authorization['jwt-secret'], { expiresIn: 182 * 24 * 60 * 60 }, (err, token) => {
+					if (err) return next(err)
+					req.redirectUrl = redirectUrl.replace('[[jwt]]', token);
 					return next();
-				}
-			} else {
-				res.status(500).json({
-					status: 'Redirect domain not allowed'
 				});
+			} else {
+				req.redirectUrl = redirectUrl;
+				return next();
 			}
-		});
+		} else {
+			res.status(500).json({
+				status: 'Redirect domain not allowed'
+			});
+		}
+
 	})
 	.get(function( req, res, next ) {
 		res.redirect(req.redirectUrl);
@@ -285,9 +277,6 @@ router
 		let url = authServerUrl + authServerGetUserPath;
 
 		url = url.replace(/\[\[clientId\]\]/, authClientId);
-
-
-		req.session.destroy();
 
 		if (req.query.redirectUrl) {
 			url = `${url}&redirectUrl=${encodeURIComponent(req.query.redirectUrl)}`;

@@ -1,12 +1,10 @@
 const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
-const moment = require('moment');
 const createError = require('http-errors');
 const config = require('config');
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
-const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
 const fetch = require('node-fetch');
@@ -41,6 +39,29 @@ router.route('/')
     let { dbQuery } = req;
 
     let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
+
+    /**
+     * Handle queries with search
+     */
+    if(queryConditions.hasOwnProperty('q')) {
+      const searchColumns = ['firstName', 'lastName', 'email', 'role'];
+      const searchTerm = queryConditions.q;
+      const searchQuery = {};
+
+      searchColumns.forEach((key) => {
+        searchQuery[key] = { [Op.like]: searchTerm };
+      })
+
+      if(Object.keys(searchQuery).length > 0) {
+        queryConditions[Op.or] = searchQuery;
+      }
+    }
+    delete queryConditions.q;
+
+    /**
+     * Add siteId to query conditions
+     * @type {{siteId: *}}
+     */
     queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
     db.User

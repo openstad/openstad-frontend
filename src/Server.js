@@ -131,10 +131,10 @@ module.exports  = {
 				maxAge   : config.get('security.sessions.maxAge')
 			}
 		}));
-
+		
 		// Middleware to fill `req.user` with a `User` instance.
-		const sessionUser = require('./middleware/session_user');
-		this.app.use(sessionUser);
+		const getUser = require('./middleware/user');
+		this.app.use(getUser);
 
 	},
 };
