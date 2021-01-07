@@ -71,8 +71,6 @@
     id="idea-{{idea.id}}"
     class="gridder-list idea-item {% if data.openstadUser.id === idea.userId %}owner{% endif %} {{idea.status}}"
     data-griddercontent="#ideaContent{{idea.id}}"
-    onmouseover="this.querySelector('.gridder-mouse-over').style.display = 'block';"
-    onmouseout="this.querySelector('.gridder-mouse-over').style.display = 'none';"
     data-createdtime="{{idea.createdTime}}"
     data-likes="{{idea.yes}}"
     data-budget="{{idea.budget}}"
@@ -89,13 +87,15 @@
     		<div class="background">
     		</div>
         <div class="vertically-centered">
-      		<div class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
+      		<a href="#" class="one-button button-more-info{% if userHasVoted %} centered{% endif %}">
             {{ data.widget.gridder_text_open if data.widget.gridder_text_open else 'Bekijk' }}
-      		</div>
+            <span class="sr-only">het plan "{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}"</span>
+      		</a>
           {% if data.widget.voting and not userHasVoted %}
-          <div class="button-vote" onclick="event.preventDefault(); selectIdea({{idea.id}})">
+          <a href="#" class="button-vote" onclick="event.preventDefault(); selectIdea({{idea.id}})">
             {{ data.widget.gridder_text_vote_button if data.widget.gridder_text_vote_button else 'Stem' }}
-          </div>
+            <span class="sr-only">op plan "{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}"</span>
+          </a>
           {% endif %}
         </div>
     	</div>

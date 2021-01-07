@@ -101,7 +101,7 @@ if (votingContainer !== null) {
 
 	  // scrollToBudget()
 
-	  updateBudgetDisplay();
+	  updateBudgetDisplay(false);
 	  updateListElements();
   }
 
@@ -369,8 +369,16 @@ if (votingContainer !== null) {
 	  }
   }
 
-  function updateBudgetDisplay() {
+  function updateBudgetDisplay(productAdded) {
 
+  	// Determine which message to show to the screen reader
+		// Todo: Refactor this into using constants so we have more control
+  	if (typeof productAdded === 'undefined') {
+  		productAdded = true;
+		} else {
+  		productAdded = !!productAdded;
+		}
+  	
 	  var budgetBarContainer = document.querySelector('#current-budget-bar');
 
 	  if (budgetBarContainer) {
@@ -459,7 +467,7 @@ if (votingContainer !== null) {
 			    $('.current-budget-amount').html(formatEuros(initialAvailableBudget - availableBudgetAmount));
 		      $('.available-budget-amount').html(formatEuros(availableBudgetAmount));
 
-		      addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount);
+		      addCurrentBudgetScreenReaderAlert(initialAvailableBudget, availableBudgetAmount, productAdded);
 
 			    previewImages.innerHTML = '';
 			    currentSelection.forEach( function(id) {
@@ -470,11 +478,17 @@ if (votingContainer !== null) {
   				    previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
   				    previewImage.setAttribute('data-idea-id', element.ideaId);
   				    previewImage.className += ' idea-' + element.ideaId;
-
-
+  				    
   				    var linkToIdea = document.createElement("a");
   				    linkToIdea.href = '#ideaId-' + element.ideaId;
+  				    linkToIdea.className = 'idea-preview';
   				    linkToIdea.appendChild(previewImage);
+  				    
+  				    var screenReaderTitle = document.createElement("span");
+  				    screenReaderTitle.className = 'sr-only';
+  				    screenReaderTitle.textContent = 'Plan: ' + element.title + ', Thema: ' + element.getAttribute('data-theme') + ', Budget: € ' + element.getAttribute('data-budget');
+  				    
+  				    linkToIdea.appendChild(screenReaderTitle);
 
   				    previewImages.appendChild(linkToIdea);
             }
@@ -1481,6 +1495,20 @@ if (votingContainer !== null) {
 		  displayIdeaOnHash();
     }, 1)
   });
+  
+  
+  $(document).on('click', 'a.idea-preview', function (e) {
+  	var editMode = $(this).closest('#current-budget-preview').hasClass('editMode');
+  	
+  	if (editMode) {
+  		e.preventDefault();
+  		$(this).find('.idea-image-mask').trigger('click');
+  		
+  		$(this).closest('#current-budget-preview').find('a.idea-preview:first').focus();
+  		
+  		return false;
+		}
+	})
 
   function displayIdeaOnHash () {
 
@@ -1742,16 +1770,30 @@ if (votingContainer !== null) {
   updateBudgetDisplay();
 
   // @todo: create a screen reader alert for count and budgeting-per-theme voting types
-  function addCurrentBudgetScreenReaderAlert (initialAvailableBudget, availableBudgetAmount) {
+  function addCurrentBudgetScreenReaderAlert (initialAvailableBudget, availableBudgetAmount, productAdded) {
 
   	if (votingType != 'budgeting') {
   		return;
 		}
+  	
+  	if (typeof productAdded === 'undefined') {
+  		productAdded = true;
+		} else {
+  		productAdded = !!productAdded;
+		}
 
+  	// Todo: Refactor this into using constants and a user-changeable text
+  	var planMessage = 'Plan toegevoegd aan winkelmand.';
+  	
+  	if (!productAdded) {
+			planMessage = 'Plan verwijderd uit winkelmand.';
+		}
+  
 		var div = document.createElement('div');
 		div.setAttribute('role', 'alert');
 		div.className = 'sr-only';
-		div.innerHTML = 'Plan toegevoegd aan winkelmand. Uw gekozen budget bedraagt: ' + formatEuros(initialAvailableBudget - availableBudgetAmount) + ' U heeft nog over: ' + formatEuros(availableBudgetAmount);
+		
+		div.innerHTML = planMessage +' Uw gekozen budget bedraagt: ' + formatEuros(initialAvailableBudget - availableBudgetAmount) + ' U heeft nog over: ' + formatEuros(availableBudgetAmount);
 		document.body.appendChild(div);
 
 	}

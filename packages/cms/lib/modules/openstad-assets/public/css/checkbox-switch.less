@@ -4,7 +4,8 @@
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
 }
 .onoffswitch-checkbox {
-    display: none;
+    opacity: 0;
+    position: absolute;
 }
 .onoffswitch-label {
     display: block;
@@ -54,4 +55,12 @@
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px;
     background-color: #FFFFFF;
+}
+
+.onoffswitch-checkbox:focus + .onoffswitch-label {
+    outline: 3px solid @amsterdam-navyblue;
+}
+
+.onoffswitch-checkbox:checked:focus + .onoffswitch-label {
+    outline: 3px solid @amsterdam-skyblue;
 }
