@@ -51,7 +51,7 @@ services:
 
 addons:
   snaps:
-    – name: yq
+    - name: yq
       confinement: classic
       channel: v3/stable
 
