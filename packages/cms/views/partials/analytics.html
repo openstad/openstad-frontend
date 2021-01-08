@@ -29,6 +29,7 @@
 {# --- Custom code --- #}
 {% if data.global.analyticsType == 'custom' %}
 {% if data.cookieConsent %}
-{{data.global.analyticsCodeBlock}}
+{{data.global.analyticsCodeBlock | safe}}
 {% endif %}
 {% endif %}
+

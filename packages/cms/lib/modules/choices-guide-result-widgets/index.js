@@ -26,6 +26,13 @@ module.exports = {
 			required: true,
 		},
 		{
+			name: 'startWithAllQuestionsAnswered',
+      type: 'boolean',
+			label: 'Begin met alle vragen beantwoord op 50%',
+			required: true,
+      def: false,
+		},
+		{
 			type: 'select',
 			name: 'choicesType',
 			label: 'Weergave van de voorkeuren',
@@ -33,6 +40,12 @@ module.exports = {
 				{
 					label: 'Standaard',
 					value: 'default',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
+				},
+				{
+					label: 'Van min naar plus 100',
+					value: 'minus-to-plus-100',
+          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 				},
 				{
 					label: 'Van min naar plus 100',
@@ -41,7 +54,8 @@ module.exports = {
 				},
 				{
 					label: 'In een vlak',
-					value: 'plane'
+					value: 'plane',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 				}
 			]
 		},
@@ -72,6 +86,23 @@ module.exports = {
       label:    'Titel boven de keuzes, nog geen voorkeur',
       help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
       def:      'Je hebt nog geen keuze gemaakt',
+    },
+    {
+      type:     'string',
+      name:     'choicesMinLabel',
+      label:    'Tekst links bij de balken',
+    },
+    {
+      type:     'string',
+      name:     'choicesMaxLabel',
+      label:    'Tekst rechts bij de balken',
+    },
+    {
+      type: 'boolean',
+      name:     'choicesWithPercentage',
+      label:    'Toon percentage achter de balk',
+      def:      false,
+      
     },
 		{
 			type: 'select',
@@ -248,7 +279,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesNoPreferenceYetTitle', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
+        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesNoPreferenceYetTitle', 'choicesMinLabel', 'choicesMaxLabel', 'choicesWithPercentage', 'startWithAllQuestionsAnswered', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
       },
       {
         name: 'form',
@@ -291,6 +322,10 @@ module.exports = {
               noPreferenceYet: widget.choicesNoPreferenceYetTitle,
             },
             barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
+            startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
+            minLabel: widget.choicesMinLabel,
+            maxLabel: widget.choicesMaxLabel,
+            withPercentage: widget.choicesWithPercentage,
           },
           moreInfoUrl: widget.moreInfoUrl,
           moreInfoLabel: widget.moreInfoLabel,
