@@ -69,6 +69,11 @@ module.exports = function( db, sequelize, DataTypes ) {
       allowNull: false
     },
 
+    dimensions: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+
     values: {
       type: DataTypes.TEXT,
       allowNull: false,
