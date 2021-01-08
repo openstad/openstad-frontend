@@ -244,13 +244,9 @@ module.exports = {
           res.end(JSON.stringify({
             id: response.id
           }));
-          //res.redirect(req.header('Referer') || '/');
        })
        .catch(function (err) {
          res.status(500).json(JSON.stringify(err));
-
-        //req.flash('error', { msg: 'Status niet aangepast!'});
-         //return res.redirect(req.header('Referer') || '/');
        });
 
 
@@ -263,8 +259,6 @@ module.exports = {
            json: true // Automatically parses the JSON string in the response
        })
        .then(function (response) {
-        //  req.flash('success', { msg: 'Verwijderd!'});
-        //  res.redirect('/');
           res.setHeader('Content-Type', 'application/json');
 
           res.end(JSON.stringify({

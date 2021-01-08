@@ -49,6 +49,7 @@ module.exports = {
         req.data.csrf = self.apos.settings.getOption(req, 'csrf');
         req.data.apiUrl = self.apos.settings.getOption(req, 'apiUrl');
         req.data.appUrl = self.apos.settings.getOption(req, 'appUrl');
+        req.data.cmsUrl = self.apos.settings.getOption(req, 'siteUrl');
         req.data.googleMapsApiKey =  self.apos.settings.getOption(req, 'googleMapsApiKey');
         next();
       });

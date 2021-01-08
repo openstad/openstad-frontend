@@ -7,16 +7,21 @@
  * Status: just created, some usability issue with bad captcha's looking at creating a refresh option before releasing it live
  */
 const svgCaptcha = require('svg-captcha');
+//ignore certain characters to keep the captcha readable
 const ignoreCaptchaChars = '0o1ilg9';
 
-
 module.exports = {
+  extend: 'openstad-widgets',
   name: 'openstad-captcha',
   construct(self, options) {
+    const superPushAssets = self.pushAssets;
 
-    self.pushAsset('script', 'main', { when: 'always' });
+    self.pushAssets = function () {
+     superPushAssets();
+     self.pushAsset('script', 'main', { when: 'always' });
+    };
 
-    self.apos.app.get('/captcha', () => {
+    self.route('get', 'captcha', (req, res) => {
       // fetch the captcha from the session so it doesn't change every request and will be impossible to Validate
       // problem might be that a captcha is hard to decifer and the user can't refresh for a new one
 
@@ -34,7 +39,7 @@ module.exports = {
 
 
       res.type('svg');
-      res.status(200).send(captcha.data);
+      res.status(200).send(req.data.captcha.data);
     })
   }
 };
