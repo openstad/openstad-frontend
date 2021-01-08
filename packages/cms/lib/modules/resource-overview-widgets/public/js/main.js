@@ -53,6 +53,16 @@ $(document).ready(function () {
 		showVoteCreator();
 		selectIdea(window.ideaId, true);
 	}
+	
+	if ($('#ideaList li').length) {
+		// Make sure the gridder-mouse-over is visible when tabbing through the buttons
+		$('li.gridder-list .gridder-mouse-over a').on('focus', function () {
+			$(this).closest('.gridder-mouse-over').addClass('hovered');
+		});
+		$('li.gridder-list .gridder-mouse-over a').on('blur', function () {
+			$(this).closest('.gridder-mouse-over').removeClass('hovered');
+		})
+	}
 });
 
 $(document).on('openstadAjaxRefresh', function () {

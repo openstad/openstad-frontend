@@ -48,7 +48,7 @@ module.exports = [
     {
         name: 'newsletter',
         label: 'Newsletter',
-      fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel']
+      fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel', 'captchaRefreshText']
     },
     {
         name: 'vimeo',

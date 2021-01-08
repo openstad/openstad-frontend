@@ -1,3 +1,24 @@
+// De CSS below must be moved to a general stylesheet
+
+a:focus, .arguments-cta-box .btn-primary:focus, #formulier-block .btn-primary:focus{
+  text-decoration: none;
+  background-color: rgba(18, 184, 134, 0.6);
+  outline: 2px solid white;
+}
+
+.filled-button, .outlined-button, .next-button, .btn-primary{
+
+  &:focus{
+    outline: none;
+    box-shadow: 0 0 0 2pt white;
+    border: 2px solid rgba(18, 184, 134, 0.6);
+    color: #fff;
+  }
+
+}
+
+// De CSS above must be moved to a general stylesheet
+
 #navbar {
     box-sizing: border-box;
     color: #434343;
@@ -23,7 +44,7 @@
 #mainMenu a.account {
     box-sizing: border-box;
     float: left;
-    margin-top: 16px;
+    margin-top: 8px;
     position: relative;
     text-decoration: none;
     margin-left: 15px;
@@ -48,24 +69,21 @@
     float: left;
     height: 46px;
     list-style: none;
-    padding: 18px 0 0;
+    padding: 10px 0 0;
     text-align: center;
 }
 
 #mainMenu ul li+li {
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 #mainMenu a {
-    color: inherit;
     display: inline-block;
     text-decoration: none;
-    padding: 0;
     color: #323232;
-    text-decoration: none;
     font-size: 18px;
-    padding-bottom: 2px;
     font-weight: 500;
+    padding: 8px 5px;
 
     &.active, &:hover {
       border-bottom: 2px solid #EC0000;
@@ -75,6 +93,12 @@
     &:hover {
       color: #EC0000;
     }
+
+  &:focus{
+    background-color: rgba(18, 184, 134, 0.6);
+    outline: 1px solid white;
+    border-bottom: 0;
+  }
 
 }
 
@@ -95,7 +119,7 @@
   }
 
   @phone {
-    margin-bottom: : 3px;
+    margin-bottom: 3px;
   }
 }
 
