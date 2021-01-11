@@ -5,6 +5,8 @@
 * Fix fallback authClientId
 * Use correct env variable for default client_id and client_secret values
 
+## v0.11.0 (2020-11-09)
+* Release user listableByRole
 
 ## v0.10.0 (2020-12-09)
 * Open /stats/site/:SITE_ID/vote/total for everybody
@@ -14,7 +16,6 @@
 
 ## v0.9.1 (2020-12-9)
 * Add idea votes to user me call
-
 
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security
