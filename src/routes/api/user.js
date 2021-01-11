@@ -140,7 +140,7 @@ router.route('/:userId(\\d+)')
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
     let data = {}
 
-	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'viewableByRole'];
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'listableByRole', 'detailsViewableByRole'];
 	  keys.forEach((key) => {
 		  if (req.body[key]) {
 			  data[key] = req.body[key];

@@ -72,25 +72,35 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       this.setDataValue('extraData', value);
     },
     auth: {
+      viewableBy: 'editor',
       authorizeData: function(data, action, user, self, site) {
         if (!site) return; // todo: die kun je ophalen als eea. async is
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
         let result = {};
 
+        let userId = self.userId;
+        if (self.toString().match('SequelizeInstance:user')) { // TODO: find a better check
+          userId = self.id
+        }
+
         if (data) {
           Object.keys(data).forEach((key) => {
 
             let testRole = site.config && site.config[siteConfigKey] && site.config[siteConfigKey].extraData && site.config[siteConfigKey].extraData[key] && site.config[siteConfigKey].extraData[key].auth && site.config[siteConfigKey].extraData[key].auth[action+'ableBy'];
-            testRole = testRole || ( self.auth && self.auth[action+'ableBy'] );
+            testRole = testRole || self.rawAttributes.extraData.auth[action+'ableBy'];
+            testRole = testRole || ( self.auth && self.auth[action+'ableBy'] ) || [];
+            if (!Array.isArray(testRole)) testRole = [testRole];
 
-            if (Array.isArray(testRole) ? testRole.includes('detailsViewableByRole') : testRole == 'detailsViewableByRole') {
+            if (testRole.includes('detailsViewableByRole')) {
               if (self.detailsViewableByRole) {
-                testRole = self.detailsViewableByRole;
+                testRole = [ self.detailsViewableByRole, 'owner' ];
               }
             }
-            
-            if (userHasRole(user, testRole, self.userId)) {
+
+            // console.log(key, testRole, userId);
+
+            if (userHasRole(user, testRole, userId)) {
               result[key] = data[key];
             }
           });

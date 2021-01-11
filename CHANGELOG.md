@@ -9,7 +9,6 @@
 ## v0.9.1 (2020-12-9)
 * Add idea votes to user me call
 
-
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security
 * Fix site reset config
