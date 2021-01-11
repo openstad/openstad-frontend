@@ -1,5 +1,5 @@
 <div class="resource-overview-container">
   {% for activeResource in data.widget.activeResources %}
-  {{data.widget.renderString(data, activeResource) | safe}}
+  {{data.widget.renderString(data.widget.rawInput, data, activeResource) | sanitize | safe}}
   {% endfor %}
 </div>

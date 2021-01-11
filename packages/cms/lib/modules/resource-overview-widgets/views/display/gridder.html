@@ -115,7 +115,11 @@
       {% endif %}
     </div>
     <div class="info">
-    	<h3 class="title">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+      {% if data.widget.useTemplateTitle %}
+      {{data.widget.renderString(data.widget.templateTitle, data, activeResource) | sanitize | safe}}
+      {% else %}
+      <h3 class="title">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
+      {% endif %}
     </div>
 
     <div style="display:none">
@@ -194,6 +198,9 @@
 
     </div>
     <div class="content">
+      {% if data.widget.useContentTemplate %}
+      {{data.widget.renderString(data.widget.templateContent, data, activeResource) | sanitize | safe}}
+      {% else %}
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
 
       {% if data.widget.displaySummary and idea.summary %}
@@ -239,6 +246,8 @@
       {% endif %}
 
     </div>
+    {% endif %}
+
   </div>
 </div>
 {% endfor %}

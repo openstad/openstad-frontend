@@ -8,7 +8,7 @@ module.exports = {
   get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
     const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
-    console.log('site.prefix', siteData.firstPath, siteUrl)
+    console.log('site.prefix 222', siteData.firstPath, siteUrl)
 
     const siteConfig = {
       shortName: shortName,

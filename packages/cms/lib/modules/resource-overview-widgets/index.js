@@ -26,6 +26,7 @@ module.exports = {
   addFields: fields,
   playerData: false,
   construct: function(self, options) {
+    console.log('options', options)
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
         name: 'general',

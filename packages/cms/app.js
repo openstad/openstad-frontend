@@ -50,7 +50,7 @@ app.set('trust proxy', true);
 function fetchAllSites(req, res, startSites) {
   const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
 
-  console.log('Fetch all sites')
+  console.log('Fetch all sites for real')
 
   if (!process.env.SITE_API_KEY) {
     console.log('Site api key is not set!');
@@ -93,6 +93,7 @@ function fetchAllSites(req, res, startSites) {
 function serveSite(req, res, siteConfig, forceRestart) {
   const runner = Promise.promisify(run);
   let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+	console.log('aaaa');
 
   // check if the mongodb database exist. The name for databse
   return dbExists(dbName).then((exists) => {
@@ -238,6 +239,9 @@ module.exports.getMultiSiteApp = (options) => {
    */
   app.use('/:firstPath', function(req, res, next) {
      const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
+
+     console.log('domainAndPath', domainAndPath);
+
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain

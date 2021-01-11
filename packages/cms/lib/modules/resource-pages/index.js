@@ -52,7 +52,7 @@ module.exports = {
       const activeResourceEndpoint = resourceInfo && resourceInfo.resourceEndPoint ? resourceInfo.resourceEndPoint : false;
 
       var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.activeResourceHash}`,
+              uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.activeResourceHash}`,
           headers: headers,
           json: true // Automatically parses the JSON string in the response
       };
@@ -141,6 +141,7 @@ module.exports = {
        console.log('resourcesSchema', resourcesSchema)
        console.log('req.data.activeResourceType', req.data.activeResourceType)
        console.log('resourceInfo', resourceInfo)
+
        req.data.activeResourceEndpoint = resourceInfo.resourceEndPoint;
 
        self.fetchResourceData(req, callback);

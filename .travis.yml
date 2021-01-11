@@ -4,7 +4,8 @@ node_js:
   - 13
 os: linux
 
-# easy way to get your local config: cat ${HOME}/.kube/config | base64 | pbcopy
+# easy way to get your loca
+#l config: cat ${HOME}/.kube/config | base64 | pbcopy
 env:
   global:
     # Docker variables

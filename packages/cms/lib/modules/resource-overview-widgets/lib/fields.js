@@ -570,6 +570,31 @@ module.exports = [
     name: 'siteId',
     label: 'Site ID',
   },
+  {
+    type: 'boolean',
+    name: 'useTitleTemplate',
+    label: 'Use a template for content display, instead of default fields?',
+    showFields: ['templateTitle']
+  },
+  {
+    type: 'string',
+    name: 'templateTitle',
+    label: 'Template for title',
+    textarea: true
+  },
+
+  {
+    type: 'boolean',
+    name: 'useContentTemplate',
+    label: 'Use a template for content display, instead of default fields?',
+    showFields: ['templateContent']
+  },
+  {
+    type: 'string',
+    name: 'templateContent',
+    label: 'Template for content',
+    textarea: true
+  },
 
 ].concat(
   ideaStates.map((state) => {

@@ -408,5 +408,19 @@
 	"Save Recource raw widget": "Save Recource raw widget",
 	"Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)": "Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)",
 	"Edit Recource raw widget": "Edit Recource raw widget",
-	"Modified fields: %s": "Modified fields: %s"
+	"Modified fields: %s": "Modified fields: %s",
+	"Please enter the words you see into the field below ": "Please enter the words you see into the field below ",
+	"Save Title": "Save Title",
+	"Title ": "Title ",
+	"Select appearance modus for title": "Select appearance modus for title",
+	"Heading 1": "Heading 1",
+	"Heading 2": "Heading 2",
+	"Heading 3": "Heading 3",
+	"Heading 4": "Heading 4",
+	"Select HTML styling class": "Select HTML styling class",
+	"Heavy bold": "Heavy bold",
+	"Set Custom classname": "Set Custom classname",
+	"Save Accordeon": "Save Accordeon",
+	"Items": "Items",
+	"Html class for the main container": "Html class for the main container"
 }
