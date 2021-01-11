@@ -9,6 +9,21 @@ const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
 const fetch = require('node-fetch');
 
+const formatOAuthApiCredentials = (site, which = 'default') => {
+  let siteOauthConfig = ( site && site.config && site.config.oauth && site.config.oauth[which] ) || {};
+  let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+  let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+
+  return {
+   client_id: authClientId,
+   client_secret: authClientSecret,
+  }
+}
+
+const formatOAuthApiUrl = (site, which = 'default') => {
+  let siteOauthConfig = ( site && site.config && site.config.oauth && site.config.oauth[which] ) || {};
+  return siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+}
 
 const router = express.Router({ mergeParams: true });
 
@@ -98,9 +113,60 @@ router.route('/')
     return next();
   })
   .post(function(req, res, next) {
+    // Look for an Openstad user with this e-mail
+    if (!req.body.email) return next(createError(401, 'E-mail is a required field'));
+
+    const authServerUrl = formatOAuthApiUrl(req.site, 'default');
+    const apiCredentials = formatOAuthApiCredentials(req.site, 'default');
+
+    const result = await fetch(`${authServerUrl}/api/admin/user?email=${req.body.email}`, {
+      method: 'GET',
+      headers: {
+       'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      body: JSON.stringify(apiCredentials)
+    })
+    //catch error and send to express
+    .catch(next);
+
+    if (result && result.length > 0) {
+      req.oAuthUser = result[0];
+      next();
+    } else {
+      next();
+    }
+  })
+  .post(function(req, res, next) {
+    // in case no oauth user is found with this e-mail create it
+    if (!req.oAuthUser) {
+      const authServerUrl = formatOAuthApiUrl(req.site, 'default');
+      const apiCredentials = formatOAuthApiCredentials(req.site, 'default');
+      const apiOptions = formatOAuthApiCredentials(apiCredentials, req.body);
+
+      const result = await fetch(`${authServerUrl}/api/admin/user`, {
+        method: 'POST',
+        headers: {
+         'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        body: JSON.stringify(Object.assign(
+          apiCredentials,
+        ))
+      })
+      //catch error and send to express
+      .catch(next);
+
+      req.oAuthUser = result[0];
+    }
+  })
+  .post(function(req, res, next) {
 
     const data = {
       ...req.body,
+      siteId: req.site.id,
+      role: req.body.role ? req.body.role : 'member',
+      externalUserId: req.oAuthUser.id
     };
 
     db.User
