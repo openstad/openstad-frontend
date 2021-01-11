@@ -72,7 +72,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       this.setDataValue('extraData', value);
     },
     auth: {
-      viewableBy: 'editor',
+      viewableBy: 'all',
       authorizeData: function(data, action, user, self, site) {
         if (!site) return; // todo: die kun je ophalen als eea. async is
         data = data || self.extraData;
