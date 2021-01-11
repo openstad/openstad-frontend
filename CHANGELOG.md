@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.11.0 (2020-11-09)
+* Release user listableByRole
+
 ## v0.10.0 (2020-12-09)
 * Open /stats/site/:SITE_ID/vote/total for everybody
 * Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
