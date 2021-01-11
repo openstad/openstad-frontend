@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.11.0 (2020-01-11)
+* Make the (Google) Analytics block configurable to provide for a new version and also other options
+* Add html class name to resource overview
+* Clear cached session openstad user when making api call or logging out
+
 ## v0.10.1 (2020-12-09)
 * Cache openstad user longer when logged in to cms
 

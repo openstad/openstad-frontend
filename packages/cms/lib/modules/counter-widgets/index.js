@@ -91,10 +91,6 @@ module.exports = {
             widget.isCountPublic = true;
           }
 
-          console.log('--------------------');
-          console.log(siteConfig.votes.isViewable);
-          console.log('--------------------');
-
           if (widget.containerStyles) {
             const containerId = widget._id;
             widget.containerId = containerId;
