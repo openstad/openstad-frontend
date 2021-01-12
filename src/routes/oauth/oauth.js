@@ -97,10 +97,11 @@ router
 			.then(
 				response => {
 					if (response.ok) return response.json()
-					throw createError('Login niet gelukt');
+					throw createError('Login niet gelukt', response);
 				},
 				error => {
 					console.log('ERR', error);
+					throw createError('Login niet gelukt');
 				}
 			)
 			.then(
