@@ -3,13 +3,12 @@ const nodemailer = require('nodemailer');
 const Promise    = require('bluebird');
 const merge = require('merge');
 const htmlToText   = require('html-to-text');
+const siteConfig = require('./siteConfig');
+const mailTransporter = require('./mailTransporter');
 
 const debug      = require('debug');
 const log        = debug('app:mail:sent');
 const logError   = debug('app:mail:error');
-
-const method     = config.get('mail.method');
-const transport  = config.get('mail.transport');
 
 // nunjucks is used when sending emails
 var nunjucks = require('nunjucks');
@@ -31,18 +30,6 @@ env.addGlobal('GLOBALS', config.get('express.rendering.globals'));
 
 env.addGlobal('config', config)
 
-let transporter;
-switch ( method ) {
-  case 'smtp':
-    transporter = nodemailer.createTransport(transport.smtp);
-    break;
-  case 'sendgrid':
-    var sendGrid = require('nodemailer-sendgrid-transport');
-    var sgConfig = sendGrid(transport.sendgrid);
-    transporter  = nodemailer.createTransport(sgConfig);
-    break;
-}
-
 // Default options for a single email.
 let defaultSendMailOptions = {
   from: config.get('mail.from'),
@@ -63,7 +50,7 @@ function sendMail( options ) {
     });
   }
 
-  transporter.sendMail(
+  mailTransporter.getTransporter().sendMail(
     merge(defaultSendMailOptions, options),
     function( error, info ) {
       if ( error ) {
@@ -76,7 +63,9 @@ function sendMail( options ) {
 }
 
 function sendNotificationMail( data ) {
-	// console.log(JSON.stringify(data, null, 2));
+  //site is not present so will fallback to defaults
+  //Email also has a fallback if all is empty
+  data.logo = siteConfig.getLogo();
 
 	let html;
 	if (data.template) {
@@ -91,39 +80,57 @@ function sendNotificationMail( data ) {
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : ['logo.png']
+		attachments : siteConfig.getDefaultEmailAttachments()
 	});
 };
 
 // send email to user that submitted an idea
-function sendThankYouMail( idea, user, site ) {
-
-  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
-  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
-  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
-  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
-  if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
-
-	let inzendingPath = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.inzendingPath && site.config.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, idea.id) ) || "/" ;
-	let inzendingURL = url + inzendingPath;
-
+function sendThankYouMail (resource, resourceType, user) {
+  
+  if (!resourceType) return console.error('sendThankYouMail error: resourceType not provided');
+  
+  const url         = siteConfig.getCmsUrl();
+  const hostname    = siteConfig.getCmsHostname();
+  const sitename    = siteConfig.getTitle();
+  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
+  if (fromAddress.match(/^.+<(.+)>$/, '$1')) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
+  
+  const inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
+  const inzendingURL  = url + inzendingPath;
+  const logo =  siteConfig.getLogo();
+  
   let data    = {
     date: new Date(),
     user: user,
-    idea: idea,
+    idea: resource,
+    article: resource,
     HOSTNAME: hostname,
     SITENAME: sitename,
 		inzendingURL,
     URL: url,
-    EMAIL: fromAddress
+    EMAIL: fromAddress,
+    logo: logo
   };
 
 	let html;
-	let template = site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.template;
+	let template = siteConfig.getResourceFeedbackEmailTemplate(resourceType);
+	
 	if (template) {
-		html = nunjucks.renderString(template, data);
+    /**
+     * This is for legacy reasons
+     * if contains <html> we assume it doesn't need a layout wrapper then render as a string
+     * if not included then include by rendering the string and then rendering a blanco
+     * the layout by calling the blanco template
+     */
+    if (template.includes("<html>")) {
+      html  = nunjucks.renderString(template, data)
+    } else {
+      html = nunjucks.render('blanco.njk', Object.assign(data, {
+        message: nunjucks.renderString(template, data)
+      }));
+    }
 	} else {
-		html = nunjucks.render('idea_created.njk', data);
+		html = nunjucks.render(`${resourceType}_created.njk`, data);
 	}
 
   let text = htmlToText.fromString(html, {
@@ -132,20 +139,21 @@ function sendThankYouMail( idea, user, site ) {
     uppercaseHeadings: false
   });
 
-  let attachments = ( site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
-
+  let attachments = siteConfig.getResourceFeedbackEmailAttachments(resourceType) || siteConfig.getDefaultEmailAttachments();
+  
+  try {
   sendMail({
-    to: user.email,
+    // in some cases the resource, like order or account has a different email from the submitted user, default to resource, otherwise send to owner of resource
+    to: resource.email ?  resource.email : user.email,
     from: fromAddress,
-    subject: (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je inzending',
+    subject: siteConfig.getResourceFeedbackEmailSubject(resourceType) || 'Bedankt voor je inzending',
     html: html,
     text: text,
     attachments,
   });
+  } catch(err) {
+    console.log(err);
+  }
 
 }
 
@@ -237,18 +245,18 @@ function sendSubmissionAdminMail( submission, emailSubject, submittedData, site 
 }
 
 // send email to user that submitted an idea
-function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
+function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 
-  let url = ( site && site.config.cms && site.config.cms.url ) || ( config && config.url );
-  let hostname = ( site && site.config.cms && site.config.cms.hostname ) || ( config && config.hostname );
-  let sitename = ( site && site.title ) || ( config && config.get('siteName') );
-  let fromAddress = (site && site.config && site.config.ideas && site.config.ideas.feedbackEmail && site.config.ideas.feedbackEmail.from) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.from ) || config.email;
+  const url         = siteConfig.getCmsUrl();
+  const hostname    = siteConfig.getCmsHostname();
+  const sitename    = siteConfig.getTitle();
+  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
   if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
-	let confirmationUrl = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.url;
-	confirmationUrl = confirmationUrl.replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+	const confirmationUrl = siteConfig.getNewsletterSignupConfirmationEmailUrl().replace(/\[\[token\]\]/, newslettersignup.confirmToken)
+  const logo = siteConfig.getLogo();
 
-  let data    = {
+  const data    = {
     date: new Date(),
     user: user,
     HOSTNAME: hostname,
@@ -256,32 +264,29 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user, site ) {
 		confirmationUrl,
     URL: url,
     EMAIL: fromAddress,
+    logo: logo
   };
 
 	let html;
-	let template = site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.template;
+	let template = siteConfig.getNewsletterSignupConfirmationEmailTemplate();
 	if (template) {
 		html = nunjucks.renderString(template, data);
 	} else {
 		html = nunjucks.render('confirm_newsletter_signup.njk', data);
 	}
 
-  let text = htmlToText.fromString(html, {
+  const text = htmlToText.fromString(html, {
     ignoreImage: true,
     hideLinkHrefIfSameAsText: true,
     uppercaseHeadings: false
   });
 
-  let attachments = ( site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.attachments ) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.attachments )  || [{
-		filename : 'logo.png',
-		path     : 'email/img/logo.png',
-		cid      : 'logo'
-  }];
+  const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments();
 
   sendMail({
     to: newslettersignup.email,
     from: fromAddress,
-    subject: (site && site.config && site.config.newslettersignup && site.config.newslettersignup.confirmationEmail && site.config.newslettersignup.confirmationEmail.subject) || ( config.ideas && config.ideas.feedbackEmail && config.ideas.feedbackEmail.subject ) || 'Bedankt voor je aanmelding',
+    subject: siteConfig.getNewsletterSignupConfirmationEmailSubject() || 'Bedankt voor je aanmelding',
     html: html,
     text: text,
     attachments,
@@ -297,4 +302,3 @@ module.exports = {
     sendSubmissionConfirmationMail,
     sendSubmissionAdminMail
 };
-

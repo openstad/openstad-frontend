@@ -16,12 +16,13 @@ Notifications.addToQueue = function(data) {
 	
 	self.queue[data.type][data.siteId].push(data);
 
+
 }
 
 Notifications.processQueue = function(type) {
 
 	let self = this;
-
+  
 	if (self.queue[type]) {
 
 		Object.keys(self.queue[type]).forEach((siteId) => {
@@ -36,6 +37,12 @@ Notifications.processQueue = function(type) {
 					case 'idea':
 						self.queue[type][siteId].forEach((entry) => {
 							self.sendMessage(siteId, 'idea', entry.action, [entry] );
+						});
+						break;
+
+					case 'article':
+						self.queue[type][siteId].forEach((entry) => {
+							self.sendMessage(siteId, 'article', entry.action, [entry] );
 						});
 						break;
 						
@@ -62,6 +69,7 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 	db.Site.findByPk(siteId)
 		.then(site => {
 
+      
 			let myConfig = Object.assign({}, config, site && site.config);
 
 			let maildata = {};
@@ -83,7 +91,7 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 			let instanceIds = data.map( entry => entry.instanceId );
 			let model = type.charAt(0).toUpperCase() + type.slice(1);
 
-			let scope = type == 'idea' ? ['withUser'] : ['withUser', 'withIdea'];
+			let scope = type == 'idea' || type == 'article' ? ['withUser'] : ['withUser', 'withIdea'];
 			db[model].scope(scope).findAll({ where: { id: instanceIds }})
 				.then( found => {
 					maildata.data = {};
@@ -91,6 +99,10 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 						let json = entry.toJSON();
 						if ( type == 'idea' ) {
 							let inzendingPath = ( myConfig.ideas && myConfig.ideas.feedbackEmail && myConfig.ideas.feedbackEmail.inzendingPath && myConfig.ideas.feedbackEmail.inzendingPath.replace(/\[\[ideaId\]\]/, entry.id) ) || "/";
+							json.inzendingURL = maildata.URL + inzendingPath;
+						}
+						if ( type == 'article' ) {
+							let inzendingPath = ( myConfig.articles && myConfig.articles.feedbackEmail && myConfig.articles.feedbackEmail.inzendingPath && myConfig.articles.feedbackEmail.inzendingPath.replace(/\[\[articleId\]\]/, entry.id) ) || "/";
 							json.inzendingURL = maildata.URL + inzendingPath;
 						}
 						return json;

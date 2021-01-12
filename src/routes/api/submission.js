@@ -1,30 +1,30 @@
 const Promise = require('bluebird');
 const express = require('express');
 const db      = require('../../db');
-const auth    = require('../../auth');
 const mail = require('../../lib/mail');
 const moment = require('moment-timezone');
+const auth = require('../../middleware/sequelize-authorization-middleware');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
 let router = express.Router({mergeParams: true});
 
 router.route('/:formId([a-zA-Z0-9\-\_]*)')
 // list submissions
 // --------------
-	.get(auth.can('submissions:list'))
+	.get(auth.can('Submission', 'list'))
+	.get(pagination.init)
 	.get(function(req, res, next) {
 		let formId = req.params.formId.replace('/', ''),
 		where = { formId };
 		
 		req.scope = ['defaultScope'];
-	//	req.scope.push({method: ['forSiteId', req.params.siteId]});
-
 		db.Submission
 			.scope(...req.scope)
-			.findAll({ where })
-			.then( found => {
-				return found.map( entry => {
-					let data = entry.toJSON();
-					let submittedData = data.submittedData,
+			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
+			.then(function( result ) {
+        req.results = result.rows.map( entry => {
+					let submittedData = entry.submittedData,
 						orderedData = {};
 					
 					// When we get the submittedData back from MySQL, the keys are in the wrong order.
@@ -45,22 +45,27 @@ router.route('/:formId([a-zA-Z0-9\-\_]*)')
 						orderedData[newKey.length > 1 ? newKey[1] : newKey[0]] = submittedData[key];
 					});
 					
-					data.submittedData = orderedData;
-					data.createdAt = moment(data.createdAt).format('LLL');
-					return data;
+					entry.submittedData = orderedData;
+					entry.createdAt = moment(entry.createdAt).format('LLL');
+					return entry;
 				});
-			})
-			.then(function( found ) {
-				res.json(found);
+        req.dbQuery.count = result.count;
+        return next();
 			})
 			.catch(next);
-	});
+	})
+	.get(auth.useReqUser)
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+		res.json(req.results);
+  })
 
-router.route('/')
-
+	router.route('/')
+	
 // create submission
 // ---------------
-  .post(auth.can('submissions:create'))
+  .post(auth.can('Submission', 'create'))
 	.post(function(req, res, next) {
 		let data = {
 			submittedData     : req.body.submittedData,
@@ -70,14 +75,15 @@ router.route('/')
 		};
 		
 		db.Submission
+			.authorizeData(data, 'create', req.user)
 			.create(data)
 			.then(result => {
 				res.json(result);
 				
 				if(req.body.sendMail === '1') {
-                	mail.sendSubmissionConfirmationMail(result, req.body.formId, req.body.emailSubject, req.body.submittedData,req.site);
-                	mail.sendSubmissionAdminMail(result, req.body.emailSubjectAdmin, req.body.submittedData, req.site);
-                }
+					mail.sendSubmissionConfirmationMail(result, req.body.formId, req.body.emailSubject, req.body.submittedData,req.site);
+					mail.sendSubmissionAdminMail(result, req.body.emailSubjectAdmin, req.body.submittedData, req.site);
+				}
 			})
 	})
 
@@ -92,31 +98,33 @@ router.route('/')
 
 		//	let where = { siteId }
 
-
 			db.Submission
 				.scope(...req.scope)
 		//		.find({ where })
         .find()
 				.then(found => {
 					if ( !found ) throw new Error('Submission not found');
-					req.submission = found;
+					req.results = found;
 					next();
 				})
 				.catch(next);
 		})
 
-	// view submission
-	// -------------
-		.get(auth.can('submissions:view'))
-		.get(function(req, res, next) {
-			res.json(req.submission);
-		})
+// view submission
+// -------------
+	.get(auth.can('Submission', 'view'))
+	.get(auth.useReqUser)
+	.get(function(req, res, next) {
+		res.json(req.results);
+	})
 
 	// update submission
 	// ---------------
-		.put(auth.can('submissions:edit'))
+	.put(auth.useReqUser)
 		.put(function(req, res, next) {
-			req.submission
+		  var submission = req.results;
+      if (!( submission && submission.can && submission.can('update') )) return next( new Error('You cannot update this submission') );
+		  submission
 				.update(req.body)
 				.then(result => {
 					res.json(result);
@@ -124,16 +132,16 @@ router.route('/')
 				.catch(next);
 		})
 
-	// delete submission
-	// ---------------
-		.delete(auth.can('submissions:delete'))
-		.delete(function(req, res, next) {
-			req.submission
-				.destroy()
-				.then(() => {
-					res.json({ "submission": "deleted" });
-				})
-				.catch(next);
-		})
+// delete submission
+// ---------------
+	.delete(auth.can('Submission', 'delete'))
+	.delete(function(req, res, next) {
+		req.results
+			.destroy()
+			.then(() => {
+				res.json({ "submission": "deleted" });
+			})
+			.catch(next);
+	})
 
 module.exports = router;

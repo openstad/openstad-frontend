@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<?xml encoding="utf-8" ?>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{{SITENAME}}</title>
+
+		<style type="text/css">
+		 #outlook a {padding:0;}
+		 .ExternalClass {width:100%;}
+		 .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+		 table td {border-collapse: collapse; line-height: 1.5em;}
+		 table {border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+		 #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+		 p {margin-bottom: 1.5em;}
+
+		 a {
+			 color: #2b9ad6;
+			 text-deoration: none;
+		 }
+
+     h1 {
+			 font-size: 24px;
+			 font-weight: 600;
+			 margin-top: 20px;
+			 margin-bottom: 0;
+		 }
+
+     h2 {
+			 font-size: 18px;
+			 font-weight: 600;
+			 margin-top: 13px;
+			 margin-bottom: 20px;
+     }
+
+     h4 {
+       margin: 0;
+       margin-top: 20px;
+       padding: 0;
+       font-weight: 600;
+     }
+
+		 .blue {
+			 color: #164995;
+		 }
+
+		 .multipleImages {
+			 margin-top: 10px;
+		 }
+
+		 .list {
+			 margin-top: 13px;
+		 }
+
+		 .list td {
+			 padding-bottom: 15px;
+		 }
+
+		 .list .bullet {
+			 margin-top: -3px;
+			 padding-right: 15px;
+		 }
+
+		 #howDoesItWork {
+			 margin: 20px 0 20px 0;
+		 }
+
+		 .step {
+			 width: calc(25% - 21px);
+			 display: inline-block;
+			 vertical-align: top;
+			 font-size: 14px;
+			 font-weight: 600;
+			 margin-left: 0;
+			 margin-right: 17px;
+			 margin-right: 17px;
+			 padding: 0;
+			 box-sizing: border-box;
+		 }
+
+		 .step-header {
+			 padding-top: 20px;
+			 font-size: 13px;
+			 font-weight: 600;
+			 line-height: normal;
+		 }
+		</style>
+	</head>
+	<body style="margin: 0; padding: 0; min-width: 100%;">
+		<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" id="backgroundTable" style="background-color: #FFF; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; width:100%;">
+			<tr>
+				<td></td>
+				<td width="560">
+				{% include 'logo.njk' %}
+				</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td width="560">
+          {{message | safe}}
+        </td>
+				<td></td>
+      </tr>
+    </table>
+
+    <br/><br style="display:block; clear: both;"/>
+
+	</body>
+</html>

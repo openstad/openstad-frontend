@@ -2,9 +2,36 @@ const co = require('co');
 const moment = require('moment-timezone')
 const log = require('debug')('app:db');
 
+const randomString = (length) => {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+const removeProtocol = (url) => {
+  return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
+}
+
+const removeWww = (url) => {
+  return url ? url.replace('www.', '') : '';
+}
+
+
+const ensureProtocol = (url) => {
+	if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
+    	url = "https://" + url;
+	}
+	return url;
+}
+
 module.exports = co.wrap(function*( db ) {
 
-	log('Creating sites');
+	log('--> Creating sites');
+
 	yield sites.map(function( siteData ) {
 		return db.Site.create(siteData);
 	});
@@ -33,16 +60,66 @@ module.exports = co.wrap(function*( db ) {
 
 var today = moment().endOf('day');
 
+
+/**
+ * In development setups allow redirect to localhost
+ * @type {[type]}
+ */
+const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost'] : [];
+allowedDomains.push(removeProtocol(process.env.ADMIN_URL));
+allowedDomains.push(removeWww(removeProtocol(process.env.FRONTEND_URL)));
+
 var sites = [
-	{id: 1, name: 'site-one', title: 'OpenStad Development Site', config: {}},
+	{id: 1, name: 'site-one', domain: removeProtocol(process.env.ADMIN_URL), title: 'OpenStad Admin ', config: {
+		oauth: {
+			default: {
+				'auth-server-url': process.env.AUTH_URL,
+				'auth-client-secret':process.env.AUTH_ADMIN_CLIENT_SECRET,
+				'auth-client-id': process.env.AUTH_ADMIN_CLIENT_ID,
+				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
+			}
+		},
+		allowedDomains:allowedDomains
+	}},
+	{id: 2, name: 'site-one', domain: removeWww(removeProtocol(process.env.FRONTEND_URL)), title: 'OpenStad Default Site', config: {
+    cms: {
+        "url": ensureProtocol(process.env.FRONTEND_URL),
+        "dbName": process.env.DEFAULT_DB ? process.env.DEFAULT_DB : "default_db",
+        "hostname": removeProtocol(process.env.FRONTEND_URL)
+    },
+		oauth: {
+			default: {
+				'auth-server-url': process.env.AUTH_URL,
+				'auth-client-secret':process.env.AUTH_FIRST_CLIENT_SECRET,
+				'auth-client-id': process.env.AUTH_FIRST_CLIENT_ID,
+				'auth-internal-server-url':process.env.AUTH_INTERNAL_SERVER_URL
+			}
+		},
+    allowedDomains: allowedDomains
+	}},
 ];
 
+console.log(sites);
+console.log(sites[0].config.oauth);
+console.log(sites[1].config.oauth);
+
 var users = [
-	{id: 1, complete: false , role: 'unknown'},
-	{id: 2, complete: true, role: 'admin', email: 'admin@undefined.nl', password: '123456', firstName: 'Administrator', lastName: 'on develoment', ideas : [
+	//fixed user for SITE and Admin to get admin right
+	{
+    id: process.env.AUTH_FIXED_USER_ID ? process.env.AUTH_FIXED_USER_ID : 2,
+    siteId: 1,
+    complete: true,
+    role: 'admin',
+    email: 'admin@openstad.org',
+    password: randomString(10),
+    firstName: 'Administrator',
+    lastName: '',
+
+	//Add one dummy Idea for fun
+	ideas : [
 		{
-			id               : 1,
-			siteId           : 1,
+			id               : 2,
+			siteId           : 2,
 			startDate        : moment(today).subtract(1, 'days'),
 			title            : 'Metro naar stadsdeel West',
 			summary          : 'Een nieuwe metrobuis naar het Bos en Lommerplein om sneller thuis te zijn.',

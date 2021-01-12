@@ -2,6 +2,59 @@
 
 De API stuurt verschillende typen email.
 
+## E-mail configuratie per site
+
+Het is mogelijk om de transporter methode (SMTP of sendgrid) en de bijbehorende configuratie aan te passen per site.
+
+## Configuratie
+
+Configureren kan via de site.config
+
+### Voor SMTP:
+```
+{
+    "config": {
+        "mail": {
+            "method": "smtp",
+            "transport": {
+                "smtp": {
+                    "pool": false,
+                    "direct": false,
+                    "port": 465,
+                    "host": "SERVER.ADDRESS",
+                    "requireSSL": true,
+                    "name": "Mailgun",
+                    "auth": {
+                        "user": "EMAIL@ADDRESS",
+                        "pass": "WACHTWOORD"
+                    }
+                }            
+            }
+        }
+    }
+}
+```
+
+### Voor Sendgrid:
+
+```
+{
+    "config": {
+        "mail": {
+            "method": "sendgrid",
+            "transport": {
+                "sendgrid": {
+                    "auth": {
+                        "api_user": "SENDGRID_USERNAME",                    
+                        "api_key": "SENDGRID_PASSWORD",                    
+                    }
+                }            
+            }
+        }
+    }
+}
+```
+
 ## Feedback bij het insturen van een plan
 
 Bij het aanmaken van een nieuwe inzending krijgt de inzender een email.

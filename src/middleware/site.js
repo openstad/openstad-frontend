@@ -1,39 +1,42 @@
-const config = require('config');
 const db = require('../db');
-const createError = require('http-errors')
-const sessionUser = require('./session_user');
+const createError = require('http-errors');
+const siteConfig = require('../lib/siteConfig');
+
+const getSiteId = (path) => {
+  const match = path.match(/\/site\/(\d+)?\//);
+  if (match) {
+      return parseInt(match[1]);
+  }
+
+  return null;
+}
 
 module.exports = function( req, res, next ) {
 
-	let siteId;
+  // @todo: inverse this middleware; Only apply it on routes that need it, instead of applying this middleware to every route and then creating exceptions for routes that don't need it
+  // deze paden mogen dit overslaan
+  if (req.path.match('^(/doc|/dev|/accepteer-cookies|/api/repo|/api/area|/$)')) return next();
+  if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
 
-	// deze paden mogen dit overslaan
-	if (req.path.match('^(/doc|/dev|/accepteer-cookies|/$)')) return next();
-	if (req.path.match('^(/api/site(/[^/]*)?)$')) return next();
+  const siteId = getSiteId(req.path);
+  if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
 
-	let match = req.path.match(/\/site\/(\d+)?\//);
-	if (match) {
-		siteId = parseInt(match[1]);
-	}
-	if (!siteId || typeof siteId !== 'number') return next(new createError('400', 'Site niet gevonden'));
-	//if (!siteId || typeof siteId !== 'number') return next();
+  const where = { id: siteId }
 
-	let where = {};
-	where = { id: siteId }
-
-	db.Site
-		.findOne({ where })
-		.then(function( found ) {
-			if (!found) return next(new createError('400', 'Site niet gevonden'));
-			//if (!found) return next();
-
-			req.site = found;
-			next();
-
-		})
-		.catch( err => {
-			console.log('site not found:', siteId);
-			next(err)
-		});
-
+  return db.Site
+  	.findOne({ where })
+  	.then(function( found ) {
+      if (!found) {
+        console.log('Site not found for siteId query: ', where);
+        return next(new createError('400', 'Site niet gevonden for siteId: '+ siteId));
+      }
+      siteConfig.setFromSite(found);
+  		req.site = found;
+  		next();
+      return null;
+  	})
+  	.catch( err => {
+  		next(err)
+      return null;
+  	});
 }

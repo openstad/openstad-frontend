@@ -3,14 +3,19 @@ const express     = require('express');
 const createError = require('http-errors')
 const moment      = require('moment');
 const db          = require('../../db');
-const auth        = require('../../auth');
+const auth        = require('../../middleware/sequelize-authorization-middleware');
 const config      = require('config');
 const merge       = require('merge');
 const bruteForce = require('../../middleware/brute-force');
 const {Op} = require('sequelize');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
+const router = express.Router({mergeParams: true});
 
-let router = express.Router({mergeParams: true});
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
 
 // basis validaties
 // ----------------
@@ -44,39 +49,56 @@ router.route('*')
 	.all(function(req, res, next) {
 		if (req.method == 'GET') return next(); // nvt
 
+		let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
+
 		if (!req.user) {
 			return next(createError(401, 'Geen gebruiker gevonden'));
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || hasModeratorRights )) {
 			return next();
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'member' && ( req.user.role == 'member' || req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'member' && ( req.user.role == 'member' || hasModeratorRights )) {
 			return next();
 		}
 
-		if (req.site.config.votes.requiredUserRole == 'admin' && ( req.user.role == 'admin' )) {
+		if (req.site.config.votes.requiredUserRole == 'admin' && ( hasModeratorRights )) {
 			return next();
 		}
 
 		return next(createError(401, 'Je mag niet stemmen op deze site'));
 	})
 
+  // scopes
+	.all(function(req, res, next) {
+
+		req.scope = [
+			{ method: ['forSiteId', req.site.id]}
+    ];
+
+    return next();
+
+  })
+
 // list all votes or all votes
 // ---------------------------
 router.route('/')
 
-  // mag je de stemmen bekijken
+// mag je de stemmen bekijken
 	.get(function(req, res, next) {
-		if (!(req.site.config.votes.isViewable || req.user.role == 'admin')) {
+		let hasModeratorRights = (req.user.role === 'admin' || req.user.role === 'editor' || req.user.role === 'moderator');
+
+		if (!(req.site.config.votes.isViewable || hasModeratorRights)) {
 			return next(createError(403, 'Stemmen zijn niet zichtbaar'));
 		}
 		return next();
 	})
+	.get(pagination.init)
 	.get(function(req, res, next) {
+		let { dbQuery } = req;
 
-		let where = {};
+		let where = {...dbQuery.where};
 		let ideaId = parseInt(req.query.ideaId);
 		if (ideaId) {
 			where.ideaId = ideaId;
@@ -101,60 +123,71 @@ router.route('/')
     	};
 		}
 
+    const order = [];
+    if (req.query.sortBy) {
+      order.push([
+        req.query.sortBy,
+        req.query.orderBy || 'ASC'
+      ])
+    }
 
-		const scopes = [
-			{ method: ['forSiteId', req.site.id]}
-		];
-
-		if (req.user && req.user.role === 'admin') {
-			scopes.push('includeUser');
+		if (req.user && userhasModeratorRights(req.user)) {
+			req.scope.push('includeUser');
 		}
 
 		db.Vote
-			.scope(scopes)
-			.findAll({ where })
-			.then(function( found ) {
-				res.json(found.map(entry => {
-					let vote = {
-						id: entry.id,
-						ideaId: entry.ideaId,
-						userId: entry.userId,
-						confirmed: entry.confirmed,
-						opinion: entry.opinion
-					};
-
-					if (req.user && req.user.role === 'admin') {
-						vote.ip = entry.ip;
-						vote.createdAt = entry.createdAt;
-						vote.checked =  entry.checked;
-						vote.user = entry.user;
-					}
-
-					return vote;
-				}));
+			.scope(req.scope)
+			.findAndCountAll({ where, order, ...dbQuery })
+			.then(function( result ) {
+        req.results = result.rows;
+        req.dbQuery.count = result.count;
+        return next();
 			})
 			.catch(next);
-	});
+	})
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+    let records = req.results.records || req.results
+		records.forEach((entry, i) => {
+			let vote = {
+				id: entry.id,
+				ideaId: entry.ideaId,
+				userId: entry.userId,
+				confirmed: entry.confirmed,
+				opinion: entry.opinion,
+				createdAt: entry.createdAt
+			};
+
+			if (req.user && userhasModeratorRights(req.user)) {
+				vote.ip = entry.ip;
+				vote.createdAt = entry.createdAt;
+				vote.checked =  entry.checked;
+				vote.user = entry.user;
+			}
+      records[i] = vote
+		});
+		res.json(req.results);
+  });
 
 // create votes
 // ------------
 router.route('/*')
 
-	// .post(auth.can('ideavote:create'))
-
-  // heb je al gestemd
+// heb je al gestemd
 	.post(function(req, res, next) {
 		db.Vote // get existing votes for this user
+			.scope(req.scope)
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
-				if ( req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
+				if (req.site.config.votes.voteType !== 'likes' && req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
 				req.existingVotes = found.map(entry => entry.toJSON());
 				return next();
 			})
 			.catch(next)
 	})
 
-  // filter body
+// filter body
 	.post(function(req, res, next) {
 		let votes = req.body || [];
 		if (!Array.isArray(votes)) votes = [votes];
@@ -169,7 +202,31 @@ router.route('/*')
 				checked: null,
 			}
 		});
-		req.votes = votes;
+
+    // merge
+    if (req.site.config.votes.withExisting == 'merge') {
+      // no double votes
+      if (req.existingVotes.find( newVote => votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )) throw new Error('Je hebt al gestemd');
+      // now merge
+      votes = votes
+        .concat(
+          req.existingVotes
+            .map( oldVote => {
+              return {
+                ideaId: parseInt(oldVote.ideaId, 10),
+                opinion: typeof oldVote.opinion == 'string' ? oldVote.opinion : null,
+                userId: req.user.id,
+                confirmed: false,
+                confirmReplacesVoteId: null,
+                ip: req.ip,
+                checked: null,
+              }
+              return oldVote
+            })
+        );
+    }
+
+    req.votes = votes;
 
 		return next();
 	})
@@ -180,7 +237,14 @@ router.route('/*')
 		db.Idea
 			.findAll({ where: { id:ids, siteId: req.site.id } })
 			.then(found => {
-				if (req.votes.length != found.length) return next(createError(400, 'Idee niet gevonden'));
+
+				if (req.votes.length != found.length) {
+					console.log('req.votes', req.votes);
+					console.log('found', found);
+					console.log('req.body',req.body);
+
+					return next(createError(400, 'Idee niet gevonden'));
+				}
 				req.ideas = found;
 				return next();
 			})
@@ -212,7 +276,7 @@ router.route('/*')
 
 				// get existing votes for this IP
 				db.Vote
-					.findAll({ where:whereClause })
+					.findAll({ where: whereClause })
 					.then(found => {
 						if (found && found.length > 0) {
 							throw new Error('Je hebt al gestemd');
@@ -243,10 +307,70 @@ router.route('/*')
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
 			budget += idea.budget;
 		});
-		if (budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget) {
-			return next();
+		if (!( budget >= req.site.config.votes.minBudget && budget <= req.site.config.votes.maxBudget )) {
+		  return next(createError(400, 'Budget klopt niet'));
 		}
-		return next(createError(400, 'Budget klopt niet'));
+		if (!( req.votes.length >= req.site.config.votes.minIdeas && req.votes.length <= req.site.config.votes.maxIdeas )) {
+		  return next(createError(400, 'Aantal ideeen klopt niet'));
+		}
+		return next();
+  })
+
+  // validaties voor voteType=count-per-theme
+	.post(function(req, res, next) {
+		if (req.site.config.votes.voteType != 'count-per-theme') return next();
+
+    let themes = req.site.config.votes.themes || [];
+
+    let totalNoOfVotes = 0;
+    req.votes.forEach((vote) => {
+			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      totalNoOfVotes += idea ? 1 : 0;
+      let themename = idea && idea.extraData && idea.extraData.theme;
+      let theme = themes.find( theme => theme.value == themename );
+      if (theme) {
+	      theme.noOf = theme.noOf || 0;
+        theme.noOf++;
+      }
+		});
+
+    let isOk = true;
+    themes.forEach((theme) => {
+	    theme.noOf = theme.noOf || 0;
+		  if (theme.noOf < theme.minIdeas || theme.noOf > theme.maxIdeas) {
+        isOk = false;
+		  }
+    });
+
+		if (( req.site.config.votes.minIdeas && totalNoOfVotes < req.site.config.votes.minIdeas ) || ( req.site.config.votes.maxIdeas && totalNoOfVotes > req.site.config.votes.maxIdeas )) {
+      isOk = false;
+		}
+
+		return next( isOk ? null : createError(400, 'Count per thema klopt niet') );
+
+	})
+
+  // validaties voor voteType=budgeting-per-theme
+	.post(function(req, res, next) {
+		if (req.site.config.votes.voteType != 'budgeting-per-theme') return next();
+    let themes = req.site.config.votes.themes || [];
+		req.votes.forEach((vote) => {
+			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      let themename = idea && idea.extraData && idea.extraData.theme;
+      let theme = themes.find( theme => theme.value == themename );
+      if (theme) {
+	      theme.budget = theme.budget || 0;
+        theme.budget += idea.budget;
+      }
+		});
+    let isOk = true;
+    themes.forEach((theme) => {
+		  if (theme.budget < theme.minBudget || theme.budget > theme.maxBudget) {
+        isOk = false;
+		  }
+  //    console.log(theme.value, theme.budget, theme.minBudget, theme.maxBudget, theme.budget < theme.minBudget || theme.budget > theme.maxBudget);
+    });
+		return next( isOk ? null : createError(400, 'Budget klopt niet') );
 	})
 
 	.post(function(req, res, next) {
@@ -256,7 +380,7 @@ router.route('/*')
 
 			case 'likes':
 				req.votes.forEach((vote) => {
-					let existingVote = req.existingVotes.find(entry => entry.ideaId == vote.ideaId);
+					let existingVote =  req.existingVotes ? req.existingVotes.find(entry => entry.ideaId == vote.ideaId) : false;
 					if ( existingVote ) {
 						if (existingVote.opinion == vote.opinion) {
 							actions.push({ action: 'delete', vote: existingVote })
@@ -271,11 +395,9 @@ router.route('/*')
 				break;
 
 			case 'count':
-				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
-				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
-				break;
-
+			case 'count-per-theme':
 			case 'budgeting':
+			case 'budgeting-per-theme':
 				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
 				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
 				break;
@@ -330,6 +452,35 @@ router.route('/*')
 			.catch(next)
 	})
 
+	router.route('/:voteId(\\d+)')
+		.all(( req, res, next ) => {
+			var voteId = req.params.voteId;
+
+			db.Vote
+			.findOne({
+				where: { id: voteId }
+			})
+			.then(function( vote ) {
+				if( vote ) {
+					req.results = vote;
+				}
+				next();
+			})
+			.catch(next);
+		})
+	.delete(auth.useReqUser)
+	.delete(function(req, res, next) {
+		const vote = req.results;
+		if (!( vote && vote.can && vote.can('delete') )) return next( new Error('You cannot delete this vote') );
+
+		vote
+			.destroy()
+			.then(() => {
+				res.json({ "vote": "deleted" });
+			})
+			.catch(next);
+	})
+
 	router.route('/:voteId(\\d+)/toggle')
 		.all(( req, res, next ) => {
 			var voteId = req.params.voteId;
@@ -346,7 +497,7 @@ router.route('/*')
 			})
 			.catch(next);
 		})
-		.all(auth.can('idea:admin'))
+	.all(auth.can('Vote', 'toggle'))
 			.get(function( req, res, next ) {
 				var ideaId = req.params.ideaId;
 				var vote   = req.vote;

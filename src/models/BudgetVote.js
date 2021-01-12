@@ -49,7 +49,16 @@ module.exports = function( db, sequelize, DataTypes ) {
 		
 		return scopes;
 	}
-	
+
+  // volgens mij wordt dit niet meer gebruikt
+	BudgetVote.auth = BudgetVote.prototype.auth = {
+    listableBy: 'admin',
+    viewableBy: 'admin',
+    createableBy: 'admin',
+    updateableBy: 'admin',
+    deleteableBy: 'admin',
+  }
+  
 	return BudgetVote;
 
 };

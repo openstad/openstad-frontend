@@ -8,20 +8,24 @@ module.exports = function( req, res, next ) {
 	let domain = ''
 	try {
 		domain = new URL(url).hostname;
-	} catch(err) {}
+	} catch(err) {	}
 
 	let allowedDomains = (req.site && req.site.config && req.site.config.allowedDomains) || config.allowedDomains;
 	if ( !allowedDomains || allowedDomains.indexOf(domain) === -1) {
 		url = config.url || req.protocol + '://' + req.hostname;
 	}
-	
-  res.header('Access-Control-Allow-Origin', url );
-  // res.header('Access-Control-Allow-Origin', '*' );
+
+	if (config.dev && config.dev['Header-Access-Control-Allow-Origin']) {
+    res.header('Access-Control-Allow-Origin', config.dev['Header-Access-Control-Allow-Origin'] );
+  } else {
+    res.header('Access-Control-Allow-Origin', url );
+  }
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-http-method-override, X-GRIP-Tenant-Id, X-Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
 
 	if (process.env.NODE_ENV != 'development') {
+		res.header('Content-type', 'application/json; charset=utf-8');
 		res.header('Strict-Transport-Security', 'max-age=31536000 ; includeSubDomains');
 		res.header('X-Frame-Options', 'sameorigin');
 		res.header('X-XSS-Protection', '1');
@@ -31,10 +35,8 @@ module.exports = function( req, res, next ) {
 		res.header('Feature-Policy', 'vibrate \'none\'; geolocation \'none\'');
 	}
 
-	if (req.method == 'OPTIONS') {
+	if (req.method === 'OPTIONS') {
 		return res.end();
 	}
-
 	return next();
-
 }

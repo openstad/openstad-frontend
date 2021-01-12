@@ -1,95 +1,167 @@
-const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
-const moment			= require('moment');
-const createError = require('http-errors')
+const moment = require('moment');
+const createError = require('http-errors');
 const config = require('config');
 const db = require('../../db');
-const auth = require('../../auth');
+const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
+const isJson = require('../../util/isJson');
 
-let router = express.Router({mergeParams: true});
+const router = express.Router({mergeParams: true});
+const userhasModeratorRights = (user) => {
+	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+}
 
 // scopes: for all get requests
 router
 	.all('*', function(req, res, next) {
+		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
 
-		req.scope = ['api'];
+    req.scope.push('includeSite');
 
-		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || ( req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, '') );
-		if( sort ) {
-			res.cookie('idea_sort', sort, { expires: 0 });
-			if (sort == 'votes_desc' || sort == 'votes_asc') {
-				req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
-			}
-			req.scope.push({ method: ['sort', req.query.sort]});
+    // in case the votes are archived don't use these queries
+    // this means they can be cleaned up from the main table for performance reason
+    if (!req.site.config.archivedVotes) {
+      if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+        req.scope.push('includeVoteCount');
+      }
+
+      if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable && req.user && req.user.id) {
+        // ik denk dat je daar niet het hele object wilt?
+        req.scope.push({ method: ['includeUserVote', req.user.id] });
+      }
+    }
+    // because includeVoteCount is used in other locations but should only be active if isViewable
+    if (req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
+      req.canIncludeVoteCount = true; // scope.push(undefined) would be easier but creates an error
+    }
+
+    /**
+     * Old sort for backward compatibility
+     */
+    let sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['idea_sort'] && req.cookies['idea_sort'].replace(/[^a-z_]+/i, ''));
+    if (sort) {
+      //res.cookie('idea_sort', sort, { expires: 0 });
+
+      if (sort == 'votes_desc' || sort == 'votes_asc') {
+        if (req.canIncludeVoteCount) req.scope.push('includeVoteCount'); // het werkt niet als je dat in de sort scope functie doet...
+      }
+      req.scope.push({ method: ['sort', req.query.sort] });
+    }
+
+    if (req.query.mapMarkers) {
+      req.scope.push('mapMarkers');
+    }
+
+		if (req.query.filters || req.query.exclude) {
+			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
 		}
 
-		if (req.query.mapMarkers) {
-			req.scope.push('mapMarkers');
+    if (req.query.running) {
+      req.scope.push('selectRunning');
+    }
+
+    if (req.query.includeArguments) {
+      req.scope.push({ method: ['includeArguments', req.user.id] });
+    }
+
+		if (req.query.includeArgsCount) {
+			req.scope.push('includeArgsCount');
 		}
 
-		if (req.query.running) {
-			req.scope.push('selectRunning');
+		if (req.query.includeTags) {
+			req.scope.push('includeTags');
 		}
 
-		if (req.query.includeArguments) {
-			req.scope.push({ method: ['includeArguments', req.user.id]});
+		if (req.query.includePoll) {
+			req.scope.push({ method: ['includePoll', req.user.id]});
 		}
 
-		if (req.query.includeMeeting) {
-			req.scope.push('includeMeeting');
-		}
+		if (req.query.tags) {
+      let tags = req.query.tags;
+      req.scope.push({ method: ['selectTags', tags] });
+      req.scope.push('includeTags');
+    }
 
-		if (req.query.includePosterImage) {
-			req.scope.push('includePosterImage');
-		}
+    if (req.query.includeMeeting) {
+      req.scope.push('includeMeeting');
+    }
 
-		if (req.query.includeUser) {
-			req.scope.push('includeUser');
-		}
+    if (req.query.includePosterImage) {
+      req.scope.push('includePosterImage');
+    }
 
-		if (req.query.includeVoteCount && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-			req.scope.push('includeVoteCount');
-		}
+    if (req.query.includeUser) {
+      req.scope.push('includeUser');
+    }
 
-		if (req.query.includeUserVote && req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable) {
-			// ik denk dat je daar niet het hele object wilt?
-			req.scope.push({ method: ['includeUserVote', req.user.id]});
-		}
+    // todo? volgens mij wordt dit niet meer gebruikt
+    // if (req.query.highlighted) {
+    //  	query = db.Idea.getHighlighted({ siteId: req.params.siteId })
+    // }
 
-		// todo? volgens mij wordt dit niet meer gebruikt
-		// if (req.query.highlighted) {
-		//  	query = db.Idea.getHighlighted({ siteId: req.params.siteId })
-		// }
+    return next();
 
-		return next();
-
-	})
+  });
 
 router.route('/')
 
 // list ideas
 // ----------
-	.get(auth.can('ideas:list'))
+	.get(auth.can('Idea', 'list'))
+	.get(pagination.init)
+	// add filters
 	.get(function(req, res, next) {
+    let { dbQuery } = req;
+
+    dbQuery.where = {
+      siteId: req.params.siteId,
+      ...req.queryConditions,
+			...dbQuery.where,
+    };
+
+		if(dbQuery.hasOwnProperty('order')) {
+			/**
+			 * Handle yes/no sorting
+			 */
+			dbQuery.sortingYesNo = [];
+
+			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+				return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
+			});
+		}
+
 		db.Idea
 			.scope(...req.scope)
-			.findAll({ where: { siteId: req.params.siteId } })
-			.then( found => {
-				return found.map( entry => {
-					return createIdeaJSON(entry, req.user);
-				});
-			})
-			.then(function( found ) {
-				res.json(found);
+      .findAndCountAll(dbQuery)
+			.then(function( result ) {
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          result.rows.forEach((idea) => {
+            if (idea.poll) idea.poll.countVotes(!req.query.withVotes);
+          });
+        }
+
+				const { rows } = result;
+
+        req.results = rows;
+        req.dbQuery.count = result.count;
+        return next();
 			})
 			.catch(next);
 	})
+	.get(auth.useReqUser)
+	.get(searchResults)
+	.get(pagination.paginateResults)
+	.get(function(req, res, next) {
+		res.json(req.results);
+  })
 
 // create idea
 // -----------
-	.post(auth.can('idea:create'))
+	.post(auth.can('Idea', 'create'))
 	.post(function(req, res, next) {
 		if (!req.site) return next(createError(401, 'Site niet gevonden'));
 		return next();
@@ -99,20 +171,36 @@ router.route('/')
 		return next();
 	})
 	.post(function(req, res, next) {
-		filterBody(req)
-		req.body.siteId = parseInt(req.params.siteId);
-		req.body.userId = req.user.id;
-		req.body.startDate = new Date();
 
-		try {
-			req.body.location = JSON.parse(req.body.location || null);
-		} catch(err) {}
+    try {
+      req.body.location = req.body.location ? JSON.parse(req.body.location) : null;
+    } catch(err) {}
 
+    if (req.body.location && typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) {
+			 req.body.location = null;
+		}
+
+		const data = {
+      ...req.body,
+      siteId: req.params.siteId,
+      userId: req.user.id,
+      startDate: new Date(),
+    };
+
+    let responseData;
 		db.Idea
-			.create(req.body)
-			.then(result => {
-				res.json(createIdeaJSON(result, req.user));
-				mail.sendThankYouMail(result, req.user, req.site) // todo: optional met config?
+			.authorizeData(data, 'create', req.user, null, req.site)
+			.create(data)
+			.then(ideaInstance => {
+
+		    db.Idea
+			    .scope(...req.scope)
+					.findByPk(ideaInstance.id)
+          .then(result => {
+            req.results = result;
+            return next();
+          })
+
 			})
 			.catch(function( error ) {
 				// todo: dit komt uit de oude routes; maak het generieker
@@ -123,11 +211,43 @@ router.route('/')
 						// TODO: we zitten op een nieuwe versie van seq; vermoedelijk kan dit nu wel
 						errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
 					});
-					res.status(422).json(errors);
+				//	res.status(422).json(errors);
+
+					next(createError(422, errors.join(', ') ));
 				} else {
 					next(error);
 				}
 			});
+
+	})
+	.post(function(req, res, next) {
+
+    // tags
+    if (!req.body.tags) return next();
+
+ 		let ideaInstance = req.results;
+		ideaInstance
+		  .setTags(req.body.tags)
+			.then(tags => {
+		    // refetch. now with tags
+		    let scope = [...req.scope, 'includeTags']
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
+			  return db.Idea
+				  .scope(...scope)
+				  .findOne({
+					  where: { id: ideaInstance.id, siteId: req.params.siteId }
+				  })
+				  .then(found => {
+					  if ( !found ) throw new Error('Idea not found');
+					  req.results = found;
+		        return next();
+				  })
+				  .catch(next);
+		  })
+	})
+	.post(function(req, res, next) {
+		res.json(req.results);
+		mail.sendThankYouMail(req.results, 'ideas', req.user) // todo: optional met config?
 	})
 
 // one idea
@@ -136,111 +256,134 @@ router.route('/:ideaId(\\d+)')
 	.all(function(req, res, next) {
 		var ideaId = parseInt(req.params.ideaId) || 1;
 
+		let scope = [...req.scope];
+    if (req.canIncludeVoteCount) scope.push('includeVoteCount')
+
 		db.Idea
-			.scope(...req.scope, 'includeVoteCount')
+			.scope(...scope)
 			.findOne({
 				where: { id: ideaId, siteId: req.params.siteId }
 			})
 			.then(found => {
 				if ( !found ) throw new Error('Idea not found');
+        if (req.query.includePoll) { // TODO: naar poll hooks
+          if (found.poll) found.poll.countVotes(!req.query.withVotes);
+        }
 				req.idea = found;
+		    req.results = req.idea;
 				next();
 			})
-			.catch(next);
+			.catch((err) => {
+				console.log('errr', err)
+				next(err);
+			});
 	})
 
 // view idea
 // ---------
-	.get(auth.can('idea:view'))
+	.get(auth.can('Idea', 'view'))
+	.get(auth.useReqUser)
 	.get(function(req, res, next) {
-		res.json(createIdeaJSON(req.idea, req.user));
+		res.json(req.results);
 	})
 
 // update idea
 // -----------
-	.put(auth.can('idea:edit'))
+	.put(auth.useReqUser)
 	.put(function(req, res, next) {
-		filterBody(req)
-		if (req.body.location) {
-			try {
-				req.body.location = JSON.parse(req.body.location || null);
-			} catch(err) {}
-		} else {
-			req.body.location = JSON.parse(null);
-		}
+    req.tags = req.body.tags;
+    return next();
+  })
+  .put(function(req, res, next) {
 
-		req.idea
-			.update(req.body)
+    var idea = req.results;
+
+    if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
+
+    if (req.body.location) {
+      try {
+        req.body.location = JSON.parse(req.body.location || null);
+      } catch(err) {}
+
+      if (req.body.location &&  typeof req.body.location === 'object' && !Object.keys(req.body.location).length) {
+				req.body.location = undefined;
+			}
+    } else {
+      if (req.body.location === null) {
+        req.body.location = JSON.parse(null);
+      }
+    }
+
+		let data = {
+      ...req.body,
+    };
+
+		if (userhasModeratorRights(req.user)) {
+      if (data.modBreak) {
+        data.modBreakUserId = req.body.modBreakUserId = req.user.id;
+        data.modBreakDate = req.body.modBreakDate = new Date().toString();
+      }
+    }
+
+    idea
+      .authorizeData(data, 'update')
+      .update(data)
+      .then(result => {
+        req.results = result;
+        next();
+      })
+      .catch(next);
+  })
+  .put(function(req, res, next) {
+
+    // tags
+    if (!req.tags) return next();
+
+    let tagIds = [];
+    let responseData;
+    let ideaInstance = req.results;
+
+		ideaInstance
+			.setTags(req.tags)
 			.then(result => {
-				res.json(createIdeaJSON(result, req.user));
-			})
-			.catch(next);
+        // refetch. now with tags
+        let scope = [...req.scope, 'includeTags']
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
+		    return db.Idea
+			    .scope(...scope)
+			    .findOne({
+				    where: { id: ideaInstance.id, siteId: req.params.siteId }
+			    })
+			    .then(found => {
+				    if (!found) throw new Error('Idea not found');
+
+            if (req.query.includePoll) { // TODO: naar poll hooks
+              if (found.poll) found.poll.countVotes(!req.query.withVotes);
+            }
+				    req.results = found;
+            next();
+			    })
+			    .catch(next);
+	    })
+
+	})
+	.put(function(req, res, next) {
+		res.json(req.results);
 	})
 
 // delete idea
 // ---------
-	.delete(auth.can('idea:delete'))
+	.delete(auth.useReqUser)
 	.delete(function(req, res, next) {
-		req.idea
+		const idea = req.results;
+		if (!( idea && idea.can && idea.can('delete') )) return next( new Error('You cannot delete this idea') );
+
+		idea
 			.destroy()
 			.then(() => {
 				res.json({ "idea": "deleted" });
 			})
 			.catch(next);
 	})
-
-// extra functions
-// ---------------
-
-function filterBody(req) {
-	let filteredBody = {};
-
-	let keys;
-	if (req.user.isAdmin()) {
-		keys = [ 'siteId', 'meetingId', 'userId', 'startDate', 'endDate', 'sort', 'status', 'title', 'posterImageUrl', 'summary', 'description', 'budget', 'extraData', 'location', 'modBreak', 'modBreakUserId', 'modBreakDate' ];
-	} else {
-		keys = [ 'title', 'summary', 'description', 'extraData', 'location' ];
-	}
-
-	keys.forEach((key) => {
-		if (req.body[key]) {
-			filteredBody[key] = req.body[key];
-		}
-	});
-
-	req.body = filteredBody;
-}
-
-function createIdeaJSON(idea, user) {
-
-	let can = {
-		// edit: user.can('arg:edit', argument.idea, argument),
-		// delete: req.user.can('arg:delete', entry.idea, entry),
-		// reply: req.user.can('arg:reply', entry.idea, entry),
-	};
-
-	let result = idea.toJSON();
-	result.config = null;
-	result.site = null;
-	result.can = can;
-	if (idea.user) {
-		result.user = {
-			firstName: idea.user.firstName,
-			lastName: idea.user.lastName,
-			fullName: idea.user.fullName,
-			nickName: idea.user.nickName,
-			isAdmin: user.role == 'admin',
-			email: user.role == 'admin' ? idea.user.email : '',
-		};
-	} else {
-		result.user = {
-			isAdmin: user.role == 'admin',
-		};
-	}
-	result.createdAtText = moment(idea.createdAt).format('LLL');
-
-	return result;
-
-}
 
 module.exports = router;

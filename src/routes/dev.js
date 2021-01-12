@@ -2,7 +2,6 @@ var express = require('express');
 var config  = require('config');
 var log     = require('debug')('app:http')
 var db      = require('../db');
-var auth    = require('../auth');
 var mail    = require('../lib/mail');
 
 module.exports = function( app ) {
@@ -10,10 +9,10 @@ module.exports = function( app ) {
 		return;
 	}
 	log('initiating dev routes');
-	
+
 	var router = express.Router();
 	app.use('/dev', router);
-	
+
 	router.get('/login/:userId', function( req, res, next ) {
 		var userId = Number(req.params.userId);
 		req.setSessionUser(userId);
@@ -25,14 +24,14 @@ module.exports = function( app ) {
 		res.success('/', true);
 	});
 
-	router.post('/reset_fixtures', auth.can('dev'), function( req, res, next ) {
+	router.post('/reset_fixtures', function( req, res, next ) {
 		db.sequelize.sync({force: true}).then(function() {
 			require('../../../fixtures')(db).then(function() {
 				res.json(true);
 			});
 		}).catch(next);
 	});
-	
+
 	router.get('/csrf_token', function( req, res, next ) {
 		res.format({
 			html: function() {
@@ -43,7 +42,7 @@ module.exports = function( app ) {
 			}
 		});
 	});
-	
+
 	router.get('/randomize_idea_sort', function( req, res, next ) {
 		var cron = require('../../cron/randomize_idea_sort');
 		cron.onTick().then(function() {
@@ -51,7 +50,7 @@ module.exports = function( app ) {
 		})
 		.catch(next);
 	});
-	
+
 	router.get('/fonts', function( req, res, next ) {
 		res.out('test/fonts', false);
 	});
@@ -60,7 +59,7 @@ module.exports = function( app ) {
 		.get(function( req, res, next ) {
 
 			if (!req.session.userAccessToken) return res.success('/begroten', true);
-			
+
 			// get the user info using the access token
 			let url = config.authorization['auth-server-url'] + config.authorization['auth-server-get-user-path'];
 			url = url.replace(/\[\[clientId\]\]/, config.authorization['auth-client-id']);
@@ -84,8 +83,8 @@ module.exports = function( app ) {
 					}
 				)
 				.catch(err => {
-					console.log('DEV GET USER CATCH ERROR');
-					console.log(err);
+				//	console.log('DEV GET USER CATCH ERROR');
+					// console.log(err);
 					next(err);
 				})
 		})
@@ -101,11 +100,11 @@ module.exports = function( app ) {
 				res.success('/begroten', true);
 			}
 		});
-	
+
 	router.get('/email/:page', function( req, res, next ) {
 		var fs       = require('fs');
 		var nunjucks = require('nunjucks');
-		
+
 		var data     = {
 			complete : 'complete' in req.query,
 			date     : new Date(),
@@ -118,7 +117,7 @@ module.exports = function( app ) {
 						user        : {nickName: 'Daan Mortier'},
 						updatedAt   : new Date(),
 						label       : 'A',
-						description : 
+						description :
 							`Dit is een test argument.`
 					}
 				}, {
@@ -126,7 +125,7 @@ module.exports = function( app ) {
 						user        : {nickName: 'Michael de Paikel'},
 						updatedAt   : new Date(),
 						label       : 'B',
-						description : 
+						description :
 							`En dit is nogmaals een test argument met iets meer
 							inhoud dan het vorige bericht. Op deze manier is beter
 							te zien hoe de layout zich om de tekst vormt.`
@@ -135,7 +134,7 @@ module.exports = function( app ) {
 			}
 		};
 		var content  = nunjucks.render('email/'+req.params.page+'.njk', data);
-		
+
 		if( 'send' in req.query ) {
 			mail.sendMail({
 				to          : 'tjoekbezoer@gmail.com',
@@ -157,7 +156,7 @@ module.exports = function( app ) {
 				}]
 			});
 		}
-		
+
 		res.send(content);
 	});
 

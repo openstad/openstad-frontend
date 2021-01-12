@@ -11,59 +11,59 @@ var reportErrors = config.sentry && config.sentry.active;
 module.exports  = {
 	app: undefined,
 
+	init: async function() {
+      log('initializing...');
+
+      // var Raven       = require('../config/raven');
+      var compression = require('compression');
+      // var cors        = require('cors');
+
+      this.app = express();
+      this.app.disable('x-powered-by');
+      this.app.set('trust proxy', true);
+      this.app.set('view engine', 'njk');
+      this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
+
+      if( reportErrors ) {
+          // this.app.use(Raven.requestHandler());
+      }
+      this.app.use(compression());
+      // this.app.use(cors());
+
+      // Register statics first...
+      this._initStatics();
+
+      // ... then middleware everyone needs...
+      this._initBasicMiddleware();
+      this._initSessionMiddleware();
+
+      var middleware = config.express.middleware;
+
+      middleware.forEach(( entry ) => {
+          if (typeof entry == 'object' ) {
+              // nieuwe versie: use route
+              this.app.use(entry.route, require(entry.router));
+          } else {
+              // oude versie: de file doet de app.use
+              require(entry)(this.app);
+          }
+      });
+
+      if( reportErrors ) {
+          // this.app.use(Raven.errorHandler());
+      }
+
+      require('./middleware/error_handling')(this.app);
+	},
+
 	start: function( port ) {
-		log('initializing...');
-
-		// var Raven       = require('../config/raven');
-		var compression = require('compression');
-		// var cors        = require('cors');
-
-		this.app = express();
-		this.app.disable('x-powered-by');
-		this.app.set('trust proxy', true);
-		this.app.set('view engine', 'njk');
-		this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
-
-		if( reportErrors ) {
-			// this.app.use(Raven.requestHandler());
-		}
-		this.app.use(compression());
-		// this.app.use(cors());
-
-		// Register statics first...
-		this._initStatics();
-
-		// ... then middleware everyone needs...
-		this._initBasicMiddleware();
-		this._initSessionMiddleware();
-
-		var middleware = config.express.middleware;
-
-		middleware.forEach(( entry ) => {
-			if (typeof entry == 'object' ) {
-				// nieuwe versie: use route
-				this.app.use(entry.route, require(entry.router));
-			} else {
-				// oude versie: de file doet de app.use
-				require(entry)(this.app);
-			}
-		});
-
-		if( reportErrors ) {
-			// this.app.use(Raven.errorHandler());
-		}
-
-		require('./middleware/error_handling')(this.app);
-
 		this.app.listen(port, function() {
 		  log('listening on port %s', port);
 		});
-
 	},
 
 	_initStatics: function() {
 
-		// require('./routes/media_get')(this.app);
 
 		var headerOptions = {
 			setHeaders: function( res ) {
@@ -72,7 +72,10 @@ module.exports  = {
 				});
 			}
 		};
-		this.app.use('/js',  express.static('js', headerOptions));
+
+    this.app.use(express.static('public'));
+
+	//	this.app.use('/js',  express.static('js', headerOptions));
 	},
 	_initBasicMiddleware: function() {
 		var bodyParser         = require('body-parser');
@@ -128,10 +131,10 @@ module.exports  = {
 				maxAge   : config.get('security.sessions.maxAge')
 			}
 		}));
-
+		
 		// Middleware to fill `req.user` with a `User` instance.
-		const sessionUser = require('./middleware/session_user');
-		this.app.use(sessionUser);
+		const getUser = require('./middleware/user');
+		this.app.use(getUser);
 
 	},
 };

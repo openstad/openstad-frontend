@@ -1,4 +1,9 @@
 /node_modules
 /config/local.*
+/config/test.*
 /html/stemvanniels
 *.css
+coverage/
+
+### Exclude project files for Jetbrains users ###
+.idea

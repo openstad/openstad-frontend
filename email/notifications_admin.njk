@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>{{SITENAME}}</title>
-		
+
 		<style type="text/css">
 		 #outlook a {padding:0;}
 		 .ExternalClass {width:100%;}
@@ -26,7 +26,7 @@
 			 margin-top: 25px;
 			 margin-bottom: 25px;
 		 }
-		 
+
      h2 {
 			 font-size: 18px;
 			 font-weight: 600;
@@ -42,7 +42,7 @@
      }
 
 		 .blue {
-			 color: #164995;		 
+			 color: #164995;
 		 }
 
 		 .multipleImages {
@@ -63,7 +63,7 @@
 		 #modBreak p {
 			 margin: 0.5em 0 0;
 		 }
-		 
+
 		</style>
 	</head>
 	<body style="margin: 0; padding: 0; min-width: 100%;">
@@ -71,7 +71,7 @@
 			<tr>
 				<td></td>
 				<td width="560">
-					<img src="cid:logo.png" height="70" alt="Amsterdam logo" align="left" style="border: 0; max-width: 100%; display: block; -webkit-user-select: none; outline:none; text-decoration:none; -ms-interpolation-mode: bicubic; margin-top: 20px;">
+					{% include 'logo.njk' %}
 				</td>
 				<td></td>
 			</tr>
@@ -130,7 +130,7 @@
 								<tr>
 									<td style="border-top: solid 3px #f3f3f4;">
 										<div style="padding: 8px 20px; font-size: 12px;">
-											<strong>Link naar inzending:</strong> <a href="{{URL}}/plan/{{idea.id}}" target="_blank" style="color: #EC0000">{{URL}}/plan/{{idea.id}}</a>
+											<strong>Link naar inzending:</strong> <a href="{{idea.inzendingURL}}" target="_blank" style="color: #EC0000">{{idea.inzendingURL}}</a>
 										</div>
 									</td>
 								</tr>
@@ -139,7 +139,61 @@
 							<br/>
 						{% endfor %}
 					{% endif %}
-					
+
+					{% if data.article %}
+						{% for article in data.article %}
+							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4;">
+								<tr>
+									<td style="background-color: white;">
+
+										<div style="padding: 20px;">
+
+											{% if article.extraData and article.extraData.images %}
+												{% for image in article.extraData.images %}
+													<img class="multipleImages" src="{{image}}" width="100%"/><br/>
+												{% endfor %}
+											{% else %}
+												{% if article.posterImageUrl %}
+													<img src="{{URL}}{{article.posterImageUrl}}" width="100%"/>
+												{% endif %}
+											{% endif %}
+											<br/>
+											<br/>
+											<strong>{{article.user.firstName}} {{article.user.lastName}} | {{article.startDateHumanized}}</strong><br/><br/>
+
+											<h2>{{article.title}}</h2>
+
+											<strong>{{article.summary | nl2br | safe}}</strong><br/>
+											<br/>
+
+											{% if article.modBreak %}
+												<div id="modBreak">
+													<b>{{SITENAME}}</b> &nbsp;&nbsp;|&nbsp;&nbsp; {{article.modBreakDateHumanized}}<br>
+													<p>
+														{{article.modBreak | safe | nl2br}}
+													</p>
+												</div>
+											{% endif %}
+
+											{{article.description | nl2br | safe}}<br/>
+
+										</div>
+
+									</td>
+								</tr>
+								<tr>
+									<td style="border-top: solid 3px #f3f3f4;">
+										<div style="padding: 8px 20px; font-size: 12px;">
+											<strong>Link naar inzending:</strong> <a href="{{article.inzendingURL}}" target="_blank" style="color: #EC0000">{{article.inzendingURL}}</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<br/>
+						{% endfor %}
+					{% endif %}
+
 					{% if data.argument %}
 						{% for arg in data.argument %}
 							<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; width:100%; border: solid 3px #f3f3f4; background-color: #f3f3f4;">

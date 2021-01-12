@@ -1,296 +1,249 @@
-const Promise			= require('bluebird');
-const moment			= require('moment');
-const createError = require('http-errors')
-const db          = require('../../db');
-const auth        = require('../../auth');
+const createError = require('http-errors');
+const db = require('../../db');
+const auth = require('../../middleware/sequelize-authorization-middleware');
+const pagination = require('../../middleware/pagination');
+const searchResults = require('../../middleware/search-results');
 
-let router = require('express-promise-router')({mergeParams: true});
+const router = require('express-promise-router')({ mergeParams: true });
 
 // scopes: for all get requests
 router
-	.all('*', function(req, res, next) {
+  .all('*', function(req, res, next) {
 
-		req.scope = ['defaultScope', 'withIdea'];
-		req.scope.push({method: ['forSiteId', req.params.siteId]});
+    req.scope = ['defaultScope', 'withIdea'];
+    req.scope.push({ method: ['forSiteId', req.params.siteId] });
 
-		if (req.query.includeReactionsOnReactions) {
-			req.scope.push('includeReactionsOnReactions');
-			req.scope.push({method: ['includeReactionsOnReactions', req.user.id]});
-		}
+    if (req.query.includeReactionsOnReactions) {
+      req.scope.push('includeReactionsOnReactions');
+      req.scope.push({ method: ['includeReactionsOnReactions', req.user.id] });
+    }
 
-		if (req.query.withVoteCount) {
-			req.scope.push({method: ['withVoteCount', 'argument']});
-		}
+    if (req.query.withVoteCount) {
+      req.scope.push({ method: ['withVoteCount', 'argument'] });
+    }
 
-		if (req.query.withUserVote) {
-			req.scope.push({method: ['withUserVote', 'argument', req.user.id]});
-		}
+    if (req.query.withUserVote) {
+      req.scope.push({ method: ['withUserVote', 'argument', req.user.id] });
+    }
 
-		return next();
+    return next();
 
-	})
-	.all('*', function(req, res, next) {
-		// zoek het idee
-		let ideaId = parseInt(req.params.ideaId) || 0;
-		if (!ideaId) return next();
-		db.Idea.findByPk(ideaId)
-			.then( idea => {
-				if (!idea || idea.siteId != req.params.siteId) return next(createError(400, 'Idea not found'));
-				req.idea = idea;
-				return next();
-			})
-	})
+  })
+  .all('*', function(req, res, next) {
+    // zoek het idee
+    // todo: ik denk momenteel alleen nog gebruikt door create; dus zet hem daar neer
+    let ideaId = parseInt(req.params.ideaId) || 0;
+    if (!ideaId) return next();
+    db.Idea.findByPk(ideaId)
+      .then(idea => {
+        if (!idea || idea.siteId != req.params.siteId) return next(createError(400, 'Idea not found'));
+        req.idea = idea;
+        return next();
+      });
+  })
+  .all('/:argumentId(\\d+)(/vote)?', function(req, res, next) {
+
+    // with one existing argument
+    // --------------------------
+
+    var argumentId = parseInt(req.params.argumentId) || 1;
+
+    let sentiment = req.query.sentiment;
+    let where = { id: argumentId };
+
+    if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
+      where.sentiment = sentiment;
+    }
+
+    db.Argument
+      .scope(...req.scope)
+      .findOne({
+        where,
+      })
+      .then(entry => {
+        if (!entry) throw new Error('Argument not found');
+        req.results = entry;
+        return next();
+      })
+      .catch(next);
+
+  });
 
 router.route('/')
 
-// list arguments
-// --------------
-	.get(auth.can('arguments:list'))
-	.get(function(req, res, next) {
+  // list arguments
+  // --------------
+  .get(auth.can('Argument', 'list'))
+  .get(pagination.init)
+  .get(function(req, res, next) {
+    let { dbQuery } = req;
 
-		let ideaId = parseInt(req.params.ideaId) || 0;
-		let where = {};
-		if (ideaId) {
-			where.ideaId = ideaId;
-		}
-		let sentiment = req.query.sentiment;
-		if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
-			where.sentiment = sentiment;
-		}
+    let ideaId = parseInt(req.params.ideaId) || 0;
+    let where = {};
+    if (ideaId) {
+      where.ideaId = ideaId;
+    }
+    let sentiment = req.query.sentiment;
+    if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
+      where.sentiment = sentiment;
+    }
 
-		return db.Argument
-			.scope(...req.scope)
-			.findAll({ where })
-			.then( found => {
-				return found.map( entry => {
-					return createArgumentJSON(entry, req.user);
-				});
-			})
-			.then(function( found ) {
-				res.json(found);
-			})
-			.catch(next);
+    return db.Argument
+      .scope(...req.scope)
+      .findAndCountAll(
+        {
+          where,
+          ...dbQuery,
+        },
+      )
+      .then(function(result) {
+        req.results = result.rows;
+        req.dbQuery.count = result.count;
+        return next();
+      })
+      .catch(next);
 
-	})
+  })
+  .get(auth.useReqUser)
+  .get(searchResults)
+  .get(pagination.paginateResults)
+  .get(function(req, res, next) {
+    res.json(req.results);
+  })
 
-// create argument
-// ---------------
-	.post(auth.can('argument:create'))
-	.post(function(req, res, next) {
-    if (!req.idea) return next( createError(400, 'Inzending niet gevonden') );
-    if (req.idea.status != 'OPEN') return next( createError(400, 'Reactie toevoegen is niet mogelijk') );
-		next();
-	})
-	.post(function(req, res, next) {
+  // create argument
+  // ---------------
+  .post(auth.can('Argument', 'create'))
+  .post(auth.useReqUser)
+  .post(function(req, res, next) {
 
-		let data = {
-			description : req.body.description,
-			sentiment   : req.body.sentiment || 'for',
-			label       : req.body.label,
-			parentId    : req.body.parentId,
-			ideaId      : req.params.ideaId,
-			userId      : req.user.id,
-		}
+    if (!req.idea) return next(createError(400, 'Inzending niet gevonden'));
+    // todo: dit moet een can functie worden
+    if (req.idea.status != 'OPEN') return next(createError(400, 'Reactie toevoegen is niet mogelijk bij planen met status: ' + req.idea.status));
+    next();
+  })
+  .post(function(req, res, next) {
+    if (!req.body.parentId) return next();
+    db.Argument
+      .scope(
+        'defaultScope',
+        'withIdea',
+      )
+      .findByPk(req.body.parentId)
+      .then(function(argument) {
+        if (!(argument && argument.can && argument.can('reply', req.user))) return next(new Error('You cannot reply to this argument'));
+        return next();
+      });
+  })
+  .post(function(req, res, next) {
 
-		db.Argument
-			.create(data)
-			.then(result => {
+    let data = {
+      ...req.body,
+      ideaId: req.params.ideaId,
+      userId: req.user.id,
+    };
 
-				db.Argument.scope(
-					{method: ['withVoteCount', 'argument']},
-					{method: ['withUserVote', 'argument', req.user.id]},
-					'withUser'
-				)
-					.findByPk(result.id)
-					.then(function( argument ) {
 
-						// todo: de can dingen
+    db.Argument
+      .authorizeData(data, 'create', req.user)
+      .create(data)
+      .then(result => {
 
-						let result = createArgumentJSON(argument, req.user);
-						res.json(result);
-					});
+        db.Argument
+          .scope(
+            'defaultScope',
+            'withIdea',
+            { method: ['withVoteCount', 'argument'] },
+            { method: ['withUserVote', 'argument', req.user.id] },
+          )
+          .findByPk(result.id)
+          .then(function(argument) {
+            res.json(argument);
+          });
 
-			})
-			.catch(next);
+      })
+      .catch(next);
 
-	})
+  });
 
-	// with one existing argument
-	// --------------------------
-	router.route('/:argumentId(\\d+)')
-	.all(function(req, res, next) {
+router.route('/:argumentId(\\d+)')
 
-			var argumentId = parseInt(req.params.argumentId) || 1;
+  // view argument
+  // -------------
+  .get(auth.can('Argument', 'view'))
+  .get(auth.useReqUser)
+  .get(function(req, res, next) {
+    res.json(req.results);
+  })
 
-			let ideaId = parseInt(req.params.ideaId) || 0;
-			let sentiment = req.query.sentiment;
-			let where = { ideaId, id: argumentId }
+  // update argument
+  // ---------------
+  .put(auth.useReqUser)
+  .put(function(req, res, next) {
+    var argument = req.results;
+    if (!(argument && argument.can && argument.can('update'))) return next(new Error('You cannot update this argument'));
+    argument
+      .authorizeData(req.body, 'update')
+      .update(req.body)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(next);
+  })
 
-			if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
-				where.sentiment = sentiment;
-			}
+  // delete argument
+  // ---------------
+  .delete(auth.can('Argument', 'delete'))
+  .delete(function(req, res, next) {
+    req.results
+      .destroy()
+      .then(() => {
+        res.json({ 'argument': 'deleted' });
+      })
+      .catch(next);
+  });
 
-			db.Argument
-				.scope(...req.scope)
-				.findOne({
-					where
-				})
-				.then(entry => {
-					if ( !entry ) throw new Error('Argument not found');
-					req.argumentJSON = createArgumentJSON(entry, req.user);
-					req.argument = entry;
-
-					db.Idea // add idea for auth checks
-						.scope()
-						.findOne({
-							where: { id: req.argument.ideaId }
-						})
-						.then(entry => {
-							if ( !entry ) throw new Error('Idea not found');
-							req.idea = entry;
-							next();
-						})
-
-				})
-				.catch(next);
-		})
-
-	// view argument
-	// -------------
-		.get(auth.can('argument:view'))
-		.get(function(req, res, next) {
-			res.json(req.argumentJSON);
-		})
-
-	// update argument
-	// ---------------
-		.put(auth.can('argument:edit'))
-		.put(function(req, res, next) {
-			req.argument
-			// todo: filter body
-				.update(req.body)
-				.then(result => {
-					res.json(result);
-				})
-				.catch(next);
-		})
-
-	// delete argument
-	// ---------------
-		.delete(auth.can('argument:delete'))
-		.delete(function(req, res, next) {
-			req.argument
-				.destroy()
-				.then(() => {
-					res.json({ "argument": "deleted" });
-				})
-				.catch(next);
-		})
-
-// with one existing argument
-// --------------------------
 router.route('/:argumentId(\\d+)/vote')
-	.all(function(req, res, next) {
 
-		// dit staat hierboven nog eens en moet nog verder naar boven, maar dan moet eerst de bovenste route beter zodat die op argumenten werkt
+  // vote for argument
+  // -----------------
 
-		var argumentId = parseInt(req.params.argumentId) || 1;
+  .post(auth.useReqUser)
+  .post(function(req, res, next) {
+    var user = req.user;
+    var argument = req.results;
+    var opinion = 'yes'; // todo
 
-		let ideaId = parseInt(req.params.ideaId) || 0;
-		let sentiment = req.query.sentiment;
-		let where = { ideaId, id: argumentId }
+    if (!(argument && argument.can && argument.can('vote'))) return next(new Error('You cannot vote for this argument'));
 
-		if (sentiment && (sentiment == 'against' || sentiment == 'for')) {
-			where.sentiment = sentiment;
-		}
+    argument.addUserVote(user, opinion, req.ip)
+      .then(function(voteRemoved) {
 
-		db.Argument
-			.scope(...req.scope)
-			.findOne({
-				where
-			})
-			.then(entry => {
-				if ( !entry ) throw new Error('Argument not found');
-				req.argument = entry;
-				next();
-			})
-			.catch(next);
+        db.Argument
+          .scope(
+            'defaultScope',
+            'withIdea',
+            { method: ['withVoteCount', 'argument'] },
+            { method: ['withUserVote', 'argument', req.user.id] },
+          )
+          .findByPk(argument.id)
+          .then(function(argument) {
+            req.results = argument;
+            return next();
+          });
 
-	})
-	.post(auth.can('argument:vote'))
-	.post(function( req, res, next ) {
-		var user     = req.user;
-		var argument = req.argument;
-		var idea     = req.idea;
-		var opinion  = 'yes'; // todo
+      })
+      .catch(next);
+  });
 
-		req.argument.addUserVote(user, opinion, req.ip)
-			.then(function( voteRemoved ) {
+// output
+// ------
+// TODO: nu als voorbeeld, alleen gebruikt door post vote, maar kan voor alle routes
+// de vraag is: wil ik dat
+router
+  .all('*', function(req, res, next) {
+    res.json(req.results);
+  });
 
-				db.Argument.scope(
-					{method: ['withVoteCount', 'argument']},
-					{method: ['withUserVote', 'argument', user.id]},
-					'withUser'
-				)
-					.findByPk(argument.id)
-					.then(function( argument ) {
-
-						// todo: de can dingen
-
-						argument = argument.toJSON();
-						argument.user = {
-							nickName: argument.user.nickName || argument.user.fullName,
-							isAdmin: argument.user.role == 'admin',
-							email: req.user.role == 'admin' ? argument.user.email : '',
-						};
-
-						res.json(argument);
-					});
-
-			})
-			.catch(next);
-	})
-	.all(function( err, req, res, next ) {
-		// todo
-		if( err.status == 403 && req.accepts('html') ) {
-			var ideaId = req.params.ideaId;
-			var argId  = req.params.argId;
-			req.flash('error', err.message);
-			res.success(`/account/register?ref=/plan/${ideaId}#arg${argId}`);
-		} else {
-			next(err);
-		}
-	});
-
-// helper functions
-function createArgumentJSON(argument, user) {
-
-	let can = {
-		// edit: user.can('arg:edit', argument.idea, argument),
-		// delete: req.user.can('arg:delete', entry.idea, entry),
-		// reply: req.user.can('arg:reply', entry.idea, entry),
-	};
-
-	let result = argument.toJSON();
-	result.can = can;
-	result.user = {
-		firstName: argument.user.firstName,
-		lastName: argument.user.lastName,
-		fullName: argument.user.fullName,
-		nickName: argument.user.nickName,
-		isAdmin: user.role == 'admin',
-		email: user.role == 'admin' ? argument.user.email : '',
-	};
-	result.createdAtText = moment(argument.createdAt).format('LLL');
-
-	result.reactions = argument.reactions && argument.reactions.map( entry => {
-		return createArgumentJSON(entry, user);
-	});
-
-
-	delete result.idea;
-
-	return result;
-}
 
 module.exports = router;
