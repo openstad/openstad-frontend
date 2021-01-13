@@ -1,11 +1,39 @@
 # Changelog
 
 ## UNRELEASED
+* Remove auth express session and refactor user middleware
+* Fix fallback authClientId
+* Use correct env variable for default client_id and client_secret values
+
+## v0.11.0 (2020-11-09)
+* Release user listableByRole
+
+## v0.10.0 (2020-12-09)
+* Open /stats/site/:SITE_ID/vote/total for everybody
+* Add sanitizeIfNotNull decorator to the sanitize util to prevent transforming of null into the string 'null'
+* Rename users.viewableByRole to listableByRole and fix the corresponding scope
+* Add users.detailsViewableByRole, i.e. authorisation on fields defined per instance
+
+## v0.9.1 (2020-12-9)
+* Add idea votes to user me call
+
+## v0.9.0 (2020-11-25)
+* Update NPM modules for security
+* Fix site reset config
+* Remove unused global vimeo fields
+* Added possibility to query GET overview routes with NOT (!=) and substring (like%%) operator
+* Add option to list user data publically or per role
+* Allow viewablebyRole to be edited by the user
+
+
+## v0.8.0 (2020-11-02)
 * Add id & extraData to properties included in idea GET call with param includeUser=1
 * On update user of for all sites add check if site exists, otherwise update breaks
 * If extraData.images is set then the new value ovreplaces the old value instead of being merged (it waas impossible to delete images)
 * Add min/max number of to budgeting voting
 * Make sure postcode validation doesn't fail on an empty string
+* Add Delete route for vote
+* Feature: Add option count-per-theme to voting in participatory budgeting
 
 ## 0.7.6 (2020-10-07)
 * Votes were viewable when they should not be

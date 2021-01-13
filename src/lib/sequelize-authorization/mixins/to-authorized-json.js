@@ -11,6 +11,11 @@ module.exports = function toAuthorizedJSON(user) {
 
   if (!self.can('view', user)) return {};
 
+  let userId = self.userId;
+  if (self.toString().match('SequelizeInstance:user')) { // TODO: find a better check
+    userId = self.id
+  }
+
   let keys = self._options.attributes || Object.keys( self.dataValues );
   keys = keys.concat( Object.keys(self).filter( key => key != 'dataValues' && !key.match(/^_/) ) );
 
@@ -55,11 +60,32 @@ module.exports = function toAuthorizedJSON(user) {
       if (self.rawAttributes[key].auth.authorizeData) {
         return self.rawAttributes[key].auth.authorizeData(null, 'view', user, self, self.site);
       } else {
+
+        // todo: waarom loopt dit niet via authorizeData
         testRole = self.rawAttributes[key].auth.viewableBy;
+        if (Array.isArray(testRole) ? testRole.includes('detailsViewableByRole') : testRole == 'detailsViewableByRole') {
+          if (self.detailsViewableByRole) {
+            testRole = self.detailsViewableByRole;
+          }
+        }
+
+        // todo: waarom loopt dit niet via authorizeData
+        testRole = self.rawAttributes[key].auth.viewableBy || [];
+        if (!Array.isArray(testRole)) testRole = [testRole];
+        if (testRole.includes('detailsViewableByRole')) {
+          if (self.detailsViewableByRole) {
+            testRole = [ self.detailsViewableByRole, 'owner' ]
+          }
+        }
+
       }
     }
-    testRole = testRole || ( self.auth && self.auth.viewableBy );
-    if ( hasRole(user, testRole, self.userId)) {
+
+    testRole = testRole && testRole.length ? testRole : ( self.auth && self.auth.viewableBy );
+
+    //console.log(key, testRole, userId);
+
+    if ( hasRole(user, testRole, userId)) {
       return value;
     }
 

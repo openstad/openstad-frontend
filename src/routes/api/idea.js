@@ -121,6 +121,17 @@ router.route('/')
 			...dbQuery.where,
     };
 
+		if(dbQuery.hasOwnProperty('order')) {
+			/**
+			 * Handle yes/no sorting
+			 */
+			dbQuery.sortingYesNo = [];
+
+			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+				return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
+			});
+		}
+
 		db.Idea
 			.scope(...req.scope)
       .findAndCountAll(dbQuery)
@@ -129,7 +140,8 @@ router.route('/')
           idea.site = req.site;
           if (req.query.includePoll && idea.poll) idea.poll.countVotes(!req.query.withVotes);
         });
-        req.results = result.rows;
+				const { rows } = result;
+        req.results = rows;
         req.dbQuery.count = result.count;
         return next();
 			})
@@ -232,7 +244,7 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 		res.json(req.results);
-		mail.sendThankYouMail(req.results, req.user, req.site) // todo: optional met config?
+		mail.sendThankYouMail(req.results, 'ideas', req.user) // todo: optional met config?
 	})
 
 // one idea

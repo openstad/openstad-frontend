@@ -159,6 +159,7 @@ router.route('/:choicesGuideId(\\d+)$')
               description: question.description,
               images: question.images,
               type: question.type,
+              dimensions: question.dimensions,
               values: question.values,
               minLabel: question.minLabel,
               maxLabel: question.maxLabel,
@@ -422,7 +423,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)$')
       seqnr: req.body.seqnr,
     };
     req.questiongroup
-			.authorizeData(data, 'update')
+			.authorizeData(req.body, 'update', req.user)
       .update(data)
       .then((result) => {
         res.json(result);
@@ -505,6 +506,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       description: req.body.description,
       images: req.body.images,
       type: req.body.type,
+      dimensions: req.body.dimensions,
       values: req.body.values,
       minLabel: req.body.minLabel,
       maxLabel: req.body.maxLabel,
@@ -550,6 +552,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       description: req.body.description,
       images: req.body.images,
       type: req.body.type,
+      dimensions: req.body.dimensions,
       values: req.body.values,
       minLabel: req.body.minLabel,
       maxLabel: req.body.maxLabel,

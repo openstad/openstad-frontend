@@ -1,12 +1,10 @@
 const Promise = require('bluebird');
 const Sequelize = require('sequelize');
 const express = require('express');
-const moment = require('moment');
 const createError = require('http-errors');
 const config = require('config');
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
-const mail = require('../../lib/mail');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
 const fetch = require('node-fetch');
@@ -31,21 +29,48 @@ router
 router.route('/')
   // list users
   // ----------
-  .get(auth.can('User', 'list'))
+  // .get(auth.can('User', 'list')) -> now handled by onlyListable
+  .get(function(req, res, next) {
+    req.scope.push({ method: ['onlyListable', req.user.id, req.user.role]});
+    next();
+  })
   .get(pagination.init)
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    let queryConditions = req.queryConditions ? req.queryConditions : {};
+    let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
+
+    /**
+     * Handle queries with search
+     */
+    if(queryConditions.hasOwnProperty('q')) {
+      const searchColumns = ['firstName', 'lastName', 'email', 'role'];
+      const searchTerm = queryConditions.q;
+      const searchQuery = {};
+
+      searchColumns.forEach((key) => {
+        searchQuery[key] = { [Op.like]: searchTerm };
+      })
+
+      if(Object.keys(searchQuery).length > 0) {
+        queryConditions[Op.or] = searchQuery;
+      }
+    }
+    delete queryConditions.q;
+
+    /**
+     * Add siteId to query conditions
+     * @type {{siteId: *}}
+     */
     queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
 
     db.User
       .scope(...req.scope)
       .findAndCountAll({
-        where: queryConditions,
         offset: req.dbQuery.offset,
         limit: req.dbQuery.limit,
 				...dbQuery,
+        where: queryConditions
       })
       .then(function(result) {
         req.results = result.rows;
@@ -136,7 +161,7 @@ router.route('/:userId(\\d+)')
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
     let data = {}
 
-	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData'];
+	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'listableByRole', 'detailsViewableByRole'];
 	  keys.forEach((key) => {
 		  if (req.body[key]) {
 			  data[key] = req.body[key];
@@ -177,10 +202,11 @@ router.route('/:userId(\\d+)')
 
 					 throw createError('Updaten niet gelukt', response);
 				})
-			 .then((json) => {
-				 //update values from API
+			.then((json) => {
 
-				 db.User
+				//update values from API
+
+				return db.User
 				  .scope(['includeSite'])
 				  .findAll({where : {
 						externalUserId: json.id,
@@ -192,54 +218,61 @@ router.route('/:userId(\\d+)')
 					  }
 					}})
 				  .then(function( users ) {
-				     const actions = [];
+				    const actions = [];
 
-				     if (users) {
-				       users.forEach((user) => {
+				    if (users) {
+				      users.forEach((user) => {
 
-                 //only update users with active site (they can be deleteds)
-                 if (user.site) {
-  				         actions.push(function() {
-  									 return new Promise((resolve, reject) => {
-  				           user
-  				            .authorizeData(data, 'update', req.user)
-  				            .update(data)
-  				            .then((result) => {
-  				              resolve();
-  				            })
-  				            .catch((err) => {
-  											console.log('err', err)
-  				              reject(err);
-  				            })
+                // only update users with active site (they can be deleteds)
+                if (user.site) {
+  				        actions.push(function() {
+  									return new Promise((resolve, reject) => {
+  				            user
+  				              .authorizeData(data, 'update', req.user)
+  				              .update(data)
+  				              .then((result) => {
+  				                resolve();
+  				              })
+  				              .catch((err) => {
+  											  console.log('err', err)
+  				                reject(err);
+  				              })
   									})}())
-                  }
+                }
 
-				       });
-				     }
+				      });
+				    }
 
-				     return Promise.all(actions)
-				        .then(() => { next(); })
-				        .catch(next)
+				    return Promise.all(actions)
+            // response has been sent; next has no meaning here
+				    // .then(() => { next(); })
+				      .catch(err => {
+                console.log(err);
+                throw(err)
+              });
 
 				  })
-				  .catch(next);
-			  })
-				.then( (result) => {
-					return db.User
-						.scope(['includeSite'])
-						.findOne({
-					 			where: { id: userId, siteId: req.params.siteId }
-								//where: { id: parseInt(req.params.userId) }
-						})
-				})
-				.then(found => {
-					if ( !found ) throw new Error('User not found');
-					res.json(found);
-				})
-			 .catch(err => {
-				 console.log(err);
-				 return next(err);
-			 });
+				  .catch(err => {
+            console.log(err);
+            throw(err)
+          });
+			})
+			.then( (result) => {
+				return db.User
+					.scope(['includeSite'])
+					.findOne({
+					 	where: { id: userId, siteId: req.params.siteId }
+						//where: { id: parseInt(req.params.userId) }
+					})
+			})
+			.then(found => {
+				if ( !found ) throw new Error('User not found');
+				res.json(found);
+			})
+			.catch(err => {
+				console.log(err);
+				return next(err);
+			});
 	})
 
 // delete idea

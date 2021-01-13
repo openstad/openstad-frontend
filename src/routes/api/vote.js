@@ -237,7 +237,14 @@ router.route('/*')
 		db.Idea
 			.findAll({ where: { id:ids, siteId: req.site.id } })
 			.then(found => {
-				if (req.votes.length != found.length) return next(createError(400, 'Idee niet gevonden'));
+
+				if (req.votes.length != found.length) {
+					console.log('req.votes', req.votes);
+					console.log('found', found);
+					console.log('req.body',req.body);
+
+					return next(createError(400, 'Idee niet gevonden'));
+				}
 				req.ideas = found;
 				return next();
 			})
@@ -309,10 +316,43 @@ router.route('/*')
 		return next();
   })
 
+  // validaties voor voteType=count-per-theme
+	.post(function(req, res, next) {
+		if (req.site.config.votes.voteType != 'count-per-theme') return next();
+
+    let themes = req.site.config.votes.themes || [];
+
+    let totalNoOfVotes = 0;
+    req.votes.forEach((vote) => {
+			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
+      totalNoOfVotes += idea ? 1 : 0;
+      let themename = idea && idea.extraData && idea.extraData.theme;
+      let theme = themes.find( theme => theme.value == themename );
+      if (theme) {
+	      theme.noOf = theme.noOf || 0;
+        theme.noOf++;
+      }
+		});
+
+    let isOk = true;
+    themes.forEach((theme) => {
+	    theme.noOf = theme.noOf || 0;
+		  if (theme.noOf < theme.minIdeas || theme.noOf > theme.maxIdeas) {
+        isOk = false;
+		  }
+    });
+
+		if (( req.site.config.votes.minIdeas && totalNoOfVotes < req.site.config.votes.minIdeas ) || ( req.site.config.votes.maxIdeas && totalNoOfVotes > req.site.config.votes.maxIdeas )) {
+      isOk = false;
+		}
+
+		return next( isOk ? null : createError(400, 'Count per thema klopt niet') );
+
+	})
+
   // validaties voor voteType=budgeting-per-theme
 	.post(function(req, res, next) {
 		if (req.site.config.votes.voteType != 'budgeting-per-theme') return next();
-    let budget = 0;
     let themes = req.site.config.votes.themes || [];
 		req.votes.forEach((vote) => {
 			let idea = req.ideas.find(idea => idea.id == vote.ideaId);
@@ -355,10 +395,7 @@ router.route('/*')
 				break;
 
 			case 'count':
-				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
-				req.existingVotes.map( vote => actions.push({ action: 'delete', vote: vote}) );
-				break;
-
+			case 'count-per-theme':
 			case 'budgeting':
 			case 'budgeting-per-theme':
 				req.votes.map( vote => actions.push({ action: 'create', vote: vote}) );
@@ -413,6 +450,35 @@ router.route('/*')
 				}}));
 			})
 			.catch(next)
+	})
+
+	router.route('/:voteId(\\d+)')
+		.all(( req, res, next ) => {
+			var voteId = req.params.voteId;
+
+			db.Vote
+			.findOne({
+				where: { id: voteId }
+			})
+			.then(function( vote ) {
+				if( vote ) {
+					req.results = vote;
+				}
+				next();
+			})
+			.catch(next);
+		})
+	.delete(auth.useReqUser)
+	.delete(function(req, res, next) {
+		const vote = req.results;
+		if (!( vote && vote.can && vote.can('delete') )) return next( new Error('You cannot delete this vote') );
+
+		vote
+			.destroy()
+			.then(() => {
+				res.json({ "vote": "deleted" });
+			})
+			.catch(next);
 	})
 
 	router.route('/:voteId(\\d+)/toggle')

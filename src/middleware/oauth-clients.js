@@ -62,13 +62,11 @@ exports.withAllForSite = (req, res, next) => {
       return userClientApi
         .fetch(authServerUrl,apiCredentials, oauthClientId)
         .then((client) => {
-          console.log('==>> err', client);
-
           req.siteOAuthClients.push(client);
           resolve();
         })
         .catch((err) => {
-          console.log('==>> err', oauthClientId, err.message);
+          console.log('==>> err oauthClientId', oauthClientId, err.message);
           resolve();
         });
     })
@@ -80,7 +78,7 @@ exports.withAllForSite = (req, res, next) => {
       fetchActions.push(fetchClient(req, oauthClientId));
     })
   } else {
-    fetchActions.push(fetchClient(req, oauthClientId));
+    fetchActions.push(fetchClient(req, authClientId));
   }
 
   return Promise
