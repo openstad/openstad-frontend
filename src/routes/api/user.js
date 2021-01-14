@@ -7,6 +7,7 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
+const searchResults = require('../../middleware/search-results');
 const fetch = require('node-fetch');
 
 
@@ -62,7 +63,7 @@ router.route('/')
       .catch(next);
   })
   .get(auth.useReqUser)
-  //	.get(searchResults)
+  .get(searchResults)
   .get(pagination.paginateResults)
   .get(function(req, res, next) {
     res.json(req.results);
