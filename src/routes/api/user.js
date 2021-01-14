@@ -41,24 +41,6 @@ router.route('/')
     let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
 
     /**
-     * Handle queries with search
-     */
-    if(queryConditions.hasOwnProperty('q')) {
-      const searchColumns = ['firstName', 'lastName', 'email', 'role'];
-      const searchTerm = queryConditions.q;
-      const searchQuery = {};
-
-      searchColumns.forEach((key) => {
-        searchQuery[key] = { [Op.like]: searchTerm };
-      })
-
-      if(Object.keys(searchQuery).length > 0) {
-        queryConditions[Op.or] = searchQuery;
-      }
-    }
-    delete queryConditions.q;
-
-    /**
      * Add siteId to query conditions
      * @type {{siteId: *}}
      */
