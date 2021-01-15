@@ -63,8 +63,6 @@ jobs:
 
     - stage: docker_push_tag
       name: 'Push new image with tag to docker'
-      env:
-        - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${TRAVIS_BUILD_ID}
       script: bash docker_publish_tag
 
     - stage: kubectl_deploy_dev
