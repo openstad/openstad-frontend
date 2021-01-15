@@ -107,7 +107,28 @@ There are several test scripts:
 2. `npm run test:unit` For all unit tests
 3. `npm run test:e2e` For all e2e tests
 
+## Travis CI
+
+### GITOPS
+Gitops steps:
+- Test application
+- Generate assets
+- Build docker image
+- Push docker image
+- Commit new image to helm repo (based on GITOPS_RELEASE_BRANCH and GITOPS_{environment}_VALUES_FILE )
+
+If you want to enable gitops flow in the ci pipeline of travis you need to configure a few variables:
+- GITOPS=true
+- DOCKER_PUBLIC_USERNAME=openstad
+- DOCKER_IMAGE_NAME=api
+- HELM_REPO_NAME=openstad-kubernetes
+- HELM_CHART_FOLDER=k8s/openstad
+- GITOPS_RELEASE_BRANCH=master
+- GITOPS_DEV_VALUES_FILE=k8s/openstad/environments/dev.values.yaml
+- GITOPS_ACC_VALUES_FILE=k8s/openstad/environments/acc.values.yaml
+- GITOPS_PROD_VALUES_FILE=k8s/openstad/environments/prod.values.yaml
 
 ## Documentatie
 
 Meer informatie staat in de [docs directory](doc/index.md).
+
