@@ -68,13 +68,13 @@ router.route('/')
 		db.Site
 			.create(req.body)
 			.then(result => {
-				req.results = result;
-				return checkHostStatus({id: result.id});
+				return req.results = result;
+				//return checkHostStatus({id: result.id});
 			})
       .then(next)
 	})
 	.post(auth.useReqUser)
-	.post(refreshSiteConfigMw)
+	//.post(refreshSiteConfigMw)
 	.post(function(req, res, next) {
     res.json(req.results)
   })
