@@ -22,7 +22,7 @@
     {% endif %}
 
     {% for field in formSection.fields %}
-    {% if not field.onlyForModerator %}
+    {% if not field.onlyForModerator or (field.onlyForModerator and data.hasModeratorRights) %}
     <div class="form-field-container">
       <p> {{field.fieldInfo}} </p>
       {% include 'includes/fields/' + field.type + '.html' ignore missing %}
