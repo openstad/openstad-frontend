@@ -75,7 +75,7 @@ router.route('/')
 			.catch(next)
 	})
 	.post(auth.useReqUser)
-	//.post(refreshSiteConfigMw)
+	.post(refreshSiteConfigMw)
 	.post(function(req, res, next) {
     return res.json(req.results);
   })
