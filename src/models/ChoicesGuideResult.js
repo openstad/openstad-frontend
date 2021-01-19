@@ -140,7 +140,7 @@ module.exports = function( db, sequelize, DataTypes ) {
     listableBy: 'all',
     viewableBy: 'all',
     createableBy: 'all',
-    updateableBy: 'admin',
+    updateableBy: ['editor', 'owner'],
     deleteableBy: 'admin',
   }
 

@@ -62,6 +62,28 @@ module.exports = function( db, sequelize, DataTypes ) {
       }
     },
 
+    config: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get: function() {
+        let value = this.getDataValue('config');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        return value;
+      },
+      set: function(value) {
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        this.setDataValue('config', JSON.stringify(value));
+      }
+    },
+
   });
 
   ChoicesGuide.associate = function( models ) {
