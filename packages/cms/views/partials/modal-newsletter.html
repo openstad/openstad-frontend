@@ -122,7 +122,7 @@
 
         <div class="form-field">
 
-          <img src="/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
+          <img src="{{data.siteUrl}}/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
           <br />
           <a href="#" class="captcha-refresh">
             <small class="underline">
@@ -150,7 +150,7 @@
         <div class="success-message success-block" style="display: none;"> </div>
 
 
-        <button href="/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
+        <button href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
           {{ data.global.newsletterModalSubmit or __('Sign up') }}
         </button>
         <a href="#closed" class="outlined-button" type="submit">

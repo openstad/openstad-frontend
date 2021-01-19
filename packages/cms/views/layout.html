@@ -175,11 +175,11 @@
                 {% if data.global.displayLoginTopLink %}
                 <li>
                   {% if data.loggedIn %}
-                  <a href="/oauth/logout" class="link-caret--black">
+                  <a href="{{data.siteUrl}}/oauth/logout" class="link-caret--black">
                     {{ __('Uitloggen') }}
                   </a>
                   {% else %}
-                  <a href="/oauth/login" class="link-caret--black"">
+                  <a href="{{data.siteUrl}}/oauth/login" class="link-caret--black"">
                     <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                     {{ __('Inloggen') }}
                   </a>
@@ -248,13 +248,13 @@
         <nav  class="" role="navigation">
           <div>
             {% if data.loggedIn %}
-            <a href="/oauth/logout" class="logout-button" role="button">
+            <a href="{{data.siteUrl}}/oauth/logout" class="logout-button" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
               <img src="/modules/openstad-assets/img/avatar.svg" />
               {{ __('Uitloggen') }}
             </a>
             {% else %}
-            <a href="/oauth/login"  role="button">
+            <a href="{{data.siteUrl}}/oauth/login"  role="button">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
               {{ __('Mijn account') }}
             </a>
@@ -321,11 +321,11 @@
             {% if data.global.displayLoginTopLink %}
             <li class="visible-xs">
               {% if data.loggedIn %}
-              <a href="/oauth/logout"                       class="nav-link ">
+              <a href="{{data.siteUrl}}/oauth/logout"                       class="nav-link ">
                 {{ __('Uitloggen') }}
               </a>
               {% else %}
-              <a href="/oauth/login"                       class="nav-link ">
+              <a href="{{data.siteUrl}}/oauth/login"                       class="nav-link ">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 {{ __('Inloggen') }}
               </a>
@@ -343,12 +343,12 @@
               {% endif %}
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
-      				<a href="/oauth/logout" class="account logout-button" role="button">
+      				<a href="{{data.siteUrl}}/oauth/logout" class="account logout-button" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                 {{ __('Uitloggen') }}
               </a>
         			{% else %}
-      				<a href="/oauth/login" class="account" role="button">
+      				<a href="{{data.siteUrl}}/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 <img src="/modules/openstad-assets/img/avatar.svg" />
                 {{ __('Mijn account') }}

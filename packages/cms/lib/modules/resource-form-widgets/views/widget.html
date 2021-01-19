@@ -25,7 +25,7 @@
 	{% if not showForm %}
 	<div class="box-grey">
 		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
-		<p>Klik <a href="/oauth/login">hier</a> om in te loggen.</p>
+		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
@@ -46,13 +46,13 @@
   var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
 </script>
 
-<script src="/modules/openstad-assets/js/vendor/trix.js"></script>
-<script src="/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/trix.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond.js"></script>
 
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
