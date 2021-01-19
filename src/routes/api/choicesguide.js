@@ -617,7 +617,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
     };
 
     db.ChoicesGuideResult
-			.authorizeData(data, 'create', req.user)
+			.authorizeData(data, 'create', req.user, null, req.site)
       .create(data)
       .then((result) => {
         res.json(result);

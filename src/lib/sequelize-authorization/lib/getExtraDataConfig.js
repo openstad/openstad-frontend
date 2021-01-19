@@ -74,6 +74,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
     auth: {
       viewableBy: 'all',
       authorizeData: function(data, action, user, self, site) {
+
         if (!site) return; // todo: die kun je ophalen als eea. async is
         data = data || self.extraData;
         data = typeof data === 'object' ? data : {};
@@ -97,8 +98,6 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
                 testRole = [ self.detailsViewableByRole, 'owner' ];
               }
             }
-
-            // console.log(key, testRole, userId);
 
             if (userHasRole(user, testRole, userId)) {
               result[key] = data[key];
