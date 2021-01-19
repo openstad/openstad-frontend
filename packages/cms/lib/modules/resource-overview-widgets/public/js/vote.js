@@ -199,7 +199,7 @@ function selectIdea(newIdeaId, doNotOpen) {
   } else {
     $('.selected-idea-title').text(ideaTitle);
   }
-  
+
   previewElement.setAttribute('title', 'Ontwerp "' + ideaTitle + '" gekozen. Druk op enter om deze te verwijderen.');
 
 
@@ -210,7 +210,7 @@ function selectIdea(newIdeaId, doNotOpen) {
   setNextButton();
   setLoginUrlWithIdeaId(ideaId);
 
-  location.href = "#vote-creator-anchor";
+  location.hash = "#vote-creator-anchor";
 
   return false;
 }
