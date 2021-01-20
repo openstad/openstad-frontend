@@ -21,9 +21,8 @@ module.exports =  function (req, res, next) {
 
   const thisHost = req.headers['x-forwarded-host'] || req.get('host');
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-
-  const siteUrl = req.data.siteUrl
-  const fullUrl = siteUrl + req.originalUrl;
+  const baseUrl = protocol + '://' + thisHost;
+  const fullUrl = baseUrl + req.originalUrl;
   const parsedUrl = url.parse(fullUrl, true);
 
 

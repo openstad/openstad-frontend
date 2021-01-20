@@ -133,7 +133,9 @@ module.exports = {
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
-        'openstad-nunjucks-filters': {},
+        'openstad-nunjucks-filters': {
+          siteUrl: siteUrl,
+        },
         'openstad-custom-pages': {},
         'openstad-oembed': {},
 

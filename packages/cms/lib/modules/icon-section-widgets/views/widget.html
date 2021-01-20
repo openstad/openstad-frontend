@@ -28,7 +28,7 @@
 						  {% for link in step.links %}
 						  {% if link.url %}
 							<li>
-								<a href="{{ link.url }}" title="{{ link.title }}">{{ link.title }}</a>
+								<a href="{{ link.url | safeRelativeUrl}}" title="{{ link.title }}">{{ link.title }}</a>
 							</li>
 					    {% endif %}
 						  {% endfor %}

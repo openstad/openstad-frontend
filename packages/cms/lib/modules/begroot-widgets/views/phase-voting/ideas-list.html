@@ -177,7 +177,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						</div>
 						{% endif %}
 						{% if data.hasModeratorRights %}
-						<div class="description"><a href="{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
+						<div class="description"><a href="{{data.global.editIdeaUrl | safeRelativeUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
 						{% endif %}
 					</div>
 				</div>
