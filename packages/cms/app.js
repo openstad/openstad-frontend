@@ -31,7 +31,7 @@ const defaultSiteConfig       = require('./config/siteConfig');
 const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif'];
 // in case minifying is on the CSS doesn't have to go through ApostropheCMS
 // but for development sites it's necessary
-const fileExtension           = process.env.MINIFY_JS === ON ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
+const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
 
 console.log('fileExtension', fileExtension)
 
