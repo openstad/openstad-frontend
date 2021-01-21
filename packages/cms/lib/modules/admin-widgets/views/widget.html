@@ -43,7 +43,7 @@
         url: '/image'
       },
       restApi: {
-        url: '/api/site/{{data.global.siteId}}'
+        url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
       },
       csrf: $.cookie(apos.csrfCookieName),
       resources: {
