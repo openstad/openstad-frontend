@@ -84,7 +84,10 @@ module.exports = {
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
 
-        returnTo = cmsUrl + returnTo.path;
+        // make sure it's a string
+        returnTo = returnTo.path ? returnTo.path : '';
+
+        returnTo = cmsUrl + returnTo;
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
