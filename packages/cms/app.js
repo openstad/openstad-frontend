@@ -259,7 +259,8 @@ module.exports.getMultiSiteApp = (options) => {
          req.url = req.url.replace(req.params.firstPath, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
-         site.firstPath = req.params.firstPath
+         site.firstPath = req.params.firstPath;
+         req.sitePrefix = req.params.firstPath;
          serveSite(req, res, site, req.forceRestart);
        }
      } else {
