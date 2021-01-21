@@ -28,7 +28,7 @@
 {% block extraHead %}
 
 {% if data.global.applyPaletteStyling %}
-{{ palette.stylesheetLink(data.global) }}
+<link rel="stylesheet" href="{{data.siteUrl}}/modules/apostrophe-global/palette-styles?v={{ data.global.paletteCounter or 'e' }}">
 {{ palette.stylesheetTag() }}
 {% endif %}
 
