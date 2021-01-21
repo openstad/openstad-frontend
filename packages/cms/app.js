@@ -253,7 +253,8 @@ module.exports.getMultiSiteApp = (options) => {
        // So this is an easy way to serve the files efficiently
        // It, currently doesn't check if file exists for performance reasons, it's possible to add
        // it, this will need
-       if (fileExtension.some(extension => req.url.includes(extension)) && !fileExtension.contains('/modules/apostrophe-oembed/')) {
+      // if (fileExtension.some(extension => req.url.includes(extension)) && !fileExtension.contains('/modules/apostrophe-oembed/')) {
+      if (fileExtension.some(extension => req.url.includes(extension)) ) {
          // replace the file path so it has correct version
          // see if express static can work, it's a bit more expensive it seems since it does a file exist check
          req.url = req.url.replace(req.params.firstPath, '');
