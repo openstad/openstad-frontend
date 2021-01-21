@@ -1,0 +1,42 @@
+name: GitopsDev
+
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+    branches:
+      - development
+      - feature/*
+
+jobs:
+  gitops:
+    env:
+      HELM_REPO_NAME: openstad-kubernetes
+      HELM_CHART_FOLDER: k8s/openstad
+      GIT_USER_EMAIL: github@ci.push
+      GIT_USER_NAME: ci
+    name: gitops commit
+    runs-on: ubuntu-latest
+
+    services:
+      - docker
+      - mongodb
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install yq
+        run: snap install yq --channel=v3/stable
+
+      - name: Run build script
+        run: ./build.sh
+        shell: bash
+        env:
+          - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${GITHUB_SHA}
+
+      - name: Run docker push script
+        run: ./gitops_push
+        shell: bash
+        env:
+          - IMAGE_TAG=${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${GITHUB_SHA}
+          - GITOPS_VALUES_FILE=k8s/openstad/environments/dev.values.yaml
