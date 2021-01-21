@@ -28,7 +28,12 @@ const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-const fileExtension          = ['.jpg', '.js', '.svg', '.png', '.less', '.gif']
+const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif'];
+// in case minifying is on the CSS doesn't have to go through ApostropheCMS
+// but for development sites it's necessary
+const fileExtension           = process.env.MINIFY_JS === ON ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
+
+console.log('fileExtension', fileExtension)
 
 // Storing all site data in the site config
 const sites                   = {};
