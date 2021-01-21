@@ -71,10 +71,14 @@ module.exports = {
 
         // remove the JWT Parameter otherwise keeps redirecting
         let returnTo = req.session.returnTo ? req.session.returnTo : removeURLParameter(fullUrlPath, 'jwt');
+        console.log('returnTo', returnTo)
+
         const sitePrefix = req.sitePrefix ?  '/' + req.sitePrefix : false;
-        
+        console.log('sitePrefix', sitePrefix)
+
         // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
         returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : sitePrefix
+        console.log('returnT o 2', returnTo)
 
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
