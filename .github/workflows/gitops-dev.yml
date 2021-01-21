@@ -18,8 +18,12 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      - docker
-      - mongodb
+      docker:
+        image: docker
+      mongodb:
+        image: mongo:3.4.23
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout code
