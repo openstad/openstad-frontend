@@ -19,7 +19,6 @@ module.exports = {
       // this way /page also works for subdirectory sites
       // for example domain.com/site1 has a link to /page1, this wil turn that into  domain.com/site1/page1
       const siteUrl = options.siteUrl;
-      console.log('siteUrl from option', siteUrl, options)
       return s.startsWith('/') ? siteUrl +  s : s;
     });
 
