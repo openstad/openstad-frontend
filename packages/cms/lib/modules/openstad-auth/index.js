@@ -75,9 +75,10 @@ module.exports = {
 
         const sitePrefix = req.sitePrefix ?  '/' + req.sitePrefix : false;
         console.log('sitePrefix', sitePrefix)
+        console.log('returnTo.startsWith(sitePrefix)', returnTo.startsWith(sitePrefix))
 
         // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
-        returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : sitePrefix
+        returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : returnTo;
         console.log('returnT o 2', returnTo)
 
         // make sure references to external urls fail, only take the path
