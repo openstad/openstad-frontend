@@ -33,7 +33,9 @@ jobs:
         run: sudo snap install yq --channel=v3/stable
 
       - name: Run build script
-        run: ./build.sh
+        run: |
+          sudo chmod a+x ./build.sh
+          ./build.sh
         shell: bash
         env:
           IMAGE_TAG: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${GITHUB_SHA}
