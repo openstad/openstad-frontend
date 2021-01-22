@@ -33,20 +33,21 @@ module.exports = {
     return this.config.cms.hostname;
   },
   
-  getIdeasFeedbackEmailFrom: function () {
-    return this.config.ideas.feedbackEmail.from;
-  },
-  
-  getIdeasFeedbackEmailInzendingPath: function () {
-    return this.config.ideas.feedbackEmail.inzendingPath;
-  },
-  
   getResourceConfig: function (resourceType) {
     return this.config[resourceType] || {};
   },
-  
+
   getResourceFeedbackEmail: function (resourceType) {
-    return this.getResourceConfig(resourceType).feedbackEmail;
+    return this.getResourceConfig(resourceType).feedbackEmail || {};
+  },
+
+  getFeedbackEmailFrom: function (resourceType) {
+    resourceType = resourceType || 'ideas'
+    return this.getResourceFeedbackEmail(resourceType).from;
+  },
+  
+  getFeedbackEmailInzendingPath: function (resourceType) {
+    return this.getResourceFeedbackEmail(resourceType).inzendingPath;
   },
   
   getResourceFeedbackEmailTemplate: function (resourceType) {
