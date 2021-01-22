@@ -62,13 +62,13 @@ jobs:
         id: acc_values_file
         shell: bash
         if: contains(github.ref, 'release')
-        run: echo "k8s/openstad/environments/acc.values.yaml" >> $GITOPS_VALUES_FILE
+        run: echo "GITOPS_VALUES_FILE=k8s/openstad/environments/acc.values.yaml" >> $GITHUB_ENV
 
       - name: Set environment to production
         id: prod_values_file
         shell: bash
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
-        run: echo "k8s/openstad/environments/prod.values.yaml" >> $GITOPS_VALUES_FILE
+        run: echo "GITOPS_VALUES_FILE=k8s/openstad/environments/prod.values.yaml" >> $GITHUB_ENV
 
       - name: Set commit SHA & current branch
         id: vars
