@@ -9,6 +9,7 @@ on:
 
 jobs:
   gitops:
+    environment: gitops_dev
     env:
       HELM_REPO_NAME: openstad-kubernetes
       HELM_CHART_FOLDER: k8s/openstad
