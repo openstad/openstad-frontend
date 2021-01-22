@@ -84,7 +84,7 @@ function sendNotificationMail( data ) {
 	});
 };
 
-// send email to user that submitted an idea
+// send email to user that submitted a resource
 function sendThankYouMail (resource, resourceType, user) {
   
   if (!resourceType) return console.error('sendThankYouMail error: resourceType not provided');
@@ -92,10 +92,12 @@ function sendThankYouMail (resource, resourceType, user) {
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
   const sitename    = siteConfig.getTitle();
-  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
+  let fromAddress = siteConfig.getFeedbackEmailFrom(resourceType) || config.email;
   if (fromAddress.match(/^.+<(.+)>$/, '$1')) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
-  
-  const inzendingPath = (siteConfig.getIdeasFeedbackEmailInzendingPath() && siteConfig.getIdeasFeedbackEmailInzendingPath().replace(/\[\[ideaId\]\]/, idea.id)) || "/";
+
+  // todo: als je dan toch met een siteConfig.get werkt, moet deze search-and-replace dan niet ook daar?
+  let idRegex = new RegExp(`\\[\\[(?:${resourceType}|idea)?Id\\]\\]`, 'g'); // 'idea' wegens backward compatible
+  const inzendingPath = (siteConfig.getFeedbackEmailInzendingPath(resourceType) && siteConfig.getFeedbackEmailInzendingPath(resourceType).replace(idRegex, resource.id).replace(/\[\[resourceType\]\]/, resourceType)) || "/";
   const inzendingURL  = url + inzendingPath;
   const logo =  siteConfig.getLogo();
   
@@ -157,13 +159,13 @@ function sendThankYouMail (resource, resourceType, user) {
 
 }
 
-// send email to user that submitted an idea
+// send email to user that submitted a NewsletterSignup
 function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
   const sitename    = siteConfig.getTitle();
-  let fromAddress = siteConfig.getIdeasFeedbackEmailFrom() || config.email;
+  let fromAddress = siteConfig.getFeedbackEmailFrom() || config.email;
   if ( fromAddress.match(/^.+<(.+)>$/, '$1') ) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
 	const confirmationUrl = siteConfig.getNewsletterSignupConfirmationEmailUrl().replace(/\[\[token\]\]/, newslettersignup.confirmToken)
