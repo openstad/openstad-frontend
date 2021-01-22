@@ -38,12 +38,12 @@ jobs:
           ./build.sh
         shell: bash
         env:
-          IMAGE_TAG: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${GITHUB_SHA}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${GITHUB_SHA}
       - name: Run docker push script
         run: |
           sudo chmod a+x ./gitops_push
           ./gitops_push
         shell: bash
         env:
-          IMAGE_TAG: ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${GITHUB_SHA}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${GITHUB_SHA}
           GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
