@@ -20,6 +20,22 @@ jobs:
       HELM_REPO: ${{ secrets.HELM_REPO }}
       HELM_REPO_WITH_TOKEN: ${{ secrets.HELM_REPO_WITH_TOKEN }}
       GITOPS_RELEASE_BRANCH: ${{ secrets.GITOPS_RELEASE_BRANCH }}
+      FRONTED_PORT: 4444
+      FRONTEND_MONGO_SCHEME: mongodb://mongo
+      FRONTEND_MONGO_DB_HOST: mongo
+      FRONTEND_MONGO_PORT: 27017
+      FRONTEND_MINIFY_JS: ON
+      COOKIE_SECURE_OFF: yes
+      API: http://localhost:8111
+      IMAGE_API_URL: http://localhost:3333
+      IMAGE_API_ACCESS_TOKEN: xxxx
+      SITE_API_KEY: xxxx
+      DEFAULT_DB: localhost2
+      DEFAULT_HOST: localhost:4444
+      APP_URL: http://localhost:4444
+      APOS_BUNDLE: assets
+      APOS_MINIFY: 1
+      NODE_ENV: production
 
     name: gitops commit
     runs-on: ubuntu-latest
