@@ -9,8 +9,9 @@ module.exports = {
   construct: function(self, options) {
 
     const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
+    const rewrt
     const pathRewrite = options.sitePrefix ? {
-      "^" + options.sitePrefix: '' //remove sitePrefix
+      ["^" + options.sitePrefix]: '' //remove sitePrefix
     } : false;
 
     /*
