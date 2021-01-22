@@ -63,7 +63,7 @@ if (fieldsetElement) {
     labelButtonProcessItem: "Upload"
   }
 
-  console.log('filePond', filePond)
+  console.log('filePond', filePondSettings)
 
   var pond = FilePond.create(fieldsetElement, filePondSettings);
 
