@@ -79,7 +79,8 @@ module.exports = {
 
         // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
         returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : returnTo;
-        console.log('returnT o 2', returnTo)
+
+        console.log('returnTo 2', returnTo)
 
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
@@ -88,6 +89,10 @@ module.exports = {
         returnTo = returnTo.path ? returnTo.path : '';
 
         returnTo = cmsUrl + returnTo;
+
+        console.log('returnTo 3', returnTo)
+
+
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
