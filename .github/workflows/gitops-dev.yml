@@ -20,7 +20,6 @@ jobs:
       HELM_REPO: ${{ secrets.HELM_REPO }}
       HELM_REPO_WITH_TOKEN: ${{ secrets.HELM_REPO_WITH_TOKEN }}
       GITOPS_RELEASE_BRANCH: ${{ secrets.GITOPS_RELEASE_BRANCH }}
-      SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
 
     name: gitops commit
     runs-on: ubuntu-latest
@@ -40,18 +39,26 @@ jobs:
       - name: Install yq
         run: sudo snap install yq --channel=v3/stable
 
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
       - name: Run build script
         run: |
           sudo chmod a+x ./build.sh
           ./build.sh
         shell: bash
         env:
-          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.SHORT_SHA }}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+
       - name: Run docker push script
         run: |
           sudo chmod a+x ./gitops_push
           ./gitops_push
         shell: bash
         env:
-          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ env.SHORT_SHA }}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
           GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
