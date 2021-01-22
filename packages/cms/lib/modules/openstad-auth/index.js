@@ -80,6 +80,9 @@ module.exports = {
         // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
         returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : returnTo;
 
+        // in case full url is prefixed remove it, otherwise will also cause issues
+        returnTo = cmsUrl && returnTo.startsWith(cmsUrl) ? returnTo.replace(cmsUrl, '') : returnTo;
+
         console.log('returnTo 2', returnTo)
 
         // make sure references to external urls fail, only take the path
@@ -88,11 +91,10 @@ module.exports = {
         // make sure it's a string
         returnTo = returnTo.path ? returnTo.path : '';
 
+        // always attach cmsUrl so no external redirects are possible and subdir is working
         returnTo = cmsUrl + returnTo;
 
-        console.log('returnTo 3', returnTo)
-
-
+        // set the JWT to session and redirect without it so it doens't get save to the browser history
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
