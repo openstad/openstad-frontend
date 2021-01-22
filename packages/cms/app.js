@@ -259,7 +259,7 @@ module.exports.getMultiSiteApp = (options) => {
       if (fileExtension.some(extension => req.url.includes(extension)) ) {
          // replace the file path so it has correct version
          // see if express static can work, it's a bit more expensive it seems since it does a file exist check
-         req.url = req.url.replace(req.params.firstPath, '');
+         req.url = req.url.replace(req.sitePrefix, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
          site.firstPath = req.params.sitePrefix;
