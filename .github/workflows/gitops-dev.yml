@@ -40,6 +40,7 @@ jobs:
       APOS_MINIFY: 1
       NODE_ENV: production
       BRANCH_REF: ${{ github.ref }}
+      GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
 
     name: gitops commit
     runs-on: ubuntu-latest
@@ -57,11 +58,17 @@ jobs:
         uses: actions/checkout@v2
 
 
-      - name: Set environment to dev
-        id: deploy_environment
+      - name: Set environment to acc
+        id: acc_values_file
         shell: bash
-        run: |
-          echo "::set-output name=filename::dev"
+        if: contains(github.ref, 'release')
+        run: echo "k8s/openstad/environments/acc.values.yaml" >> $GITOPS_VALUES_FILE
+
+      - name: Set environment to production
+        id: prod_values_file
+        shell: bash
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
+        run: echo "k8s/openstad/environments/prod.values.yaml" >> $GITOPS_VALUES_FILE
 
       - name: Set commit SHA & current branch
         id: vars
@@ -89,4 +96,3 @@ jobs:
         shell: bash
         env:
           IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.current_branch }}-${{ steps.vars.outputs.sha_short }}-${{ github.run_id}}
-          GITOPS_VALUES_FILE: k8s/openstad/environments/${{ steps.deploy_environment.filename }}.values.yaml
