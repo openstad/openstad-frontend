@@ -8,12 +8,12 @@ const eventEmitter  = require('../../../events').emitter;
 module.exports = {
   construct: function(self, options) {
 
-    const apiUrl = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
+    const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
 
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
     */
-   self.apos.app.use(apiUrl, proxy({
+   self.apos.app.use(apiPath, proxy({
      target: apiUrl,
      changeOrigin: true,
      onProxyReq : (proxyReq, req, res) => {
