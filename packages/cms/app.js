@@ -243,6 +243,8 @@ module.exports.getMultiSiteApp = (options) => {
    */
   app.use('/:sitePrefix', function(req, res, next) {
      const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
+
+    console.log('domainAndPath', domainAndPath)
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
@@ -260,7 +262,7 @@ module.exports.getMultiSiteApp = (options) => {
          req.url = req.url.replace(req.params.firstPath, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
-         site.firstPath = req.params.firstPath;
+         site.firstPath = req.params.sitePrefix;
          req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
        }
