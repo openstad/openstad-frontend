@@ -4,9 +4,11 @@ name: GitopsDev
 on:
   push:
     branches:
+      - master
       - development
       - feature/*
       - release/*
+      - release
 
 jobs:
   gitops:
@@ -54,21 +56,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install yq
-        run: sudo snap install yq --channel=v3/stable
 
-      - name: Set SHA & branch
+      - name: Set environment to dev
+        id: deploy_environment
+        shell: bash
+        run: |
+          echo "::set-output name=filename::dev"
+
+      - name: Set commit SHA & current branch
         id: vars
         shell: bash
         run: |
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=current_branch::$(git branch --show-current | sed "s/\//-/g")"
 
-      - name: Check outputs
-        shell: bash
-        run: |
-          echo ${{ steps.vars.outputs.sha_short }}
-          echo ${{ steps.vars.outputs.current_branch }}
+      - name: Install yq
+        run: sudo snap install yq --channel=v3/stable
+
 
       - name: Run build script
         run: |
@@ -85,4 +89,4 @@ jobs:
         shell: bash
         env:
           IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.current_branch }}-${{ steps.vars.outputs.sha_short }}-${{ github.run_id}}
-          GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
+          GITOPS_VALUES_FILE: k8s/openstad/environments/${{ steps.deploy_environment.filename }}.values.yaml
