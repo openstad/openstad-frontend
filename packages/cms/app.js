@@ -111,7 +111,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
             config.id = siteConfig.id;
             config.title = siteConfig.title;
             config.area = siteConfig.area;
-            config.firstPath = siteConfig.firstPath;
+            config.sitePrefix = siteConfig.sitePrefix;
 
             aposStartingUp[dbName] = true;
 
@@ -259,10 +259,10 @@ module.exports.getMultiSiteApp = (options) => {
       if (fileExtension.some(extension => req.url.includes(extension)) ) {
          // replace the file path so it has correct version
          // see if express static can work, it's a bit more expensive it seems since it does a file exist check
-         req.url = req.url.replace(req.sitePrefix, '');
+         req.url = req.url.replace(req.params.sitePrefix, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
-         site.firstPath = req.params.sitePrefix;
+         site.sitePrefix = req.params.sitePrefix;
          req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
        }
