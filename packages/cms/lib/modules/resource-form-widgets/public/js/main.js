@@ -194,7 +194,7 @@ $(document).ready(function () {
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
               //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-              window.location.href = redirect;
+              window.location.href = window.siteUrl + redirect;
           },
           error:function(response) {
               // "this" the object you passed
