@@ -57,12 +57,12 @@ jobs:
       - name: Install yq
         run: sudo snap install yq --channel=v3/stable
 
-      - name: Set outputs
+      - name: Set SHA & branch
         id: vars
         shell: bash
         run: |
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=current_branch::$(git branch --show-current)"
+          echo "::set-output name=current_branch::${$(git branch --show-current)/\//-}"
 
       - name: Check outputs
         shell: bash
