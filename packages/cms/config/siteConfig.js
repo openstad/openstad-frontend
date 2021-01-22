@@ -8,7 +8,6 @@ module.exports = {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
     const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
 
-    console.log('siteData.sitePrefix', siteData.sitePrefix)
 
     const siteConfig = {
       shortName: shortName,

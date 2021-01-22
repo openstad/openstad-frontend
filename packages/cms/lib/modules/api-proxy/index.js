@@ -10,10 +10,12 @@ module.exports = {
 
     const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
 
+//    console.log('apiPath', apiPath)
+
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
     */
-   self.apos.app.use(apiPath, proxy({
+   self.apos.app.use('/api', proxy({
      target: apiUrl,
      changeOrigin: true,
      pathRewrite: {['^'+apiPath] : '/api'},
@@ -87,7 +89,7 @@ module.exports = {
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
     */
-   self.apos.app.use(statsUrl, proxy({
+   self.apos.app.use('/stats', proxy({
      target: apiUrl,
      changeOrigin: true,
      pathRewrite: {['^'+statsUrl] : '/stats'},

@@ -244,7 +244,6 @@ module.exports.getMultiSiteApp = (options) => {
   app.use('/:sitePrefix', function(req, res, next) {
      const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
 
-    console.log('domainAndPath', domainAndPath)
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
