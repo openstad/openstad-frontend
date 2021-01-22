@@ -167,7 +167,9 @@ module.exports = {
         'idea-overview-widgets': {},
         'icon-section-widgets': {},
         'idea-single-widgets': {},
-        'idea-form-widgets': {},
+        'idea-form-widgets': {
+          sitePrefix: siteData.sitePrefix ? siteData.sitePrefix : false,
+        },
         'ideas-on-map-widgets': {},
         'choices-guide-result-widgets': {},
         'previous-next-button-block-widgets': {},

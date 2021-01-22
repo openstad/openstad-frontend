@@ -168,6 +168,7 @@ module.exports = {
    self.apos.app.use('/image', proxy({
      target: imageApiUrl,
      changeOrigin: true,
+     pathRewrite: {['^/'+options.sitePrefix] : '/image'},
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
         proxyReq.setHeader('Authorization', `Bearer ${imageApiToken}`);
@@ -179,6 +180,7 @@ module.exports = {
     */
    self.apos.app.use('/images', proxy({
      target: imageApiUrl,
+     pathRewrite: {['^/'+options.sitePrefix] : '/images'},
      changeOrigin: true,
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
