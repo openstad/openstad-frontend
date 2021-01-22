@@ -241,8 +241,8 @@ module.exports.getMultiSiteApp = (options) => {
    * If not existing openstad.org will handle the above examples as pages,
    * if openstad.org exists of course.
    */
-  app.use('/:firstPath', function(req, res, next) {
-     const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
+  app.use('/:sitePrefix', function(req, res, next) {
+     const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
@@ -261,7 +261,7 @@ module.exports.getMultiSiteApp = (options) => {
          return res.sendFile(path.resolve('public' + req.url));
        } else {
          site.firstPath = req.params.firstPath;
-         req.sitePrefix = req.params.firstPath;
+         req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
        }
      } else {
