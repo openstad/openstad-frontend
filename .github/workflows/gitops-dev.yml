@@ -59,11 +59,13 @@ jobs:
 
       - name: Set outputs
         id: vars
+        shell: bash
         run: |
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=current_branch::$(git brannch --show-current)"
 
       - name: Check outputs
+        shell: bash
         run: |
           echo ${{ steps.vars.outputs.sha_short }}
           echo ${{ steps.vars.outputs.current_branch }}
