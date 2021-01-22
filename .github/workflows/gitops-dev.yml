@@ -9,6 +9,7 @@ on:
 
 jobs:
   gitops:
+    environment: gitops_dev
     env:
       HELM_REPO_NAME: openstad-kubernetes
       HELM_CHART_FOLDER: k8s/openstad
@@ -43,12 +44,12 @@ jobs:
           ./build.sh
         shell: bash
         env:
-          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ secrets.GITHUB_SHA }}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
       - name: Run docker push script
         run: |
           sudo chmod a+x ./gitops_push
           ./gitops_push
         shell: bash
         env:
-          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ secrets.GITHUB_SHA }}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.sha }}
           GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
