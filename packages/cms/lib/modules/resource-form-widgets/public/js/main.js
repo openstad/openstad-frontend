@@ -31,8 +31,8 @@ if (fieldsetElement) {
     allowBrowse: true,
     files: uploadedFiles,
     server: {
-      process: '/image',
-      fetch: '/fetch-image?img=',
+      process: window.siteUrl + '/image',
+      fetch: window.siteUrl + '/fetch-image?img=',
       revert: null
     },
     labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>klik hier</span>",
