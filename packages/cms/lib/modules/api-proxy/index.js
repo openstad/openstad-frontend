@@ -9,9 +9,6 @@ module.exports = {
   construct: function(self, options) {
 
     const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
-    const pathRewrite = options.sitePrefix ? {
-      ["^" + options.sitePrefix]: '' //remove sitePrefix
-    } : false;
 
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
@@ -19,7 +16,7 @@ module.exports = {
    self.apos.app.use(apiPath, proxy({
      target: apiUrl,
      changeOrigin: true,
-     pathRewrite: pathRewrite,
+     pathRewrite: {['^'+apiPath] : '/api'},
      onProxyReq : (proxyReq, req, res) => {
 
        /**
@@ -93,6 +90,7 @@ module.exports = {
    self.apos.app.use(statsUrl, proxy({
      target: apiUrl,
      changeOrigin: true,
+     pathRewrite: {['^'+statsUrl] : '/stats'},
      onProxyReq : (proxyReq, req, res) => {
 
         // add custom header to request
