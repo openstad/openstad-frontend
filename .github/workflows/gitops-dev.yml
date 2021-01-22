@@ -20,7 +20,7 @@ jobs:
       HELM_REPO: ${{ secrets.HELM_REPO }}
       HELM_REPO_WITH_TOKEN: ${{ secrets.HELM_REPO_WITH_TOKEN }}
       GITOPS_RELEASE_BRANCH: ${{ secrets.GITOPS_RELEASE_BRANCH }}
-      SHORT_SHA: $(echo ${{ git.sha }} | cut -c 1-8)
+      SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
 
     name: gitops commit
     runs-on: ubuntu-latest
