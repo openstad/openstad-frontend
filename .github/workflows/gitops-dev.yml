@@ -14,7 +14,7 @@ jobs:
       HELM_REPO_NAME: openstad-kubernetes
       HELM_CHART_FOLDER: k8s/openstad
       GIT_USER_EMAIL: github@ci.push
-      GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+      GIT_USER_NAME: "${{ secrets.GIT_USER_NAME }}"
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       HELM_REPO: ${{ secrets.HELM_REPO }}
