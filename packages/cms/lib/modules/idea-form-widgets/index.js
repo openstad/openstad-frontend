@@ -162,13 +162,17 @@ module.exports = {
      self.pushAsset('script', 'map', { when: 'always' });
    };
 
+
+   const imagePath = options.sitePrefix ? ('/' + options.sitePrefix + '/image' ) : '/image'
+   const imagesPath = options.sitePrefix ? ('/' + options.sitePrefix + '/images') : '/images'
+
    /**
     * Create route for proxying one image to image server, add api token in header
     */
    self.apos.app.use('/image', proxy({
      target: imageApiUrl,
      changeOrigin: true,
-     pathRewrite: {['^/'+options.sitePrefix ? options.sitePrefix : ''] : '/image'},
+     pathRewrite: {['^' + imagePath] : '/image'},
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
         proxyReq.setHeader('Authorization', `Bearer ${imageApiToken}`);
@@ -180,7 +184,7 @@ module.exports = {
     */
    self.apos.app.use('/images', proxy({
      target: imageApiUrl,
-     pathRewrite: {['^/'+options.sitePrefix ? options.sitePrefix : ''] : '/images'},
+     pathRewrite: {['^' + imagesPath] : '/images'},
      changeOrigin: true,
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
