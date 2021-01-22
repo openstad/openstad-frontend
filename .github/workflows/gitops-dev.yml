@@ -37,6 +37,7 @@ jobs:
       APOS_BUNDLE: assets
       APOS_MINIFY: 1
       NODE_ENV: production
+      BRANCH_REF: ${{ github.ref }}
 
     name: gitops commit
     runs-on: ubuntu-latest
@@ -58,7 +59,8 @@ jobs:
 
       - name: Set outputs
         id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
@@ -77,5 +79,5 @@ jobs:
           ./gitops_push
         shell: bash
         env:
-          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}-${{ github.run_id}}
           GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
