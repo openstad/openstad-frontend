@@ -10,7 +10,7 @@ module.exports = {
 
     const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
     const pathRewrite = options.sitePrefix ? {
-      `^${options.sitePrefix}`:'' //remove sitePrefix
+      "^" + options.sitePrefix: '' //remove sitePrefix
     } : false;
 
     /*
