@@ -128,13 +128,14 @@ router.route('/')
       let sortingYesNo = false;
 
       dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+        console.log(sortingQuery)
         if (sortingQuery[0] === 'yes') {
-          sortingYesNo = [Sequelize.literal('yes'), 'DESC'];
+          sortingYesNo = [Sequelize.literal('yes'), sortingQuery[1]];
 
           return false;
         }
         if (sortingQuery[0] === 'no') {
-          sortingYesNo = [Sequelize.literal('no'), 'DESC'];
+          sortingYesNo = [Sequelize.literal('no'), sortingQuery[1]];
 
           return false;
         }
@@ -176,7 +177,6 @@ router.route('/')
         req.results = rows;
         req.dbQuery.count = result.count;
 
-        console.log(req.results);
         return next();
       })
       .catch(next);
