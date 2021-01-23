@@ -67,16 +67,17 @@ router.route('/')
 	.post(function(req, res, next) {
 		db.Site
 			.create(req.body)
-			.then(result => {
-				return req.results = result;
+			.then((result) => {
+				req.results = result;
+				next();
 				//return checkHostStatus({id: result.id});
 			})
-      .then(next)
+			.catch(next)
 	})
 	.post(auth.useReqUser)
-	//.post(refreshSiteConfigMw)
+	.post(refreshSiteConfigMw)
 	.post(function(req, res, next) {
-    res.json(req.results)
+    return res.json(req.results);
   })
 
 // one site routes: get site
