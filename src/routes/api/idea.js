@@ -10,15 +10,15 @@ const pagination = require('../../middleware/pagination');
 const searchResults = require('../../middleware/search-results');
 const isJson = require('../../util/isJson');
 
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const userhasModeratorRights = (user) => {
-	return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
-}
+  return user && (user.role === 'admin' || user.role === 'editor' || user.role === 'moderator');
+};
 
 // scopes: for all get requests
 router
-	.all('*', function(req, res, next) {
-		req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role]}];
+  .all('*', function(req, res, next) {
+    req.scope = ['api', { method: ['onlyVisible', req.user.id, req.user.role] }];
 
     // in case the votes are archived don't use these queries
     // this means they can be cleaned up from the main table for performance reason
@@ -54,9 +54,9 @@ router
       req.scope.push('mapMarkers');
     }
 
-		if (req.query.filters || req.query.exclude) {
-			req.scope.push({ method: ['filter', req.query.filters, req.query.exclude]});
-		}
+    if (req.query.filters || req.query.exclude) {
+      req.scope.push({ method: ['filter', req.query.filters, req.query.exclude] });
+    }
 
     if (req.query.running) {
       req.scope.push('selectRunning');
@@ -66,19 +66,19 @@ router
       req.scope.push({ method: ['includeArguments', req.user.id] });
     }
 
-		if (req.query.includeArgsCount) {
-			req.scope.push('includeArgsCount');
-		}
+    if (req.query.includeArgsCount) {
+      req.scope.push('includeArgsCount');
+    }
 
-		if (req.query.includeTags) {
-			req.scope.push('includeTags');
-		}
+    if (req.query.includeTags) {
+      req.scope.push('includeTags');
+    }
 
-		if (req.query.includePoll) {
-			req.scope.push({ method: ['includePoll', req.user.id]});
-		}
+    if (req.query.includePoll) {
+      req.scope.push({ method: ['includePoll', req.user.id] });
+    }
 
-		if (req.query.tags) {
+    if (req.query.tags) {
       let tags = req.query.tags;
       req.scope.push({ method: ['selectTags', tags] });
       req.scope.push('includeTags');
@@ -107,94 +107,110 @@ router
 
 router.route('/')
 
-// list ideas
-// ----------
-	.get(auth.can('Idea', 'list'))
-	.get(pagination.init)
-	// add filters
-	.get(function(req, res, next) {
+  // list ideas
+  // ----------
+  .get(auth.can('Idea', 'list'))
+  .get(pagination.init)
+  // add filters
+  .get(function(req, res, next) {
     let { dbQuery } = req;
 
     dbQuery.where = {
       siteId: req.params.siteId,
       ...req.queryConditions,
-			...dbQuery.where,
+      ...dbQuery.where,
     };
 
-		if(dbQuery.hasOwnProperty('order')) {
-			/**
-			 * Handle yes/no sorting
-			 */
-			let sortingYesNo = false;
+    if (dbQuery.hasOwnProperty('order')) {
+      /**
+       * Handle yes/no sorting
+       */
+      let sortingYesNo = false;
 
-			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
-				// if(sortingQuery[0] === 'yes')
-				return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
-			});
-			// let newSortingQuery = [];
-			//
-			// dbQuery.order.forEach((sortingQuery) => {
-			//
-			// 	if(sortingQuery[0] === 'yes'){
-			// 		sortingQuery[0] = 'votes.yes';
-			// 	} else if(sortingQuery[0] === 'no') {
-			// 		sortingQuery[0] = 'votes.no';
-			//
-			// 	}
-			// 		newSortingQuery.push(sortingQuery)
-			// })
-			//
-			// dbQuery.order = newSortingQuery;
-		}
-		// console.log(dbQuery)
-		dbQuery.order = [[Sequelize.literal('yes'),'DESC']]
+      dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+        if (sortingQuery[0] === 'yes') {
+          sortingYesNo = [Sequelize.literal('yes'), 'DESC'];
 
-		db.Idea
-			.scope(...req.scope)
+          return false;
+        }
+        if (sortingQuery[0] === 'no') {
+          sortingYesNo = [Sequelize.literal('no'), 'DESC'];
+
+          return false;
+        }
+
+        return true;
+        // return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
+      });
+
+      if(sortingYesNo) {
+				dbQuery.order.push(sortingYesNo);
+			}
+
+      // let newSortingQuery = [];
+      //
+      // dbQuery.order.forEach((sortingQuery) => {
+      //
+      // 	if(sortingQuery[0] === 'yes'){
+      // 		sortingQuery[0] = 'votes.yes';
+      // 	} else if(sortingQuery[0] === 'no') {
+      // 		sortingQuery[0] = 'votes.no';
+      //
+      // 	}
+      // 		newSortingQuery.push(sortingQuery)
+      // })
+      //
+      // dbQuery.order = newSortingQuery;
+    }
+    // console.log(dbQuery)
+
+    db.Idea
+      .scope(...req.scope)
       .findAndCountAll(dbQuery)
-			.then(function( result ) {
+      .then(function(result) {
         result.rows.forEach((idea) => {
           idea.site = req.site;
           if (req.query.includePoll && idea.poll) idea.poll.countVotes(!req.query.withVotes);
         });
-				const { rows } = result;
+        const { rows } = result;
         req.results = rows;
         req.dbQuery.count = result.count;
 
         console.log(req.results);
         return next();
-			})
-			.catch(next);
-	})
-	.get(auth.useReqUser)
-	.get(searchResults)
-	.get(pagination.paginateResults)
-	.get(function(req, res, next) {
-		res.json(req.results);
+      })
+      .catch(next);
+  })
+  .get(auth.useReqUser)
+  .get(searchResults)
+  .get(pagination.paginateResults)
+  .get(function(req, res, next) {
+    res.json(req.results);
   })
 
-// create idea
-// -----------
-	.post(auth.can('Idea', 'create'))
-	.post(function(req, res, next) {
-		if (!req.site) return next(createError(401, 'Site niet gevonden'));
-		return next();
-	})
-	.post(function( req, res, next ) {
-		if (!(req.site.config && req.site.config.ideas && req.site.config.ideas.canAddNewIdeas)) return next(createError(401, 'Inzenden is gesloten'));
-		return next();
-	})
-	.post(function(req, res, next) {
+  // create idea
+  // -----------
+  .post(auth.can('Idea', 'create'))
+  .post(function(req, res, next) {
+    if (!req.site) return next(createError(401, 'Site niet gevonden'));
+    return next();
+  })
+  .post(function(req, res, next) {
+    if (!(req.site.config && req.site.config.ideas && req.site.config.ideas.canAddNewIdeas)) return next(createError(401, 'Inzenden is gesloten'));
+    return next();
+  })
+  .post(function(req, res, next) {
 
     try {
       req.body.location = req.body.location ? JSON.parse(req.body.location) : null;
-    } catch(err) {}
+    } catch (err) {
+    }
 
-    if (req.body.location && typeof req.body.location == 'object' && !Object.keys(req.body.location).length ) {
-			 req.body.location = null;
-		}
+    if (req.body.location && typeof req.body.location == 'object' && !Object.keys(req.body.location).length) {
+      req.body.location = null;
+    }
 
-		const data = {
+    const data = {
       ...req.body,
       siteId: req.params.siteId,
       userId: req.user.id,
@@ -202,112 +218,112 @@ router.route('/')
     };
 
     let responseData;
-		db.Idea
-			.authorizeData(data, 'create', req.user, null, req.site)
-			.create(data)
-			.then(ideaInstance => {
+    db.Idea
+      .authorizeData(data, 'create', req.user, null, req.site)
+      .create(data)
+      .then(ideaInstance => {
 
-		    db.Idea
-			    .scope(...req.scope)
-					.findByPk(ideaInstance.id)
+        db.Idea
+          .scope(...req.scope)
+          .findByPk(ideaInstance.id)
           .then(result => {
             result.site = req.site;
             req.results = result;
             return next();
-          })
+          });
 
-			})
-			.catch(function( error ) {
-				// todo: dit komt uit de oude routes; maak het generieker
-				if( typeof error == 'object' && error instanceof Sequelize.ValidationError ) {
-					let errors = [];
-					error.errors.forEach(function( error ) {
-						// notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
-						// TODO: we zitten op een nieuwe versie van seq; vermoedelijk kan dit nu wel
-						errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
-					});
-				//	res.status(422).json(errors);
+      })
+      .catch(function(error) {
+        // todo: dit komt uit de oude routes; maak het generieker
+        if (typeof error == 'object' && error instanceof Sequelize.ValidationError) {
+          let errors = [];
+          error.errors.forEach(function(error) {
+            // notNull kent geen custom messages in deze versie van sequelize; zie https://github.com/sequelize/sequelize/issues/1500
+            // TODO: we zitten op een nieuwe versie van seq; vermoedelijk kan dit nu wel
+            errors.push(error.type === 'notNull Violation' && error.path === 'location' ? 'Kies een locatie op de kaart' : error.message);
+          });
+          //	res.status(422).json(errors);
 
-					next(createError(422, errors.join(', ') ));
-				} else {
-					next(error);
-				}
-			});
+          next(createError(422, errors.join(', ')));
+        } else {
+          next(error);
+        }
+      });
 
-	})
-	.post(function(req, res, next) {
+  })
+  .post(function(req, res, next) {
 
     // tags
     if (!req.body.tags) return next();
 
- 		let ideaInstance = req.results;
-		ideaInstance
-		  .setTags(req.body.tags)
-			.then(tags => {
-		    // refetch. now with tags
-		    let scope = [...req.scope, 'includeTags']
-        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
-			  return db.Idea
-				  .scope(...scope)
-				  .findOne({
-					  where: { id: ideaInstance.id, siteId: req.params.siteId }
-				  })
-				  .then(found => {
-					  if ( !found ) throw new Error('Idea not found');
+    let ideaInstance = req.results;
+    ideaInstance
+      .setTags(req.body.tags)
+      .then(tags => {
+        // refetch. now with tags
+        let scope = [...req.scope, 'includeTags'];
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount');
+        return db.Idea
+          .scope(...scope)
+          .findOne({
+            where: { id: ideaInstance.id, siteId: req.params.siteId },
+          })
+          .then(found => {
+            if (!found) throw new Error('Idea not found');
             found.site = req.site;
-					  req.results = found;
-		        return next();
-				  })
-				  .catch(next);
-		  })
-	})
-	.post(function(req, res, next) {
-		res.json(req.results);
-		mail.sendThankYouMail(req.results, 'ideas', req.user) // todo: optional met config?
-	})
+            req.results = found;
+            return next();
+          })
+          .catch(next);
+      });
+  })
+  .post(function(req, res, next) {
+    res.json(req.results);
+    mail.sendThankYouMail(req.results, 'ideas', req.user); // todo: optional met config?
+  });
 
 // one idea
 // --------
 router.route('/:ideaId(\\d+)')
-	.all(function(req, res, next) {
-		var ideaId = parseInt(req.params.ideaId) || 1;
+  .all(function(req, res, next) {
+    var ideaId = parseInt(req.params.ideaId) || 1;
 
-		let scope = [...req.scope];
-    if (req.canIncludeVoteCount) scope.push('includeVoteCount')
+    let scope = [...req.scope];
+    if (req.canIncludeVoteCount) scope.push('includeVoteCount');
 
-		db.Idea
-			.scope(...scope)
-			.findOne({
-				where: { id: ideaId, siteId: req.params.siteId }
-			})
-			.then(found => {
-				if ( !found ) throw new Error('Idea not found');
+    db.Idea
+      .scope(...scope)
+      .findOne({
+        where: { id: ideaId, siteId: req.params.siteId },
+      })
+      .then(found => {
+        if (!found) throw new Error('Idea not found');
         found.site = req.site;
         if (req.query.includePoll) { // TODO: naar poll hooks
           if (found.poll) found.poll.countVotes(!req.query.withVotes);
         }
-				req.idea = found;
-		    req.results = req.idea;
-				next();
-			})
-			.catch((err) => {
-				console.log('errr', err)
-				next(err);
-			});
-	})
+        req.idea = found;
+        req.results = req.idea;
+        next();
+      })
+      .catch((err) => {
+        console.log('errr', err);
+        next(err);
+      });
+  })
 
-// view idea
-// ---------
-	.get(auth.can('Idea', 'view'))
-	.get(auth.useReqUser)
-	.get(function(req, res, next) {
-		res.json(req.results);
-	})
+  // view idea
+  // ---------
+  .get(auth.can('Idea', 'view'))
+  .get(auth.useReqUser)
+  .get(function(req, res, next) {
+    res.json(req.results);
+  })
 
-// update idea
-// -----------
-	.put(auth.useReqUser)
-	.put(function(req, res, next) {
+  // update idea
+  // -----------
+  .put(auth.useReqUser)
+  .put(function(req, res, next) {
     req.tags = req.body.tags;
     return next();
   })
@@ -315,27 +331,28 @@ router.route('/:ideaId(\\d+)')
 
     var idea = req.results;
 
-    if (!( idea && idea.can && idea.can('update') )) return next( new Error('You cannot update this Idea') );
+    if (!(idea && idea.can && idea.can('update'))) return next(new Error('You cannot update this Idea'));
 
     if (req.body.location) {
       try {
         req.body.location = JSON.parse(req.body.location || null);
-      } catch(err) {}
+      } catch (err) {
+      }
 
-      if (req.body.location &&  typeof req.body.location === 'object' && !Object.keys(req.body.location).length) {
-				req.body.location = undefined;
-			}
+      if (req.body.location && typeof req.body.location === 'object' && !Object.keys(req.body.location).length) {
+        req.body.location = undefined;
+      }
     } else {
       if (req.body.location === null) {
         req.body.location = JSON.parse(null);
       }
     }
 
-		let data = {
+    let data = {
       ...req.body,
     };
 
-		if (userhasModeratorRights(req.user)) {
+    if (userhasModeratorRights(req.user)) {
       if (data.modBreak) {
         data.modBreakUserId = req.body.modBreakUserId = req.user.id;
         data.modBreakDate = req.body.modBreakDate = new Date().toString();
@@ -361,47 +378,47 @@ router.route('/:ideaId(\\d+)')
     let responseData;
     let ideaInstance = req.results;
 
-		ideaInstance
-			.setTags(req.tags)
-			.then(result => {
+    ideaInstance
+      .setTags(req.tags)
+      .then(result => {
         // refetch. now with tags
-        let scope = [...req.scope, 'includeTags']
-        if (req.canIncludeVoteCount) scope.push('includeVoteCount')
-		    return db.Idea
-			    .scope(...scope)
-			    .findOne({
-				    where: { id: ideaInstance.id, siteId: req.params.siteId }
-			    })
-			    .then(found => {
-				    if (!found) throw new Error('Idea not found');
+        let scope = [...req.scope, 'includeTags'];
+        if (req.canIncludeVoteCount) scope.push('includeVoteCount');
+        return db.Idea
+          .scope(...scope)
+          .findOne({
+            where: { id: ideaInstance.id, siteId: req.params.siteId },
+          })
+          .then(found => {
+            if (!found) throw new Error('Idea not found');
 
             if (req.query.includePoll) { // TODO: naar poll hooks
               if (found.poll) found.poll.countVotes(!req.query.withVotes);
             }
-				    req.results = found;
+            req.results = found;
             next();
-			    })
-			    .catch(next);
-	    })
+          })
+          .catch(next);
+      });
 
-	})
-	.put(function(req, res, next) {
-		res.json(req.results);
-	})
+  })
+  .put(function(req, res, next) {
+    res.json(req.results);
+  })
 
-// delete idea
-// ---------
-	.delete(auth.useReqUser)
-	.delete(function(req, res, next) {
-		const idea = req.results;
-		if (!( idea && idea.can && idea.can('delete') )) return next( new Error('You cannot delete this idea') );
+  // delete idea
+  // ---------
+  .delete(auth.useReqUser)
+  .delete(function(req, res, next) {
+    const idea = req.results;
+    if (!(idea && idea.can && idea.can('delete'))) return next(new Error('You cannot delete this idea'));
 
-		idea
-			.destroy()
-			.then(() => {
-				res.json({ "idea": "deleted" });
-			})
-			.catch(next);
-	})
+    idea
+      .destroy()
+      .then(() => {
+        res.json({ 'idea': 'deleted' });
+      })
+      .catch(next);
+  });
 
 module.exports = router;
