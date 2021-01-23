@@ -125,12 +125,29 @@ router.route('/')
 			/**
 			 * Handle yes/no sorting
 			 */
-			dbQuery.sortingYesNo = [];
+			let sortingYesNo = false;
 
 			dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
+				// if(sortingQuery[0] === 'yes')
 				return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
 			});
+			// let newSortingQuery = [];
+			//
+			// dbQuery.order.forEach((sortingQuery) => {
+			//
+			// 	if(sortingQuery[0] === 'yes'){
+			// 		sortingQuery[0] = 'votes.yes';
+			// 	} else if(sortingQuery[0] === 'no') {
+			// 		sortingQuery[0] = 'votes.no';
+			//
+			// 	}
+			// 		newSortingQuery.push(sortingQuery)
+			// })
+			//
+			// dbQuery.order = newSortingQuery;
 		}
+		// console.log(dbQuery)
+		dbQuery.order = [[Sequelize.literal('yes'),'DESC']]
 
 		db.Idea
 			.scope(...req.scope)
@@ -143,6 +160,8 @@ router.route('/')
 				const { rows } = result;
         req.results = rows;
         req.dbQuery.count = result.count;
+
+        console.log(req.results);
         return next();
 			})
 			.catch(next);
