@@ -39,13 +39,20 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
+    if(!dbQuery.where){
+      dbQuery.where = {};
+    }
+
+    if(dbQuery.where.q) {
+      dbQuery.search = dbQuery.where.q
+      delete dbQuery.where.q;
+    }
 
     /**
      * Add siteId to query conditions
      * @type {{siteId: *}}
      */
-    queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+    const queryConditions = Object.assign(dbQuery.where, { siteId: req.params.siteId });
 
     db.User
       .scope(...req.scope)
