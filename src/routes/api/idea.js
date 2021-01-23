@@ -129,13 +129,8 @@ router.route('/')
 
       dbQuery.order = dbQuery.order.filter(function(sortingQuery) {
         console.log(sortingQuery)
-        if (sortingQuery[0] === 'yes') {
-          sortingYesNo = [Sequelize.literal('yes'), sortingQuery[1]];
-
-          return false;
-        }
-        if (sortingQuery[0] === 'no') {
-          sortingYesNo = [Sequelize.literal('no'), sortingQuery[1]];
+        if (sortingQuery[0] === 'yes' || sortingQuery[0] === 'no') {
+          sortingYesNo = [Sequelize.literal(sortingQuery[0]), sortingQuery[1]];
 
           return false;
         }
