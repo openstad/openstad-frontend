@@ -141,29 +141,12 @@ router.route('/')
         }
 
         return true;
-        // return !(sortingQuery[0] === 'yes' || sortingQuery[0] === 'no')
       });
 
       if(sortingYesNo) {
 				dbQuery.order.push(sortingYesNo);
 			}
-
-      // let newSortingQuery = [];
-      //
-      // dbQuery.order.forEach((sortingQuery) => {
-      //
-      // 	if(sortingQuery[0] === 'yes'){
-      // 		sortingQuery[0] = 'votes.yes';
-      // 	} else if(sortingQuery[0] === 'no') {
-      // 		sortingQuery[0] = 'votes.no';
-      //
-      // 	}
-      // 		newSortingQuery.push(sortingQuery)
-      // })
-      //
-      // dbQuery.order = newSortingQuery;
     }
-    // console.log(dbQuery)
 
     db.Idea
       .scope(...req.scope)
