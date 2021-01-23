@@ -6,7 +6,7 @@ const config = require('config');
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
-const {Op} = require('sequelize');
+const { Op } = require('sequelize');
 const searchResults = require('../../middleware/search-results');
 const fetch = require('node-fetch');
 
@@ -32,19 +32,19 @@ router.route('/')
   // ----------
   // .get(auth.can('User', 'list')) -> now handled by onlyListable
   .get(function(req, res, next) {
-    req.scope.push({ method: ['onlyListable', req.user.id, req.user.role]});
+    req.scope.push({ method: ['onlyListable', req.user.id, req.user.role] });
     next();
   })
   .get(pagination.init)
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    if(!dbQuery.where){
+    if (!dbQuery.where) {
       dbQuery.where = {};
     }
 
-    if(dbQuery.where.q) {
-      dbQuery.search = dbQuery.where.q
+    if (dbQuery.where.q) {
+      dbQuery.search = { fields: [], term: dbQuery.where.q };
       delete dbQuery.where.q;
     }
 
@@ -59,8 +59,8 @@ router.route('/')
       .findAndCountAll({
         offset: req.dbQuery.offset,
         limit: req.dbQuery.limit,
-				...dbQuery,
-        where: queryConditions
+        ...dbQuery,
+        where: queryConditions,
       })
       .then(function(result) {
         req.results = result.rows;
@@ -149,126 +149,129 @@ router.route('/:userId(\\d+)')
     if (!(user && user.can && user.can('update'))) return next(new Error('You cannot update this User'));
 
     // todo: dit was de filterbody function, en dat kan nu via de auth functies, maar die is nog instance based
-    let data = {}
+    let data = {};
 
-	  const keys = [ 'firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'listableByRole', 'detailsViewableByRole'];
-	  keys.forEach((key) => {
-		  if (req.body[key]) {
-			  data[key] = req.body[key];
-		  }
-	  });
+    const keys = ['firstName', 'lastName', 'email', 'phoneNumber', 'streetName', 'houseNumber', 'city', 'suffix', 'postcode', 'extraData', 'listableByRole', 'detailsViewableByRole'];
+    keys.forEach((key) => {
+      if (req.body[key]) {
+        data[key] = req.body[key];
+      }
+    });
 
-		const userId = parseInt(req.params.userId, 10);
+    const userId = parseInt(req.params.userId, 10);
 
-		/**
-		 * Update the user API first
-		 */
-		 let which = req.query.useOauth || 'default';
-		 let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};
-		 let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-		 let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
-		 let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-		 let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+    /**
+     * Update the user API first
+     */
+    let which = req.query.useOauth || 'default';
+    let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
+    let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
+    let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
+    let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
+    let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
 
-		 const apiCredentials = {
-			 client_id: authClientId,
-			 client_secret: authClientSecret,
-		 }
-		 const options = {
-			 method: 'post',
-			 headers: {
-				 'Content-Type': 'application/json',
-			 },
-			 mode: 'cors',
-			 body: JSON.stringify(Object.assign(apiCredentials, data))
-		 }
+    const apiCredentials = {
+      client_id: authClientId,
+      client_secret: authClientSecret,
+    };
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      body: JSON.stringify(Object.assign(apiCredentials, data)),
+    };
 
 
-		 fetch(authUpdateUrl, options)
-			 .then((response) => {
-					 if (response.ok) {
-						 return response.json()
-					 }
+    fetch(authUpdateUrl, options)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
 
-					 throw createError('Updaten niet gelukt', response);
-				})
-			.then((json) => {
+        throw createError('Updaten niet gelukt', response);
+      })
+      .then((json) => {
 
-				//update values from API
+        //update values from API
 
-				return db.User
-				  .scope(['includeSite'])
-				  .findAll({where : {
-						externalUserId: json.id,
-						// old users have no siteId, this will break the update
-						// skip them
-						// probably should clean up these users
-						siteId: {
-					    [Op.not]: 0
-					  }
-					}})
-				  .then(function( users ) {
-				    const actions = [];
+        return db.User
+          .scope(['includeSite'])
+          .findAll({
+            where: {
+              externalUserId: json.id,
+              // old users have no siteId, this will break the update
+              // skip them
+              // probably should clean up these users
+              siteId: {
+                [Op.not]: 0,
+              },
+            },
+          })
+          .then(function(users) {
+            const actions = [];
 
-				    if (users) {
-				      users.forEach((user) => {
+            if (users) {
+              users.forEach((user) => {
 
                 // only update users with active site (they can be deleteds)
                 if (user.site) {
-  				        actions.push(function() {
-  									return new Promise((resolve, reject) => {
-  				            user
-  				              .authorizeData(data, 'update', req.user)
-  				              .update(data)
-  				              .then((result) => {
-  				                resolve();
-  				              })
-  				              .catch((err) => {
-  											  console.log('err', err)
-  				                reject(err);
-  				              })
-  									})}())
+                  actions.push(function() {
+                    return new Promise((resolve, reject) => {
+                      user
+                        .authorizeData(data, 'update', req.user)
+                        .update(data)
+                        .then((result) => {
+                          resolve();
+                        })
+                        .catch((err) => {
+                          console.log('err', err);
+                          reject(err);
+                        });
+                    });
+                  }());
                 }
 
-				      });
-				    }
+              });
+            }
 
-				    return Promise.all(actions)
-            // response has been sent; next has no meaning here
-				    // .then(() => { next(); })
-				      .catch(err => {
+            return Promise.all(actions)
+              // response has been sent; next has no meaning here
+              // .then(() => { next(); })
+              .catch(err => {
                 console.log(err);
-                throw(err)
+                throw(err);
               });
 
-				  })
-				  .catch(err => {
+          })
+          .catch(err => {
             console.log(err);
-            throw(err)
+            throw(err);
           });
-			})
-			.then( (result) => {
-				return db.User
-					.scope(['includeSite'])
-					.findOne({
-					 	where: { id: userId, siteId: req.params.siteId }
-						//where: { id: parseInt(req.params.userId) }
-					})
-			})
-			.then(found => {
-				if ( !found ) throw new Error('User not found');
-				res.json(found);
-			})
-			.catch(err => {
-				console.log(err);
-				return next(err);
-			});
-	})
+      })
+      .then((result) => {
+        return db.User
+          .scope(['includeSite'])
+          .findOne({
+            where: { id: userId, siteId: req.params.siteId },
+            //where: { id: parseInt(req.params.userId) }
+          });
+      })
+      .then(found => {
+        if (!found) throw new Error('User not found');
+        res.json(found);
+      })
+      .catch(err => {
+        console.log(err);
+        return next(err);
+      });
+  })
 
-// delete idea
-// ---------
-	.delete(auth.can('User', 'delete'))
-	.delete(async function(req, res, next) {
+  // delete idea
+  // ---------
+  .delete(auth.can('User', 'delete'))
+  .delete(async function(req, res, next) {
     const user = req.results;
 
     /**
@@ -283,47 +286,47 @@ router.route('/:userId(\\d+)')
       /*
         @todo move this calls to oauth to own apiClient
        */
-      let siteOauthConfig = ( req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default'] ) || {};
+      let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default']) || {};
       let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
       let authUserDeleteUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId + '/delete';
       let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
       let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
 
       const apiCredentials = {
-       client_id: authClientId,
-       client_secret: authClientSecret,
-      }
+        client_id: authClientId,
+        client_secret: authClientSecret,
+      };
 
       const options = {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       mode: 'cors',
-       body: JSON.stringify(apiCredentials)
-      }
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        body: JSON.stringify(apiCredentials),
+      };
 
-      authUserDeleteUrl = authUserDeleteUrl + '?client_id=' +authClientId +'&client_secret=' + authClientSecret;
+      authUserDeleteUrl = authUserDeleteUrl + '?client_id=' + authClientId + '&client_secret=' + authClientSecret;
 
       const result = await fetch(authUserDeleteUrl, options);
     }
 
-   /**
-    * Delete all connected arguments, votes and ideas created by the user
-    */
-    await db.Idea.destroy({where:{ userId: req.results.id }});
-    await db.Argument.destroy({where:{ userId: req.results.id }});
-    await db.Vote.destroy({where:{ userId: req.results.id }});
+    /**
+     * Delete all connected arguments, votes and ideas created by the user
+     */
+    await db.Idea.destroy({ where: { userId: req.results.id } });
+    await db.Argument.destroy({ where: { userId: req.results.id } });
+    await db.Vote.destroy({ where: { userId: req.results.id } });
 
     /**
      * Make anonymous? Delete posts
      */
-		return req.results
-			.destroy({force: true})
-			.then(() => {
-				 res.json({ "user": "deleted" });
-			})
-			.catch(next);
-	})
+    return req.results
+      .destroy({ force: true })
+      .then(() => {
+        res.json({ 'user': 'deleted' });
+      })
+      .catch(next);
+  });
 
 module.exports = router;

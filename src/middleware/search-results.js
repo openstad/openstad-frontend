@@ -3,22 +3,28 @@ const fuzzysort = require('fuzzysort');
 
 //middleware for adding search to
 module.exports = function( req, res, next ) {
-  let search = req.query.search;
   let { dbQuery } = req;
-  console.log('dbQuery')
-  console.log(dbQuery)
+  let { search } = dbQuery;
 
-  if (req.where && req.where.q) {
+  if (search) {
     let list = res.results;
     // console.log(res.results)
 
-    if ( !Array.isArray(search.criteria) ) search.criteria = [ search.criteria ];
+    if ( !Array.isArray(search) ) search = [ search ];
 
     let results = [];
-    search.criteria.forEach((criterium) => {
-
+    search.forEach((criterium) => {
       let key = Object.keys(criterium)[0];
       let value = criterium[key];
+
+
+
+
+
+      //// -- -->
+
+
+
       // todo: optional { fields: [], value: '' } construct
 
 
