@@ -14,10 +14,15 @@ module.exports = function( req, res, next ) {
 
     let results = [];
     search.forEach((criterium) => {
-      let key = Object.keys(criterium)[0];
+      let searchFields = Object.keys(criterium)[0];
       let value = criterium[key];
 
+      let searchResult = fuzzysort.go(value, list, {
+        threshold: -300, // todo: volkomen arbitrair; misschien moet je hem kunnen meesturen
+        keys: searchFields,
+      });
 
+      results.push( searchResult );
 
 
 
