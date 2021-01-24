@@ -14,7 +14,7 @@ module.exports = function( req, res, next ) {
     let results = [];
     search.forEach((searchObject) => {
       let searchResult = fuzzysort.go(searchObject.needle, list, {
-        // threshold: -300, // todo: volkomen arbitrair; misschien moet je hem kunnen meesturen
+        threshold: -300, // todo: volkomen arbitrair; misschien moet je hem kunnen meesturen
         keys: searchObject.haystack,
       });
 
