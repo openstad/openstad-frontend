@@ -8,8 +8,6 @@ module.exports = function( req, res, next ) {
 
   if (search) {
     let list = req.results;
-    console.log('list')
-    console.log(list)
 
     if ( !Array.isArray(search) ) search = [ search ];
 
@@ -21,12 +19,6 @@ module.exports = function( req, res, next ) {
       });
 
       results.push( searchResult );
-
-      console.log(results)
-
-
-
-      // todo: optional { fields: [], value: '' } construct
 
 
       // switch (key) {
