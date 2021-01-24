@@ -18,16 +18,11 @@ module.exports = function( req, res, next ) {
         keys: searchObject.haystack,
       });
 
-      console.log('searchResult')
-      // console.log(JSON.stringify(searchResult[0].obj))
       searchResult.forEach((result) => {
         results.push( result.obj );
       })
     });
 
-
-    console.log('results')
-    console.log(results)
     req.results = results;
 
     return next();
