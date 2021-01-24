@@ -1,7 +1,24 @@
 const config = require('config');
 const fuzzysort = require('fuzzysort');
 
-//middleware for adding search to
+/**
+ * Middleware for adding search to api endpoints.
+ * The %results% argument accepts a single or array of search objects.
+ * A search object has the following typing:
+ *
+ * {
+        haystack: array of model columns to search in,
+        needle: string to search for,
+        offset: pagination start,
+        limit: pagination end,
+        pageSize: pagination page size,
+ * }
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
 module.exports = function( req, res, next ) {
   let { dbQuery } = req;
   let { search } = dbQuery;
