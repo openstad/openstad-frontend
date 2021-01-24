@@ -46,6 +46,8 @@ router.route('/')
     if (dbQuery.where.q) {
       dbQuery.search = { haystack: ['role', 'firstName', 'lastName'], needle: dbQuery.where.q };
       delete dbQuery.where.q;
+      delete dbQuery.pageSize;
+      delete dbQuery.limit;
     }
 
     /**
@@ -53,9 +55,6 @@ router.route('/')
      * @type {{siteId: *}}
      */
     const queryConditions = Object.assign(dbQuery.where, { siteId: req.params.siteId });
-
-    delete  dbQuery.pageSize;
-    delete  dbQuery.limit;
 
     db.User
       .scope(...req.scope)
