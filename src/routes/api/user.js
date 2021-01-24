@@ -44,7 +44,7 @@ router.route('/')
     }
 
     if (dbQuery.where.q) {
-      dbQuery.search = { haystack: ['role', 'first_name'], needle: dbQuery.where.q };
+      dbQuery.search = { haystack: ['role', 'firstName', 'lastName'], needle: dbQuery.where.q };
       delete dbQuery.where.q;
     }
 
