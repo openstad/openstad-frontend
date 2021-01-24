@@ -9,9 +9,6 @@ const router = require('express-promise-router')({ mergeParams: true });
 // scopes: for all get requests
 router
   .all('*', function(req, res, next) {
-
-    console.log('whatsupp')
-
     req.scope = ['defaultScope', 'withIdea'];
     req.scope.push({ method: ['forSiteId', req.params.siteId] });
 
