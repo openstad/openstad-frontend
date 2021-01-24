@@ -44,7 +44,7 @@ router.route('/')
     }
 
     if (dbQuery.where.q) {
-      dbQuery.search = { fields: [], term: dbQuery.where.q };
+      dbQuery.search = { haystack: ['role', 'first_name'], needle: dbQuery.where.q };
       delete dbQuery.where.q;
     }
 
@@ -54,11 +54,12 @@ router.route('/')
      */
     const queryConditions = Object.assign(dbQuery.where, { siteId: req.params.siteId });
 
+    delete  dbQuery.pageSize;
+    delete  dbQuery.limit;
+
     db.User
       .scope(...req.scope)
       .findAndCountAll({
-        offset: req.dbQuery.offset,
-        limit: req.dbQuery.limit,
         ...dbQuery,
         where: queryConditions,
       })
