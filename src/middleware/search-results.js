@@ -5,8 +5,6 @@ const fuzzysort = require('fuzzysort');
 module.exports = function( req, res, next ) {
   let { dbQuery } = req;
   let { search } = dbQuery;
-  console.log('req')
-  console.log(req)
 
   if (search) {
     let list = req.results;
@@ -25,7 +23,7 @@ module.exports = function( req, res, next ) {
       })
     });
 
-    req.results = results;
+    req.results = results.slice(search.offset, search.limit);
 
     return next();
   }

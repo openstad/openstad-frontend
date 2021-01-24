@@ -44,11 +44,18 @@ router.route('/')
     }
 
     if (dbQuery.where.q) {
-      dbQuery.search = { haystack: ['role', 'firstName', 'lastName'], needle: dbQuery.where.q};
+      dbQuery.search = {
+        haystack: ['role', 'firstName', 'lastName'],
+        needle: dbQuery.where.q,
+        offset: dbQuery.offset,
+        limit: dbQuery.limit,
+        pageSize: dbQuery.pageSize,
+      };
 
       delete dbQuery.where.q;
-      delete dbQuery.pageSize;
+      delete dbQuery.offset;
       delete dbQuery.limit;
+      delete dbQuery.pageSize;
     }
 
     /**
