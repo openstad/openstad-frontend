@@ -22,6 +22,7 @@ const Promise                 = require('bluebird');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
 const path                    = require('path');
+const morgan                  = require('morgan')
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
@@ -33,17 +34,20 @@ const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif']
 // but for development sites it's necessary
 const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
 
-console.log('fileExtension', fileExtension)
-
 // Storing all site data in the site config
 let sites                   = {};
 let sitesResponse             = [];
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
+app.use(morgan('dev'));
+
+
 const static = express.static('static');
 
 const aposServer = {};
+
+
 
 //todo move this to extension check fo4 performance
 app.use(express.static('public'));
@@ -286,6 +290,9 @@ module.exports.getMultiSiteApp = (options) => {
    * Check if the requested domain exists and if so serve the site
    */
   app.use(function(req, res, next) {
+
+    console.log('=====> REQUEST: ', req.originalUrl);
+
     /**
      * Start the servers
      */
