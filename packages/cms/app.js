@@ -29,7 +29,7 @@ const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif'];
+const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif', '.woff'];
 // in case minifying is on the CSS doesn't have to go through ApostropheCMS
 // but for development sites it's necessary
 const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
@@ -40,8 +40,10 @@ let sitesResponse             = [];
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
-app.use(morgan('dev'));
 
+if (process.env.REQUEST_LOGGING === 'ON') {
+  app.use(morgan('dev'));
+}
 
 const static = express.static('static');
 
@@ -277,6 +279,9 @@ module.exports.getMultiSiteApp = (options) => {
          req.url = req.url.replace(req.params.sitePrefix, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
+
+         console.log('=====> REQUEST serve subsite with ApostropheCMS: ', req.originalUrl);
+
          site.sitePrefix = req.params.sitePrefix;
          req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
@@ -291,7 +296,7 @@ module.exports.getMultiSiteApp = (options) => {
    */
   app.use(function(req, res, next) {
 
-    console.log('=====> REQUEST: ', req.originalUrl);
+    console.log('=====> REQUEST serve root site with ApostropheCMS: ', req.originalUrl);
 
     /**
      * Start the servers
