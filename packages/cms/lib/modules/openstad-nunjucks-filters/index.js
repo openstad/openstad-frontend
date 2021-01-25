@@ -14,6 +14,13 @@ module.exports = {
       return s ? addHttp(s) : '';
     });
 
+    self.apos.templates.addFilter('safeRelativeUrl', function (s) {
+      // in case of starting with an / it expects to be relative so we add the siteUrl
+      // this way /page also works for subdirectory sites
+      // for example domain.com/site1 has a link to /page1, this wil turn that into  domain.com/site1/page1
+      const siteUrl = options.siteUrl;
+      return s.startsWith('/') ? siteUrl +  s : s;
+    });
 
     self.apos.templates.addFilter('date', function (s, format) {
       return s ? dateFormat.format(s, format) : '';

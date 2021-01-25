@@ -7,13 +7,15 @@ module.exports = {
   get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
     const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
-    console.log('site.prefix', siteData.firstPath, siteUrl)
+
 
     const siteConfig = {
       shortName: shortName,
-      prefix: siteData.firstPath ? '/' + siteData.firstPath : false,
+      prefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
       modules: {
-        'api-proxy': {},
+        'api-proxy': {
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
+        },
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
@@ -122,7 +124,6 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
-
         'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
@@ -133,7 +134,9 @@ module.exports = {
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
-        'openstad-nunjucks-filters': {},
+        'openstad-nunjucks-filters': {
+          siteUrl: siteUrl,
+        },
         'openstad-custom-pages': {},
         'openstad-oembed': {},
 
@@ -164,7 +167,9 @@ module.exports = {
         'idea-overview-widgets': {},
         'icon-section-widgets': {},
         'idea-single-widgets': {},
-        'idea-form-widgets': {},
+        'idea-form-widgets': {
+          sitePrefix: siteData.sitePrefix ? siteData.sitePrefix : false,
+        },
         'ideas-on-map-widgets': {},
         'choices-guide-result-widgets': {},
         'previous-next-button-block-widgets': {},

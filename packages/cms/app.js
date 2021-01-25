@@ -28,16 +28,20 @@ const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-const fileExtension          = ['.jpg', '.js', '.svg', '.png', '.less', '.gif']
+const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif'];
+// in case minifying is on the CSS doesn't have to go through ApostropheCMS
+// but for development sites it's necessary
+const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
+
+console.log('fileExtension', fileExtension)
 
 // Storing all site data in the site config
-const sites                   = {};
+let sites                   = {};
 let sitesResponse             = [];
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
 const static = express.static('static');
-
 
 const aposServer = {};
 
@@ -70,51 +74,64 @@ function fetchAllSites(req, res, startSites) {
 
   return rp(siteOptions)
     .then((response) => {
-
       sitesResponse = response;
-
-      //console.log('response', response);
+      const newSites = [];
 
       response.forEach((site, i) => {
         // for convenience and speed we set the domain name as the key
-        sites[site.domain] = site;
-
-        if (startSites) {
-          serveSite(req, res, site, true);
-        }
-
+        newSites[site.domain] = site;
       });
+
+      sites = newSites;
+      cleanUpSites();
+
     }).catch((e) => {
         console.error('An error occurred fetching the site config:', e);
         if (res) res.status(500).json({ error: 'An error occured fetching the sites data: ' + e });
     });
 }
 
+// run through all sites see if anyone is not active anymore and needs to be shut down
+function cleanUpSites() {
+  const runningDomains = Object.keys(aposServer);
+
+  if (runningDomains) {
+    runningDomains.forEach((runningDomain) => {
+      if (!sites[runningDomain]) {
+        aposServer[runningDomain].apos.destroy();
+        delete aposServer[runningDomain];
+      }
+    });
+  }
+}
+
 function serveSite(req, res, siteConfig, forceRestart) {
   const runner = Promise.promisify(run);
-  let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+  const dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+  const domain =  siteConfig.domain;
 
   // check if the mongodb database exist. The name for databse
   return dbExists(dbName).then((exists) => {
       // if default DB is set
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
-        if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
-            console.log('(Re)Start apos ', dbName)
+        if ((!aposServer[domain] || forceRestart) && !aposStartingUp[domain]) {
+            console.log('(Re)Start apos ', domain)
             //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
             config.area = siteConfig.area;
-            config.firstPath = siteConfig.firstPath;
+            config.domain = domain;
+            config.sitePrefix = siteConfig.sitePrefix;
 
-            aposStartingUp[dbName] = true;
+            aposStartingUp[domain] = true;
 
             runner(dbName, config, req.options).then(function(apos) {
-              aposStartingUp[dbName] = false;
-              aposServer[dbName] = apos;
-              aposServer[dbName].app.set('trust proxy', true);
-              aposServer[dbName].app(req, res);
+              aposStartingUp[domain] = false;
+              aposServer[domain] = apos;
+              aposServer[domain].app.set('trust proxy', true);
+              aposServer[domain].app(req, res);
             });
         } else {
           const startServer = (server, req, res) => {
@@ -122,13 +139,13 @@ function serveSite(req, res, siteConfig, forceRestart) {
           }
 
           const safeStartServer = () => {
-            if (aposStartingUp[dbName]) {
+            if (aposStartingUp[domain]) {
               // old school timeout loop to make sure we dont start multiple servers of the same site
               setTimeout(() => {
                 safeStartServer();
               }, 100);
             } else {
-              startServer(aposServer[dbName], req, res)
+              startServer(aposServer[domain], req, res)
             }
           }
 
@@ -136,12 +153,12 @@ function serveSite(req, res, siteConfig, forceRestart) {
         }
 
       } else {
-        res.status(404).json({ error: 'Not found page or website' });
+        res.status(404).json({ error: 'No Mongo database found for site' });
       }
     })
   .catch((e) => {
-    console.error('An error occurred checking if the DB exists:', e);
-    res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
+    console.error('An error occurred checking if the Mongo DB exists:', e);
+    res.status(500).json({ error: 'An error occured checking if the Mongo DB exists: ' + e });
   });
 }
 
@@ -236,8 +253,9 @@ module.exports.getMultiSiteApp = (options) => {
    * If not existing openstad.org will handle the above examples as pages,
    * if openstad.org exists of course.
    */
-  app.use('/:firstPath', function(req, res, next) {
-     const domainAndPath = req.openstadDomain + '/' + req.params.firstPath;
+  app.use('/:sitePrefix', function(req, res, next) {
+     const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
+
      const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
 
      // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
@@ -248,13 +266,15 @@ module.exports.getMultiSiteApp = (options) => {
        // So this is an easy way to serve the files efficiently
        // It, currently doesn't check if file exists for performance reasons, it's possible to add
        // it, this will need
-       if (fileExtension.some(extension => req.url.includes(extension))) {
+       if (fileExtension.some(extension => req.url.includes(extension)) && !req.url.includes('/modules/apostrophe-oembed/')) {
+      //if (fileExtension.some(extension => req.url.includes(extension)) ) {
          // replace the file path so it has correct version
          // see if express static can work, it's a bit more expensive it seems since it does a file exist check
-         req.url = req.url.replace(req.params.firstPath, '');
+         req.url = req.url.replace(req.params.sitePrefix, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
-         site.firstPath = req.params.firstPath
+         site.sitePrefix = req.params.sitePrefix;
+         req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
        }
      } else {
