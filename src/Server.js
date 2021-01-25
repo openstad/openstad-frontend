@@ -26,7 +26,7 @@ module.exports  = {
       this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
 
       if (process.env.REQUEST_LOGGING === 'ON') {
-        app.use(morgan('dev'));
+        this.app.use(morgan('dev'));
       }
 
       if( reportErrors ) {
@@ -34,7 +34,7 @@ module.exports  = {
       }
       this.app.use(compression());
 
-      this
+  //  this
       // this.app.use(cors());
 
       // Register statics first...
