@@ -1,7 +1,7 @@
 # Changelog
 
-## UNRELEASED
-* Remove auth express session and refactor user middleware
+## v0.12.0 (2020-01-27)
+* Remove auth express session and refactor user middleware (auth is now stateless)
 * Fix fallback authClientId
 * Use correct env variable for default client_id and client_secret values
 
