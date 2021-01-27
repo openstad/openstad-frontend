@@ -11,7 +11,6 @@ env:
     # Docker variables
     - DOCKER_PUBLIC_USERNAME=${DOCKER_PUBLIC_USERNAME:-toshkoevoets}
     - DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME:-appbuilder-frontend}
-
     # Gitops variables
     - HELM_REPO_NAME=${HELM_REPO_NAME:-openstad-kubernetes}
     - HELM_CHART_FOLDER=${HELM_CHART_FOLDER:-k8s/openstad}
