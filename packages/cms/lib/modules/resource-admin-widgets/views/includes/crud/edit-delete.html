@@ -1,7 +1,7 @@
 {% if data.activeResourceId %}
 
 {% if data.widget.showEditButton %}
-<form action="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}" method="GET">
+<form action="{{data.siteUrl}}{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl }}" method="GET">
   <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
   <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
   <button type="submit" class="edit">Bewerk </button>
@@ -9,7 +9,7 @@
 {% endif %}
 
 {% if data.widget.showDeleteButton %}
-<form method="POST" action="/modules/resource-admin-widgets/delete" id="deleteIdea" class="ajax-form">
+<form method="POST" action="{{data.siteUrl}}/modules/resource-admin-widgets/delete" id="deleteIdea" class="ajax-form">
   <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
   <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
   <input type="hidden" name="resourceEndPoint" value="{{data.activeResourceEndpoint}}" />
