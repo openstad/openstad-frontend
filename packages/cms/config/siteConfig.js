@@ -182,6 +182,7 @@ module.exports = {
         'user-form-widgets': {},
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},
+        'pricing-table-widgets': {},
         'begroot-widgets': {},
         'choices-guide-widgets': {},
         'local-video-widgets': {},

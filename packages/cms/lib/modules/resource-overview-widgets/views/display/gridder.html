@@ -115,6 +115,7 @@
       {% endif %}
     </div>
     <div class="info">
+      Use me {{ data.widget.useTemplateTitle}}
       {% if data.widget.useTemplateTitle %}
       {{data.widget.renderString(data.widget.templateTitle, data, activeResource) | sanitize | safe}}
       {% else %}
@@ -245,9 +246,8 @@
       </div>
       {% endif %}
 
+      {% endif %}
     </div>
-    {% endif %}
-
   </div>
 </div>
 {% endfor %}

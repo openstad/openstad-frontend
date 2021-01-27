@@ -1,0 +1,602 @@
+
+.text-bold {
+    font-weight: 600;
+}
+.text-captial {
+    text-transform: capitalize;
+}
+.pricing-content {
+    display: flex;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.PageWidth {
+    max-width: 1150px;
+    width: 100%;
+    margin: 30px auto;
+}
+
+.pricing-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 380px;
+    margin: auto;
+    background: #F6F8F9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.pricing-tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: all .3s;
+    text-transform: uppercase;
+}
+
+.pricing-tab-item:hover, .tab-active {
+    background: #326BD6;
+    color: #fff;
+}
+
+.pricing-content-items {
+    display: flex;
+    padding: 50px 0px;
+}
+
+.pricing-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    transition: all .3s;
+}
+
+.pricing-item-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 35px 25px;
+    transition: all .6s;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.plan-name {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.plan-text {
+    margin: 10px 0px;
+}
+
+.plan-price-content {
+    margin: 10px 0px;
+    color: #316bd6;
+}
+
+.plan-price {
+    font-size: 26px;
+    font-weight: 600;
+    /* color: #316bd6; */
+}
+
+.plan-price-text {
+    color: #707070;
+    margin-top: 2px;
+}
+
+.month-text {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: .6;
+}
+
+.plan-features {
+    flex: 1;
+}
+
+.plan-feature-item {
+    color: #707070;
+    margin: 10px 0;
+    /* font-size: 12px; */
+    display: flex;
+    align-items: center;
+}
+
+.pricing-title {
+    background: #22B122;
+    text-align: center;
+    color: #fff;
+    padding: 6px;
+    font-size: 14px;
+    margin-top: -31px;
+}
+
+.plan-button a {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #3069d4;
+    padding: 10px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #3069d4;
+    transition: all .3s;
+
+}
+
+.plan-button {
+    display: flex;
+    margin-top: 20px;
+}
+
+.pricing-item:hover {
+    /* transform: scale(1.01); */
+}
+
+ .plan-button-blue {
+    background: #3069d4;
+    color: #fff !important;
+}
+.plan-button a:hover {
+    background: #3069d4;
+    color: #fff;
+}
+
+.pricing-item:hover .pricing-item-box {
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+    transform: translateY(-10px);
+}
+
+.compare-button {
+    text-align: center;
+}
+
+.compare-button a {padding: 10px 20px;border: 1px solid #707070;color: #707070;text-transform: uppercase;text-decoration: none;border-radius: 3px;transition: all .3s;}
+
+.compare-button a:hover {
+    background: #2e6ad4;
+    color: #fff;
+    border-color: #2e6ad4;
+}
+
+.plan-feature-item:before {content: "";width: 14px;height: 14px;/* border: 1px solid #a9a9a9; */background: #eee;margin-right: 7px;/* border-radius: 50px; */margin-bottom: 2px;}
+.ribbon:before, .ribbon:after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 0px;
+    bottom: -8px;
+    border: 13px solid #22B122;
+}
+.ribbon {
+    position: absolute;
+    right: 36px;
+    top: 17px;
+}
+ .ribbon:before {
+    border-bottom-color: transparent;
+    bottom: -26px;
+}
+
+.full-plan-content {
+    margin: 80px 0px 30px;
+}
+
+.full-plan-title {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 30px;
+}
+
+.fill-plan-table table {
+    width: 100%;
+    border-spacing: 0px;
+}
+
+.table-plan-bg {
+    background: #f6f8f9;
+    box-shadow: 0 2px 4px 0 rgba(155,155,155,.4);
+}
+
+.fill-plan-table table tr th {
+    padding: 15px 20px;
+    font-size: 15px;
+    width: 20%;
+}
+
+.fill-plan-table table tr th:nth-child(1), .fill-plan-table table tr td:nth-child(1) {
+    text-align: left;
+    width: 20%;
+    border-left: 0;
+}
+
+.fill-plan-table table tr td {
+    padding: 15px 20px;
+    text-align: center;
+    border-left: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.tick-blue {
+    color: #316bd6;
+}
+
+
+/*===========================================
+Pricing Working Styles
+============================================*/
+
+.pricing-working-content {
+    background: #F6F8F9;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+        padding: 50px 0px;
+}
+
+.plan-cards {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+.plan-card-item {
+    flex: 1;
+    background: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+}
+
+.plan-card-status {
+    flex: 1;
+    background: #787d96;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    padding: 25px;
+    margin-left: 25px;
+}
+
+.PageWidth-800 {
+    max-width: 800px;
+    margin: auto;
+    width: 100%;
+}
+
+.p-card-hd {
+    padding: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.p-card-title {
+    flex: 1;
+}
+
+.p-text {
+    font-size: 22px;
+}
+
+.p-sub-text {
+    color: #707070;
+}
+
+.p-card-btn a {
+    display: flex;
+    border: 1px solid #3069d4;
+    padding: 10px 20px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #3069d4;
+    transition: all .3s;
+}
+
+.p-card-btn a:hover {
+    background: #3069d4;
+    color: #fff;
+}
+
+.p-clients {
+    background: #f2f4f8;
+    padding: 28px 25px;
+}
+
+.p-clients-hd {
+    display: flex;
+    align-items: flex-start;
+}
+
+.p-clt-rgt {
+    flex: 1;
+    font-size: 15px;
+}
+
+.p-clt-lft {
+    display: flex;
+    align-items: center;
+}
+
+.p-clt-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #eee;
+    margin-left: -8px;
+}
+
+.p-clt-img div {
+    width: 100%;
+    height: 100%;
+}
+
+.p-clt-text {
+    line-height: 25px;
+    text-align: center;
+    color:#fff;
+    font-size: 10px;
+}
+
+.p-clt-img:nth-child(1) .p-clt-text {
+    background: #a17ce4;
+}
+.p-clt-img:nth-child(2) .p-clt-text {
+    background: #48d4b6;
+}
+.p-clt-img:nth-child(3) .p-clt-text {
+    background: #0ec9ec;
+}
+.p-clt-img:nth-child(4) .p-clt-text {
+    background: #6e8ff5;
+}
+.p-clt-img:nth-child(5) .p-clt-text {
+    background: #747c94;
+}
+
+.p-clt-bar {
+    width: 100%;
+    height: 5px;
+    background: #d0d1d4;
+    margin-top: 10px;
+}
+
+.p-bar-blue {
+    background: #3069d4;
+    height: 100%;
+    width: 5%;
+}
+.nocard-text {
+    font-size: 16px;
+    margin-bottom: 50px;
+}
+
+.Update-btn a {
+    background: #f2f4f8;
+    text-decoration: none;
+    color: #000;
+    padding: 8px  15px;
+    font-size: 16px;
+    border-radius: 3px;
+    transition: all .3s;
+}
+
+.Update-btn a:hover {
+    color: #fff;
+    background: #3069d4;
+}
+
+
+.plan-card-support {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    background: #fff;
+    margin: 20px 0px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.call-icon {
+    width: 25px;
+    height: 25px;
+    background: #778196;
+    color: #fff;
+    text-align: center;
+    line-height: 25px;
+    font-size: 15px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.call-icon i {
+    font-size: 15px;
+    line-height: 25px;
+}
+
+.sp-text {
+    font-size: 15px;
+}
+
+.sp-text a {
+    color: #2580eb;
+    text-decoration: none;
+}
+
+.invoices-content {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    background: #fff;
+    padding: 25px;
+}
+
+.invoice-title {
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #707070;
+    padding-bottom: 5px;
+}
+
+.invoice-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 20px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #707070;
+}
+
+.invoice-no {
+    flex: 1;
+}
+
+.invoice-date {
+    flex: 1;
+}
+
+.invoice-download {
+    display: flex;
+    background: #f2f4f8;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all .3s;
+    cursor: pointer;
+}
+.invoice-download:hover {
+    background: #2e6ad4;
+    color: #fff;
+}
+
+
+
+.card-update {
+    background: #787d96;
+}
+
+.card-update-type {
+    display: flex;
+    align-items: center;
+}
+
+.card-type {
+    flex: 1;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.card-update-btn a {
+    display: flex;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #2e6ad4;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all .3s;
+}
+
+.card-update-btn a:hover {
+    color: #2f69d4;
+}
+
+.card-number {
+    margin: 20px 0px;
+}
+
+.card-deatils {
+    display: flex;
+    align-items: center;
+}
+
+
+.card-holder-name label {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-holder-name {
+    flex: 1;
+}
+
+.card-valid label {
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-no-text {
+    font-weight: 600;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.card-text {
+    color: #fff;
+    font-size: 15px;
+}
+
+.invoice-date.inv-mar-10 {
+    margin-left: 0px;
+}
+
+.invoice-all-download a {
+    display: flex;
+    background: #f2f4f8;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: all .3s;
+    color: #333;
+    text-decoration: none;
+}
+
+.invoice-all-download a:hover {
+    background: #2f69d4;
+    color: #fff;
+}
+
+table.invoices-table {
+    width: 100%;
+    font-size: 15px;
+    color: #707070;
+    border-spacing: 0;
+}
+
+table.invoices-table tr th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table.invoices-table tr td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table.invoices-table tr td:nth-child(5), table.invoices-table tr th:nth-child(5) {justify-content: flex-end;display: flex;}
+
+table.invoices-table tr td:nth-child(1), table.invoices-table tr th:nth-child(1) {
+    width: 30%;
+}
+.pricing-content-items-tabs{
+    display: flex;
+    flex-direction: column;
+        padding: 50px 0px;
+}
+.pricing-yearly {
+    display: flex;
+    margin-bottom: 50px;
+}
+.pricing-monthly{
+    display: none;
+    margin-bottom: 50px;
+}
+
+.pricing-monthly.active-tab-content{
+    display: flex;
+}

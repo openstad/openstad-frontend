@@ -82,6 +82,7 @@ const contentWidgets = {
     addLabel: 'Participatory budgetting',
     adminOnly: true
   },
+  'pricing-table' : {},
   'choices-guide': {
     addLabel: 'Keuzewijzer  (beta)',
     hideByDefault: true,
