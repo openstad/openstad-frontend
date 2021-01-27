@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.12.0 (2020-01-27)
+* Allow for running multiple sites on subdirectories
+* Accessibility improvements
+
 ## v0.11.0 (2020-01-11)
 * Make the (Google) Analytics block configurable to provide for a new version and also other options
 * Add html class name to resource overview
