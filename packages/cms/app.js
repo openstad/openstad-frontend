@@ -21,102 +21,123 @@ const rp                      = require('request-promise');
 const Promise                 = require('bluebird');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
+const path                    = require('path');
+const morgan                  = require('morgan')
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
+const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif', '.woff'];
+// in case minifying is on the CSS doesn't have to go through ApostropheCMS
+// but for development sites it's necessary
+const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
 
-const configForHosts          = {};
+// Storing all site data in the site config
+let sites                   = {};
+let sitesResponse             = [];
 const aposStartingUp          = {};
+const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
-var aposServer = {};
 
+if (process.env.REQUEST_LOGGING === 'ON') {
+  app.use(morgan('dev'));
+}
+
+const static = express.static('static');
+
+const aposServer = {};
+
+
+
+//todo move this to extension check fo4 performance
 app.use(express.static('public'));
+// serve static also on first level
 
 app.set('trust proxy', true);
 
-/**
- * Route for resetting the config of the server so the server will refetch
- * Necessary when making changes in the site config.
- */
-app.get('/config-reset', (req, res, next) => {
-  let host = req.headers['x-forwarded-host'] || req.get('host');
-  host = host.replace(['http://', 'https://'], ['']);
-  delete configForHosts[host];
-  res.json({ message: 'Ok'});
-});
+function fetchAllSites(req, res, startSites) {
+  const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
 
-function serveSites (req, res, next) {
-  let thisHost = req.headers['x-forwarded-host'] || req.get('host');
+  console.log('Fetch all sites')
 
-  thisHost = thisHost.replace(['http://', 'https://'], ['']);
+  if (!process.env.SITE_API_KEY) {
+    console.log('Site api key is not set!');
+    if (res) res.status(500).json({ error: 'Site api key is not set!' });
+    return;
+  }
 
-  // if the config is existing it means the site has been loaded already, serve site
-  if (configForHosts[thisHost]) {
-    try {
-      serveSite(req, res, configForHosts[thisHost], false);
-    } catch (e) {
-      console.log('-->> e', e);
-    }
-  } else {
+  const siteOptions = {
+      uri:`${apiUrl}/api/site`, //,
+      headers: {
+          'Accept': 'application/json',
+          "Cache-Control": "no-cache",
+          "X-Authorization": process.env.SITE_API_KEY
+      },
+      json: true // Automatically parses the JSON string in the response
+  };
 
-    /**
-     * Fetch the config for site by making a call with the domain
-     */
-    const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
+  return rp(siteOptions)
+    .then((response) => {
+      sitesResponse = response;
+      const newSites = [];
 
-    const siteOptions = {
-        uri:`${apiUrl}/api/site/${thisHost}`, //,
-        headers: {
-            'Accept': 'application/json',
-            "Cache-Control": "no-cache"
-        },
-        json: true // Automatically parses the JSON string in the response
-    };
-
-    // ADD site key if set, necessary for sensitive admin info
-    if (process.env.SITE_API_KEY) {
-      siteOptions.headers["X-Authorization"] = process.env.SITE_API_KEY;
-    }
-
-    rp(siteOptions)
-      .then((siteConfig) => {
-        console.info('Caching config for site: %s -> %j:', thisHost);
-
-        configForHosts[thisHost] = siteConfig;
-        serveSite(req, res, siteConfig, true);
-      }).catch((e) => {
-          console.error('An error occurred fetching the site config:', e);
-          res.status(500).json({ error: 'An error occured fetching the site config: ' + e });
+      response.forEach((site, i) => {
+        // for convenience and speed we set the domain name as the key
+        newSites[site.domain] = site;
       });
+
+      sites = newSites;
+      cleanUpSites();
+
+    }).catch((e) => {
+        console.error('An error occurred fetching the site config:', e);
+        if (res) res.status(500).json({ error: 'An error occured fetching the sites data: ' + e });
+    });
+}
+
+// run through all sites see if anyone is not active anymore and needs to be shut down
+function cleanUpSites() {
+  const runningDomains = Object.keys(aposServer);
+
+  if (runningDomains) {
+    runningDomains.forEach((runningDomain) => {
+      if (!sites[runningDomain]) {
+        aposServer[runningDomain].apos.destroy();
+        delete aposServer[runningDomain];
+      }
+    });
   }
 }
 
 function serveSite(req, res, siteConfig, forceRestart) {
   const runner = Promise.promisify(run);
-  let dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+  const dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+  const domain =  siteConfig.domain;
 
   // check if the mongodb database exist. The name for databse
   return dbExists(dbName).then((exists) => {
       // if default DB is set
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
-        if ((!aposServer[dbName] || forceRestart) && !aposStartingUp[dbName]) {
+        if ((!aposServer[domain] || forceRestart) && !aposStartingUp[domain]) {
+            console.log('(Re)Start apos ', domain)
             //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
             config.title = siteConfig.title;
             config.area = siteConfig.area;
+            config.domain = domain;
+            config.sitePrefix = siteConfig.sitePrefix;
 
-            aposStartingUp[dbName] = true;
+            aposStartingUp[domain] = true;
 
             runner(dbName, config, req.options).then(function(apos) {
-              aposStartingUp[dbName] = false;
-              aposServer[dbName] = apos;
-              aposServer[dbName].app.set('trust proxy', true);
-              aposServer[dbName].app(req, res);
+              aposStartingUp[domain] = false;
+              aposServer[domain] = apos;
+              aposServer[domain].app.set('trust proxy', true);
+              aposServer[domain].app(req, res);
             });
         } else {
           const startServer = (server, req, res) => {
@@ -124,13 +145,13 @@ function serveSite(req, res, siteConfig, forceRestart) {
           }
 
           const safeStartServer = () => {
-            if (aposStartingUp[dbName]) {
+            if (aposStartingUp[domain]) {
               // old school timeout loop to make sure we dont start multiple servers of the same site
               setTimeout(() => {
                 safeStartServer();
               }, 100);
             } else {
-              startServer(aposServer[dbName], req, res)
+              startServer(aposServer[domain], req, res)
             }
           }
 
@@ -138,12 +159,12 @@ function serveSite(req, res, siteConfig, forceRestart) {
         }
 
       } else {
-        res.status(404).json({ error: 'Not found page or website' });
+        res.status(404).json({ error: 'No Mongo database found for site' });
       }
     })
   .catch((e) => {
-    console.error('An error occurred checking if the DB exists:', e);
-    res.status(500).json({ error: 'An error occured checking if the DB exists: ' + e });
+    console.error('An error occurred checking if the Mongo DB exists:', e);
+    res.status(500).json({ error: 'An error occured checking if the Mongo DB exists: ' + e });
   });
 }
 
@@ -151,8 +172,16 @@ function run(id, siteData, options, callback) {
   const site = { _id: id}
 
   const config = _.merge(siteData, options);
+  let assetsIdentifier;
 
-  const siteConfig = defaultSiteConfig.get(site._id, config);
+  // for dev sites grab the assetsIdentifier from the first site in order to share assets
+
+  if (Object.keys(aposServer).length > 0) {
+    const firstSite = aposServer[Object.keys(aposServer)[0]];
+    assetsIdentifier = firstSite.assets.generation;
+  }
+
+  const siteConfig = defaultSiteConfig.get(site._id, config, assetsIdentifier);
 
   siteConfig.afterListen = function () {
     apos._id = site._id;
@@ -164,7 +193,6 @@ function run(id, siteData, options, callback) {
   const apos = apostrophe(
     _.merge(siteConfig, siteData)
   );
-
 }
 
 module.exports.getDefaultConfig = (options) => {
@@ -176,13 +204,116 @@ module.exports.getApostropheApp = () => {
 };
 
 module.exports.getMultiSiteApp = (options) => {
+
+  /**
+   * First fetch the data of all sites
+   */
+  app.use(async function (req, res, next) {
+    if (Object.keys(sites).length === 0) {
+      console.log('Fetching config for all sites');
+      await fetchAllSites(req, res);
+    }
+
+    if (Object.keys(sites).length === 0) {
+      console.log('No config for sites found');
+      res.status(500).json({ error: 'No sites found'});
+    }
+
+    // add custom openstad configuration to ApostrhopheCMS
+    req.options = options;
+
+    //format domain to our specification
+    let domain = req.headers['x-forwarded-host'] || req.get('host');
+    domain = domain.replace(['http://', 'https://'], ['']);
+    domain = domain.replace(['www'], ['']);
+
+    req.openstadDomain = domain;
+
+    next()
+  });
+
+  const resetConfigMw = async (req, res, next) => {
+    let host = req.headers['x-forwarded-host'] || req.get('host');
+    host = host.replace(['http://', 'https://'], ['']);
+    console.log('reset host', host)
+    await fetchAllSites(req, res);
+    req.forceRestart = true;
+    next();
+  }
+
+  /**
+   * Route for resetting the config of the server
+   * Necessary when making changes in the site config
+   * Currently simple fetches all config again, and then stops the express server
+   */
+  app.use('/config-reset', resetConfigMw);
+  app.use('/:firstPath/config-reset', resetConfigMw);
+
+  /**
+   * Check if a site is running under the first path
+   *
+   * So for instance, following should work:
+   *  openstad.org/site2
+   *  openstad.org/site3
+   *
+   * If not existing openstad.org will handle the above examples as pages,
+   * if openstad.org exists of course.
+   */
+  app.use('/:sitePrefix', function(req, res, next) {
+     const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
+
+     const site = sites[domainAndPath] ? sites[domainAndPath]  : false;
+
+     // in case the site with firstpath exists in the sites object then serve it, otherwise move to the next middleware that tries to load the root domain
+     if (site) {
+
+       // Static files for express.static works for root domain but not the subdir the path
+       // The files will get served if this is removed, but every file has to go through ApostropheCMS and this is a big performance hit.
+       // So this is an easy way to serve the files efficiently
+       // It, currently doesn't check if file exists for performance reasons, it's possible to add
+       // it, this will need
+       if (fileExtension.some(extension => req.url.includes(extension)) && !req.url.includes('/modules/apostrophe-oembed/')) {
+      //if (fileExtension.some(extension => req.url.includes(extension)) ) {
+         // replace the file path so it has correct version
+         // see if express static can work, it's a bit more expensive it seems since it does a file exist check
+         req.url = req.url.replace(req.params.sitePrefix, '');
+         return res.sendFile(path.resolve('public' + req.url));
+       } else {
+
+         console.log('=====> REQUEST serve subsite with ApostropheCMS: ', req.originalUrl);
+
+         site.sitePrefix = req.params.sitePrefix;
+         req.sitePrefix = req.params.sitePrefix;
+         serveSite(req, res, site, req.forceRestart);
+       }
+     } else {
+       next();
+     }
+  });
+
+  /**
+   * Check if the requested domain exists and if so serve the site
+   */
   app.use(function(req, res, next) {
+
+    console.log('=====> REQUEST serve root site with ApostropheCMS: ', req.originalUrl);
+
     /**
      * Start the servers
      */
-    req.options = options;
-    serveSites(req, res, next);
+    const site = sites[req.openstadDomain] ? sites[req.openstadDomain]  : false;
+
+    // if site exists serve it, otherwise give a 404
+    if (site) {
+      serveSite(req, res, site, req.forceRestart);
+    } else {
+      res.status(404).json({ error: 'Site not found'});
+    }
   });
 
+  /**
+   * Update the site config every few minutes
+   */
+  setInterval(fetchAllSites, REFRESH_SITES_INTERVAL);
   return app;
 };

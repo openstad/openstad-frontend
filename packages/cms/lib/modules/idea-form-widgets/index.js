@@ -1,5 +1,5 @@
 /**
- * Deprecated, see resource overview
+ * Deprecated, see resource form
  */
 const rp            = require('request-promise');
 const proxy         = require('http-proxy-middleware');
@@ -162,12 +162,17 @@ module.exports = {
      self.pushAsset('script', 'map', { when: 'always' });
    };
 
+
+   const imagePath = options.sitePrefix ? ('/' + options.sitePrefix + '/image' ) : '/image'
+   const imagesPath = options.sitePrefix ? ('/' + options.sitePrefix + '/images') : '/images'
+
    /**
     * Create route for proxying one image to image server, add api token in header
     */
    self.apos.app.use('/image', proxy({
      target: imageApiUrl,
      changeOrigin: true,
+     pathRewrite: {['^' + imagePath] : '/image'},
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
         proxyReq.setHeader('Authorization', `Bearer ${imageApiToken}`);
@@ -179,6 +184,7 @@ module.exports = {
     */
    self.apos.app.use('/images', proxy({
      target: imageApiUrl,
+     pathRewrite: {['^' + imagesPath] : '/images'},
      changeOrigin: true,
      onProxyReq : (proxyReq, req, res) => {
         // add custom header to request
@@ -244,13 +250,9 @@ module.exports = {
           res.end(JSON.stringify({
             id: response.id
           }));
-          //res.redirect(req.header('Referer') || '/');
        })
        .catch(function (err) {
          res.status(500).json(JSON.stringify(err));
-
-        //req.flash('error', { msg: 'Status niet aangepast!'});
-         //return res.redirect(req.header('Referer') || '/');
        });
 
 
@@ -263,8 +265,6 @@ module.exports = {
            json: true // Automatically parses the JSON string in the response
        })
        .then(function (response) {
-        //  req.flash('success', { msg: 'Verwijderd!'});
-        //  res.redirect('/');
           res.setHeader('Content-Type', 'application/json');
 
           res.end(JSON.stringify({

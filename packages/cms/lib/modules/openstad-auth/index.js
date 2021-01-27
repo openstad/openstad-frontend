@@ -64,15 +64,37 @@ module.exports = {
         const thisHost = req.headers['x-forwarded-host'] || req.get('host');
         const protocol = req.headers['x-forwarded-proto'] || req.protocol;
         const fullUrl = protocol + '://' + thisHost + req.originalUrl;
+        const cmsUrl = self.apos.settings.getOption(req, 'siteUrl');
+
         const parsedUrl = Url.parse(fullUrl, true);
         let fullUrlPath = parsedUrl.path;
 
         // remove the JWT Parameter otherwise keeps redirecting
         let returnTo = req.session.returnTo ? req.session.returnTo : removeURLParameter(fullUrlPath, 'jwt');
+        console.log('returnTo', returnTo)
+
+        const sitePrefix = req.sitePrefix ?  '/' + req.sitePrefix : false;
+        console.log('sitePrefix', sitePrefix)
+        console.log('returnTo.startsWith(sitePrefix)', returnTo.startsWith(sitePrefix))
+
+        // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
+        returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : returnTo;
+
+        // in case full url is prefixed remove it, otherwise will also cause issues
+        returnTo = cmsUrl && returnTo.startsWith(cmsUrl) ? returnTo.replace(cmsUrl, '') : returnTo;
+
+        console.log('returnTo 2', returnTo)
 
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
-        returnTo = returnTo.path;
+
+        // make sure it's a string
+        returnTo = returnTo.path ? returnTo.path : '';
+
+        // always attach cmsUrl so no external redirects are possible and subdir is working
+        returnTo = cmsUrl + returnTo;
+
+        // set the JWT to session and redirect without it so it doens't get save to the browser history
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
@@ -141,7 +163,8 @@ module.exports = {
                } else {
                  // if not valid clear the JWT and redirect
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl +  '/');
                    return;
                  });
                }
@@ -149,11 +172,9 @@ module.exports = {
              })
              .catch((e) => {
                console.log('e', e);
-
-               // if not valid clear the JWT and redirect
-               // ;
                  req.session.destroy(() => {
-                   res.redirect('/');
+                   const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                   res.redirect(siteUrl + '/');
                    return;
                  })
              });
@@ -199,9 +220,7 @@ module.exports = {
     self.apos.app.get('/oauth/logout', (req, res, next) => {
       req.session.destroy(() => {
         const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
-        const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-        const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-        const fullUrl = protocol + '://' + thisHost;
+        const fullUrl = self.apos.settings.getOption(req, 'siteUrl');
         const url = apiUrl + '/oauth/site/'+req.data.global.siteId+'/logout?redirectUrl=' + fullUrl;
         res.redirect(url);
       });
@@ -217,7 +236,8 @@ module.exports = {
       }
 
       req.session.save(() => {
-        res.redirect('/oauth/login?loginPriviliged=1');
+        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+        res.redirect(siteUrl + '/oauth/login?loginPriviliged=1');
       })
     });
 
@@ -229,7 +249,7 @@ module.exports = {
           const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
           const thisHost = req.headers['x-forwarded-host'] || req.get('host');
           const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-          let returnUrl = protocol + '://' + thisHost;
+          let returnUrl = self.apos.settings.getOption(req, 'siteUrl');
 
           if (req.query.returnTo && typeof req.query.returnTo === 'string') {
             //only get the pathname to prevent external redirects
@@ -239,6 +259,8 @@ module.exports = {
           }
 
           let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${returnUrl}`;
+
+
           url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
           url = req.query.loginPriviliged ? url + '&loginPriviliged=1' : url + '&forceNewLogin=1';
           res.redirect(url);

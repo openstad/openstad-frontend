@@ -4,14 +4,18 @@ const palette = require('./palette');
 const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
-  get: (shortName, siteData) => {
-
+  get: (shortName, siteData, assetsIdentifier) => {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
+    const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
+
 
     const siteConfig = {
       shortName: shortName,
+      prefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
       modules: {
-        'api-proxy': {},
+        'api-proxy': {
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
+        },
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
@@ -38,6 +42,7 @@ module.exports = {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
           alias: 'settings',
+          siteUrl: siteUrl,
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
           apiLogoutUrl: process.env.API_LOGOUT_URL,
@@ -95,6 +100,20 @@ module.exports = {
             }
           }
         },
+        'apostrophe-multisite-patch-assets': {
+          construct: function(self, options) {
+            // For dev: at least one site has already started up, which
+            // means assets have already been attended to. Steal its
+            // asset generation identifier so they don't fight.
+            // We're not too late because apostrophe-assets doesn't
+            // use this information until afterInit
+            const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
+            self.apos.assets.determineDevGeneration = function() {
+              const original = superDetermineDevGeneration();
+              return assetsIdentifier ? assetsIdentifier : original;
+            };
+          }
+         },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
           arrangePaletteFields: palette.arrangeFields
@@ -105,7 +124,7 @@ module.exports = {
         'apostrophe-video-widgets': {},
         'apostrophe-area-structure': {},
         'openstad-areas': {},
-        //'openstad-captcha': {},
+        'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
@@ -115,7 +134,9 @@ module.exports = {
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
-        'openstad-nunjucks-filters': {},
+        'openstad-nunjucks-filters': {
+          siteUrl: siteUrl,
+        },
         'openstad-custom-pages': {},
         'openstad-oembed': {},
 
@@ -146,7 +167,9 @@ module.exports = {
         'idea-overview-widgets': {},
         'icon-section-widgets': {},
         'idea-single-widgets': {},
-        'idea-form-widgets': {},
+        'idea-form-widgets': {
+          sitePrefix: siteData.sitePrefix ? siteData.sitePrefix : false,
+        },
         'ideas-on-map-widgets': {},
         'choices-guide-result-widgets': {},
         'previous-next-button-block-widgets': {},

@@ -15,6 +15,8 @@ module.exports = {
       when: 'afterRequired',
       middleware: (req, res, next) => {
         self.init(req);
+        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+        req.data.siteUrl = siteUrl;
         next();
       }
     };

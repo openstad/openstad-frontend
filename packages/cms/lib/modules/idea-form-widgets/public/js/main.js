@@ -186,7 +186,7 @@ $(document).ready(function () {
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
             //  window.location.replace(redirect);
-              window.location.href = redirect;
+              window.location.href = window.siteUrl + redirect;
           },
           error:function(response) {
               // "this" the object you passed

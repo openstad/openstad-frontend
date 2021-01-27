@@ -1,5 +1,5 @@
 {% set maxFileSize = 120 %}
-<script src="/modules/resource-form-widgets/js/vimeo-init.js"></script>
+<script src="{{data.siteUrl}}/modules/resource-form-widgets/js/vimeo-init.js"></script>
 
 <div id="vimeo-video">
   {% if idea.extraData.vimeoId %}
@@ -44,7 +44,7 @@
     </span>
   </div>
   <div id="vimeo-uploading-local">
-    <img src="/modules/openstad-assets/img/loader.svg" class="loader-spinner" width="25" height="25" />
+    <img src="{{data.siteUrl}}/modules/openstad-assets/img/loader.svg" class="loader-spinner" width="25" height="25" />
     <br />
     <br />
     Je video is aan het uploaden. Bij grotere bestanden kan dit enkele minuten duren.

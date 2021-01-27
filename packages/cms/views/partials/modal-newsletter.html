@@ -120,19 +120,37 @@
         </div>
         {% endif %}
 
-      {#
-          <label>  {{ __('Please enter the words you see into the field below ') }} </label>
+        <div class="form-field">
+
+          <img src="{{data.siteUrl}}/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
           <br />
-          {{data.captcha.data | safe}}
+          <a href="#" class="captcha-refresh">
+            <small class="underline">
+            {% if data.global.captchaLabel %}
+               {{data.global.captchaRefreshText}}
+            {% else %}
+              refresh
+            {% endif %}
+            </small>
+          </a>
+          <br />
+          <label>
+           {% if data.global.captchaLabel %}
+              {{data.global.captchaLabel}}
+           {% else %}
+             {{ __('Please enter the words you see into the field below ') }}
+           {% endif %}
+          </label>
+          <br />
           <input type="text" class="input-field" required name="areYouABot" />
         </div>
-        #}
+
 
         <div class="error-message error-block" style="display: none;"> </div>
         <div class="success-message success-block" style="display: none;"> </div>
 
 
-        <button href="/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
+        <button href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
           {{ data.global.newsletterModalSubmit or __('Sign up') }}
         </button>
         <a href="#closed" class="outlined-button" type="submit">

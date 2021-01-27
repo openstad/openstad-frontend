@@ -1,3 +1,6 @@
+/**
+ * Widget for displaying lists in several types of styling with static content
+ */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -130,7 +133,7 @@ module.exports = {
          fields: ['listType', 'listClassName', 'containerStyles']
        }
      ]);
-     
+
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {

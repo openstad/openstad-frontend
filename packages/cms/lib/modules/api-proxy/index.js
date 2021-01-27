@@ -8,17 +8,22 @@ const eventEmitter  = require('../../../events').emitter;
 module.exports = {
   construct: function(self, options) {
 
+    const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
+
+//    console.log('apiPath', apiPath)
+
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
     */
    self.apos.app.use('/api', proxy({
      target: apiUrl,
      changeOrigin: true,
+     pathRewrite: {['^'+apiPath] : '/api'},
      onProxyReq : (proxyReq, req, res) => {
 
        /**
         * Validate the request with captcha if send by a form
-
+        */
        if (req.body && req.body.areYouABot) {
          const captchData = req.session.captcha;
          const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
@@ -31,10 +36,7 @@ module.exports = {
 
          // clean up key before we send it to the api
          delete req.body.areYouABot;
-         // empty session captcha
-         req.session.captcha = false;
        }
-               */
 
         // add custom header to request
         proxyReq.setHeader('Accept', 'application/json');
@@ -82,12 +84,15 @@ module.exports = {
      }
    }));
 
+   const statsUrl = options.sitePrefix ? options.sitePrefix + '/stats' : '/stats'
+
     /*
     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
     */
    self.apos.app.use('/stats', proxy({
      target: apiUrl,
      changeOrigin: true,
+     pathRewrite: {['^'+statsUrl] : '/stats'},
      onProxyReq : (proxyReq, req, res) => {
 
         // add custom header to request

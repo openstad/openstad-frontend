@@ -48,6 +48,11 @@ module.exports = {
           showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 				},
 				{
+					label: 'Van min naar plus 100',
+					value: 'minus-to-plus-100',
+          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor']
+				},
+				{
 					label: 'In een vlak',
 					value: 'plane',
           showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],

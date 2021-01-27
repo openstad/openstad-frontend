@@ -115,6 +115,11 @@ module.exports = {
        fields: ['buttonTextSubmit', 'buttonTextSave']
      },
      {
+       name: 'agreed',
+       label: 'Agreed checkbox',
+       fields: ['agreedLabel', 'agreedRequired']
+     },
+     {
        name: 'budget',
        label: 'Budget',
        fields: ['displayBudget']

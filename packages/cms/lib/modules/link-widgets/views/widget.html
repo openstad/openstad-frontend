@@ -2,13 +2,13 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-{% set protocol = '' %}
+{% set href = data.widget.url %}
 {% if data.widget.addTelephoneProtocol %}
-{% set protocol = 'tel:' %}
+{% set href = 'tel:' %}
 {% endif %}
 <a
   id="{{data.widget.containerId}}"
-  href="{{protocol}}{{ data.widget.url }}"
+  href="{{ href | safeRelativeUrl }} "
   class="
     {{data.widget.style}}
     scroll-link margin-bottom-sm
@@ -17,10 +17,13 @@
     "
   {% if data.widget.targetBlank %} target="_blank" {% endif %}
   style=""
-  title="{{ data.widget.label }} "
 >
   {% if data.widget.icon %}
-	<img src="{{apos.attachments.url(data.widget.icon)}}" />
+	<img src="{{apos.attachments.url(data.widget.icon)}}"
+       {% if data.widget.iconAltText %}
+        alt="{{data.widget.iconAltText}}"
+       {% endif %}
+  />
   {% endif %}
 
   {{ data.widget.label  }}

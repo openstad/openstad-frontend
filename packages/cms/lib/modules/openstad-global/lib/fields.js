@@ -140,6 +140,17 @@ module.exports = [
     required: true,
   },
   {
+    type: 'string',
+    name: 'captchLabel',
+    label: "Label for captcha",
+  },
+  {
+    type: 'string',
+    name: 'captchaRefreshText',
+    label: "Text for captcha refresh",
+  },
+
+  {
     type: 'boolean',
     name: 'hideSiteTitle',
     label: 'Hide the site title in the header?',
@@ -205,12 +216,8 @@ module.exports = [
     type: 'string',
     label: 'Formatted Logo',
     formatField: function (value, apos, doc, req) {
-      const thisHost = req.headers['x-forwarded-host'] || req.get('host');
-      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-      const siteUrl = protocol + '://' + thisHost;
-      //const siteUrl = '';
-
-      return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
+    //  const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      return  doc.siteLogo ? apos.attachments.url(doc.siteLogo) : '';
     },
     apiSyncField: 'styling.logo',
   },
@@ -533,6 +540,11 @@ module.exports = [
     label: 'Submit button',
     textarea: true,
     def: 'Submit'
+  },
+  {
+    name: 'captchaLabel',
+    type: 'string',
+    label: 'Captcha Label',
   },
   {
     name: 'newsletterModalCancel',
