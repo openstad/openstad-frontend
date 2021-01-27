@@ -68,7 +68,7 @@ stages:
   - name: docker_push_tag
     if: tag IS present
   - name: kubectl_deploy_dev
-    if: env(KUBE_DEPLOY) IS present AND branch =~ /development|feature\/.*/
+    if: env(KUBE_DEPLOY) IS present AND branch =~ /app-development|feature\/.*/
   - name: kubectl_deploy_acc
     if: env(KUBE_DEPLOY) IS present AND branch =~ /staging|release|release\/.*/
   - name: kubectl_deploy_prod
