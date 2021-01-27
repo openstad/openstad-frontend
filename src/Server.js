@@ -5,6 +5,7 @@ var _            = require('lodash')
 // Misc
 var util         = require('./util');
 var log          = require('debug')('app:http');
+const morgan     = require('morgan')
 
 var reportErrors = config.sentry && config.sentry.active;
 
@@ -24,10 +25,16 @@ module.exports  = {
       this.app.set('view engine', 'njk');
       this.app.set('env', process.env.NODE_APP_INSTANCE || 'development');
 
+      if (process.env.REQUEST_LOGGING === 'ON') {
+        this.app.use(morgan('dev'));
+      }
+
       if( reportErrors ) {
           // this.app.use(Raven.requestHandler());
       }
       this.app.use(compression());
+
+  //  this
       // this.app.use(cors());
 
       // Register statics first...
@@ -131,7 +138,7 @@ module.exports  = {
 				maxAge   : config.get('security.sessions.maxAge')
 			}
 		}));
-		
+
 		// Middleware to fill `req.user` with a `User` instance.
 		const getUser = require('./middleware/user');
 		this.app.use(getUser);

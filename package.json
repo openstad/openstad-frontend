@@ -37,6 +37,7 @@
     "marked": "^0.7.0",
     "merge": "^1.2.1",
     "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
     "mysql2": "^1.7.0",
     "mysqldump": "^3.2.0",
     "nested-object-assign": "^1.0.3",
