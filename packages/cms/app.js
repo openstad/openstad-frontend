@@ -22,18 +22,17 @@ const Promise                 = require('bluebird');
 const auth                    = require('basic-auth');
 const compare                 = require('tsscmp');
 const path                    = require('path');
+const morgan                  = require('morgan')
 
 //internal code
 const dbExists                = require('./services/mongo').dbExists;
 const openstadMap             = require('./config/map').default;
 const openstadMapPolygons     = require('./config/map').polygons;
 const defaultSiteConfig       = require('./config/siteConfig');
-const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif'];
+const defaultExtensions       = ['.jpg', '.js', '.svg', '.png', '.less', '.gif', '.woff'];
 // in case minifying is on the CSS doesn't have to go through ApostropheCMS
 // but for development sites it's necessary
 const fileExtension           = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.css', '.less'] : defaultExtensions;
-
-console.log('fileExtension', fileExtension)
 
 // Storing all site data in the site config
 let sites                   = {};
@@ -41,9 +40,16 @@ let sitesResponse             = [];
 const aposStartingUp          = {};
 const REFRESH_SITES_INTERVAL  = 60000 * 5;
 
+
+if (process.env.REQUEST_LOGGING === 'ON') {
+  app.use(morgan('dev'));
+}
+
 const static = express.static('static');
 
 const aposServer = {};
+
+
 
 //todo move this to extension check fo4 performance
 app.use(express.static('public'));
@@ -273,6 +279,9 @@ module.exports.getMultiSiteApp = (options) => {
          req.url = req.url.replace(req.params.sitePrefix, '');
          return res.sendFile(path.resolve('public' + req.url));
        } else {
+
+         console.log('=====> REQUEST serve subsite with ApostropheCMS: ', req.originalUrl);
+
          site.sitePrefix = req.params.sitePrefix;
          req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
@@ -286,6 +295,9 @@ module.exports.getMultiSiteApp = (options) => {
    * Check if the requested domain exists and if so serve the site
    */
   app.use(function(req, res, next) {
+
+    console.log('=====> REQUEST serve root site with ApostropheCMS: ', req.originalUrl);
+
     /**
      * Start the servers
      */
