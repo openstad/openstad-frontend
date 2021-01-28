@@ -85,6 +85,15 @@ if (votingContainer !== null) {
 
 	  updateBudgetDisplay();
 	  updateListElements();
+
+	  var data = {
+		  budgetVote: currentSelection,
+	  }
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
+      data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
+      console.log(data.budgetVote);
+    }
+
   }
 
   function removeIdeaFromSelection(id) {
@@ -103,6 +112,15 @@ if (votingContainer !== null) {
 
 	  updateBudgetDisplay(false);
 	  updateListElements();
+
+	  var data = {
+		  budgetVote: currentSelection,
+	  }
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
+      data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
+      console.log(data.budgetVote);
+    }
+
   }
 
   function recalculateAvailableAmount() {

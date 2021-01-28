@@ -48,11 +48,6 @@ module.exports = {
           showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 				},
 				{
-					label: 'Van min naar plus 100',
-					value: 'minus-to-plus-100',
-          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor']
-				},
-				{
 					label: 'In een vlak',
 					value: 'plane',
           showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
@@ -65,39 +60,65 @@ module.exports = {
       label:    'Kleur van de balken, minimaal',
       help:     'Dit moet (nu nog) in het formaat #123456',
       def:      '#ff9100',
-    },
-    {
+    }, {
       type:     'string',
       name:     'choicesPreferenceMaxColor',
       label:    'Kleur van de balken, maximaal',
       help:     'Dit moet (nu nog) in het formaat #123456',
       def:      '#bed200',
-    },
-    {
+    }, {
       type:     'string',
       name:     'choicesPreferenceTitle',
       label:    'Titel boven de keuzes, met voorkeur',
       help:     'Bijvoorbeeld "Jouw voorkeur is {preferredChoice}"',
       def:      'Jouw voorkeur is {preferredChoice}',
-    },
-    {
+    }, {
       type:     'string',
       name:     'choicesNoPreferenceYetTitle',
       label:    'Titel boven de keuzes, nog geen voorkeur',
       help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
       def:      'Je hebt nog geen keuze gemaakt',
-    },
-    {
+    }, {
       type:     'string',
       name:     'choicesMinLabel',
       label:    'Tekst links bij de balken',
-    },
-    {
+    }, {
       type:     'string',
       name:     'choicesMaxLabel',
       label:    'Tekst rechts bij de balken',
-    },
-    {
+    },{
+      type:     'string',
+      name:     'requireLoginTitle',
+      label:    'Titel',
+    }, {
+      type:     'string',
+      name:     'requireLoginDescription',
+      label:    'Beschrijving',
+    }, {
+      type:     'string',
+      name:     'requireLoginButtonTextLogin',
+      label:    'Tekst op de button - je moet nog inloggen',
+    }, {
+      type:     'string',
+      name:     'requireLoginButtonTextLoggedIn',
+      label:    'Tekst op de button - je bent ingelogd',
+    }, {
+      type:     'string',
+      name:     'requireLoginButtonTextAlreadySubmitted',
+      label:    'Tekst op de button - je hebt al gestemd',
+    }, {
+      type:     'string',
+      name:     'requireLoginChangeLoginLinkText',
+      label:    'Tekst voor link \'Opnieuw inloggen\'',
+    }, {
+      type:     'string',
+      name:     'requireLoginLoggedInMessage',
+      label:    '\'Login gelukt\' bericht',
+    }, {
+      type:     'string',
+      name:     'requireLoginAlreadySubmittedMessage',
+      label:    '\'Je hebt al gestemd\' bericht',
+    }, {
       type: 'boolean',
       name:     'choicesWithPercentage',
       label:    'Toon percentage achter de balk',
@@ -122,7 +143,7 @@ module.exports = {
 					label: 'Een formulier met extra gegevens',
 					value: 'form',
 					showTab: [
-						'Form'
+						'form', "requireLogin"
 					]
 				}
 			]
@@ -166,14 +187,12 @@ module.exports = {
       type:  'string',
       name:  'formTitle',
       label: 'Title',
-    },
-    {
+    }, {
       type:     'string',
       name:     'formIntro',
       label:    'Intro',
       textarea: true
-    },
-    {
+    }, {
       name:       'formFields',
       label:      'Form fields',
       type:       'array',
@@ -286,6 +305,11 @@ module.exports = {
         label: 'Formulier',
         fields: ['formTitle', 'formIntro', 'formFields', 'beforeUrl', 'beforeLabel', 'afterUrl', 'afterLabel',]
       },
+      {
+        name: 'reuiredLogin',
+        label: 'Login',
+        fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginAlreadySubmittedMessage',]
+      },
 
       /*  {
         name: 'text',
@@ -304,7 +328,19 @@ module.exports = {
 		self.load = function(req, widgets, next) {
 
 			widgets.forEach((widget) => {
-			  widget.config = JSON.stringify({
+
+        let requireLoginSettings;
+        requireLoginSettings = {};
+        if (widget.requireLoginTitle) requireLoginSettings.title = widget.requireLoginTitle;
+        if (widget.requireLoginDescription) requireLoginSettings.description = widget.requireLoginDescription;
+        if (widget.requireLoginButtonTextLogin) requireLoginSettings.buttonTextLogin = widget.requireLoginButtonTextLogin;
+        if (widget.requireLoginButtonTextLoggedIn) requireLoginSettings.buttonTextLoggedIn = widget.requireLoginButtonTextLoggedIn;
+        if (widget.requireLoginButtonTextAlreadySubmitted) requireLoginSettings.buttonTextAlreadySubmitted = widget.requireLoginButtonTextAlreadySubmitted;
+        if (widget.requireLoginChangeLoginLinkText) requireLoginSettings.changeLoginLinkText = widget.requireLoginChangeLoginLinkText;
+        if (widget.requireLoginLoggedInMessage) requireLoginSettings.loggedInMessage = widget.requireLoginLoggedInMessage;
+        if (widget.requireLoginAlreadySubmittedMessage) requireLoginSettings.alreadySubmittedMessage = widget.requireLoginAlreadySubmittedMessage;
+
+        widget.config = JSON.stringify({
           // req.data.isAdmin
           divId: 'choices-guide-result',
           siteId: req.data.global.siteId,
@@ -312,6 +348,10 @@ module.exports = {
             url: self.apos.settings.getOption(req, 'apiUrl'),
             headers: req.session.jwt ? { 'X-Authorization': 'Bearer ' + req.session.jwt } : {},
             isUserLoggedIn: req.data.loggedIn,
+          },
+          user: {
+            role:  req.data.openstadUser && req.data.openstadUser.role,
+            fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
           },
           choicesGuideId: widget.choicesGuideId,
           questionGroupId: widget.questionGroupId,
@@ -340,9 +380,12 @@ module.exports = {
               intro: widget.formIntro,
               fields: widget.formFields,
             },
+            requireLogin: widget.requireLogin,
+            requireLoginSettings,
           },
           preferenceTitle: widget.preferenceTitle,
         });
+        
         widget.openstadComponentsUrl = openstadComponentsUrl;
         const containerId = widget._id;
         widget.containerId = containerId;
