@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add login required to choices-guide results
+
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
 * Accessibility improvements
