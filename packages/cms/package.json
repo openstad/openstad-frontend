@@ -18,16 +18,16 @@
   "author": "Team Openstad: Niels Denes & Tosh Koevoets",
   "license": "MIT",
   "dependencies": {
-    "apostrophe": "2.107.2",
-    "apostrophe-area-structure": "^1.0.3",
+    "apostrophe": "2.113.0",
+    "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
-    "apostrophe-palette": "^2.0.23",
-    "apostrophe-workflow": "^2.34.0",
+    "apostrophe-palette": "^2.0.28",
+    "apostrophe-workflow": "2.38.2",
     "basic-auth": "^2.0.1",
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",
     "diff": ">=3.5.0",
-    "dotenv": "^6.0.0",
+    "dotenv": "^8.2.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
@@ -50,7 +50,12 @@
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
-    "vimeo": "^2.1.1"
+    "vimeo": "^2.1.1",
+    "memory-cache": "^0.2.0",
+    "morgan": "^1.10.0",
+    "npm": "^6.14.8",
+    "query-string": "^6.13.6",
+    "svg-captcha": "^1.4.0"
   },
   "gitHead": "7a71320c6083fb54bb68b60f07176b3c050b19a9"
 }
