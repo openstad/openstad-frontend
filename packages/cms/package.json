@@ -1,6 +1,6 @@
 {
   "name": "@openstad/cms",
-  "version": "0.12.0",
+  "version": "0.0.3",
   "description": "Openstad frontend package",
   "main": "index.js",
   "scripts": {
@@ -48,5 +48,6 @@
     "shell-quote": "^1.6.1",
     "tsscmp": "^1.0.6",
     "vimeo": "^2.1.1"
-  }
+  },
+  "gitHead": "5b526228916eb0db915711a3e0afbc4adcd05026"
 }
