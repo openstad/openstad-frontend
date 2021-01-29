@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.12.3",
   "npmClient": "npm",
   "command": {
     "publish": {
@@ -8,7 +8,7 @@
         "*.md"
       ],
       "message": "chore(release): publish",
-      "registry": "https://npm.pkg.github.com"
+      "registry": "https://registry.npmjs.org/"
     },
     "bootstrap": {
       "ignore": "component-*",
