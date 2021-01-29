@@ -3,6 +3,9 @@
   "version": "0.12.1",
   "description": "Openstad frontend package",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js ",
@@ -49,5 +52,5 @@
     "tsscmp": "^1.0.6",
     "vimeo": "^2.1.1"
   },
-  "gitHead": "5b526228916eb0db915711a3e0afbc4adcd05026"
+  "gitHead": "7a71320c6083fb54bb68b60f07176b3c050b19a9"
 }
