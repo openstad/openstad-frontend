@@ -26,11 +26,11 @@ const availableLanguages = [
 
 const LanguageSelect = ({selectedValue}) => {
   return (
-    <Select>
+    <select>
       {availableLanguages.map((language) => {
         return <option value={language.value} selected={language.value === selectedValue}>{language.label} </option>
       })}
-    </Select>
+    </select>
   );
 }
 

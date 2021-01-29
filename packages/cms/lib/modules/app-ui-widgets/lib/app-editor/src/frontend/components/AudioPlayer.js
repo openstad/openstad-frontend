@@ -3,7 +3,7 @@ import React, { Component } from 'react';
  * For the native app we need to find a way to move a
  */
 //import TrackPlayer from 'react-native-track-player';
-import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Button, TouchableOpacity, Image, Dimensions } from 'react-native';
 
 // web audio api
 import {Howl, Howler} from 'howler';
@@ -236,7 +236,7 @@ class AudioPlayer extends React.Component {
    }
 
    getProgressBarWidth() {
-     return Device.width();
+     return Dimensions.get('window').width;
    }
 
    setPositionAudio (ev) {

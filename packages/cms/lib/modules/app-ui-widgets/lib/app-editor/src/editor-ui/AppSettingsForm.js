@@ -13,7 +13,7 @@ class AppSettingsForm extends Component {
     var update = (resource, key, value) => {
       this.props.updateResource({
         ...this.props.resource,
-        {
+        ...{
           ...this.props.resource,
           [key]:value
         }
