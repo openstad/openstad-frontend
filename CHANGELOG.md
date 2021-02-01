@@ -2,6 +2,7 @@
 
 ## UNRELEASED
 * Add login required to choices-guide results
+* Use refactored react components
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
