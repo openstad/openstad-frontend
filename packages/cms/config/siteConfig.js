@@ -138,7 +138,11 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-custom-pages': {},
-        'openstad-oembed': {},
+        'openstad-oembed': {
+          endpoints: [
+            { domain: 'vimeo.com', endpoint: 'https://vimeo.com/api/oembed.json' }
+          ]
+        },
 
 
         // Apostrophe module configuration
