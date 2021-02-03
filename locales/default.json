@@ -358,5 +358,17 @@
 	"Formatted CSS": "Formatted CSS",
 	"Formatted Logo": "Formatted Logo",
 	"Label for captcha": "Label for captcha",
-	"An error occurred. Please try again.": "An error occurred. Please try again."
+	"An error occurred. Please try again.": "An error occurred. Please try again.",
+	"Save Title": "Save Title",
+	"General": "General",
+	"Title ": "Title ",
+	"Select appearance modus for title": "Select appearance modus for title",
+	"Heading 1": "Heading 1",
+	"Heading 2": "Heading 2",
+	"Heading 3": "Heading 3",
+	"Heading 4": "Heading 4",
+	"Select HTML styling class": "Select HTML styling class",
+	"Default": "Default",
+	"Heavy bold": "Heavy bold",
+	"Set Custom classname": "Set Custom classname"
 }
