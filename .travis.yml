@@ -21,6 +21,9 @@ env:
     - GITOPS_ACC_VALUES_FILE=${GITOPS_ACC_VALUES_FILE:-k8s/openstad/environments/acc.values.yaml}
     - GITOPS_PROD_VALUES_FILE=${GITOPS_PROD_VALUES_FILE:-k8s/openstad/environments/prod.values.yaml}
 
+    - GIT_USER_EMAIL="travis@travis-ci.org"
+    - GIT_USER_NAME="Travis CI"
+
     # Kube deploy variables
     - K8S_DEPLOYMENT_NAME=openstad-frontend
     - K8S_NAMESPACE=openstad
@@ -51,7 +54,9 @@ services:
 
 addons:
   snaps:
-    – yq
+    - name: yq
+      confinement: classic
+      channel: v3/stable
 
 before_install:
   - sleep 15
