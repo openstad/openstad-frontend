@@ -9,6 +9,8 @@ on:
       - feature/*
       - release/*
       - release
+    tags:
+      - v*
 
 jobs:
   gitops:
