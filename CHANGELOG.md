@@ -6,6 +6,7 @@
 * Change default styling for toggle title in section
 * Update apostrophe to 2.113.0 for @openstad/cms & run `npm update` in root to fix a YouTube oembed bug
 * Add an oembed API endpoint to siteConfig for vimeo.com videos to prevent Vimeo blocking scrapes from oembetter
+* Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
