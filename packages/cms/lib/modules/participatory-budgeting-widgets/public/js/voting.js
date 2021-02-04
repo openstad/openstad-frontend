@@ -105,7 +105,7 @@ if (votingContainer !== null) {
 
 	  recalculateAvailableAmount();
 
-    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.map( function(theme) { return theme.currentSelection } ) : currentSelection;
+    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []) : currentSelection;
 	  openstadSetStorage('currentSelection', storeSelection)
 
 	  // scrollToBudget()
