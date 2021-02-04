@@ -19,8 +19,6 @@ const hasModeratorRights = (user) => {
   return userHasRole(user, 'editor', self.userId) || userHasRole(user, 'admin', self.userId) || userHasRole(user, 'moderator', self.userId);
 }
 
-
-
 function hideEmailsForNormalUsers(args) {
   return args.map((argument) => {
     delete argument.user.email;
@@ -38,9 +36,7 @@ function hideEmailsForNormalUsers(args) {
 }
 
 module.exports = function (db, sequelize, DataTypes) {
-
   var Idea = sequelize.define('idea', {
-
     siteId: {
       type: DataTypes.INTEGER,
       auth:  {
