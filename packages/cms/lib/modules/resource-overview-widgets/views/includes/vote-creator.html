@@ -18,7 +18,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 
 		{# TODO: naar config #}
 		<a id="vote-creator-button" href="javascript: void toggleVoteCreator()" style="outline: 0;">
-			Stemmen<img id="arrow" src="/modules/openstad-assets/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
+			Stemmen<img id="arrow" src="{{data.siteUrl}}/modules/openstad-assets/img/arrow_down_black.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
 		</a>
 		<div id="steps-bar">
 			<div id="steps-bar-1" class="step active">
@@ -75,7 +75,7 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						</div>
 						<div class="fields">
 							<div class="vote-not-logged-in">
-								<a href="/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
+								<a href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
 									{{data.widget.button_authenticating | sanitize | safe }}
 								</a>
 							</div>

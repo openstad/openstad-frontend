@@ -36,7 +36,7 @@
 
 				{% if idea.status === 'OPEN' %}
 					<div class="vote">
-						<form method="POST" action="/plan/{{idea.id}}/vote">
+						<form method="POST" action="{{data.siteUrl}}/plan/{{idea.id}}/vote">
 							<input type="hidden" name="_csrf" value="{{csrfToken}}">
 							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
 							<button class="{{'selected' if userVote.opinion == 'yes'}}" type="submit" name="opinion" value="yes" data-count="{{idea.yes}}">
@@ -128,7 +128,7 @@
 
 	{# <h2>Volgen</h2>
 
-	<form action="/plan/{{idea.id}}/notify">
+	<form action="{{data.siteUrl}}/plan/{{idea.id}}/notify">
 	<input type="submit" value="Mail updates">
 	</form> #}
 
@@ -143,8 +143,8 @@
 
 
 {#
-<script src="/modules/openstad-assets/js/promise.js"></script>
-<script src="/modules/openstad-assets/js/fetch.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/promise.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/fetch.js"></script>
 
 
 <script>

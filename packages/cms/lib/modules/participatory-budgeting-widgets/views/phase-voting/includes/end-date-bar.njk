@@ -33,6 +33,6 @@
  var endDate = new Date('2019-01-16');
  var endDateText = '16 februari 2019';
  var daysLeft = parseInt( ( endDate.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
- document.getElementById('end-date-bar-start-text').innerHTML = 'De stemperiode is afgelopen. Meer uitleg over de uitslag lees je <a href="/modules/participatory-budgeting-widgets/img/Uitslag.West.Begroot_20190215.pdf">hier</a>.';
+ document.getElementById('end-date-bar-start-text').innerHTML = 'De stemperiode is afgelopen. Meer uitleg over de uitslag lees je <a href="{{data.siteUrl}}/modules/participatory-budgeting-widgets/img/Uitslag.West.Begroot_20190215.pdf">hier</a>.';
  {% endif %}
 </script>

@@ -41,15 +41,21 @@ module.exports = {
 				{
 					label: 'Standaard',
 					value: 'default',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
 				},
 				{
 					label: 'Van min naar plus 100',
 					value: 'minus-to-plus-100',
-          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor']
+          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
 				},
 				{
 					label: 'In een vlak',
-					value: 'plane'
+					value: 'plane',
+          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle'],
+				},
+				{
+					label: 'Geen: verberg de voorkeuren',
+					value: 'hidden',
 				}
 			]
 		},

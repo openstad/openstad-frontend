@@ -7,7 +7,7 @@
       <h3 class="content-modal-title">
         Stemoverzicht
       </h3>
-      <a href="/plan/votes/download/{{idea.id}}" class="btn btn-secondary download-votes">Download als CSV</a>
+      <a href="{{data.siteUrl}}/plan/votes/download/{{idea.id}}" class="btn btn-secondary download-votes">Download als CSV</a>
     </div>
     <div class="content-modal-body">
       <table id="votes" class="data-table table">
@@ -55,7 +55,7 @@
               </td>
               <td>{{vote.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="checked" data-vote="{{vote.id}}" sorttable_customkey="{{vote.checked}}">
-                <form method="get" class="vote-toggle-form" action="/api/site/{{data.global.siteId}}/vote/{{vote.id}}/toggle">
+                <form method="get" class="vote-toggle-form" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote/{{vote.id}}/toggle">
                   {#
                   <b {% if vote.checked === false %} style="display: none" {% endif%} class="vote-approved-text"> yes </b>
                   <b {% if vote.checked !== false %} style="display: none" {% endif%} class="vote-unapproved-text"> no </b>

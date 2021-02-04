@@ -85,6 +85,15 @@ if (votingContainer !== null) {
 
 	  updateBudgetDisplay();
 	  updateListElements();
+
+	  var data = {
+		  budgetVote: currentSelection,
+	  }
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
+      data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
+      console.log(data.budgetVote);
+    }
+
   }
 
   function removeIdeaFromSelection(id) {
@@ -96,13 +105,22 @@ if (votingContainer !== null) {
 
 	  recalculateAvailableAmount();
 
-    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.map( function(theme) { return theme.currentSelection } ) : currentSelection;
+    var storeSelection = votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ? themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []) : currentSelection;
 	  openstadSetStorage('currentSelection', storeSelection)
 
 	  // scrollToBudget()
 
 	  updateBudgetDisplay(false);
 	  updateListElements();
+
+	  var data = {
+		  budgetVote: currentSelection,
+	  }
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
+      data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
+      console.log(data.budgetVote);
+    }
+
   }
 
   function recalculateAvailableAmount() {
@@ -378,7 +396,7 @@ if (votingContainer !== null) {
 		} else {
   		productAdded = !!productAdded;
 		}
-  	
+
 	  var budgetBarContainer = document.querySelector('#current-budget-bar');
 
 	  if (budgetBarContainer) {
@@ -478,16 +496,16 @@ if (votingContainer !== null) {
   				    previewImage.ideaId = element.ideaId; // used by setBudgetingEditMode
   				    previewImage.setAttribute('data-idea-id', element.ideaId);
   				    previewImage.className += ' idea-' + element.ideaId;
-  				    
+
   				    var linkToIdea = document.createElement("a");
   				    linkToIdea.href = '#ideaId-' + element.ideaId;
   				    linkToIdea.className = 'idea-preview';
   				    linkToIdea.appendChild(previewImage);
-  				    
+
   				    var screenReaderTitle = document.createElement("span");
   				    screenReaderTitle.className = 'sr-only';
   				    screenReaderTitle.textContent = 'Plan: ' + element.title + ', Thema: ' + element.getAttribute('data-theme') + ', Budget: € ' + element.getAttribute('data-budget');
-  				    
+
   				    linkToIdea.appendChild(screenReaderTitle);
 
   				    previewImages.appendChild(linkToIdea);
@@ -1000,10 +1018,10 @@ if (votingContainer !== null) {
   function login() {
 	  logout({
 		  success: function(data) {
-			  window.location.href = '/oauth/login?redirect_uri=' + currentPath;
+			  window.location.href = window.siteUrl + '/oauth/login?redirect_uri=' + currentPath;
 		  },
 		  error: function(error) {
-			  window.location.href = '/oauth/login?redirect_uri='+ currentPath;
+			  window.location.href = window.siteUrl + '/oauth/login?redirect_uri='+ currentPath;
 		  }
 	  });
 
@@ -1495,17 +1513,17 @@ if (votingContainer !== null) {
 		  displayIdeaOnHash();
     }, 1)
   });
-  
-  
+
+
   $(document).on('click', 'a.idea-preview', function (e) {
   	var editMode = $(this).closest('#current-budget-preview').hasClass('editMode');
-  	
+
   	if (editMode) {
   		e.preventDefault();
   		$(this).find('.idea-image-mask').trigger('click');
-  		
+
   		$(this).closest('#current-budget-preview').find('a.idea-preview:first').focus();
-  		
+
   		return false;
 		}
 	})
@@ -1775,7 +1793,7 @@ if (votingContainer !== null) {
   	if (votingType != 'budgeting') {
   		return;
 		}
-  	
+
   	if (typeof productAdded === 'undefined') {
   		productAdded = true;
 		} else {
@@ -1784,15 +1802,15 @@ if (votingContainer !== null) {
 
   	// Todo: Refactor this into using constants and a user-changeable text
   	var planMessage = 'Plan toegevoegd aan winkelmand.';
-  	
+
   	if (!productAdded) {
 			planMessage = 'Plan verwijderd uit winkelmand.';
 		}
-  
+
 		var div = document.createElement('div');
 		div.setAttribute('role', 'alert');
 		div.className = 'sr-only';
-		
+
 		div.innerHTML = planMessage +' Uw gekozen budget bedraagt: ' + formatEuros(initialAvailableBudget - availableBudgetAmount) + ' U heeft nog over: ' + formatEuros(availableBudgetAmount);
 		document.body.appendChild(div);
 

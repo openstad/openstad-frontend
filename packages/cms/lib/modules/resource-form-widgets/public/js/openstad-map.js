@@ -241,7 +241,7 @@ OpenStadMapForm.prototype.createMarker = function( marker ) {
 	var googleMarker = new google.maps.Marker(options);
 	if (marker.href) {
 		googleMarker.addListener('click', function() {
-			window.location.href = marker.href;
+			window.location.href = window.siteUrl + marker.href;
 		});
 	}
 

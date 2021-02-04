@@ -32,7 +32,7 @@
 	{% if not showForm %}
 	<div class="box-grey">
 		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
-		<p>Klik <a href="/oauth/login">hier</a> om in te loggen.</p>
+		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
 	</div>
 	{% elseif showForm %}
 		<div  id="formulier-block">
@@ -54,7 +54,7 @@
 				{% if data.hasModeratorRights %}
 				<div class="col-sm-8 col-xs-12">
 
-				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
+				<form method="POST" class="idea-status-form" action="{{data.siteUrl}}/modules/idea-form-widgets/submit">
 					<input type="hidden" name="action" value="UPDATE_STATUS">
 					<div class="row">
 						<div class="col-xs-6">
@@ -76,7 +76,7 @@
 				</div>
 				{% endif %}
 				<div class="col-sm-4 col-xs-12">
-				  <form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
+				  <form method="post" class="idea-delete-form" action="{{data.siteUrl}}/modules/idea-form-widgets/submit" >
 					  <input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
 
 					  <input type="hidden" name="ideaId" value="{{idea.id}}">
@@ -85,7 +85,7 @@
 				  </form>
 				</div>
 
-		    <!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
+		    <!--		<form method="GET" action="{{data.siteUrl}}/plan/{{idea.id}}/mod_break">
 					   <button type="submit" class="modBreak">Moderator reactie</button>
 				     </form>
 	           !-->
@@ -106,13 +106,13 @@
   var descriptionMaxLength = parseInt('{{data.widget.maxDescription}}');
 </script>
 
-<script src="/modules/openstad-assets/js/vendor/trix.js"></script>
-<!--<script src="/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>-->
-<script src="/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/trix.js"></script>
+<!--<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>-->
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond.js"></script>
 
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
-<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>

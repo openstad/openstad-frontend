@@ -25,7 +25,7 @@
   data-area="{{idea.extraData.area}}"
 >
 
-  <a href="{{ideaUrl}}">
+  <a href="{{ideaUrl | safeRelativeUrl}}">
     {% if data.widget.displayRanking and idea.status != 'DENIED' and idea.ranking %}
     <div class="ranking"><div class="label">{{idea.ranking}}</div></div>
     {% endif %}
@@ -66,7 +66,7 @@
           <tr>
             <td align="left">
               {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
-              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
+              <form method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
                 <input type="hidden" value="{{idea.id}}" name="ideaId" />
                 <input type="hidden" value="yes" name="opinion" />
 
@@ -86,7 +86,7 @@
             {% if data.widget.displayVoteAgainstCount %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
               <td align="center">
               {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
-              <form method="POST" action="/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'no'}}">
+              <form method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'no'}}">
                 <input type="hidden" value="{{idea.id}}" name="ideaId" />
                 <input type="hidden" value="no" name="opinion" />
 

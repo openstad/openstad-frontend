@@ -71,11 +71,30 @@ module.exports = {
 
         // remove the JWT Parameter otherwise keeps redirecting
         let returnTo = req.session.returnTo ? req.session.returnTo : removeURLParameter(fullUrlPath, 'jwt');
+        console.log('returnTo', returnTo)
+
+        const sitePrefix = req.sitePrefix ?  '/' + req.sitePrefix : false;
+        console.log('sitePrefix', sitePrefix)
+        console.log('returnTo.startsWith(sitePrefix)', returnTo.startsWith(sitePrefix))
+
+        // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
+        returnTo = sitePrefix && returnTo.startsWith(sitePrefix) ? returnTo.replace(sitePrefix, '') : returnTo;
+
+        // in case full url is prefixed remove it, otherwise will also cause issues
+        returnTo = cmsUrl && returnTo.startsWith(cmsUrl) ? returnTo.replace(cmsUrl, '') : returnTo;
+
+        console.log('returnTo 2', returnTo)
 
         // make sure references to external urls fail, only take the path
         returnTo = Url.parse(returnTo, true);
 
-        returnTo = cmsUrl + returnTo.path;
+        // make sure it's a string
+        returnTo = returnTo.path ? returnTo.path : '';
+
+        // always attach cmsUrl so no external redirects are possible and subdir is working
+        returnTo = cmsUrl + returnTo;
+
+        // set the JWT to session and redirect without it so it doens't get save to the browser history
         req.session.jwt = req.query.jwt;
         req.session.returnTo = null;
 
@@ -232,8 +251,6 @@ module.exports = {
           const protocol = req.headers['x-forwarded-proto'] || req.protocol;
           let returnUrl = self.apos.settings.getOption(req, 'siteUrl');
 
-            console.log('returnUrl 1', returnUrl)
-
           if (req.query.returnTo && typeof req.query.returnTo === 'string') {
             //only get the pathname to prevent external redirects
             let pathToReturnTo = Url.parse(req.query.returnTo, true);
@@ -241,11 +258,8 @@ module.exports = {
             returnUrl = returnUrl + pathToReturnTo;
           }
 
-          console.log('returnUrl 2', returnUrl)
-
           let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${returnUrl}`;
 
-          console.log('url url 2', url)
 
           url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
           url = req.query.loginPriviliged ? url + '&loginPriviliged=1' : url + '&forceNewLogin=1';

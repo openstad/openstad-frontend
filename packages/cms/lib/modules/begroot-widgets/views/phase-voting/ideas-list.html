@@ -89,7 +89,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 							<div class="idea-image-mask">
 								<div class="idea-image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], 500, 500, true, idea.location) }}')"></div>
 							</div>
-							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/modules/openstad-assets/img/arrow_right_white.svg"></div>
+							<div class="image-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="{{data.siteUrl}}/modules/openstad-assets/img/arrow_right_white.svg"></div>
 						</div>
 						{% if idea.location %}
 						<div class="location-image-container">
@@ -98,7 +98,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 									<img src="{{idea.locationMapImage}}" />
 								</a>
 							</div>
-							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="/modules/openstad-assets/img/arrow_right_white.svg"></div>
+							<div class="location-switch" onclick="toggleImageLocation({{idea.id}})"><img class="arrow" src="{{data.siteUrl}}/modules/openstad-assets/img/arrow_right_white.svg"></div>
 						</div>
 						{% endif %}
 					</div>
@@ -177,7 +177,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						</div>
 						{% endif %}
 						{% if data.hasModeratorRights %}
-						<div class="description"><a href="{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
+						<div class="description"><a href="{{data.global.editIdeaUrl | safeRelativeUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
 						{% endif %}
 					</div>
 				</div>

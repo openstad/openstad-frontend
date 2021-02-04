@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="content-modal-body">
-      <form method="post" id="js-form " action="/modules/idea-form-widgets/submit" class="ajax-form">
+      <form method="post" id="js-form " action="{{data.siteUrl}}/modules/idea-form-widgets/submit" class="ajax-form">
         <input type="hidden" name="action" value="MODBREAK">
         {% if idea.modBreakDate %}
         <input type="hidden" name="modBreakDate" value="{{idea.modBreakDate}}">
@@ -23,7 +23,7 @@
         {% endif %}
 
         <div class="row">
-          <button type="submit" href="/oauth/login?returnTo={{data.currentUrl}}" class="btn-primary btn-primary--blue">
+          <button type="submit" href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="btn-primary btn-primary--blue">
             <span>Opslaan</span>
           </button>
         </div>

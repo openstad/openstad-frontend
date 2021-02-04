@@ -2,7 +2,7 @@
 <div id="cookiewarning-container-top" class="cookie-consent hidden {% if data.page.cookieBarFixed %} cookie-container-fixed {% endif %}">
     <div id="cookiewarning">
         <h3>Cookies op deze site</h3>
-        Wij plaatsen <a href="{{data.global.cookiePageLink}}">cookies</a> zodat de site goed werkt en het gebruik te meten is.<br/>
+        Wij plaatsen <a href="{{data.global.cookiePageLink | safeRelativeUrl}}">cookies</a> zodat de site goed werkt en het gebruik te meten is.<br/>
         Voor het plaatsen van cookies van derden hebben wij uw toestemming nodig.
         <a href="javascript: void apos.cookieWarning.setCookieConsent(true)" class="cookie-button cookie-button-blue">Cookies van derden toestaan</a>
         <a href="javascript: void apos.cookieWarning.setCookieConsent(false)" class="cookie-button cookie-button-white">Cookies van derden weigeren</a>

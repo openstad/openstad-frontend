@@ -28,11 +28,11 @@
 
 
   {% if data.widget.sectionToggle %}
-  <a class="howDoesItWorkButton" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()"
+  <a class="toggle-title" href="javascript: (function() { var id = '#{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}'; if( $(id).hasClass('open') ){ $(id).removeClass('open'); $(id).addClass('closed'); } else { $(id).removeClass('closed'); $(id).addClass('open'); }   })()"
   title={{data.widget.toggleTitle}}"
   >
     {{data.widget.toggleTitle}}
-    <img class="arrow" src="/modules/openstad-assets/img/{% if data.widget.typeArrow %}{{data.widget.typeArrow}}{% else %}{{'arrow_down_black'}}{% endif %}.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
+    <img class="arrow" src="{{data.siteUrl}}/modules/openstad-assets/img/{% if data.widget.typeArrow %}{{data.widget.typeArrow}}{% else %}{{'arrow_down_black'}}{% endif %}.svg" width="13" heigh="13" style="display: inline-block; margin-left: 12px;"/>
   </a>
   {% endif %}
 
