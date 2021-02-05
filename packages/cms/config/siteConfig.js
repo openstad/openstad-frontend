@@ -8,7 +8,6 @@ module.exports = {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
     const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
 
-
     const siteConfig = {
       shortName: shortName,
       prefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
@@ -138,7 +137,11 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-custom-pages': {},
-        'openstad-oembed': {},
+        'openstad-oembed': {
+          endpoints: [
+            { domain: 'vimeo.com', endpoint: 'https://vimeo.com/api/oembed.json' }
+          ]
+        },
 
 
         // Apostrophe module configuration

@@ -54,7 +54,7 @@
 				{% if data.hasModeratorRights %}
 				<div class="col-sm-8 col-xs-12">
 
-				<form method="POST" class="idea-status-form" action="/modules/idea-form-widgets/submit">
+				<form method="POST" class="idea-status-form" action="{{data.siteUrl}}/modules/idea-form-widgets/submit">
 					<input type="hidden" name="action" value="UPDATE_STATUS">
 					<div class="row">
 						<div class="col-xs-6">
@@ -76,7 +76,7 @@
 				</div>
 				{% endif %}
 				<div class="col-sm-4 col-xs-12">
-				  <form method="post" class="idea-delete-form" action="/modules/idea-form-widgets/submit" >
+				  <form method="post" class="idea-delete-form" action="{{data.siteUrl}}/modules/idea-form-widgets/submit" >
 					  <input type="hidden" name="idea-delete-redirect-uri" class="idea-delete-redirect-uri"  value="/{{data.global.ideaOverviewSlug}}" />
 
 					  <input type="hidden" name="ideaId" value="{{idea.id}}">
@@ -85,7 +85,7 @@
 				  </form>
 				</div>
 
-		    <!--		<form method="GET" action="/plan/{{idea.id}}/mod_break">
+		    <!--		<form method="GET" action="{{data.siteUrl}}/plan/{{idea.id}}/mod_break">
 					   <button type="submit" class="modBreak">Moderator reactie</button>
 				     </form>
 	           !-->
