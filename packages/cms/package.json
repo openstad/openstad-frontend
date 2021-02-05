@@ -1,8 +1,11 @@
 {
   "name": "@openstad/cms",
-  "version": "0.8.3",
+  "version": "0.12.3",
   "description": "Openstad frontend package",
   "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js ",
@@ -24,7 +27,7 @@
     "bluebird": "^3.5.2",
     "boring": "^0.1.0",
     "diff": ">=3.5.0",
-    "dotenv": "^6.0.0",
+    "dotenv": "^8.2.0",
     "event-stream": "^4.0.1",
     "express": "^4.16.3",
     "express-basic-auth": "^1.2.0",
@@ -34,19 +37,23 @@
     "install": "^0.13.0",
     "json2csv": "^4.5.4",
     "lodash": "^4.17.15",
+    "memory-cache": "^0.2.0",
     "mocha": "^7.2.0",
     "mongodb": "^2.2.33",
+    "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "node-file-cache": "^1.0.2",
     "nodemon": "^1.17.5",
-    "npm": "^6.14.4",
+    "npm": "^6.14.8",
     "nunjucks": "^3.2.0",
     "openstad-components": "^0.0.14",
     "qs": "^6.9.4",
-    "query-string": "^6.12.1",
+    "query-string": "^6.13.6",
     "request-promise": "^4.2.2",
     "shell-quote": "^1.6.1",
+    "svg-captcha": "^1.4.0",
     "tsscmp": "^1.0.6",
     "vimeo": "^2.1.1"
-  }
+  },
+  "gitHead": "7a71320c6083fb54bb68b60f07176b3c050b19a9"
 }
