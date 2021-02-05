@@ -7,6 +7,7 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
+const searchResults = require('../../middleware/search-results');
 const fetch = require('node-fetch');
 const rp = require('request-promise');
 
@@ -70,39 +71,36 @@ router.route('/')
   .get(function(req, res, next) {
     let { dbQuery } = req;
 
-    let queryConditions = req.dbQuery.where ? req.dbQuery.where : {};
-
-    /**
-     * Handle queries with search
-     */
-    if(queryConditions.hasOwnProperty('q')) {
-      const searchColumns = ['firstName', 'lastName', 'email', 'role'];
-      const searchTerm = queryConditions.q;
-      const searchQuery = {};
-
-      searchColumns.forEach((key) => {
-        searchQuery[key] = { [Op.like]: searchTerm };
-      })
-
-      if(Object.keys(searchQuery).length > 0) {
-        queryConditions[Op.or] = searchQuery;
+      if (!dbQuery.where) {
+          dbQuery.where = {};
       }
-    }
-    delete queryConditions.q;
+
+      if (dbQuery.where.q) {
+          dbQuery.search = {
+              haystack: ['role', 'firstName', 'lastName'],
+              needle: dbQuery.where.q,
+              offset: dbQuery.offset,
+              limit: dbQuery.limit,
+              pageSize: dbQuery.pageSize,
+          };
+
+          delete dbQuery.where.q;
+          delete dbQuery.offset;
+          delete dbQuery.limit;
+          delete dbQuery.pageSize;
+      }
 
     /**
      * Add siteId to query conditions
      * @type {{siteId: *}}
      */
-    queryConditions = Object.assign(queryConditions, { siteId: req.params.siteId });
+    const queryConditions = Object.assign(dbQuery.where, { siteId: req.params.siteId });
 
     db.User
       .scope(...req.scope)
       .findAndCountAll({
-        offset: req.dbQuery.offset,
-        limit: req.dbQuery.limit,
-				...dbQuery,
-        where: queryConditions
+        ...dbQuery,
+        where: queryConditions,
       })
       .then(function(result) {
         req.results = result.rows;
@@ -112,7 +110,7 @@ router.route('/')
       .catch(next);
   })
   .get(auth.useReqUser)
-  //	.get(searchResults)
+  .get(searchResults)
   .get(pagination.paginateResults)
   .get(function(req, res, next) {
     res.json(req.results);
