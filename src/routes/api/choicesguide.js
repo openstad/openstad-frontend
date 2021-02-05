@@ -75,6 +75,7 @@ router.route('/$')
       title: req.body.title,
       description: req.body.description,
       images: req.body.images,
+      config: req.body.config,
     };
     db.ChoicesGuide
 			.authorizeData(data, 'create', req.user)
@@ -113,6 +114,7 @@ router.route('/:choicesGuideId(\\d+)$')
       title: req.choicesguide.title,
       description: req.choicesguide.description,
       images: req.choicesguide.images,
+      config: req.choicesguide.config,
     };
 
     if (req.choicesguide.choicesGuideChoices) {
@@ -193,6 +195,7 @@ router.route('/:choicesGuideId(\\d+)$')
       title: req.body.title,
       description: req.body.description,
       images: req.body.images,
+      config: req.body.config,
       seqnr: req.body.seqnr,
     };
     if (!( req.choicesguide && req.choicesguide.can && req.choicesguide.can('update', req.user) )) return next( new Error('You cannot update this ChoicesGuide') );
@@ -585,44 +588,114 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
 
 router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/result$')
   .all(function(req, res, next) {
-
     req.scope = [{ method: ['forSiteId', req.site.id] }];
-
-    if (0) {
-      req.scope.push();
-    }
-
     return next();
   })
   .all(function(req, res, next) {
     let choicesGuideId = parseInt(req.params.choicesGuideId);
     if (!choicesGuideId) throw createError(404, 'choicesGuide not found');
-    next();
+    db.ChoicesGuide
+      .scope(...req.scope)
+      .findOne({
+        where: { id: choicesGuideId, siteId: req.site.id }
+      })
+      .then((found) => {
+        if ( !found ) throw createError(404, 'choicesGuide not found');
+        found.site = req.site
+        req.choicesguide = found;
+        next();
+      })
+      .catch(next);
   })
 
 // create choicesguideresult
 // --------------------------------
   .post(auth.can('ChoicesGuideResult', 'create'))
+
+  // is er een geldige gebruiker
+	.all(function(req, res, next) {
+
+		if (req.method == 'GET') return next(); // nvt
+
+		if (!( req.choicesguide.config && req.choicesguide.config.requiredUserRole )) return next();
+
+    // todo: gebruik hasRole
+    
+		if (req.choicesguide.config.requiredUserRole == 'anonymous' && ( req.user.role == 'anonymous' || req.user.role == 'member' || req.user.role === 'editor' || req.user.role === 'moderator' || req.user.role === 'admin' )) {
+			return next();
+		}
+		if (req.choicesguide.config.requiredUserRole == 'member' && ( req.user.role == 'member' || req.user.role === 'editor' || req.user.role === 'moderator' || req.user.role === 'admin' )) {
+			return next();
+		}
+		if (req.choicesguide.config.requiredUserRole == 'editor' && ( req.user.role === 'editor' || req.user.role === 'moderator' || req.user.role === 'admin'  )) {
+			return next();
+		}
+		if (req.choicesguide.config.requiredUserRole == 'moderator' && ( req.user.role === 'moderator' || req.user.role === 'admin' )) {
+			return next();
+		}
+		if (req.choicesguide.config.requiredUserRole == 'admin' && ( req.user.role === 'admin' )) {
+			return next();
+		}
+
+		return next(createError(401, 'Je mag niet insturen op deze site'));
+	})
+
+
+// heb je al ingestuurd
+	.post(function(req, res, next) {
+
+    let where = {};
+    if (req.user && req.user.id) {
+      where = { choicesGuideId: req.choicesguide.id, userId: req.user.id };
+    } else {
+      return next();
+      // onderstaand is theoretisch leuk, maar alleen als je zeker weet dat je fingerprinting goed werkt
+      // where = { choicesGuideId: req.choicesguide.id, userFingerprint: req.body.userFingerprint };
+    }
+
+		db.ChoicesGuideResult // get existing ChoicesGuideResult for this user
+			.scope(req.scope)
+			.findOne({ where })
+			.then(found => {
+				if (req.choicesguide.config && req.choicesguide.config.withExisting == 'error' && found ) throw new Error('Je hebt je mening al ingestuurd');
+				req.existingResult = found;
+				return next();
+			})
+			.catch(next)
+
+  })
+
 	.post(auth.useReqUser)
   .post(function( req, res, next ) {
-    let choicesGuideId = parseInt(req.params.choicesGuideId);
-    if (!choicesGuideId) throw createError(404, 'choicesGuide not found');
+
 
     let data = {
-      choicesGuideId,
-      userId: req.body.userId,
+      choicesGuideId: req.choicesguide.id,
+      userId: req.user && req.user.id,
       extraData: req.body.extraData,
       userFingerprint: req.body.userFingerprint,
       result: req.body.result,
     };
 
-    db.ChoicesGuideResult
+   // replace or create
+		if (req.choicesguide.config && req.choicesguide.config.withExisting == 'replace' && req.existingResult ) {
+      req.existingResult
 			.authorizeData(data, 'create', req.user, null, req.site)
-      .create(data)
-      .then((result) => {
-        res.json(result);
-      })
-      .catch(next);
+        .update(data)
+        .then((result) => {
+          res.json(result);
+        })
+        .catch(next);
+    } else {
+      db.ChoicesGuideResult
+			.authorizeData(data, 'create', req.user, null, req.site)
+        .create(data)
+        .then((result) => {
+          res.json(result);
+        })
+        .catch(next);
+    }
+
   });
 
 
