@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.13.0
+* Make from paths abslute using siteUrl
+
 ## v0.12.1
 * Fix logo syncing with absolute url so in auth server correct logo is visible
 
