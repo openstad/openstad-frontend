@@ -25,7 +25,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation' ]
+        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapLocationIcon', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation' ]
       },
       {
         name: 'content',
@@ -45,7 +45,7 @@ module.exports = {
       {
         name: 'filters',
         label: 'Filterbalk',
-        fields: ['searchIn', 'searchPlaceHolder']
+        fields: ['searchIn', 'searchPlaceHolder', 'searchAddresssesMunicipality']
       },
       {
         name: 'reactions',

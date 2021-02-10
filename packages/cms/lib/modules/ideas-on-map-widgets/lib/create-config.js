@@ -16,6 +16,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
   if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
   contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
 
+  console.log('xxxx', widget.searchAddresssesMunicipality);
+
   // allowMultipleImages to formfields
   let formFields = [ ...widget.formFields ];
   let allowMultipleImages = ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.allowMultipleImages ) || false;
@@ -34,14 +36,15 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
       mapicon: JSON.parse(type.mapicon),
       listicon: JSON.parse(type.listicon || '{}'),
     }})
-  } catch (err) {
-  }
+  } catch (err) {}
   let ideaTypes = data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.types != 'undefined' ? data.global.siteConfig.ideas.types : undefined;
-  let types = widget.typeField == 'typeId' ? ideaTypes : themeTypes;
+  let typeField = widget.typeField|| 'typeId';
+  let types = typeField == 'typeId' ? ideaTypes : themeTypes;
 
-
-  console.log('====================');
-  console.log(types);
+  let mapLocationIcon = widget.mapLocationIcon;
+  try {
+    mapLocationIcon = JSON.parse(mapLocationIcon);
+  } catch (err) {}
 
   let config = {
     // data.isAdmin
@@ -76,17 +79,18 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
       showButton: true,  // todo: naar settings?
       showSuggestions: true,  // todo: naar settings?
       defaultValue: '',  // todo: naar settings?
+      addresssesMunicipality: widget.searchAddresssesMunicipality || null,
     },
 
     content: contentConfig,
     ideaName: widget.ideaName,
 
-    typeField: widget.typeField,
+    typeField,
     types,
     filter: [{
       label: '',
       showFilter: true,
-      fieldName: widget.typeField,
+      fieldName: typeField,
       filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
       defaultValue: '',
     }],
@@ -140,6 +144,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
         isActive: true, // widget.mapClustering,
         maxClusterRadius: widget.mapMaxClusterRadius,
       },
+      locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
       polygon: ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
