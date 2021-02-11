@@ -156,11 +156,13 @@ module.exports = class MapConfigBuilder {
     setMarker() {
         return this;
     }
-    setMarkersByIdeas(ideas) {
+    
+    setMarkersByResources(resources) {
         const markers = [];
-        ideas ? ideas.forEach((idea) => {
+        resources ? resources.forEach((idea) => {
 
           if (idea.location && idea.location.coordinates) {
+              //should move ideaslug away from globaldata
                 markers.push(
                   new Marker(idea.location.coordinates, idea.status, getHref(this.globalData.ideaSlug, idea.id), idea.endDate, idea.extraData.theme, this.globalData.themes)
                 );

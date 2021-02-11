@@ -183,18 +183,22 @@ module.exports = {
     				const resources = activeResource ? [activeResource] : [];
             const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
+
             widget.mapConfig = self.getMapConfigBuilder(globalData)
                 .setDefaultSettings({
                     mapCenterLat: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[0]) || globalData.mapCenterLat,
                     mapCenterLng: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[1]) || globalData.mapCenterLng,
-                    mapZoomLevel: 16,
+                    mapZoomLevel: 13,
                     zoomControl: true,
                     disableDefaultUI : true,
                     styles: styles,
                     googleMapsApiKey: googleMapsApiKey,
-                    useMarkerLinks: false
+                    useMarkerLinks: false,
+                    markers: []
+                  //  polygon: req.data.global.mapPolygons || null
                 })
                 .setMarkerStyle(markerStyle)
+                .setMarkersByResources(resources)
                 .setEditorMarker()
                 .setEditorMarkerElement('locationField')
                 .setPolygon(req.data.global.mapPolygons || null)

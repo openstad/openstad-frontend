@@ -22,11 +22,14 @@ apos.define('map-widgets', {
         };
 
         self.addMarkers = function(mapConfig) {
+            console.log('mapConfig.markers', mapConfig.markers)
             return OpenlayersMap.addMarkers(mapConfig.markers);
         };
 
         self.setIdeaMarker = function(mapConfig) {
-            return OpenlayersMap.setIdeaMarker(mapConfig.markers[0] || null);
+            const firstMarker = mapConfig.markers && mapConfig.markers[0] ? mapConfig.markers[0] : null;
+
+            return OpenlayersMap.setIdeaMarker(firstMarker);
         }
 
         self.addFormEventListeners = function(mapConfig) {
@@ -57,9 +60,9 @@ apos.define('map-widgets', {
                 $('.ol-viewport').append($('.nlmaps-geocoder-control-container'));
             });
         };
-        
+
         self.addFilterEventListeners = function(vectorSource, markers) {
-            
+
             function setMapMarkersFromThemeSelector (val) {
                 vectorSource.clear();
                 if (val === '0') {
@@ -73,16 +76,16 @@ apos.define('map-widgets', {
                     }
                 });
             }
-            
+
             $('#themaSelector').change(function (event) {
                 setMapMarkersFromThemeSelector(event.target.value);
             });
-            
+
             // Set markers based on theme selector on load
             // This is useful when the user has selected a filter and reloads the page, this way we ensure that
             // the marker we show line up with the ideas we show
             setMapMarkersFromThemeSelector($('#themaSelector').val());
-            
+
             $(document).on('updateIdeaOverviewDisplay', function () {
                 setMapMarkersFromThemeSelector($('#themaSelector').val());
             });

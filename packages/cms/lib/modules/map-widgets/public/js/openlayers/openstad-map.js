@@ -101,7 +101,10 @@ var OpenlayersMap = {
         return this.map;
     },
     addMarkers: function(markersData) {
+        this.removeMarkers();
+
         var markers = [];
+
         markersData.forEach(function(marker) {
             var feature = new ol.Feature({
                 geometry: new ol.geom.Point(
@@ -111,20 +114,31 @@ var OpenlayersMap = {
                 category: marker.category
             });
 
+            console.log('marker', ol.proj.fromLonLat([marker.position.lng, marker.position.lat]))
+
+            const iconStyling = {
+                crossOrigin: 'anonymous',
+                anchorOrigin: 'bottom-left',
+                anchor: [0, 0],
+                size: marker.icon.size,
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
+                src: marker.icon.url,
+                offset: [0, 0]
+            };
+
+            console.log('iconStyling', iconStyling)
+
             feature.setStyle(new ol.style.Style({
-                image: new ol.style.Icon({
-                    crossOrigin: 'anonymous',
-                    anchorOrigin: 'bottom-left',
-                    anchor: [0, 0],
-                    size: marker.icon.size,
-                    anchorXUnits: 'pixels',
-                    anchorYUnits: 'pixels',
-                    src: marker.icon.url,
-                    offset: [0, 0]
-                }),
+              image: new ol.style.Icon(iconStyling),
             }));
+
             markers.push(feature);
         });
+
+        console.log('markers', markers)
+        console.log('this.map', this.map)
+
 
         var vectorSource = new VectorSource({
             features: markers
@@ -290,11 +304,15 @@ function createGeojsonObject(coordinates) {
 
 function getTransformedPolygon(polygonLngLat) {
     //transform lnglat array to Spherical Mercator (EPSG:3857)
+    console.log('polygonLngLat', polygonLngLat);
+
     var polygonCoords = [];
-    polygonLngLat.forEach(function (pointPair) {
-        var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
-        polygonCoords.push(newPair);
-    });
+      if (polygonLngLat) {
+      polygonLngLat.forEach(function (pointPair) {
+          var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
+          polygonCoords.push(newPair);
+      });
+    }
 
     return polygonCoords;
 }
@@ -356,6 +374,3 @@ function buildInvertedPolygon(polygonLngLat) {
         style:   invertedStyles
     });
 }
-
-
-

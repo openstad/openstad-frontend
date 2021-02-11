@@ -75,6 +75,7 @@ module.exports = {
         ideas: siteConfig.ideas,
         polls: siteConfig.polls,
         votes: siteConfig.votes,
+        area: siteConfig.area,
         arguments:siteConfig.arguments,
         openstadMap:siteConfig.openstadMap,
       };
