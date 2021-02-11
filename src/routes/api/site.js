@@ -37,7 +37,10 @@ router.route('/')
 	.get(auth.can('Site', 'list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
+		const scope = ['withArea'];
+
 		db.Site
+			.scope(scope)
 			.findAndCountAll({ offset: req.dbQuery.offset, limit: req.dbQuery.limit })
 			.then( result => {
         req.results = result.rows;
