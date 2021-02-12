@@ -1,6 +1,5 @@
 import React from 'react';
-import { AudioUploadField, ImagesUploadField, TextField, LocationPicker} from './components';
-import { View, Text } from "react-native";
+import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectField, SelectField } from './components';
 import PropTypes from "prop-types";
 
 const componentstMap = {
@@ -11,6 +10,21 @@ const componentstMap = {
     component :ImagesUploadField,
   },
   'text'  : {
+    component :TextField,
+  },
+  'textarea': {
+    component :TextField,
+  },
+  'select': {
+    component :SelectField,
+  },
+  'object': {
+    component :ObjectField,
+  },
+  'relationship': {
+    component :TextField,
+  },
+  'price': {
     component :TextField,
   },
   'location'  : {
@@ -28,10 +42,11 @@ function FormFieldManager(props) {
         return (
           <Section title={field.label}>
             {FormField && <FormField
-              {...field.props}
+              {...field}
+              activeValue={activeResource ? props.activeResource[field.key] : null}
               activeResource={props.activeResource}
               update={(value) => {
-                props.update()
+                props.update(field.key, value)
               }}
             />}
           </Section>

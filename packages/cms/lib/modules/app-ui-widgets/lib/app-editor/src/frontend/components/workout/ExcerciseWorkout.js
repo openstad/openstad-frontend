@@ -8,10 +8,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const StepsWorkout = (props) => {
+/**
+ * Workout
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const ExcerciseWorkout = (props) => {
     return <View>
 
     </View>
 }
 
-export default StepsWorkout;
+export default ExcerciseWorkout;

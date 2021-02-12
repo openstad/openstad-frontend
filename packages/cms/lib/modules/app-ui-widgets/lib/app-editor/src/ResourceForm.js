@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import FormFieldManager from './form/FormFieldManager';
 
 const resourceSchemas = './resourceSchemas';
 
@@ -19,7 +20,7 @@ class ResourceForm extends Component {
                     {resourceSchema.description}
                 </div>}
                 <FormFieldManager
-                    update={props.update}
+                    activeResource={props.activeResource}
                     fields={resourceSchema.fields}
                 />
             </form>

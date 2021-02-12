@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const Program = (props) => {
+const WorkoutProgram = (props) => {
     return <View>
 
     </View>
