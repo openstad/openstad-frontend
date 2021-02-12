@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, useLocation } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';

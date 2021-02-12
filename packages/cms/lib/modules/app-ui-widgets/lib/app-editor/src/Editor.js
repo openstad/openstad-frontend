@@ -1,4 +1,4 @@
-import React, { Component, useLocation } from 'react';
+import React, { Component } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
 import scriptLoader from 'react-async-script-loader';
@@ -12,7 +12,6 @@ import AppPreviewer from './editor-ui/layout/AppPreviewer';
 import Sidebar from './editor-ui/SideBar';
 import {Loader, Modal} from'./editor-ui/elements';
 import UI from'./editor-ui/UI';
-
 
 // Our app
 class Editor extends Component {
@@ -139,11 +138,9 @@ class Editor extends Component {
 
   updateResource(resourceName, updateResource) {
 
-    var activeResource = this.state.activeResource;
+    let activeResource = this.state.activeResource;
 
-    var resourceItems = this.getResourceItems(resourceName);
-
-    var resources = this.state.resources.map((resource) => {
+    const resources = this.state.resources.map((resource) => {
       if (resourceName === resource.name) {
 
         // update activeResource so changes are cascaded
@@ -290,10 +287,18 @@ class Editor extends Component {
         }
         rightPanel={
           this.state.activeResource ?
-            <StepForm
-              resource={this.state.activeResource}
+            <ResourceForm
+              activeResource={this.state.activeResource}
               resourceName={this.state.activeResourceName}
-              updateResource={this.updateResource.bind(this)}
+              update={(key, value) => {
+                this.props.update(
+                    this.state.activeResourceName,
+                    {
+                      ...this.state.activeResource,
+                      [key]: value
+                    }
+                )
+              }}
             /> : false
         }
         rightPanelClose={() => {
