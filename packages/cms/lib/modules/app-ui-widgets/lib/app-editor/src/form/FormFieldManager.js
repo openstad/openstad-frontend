@@ -1,6 +1,7 @@
 import React from 'react';
-import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectField, SelectField, RelationshipField } from './components';
+import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectField, SelectField, RelationshipField } from './index';
 import PropTypes from "prop-types";
+import Section from '../editor-ui/layout/Section';
 
 const componentstMap = {
   'audio'   :{
@@ -37,13 +38,13 @@ function FormFieldManager(props) {
     <>
       {props.fields.map((field)  => {
         const FormField =  componentstMap[field.type] ? componentstMap[field.type].component : false;
-        const label = field.label ? field.label : fields.key.ucfirst();
+        const label = field.label ? field.label : field.key.ucfirst();
         // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
         return (
           <Section title={field.label}>
             {FormField && <FormField
               {...field}
-              activeValue={activeResource ? props.activeResource[field.key] : null}
+              activeValue={props.activeResource ? props.activeResource[field.key] : null}
               activeResource={props.activeResource}
               update={(value) => {
                 props.update(field.key, value)

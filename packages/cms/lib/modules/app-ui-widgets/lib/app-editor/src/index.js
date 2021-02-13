@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-
-import {defaultResources,defaultSettings,defaultNavigation,defaultResourceScreens,defaultScreens, appResource} from './defaults';
+import appResource from './defaults';
 import GenericApp from './frontend/GenericApp';
 import Editor  from './Editor';
 import editorSettings  from './editorSettings';
@@ -110,8 +109,6 @@ const newResourceObject = {
 
 
 const editorType = process.env.EDITOR ? process.env.EDITOR : 'workout';
-
-console.log('editorSettings', editorSettings);
 
 const latestRevision = appResource.revisions[appResource.revisions.length -1];
 

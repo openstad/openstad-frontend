@@ -14,4 +14,4 @@ const WorkoutProgram = (props) => {
     </View>
 }
 
-export default VideoWorkout;
+export default WorkoutProgram;

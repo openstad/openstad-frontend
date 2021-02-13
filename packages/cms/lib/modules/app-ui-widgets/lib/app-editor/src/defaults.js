@@ -1,4 +1,6 @@
-import {screens as defaultWorkoutScreens} from './defaults/WorkoutApp';
+import WorkoutAppDefaults from './defaults/WorkoutApp';
+
+console.log('WorkoutAppDefaults', WorkoutAppDefaults)
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
 
@@ -34,19 +36,15 @@ const defaultStyling = {
 
 
 
-const defaultScreens = defaultWorkoutScreens;
 
-
-console.log('defaultScreens', defaultScreens);
-
-exports.appResource = {
+export default {
   id: 1,
   title: 'New app...',
   revisions: [{
-    resources: defaultResources,
+    resources: WorkoutAppDefaults.resources,
     settings: defaultSettings,
     navigationSettings: defaultNavigation,
-    screens: defaultScreens,
+    screens: WorkoutAppDefaults.screens,
     styling:defaultStyling,
   }],
 };

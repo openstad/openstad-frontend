@@ -5,7 +5,7 @@ const resourceSchemas = './resourceSchemas';
 
 class ResourceForm extends Component {
     render() {
-        const resourceSchema = resourceSchemas[props.resourceName];
+        const resourceSchema = resourceSchemas[this.props.resourceName];
 
         if (!resourceSchema) {
             return <div>No valid resource type found</div>
@@ -20,7 +20,7 @@ class ResourceForm extends Component {
                     {resourceSchema.description}
                 </div>}
                 <FormFieldManager
-                    activeResource={props.activeResource}
+                    activeResource={this.props.activeResource}
                     fields={resourceSchema.fields}
                 />
             </form>

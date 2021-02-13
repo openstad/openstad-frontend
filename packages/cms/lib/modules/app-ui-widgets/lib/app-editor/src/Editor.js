@@ -10,13 +10,27 @@ import TourApp from './frontend/components/tour/TourApp';
 import AppSettingsForm from './editor-ui/AppSettingsForm';
 import AppPreviewer from './editor-ui/layout/AppPreviewer';
 import Sidebar from './editor-ui/SideBar';
-import {Loader, Modal} from'./editor-ui/elements';
+import {ComponentEditMenu, Loader, Modal} from './editor-ui/elements';
 import UI from'./editor-ui/UI';
 import GenericApp from "./frontend/GenericApp";
-import {appResource} from "./defaults";
-import {ResourceForm} from "./ResourceForm";
+import appResource  from "./defaults";
+import ResourceForm from "./ResourceForm";
 
+const preCompononent = (props) => {
+  return (
+      <div>
+        <ComponentEditMenu {...props} />
+      </div>
+  )
+}
 
+const postCompononent = (props) => {
+  return (
+      <>
+
+      </>
+  )
+}
 /*
 <TourApp
                 coordinates={this.getResourceItems('coordinates')}

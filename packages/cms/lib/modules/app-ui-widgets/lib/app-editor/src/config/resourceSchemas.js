@@ -1,6 +1,8 @@
+import { navigation } from '@react-navigation/native';
+
 const defaultImageFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 const defaultVideoFileTypes = ['video/mp4', 'video/mp4'];
-const defaultMaxSize = []
+const defaultMaxSize = [];
 
 const stepSchema = {
   // if api is set, it has it's own
@@ -10,7 +12,6 @@ const stepSchema = {
     apiBase: false,
     apiPath: false,
   },
-
   name: '',
   fields: [
     {
@@ -43,77 +44,6 @@ const stepSchema = {
   }
 }
 
-const wordCategories = {
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  name: '',
-  fields: [
-    {
-      key: 'name',
-      type: 'location',
-    },
-    {
-      key: 'plural',
-      type: 'text',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true
-    },
-    {
-      key: 'sound',
-      type: 'audio',
-    },
-    {
-      key: 'categories',
-      type: 'relationship',
-      multiple: true
-    },
-  ]
-}
-
-const wordsSchema = {
-  // if api is set, it has it's wown
-  // means no REST api, but resources save to the API
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  name: '',
-  fields: [
-    {
-      key: 'single',
-      type: 'text',
-      label: 'Word (single)'
-    },
-    {
-      key: 'plural',
-      type: 'text',
-      label: 'Word (plural)'
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true,
-      label: 'Images'
-    },
-    {
-      key: 'sound',
-      type: 'audio',
-    },
-    {
-      key: 'categories',
-      type: 'relationship',
-      multiple: true
-    },
-  ]
-}
-
 const workoutSchema = {
   // if api is set
   // means no REST api, but resources save to the API
@@ -122,38 +52,54 @@ const workoutSchema = {
     apiBase: false,
     apiPath: false,
   },
-  defaultComponents: [
-    {
-      type: 'images',
-      props: {
-        key: 'src'
-      }
-    },
-    {
-      type: 'title',
-      props: {
-        key: 'title'
-      }
-    },
-    {
-      type: 'richText',
-      props: {
-        key: 'description'
-      }
-    },
 
+  screens: [
+    {
+      name: "workoutDetail",
+      components: [
+        {
+          type: 'images',
+          props: {
+            key: 'src'
+          }
+        },
+        {
+          type: 'title',
+          props: {
+            key: 'title'
+          }
+        },
+        {
+          type: 'richText',
+          props: {
+            key: 'description'
+          }
+        },
+        {
+          type: 'button',
+          props: {
+            buttonText: 'Start workout',
+            onPress: () => {
+              /* 1. Navigate to the Details route with params */
+              navigation.navigate('Details', {
+                itemId: 86,
+                otherParam: 'anything you want here',
+              });
+            }
+          }
+        },
+      ],
+    },
+    {
+      name: "workout",
+      components: [
+        {
+          type: 'ExcerciseWorkout',
+        }
+      ],
+    }
   ],
   name: '',
-
-  // AUTH CAN BE STRING, OR OBJECT,
-  /*
-  auth: {
-    viewSingle:
-    viewList:
-    create:
-    update:
-    delete:
-  },*/
   fields: [
     {
       key: 'title',
@@ -253,6 +199,44 @@ const workoutSchema = {
 }
 
 const workoutProgramSchema = {
+  screens : [
+    {
+      name: "workoutProgramDetail",
+      components: [
+        {
+          type: 'images',
+          props: {
+            key: 'src'
+          }
+        },
+        {
+          type: 'title',
+          props: {
+            key: 'title'
+          }
+        },
+        {
+          type: 'richText',
+          props: {
+            key: 'description'
+          }
+        },
+        {
+          type: 'button',
+          props: {
+            buttonText: 'Start workout',
+            onPress: () => {
+              /* 1. Navigate to the Details route with params */
+              navigation.navigate('Details', {
+                itemId: 86,
+                otherParam: 'anything you want here',
+              });
+            }
+          }
+        },
+      ],
+    }
+  ],
   fields : [
     {
       key: 'title',
@@ -344,11 +328,11 @@ const exerciseSchema = {
       sanitize: 'alphaNumeric'
     },
   ]
-}
+};
 
 const recipeSchema = {
   fields: []
-}
+};
 
 const membershipSchema = {
   auth: {
@@ -410,9 +394,180 @@ const membershipSchema = {
       },
     },
   ]
-}
+};
 
-exports = {
+// General Resource for tracking user Activity
+const activitySchema = {
+  local: false,
+  defaults: {
+    apiBase: false,
+    apiPath: false,
+  },
+  fields : [
+    {
+      key: 'name',
+      type: 'text',
+      label: 'Name',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+      format: '',
+    },
+    {
+      key: 'value',
+      type: 'text',
+      label: 'Value',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+    },
+    {
+      key: 'resourceName',
+      type: 'text',
+      label: 'Resource',
+      validation: {
+        minLength: 1,
+        maxLength: 100
+      },
+      sanitize: 'alphaNumeric',
+    },
+    {
+      key: 'createdAt',
+      type: 'date',
+      label: 'Created at',
+    },
+  ]
+};
+
+const subscriberSchema = {
+  local: false,
+  defaults: {
+    apiBase: false,
+    apiPath: false,
+  },
+  fields : [
+    {
+      key: 'name',
+      type: 'text',
+      label: 'Name',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+      format: '',
+    },
+    {
+      key: 'price',
+      type: 'text',
+      label: 'Value',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'price',
+    },
+    {
+      key: 'startDate',
+      type: 'dateTime',
+      label: 'Start Date',
+      validation: {
+        minLength: 1,
+        maxLength: 100
+      },
+    },
+    {
+      key: 'createdAt',
+      type: 'date',
+      label: 'Created at',
+    },
+  ]
+};
+
+const commentsSchema = {};
+
+const postSchema = {};
+
+const wordCategories = {
+  local: false,
+  defaults: {
+    apiBase: false,
+    apiPath: false,
+  },
+  name: '',
+  fields: [
+    {
+      key: 'name',
+      type: 'location',
+    },
+    {
+      key: 'plural',
+      type: 'text',
+    },
+    {
+      key: 'images',
+      type: 'image',
+      multiple: true
+    },
+    {
+      key: 'sound',
+      type: 'audio',
+    },
+    {
+      key: 'categories',
+      type: 'relationship',
+      multiple: true
+    },
+  ]
+};
+
+const wordsSchema = {
+  // if api is set, it has it's wown
+  // means no REST api, but resources save to the API
+  local: false,
+  defaults: {
+    apiBase: false,
+    apiPath: false,
+  },
+  name: '',
+  fields: [
+    {
+      key: 'single',
+      type: 'text',
+      label: 'Word (single)'
+    },
+    {
+      key: 'plural',
+      type: 'text',
+      label: 'Word (plural)'
+    },
+    {
+      key: 'images',
+      type: 'image',
+      multiple: true,
+      label: 'Images'
+    },
+    {
+      key: 'sound',
+      type: 'audio',
+    },
+    {
+      key: 'categories',
+      type: 'relationship',
+      multiple: true
+    },
+  ]
+};
+
+export default {
   step: stepSchema,
   workoutProgram: workoutProgramSchema,
   workout: workoutSchema,

@@ -40,7 +40,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-timer-mixin": "^0.13.3"
+    "react-timer-mixin": "^0.13.3",
+    "typescript": "^4.1.5"
   },
   "scripts": {
     "start": "react-scripts start",

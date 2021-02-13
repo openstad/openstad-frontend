@@ -23,10 +23,9 @@ const ResourceButton = (props) => {
 const StaticButton = (props) => {
   return (
       <Text style={styles.buttonText}>
-        {props.button}
+        {props.buttonText}
       </Text>
   );
 };
-
 
 export default FrontendButton;

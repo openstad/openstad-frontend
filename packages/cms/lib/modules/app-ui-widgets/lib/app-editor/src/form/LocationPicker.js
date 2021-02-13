@@ -1,17 +1,8 @@
 import React, {Component} from 'react';
 import {Map, Marker, TileLayer} from 'react-leaflet';
 
-function EventHandler({onPositionChange}) {
-    const map = useMapEvent('click', (e) => {
-        onPositionChange(e.latlng.lat, e.latlng.lng);
-    });
-
-    return null
-}
-
-
 class LocationPicker extends Component {
-    handleClick(e) {
+    handleClick(e){
         this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
     }
 
@@ -20,24 +11,21 @@ class LocationPicker extends Component {
     }
 
     render() {
-        var currentPos = this.props.lat && this.props.lng ? [this.props.lat, this.props.lng] : false;
+        var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
 
         return (
             <Map
                 center={currentPos}
-                ref={(ref) => {
-                    this.map = ref;
-                }}
+                ref={(ref) => { this.map = ref; }}
                 zoom={this.getZoomLevel()}
-                style={{width: '100%', height: '250px'}}
+                style={{ width: '100%', height: '250px'}}
                 onClick={this.handleClick.bind(this)}
             >
                 <TileLayer
                     url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                {currentPos && <Marker position={currentPos}/>}
-                <EventHandler onPositionChange={this.props.onPositionChange}/>
+                {currentPos && <Marker position={currentPos} />}
             </Map>
         )
     }

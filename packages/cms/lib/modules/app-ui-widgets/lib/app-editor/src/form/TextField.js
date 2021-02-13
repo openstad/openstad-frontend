@@ -9,7 +9,7 @@ class TextField extends Component {
           <textarea
             defaultValue={this.props.activeValue}
             onChange={(event) => {
-              this.props.update(currentTarget.value)
+              this.props.update(event.currentTarget.value)
             }}
           />
           :
@@ -17,7 +17,7 @@ class TextField extends Component {
             type="text"
             defaultValue={this.props.activeValue}
             onChange={(event) => {
-              this.props.update(currentTarget.value);
+              this.props.update(event.currentTarget.value);
             }}
          />
        }

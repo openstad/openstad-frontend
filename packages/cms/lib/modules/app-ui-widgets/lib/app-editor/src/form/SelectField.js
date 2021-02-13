@@ -4,7 +4,7 @@ const Select = ({options, activeValue}) => {
     return (
         <select
             onChange={(event) => {
-                this.props.update(currentTarget.value)
+                this.props.update(event.currentTarget.value)
             }}
         >
             {options.map((option) => {

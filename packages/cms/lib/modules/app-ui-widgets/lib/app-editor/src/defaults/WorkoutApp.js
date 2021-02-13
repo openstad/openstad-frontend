@@ -1,16 +1,28 @@
-import {workoutProgram, workout, exercise, membership} from '../config/resourceSchemas';
+import resourceSchemas from '../config/resourceSchemas';
+
+//{workoutProgram, workout, exercise, membership}
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
+const defaultResources = {
+    workoutProgram: resourceSchemas.workoutProgram,
+    workout: resourceSchemas.workout,
+    exercise: resourceSchemas.exercise,
+    membership: resourceSchemas.membership,
+};
+
 const defaultResourceScreens = defaultResources.map((resource, i) => {
-    return {
-        id : 100000 + i,
-        type: 'resource',
-        title: `${capitalize(resource.nameSingle)} screen`,
-        name: resource.name,
-        components: resource.defaultComponents,
-        localResources: []
-    }
+    const screens = resource.screens.map((screen) => {
+        return {
+            id : 100000 + i,
+            type: 'resource',
+            title: `${capitalize(screen.name)} screen`,
+            name: screen.name,
+            components: screen.components,
+            localResources: []
+        }
+    })
+    return [...screens];
 });
 
 const defaultWorkoutScreens = {
@@ -81,10 +93,64 @@ const defaultWorkoutScreens = {
                 },
             ]
         },
+        {
+            id: 3,
+            name: 'My Account',
+            type: 'static',
+            inTabNavigation: true,
+            components: [
+                {
+                    type: 'title',
+                    props: {
+                        title: 'My Account'
+                    }
+                },
+                {
+                    type: 'title',
+                    props: {
+                        title: 'Workouts',
+                        //@Todo: implement variant h2 for title
+                        variant: 'h2'
+                    }
+                },
+                {
+                    type: 'overview',
+                    props: {
+                        resource: 'activity',
+                        //@Todo: implement user as a source for data
+                        source: 'user',
+                        amount: 120,
+                        displayType: 'list',
+                        scroll: "vertical",
+                        titleKey: 'title',
+                    }
+                },
+                {
+                    type: 'title',
+                    props: {
+                        title: 'My subscription',
+                        variant: 'h2',
+                    }
+                },
+                {
+                    type: 'MySubscription',
+                    props: {
+                        resource: 'subscription',
+                        source: 'user',
+                        amount: 120,
+                        displayType: 'card',
+                        scroll: "horizontal",
+                        titleKey: 'title',
+                        backgroundImageKey: 'images'
+                    }
+                },
+            ]
+        },
         ...defaultResourceScreens
     ],
 }
 
 export default {
-    screens: defaultWorkoutScreens
+    screens: defaultWorkoutScreens,
+    resources: defaultResources
 };
