@@ -11,7 +11,7 @@ class TextField extends Component {
             name="title"
             defaultValue={this.props.resource.data.description}
             onChange={(event) => {
-              update(this.props.resource, 'description', event.currentTarget.value)
+              this.props.update(currentTarget.value)
             }}
           />
           :
@@ -20,7 +20,7 @@ class TextField extends Component {
             name="title"
             defaultValue={this.props.resource.data.title}
             onChange={(event) => {
-              update(this.props.resource, 'title', event.currentTarget.value)
+              this.props.update(currentTarget.value)
             }}
          />
        }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectField, SelectField } from './components';
+import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectField, SelectField, RelationshipField } from './components';
 import PropTypes from "prop-types";
 
 const componentstMap = {
@@ -22,7 +22,7 @@ const componentstMap = {
     component :ObjectField,
   },
   'relationship': {
-    component :TextField,
+    component :RelationshipField,
   },
   'price': {
     component :TextField,

@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 
 const Select = ({options, activeValue}) => {
     return (
-        <select>
+        <select
+            onChange={(event) => {
+                this.props.update(currentTarget.value)
+            }}
+        >
             {options.map((option) => {
                 return <option value={option.value} selected={option.value === activeValue}>{option.label}</option>
             })}
