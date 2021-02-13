@@ -109,10 +109,12 @@ const newResourceObject = {
 };
 
 
-const editorType = process.env.EDITOR ? process.env.EDITOR : 'tour'
+const editorType = process.env.EDITOR ? process.env.EDITOR : 'workout';
+
 console.log('editorSettings', editorSettings);
 
-const latestRevision = appResource.revisions[appResource.revisions.length -1]
+const latestRevision = appResource.revisions[appResource.revisions.length -1];
+
 const settings = editorSettings[editorType];
 console.log('latestRevision', latestRevision);
 

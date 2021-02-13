@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
-
+import React, {Component} from 'react';
 
 class PriceField extends Component {
-    render () {
+    render() {
         return (
-            <>
-                <input
-                    type=""
-                    name="title"
-                    defaultValue={this.props.resource.data.title}
-                    onChange={(event) => {
-                        update(this.props.resource, 'title', event.currentTarget.value)
-                    }}
-                />
-            </>
+            <input
+                type="text"
+                name={this.props.key}
+                defaultValue={this.props.activeValue}
+                onChange={(event) => {
+                    update(this.props.resource, 'title', event.currentTarget.value)
+                }}
+            />
         )
     }
 }

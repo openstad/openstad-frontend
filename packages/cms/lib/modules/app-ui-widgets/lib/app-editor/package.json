@@ -5,6 +5,7 @@
   "dependencies": {
     "@cleandersonlobo/react-mic": "^1.2.0",
     "@mongodb-js/react-mapbox-gl-leaflet": "^1.0.0",
+    "@react-navigation/bottom-tabs": "^5.11.7",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@testing-library/jest-dom": "^4.2.4",

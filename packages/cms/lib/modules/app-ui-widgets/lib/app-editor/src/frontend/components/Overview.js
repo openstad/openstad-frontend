@@ -4,10 +4,12 @@ import { View, Text, StyleSheet, ImageBackground, TouchableHighlight} from "reac
 import { SafeBackgroundImage } from "./presentation";
 import { Link } from '@react-navigation/native';
 
+/**
+ * @Todo
+ */
+
+
 const styles = StyleSheet.create({
-  container: {
-    fontFamily: "Cochin"
-  },
   container: {
     fontFamily: "Cochin"
   }
@@ -38,9 +40,11 @@ const CardItem = (props) => {
 
 const ListItem = (props) => {
   const titleKey = props.titleKey ? props.titleKey : 'title';
-  const backgroundImage = props.backgroundImageKey  && props.item[props.backgroundImageKey] ?  props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
   const innerStyles = {...defaultListItemStylesInner, ...(props.styles || {})}
+  let backgroundImage = props.backgroundImageKey  && props.item[props.backgroundImageKey] ?  props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
 
+  // in case backgroundImage is an array grab first image
+  backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
 
   return (
     <View style={defaultListItemStylesOuter}>

@@ -16,7 +16,10 @@ const tour = {
 
 const workout = {
   editableResources: [
-    'workout'
+    'workoutProgram',
+    'workout',
+    'exercise',
+    'membership'
   ]
 }
 

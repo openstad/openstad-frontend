@@ -12,6 +12,25 @@ import AppPreviewer from './editor-ui/layout/AppPreviewer';
 import Sidebar from './editor-ui/SideBar';
 import {Loader, Modal} from'./editor-ui/elements';
 import UI from'./editor-ui/UI';
+import GenericApp from "./frontend/GenericApp";
+import {appResource} from "./defaults";
+import {ResourceForm} from "./ResourceForm";
+
+
+/*
+<TourApp
+                coordinates={this.getResourceItems('coordinates')}
+                steps={this.getResourceItems('step')}
+                app={{
+                  location: 'Amsterdam, Netherlands',
+                  title: 'Vondelpark & Oud West Neighborhoud', //this.props.title,
+                  description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',//this.props.description,
+                  transportType: 'Walking',
+                  duration: '1 hour',
+                  language: 'English'
+                }}
+              />
+ */
 
 // Our app
 class Editor extends Component {
@@ -270,17 +289,17 @@ class Editor extends Component {
               </Modal>
             }
             <AppPreviewer>
-              <TourApp
-                coordinates={this.getResourceItems('coordinates')}
-                steps={this.getResourceItems('step')}
-                app={{
-                  location: 'Amsterdam, Netherlands',
-                  title: 'Vondelpark & Oud West Neighborhoud', //this.props.title,
-                  description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',//this.props.description,
-                  transportType: 'Walking',
-                  duration: '1 hour',
-                  language: 'English'
-                }}
+              <GenericApp
+                  id={appResource.id}
+                  title={appResource.title}
+                  styling={appResource.styling}
+                  settings={appResource.settings}
+                  resources={appResource.resources}
+                  navigationSettings={appResource.navigationSettings}
+                  screens={appResource.screens}
+                  preCompononent={preCompononent}
+                  postCompononent={postCompononent}
+                  isSignedIn={true}
               />
             </AppPreviewer>
           </div>

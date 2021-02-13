@@ -1,16 +1,16 @@
 import React from 'react';
-import { Title, RichText, Images, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash } from './components';
-import { View, Text } from "react-native";
+import { Title, RichText, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash, Images } from './components';
+import {WorkoutSelectedProgram, ExcerciseWorkout} from "./components/workout";
 
-const componentstMap = {
+const componentsMap = {
   'title'   :{
     component: Title,
   },
   'richText'    : {
     component: RichText,
   },
-  'image'   : {
-    component :Image,
+  'images'   : {
+    component : Images,
   },
   'button'  : {
     component :Button,
@@ -41,6 +41,12 @@ const componentstMap = {
   },
   'splash'   : {
     component :Splash,
+  },
+  'WorkoutSelectedProgram' : {
+    component: WorkoutSelectedProgram,
+  },
+  'ExerciseWorkout' : {
+    component: ExcerciseWorkout,
   }
 }
 
@@ -48,20 +54,20 @@ function ComponentManager(props) {
   return (
     <>
       {props.components.map((component)  => {
-        const FrontendComponent = componentstMap[component.type].component;
+        const FrontendComponent = componentsMap[component.type].component;
 
-        // preCompononent / postCompononent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
+        // preComponent / postComponent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
 
         return (
           <>
-            {props.preCompononent && props.preCompononent}
+            {props.preComponent && props.preComponent}
             <FrontendComponent
               {...component.props}
               activeResource={props.activeResource}
               resources={props.resources}
               navigation={props.navigation}
             />
-            {props.postCompononent && props.postCompononent}
+            {props.postComponent && props.postComponent}
           </>
         )
       })}

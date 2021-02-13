@@ -114,17 +114,37 @@ const wordsSchema = {
   ]
 }
 
-
-
 const workoutSchema = {
   // if api is set
   // means no REST api, but resources save to the API
-  local: false,
+  local: true,
   defaults: {
     apiBase: false,
     apiPath: false,
   },
+  defaultComponents: [
+    {
+      type: 'images',
+      props: {
+        key: 'src'
+      }
+    },
+    {
+      type: 'title',
+      props: {
+        key: 'title'
+      }
+    },
+    {
+      type: 'richText',
+      props: {
+        key: 'description'
+      }
+    },
+
+  ],
   name: '',
+
   // AUTH CAN BE STRING, OR OBJECT,
   /*
   auth: {
@@ -270,7 +290,6 @@ const workoutProgramSchema = {
       },
       sanitize: 'alphaNumeric'
     },
-
     {
       key: 'duration',
       type: 'text',

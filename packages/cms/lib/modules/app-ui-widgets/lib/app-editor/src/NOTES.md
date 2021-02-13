@@ -1,5 +1,4 @@
 
-
 Generic Left Sidebar
 
 Settings / General
