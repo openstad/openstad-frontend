@@ -154,7 +154,7 @@ class Editor extends Component {
     const resourceItems = this.getResourceItems(resourceName);
 
     var lastResource = resourceItems[resourceItems.length - 1];
-    var lastResourceId = lastResource.id;
+    var lastResourceId = lastResource ? lastResource.id : 1;
 
     // increment ID and add to resourceItems
     newResource.id = lastResourceId + 1;
@@ -307,7 +307,6 @@ class Editor extends Component {
             }
             <AppPreviewer>
               <GenericApp
-
                   id={this.state.appResource.id}
                   title={this.state.appResource.title}
                   styling={this.state.appResource.styling}
@@ -315,6 +314,7 @@ class Editor extends Component {
                   resources={this.state.appResource.resources}
                   navigationSettings={this.state.appResource.navigationSettings}
                   screens={this.state.appResource.screens}
+                  user={this.props.user}
                   preCompononent={preCompononent}
                   postCompononent={postCompononent}
                   isSignedIn={true}
