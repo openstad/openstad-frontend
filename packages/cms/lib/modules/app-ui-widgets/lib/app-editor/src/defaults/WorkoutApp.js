@@ -4,26 +4,34 @@ import resourceSchemas from '../config/resourceSchemas';
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
-const defaultResources = {
-    workoutProgram: resourceSchemas.workoutProgram,
-    workout: resourceSchemas.workout,
-    exercise: resourceSchemas.exercise,
-    membership: resourceSchemas.membership,
-};
+const defaultResources = [
+    resourceSchemas.workoutProgram,
+    resourceSchemas.workout,
+    resourceSchemas.exercise,
+    resourceSchemas.membership
+];
 
-const defaultResourceScreens = defaultResources.map((resource, i) => {
-    const screens = resource.screens.map((screen) => {
-        return {
-            id : 100000 + i,
-            type: 'resource',
-            title: `${capitalize(screen.name)} screen`,
-            name: screen.name,
-            components: screen.components,
-            localResources: []
-        }
-    })
-    return [...screens];
+let defaultResourceScreens = [];
+let i = 0;
+
+// fetch all screens from the the defaultResources
+defaultResources.forEach((resource) => {
+    if (resource.screens && resource.screens.length > 0) {
+        resource.screens.forEach((screen) => {
+            i++;
+
+            defaultResourceScreens.push({
+                id : 100000 + i,
+                type: 'resource',
+                title: `${capitalize(screen.name)} screen`,
+                name: screen.name,
+                components: screen.components,
+                localResources: []
+            })
+        })
+    }
 });
+
 
 const defaultWorkoutScreens = {
     startScreenId: 1,

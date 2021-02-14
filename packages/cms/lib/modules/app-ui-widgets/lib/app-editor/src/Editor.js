@@ -204,6 +204,8 @@ class Editor extends Component {
   fetchApp () {
     axios.get(`/api/tour/${this.props.appId}`)
       .then( (response) => {
+        console.log('response', response);
+
         const appResource =  response.data;
         const resources = appResource.revisions[appResource.revisions.length -1].resources;
 
@@ -219,7 +221,7 @@ class Editor extends Component {
         this.fetchRoutes();
       })
       .catch(function (error) {
-        console.log(error);
+        console.log('Error', error);
       });
   }
 
@@ -276,6 +278,7 @@ class Editor extends Component {
     if (this.state.loading) {
       return <Loader />
     }
+    console.log('this.state.appResource', this.state.appResource)
 
     return (
       <UI
@@ -304,13 +307,14 @@ class Editor extends Component {
             }
             <AppPreviewer>
               <GenericApp
-                  id={appResource.id}
-                  title={appResource.title}
-                  styling={appResource.styling}
-                  settings={appResource.settings}
-                  resources={appResource.resources}
-                  navigationSettings={appResource.navigationSettings}
-                  screens={appResource.screens}
+
+                  id={this.state.appResource.id}
+                  title={this.state.appResource.title}
+                  styling={this.state.appResource.styling}
+                  settings={this.state.appResource.settings}
+                  resources={this.state.appResource.resources}
+                  navigationSettings={this.state.appResource.navigationSettings}
+                  screens={this.state.appResource.screens}
                   preCompononent={preCompononent}
                   postCompononent={postCompononent}
                   isSignedIn={true}

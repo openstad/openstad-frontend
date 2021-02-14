@@ -20,6 +20,24 @@ const workout = {
     'workout',
     'exercise',
     'membership'
+  ],
+  defaultResources: [
+    {
+      name: 'workoutProgram',
+      items: [],
+    },
+    {
+      name: 'workout',
+      items: [],
+    },
+    {
+      name: 'exercise',
+      items: [],
+    },
+    {
+      name: 'membership',
+      items: [],
+    },
   ]
 }
 
