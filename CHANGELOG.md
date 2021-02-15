@@ -8,6 +8,7 @@
 * Add an oembed API endpoint to siteConfig for vimeo.com videos to prevent Vimeo blocking scrapes from oembetter
 * Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
 * Fix incorrect closing tag in slider widget
+* ideas-on-map fixes and extensions
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
