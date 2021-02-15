@@ -60,14 +60,15 @@ function ComponentManager(props) {
 
         return (
           <>
-            {props.preComponent && props.preComponent}
+            {props.preComponent && <props.preComponent />}
             <FrontendComponent
               {...component.props}
               activeResource={props.activeResource}
-              resources={props.resources}
+              resourceSchemas={props.resourceSchemas}
+              resourcesData={props.resourcesData}
               navigation={props.navigation}
             />
-            {props.postComponent && props.postComponent}
+            {props.postComponent && <props.postComponent />}
           </>
         )
       })}

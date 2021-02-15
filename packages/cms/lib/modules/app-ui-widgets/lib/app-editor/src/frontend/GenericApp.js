@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Platform, StyleSheet} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -67,7 +67,7 @@ class GenericApp extends Component {
 
         return (
             <View style={{
-                height: Platform.OS === 'web' ? '100vh' : '100%',
+                height: Platform.OS === 'web' ? '100%' : '100%',
                 backgroundColor: 'red',
                 flex: 1
                 //  ...this.props.styling.body.styles
@@ -124,7 +124,7 @@ class GenericApp extends Component {
                     linking={linking}
                 >
                     <Tab.Navigator
-                        screenOptions={({ route }) => ({
+                        screenOptionsTest={({ route }) => ({
                             tabBarIcon: ({ focused, color, size }) => {
                                 let iconName;
 
@@ -137,19 +137,20 @@ class GenericApp extends Component {
                                 }
 
                                 // You can return any component that you like here!
-                                return <Ionicons name={iconName} size={size} color={color} />;
+                                return <Text>J</Text>;
                             },
                         })}
                     >
-                        {this.props.screens.items.map((screen) => {
+                        {this.props.screens.items.filter((screen) => {
+                            return screen.inTabNavigation;
+                        }).map((screen) => {
                             const ScreenComponent = ScreenComponents[screen.type];
                             const resourceName = screen.type === 'resource' ? screen.name : false;
-
                             const Stack = createStackNavigator();
 
                             return (
                                 <Tab.Screen
-                                    name={'Tab ' + screen.name}
+                                    name={screen.name}
                                 >
                                     {props =>
                                         <Stack.Navigator
@@ -167,7 +168,8 @@ class GenericApp extends Component {
                                                 {props =>
                                                     <ScreenComponent
                                                         {...props}
-                                                        resources={this.props.resources}
+                                                        resourcesData={this.props.resourcesData}
+                                                        resourceSchemas={this.props.resourceSchemas}
                                                         resource={resourceName}
                                                         {...screen}
                                                     />

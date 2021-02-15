@@ -68,13 +68,13 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
-                        title: 'All programs'
+                        title: 'Workout programs'
                     }
                 },
                 {
                     type: 'overview',
                     props: {
-                        resource: 'program',
+                        resource: 'workoutProgram',
                         amount: 120,
                         displayType: 'card',
                         scroll: "horizontal",
@@ -85,7 +85,7 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
-                        title: 'All programs'
+                        title: 'Workouts'
                     }
                 },
                 {
@@ -124,7 +124,7 @@ const defaultWorkoutScreens = {
                 {
                     type: 'overview',
                     props: {
-                        resource: 'activity',
+                        resource: 'Activity',
                         //@Todo: implement user as a source for data
                         source: 'user',
                         amount: 120,

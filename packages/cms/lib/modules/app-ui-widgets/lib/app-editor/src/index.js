@@ -7,7 +7,7 @@ import GenericApp from './frontend/GenericApp';
 import Editor from './Editor';
 import editorSettings from './editorSettings';
 import {ComponentEditMenu} from './editor-ui/elements';
-
+import ResourceSchemas from './config/resourceSchemas'
 
 const preCompononent = (props) => {
     return (
@@ -103,7 +103,8 @@ if (process.env.FRONTEND) {
                         position: [52.360506, 4.908971],
                         images: ['https://image-server2.openstadsdeel.nl/image/9c9554218311abb0d1797945e575db97/:/rs=w:1400,h:500;cp=w:1400,h:500']
                     }],
-            }],
+            }]
+            ,
             screens: editorSettings.screens
         }],
     };
@@ -130,6 +131,7 @@ if (process.env.FRONTEND) {
                 resources={latestRevision.resources}
                 appResource={latestRevision}
                 editableResources={settings.editableResources}
+                resourceSchemas={ResourceSchemas}
                 defaultResources={settings.defaultResources}
                 user={defaultUser}
             />

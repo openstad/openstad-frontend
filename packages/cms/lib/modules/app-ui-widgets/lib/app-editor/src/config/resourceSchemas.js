@@ -4,6 +4,7 @@ const defaultImageFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 const defaultVideoFileTypes = ['video/mp4', 'video/mp4'];
 const defaultMaxSize = [];
 
+// local resources are managed within the application
 const stepSchema = {
   // if api is set, it has it's own
   // means no REST api, but resources save to the API
@@ -12,7 +13,7 @@ const stepSchema = {
     apiBase: false,
     apiPath: false,
   },
-  name: '',
+  name: 'step',
   fields: [
     {
       key: 'location',
@@ -492,6 +493,56 @@ const subscriberSchema = {
   ]
 };
 
+const userActivitySchema = {
+  local: true,
+  defaults: {
+    apiBase: false,
+    apiPath: false,
+  },
+  fields : [
+    {
+      key: 'name',
+      type: 'text',
+      label: 'Name',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+      format: '',
+    },
+    {
+      key: 'value',
+      type: 'text',
+      label: 'Value',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+    },
+    {
+      key: 'type',
+      type: 'text',
+      label: 'Type',
+      validation: {
+        required: true,
+        minLength: 2,
+        maxLength: 40
+      },
+      sanitize: 'alphaNumeric',
+    },
+    {
+      key: 'createdAt',
+      type: 'date',
+      label: 'Created at',
+    },
+  ]
+};
+
+
 const commentsSchema = {};
 
 const postSchema = {};
@@ -573,5 +624,6 @@ export default {
   workout: workoutSchema,
   exercise: exerciseSchema,
   recipe: recipeSchema,
-  membership: membershipSchema
+  membership: membershipSchema,
+  userActivity:
 }

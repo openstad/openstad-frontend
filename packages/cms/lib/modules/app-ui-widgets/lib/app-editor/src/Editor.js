@@ -311,7 +311,8 @@ class Editor extends Component {
                   title={this.state.appResource.title}
                   styling={this.state.appResource.styling}
                   settings={this.state.appResource.settings}
-                  resources={this.state.appResource.resources}
+                  resourcesData={this.state.appResource.resources}
+                  resourceSchemas={this.props.resourceSchemas}
                   navigationSettings={this.state.appResource.navigationSettings}
                   screens={this.state.appResource.screens}
                   user={this.props.user}
