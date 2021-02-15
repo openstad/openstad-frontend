@@ -268,7 +268,7 @@ module.exports = {
         });
         return callback(null);
       });
-    };
+    }
 
     const superOutput = self.output;
     self.output = (widget, options) => {
