@@ -1,6 +1,21 @@
 # Changelog
 
-## UNRELEASED
+## PRE-RELEASE v0.13.0
+* Add login required to choices-guide results
+* Use refactored react components
+* Change default styling for toggle title in section
+* Update apostrophe to 2.113.0 for @openstad/cms & run `npm update` in root to fix a YouTube oembed bug
+* Add an oembed API endpoint to siteConfig for vimeo.com videos to prevent Vimeo blocking scrapes from oembetter
+* Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
+* Fix incorrect closing tag in slider widget
+* ideas-on-map fixes and extensions
+* Fix openstreetmaps for Forms and Overview
+
+## v0.12.0 (2020-01-27)
+* Allow for running multiple sites on subdirectories
+* Accessibility improvements
+
+## v0.11.0 (2020-01-11)
 * Make the (Google) Analytics block configurable to provide for a new version and also other options
 * Add html class name to resource overview
 * Clear cached session openstad user when making api call or logging out

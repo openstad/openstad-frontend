@@ -6,6 +6,7 @@ apos.define('resource-form-widgets', {
             self.createMap(mapConfig);
 
             self.addPolygon(mapConfig);
+
             self.setIdeaMarker(mapConfig);
             self.addFormEventListeners(mapConfig);
         }

@@ -59,7 +59,7 @@ module.exports = {
                       disableDefaultUI : true,
                       styles: styles
                   })
-                  .setMarkersByIdeas(ideas)
+                  .setMarkersByResources(ideas)
                   .setMarkerStyle(markerStyle)
                   .setPolygon(req.data.global.mapPolygons || null)
                   .getConfig()

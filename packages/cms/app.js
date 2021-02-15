@@ -122,7 +122,8 @@ function serveSite(req, res, siteConfig, forceRestart) {
       if (exists || dbName === process.env.DEFAULT_DB)  {
 
         if ((!aposServer[domain] || forceRestart) && !aposStartingUp[domain]) {
-            console.log('(Re)Start apos ', domain)
+            console.log('(Re)Start apos domain, siteId', domain, siteConfig.id);
+
             //format sitedata so  config values are in the root of the object
             var config = siteConfig.config;
             config.id = siteConfig.id;
@@ -280,8 +281,6 @@ module.exports.getMultiSiteApp = (options) => {
          return res.sendFile(path.resolve('public' + req.url));
        } else {
 
-         console.log('=====> REQUEST serve subsite with ApostropheCMS: ', req.originalUrl);
-
          site.sitePrefix = req.params.sitePrefix;
          req.sitePrefix = req.params.sitePrefix;
          serveSite(req, res, site, req.forceRestart);
@@ -295,8 +294,6 @@ module.exports.getMultiSiteApp = (options) => {
    * Check if the requested domain exists and if so serve the site
    */
   app.use(function(req, res, next) {
-
-    console.log('=====> REQUEST serve root site with ApostropheCMS: ', req.originalUrl);
 
     /**
      * Start the servers

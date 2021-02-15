@@ -142,7 +142,7 @@ module.exports = {
                     googleMapsApiKey: googleMapsApiKey,
                     styles: styles
                 })
-                .setMarkersByIdeas(ideas)
+                .setMarkersByResources(ideas)
                 .setMarkerStyle(markerStyle)
                 .setEditorMarker()
                 .setEditorMarkerElement('locationField')
