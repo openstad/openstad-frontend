@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## PRE-RELEASE v0.13.0 
 * Add login required to choices-guide results
 * Use refactored react components
 * Change default styling for toggle title in section
@@ -9,6 +9,7 @@
 * Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
 * Fix incorrect closing tag in slider widget
 * ideas-on-map fixes and extensions
+* Fix openstreetmaps
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
