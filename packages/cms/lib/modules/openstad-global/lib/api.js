@@ -86,9 +86,6 @@ module.exports = (self, options) => {
         req.data.global.mapPolygons =  siteConfig && siteConfig.area && siteConfig.area.polygon || '';
       }
 
-      console.log('siteConfig.area', siteConfig.area);
-      console.log('req.data.global.mapPolygons', req.data.global.mapPolygons);
-
       // Todo: remove this fallback when every site use the areaId from the api.
       // This is the fallback for old sites, polygons were hardcoded in the site
       if (req.data.global.mapPolygons === '' && req.data.global.mapPolygonsKey) {

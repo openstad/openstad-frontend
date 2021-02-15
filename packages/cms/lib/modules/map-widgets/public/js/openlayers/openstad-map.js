@@ -114,8 +114,6 @@ var OpenlayersMap = {
                 category: marker.category
             });
 
-            console.log('marker', ol.proj.fromLonLat([marker.position.lng, marker.position.lat]))
-
             const iconStyling = {
                 crossOrigin: 'anonymous',
                 anchorOrigin: 'bottom-left',
@@ -127,18 +125,12 @@ var OpenlayersMap = {
                 offset: [0, 0]
             };
 
-            console.log('iconStyling', iconStyling)
-
             feature.setStyle(new ol.style.Style({
               image: new ol.style.Icon(iconStyling),
             }));
 
             markers.push(feature);
         });
-
-        console.log('markers', markers)
-        console.log('this.map', this.map)
-
 
         var vectorSource = new VectorSource({
             features: markers
@@ -304,7 +296,6 @@ function createGeojsonObject(coordinates) {
 
 function getTransformedPolygon(polygonLngLat) {
     //transform lnglat array to Spherical Mercator (EPSG:3857)
-    console.log('polygonLngLat', polygonLngLat);
 
     var polygonCoords = [];
       if (polygonLngLat) {

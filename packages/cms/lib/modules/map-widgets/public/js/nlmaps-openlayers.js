@@ -22,7 +22,6 @@ apos.define('map-widgets', {
         };
 
         self.addMarkers = function(mapConfig) {
-            console.log('mapConfig.markers', mapConfig.markers)
             return OpenlayersMap.addMarkers(mapConfig.markers);
         };
 
