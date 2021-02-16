@@ -150,6 +150,9 @@ module.exports = class MapConfigBuilder {
         return this;
     }
     setPolygon(polygon) {
+        
+        console.log ('map-data setPolygon', {polygon});
+        
         this.config.polygon = polygon;
         return this;
     }
