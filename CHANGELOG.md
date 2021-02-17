@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add page cache for non moderator users
+
 ## PRE-RELEASE v0.13.0
 * Add login required to choices-guide results
 * Use refactored react components
@@ -11,6 +14,7 @@
 * ideas-on-map fixes and extensions
 * Fix openstreetmaps for Forms and Overview
 * Move big libs and assets to dynamic loading
+
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories

@@ -299,7 +299,7 @@ module.exports.getMultiSiteApp = (options) => {
      * Start the servers
      */
     const site = sites[req.openstadDomain] ? sites[req.openstadDomain]  : false;
-    
+
     // if site exists serve it, otherwise give a 404
     if (site) {
       serveSite(req, res, site, req.forceRestart);
