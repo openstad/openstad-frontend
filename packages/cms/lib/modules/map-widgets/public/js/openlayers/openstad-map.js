@@ -98,6 +98,7 @@ var OpenlayersMap = {
         var marker = nlmaps.openlayers.markerLayer(true);
         this.map.addLayer(marker);
 
+
         return this.map;
     },
     addMarkers: function(markersData) {

@@ -10,6 +10,7 @@
 * Fix incorrect closing tag in slider widget
 * ideas-on-map fixes and extensions
 * Fix openstreetmaps for Forms and Overview
+* Move big libs and assets to dynamic loading
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
