@@ -30,7 +30,6 @@
     "npm": "^6.14.11",
     "query-string": "^6.13.8",
     "svg-captcha": "^1.4.0",
-    "apostrophe-profiler": "apostrophecms/apostrophe-profiler"
   },
   "devDependencies": {
     "lerna": "^3.21.0"
