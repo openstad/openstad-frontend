@@ -1,7 +1,17 @@
 /**
- * Cache plugin for caching ApostropheCMS output
+ * Cache plugin for caching ApostropheCMS pages
  *
- * For most anonymous page visits static content can be rendered directly from the cache
+ * For most anonymous/member page visits static content can be rendered directly from the cache,
+ * saving a lot in performance
+ *
+ * This module saves HTML response by overwriting ApostropheCMS function renderPageForModule
+ *
+ * Then Ssrves cached content in the expressMiddleware, this is called after some logic is run
+ * like Auth, and data.global is filled but not much more.
+ *
+ * Conditions for cache are found in shouldRequestBeCached
+ *
+ * Uses standard cache of Openstad this gets emptied on every api request done through the proxy
  */
 const cache = require('../../../services/cache').cache;
 const qs = require('qs');
@@ -54,6 +64,7 @@ module.exports = {
                 (!req.session.openstadUser || (req.session.openstadUser && !moderatorRoles.includes(req.session.openstadUser.role)))
         }
 
+        // this is the ApostropheCMS function for rendering a page in HTML
         const superRenderPageForModule = self.renderPageForModule;
 
         self.renderPageForModule = (req, template, data, module) => {
