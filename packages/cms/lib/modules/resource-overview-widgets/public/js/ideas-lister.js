@@ -21,31 +21,7 @@ function initGridder() {
 			var ideaId =  element && element.querySelector('.this-idea-id') ? element.querySelector('.this-idea-id').innerHTML : false;
 			window.history.replaceState({}, '', '#ideaId-' + ideaId);
 
-		  var fotoramaEl = $('.fotorama');
-
-			if (fotoramaEl.length > 0) {
-				 var fotorama = fotoramaEl.fotorama({
-					thumbWidth: 60,
-				  thumbHeight: 60,
-					minWidth: 300,
-					keyboard: false
-				});
-
-			  fotorama.on('fotorama:fullscreenenter fotorama:fullscreenexit', function (e, fotorama) {
-			      if (e.type === 'fotorama:fullscreenenter') {
-			          // Options for the fullscreen
-			          fotorama.setOptions({
-			              fit: 'contain'
-			          });
-			      } else {
-			          // Back to normal settings
-			          fotorama.setOptions({
-			              fit: 'cover'
-			          });
-			      }
-					});
-
-			}
+			initImagesGallery();
 
 			return false;
 		},

@@ -119,7 +119,7 @@ module.exports = {
 
        self.pushAsset('script', 'thumbnail-tile-loading', { when: 'always' });
        self.pushAsset('script', 'tabs', { when: 'always' });
-       self.pushAsset('script', 'fotorama', { when: 'always' });
+       //self.pushAsset('script', 'fotorama', { when: 'always' });
        self.pushAsset('script', 'vote', { when: 'always' });
        self.pushAsset('script', 'main', { when: 'always' });
        self.pushAsset('script', 'ideas-lister', { when: 'always' });

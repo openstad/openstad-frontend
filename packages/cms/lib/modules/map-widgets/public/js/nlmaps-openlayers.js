@@ -10,8 +10,46 @@ apos.define('map-widgets', {
     },
 
     construct: function(self, options) {
+        self.loadLibs = function ($widget, data, options) {
+            if (!window.loadingMapLibs && (!window.ol || !window.nlmaps)) {
+                //prevent loading multiple maps for multiple widgets on one page
+                window.loadingMapLibs = true;
+
+                // this beautiful ladder is easiest way to ensure that libs are
+                // loaded step by step
+                $.getScript("/modules/map-widgets/js/modules/ol.js", function () {
+                    $.getScript("/modules/map-widgets/js/modules/nlmaps.js", function () {
+                        $.getScript("/modules/map-widgets/js/openlayers/openstad-map.js", function (){
+                            window.loadingMapLibs = false;
+                            self.playAfterlibsLoaded($widget, data, options);
+                        });
+                    });
+                });
+
+            } else {
+                if (window.loadingMapLibs) {
+                    // in case multiple maps are loaded on page
+                    // make sure scripts only run once
+                    setTimeout(function (){
+                        self.loadLibs($widget, data, options)
+                    },25)
+                } else {
+                    self.playAfterlibsLoaded($widget, data, options);
+                }
+            }
+        }
+
+        self.play =  function ($widget, data, options) {
+            self.loadLibs($widget, data, options)
+        }
+
+        self.playAfterlibsLoaded = function () {
+            // run your code in this function
+            console.log('playAfterlibsLoaded map widget')
+        }
 
         self.createMap = function(mapConfig) {
+            console.log('OpenlayersMap', OpenlayersMap)
             var map = OpenlayersMap.createMap(mapConfig.defaultSettings);
             OpenlayersMap.setDefaultBehaviour(map);
             return map;

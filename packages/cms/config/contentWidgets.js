@@ -90,9 +90,6 @@ const contentWidgets = {
     hideByDefault: true,
     beta: true
   },
-  'main-image': {
-    adminOnly: true
-  },
   'apostrophe-rich-text': {
     toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],
     styles: [
