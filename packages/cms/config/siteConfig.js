@@ -121,6 +121,7 @@ module.exports = {
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
+        'openstad-template-cache': {},
         'openstad-login': {},
         'openstad-api': {},
         'openstad-pages': {},

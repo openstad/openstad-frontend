@@ -29,7 +29,7 @@
     "morgan": "^1.10.0",
     "npm": "^6.14.11",
     "query-string": "^6.13.8",
-    "svg-captcha": "^1.4.0"
+    "svg-captcha": "^1.4.0",
   },
   "devDependencies": {
     "lerna": "^3.21.0"

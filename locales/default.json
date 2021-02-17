@@ -340,5 +340,11 @@
 	"Save Location": "Save Location",
 	"Styles for the container": "Styles for the container",
 	"Edit Resource form": "Edit Resource form",
-	"Warning: no active resource is found for editing.": "Warning: no active resource is found for editing."
+	"Warning: no active resource is found for editing.": "Warning: no active resource is found for editing.",
+	"An error has occurred": "An error has occurred",
+	"An error has occurred. We're working on it. We apologize for the inconvenience.": "An error has occurred. We're working on it. We apologize for the inconvenience.",
+	"Edit Link or button": "Edit Link or button",
+	"Warning to adminstrator: voting type is not set to count in site settings!": "Warning to adminstrator: voting type is not set to count in site settings!",
+	"Edit Title": "Edit Title",
+	"Edit Accordeon": "Edit Accordeon"
 }
