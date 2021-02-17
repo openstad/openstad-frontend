@@ -1,3 +1,7 @@
+/**
+ * Resource admin widget allows for CRUD buttons
+ * To edit
+ */
 const rp = require('request-promise');
 const ideaStates = require('../../../config/idea.js').states;
 const extraFields =  require('../../../config/extraFields.js').fields;
