@@ -120,8 +120,6 @@ module.exports = {
         'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
-        // order is important, first authentication should be run
-        // before cache
         'openstad-auth': {},
         'openstad-template-cache': {},
         'openstad-login': {},
