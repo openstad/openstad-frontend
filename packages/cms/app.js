@@ -22,7 +22,10 @@ const Promise = require('bluebird');
 const auth = require('basic-auth');
 const compare = require('tsscmp');
 const path = require('path');
+
 const morgan = require('morgan')
+
+const cache = require('./services/cache').cache;
 
 //internal code
 const dbExists = require('./services/mongo').dbExists;
@@ -40,11 +43,9 @@ let sitesResponse = [];
 const aposStartingUp = {};
 const REFRESH_SITES_INTERVAL = 60000 * 5;
 
-
 if (process.env.REQUEST_LOGGING === 'ON') {
     app.use(morgan('dev'));
 }
-
 
 //serve static path
 //https://expressjs.com/en/api.html#example.of.express.static
@@ -65,11 +66,9 @@ const static = express.static('static', options);
 
 const aposServer = {};
 
-//todo move this to extension check fo performance
 app.use(express.static('public', {
     maxAge: "1d"
 }));
-// serve static also on first level
 
 app.set('trust proxy', true);
 
@@ -138,6 +137,18 @@ function cleanUpSites() {
  * @returns {Promise<void>}
  */
 function serveSite(req, res, siteConfig, forceRestart) {
+    if (cache.request.shouldBeCached(req)) {
+        const cacheKey = cache.request.getCacheKey(req);
+        const cachedResponse = cache.get(cacheKey);
+
+        console.log('Serve cache before Apos is running')
+
+        if (cachedResponse) {
+            return res.send(cachedResponse);
+        }
+    }
+
+    console.log('Serve Apos without cache')
 
 
     const runner = Promise.promisify(run);
