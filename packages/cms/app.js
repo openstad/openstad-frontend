@@ -49,10 +49,10 @@ const static = express.static('static');
 
 const aposServer = {};
 
-
-
-//todo move this to extension check fo4 performance
-app.use(express.static('public'));
+//todo move this to extension check fo performance
+app.use(express.static('public'), {
+    maxAge: "1d"
+});
 // serve static also on first level
 
 app.set('trust proxy', true);
