@@ -50,7 +50,7 @@ if (process.env.REQUEST_LOGGING === 'ON') {
 //https://expressjs.com/en/api.html#example.of.express.static
 var options = {
     etag: true,
-    //maxAge: 3600000, //in ms i.e 1 hr in this case
+    maxAge: 3600000, //in ms i.e 1 hr in this case
     redirect: true,
     setHeaders: function (res, path, stat) {
         //any other header in response
