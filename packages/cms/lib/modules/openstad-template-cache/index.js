@@ -31,14 +31,8 @@ module.exports = {
             // middleware shipped with apostrophe-express but before all middleware passed
             // to it as options), or `afterConfigured` (the default, with other module
             // middleware).
-            when: 'beforeRequired',
+            when: 'afterRequired',
             middleware: (req, res, next) => {
-                const unparsedCookie = req.headers.cookie;
-
-                console.log('unparsedCookie', unparsedCookie);
-            //    console.log('req.session cache', req);
-                console.log('req.session cache', req.cookies);
-
                 const cacheKey = self.formatCacheKey(req);
                 const cachedResponse = cache.get(cacheKey);
 
