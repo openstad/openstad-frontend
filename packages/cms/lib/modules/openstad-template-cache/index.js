@@ -25,13 +25,19 @@ module.exports = {
          * We serve the cache from the middleware
          */
         self.expressMiddleware = {
-            // afterConfigured is one of the latest points to run middleware
-            // this is done to ensure authentication logic has been run
-            // this is used to determine if content should be cached or not
-            when: 'afterRequired',
+            // If you need to run the middleware very early, the object may also have a
+            // `when` property, which may be set to `beforeRequired` (the absolute
+            // beginning, before even req.body is available), `afterRequired` (after all
+            // middleware shipped with apostrophe-express but before all middleware passed
+            // to it as options), or `afterConfigured` (the default, with other module
+            // middleware).
+            when: 'beforeRequired',
             middleware: (req, res, next) => {
+                const unparsedCookie = req.headers.cookie;
 
-                console.log('req.site.id', req.site.id);
+                console.log('unparsedCookie', unparsedCookie);
+            //    console.log('req.session cache', req);
+                console.log('req.session cache', req.cookies);
 
                 const cacheKey = self.formatCacheKey(req);
                 const cachedResponse = cache.get(cacheKey);
