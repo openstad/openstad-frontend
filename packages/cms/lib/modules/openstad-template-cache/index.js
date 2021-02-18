@@ -16,7 +16,6 @@
 const cache = require('../../../services/cache').cache;
 const qs = require('qs');
 const cacheLifespan = 15 * 60;   // set lifespan of 15 minutes;
-const cookieAuthKey = 'openstad-authorization.sid'; //@TODO get this from env somewhere
 
 module.exports = {
     name: 'openstad-template-cache',
@@ -38,7 +37,7 @@ module.exports = {
                     console.log('send Cached Page')
                     return req.res.send(cachedResponse);
                 } else {
-                    console.log('next')
+                    console.log('next not cached')
 
                     // in case cache requirements are met,
                     // call self.sendPage();
