@@ -45,7 +45,23 @@ if (process.env.REQUEST_LOGGING === 'ON') {
   app.use(morgan('dev'));
 }
 
-const static = express.static('static');
+
+//serve static path
+//https://expressjs.com/en/api.html#example.of.express.static
+var options = {
+    etag: true,
+    //maxAge: 3600000, //in ms i.e 1 hr in this case
+    redirect: true,
+    setHeaders: function (res, path, stat) {
+        //any other header in response
+        res.set({
+            'x-timestamp': Date.now(),
+            'Cache-Control' :'public, max-age=3600'
+        });
+    }
+}
+
+const static = express.static('static', options);
 
 const aposServer = {};
 
@@ -300,9 +316,11 @@ module.exports.getMultiSiteApp = (options) => {
      */
     const site = sites[req.openstadDomain] ? sites[req.openstadDomain]  : false;
 
+
     // if site exists serve it, otherwise give a 404
     if (site) {
-      serveSite(req, res, site, req.forceRestart);
+        console.log('Serve with apos', req.session);
+        serveSite(req, res, site, req.forceRestart);
     } else {
       res.status(404).json({ error: 'Site not found'});
     }
