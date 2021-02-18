@@ -127,8 +127,18 @@ function cleanUpSites() {
     }
 }
 
+/**
+ * Check if Database exists and then
+ * serve site with ApostropheCMS
+ *
+ * @param req
+ * @param res
+ * @param siteConfig, site REST object
+ * @param forceRestart,
+ * @returns {Promise<void>}
+ */
 function serveSite(req, res, siteConfig, forceRestart) {
-    
+
 
     const runner = Promise.promisify(run);
     const dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
@@ -300,6 +310,7 @@ module.exports.getMultiSiteApp = (options) => {
             } else {
                 site.sitePrefix = req.params.sitePrefix;
                 req.sitePrefix = req.params.sitePrefix;
+                req.site = site;
                 serveSite(req, res, site, req.forceRestart);
             }
         } else {
@@ -321,6 +332,7 @@ module.exports.getMultiSiteApp = (options) => {
         // if site exists serve it, otherwise give a 404
         if (site) {
             console.log('Serve with apos', req.session);
+            req.site = site;
             serveSite(req, res, site, req.forceRestart);
         } else {
             res.status(404).json({error: 'Site not found'});

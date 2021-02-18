@@ -28,8 +28,11 @@ module.exports = {
             // afterConfigured is one of the latest points to run middleware
             // this is done to ensure authentication logic has been run
             // this is used to determine if content should be cached or not
-            when: 'afterConfigured',
+            when: 'afterRequired',
             middleware: (req, res, next) => {
+
+                console.log('req.site.id', req.site.id);
+
                 const cacheKey = self.formatCacheKey(req);
                 const cachedResponse = cache.get(cacheKey);
 
@@ -48,7 +51,7 @@ module.exports = {
         };
 
         self.formatCacheKey = (req) => {
-            return encodeURIComponent(`${req.url}?${qs.stringify(req.query)}`);
+            return encodeURIComponent(`${req.site.id}-${req.url}?${qs.stringify(req.query)}`);
         }
 
         // check if it's a request that should be cached
@@ -57,18 +60,18 @@ module.exports = {
             // check if user is logged in directly in session
             // and check if user doesn't have a moderator role
             // only cache GET requests
-            const moderatorRoles = ['member', 'moderator', 'admin'];
+           // const moderatorRoles = ['member', 'moderator', 'admin'];
 
-            return req.method === 'GET' &&
-                (!req.session.openstadUser || (req.session.openstadUser && !moderatorRoles.includes(req.session.openstadUser.role)))
+            // only cache non logged in requests
+            return req.method === 'GET' && !req.session.jwt;
+                //(!req.session.openstadUser || (req.session.openstadUser && !moderatorRoles.includes(req.session.openstadUser.role)))
         }
 
         // this is the ApostropheCMS function for rendering a page in HTML
         const superRenderPageForModule = self.renderPageForModule;
 
         self.renderPageForModule = (req, template, data, module) => {
-            let content;
-            content = superRenderPageForModule(req, template, data, module);
+            let content = superRenderPageForModule(req, template, data, module);
 
             if (self.shouldRequestBeCached(req)) {
                 const cacheKey = self.formatCacheKey(req);
