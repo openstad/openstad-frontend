@@ -1,41 +1,11 @@
 import React, { Component, useLocation } from 'react';
 import Section from './layout/Section';
 import ListItem from './layout/ListItem';
-
-function OldSidebar (props) {
-  return (
-    <>
-      <Section title="General">
-      <ListItem active={false} >
-        <a className="list-link" href="#settings">
-          Settings
-        </a>
-      </ListItem>
-      </Section>
-      <Section title="Steps">
-        {props.resourceItems.map(function(resourceItem) {
-          var active = props.activeResource && resourceItem.data.id === props.activeResource.data.id ;
-          var linkClassName = active ? "list-link active" : "list-link";
-          return(
-            <ListItem active={active}>
-              <a className={linkClassName} onClick={() => {
-                props.edit(resourceItem)
-              }} href="#">
-                {resourceItem.data.title}
-              </a>
-            </ListItem>
-          )
-        })}
-        <div style={{textAlign: 'right'}}>
-        <a href="#" className="plus-icon" onClick={props.new}> +</a>
-        </div>
-      </Section>
-    </>
-  )
-}
+import {makeCamelCasePretty} from '../utils';
 
 
 function Sidebar (props) {
+    console.log('props.resources in sidebar', props.resources)
   return (
     <>
       <Section title="General">
@@ -55,9 +25,9 @@ function Sidebar (props) {
         }
 
         return (
-          <Section title={resource.name}>
+          <Section title={makeCamelCasePretty(resource.name)}>
             {resourceItems.map(function(resourceItem) {
-              var active = props.activeResource && resourceItem.id === props.activeResource.id;
+              var active = props.activeResource && resourceItem.id === props.activeResource.id && resource.name === props.activeResourceName;
               var linkClassName = active ? "list-link active" : "list-link";
 
               return(

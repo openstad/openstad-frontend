@@ -111,6 +111,7 @@ const ResourceOverview = (props) => {
 
                 // if local the resources are loaded with the react app
                 if (resourceSchema.local) {
+                    console.log('props.resourcesData', props.resourcesData)
                     const resourceData = props.resourcesData.find(resource => {
                         return resource.name === resourceName;
                     });

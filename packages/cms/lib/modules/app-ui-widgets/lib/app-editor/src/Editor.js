@@ -5,8 +5,6 @@ import scriptLoader from 'react-async-script-loader';
 
 import axios from 'axios';
 
-import StepForm from './form/StepForm';
-import TourApp from './frontend/components/tour/TourApp';
 import AppSettingsForm from './editor-ui/AppSettingsForm';
 import AppPreviewer from './editor-ui/layout/AppPreviewer';
 import Sidebar from './editor-ui/SideBar';
@@ -278,7 +276,8 @@ class Editor extends Component {
     if (this.state.loading) {
       return <Loader />
     }
-    console.log('this.state.appResource', this.state.appResource)
+    console.log('this.state.appResource in Editor', this.state.appResource)
+    console.log('this.state.resources in Editor', this.state.resources)
 
     return (
       <UI
@@ -286,6 +285,7 @@ class Editor extends Component {
           <Sidebar
             resources={this.state.resources.filter((resource) => this.props.editableResources && this.props.editableResources.includes(resource.name))}
             activeResource={this.state.activeResource}
+            activeResourceName={this.state.activeResourceName}
             edit={(resourceName, resource) => {
               this.setState({
                 activeResource: resource,
@@ -311,7 +311,7 @@ class Editor extends Component {
                   title={this.state.appResource.title}
                   styling={this.state.appResource.styling}
                   settings={this.state.appResource.settings}
-                  resourcesData={this.state.appResource.resources}
+                  resourcesData={this.state.resources}
                   resourceSchemas={this.props.resourceSchemas}
                   navigationSettings={this.state.appResource.navigationSettings}
                   screens={this.state.appResource.screens}
@@ -329,7 +329,7 @@ class Editor extends Component {
               activeResource={this.state.activeResource}
               resourceName={this.state.activeResourceName}
               update={(key, value) => {
-                this.props.update(
+                this.updateResource(
                     this.state.activeResourceName,
                     {
                       ...this.state.activeResource,

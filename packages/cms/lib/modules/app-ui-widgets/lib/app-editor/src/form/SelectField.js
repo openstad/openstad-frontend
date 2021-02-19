@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-const Select = ({options, activeValue}) => {
+const Select = ({update, options, activeValue}) => {
     return (
         <select
             onChange={(event) => {
-                this.props.update(event.currentTarget.value)
+                update(event.currentTarget.value)
             }}
         >
             {options.map((option) => {

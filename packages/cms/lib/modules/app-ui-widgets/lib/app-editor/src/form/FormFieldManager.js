@@ -3,6 +3,8 @@ import { AudioUploadField, ImagesUploadField, TextField, LocationPicker, ObjectF
 import PropTypes from "prop-types";
 import Section from '../editor-ui/layout/Section';
 
+import {makeCamelCasePretty} from '../utils';
+
 const componentstMap = {
   'audio'   :{
     component: AudioUploadField,
@@ -38,7 +40,7 @@ function FormFieldManager(props) {
     <>
       {props.fields.map((field)  => {
         const FormField =  componentstMap[field.type] ? componentstMap[field.type].component : false;
-        const label = field.label ? field.label : field.key.ucfirst();
+        const label = field.label ? field.label : makeCamelCasePretty(field.key);
         // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
         return (
           <Section title={field.label}>

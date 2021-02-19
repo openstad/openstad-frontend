@@ -625,5 +625,6 @@ export default {
   exercise: exerciseSchema,
   recipe: recipeSchema,
   membership: membershipSchema,
-  userActivity:
+  subscription: subscriberSchema,
+  userActivity: userActivitySchema
 }

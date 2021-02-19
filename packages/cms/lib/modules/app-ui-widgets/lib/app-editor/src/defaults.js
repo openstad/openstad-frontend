@@ -1,9 +1,5 @@
 import WorkoutAppDefaults from './defaults/WorkoutApp';
 
-console.log('WorkoutAppDefaults', WorkoutAppDefaults)
-
-const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1)
-
 
 const defaultSettings = {
 
@@ -15,11 +11,11 @@ const defaultNavigation = {
 
 const defaultStyling = {
   header: {
-    logo: {
+  /*  logo: {
       src: 'https://neuromindset.com/wp-content/uploads/2019/10/Logo_NeuroMindset_Blanco_horizontal_web-contorno.png',
       width: 330,
       height: 55
-    },
+    },*/
     styles: {
       elevation: 0, // remove shadow on Android
       shadowOpacity: 0, // remove shadow on iOS

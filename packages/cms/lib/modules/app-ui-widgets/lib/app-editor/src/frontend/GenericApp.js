@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Platform, StyleSheet} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
+//import Ionicons from 'react-native-web-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -171,6 +171,7 @@ class GenericApp extends Component {
                                                         resourcesData={this.props.resourcesData}
                                                         resourceSchemas={this.props.resourceSchemas}
                                                         resource={resourceName}
+
                                                         {...screen}
                                                     />
                                                 }

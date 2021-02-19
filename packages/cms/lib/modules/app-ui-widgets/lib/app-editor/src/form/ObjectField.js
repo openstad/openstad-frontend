@@ -36,7 +36,7 @@ class ObjectField extends Component {
                     fields={this.props.fields}
                 />
             })}
-            <a href="#" className="plus-icon" onClick={this.props.new.bind(this)}> +</a>
+            <a href="#" className="plus-icon" onClick={this.new.bind(this)}> +</a>
         </>
     }
 }

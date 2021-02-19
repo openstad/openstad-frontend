@@ -54,6 +54,10 @@ function ComponentManager(props) {
   return (
     <>
       {props.components.map((component)  => {
+
+        if (!componentsMap[component.type]) {
+          return 'Component not found: ' + component.type;
+        }
         const FrontendComponent = componentsMap[component.type].component;
 
         // preComponent / postComponent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself

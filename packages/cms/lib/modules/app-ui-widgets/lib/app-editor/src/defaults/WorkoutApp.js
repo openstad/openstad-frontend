@@ -124,7 +124,7 @@ const defaultWorkoutScreens = {
                 {
                     type: 'overview',
                     props: {
-                        resource: 'Activity',
+                        resource: 'userActivity',
                         //@Todo: implement user as a source for data
                         source: 'user',
                         amount: 120,
@@ -141,7 +141,7 @@ const defaultWorkoutScreens = {
                     }
                 },
                 {
-                    type: 'MySubscription',
+                    type: 'overview',
                     props: {
                         resource: 'subscription',
                         source: 'user',
