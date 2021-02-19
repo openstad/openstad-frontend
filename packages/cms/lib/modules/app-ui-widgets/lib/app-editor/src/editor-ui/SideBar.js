@@ -5,7 +5,6 @@ import {makeCamelCasePretty} from '../utils';
 
 
 function Sidebar (props) {
-    console.log('props.resources in sidebar', props.resources)
   return (
     <>
       <Section title="General">
@@ -15,7 +14,7 @@ function Sidebar (props) {
         </a>
       </ListItem>
       </Section>
-      {props.resources.map((resource) => {
+      {props.resources.map((resource, i) => {
         let resourceItems = [];
 
         if (resource.items) {
@@ -25,7 +24,7 @@ function Sidebar (props) {
         }
 
         return (
-          <Section title={makeCamelCasePretty(resource.name)}>
+          <Section title={makeCamelCasePretty(resource.name)} key={i}>
             {resourceItems.map(function(resourceItem) {
               var active = props.activeResource && resourceItem.id === props.activeResource.id && resource.name === props.activeResourceName;
               var linkClassName = active ? "list-link active" : "list-link";

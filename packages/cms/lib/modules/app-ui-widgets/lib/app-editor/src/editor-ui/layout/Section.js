@@ -31,9 +31,9 @@ class Section extends Component {
 
         }}>
           <h3 className=""> {this.props.title} </h3>
-          {collapsible && <span href="#" className="section-toggle-icon"> <img src="/chevron.svg" class="chevron-icon"/> </span>}
+          {collapsible && <span href="#" className="section-toggle-icon"> <img src="/chevron.svg" className="chevron-icon"/> </span>}
         </a>
-        <div class="section-content">
+        <div className="section-content">
           {this.props.children}
         </div>
       </div>

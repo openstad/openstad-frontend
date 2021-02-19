@@ -13,6 +13,7 @@ import UI from'./editor-ui/UI';
 import GenericApp from "./frontend/GenericApp";
 import appResource  from "./defaults";
 import ResourceForm from "./ResourceForm";
+import resourceSchemas from "./config/resourceSchemas";
 
 const preCompononent = (props) => {
   return (
@@ -143,12 +144,13 @@ class Editor extends Component {
   }
 
   getDefaultResource (resourceName) {
-    const defaultResource = this.state.resources.find(resource => resource.name === resourceName).default;
-    return defaultResource ? defaultResource : {};
+    const resourceSchema = resourceSchemas[resourceName];
+    return resourceSchema && resourceSchema.defaultValues ? resourceSchema.defaultValues : {};
   }
 
   newResource(resourceName) {
     const newResource = this.getDefaultResource(resourceName);
+    console.log('newResource', newResource)
     const resourceItems = this.getResourceItems(resourceName);
 
     var lastResource = resourceItems[resourceItems.length - 1];
@@ -170,6 +172,8 @@ class Editor extends Component {
   updateResource(resourceName, updateResource) {
 
     let activeResource = this.state.activeResource;
+
+    console.log('activeResource', activeResource)
 
     const resources = this.state.resources.map((resource) => {
       if (resourceName === resource.name) {

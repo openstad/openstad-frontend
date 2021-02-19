@@ -53,8 +53,7 @@ const componentsMap = {
 function ComponentManager(props) {
   return (
     <>
-      {props.components.map((component)  => {
-
+      {props.components.map((component, i)  => {
         if (!componentsMap[component.type]) {
           return 'Component not found: ' + component.type;
         }
@@ -63,7 +62,7 @@ function ComponentManager(props) {
         // preComponent / postComponent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
 
         return (
-          <>
+          <div key={i}>
             {props.preComponent && <props.preComponent />}
             <FrontendComponent
               {...component.props}
@@ -73,7 +72,7 @@ function ComponentManager(props) {
               navigation={props.navigation}
             />
             {props.postComponent && <props.postComponent />}
-          </>
+          </div>
         )
       })}
     </>

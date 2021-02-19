@@ -170,10 +170,10 @@ body .filepond--panel-center {
   border-radius: 0 0 5px 5px;
   padding: 0 10px 0;
   display: block;
+}
 
-  &--active {
+.autocomplete-dropdown-container--active {
     display: block;
-  }
 }
 
 .suggestion-item, .suggestion-item--active {

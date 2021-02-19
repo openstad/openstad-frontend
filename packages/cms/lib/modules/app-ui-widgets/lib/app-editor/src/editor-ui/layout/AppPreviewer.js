@@ -8,7 +8,7 @@ import './Layout.css';
 function AppPreviewer (props) {
   return (
     <div className>
-      <div class="device-selector">
+      <div className="device-selector">
         <a href="#"> <img src="/icon-mobile.svg" /> </a>
         <a href="#"> <img src="/icon-tablet.svg" /> </a>
         <a href="#"> <img src="/icon-desktop.svg" /> </a>

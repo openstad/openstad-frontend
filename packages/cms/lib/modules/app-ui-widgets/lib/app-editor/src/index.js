@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import appResource from './defaults';
@@ -8,6 +10,8 @@ import Editor from './Editor';
 import editorSettings from './editorSettings';
 import {ComponentEditMenu} from './editor-ui/elements';
 import ResourceSchemas from './config/resourceSchemas'
+
+
 
 const preCompononent = (props) => {
     return (

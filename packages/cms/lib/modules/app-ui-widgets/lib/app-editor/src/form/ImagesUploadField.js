@@ -1,6 +1,6 @@
-import React, { Component, useLocation } from 'react';
+import React, { Component } from 'react';
 import "leaflet/dist/leaflet.css";
-import { FilePond, File, registerPlugin } from 'react-filepond'
+import { FilePond, registerPlugin } from 'react-filepond';
 // `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -9,6 +9,8 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
+
+
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFilePoster, FilePondPluginFileValidateType)
 

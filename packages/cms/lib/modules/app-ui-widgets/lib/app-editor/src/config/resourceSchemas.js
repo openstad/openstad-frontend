@@ -4,6 +4,7 @@ const defaultImageFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 const defaultVideoFileTypes = ['video/mp4', 'video/mp4'];
 const defaultMaxSize = [];
 
+
 // local resources are managed within the application
 const stepSchema = {
   // if api is set, it has it's own
@@ -106,6 +107,7 @@ const workoutSchema = {
       key: 'title',
       type: 'text',
       label: 'title',
+      default: 'New Workout',
       validation: {
         required: true,
         minLength: 2,
@@ -618,7 +620,8 @@ const wordsSchema = {
   ]
 };
 
-export default {
+
+const schemas = {
   step: stepSchema,
   workoutProgram: workoutProgramSchema,
   workout: workoutSchema,
@@ -628,3 +631,21 @@ export default {
   subscription: subscriberSchema,
   userActivity: userActivitySchema
 }
+
+// do some formatting for all schema's
+Object.keys(schemas).forEach((schemaKey) => {
+  const schema = schemas[schemaKey];
+  let defaultValues = {};
+
+  // create a default resource object based upon the field settings
+  schema.fields.filter(field => field.default).forEach((field) => {
+    defaultValues[field.key] = field.default;
+  });
+
+  schemas[schemaKey] = {
+    ...schema,
+    defaultValues: defaultValues ? defaultValues : {}
+  }
+});
+
+export default schemas;
