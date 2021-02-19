@@ -234,14 +234,6 @@ module.exports = {
               label: 'Postcode',
               value: 'postcode',
             },
-            {
-              label: 'Image upload',
-              value: 'image-upload',
-            },
-            {
-              label: 'Locatie picker',
-              value: 'location-picker',
-            }
           ]
         },
         {
