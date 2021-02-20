@@ -1,6 +1,3 @@
-@import('filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css');
-@import('filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css');
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

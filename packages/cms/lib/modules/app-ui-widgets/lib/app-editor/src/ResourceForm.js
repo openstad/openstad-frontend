@@ -16,7 +16,7 @@ class ResourceForm extends Component {
         // in the future we will add external
         // "saves"
         return(
-            <form>
+            <form key={`${this.props.resourceName}-${this.props.activeResource.id}`}>
                 {resourceSchema.description && <div className={"info-container"}>
                     {resourceSchema.description}
                 </div>}

@@ -70,6 +70,7 @@ function ComponentManager(props) {
               resourceSchemas={props.resourceSchemas}
               resourcesData={props.resourcesData}
               navigation={props.navigation}
+              formatResourceScreenName={props.formatResourceScreenName}
             />
             {props.postComponent && <props.postComponent />}
           </div>

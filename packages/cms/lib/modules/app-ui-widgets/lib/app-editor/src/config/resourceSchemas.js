@@ -24,6 +24,7 @@ const stepSchema = {
     {
       key: 'title',
       type: 'text',
+      default: 'New step...'
     },
     {
       key: 'description',
@@ -245,6 +246,7 @@ const workoutProgramSchema = {
       key: 'title',
       type: 'text',
       label: 'title',
+      default: 'New workout program...',
       validation: {
         required: true,
         minLength: 2,
@@ -298,6 +300,7 @@ const exerciseSchema = {
       key: 'title',
       type: 'text',
       label: 'title',
+      default: 'New excercise...',
       validation: {
         required: true,
         minLength: 2,
@@ -349,6 +352,7 @@ const membershipSchema = {
       key: 'title',
       type: 'text',
       label: 'title',
+      default: 'New membership...',
       validation: {
         required: true,
         minLength: 2,

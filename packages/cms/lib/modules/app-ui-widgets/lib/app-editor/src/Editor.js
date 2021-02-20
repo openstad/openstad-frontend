@@ -145,12 +145,16 @@ class Editor extends Component {
 
   getDefaultResource (resourceName) {
     const resourceSchema = resourceSchemas[resourceName];
-    return resourceSchema && resourceSchema.defaultValues ? resourceSchema.defaultValues : {};
+    const defaultValues = resourceSchema && resourceSchema.defaultValues ? resourceSchema.defaultValues : {};
+
+    // make sure it;s not a reference
+    return {
+      ...defaultValues
+    }
   }
 
   newResource(resourceName) {
     const newResource = this.getDefaultResource(resourceName);
-    console.log('newResource', newResource)
     const resourceItems = this.getResourceItems(resourceName);
 
     var lastResource = resourceItems[resourceItems.length - 1];
@@ -197,8 +201,9 @@ class Editor extends Component {
       activeResource: activeResource
     });
 
-    // might not be necessary after every
-    this.fetchRoutes();
+    if (resourceName === 'step') {
+      this.fetchRoutes();
+    }
 
     this.synchData();
   }
@@ -228,7 +233,7 @@ class Editor extends Component {
   }
 
   synchData() {
-    var app = this.state.appResource;
+    const app = this.state.appResource;
 
     app.revisions = app.revisions ? app.revisions : [];
 
@@ -238,7 +243,7 @@ class Editor extends Component {
       resources: this.state.resources
     })
 
-    axios.put(`/api/tour/${app.id}`, app)
+    axios.put(`/api/tour/${this.props.appId}`, app)
       .then(function (response) {
 
       /*  this.setState({

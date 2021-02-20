@@ -174,6 +174,9 @@ class GenericApp extends Component {
                                                         resourcesData={this.props.resourcesData}
                                                         resourceSchemas={this.props.resourceSchemas}
                                                         resource={resourceName}
+                                                        formatResourceScreenName={(resourceName) => {
+                                                            return  screen.name+'-'+ resourceName;
+                                                        }}
                                                         {...screen}
                                                     />
                                                 }
@@ -194,6 +197,7 @@ class GenericApp extends Component {
                                                             resourcesData={this.props.resourcesData}
                                                             resources={this.props.resources}
                                                             resource={resourceName}
+                                                            screenName={screenName}
                                                             {...subScreen}
                                                         />
                                                     }

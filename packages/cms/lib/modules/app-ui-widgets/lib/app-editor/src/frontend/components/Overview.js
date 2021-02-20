@@ -71,9 +71,12 @@ const DisplayItems = (props) => {
     return (
         <View>
             {props.items.map((item, i) => {
+                console.log('props.resource', props.resource)
+                console.log('display items item', item)
+
                 return (
-                    <TouchableHighlight onPress={() => props.navigation.navigate(props.resource, {id: item.id})}>
-                        <DisplayItem {...props} item={item} key={i}/>
+                    <TouchableHighlight onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} key={i}>
+                        <DisplayItem {...props} item={item} />
                     </TouchableHighlight>
                 )
             })}

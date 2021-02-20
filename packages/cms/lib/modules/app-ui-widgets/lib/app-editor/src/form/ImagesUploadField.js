@@ -7,10 +7,9 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
+import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
-
-
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFilePoster, FilePondPluginFileValidateType)
 
@@ -41,9 +40,12 @@ class ImageUploadField extends Component {
         }
       }) : false;
 
-      this.setState({
-        images: currentImages
-      })
+      if (currentImages) {
+          this.setState({
+              images: currentImages
+          })
+      }
+
     }
 
     updateImages(images, newImage) {
