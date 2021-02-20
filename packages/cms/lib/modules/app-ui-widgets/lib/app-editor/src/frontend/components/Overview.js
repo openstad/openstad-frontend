@@ -12,9 +12,25 @@ import {Link} from '@react-navigation/native';
 const styles = StyleSheet.create({
     container: {
         fontFamily: "Cochin"
-    }
+    },
+
 });
 
+const cardStyles = {
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
+    height: 180,
+    width: 150,
+    borderRadius: 5,
+    background: '#FFF'
+}
 const defaultListItemStylesOuter = {
     marginBottom: 8
 }
@@ -35,15 +51,15 @@ const Loader = (props) => {
 const CardItem = (props) => {
     const titleKey = props.titleKey ? props.titleKey : 'title';
 
-    return <Text> {props.item[titleKey]}  </Text>;
+    return <View style={cardStyles}>
+        <Text>{props.item[titleKey]}</Text>
+    </View>
 }
 
 const ListItem = (props) => {
     const titleKey = props.titleKey ? props.titleKey : 'title';
     const innerStyles = {...defaultListItemStylesInner, ...(props.styles || {})}
     let backgroundImage = props.backgroundImageKey && props.item[props.backgroundImageKey] ? props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
-
-    console.log('backgroundImage',  backgroundImage)
 
     // in case backgroundImage is an array grab first image
     backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
@@ -59,7 +75,6 @@ const ListItem = (props) => {
             </SafeBackgroundImage>
         </View>
     );
-    ;
 }
 
 const displayTypes = {
@@ -85,6 +100,13 @@ const DisplayItems = (props) => {
         </View>
     )
 }
+
+const OverviewContainer = (props) => {
+    return props.scroll === 'horizontal' ?
+        <ScrollView></ScrollView>
+        :
+        <View></View>
+ }
 
 const ResourceOverview = (props) => {
 
