@@ -146,7 +146,7 @@ const workoutSchema = {
       type: 'image',
       multiple: true,
       description: 'First image is used as image',
-      label: 'Images',
+      label: 'Video',
       validation: {
         required: true,
         allowedFileTypes: defaultVideoFileTypes
@@ -203,6 +203,7 @@ const workoutSchema = {
 }
 
 const workoutProgramSchema = {
+  local: true,
   screens : [
     {
       name: "workoutProgramDetail",

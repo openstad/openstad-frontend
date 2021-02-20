@@ -49,6 +49,7 @@ function FormFieldManager(props) {
               activeValue={props.activeResource ? props.activeResource[field.key] : null}
               activeResource={props.activeResource}
               update={(value) => {
+                console.log('update formfield with key', field.key, ' and value ', value);
                 props.update(field.key, value)
               }}
             />}

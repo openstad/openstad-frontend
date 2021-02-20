@@ -43,8 +43,12 @@ const ListItem = (props) => {
     const innerStyles = {...defaultListItemStylesInner, ...(props.styles || {})}
     let backgroundImage = props.backgroundImageKey && props.item[props.backgroundImageKey] ? props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
 
+    console.log('backgroundImage',  backgroundImage)
+
     // in case backgroundImage is an array grab first image
     backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
+
+    console.log('backgroundImage',  backgroundImage)
 
     return (
         <View style={defaultListItemStylesOuter}>
@@ -74,11 +78,9 @@ const DisplayItems = (props) => {
                 console.log('props.resource', props.resource)
                 console.log('display items item', item)
 
-                return (
-                    <TouchableHighlight onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} key={i}>
-                        <DisplayItem {...props} item={item} />
-                    </TouchableHighlight>
-                )
+                return props.linkToScreen ? <TouchableHighlight key={i} onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} >
+                    <DisplayItem {...props} item={item} />
+                </TouchableHighlight> : <DisplayItem {...props} item={item} key={i} />
             })}
         </View>
     )
@@ -114,7 +116,7 @@ const ResourceOverview = (props) => {
 
                 // if local the resources are loaded with the react app
                 if (resourceSchema.local) {
-                    console.log('props.resourcesData', props.resourcesData)
+
                     const resourceData = props.resourcesData.find(resource => {
                         return resource.name === resourceName;
                     });
@@ -142,7 +144,7 @@ const ResourceOverview = (props) => {
     return (
         <View style={styles.container}>
             {resources.items ?
-                <DisplayItems {...props} items={resources.items}/> :
+                <DisplayItems key={'resource-items-'+resourceName} {...props} items={resources.items}/> :
                 (resources.isFetching ? <Loader/> : <NoResults/>)
             }
         </View>

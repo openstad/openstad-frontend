@@ -23,7 +23,8 @@ class ImageUploadField extends Component {
     }
 
     handleInit() {
-      const currentImages = this.props.images ? this.props.images.map(function (image) {
+      const currentImages = this.props.activeValue ? this.props.activeValue.map(function (image) {
+
         return {
           source: {url: image},
           options: {
@@ -48,7 +49,12 @@ class ImageUploadField extends Component {
 
     }
 
+    // the way filepond react deals with uploads is a little bit awkward to make work nice with
+    // react data but anyway this works
     updateImages(images, newImage) {
+        console.log('Images', images)
+        console.log('newImage', newImage)
+
       if (images) {
       images = images
         .filter(function (fileItem) {
@@ -61,7 +67,7 @@ class ImageUploadField extends Component {
         });
 
         if (newImage) {
-          images = [newImage].concat(images);
+          images = [newImage.url].concat(images);
         }
 
         this.props.update(images);

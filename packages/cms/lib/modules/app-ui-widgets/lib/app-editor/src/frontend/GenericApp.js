@@ -5,7 +5,8 @@ import {Logo} from './layout';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Platform, StyleSheet} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import ScreenStackNavigator from './ScreenStackNavigator';
+
 //import Ionicons from 'react-native-web-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -56,72 +57,13 @@ class GenericApp extends Component {
             );
         }
 
-        const linking = {
-            ///  prefixes: ['https://mychat.com', 'mychat://'],
-            config: {
-                screens: {
-                    game: 'game/:id',
-                },
-            },
-        };
-
         return (
             <View style={{
                 height: Platform.OS === 'web' ? '100%' : '100%',
-                backgroundColor: 'red',
                 flex: 1
                 //  ...this.props.styling.body.styles
             }}>
-                {/*
-                <NavigationContainer linking={linking}>
-                    <Stack.Navigator
-                        screenOptions={{
-                            headerTitle: props => <Logo {...this.props.styling.header.logo} />,
-                            headerTitleAlign: 'center',
-                            headerStyle: this.props.styling.header,
-                            headerTintColor: '#fff',
-                            headerTitleStyle: {
-                                fontWeight: 'bold',
-                            },
-                        }}
-                    >
-                        {this.props.isSignedIn ? (
-                                <>
-                                    {this.props.screens.items.map((screen) => {
-
-                                        const ScreenComponent = ScreenComponents[screen.type];
-                                        const screenName = screen.name ? screen.name : 'Naam';
-                                        const resourceName = screen.type === 'resource' ? screen.name : false;
-
-                                        return (
-                                            <>
-                                                <Stack.Screen name={screenName}>
-                                                    {props =>
-                                                        <ScreenComponent
-                                                            {...props}
-                                                            resources={this.props.resources}
-                                                            resource={resourceName}
-                                                            {...screen}
-                                                        />
-                                                    }
-                                                </Stack.Screen>
-
-                                            </>
-                                        )
-                                    })}
-                                </>)
-                            :
-                            (
-                                <>
-                                    <Stack.Screen name="SignIn" component={SignInScreen}/>
-                                    <Stack.Screen name="SignUp" component={SignUpScreen}/>
-                                </>
-                            )}
-                    </Stack.Navigator>
-                </NavigationContainer>
-                */}
                 <NavigationContainer
-                    linking={linking}
                 >
                     <Tab.Navigator
                         screenOptionsTest={({ route }) => ({
@@ -144,67 +86,21 @@ class GenericApp extends Component {
                         {this.props.screens.items.filter((screen) => {
                             return screen.inTabNavigation;
                         }).map((screen, i) => {
-                            const ScreenComponent = ScreenComponents[screen.type];
-                            const resourceName = screen.type === 'resource' ? screen.name : false;
-                            const Stack = createStackNavigator();
 
-                            console.log('screen.name', screen.name)
-
+                            /*{props =>
+                                ScreenStackNavigator
+                            }*/
                             return (
                                 <Tab.Screen
                                     name={screen.name}
-                                    key={i}
+                                    key={'tab' + i}
                                 >
-                                    {props =>
-                                        <Stack.Navigator
-                                            screenOptions={{
-                                                //headerTitle: props => <Logo {...this.props.styling.header.logo} />,
-                                                headerTitleAlign: 'center',
-                                                headerStyle: this.props.styling.header,
-                                                headerTintColor: '#fff',
-                                                headerTitleStyle: {
-                                                    fontWeight: 'bold',
-                                                },
-                                            }}
-                                        >
-                                            <Stack.Screen name={screen.name}>
-                                                {props =>
-                                                    <ScreenComponent
-                                                        {...props}
-                                                        resourcesData={this.props.resourcesData}
-                                                        resourceSchemas={this.props.resourceSchemas}
-                                                        resource={resourceName}
-                                                        formatResourceScreenName={(resourceName) => {
-                                                            return  screen.name+'-'+ resourceName;
-                                                        }}
-                                                        {...screen}
-                                                    />
-                                                }
-                                            </Stack.Screen>
-
-                                            {this.props.screens.items.filter((subScreen) => {
-                                                return !subScreen.inTabNavigation && subScreen.name;
-                                            }).map((subScreen, j) => {
-                                                const ScreenComponent = ScreenComponents[subScreen.type];
-                                                const screenName = subScreen.name ? screen.name+'-'+ subScreen.name : 'Naam';
-                                                const resourceName = subScreen.type === 'resource' ? subScreen.name : false;
-
-                                                return (
-                                                    <Stack.Screen name={screenName} key={j}>
-                                                    {props =>
-                                                        <ScreenComponent
-                                                            {...props}
-                                                            resourcesData={this.props.resourcesData}
-                                                            resources={this.props.resources}
-                                                            resource={resourceName}
-                                                            screenName={screenName}
-                                                            {...subScreen}
-                                                        />
-                                                    }
-                                                    </Stack.Screen>
-                                                )
-                                            })}
-                                        </Stack.Navigator>
+                                    {(props) =>
+                                        <ScreenStackNavigator
+                                            {...props}
+                                            {...this.props}
+                                            screen={screen}
+                                        />
                                     }
                                 </Tab.Screen>
                             )

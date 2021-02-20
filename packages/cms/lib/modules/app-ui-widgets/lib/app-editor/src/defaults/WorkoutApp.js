@@ -68,18 +68,19 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
-                        title: 'Workout programs'
+                        title: 'Programs'
                     }
                 },
                 {
                     type: 'overview',
                     props: {
                         resource: 'workoutProgram',
+                        linkToScreen: true,
                         amount: 120,
                         displayType: 'card',
                         scroll: "horizontal",
                         titleKey: 'title',
-                        backgroundImageKey: 'images'
+                        backgroundImageKey: 'image'
                     }
                 },
                 {
@@ -92,8 +93,9 @@ const defaultWorkoutScreens = {
                     type: 'overview',
                     props: {
                         resource: 'workout',
+                        linkToScreen: true,
                         amount: 120,
-                        displayType: 'card',
+                        displayType: 'list',
                         scroll: "horizontal",
                         titleKey: 'title',
                         backgroundImageKey: 'images'

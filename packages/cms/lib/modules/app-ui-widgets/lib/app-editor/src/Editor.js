@@ -170,14 +170,15 @@ class Editor extends Component {
       activeResource: newResource,
       activeResourceName: resourceName,
       displaySettingsModal: false
-    })
+    });
+
+    this.synchData();
+
   }
 
   updateResource(resourceName, updateResource) {
 
     let activeResource = this.state.activeResource;
-
-    console.log('activeResource', activeResource)
 
     const resources = this.state.resources.map((resource) => {
       if (resourceName === resource.name) {
@@ -206,6 +207,8 @@ class Editor extends Component {
     }
 
     this.synchData();
+
+    this.forceUpdate();
   }
 
   fetchApp () {
