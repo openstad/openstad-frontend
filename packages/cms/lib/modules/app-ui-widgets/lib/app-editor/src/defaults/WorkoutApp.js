@@ -75,7 +75,7 @@ const defaultWorkoutScreens = {
                     type: 'overview',
                     props: {
                         resource: 'workoutProgram',
-                        linkToScreen: true,
+                        linkToScreen: false,
                         amount: 120,
                         displayType: 'card',
                         scroll: "horizontal",
@@ -96,7 +96,6 @@ const defaultWorkoutScreens = {
                         linkToScreen: true,
                         amount: 120,
                         displayType: 'list',
-                        scroll: "horizontal",
                         titleKey: 'title',
                         backgroundImageKey: 'images'
                     }

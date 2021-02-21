@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {View, Text, StyleSheet, ImageBackground, TouchableHighlight} from "react-native";
+import {ScrollView, View, Text, StyleSheet, ImageBackground, TouchableHighlight} from "react-native";
 import {SafeBackgroundImage} from "./presentation";
 import {Link} from '@react-navigation/native';
+import Carousel from 'react-native-snap-carousel';
 
 /**
  * @Todo
@@ -27,7 +28,7 @@ const cardStyles = {
 
     elevation: 4,
     height: 180,
-    width: 150,
+    width: 100,
     borderRadius: 5,
     background: '#FFF'
 }
@@ -88,24 +89,37 @@ const DisplayItems = (props) => {
     const DisplayItem = props.displayType ? displayTypes[props.displayType] : displayTypes['list'];
 
     return (
-        <View>
+        <>
             {props.items.map((item, i) => {
                 console.log('props.resource', props.resource)
                 console.log('display items item', item)
 
-                return props.linkToScreen ? <TouchableHighlight key={i} onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} >
-                    <DisplayItem {...props} item={item} />
-                </TouchableHighlight> : <DisplayItem {...props} item={item} key={i} />
+                return <DisplayItem item={item} />
             })}
-        </View>
+        </>
     )
+}
+
+const DisplayItem = (props) => {
+    const item = props.item;
+
+    return props.linkToScreen ? <TouchableHighlight key={item.id} onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} >
+        <DisplayItem {...props} item={item} />
+    </TouchableHighlight> : <DisplayItem {...props} item={item} key={item.id} />
 }
 
 const OverviewContainer = (props) => {
     return props.scroll === 'horizontal' ?
-        <ScrollView></ScrollView>
+        <Carousel
+            ref={(c) => { this._carousel = c; }}
+            data={props.items}
+            renderItem={({item, index}) => {
+                return <DisplayItem />
+            }}
+        />
         :
-        <View></View>
+        <View>{props.children}</View>
+
  }
 
 const ResourceOverview = (props) => {
@@ -164,14 +178,26 @@ const ResourceOverview = (props) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <OverviewContainer style={styles.container} {...props}>
             {resources.items ?
                 <DisplayItems key={'resource-items-'+resourceName} {...props} items={resources.items}/> :
                 (resources.isFetching ? <Loader/> : <NoResults/>)
             }
-        </View>
+        </OverviewContainer>
     );
 };
+
+/*
+/*                <FlatList
+                    style={styles.container}
+                    {...props}
+                    data={resources.items}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item: rowData }) => {
+                        return <DisplayItem item={rowData} key={'resource-items-'+resourceName} {...props} />
+                    }}
+                />
+ */
 
 const Overview = (props) => {
     return <ResourceOverview {...props} />;
