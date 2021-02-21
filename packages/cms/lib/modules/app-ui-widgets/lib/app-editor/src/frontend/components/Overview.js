@@ -3,7 +3,7 @@ import axios from "axios";
 import {ScrollView, View, Text, StyleSheet, ImageBackground, TouchableHighlight} from "react-native";
 import {SafeBackgroundImage} from "./presentation";
 import {Link} from '@react-navigation/native';
-import Carousel from 'react-native-snap-carousel';
+//import Carousel from 'react-native-snap-carousel';
 
 /**
  * @Todo
@@ -110,16 +110,13 @@ const DisplayItem = (props) => {
 
 const OverviewContainer = (props) => {
     return props.scroll === 'horizontal' ?
-        <Carousel
-            ref={(c) => { this._carousel = c; }}
-            data={props.items}
-            renderItem={({item, index}) => {
-                return <DisplayItem />
-            }}
-        />
+        <ScrollView horizontal style={{
+            flex: 1,
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+        }}>{props.children}{props.children}{props.children}</ScrollView>
         :
         <View>{props.children}</View>
-
  }
 
 const ResourceOverview = (props) => {
@@ -197,10 +194,18 @@ const ResourceOverview = (props) => {
                         return <DisplayItem item={rowData} key={'resource-items-'+resourceName} {...props} />
                     }}
                 />
+
+<Carousel
+ref={(c) => { this._carousel = c; }}
+data={props.items}
+renderItem={({item, index}) => {
+return <DisplayItem />
+}}
+/>
  */
 
 const Overview = (props) => {
-    return <ResourceOverview {...props} />;
+    return <ResourceOverview {...props} />
 }
 
 export default Overview;

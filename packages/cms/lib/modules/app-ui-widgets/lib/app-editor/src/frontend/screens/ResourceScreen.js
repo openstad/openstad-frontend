@@ -1,8 +1,8 @@
 /* Layout elements */
 import React, {Component, useEffect, useState} from "react";
 import ComponentManager from '../ComponentManager';
-import {View, Text} from "react-native";
 import axios from 'axios';
+import { View, Text, ScrollView } from "react-native";
 
 const Loader = (props) => {
     return <Text> Loading... </Text>;
@@ -48,7 +48,7 @@ const ResourceScreen = (props) => {
     }, []);
 
     return (
-        <View style={{
+        <ScrollView style={{
             flex: 1
         }}>
             {resource.isFetching ?
@@ -59,7 +59,7 @@ const ResourceScreen = (props) => {
                     activeResource={resource.item}
                 />
             }
-        </View>
+        </ScrollView>
     )
 }
 

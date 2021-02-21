@@ -1,4 +1,4 @@
-import { navigation } from '@react-navigation/native';
+import {navigation} from '@react-navigation/native';
 
 const defaultImageFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 const defaultVideoFileTypes = ['video/mp4', 'video/mp4'];
@@ -7,546 +7,546 @@ const defaultMaxSize = [];
 
 // local resources are managed within the application
 const stepSchema = {
-  // if api is set, it has it's own
-  // means no REST api, but resources save to the API
-  local: true,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  name: 'step',
-  fields: [
-    {
-      key: 'location',
-      type: 'location',
-      label: 'Location'
+    // if api is set, it has it's own
+    // means no REST api, but resources save to the API
+    local: true,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'title',
-      type: 'text',
-      default: 'New step...'
-    },
-    {
-      key: 'description',
-      type: 'text',
-      textarea: true
-    },
-    {
-      key: 'audio',
-      type: 'audio',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true
-    },
-  ],
-  default: {
-      title: 'New...',
-      position: [52.360506, 4.908971],
-  }
+    name: 'step',
+    fields: [
+        {
+            key: 'location',
+            type: 'location',
+            label: 'Location'
+        },
+        {
+            key: 'title',
+            type: 'text',
+            default: 'New step...'
+        },
+        {
+            key: 'description',
+            type: 'text',
+            textarea: true
+        },
+        {
+            key: 'audio',
+            type: 'audio',
+        },
+        {
+            key: 'images',
+            type: 'image',
+            multiple: true
+        },
+    ],
+    default: {
+        title: 'New...',
+        position: [52.360506, 4.908971],
+    }
 }
 
 const workoutSchema = {
-  // if api is set
-  // means no REST api, but resources save to the API
-  local: true,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
+    // if api is set
+    // means no REST api, but resources save to the API
+    local: true,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
+    },
 
-  screens: [
-    {
-      name: "workoutDetail",
-      components: [
+    screens: [
         {
-          type: 'images',
-          props: {
-            key: 'src'
-          }
+            name: "workoutDetail",
+            components: [
+                {
+                    type: 'images',
+                    props: {
+                        key: 'src'
+                    }
+                },
+                {
+                    type: 'title',
+                    props: {
+                        key: 'title'
+                    }
+                },
+                {
+                    type: 'richText',
+                    props: {
+                        key: 'description'
+                    }
+                },
+                {
+                    type: 'button',
+                    props: {
+                        buttonText: 'Start workout',
+                        onPress: () => {
+                            /* 1. Navigate to the Details route with params */
+                            navigation.navigate('Details', {
+                                itemId: 86,
+                                otherParam: 'anything you want here',
+                            });
+                        }
+                    }
+                },
+            ],
         },
         {
-          type: 'title',
-          props: {
-            key: 'title'
-          }
-        },
-        {
-          type: 'richText',
-          props: {
-            key: 'description'
-          }
-        },
-        {
-          type: 'button',
-          props: {
-            buttonText: 'Start workout',
-            onPress: () => {
-              /* 1. Navigate to the Details route with params */
-              navigation.navigate('Details', {
-                itemId: 86,
-                otherParam: 'anything you want here',
-              });
-            }
-          }
-        },
-      ],
-    },
-    {
-      name: "workout",
-      components: [
-        {
-          type: 'ExcerciseWorkout',
+            name: "workout",
+            components: [
+                {
+                    type: 'ExcerciseWorkout',
+                }
+            ],
         }
-      ],
-    }
-  ],
-  name: '',
-  fields: [
-    {
-      key: 'title',
-      type: 'text',
-      label: 'title',
-      default: 'New Workout',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
-    },
-    {
-      key: 'description',
-      type: 'text',
-      textarea: true,
-      label: 'Description',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true,
-      description: 'First one is used for overview',
-      label: 'Images',
-      validation: {
-        required: true,
-        allowedFileTypes: defaultImageFileTypes
-      },
-      sanitize: 'alphaNumeric'
-    },
-    {
-      key: 'video',
-      type: 'image',
-      multiple: true,
-      description: 'First image is used as image',
-      label: 'Video',
-      validation: {
-        required: true,
-        allowedFileTypes: defaultVideoFileTypes
-      },
-    },
-    {
-      key: 'type',
-      type: 'select',
-      options: [{
-        value: 'exercise',
-        label: 'Workout made with a selection of exercises'
-      },{
-        value: 'step',
-        label: 'Video workout'
-      }]
-    },
-    {
-      key: 'roleNeeded',
-      type: 'select',
-      options: [{
-        value: false,
-        label: 'Available for everyone'
-      },{
-        value: 'member',
-        label: 'Members only'
-      }]
-    },
-    {
-      displayConditions: [{
-        'type': 'exercise'
-      }],
-      key: 'steps',
-      type: 'object',
-      fields: [
+    ],
+    name: '',
+    fields: [
         {
-          key: 'type',
-          type: 'select',
-          options: [{
-            value: 'exercise',
-            label: 'Workout made with a selection of exercises'
-          },{
-            value: 'step',
-            label: 'Video workout'
-          }]
+            key: 'title',
+            type: 'text',
+            label: 'title',
+            default: 'New Workout',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
         },
         {
-          key: 'exercise',
-          type: 'relationship',
-          multiple: true
+            key: 'description',
+            type: 'text',
+            textarea: true,
+            label: 'Description',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'images',
+            type: 'image',
+            multiple: true,
+            description: 'First one is used for overview',
+            label: 'Images',
+            validation: {
+                required: true,
+                allowedFileTypes: defaultImageFileTypes
+            },
+            sanitize: 'alphaNumeric'
+        },
+        {
+            key: 'video',
+            type: 'image',
+            multiple: true,
+            description: 'First image is used as image',
+            label: 'Video',
+            validation: {
+                required: true,
+                allowedFileTypes: defaultVideoFileTypes
+            },
+        },
+        {
+            key: 'type',
+            type: 'select',
+            options: [{
+                value: 'exercise',
+                label: 'Workout made with a selection of exercises'
+            }, {
+                value: 'step',
+                label: 'Video workout'
+            }]
+        },
+        {
+            key: 'roleNeeded',
+            type: 'select',
+            options: [{
+                value: false,
+                label: 'Available for everyone'
+            }, {
+                value: 'member',
+                label: 'Members only'
+            }]
+        },
+        {
+            displayConditions: [{
+                'type': 'exercise'
+            }],
+            key: 'steps',
+            type: 'object',
+            fields: [
+                {
+                    key: 'type',
+                    type: 'select',
+                    options: [{
+                        value: 'exercise',
+                        label: 'Workout made with a selection of exercises'
+                    }, {
+                        value: 'step',
+                        label: 'Video workout'
+                    }]
+                },
+                {
+                    key: 'exercise',
+                    type: 'relationship',
+                    multiple: true
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
 
 const workoutProgramSchema = {
-  local: true,
-  screens : [
-    {
-      name: "workoutProgramDetail",
-      components: [
+    local: true,
+    screens: [
         {
-          type: 'images',
-          props: {
-            key: 'src'
-          }
+            name: "workoutProgramDetail",
+            components: [
+                {
+                    type: 'images',
+                    props: {
+                        key: 'src'
+                    }
+                },
+                {
+                    type: 'title',
+                    props: {
+                        key: 'title'
+                    }
+                },
+                {
+                    type: 'richText',
+                    props: {
+                        key: 'description'
+                    }
+                },
+                {
+                    type: 'button',
+                    props: {
+                        buttonText: 'Start workout',
+                        onPress: () => {
+                            /* 1. Navigate to the Details route with params */
+                            navigation.navigate('Details', {
+                                itemId: 86,
+                                otherParam: 'anything you want here',
+                            });
+                        }
+                    }
+                },
+            ],
+        }
+    ],
+    fields: [
+        {
+            key: 'title',
+            type: 'text',
+            label: 'title',
+            default: 'New workout program...',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
         },
         {
-          type: 'title',
-          props: {
-            key: 'title'
-          }
+            key: 'description',
+            type: 'text',
+            textarea: true,
+            label: 'Description',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
         },
         {
-          type: 'richText',
-          props: {
-            key: 'description'
-          }
+            key: 'images',
+            type: 'image',
+            multiple: true,
+            description: 'First one is used for overview',
+            label: 'Images',
+            validation: {
+                required: true,
+                allowedFileTypes: defaultImageFileTypes
+            },
+            sanitize: 'alphaNumeric'
         },
         {
-          type: 'button',
-          props: {
-            buttonText: 'Start workout',
-            onPress: () => {
-              /* 1. Navigate to the Details route with params */
-              navigation.navigate('Details', {
-                itemId: 86,
-                otherParam: 'anything you want here',
-              });
-            }
-          }
+            key: 'duration',
+            type: 'text',
+            label: 'Workout program in weeks',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
         },
-      ],
-    }
-  ],
-  fields : [
-    {
-      key: 'title',
-      type: 'text',
-      label: 'title',
-      default: 'New workout program...',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
-    },
-    {
-      key: 'description',
-      type: 'text',
-      textarea: true,
-      label: 'Description',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true,
-      description: 'First one is used for overview',
-      label: 'Images',
-      validation: {
-        required: true,
-        allowedFileTypes: defaultImageFileTypes
-      },
-      sanitize: 'alphaNumeric'
-    },
-    {
-      key: 'duration',
-      type: 'text',
-      label: 'Workout program in weeks',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
-    },
-  ]
+    ]
 }
 
 const exerciseSchema = {
-  fields: [
-    {
-      key: 'title',
-      type: 'text',
-      label: 'title',
-      default: 'New excercise...',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
-    },
-    {
-      key: 'description',
-      type: 'text',
-      textarea: true,
-      label: 'Description',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true,
-      description: 'First one is used for overview',
-      label: 'Images',
-      validation: {
-        required: true,
-        allowedFileTypes: defaultImageFileTypes
-      },
-      sanitize: 'alphaNumeric'
-    },
-  ]
+    fields: [
+        {
+            key: 'title',
+            type: 'text',
+            label: 'title',
+            default: 'New excercise...',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
+        },
+        {
+            key: 'description',
+            type: 'text',
+            textarea: true,
+            label: 'Description',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'images',
+            type: 'image',
+            multiple: true,
+            description: 'First one is used for overview',
+            label: 'Images',
+            validation: {
+                required: true,
+                allowedFileTypes: defaultImageFileTypes
+            },
+            sanitize: 'alphaNumeric'
+        },
+    ]
 };
 
 const recipeSchema = {
-  fields: []
+    fields: []
 };
 
 const membershipSchema = {
-  auth: {
-    view: ['all'],
-    create: ['admin'],
-    edit: ['owner', 'creator'],
-    delete: ['admin'],
-  },
-  fields : [
-    {
-      key: 'title',
-      type: 'text',
-      label: 'title',
-      default: 'New membership...',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
+    auth: {
+        view: ['all'],
+        create: ['admin'],
+        edit: ['owner', 'creator'],
+        delete: ['admin'],
     },
-    {
-      key: 'description',
-      type: 'text',
-      textarea: true,
-      label: 'Description',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'price',
-      type: 'price',
-      label: 'Price',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'price',
-      format: '',
-    },
-    {
-      key: 'period',
-      type: 'Select',
-      label: 'Billing period',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'price',
-      format: '',
-      auth: {
-        edit: ['admin'],
-      },
-    },
-  ]
+    fields: [
+        {
+            key: 'title',
+            type: 'text',
+            label: 'title',
+            default: 'New membership...',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
+        },
+        {
+            key: 'description',
+            type: 'text',
+            textarea: true,
+            label: 'Description',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'price',
+            type: 'price',
+            label: 'Price',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'price',
+            format: '',
+        },
+        {
+            key: 'period',
+            type: 'Select',
+            label: 'Billing period',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'price',
+            format: '',
+            auth: {
+                edit: ['admin'],
+            },
+        },
+    ]
 };
 
 // General Resource for tracking user Activity
 const activitySchema = {
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  fields : [
-    {
-      key: 'name',
-      type: 'text',
-      label: 'Name',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
+    local: false,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'value',
-      type: 'text',
-      label: 'Value',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'resourceName',
-      type: 'text',
-      label: 'Resource',
-      validation: {
-        minLength: 1,
-        maxLength: 100
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'createdAt',
-      type: 'date',
-      label: 'Created at',
-    },
-  ]
+    fields: [
+        {
+            key: 'name',
+            type: 'text',
+            label: 'Name',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
+        },
+        {
+            key: 'value',
+            type: 'text',
+            label: 'Value',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'resourceName',
+            type: 'text',
+            label: 'Resource',
+            validation: {
+                minLength: 1,
+                maxLength: 100
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'createdAt',
+            type: 'date',
+            label: 'Created at',
+        },
+    ]
 };
 
 const subscriberSchema = {
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  fields : [
-    {
-      key: 'name',
-      type: 'text',
-      label: 'Name',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
+    local: false,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'price',
-      type: 'text',
-      label: 'Value',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'price',
-    },
-    {
-      key: 'startDate',
-      type: 'dateTime',
-      label: 'Start Date',
-      validation: {
-        minLength: 1,
-        maxLength: 100
-      },
-    },
-    {
-      key: 'createdAt',
-      type: 'date',
-      label: 'Created at',
-    },
-  ]
+    fields: [
+        {
+            key: 'name',
+            type: 'text',
+            label: 'Name',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
+        },
+        {
+            key: 'price',
+            type: 'text',
+            label: 'Value',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'price',
+        },
+        {
+            key: 'startDate',
+            type: 'dateTime',
+            label: 'Start Date',
+            validation: {
+                minLength: 1,
+                maxLength: 100
+            },
+        },
+        {
+            key: 'createdAt',
+            type: 'date',
+            label: 'Created at',
+        },
+    ]
 };
 
 const userActivitySchema = {
-  local: true,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  fields : [
-    {
-      key: 'name',
-      type: 'text',
-      label: 'Name',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-      format: '',
+    local: true,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'value',
-      type: 'text',
-      label: 'Value',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'type',
-      type: 'text',
-      label: 'Type',
-      validation: {
-        required: true,
-        minLength: 2,
-        maxLength: 40
-      },
-      sanitize: 'alphaNumeric',
-    },
-    {
-      key: 'createdAt',
-      type: 'date',
-      label: 'Created at',
-    },
-  ]
+    fields: [
+        {
+            key: 'name',
+            type: 'text',
+            label: 'Name',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+            format: '',
+        },
+        {
+            key: 'value',
+            type: 'text',
+            label: 'Value',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'type',
+            type: 'text',
+            label: 'Type',
+            validation: {
+                required: true,
+                minLength: 2,
+                maxLength: 40
+            },
+            sanitize: 'alphaNumeric',
+        },
+        {
+            key: 'createdAt',
+            type: 'date',
+            label: 'Created at',
+        },
+    ]
 };
 
 
@@ -555,102 +555,123 @@ const commentsSchema = {};
 const postSchema = {};
 
 const wordCategories = {
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  name: '',
-  fields: [
-    {
-      key: 'name',
-      type: 'location',
+    local: false,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'plural',
-      type: 'text',
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true
-    },
-    {
-      key: 'sound',
-      type: 'audio',
-    },
-    {
-      key: 'categories',
-      type: 'relationship',
-      multiple: true
-    },
-  ]
+    name: '',
+    fields: [
+        {
+            key: 'name',
+            type: 'location',
+        },
+        {
+            key: 'plural',
+            type: 'text',
+        },
+        {
+            key: 'images',
+            type: 'image',
+            multiple: true
+        },
+        {
+            key: 'sound',
+            type: 'audio',
+        },
+        {
+            key: 'categories',
+            type: 'relationship',
+            multiple: true
+        },
+    ]
 };
 
 const wordsSchema = {
-  // if api is set, it has it's wown
-  // means no REST api, but resources save to the API
-  local: false,
-  defaults: {
-    apiBase: false,
-    apiPath: false,
-  },
-  name: '',
-  fields: [
-    {
-      key: 'single',
-      type: 'text',
-      label: 'Word (single)'
+    // if api is set, it has it's wown
+    // means no REST api, but resources save to the API
+    local: false,
+    defaults: {
+        apiBase: false,
+        apiPath: false,
     },
-    {
-      key: 'plural',
-      type: 'text',
-      label: 'Word (plural)'
-    },
-    {
-      key: 'images',
-      type: 'image',
-      multiple: true,
-      label: 'Images'
-    },
-    {
-      key: 'sound',
-      type: 'audio',
-    },
-    {
-      key: 'categories',
-      type: 'relationship',
-      multiple: true
-    },
-  ]
+    name: '',
+    fields: [
+        {
+            key: 'single',
+            type: 'text',
+            label: 'Word (single)'
+        },
+        {
+            key: 'plural',
+            type: 'text',
+            label: 'Word (plural)'
+        },
+        {
+            key: 'images',
+            type: 'image',
+            multiple: true,
+            label: 'Images'
+        },
+        {
+            key: 'sound',
+            type: 'audio',
+        },
+        {
+            key: 'categories',
+            type: 'relationship',
+            multiple: true
+        },
+    ]
 };
 
+const chats = {
+    name: "chat",
+    fields:
+        [
+            {
+                key: "user",
+                type: 'relationship'
+            },
+            {
+                key: "conversation",
+                type: 'object',
+                multiple: true,
+                fields: {
+
+                },
+            }
+        ],
+}
+
+const messages = {}
 
 const schemas = {
-  step: stepSchema,
-  workoutProgram: workoutProgramSchema,
-  workout: workoutSchema,
-  exercise: exerciseSchema,
-  recipe: recipeSchema,
-  membership: membershipSchema,
-  subscription: subscriberSchema,
-  userActivity: userActivitySchema
+    step: stepSchema,
+    workoutProgram: workoutProgramSchema,
+    workout: workoutSchema,
+    exercise: exerciseSchema,
+    recipe: recipeSchema,
+    membership: membershipSchema,
+    subscription: subscriberSchema,
+    userActivity: userActivitySchema,
+    chats: chat
 }
 
 // do some formatting for all schema's
 Object.keys(schemas).forEach((schemaKey) => {
-  const schema = schemas[schemaKey];
-  let defaultValues = {};
+    const schema = schemas[schemaKey];
+    let defaultValues = {};
 
-  // create a default resource object based upon the field settings
-  schema.fields.filter(field => field.default).forEach((field) => {
-    defaultValues[field.key] = field.default;
-  });
+    // create a default resource object based upon the field settings
+    schema.fields.filter(field => field.default).forEach((field) => {
+        defaultValues[field.key] = field.default;
+    });
 
-  schemas[schemaKey] = {
-    ...schema,
-    defaultValues: defaultValues ? defaultValues : {}
-  }
+    schemas[schemaKey] = {
+        ...schema,
+        defaultValues: defaultValues ? defaultValues : {}
+    }
 });
 
 export default schemas;
