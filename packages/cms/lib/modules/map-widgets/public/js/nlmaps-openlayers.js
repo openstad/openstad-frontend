@@ -49,11 +49,15 @@ apos.define('map-widgets', {
         }
 
         self.createMap = function(mapConfig) {
-            console.log('OpenlayersMap', OpenlayersMap)
             var map = OpenlayersMap.createMap(mapConfig.defaultSettings);
             OpenlayersMap.setDefaultBehaviour(map);
             return map;
         };
+
+        self.center = function(mapConfig) {
+            OpenlayersMap.center();
+        };
+
 
         self.addPolygon = function(mapConfig) {
             return OpenlayersMap.addPolygon(mapConfig.polygon);

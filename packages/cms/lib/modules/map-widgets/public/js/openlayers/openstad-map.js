@@ -84,14 +84,23 @@ var OpenlayersMap = {
         var center = settings.center && settings.center ? {
             latitude: settings.center.lat,
             longitude: settings.center.lng
-        } : {longitude: 4.2322689, latitude: 52.04946}
+        } : {longitude: 4.2322689, latitude: 52.04946};
+
+        var settings = {
+            zoom: settings.zoom || 15.3,
+            minZoom: settings.minZoom,
+            maxZoom: settings.maxZoom
+        }
+
+        // in case no polygons and no marker use default centering, otherwise use
+        // them to center, although in some cases it doesn't do a good  job
+        //
+        //if (!settings.isPolygonActive && !settings.markersOnMap) {
+        settings.center = ol.proj.fromLonLat([center.longitude, center.latitude]);
+        //}
+
         var defaultSettings = {
-            view: new ol.View({
-                center: ol.proj.fromLonLat([center.longitude, center.latitude]),
-                zoom: settings.zoom || 15.3,
-                minZoom: settings.minZoom,
-                maxZoom: settings.maxZoom
-            }),
+            view: new ol.View(settings),
             target: 'nlmaps-holder',
             search: false
         };
@@ -107,8 +116,14 @@ var OpenlayersMap = {
         var marker = nlmaps.openlayers.markerLayer(true);
         this.map.addLayer(marker);
 
-
         return this.map;
+    },
+    center: function () {
+        if (this.vectorSource) {
+            this.map.getView().fit(this.vectorSource.getExtent(), this.map.getSize());
+        } else if (this.polygonVector) {
+            return this.map.getView().fit(this.polygonVector.getExtent(), this.map.getSize());
+        }
     },
     addMarkers: function (markersData) {
         this.removeMarkers();
@@ -151,6 +166,8 @@ var OpenlayersMap = {
         });
 
         this.map.addLayer(vectorLayer);
+
+        this.vectorSource = vectorSource;
 
         return {
             vectorSource: vectorSource,
@@ -245,10 +262,41 @@ var OpenlayersMap = {
     },
     addPolygon: function (polygonLngLat) {
         this.map.addLayer(buildInvertedPolygon(polygonLngLat));
-        this.map.addLayer(buildOutlinedPolygon(polygonLngLat));
+        this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
     },
     removeMarkers: function () {
         this.map.removeLayer(this.marker);
+    },
+    buildOutlinedPolygon: function (polygonLngLat) {
+        //Style for the outlined polygon
+        var outlineStyles = [
+            new Style({
+                stroke: new Stroke({
+                    color: 'black',
+                    width: 3
+                })
+            }),
+            new Style({
+                geometry: function (feature) {
+                    // return the coordinates of the first ring of the polygon
+                    var coordinates = feature.getGeometry().getCoordinates()[0];
+                    return new MultiPoint(coordinates);
+                }
+            })
+        ];
+
+        var source = new VectorSource({
+            features: (new GeoJSON()).readFeatures(createGeojsonObject(getTransformedPolygon(polygonLngLat)))
+        });
+
+        this.polygonVector = source;
+
+        var outlinedLayer = new VectorLayer({
+            source: source,
+            style: outlineStyles
+        });
+
+        return outlinedLayer;
     }
 };
 
@@ -324,36 +372,6 @@ function getTransformedPolygon(polygonLngLat) {
     return polygonCoords;
 }
 
-
-function buildOutlinedPolygon(polygonLngLat) {
-    //Style for the outlined polygon
-    var outlineStyles = [
-        new Style({
-            stroke: new Stroke({
-                color: 'black',
-                width: 3
-            })
-        }),
-        new Style({
-            geometry: function (feature) {
-                // return the coordinates of the first ring of the polygon
-                var coordinates = feature.getGeometry().getCoordinates()[0];
-                return new MultiPoint(coordinates);
-            }
-        })
-    ];
-
-    var source = new VectorSource({
-        features: (new GeoJSON()).readFeatures(createGeojsonObject(getTransformedPolygon(polygonLngLat)))
-    });
-
-    var outlinedLayer = new VectorLayer({
-        source: source,
-        style: outlineStyles
-    });
-
-    return outlinedLayer;
-}
 
 function buildInvertedPolygon(polygonLngLat) {
     //Style for the inverted polygon

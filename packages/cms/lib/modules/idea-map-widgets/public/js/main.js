@@ -10,6 +10,8 @@ apos.define('idea-map-widgets', {
             var markers = self.addMarkers(mapConfig);
             self.addOverviewEventListeners(map);
 
+            self.center();
+
             /**
              * This is meant to filter the markers based on category
              * This is however not re-implemented at the moment
