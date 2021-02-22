@@ -191,7 +191,9 @@ function initAjaxForms ($e) {
            ajaxRefresh();
          } else if (redirectUrl) {
            var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
-           window.location.href = window.siteUrl + redirectUrl + separator + 'n=' + new Date().getTime();
+           var redirectUrl = redirectUrl.startsWith('http') ? redirectUrl :  window.siteUrl + redirectUrl;
+
+           window.location.href = redirectUrl  + separator + 'n=' + new Date().getTime();
          } else {
            window.location.hash = "";
            window.location.reload();
