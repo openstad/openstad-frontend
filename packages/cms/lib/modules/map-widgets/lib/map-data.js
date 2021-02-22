@@ -74,7 +74,7 @@ const getMarkerUrlBasedOnTheme = function(idea, flag) {
         return '/modules/openstad-assets/img/idea/flag-gray.svg';
     }
 
-    return'/modules/openstad-assets/img/idea/flag-' + flag + '.svg';
+    return'/modules/openstad-assets/img/idea/flag-' + flag + '.png';
 }
 
 function getHref(ideaSlug, id) {
