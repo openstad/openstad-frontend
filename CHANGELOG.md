@@ -15,6 +15,7 @@
 * Fix openstreetmaps for Forms and Overview
 * Move big libs and assets to dynamic loading
 * Fixes on choices-guide result forms
+* Add choices guide to /admin
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories
