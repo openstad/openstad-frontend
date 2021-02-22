@@ -81,7 +81,6 @@ apos.define('map-widgets', {
             map.on('click', function (evt) {
                 var feature = map.forEachFeatureAtPixel(evt.pixel,
                     function (feature) {
-
                         return feature.getProperties().href ? feature : null;
                     }, {hitTolerance: 4});
 

@@ -252,7 +252,11 @@ var OpenlayersMap = {
                     longitude: latLong[0]
                 };
 
-                self.addMarker(latLong, {url: '/modules/openstad-assets/img/idea/flag-blue.png', size: [22, 24]});
+                self.addMarker(latLong,
+                    {
+                        url: '/modules/openstad-assets/img/idea/flag-blue.png',
+                        size: [22, 24]
+                    });
 
                 var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
 
