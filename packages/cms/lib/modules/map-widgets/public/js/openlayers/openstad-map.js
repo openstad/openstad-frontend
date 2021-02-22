@@ -89,15 +89,9 @@ var OpenlayersMap = {
         var settings = {
             zoom: settings.zoom || 15.3,
             minZoom: settings.minZoom,
-            maxZoom: settings.maxZoom
+            maxZoom: settings.maxZoom,
+            center: ol.proj.fromLonLat([center.longitude, center.latitude])
         }
-
-        // in case no polygons and no marker use default centering, otherwise use
-        // them to center, although in some cases it doesn't do a good  job
-        //
-        //if (!settings.isPolygonActive && !settings.markersOnMap) {
-        settings.center = ol.proj.fromLonLat([center.longitude, center.latitude]);
-        //}
 
         var defaultSettings = {
             view: new ol.View(settings),
@@ -118,9 +112,16 @@ var OpenlayersMap = {
 
         return this.map;
     },
+    // center map function
+    // should be called after polygons and markers are added
     center: function () {
+        // vectorSource is created for the markers
+        // so first try to center the map to the markers
+        // if no vector for markers exists (probably because no makers are added to the map)
+        // then center the map to the polygon
+        // if both don't exists, nothing is done and the center settings provided in the createMap function remain valid (these most likely are set in global of APOS)
         if (this.vectorSource) {
-            this.map.getView().fit(this.vectorSource.getExtent(), this.map.getSize());
+            return this.map.getView().fit(this.vectorSource.getExtent(), this.map.getSize());
         } else if (this.polygonVector) {
             return this.map.getView().fit(this.polygonVector.getExtent(), this.map.getSize());
         }

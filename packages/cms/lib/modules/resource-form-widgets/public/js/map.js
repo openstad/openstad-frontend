@@ -9,6 +9,7 @@ apos.define('resource-form-widgets', {
 
             self.setIdeaMarker(mapConfig);
             self.addFormEventListeners(mapConfig);
+            self.center();
         }
     }
 });
