@@ -11,19 +11,17 @@ apos.define('map-widgets', {
 
     construct: function(self, options) {
         self.loadLibs = function ($widget, data, options) {
-            if (!window.loadingMapLibs && (!window.ol || !window.nlmaps)) {
+            if (!window.loadingMapLibs && (!window.ol)) {
                 //prevent loading multiple maps for multiple widgets on one page
                 window.loadingMapLibs = true;
 
                 // this beautiful ladder is easiest way to ensure that libs are
                 // loaded step by step
                 $.getScript("/modules/map-widgets/js/modules/ol.js", function () {
-                    $.getScript("/modules/map-widgets/js/modules/nlmaps.js", function () {
                         $.getScript("/modules/map-widgets/js/openlayers/openstad-map.js", function (){
                             window.loadingMapLibs = false;
                             self.playAfterlibsLoaded($widget, data, options);
                         });
-                    });
                 });
 
             } else {

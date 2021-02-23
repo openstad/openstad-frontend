@@ -10,7 +10,6 @@ var Style = ol.style.Style;
 var Fill = ol.style.Fill;
 var Stroke = ol.style.Stroke;
 var MultiPoint = ol.geom.MultiPoint;
-var Marker = nlmaps.openlayers.markerLayer;
 var fromLonLat = ol.proj.fromLonLat;
 
 var OpenlayersMap = {
