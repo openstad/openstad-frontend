@@ -280,7 +280,7 @@ var OpenlayersMap = {
         }, 'click');
     },
     addPolygon: function (polygonLngLat) {
-        if (polygonLngLat && && polygonLngLat.length >0) {
+        if (polygonLngLat && polygonLngLat.length >0) {
             this.map.addLayer(buildInvertedPolygon(polygonLngLat));
             this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
         }

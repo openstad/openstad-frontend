@@ -50,10 +50,10 @@ function initDataTables () {
     }
 
     // in case jquery dataTables already loaded run code immediately
-    if (jQuery().dataTable) {
+   // if (jQuery().dataTable) {
         init();
     // otherwise load scripts first
-    } else {
+/*    } else {
         $.getScript( "/modules/openstad-assets/js/vendor/jquery.dataTables.min.js" )
             .done(function( script, textStatus ) {
                 init();
@@ -61,7 +61,7 @@ function initDataTables () {
             .fail(function( jqxhr, settings, exception ) {
                 alert('Something went wrong loading the table');
             });
-    }
+    }*/
 
 }
 
