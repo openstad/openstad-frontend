@@ -113,8 +113,8 @@ var OpenlayersMap = {
       //  var overlayLayer = nlmaps.openlayers.overlayLayer('gebouwen');
       //  this.map.addLayer(overlayLayer);
 
-        var marker = nlmaps.openlayers.markerLayer(true);
-        this.map.addLayer(marker);
+     //  var marker = nlmaps.openlayers.markerLayer(true);
+      //  this.map.addLayer(marker);
 
         return this.map;
     },
