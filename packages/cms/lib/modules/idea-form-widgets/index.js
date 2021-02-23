@@ -29,8 +29,7 @@ module.exports = {
   addFields: fields,
   openstadApiConfigSync: true,
   afterConstruct: function(self) {
-
-
+      
   },
   construct: function(self, options) {
 

@@ -214,6 +214,9 @@ var OpenlayersMap = {
         var editorInputElement = document.getElementById(editorInputElement);
 
         var inside = function (point, vs) {
+            if (!vs && !vs.length > 0) {
+                return true;
+            }
             // ray-casting algorithm based on
             // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
@@ -233,10 +236,14 @@ var OpenlayersMap = {
         };
 
         var polygonCoords = [];
-        polygonLngLat.forEach(function (pointPair) {
-            var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
-            polygonCoords.push(newPair);
-        });
+
+        if (polygonLngLat && polygonLngLat.length >0) {
+            polygonLngLat.forEach(function (pointPair) {
+                var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
+                polygonCoords.push(newPair);
+            });
+        }
+
 
         var self = this;
 
@@ -273,8 +280,10 @@ var OpenlayersMap = {
         }, 'click');
     },
     addPolygon: function (polygonLngLat) {
-        this.map.addLayer(buildInvertedPolygon(polygonLngLat));
-        this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
+        if (polygonLngLat && && polygonLngLat.length >0) {
+            this.map.addLayer(buildInvertedPolygon(polygonLngLat));
+            this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
+        }
     },
     removeMarkers: function () {
         this.map.removeLayer(this.marker);
