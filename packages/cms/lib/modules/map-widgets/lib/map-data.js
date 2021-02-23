@@ -74,7 +74,7 @@ const getMarkerUrlBasedOnTheme = function(idea, flag) {
         return '/modules/openstad-assets/img/idea/flag-gray.svg';
     }
 
-    return'/modules/openstad-assets/img/idea/flag-' + flag + '.svg';
+    return'/modules/openstad-assets/img/idea/flag-' + flag + '.png';
 }
 
 function getHref(ideaSlug, id) {
@@ -139,8 +139,8 @@ module.exports = class MapConfigBuilder {
             center: (settings.mapCenterLat && settings.mapCenterLng) ? {lat: settings.mapCenterLat, lng: settings.mapCenterLng} : null,
             zoom: settings.mapZoomLevel || 13,
             zoomControl: settings.zoomControl || true,
-            minZoom: settings.minZoom || 12,
-            maxZoom: settings.maxZoom || 17,
+            minZoom: settings.minZoom || 10,
+            maxZoom: settings.maxZoom || 16,
             useMarkerLinks: settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
@@ -156,11 +156,13 @@ module.exports = class MapConfigBuilder {
     setMarker() {
         return this;
     }
-    setMarkersByIdeas(ideas) {
+    
+    setMarkersByResources(resources) {
         const markers = [];
-        ideas ? ideas.forEach((idea) => {
+        resources ? resources.forEach((idea) => {
 
           if (idea.location && idea.location.coordinates) {
+              //should move ideaslug away from globaldata
                 markers.push(
                   new Marker(idea.location.coordinates, idea.status, getHref(this.globalData.ideaSlug, idea.id), idea.endDate, idea.extraData.theme, this.globalData.themes)
                 );

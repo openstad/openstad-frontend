@@ -10,12 +10,52 @@ apos.define('map-widgets', {
     },
 
     construct: function(self, options) {
+        self.loadLibs = function ($widget, data, options) {
+            if (!window.loadingMapLibs && (!window.ol)) {
+                //prevent loading multiple maps for multiple widgets on one page
+                window.loadingMapLibs = true;
+
+                // this beautiful ladder is easiest way to ensure that libs are
+                // loaded step by step
+                $.getScript("/modules/map-widgets/js/modules/ol.js", function () {
+                        $.getScript("/modules/map-widgets/js/openlayers/openstad-map.js", function (){
+                            window.loadingMapLibs = false;
+                            self.playAfterlibsLoaded($widget, data, options);
+                        });
+                });
+
+            } else {
+                if (window.loadingMapLibs) {
+                    // in case multiple maps are loaded on page
+                    // make sure scripts only run once
+                    setTimeout(function (){
+                        self.loadLibs($widget, data, options)
+                    },25)
+                } else {
+                    self.playAfterlibsLoaded($widget, data, options);
+                }
+            }
+        }
+
+        self.play =  function ($widget, data, options) {
+            self.loadLibs($widget, data, options)
+        }
+
+        self.playAfterlibsLoaded = function () {
+            // run your code in this function
+            console.log('playAfterlibsLoaded map widget')
+        }
 
         self.createMap = function(mapConfig) {
             var map = OpenlayersMap.createMap(mapConfig.defaultSettings);
             OpenlayersMap.setDefaultBehaviour(map);
             return map;
         };
+
+        self.center = function(mapConfig) {
+            OpenlayersMap.center();
+        };
+
 
         self.addPolygon = function(mapConfig) {
             return OpenlayersMap.addPolygon(mapConfig.polygon);
@@ -26,7 +66,9 @@ apos.define('map-widgets', {
         };
 
         self.setIdeaMarker = function(mapConfig) {
-            return OpenlayersMap.setIdeaMarker(mapConfig.markers[0] || null);
+            const firstMarker = mapConfig.markers && mapConfig.markers[0] ? mapConfig.markers[0] : null;
+
+            return OpenlayersMap.setIdeaMarker(firstMarker);
         }
 
         self.addFormEventListeners = function(mapConfig) {
@@ -37,7 +79,6 @@ apos.define('map-widgets', {
             map.on('click', function (evt) {
                 var feature = map.forEachFeatureAtPixel(evt.pixel,
                     function (feature) {
-
                         return feature.getProperties().href ? feature : null;
                     }, {hitTolerance: 4});
 
@@ -57,9 +98,9 @@ apos.define('map-widgets', {
                 $('.ol-viewport').append($('.nlmaps-geocoder-control-container'));
             });
         };
-        
+
         self.addFilterEventListeners = function(vectorSource, markers) {
-            
+
             function setMapMarkersFromThemeSelector (val) {
                 vectorSource.clear();
                 if (val === '0') {
@@ -73,16 +114,16 @@ apos.define('map-widgets', {
                     }
                 });
             }
-            
+
             $('#themaSelector').change(function (event) {
                 setMapMarkersFromThemeSelector(event.target.value);
             });
-            
+
             // Set markers based on theme selector on load
             // This is useful when the user has selected a filter and reloads the page, this way we ensure that
             // the marker we show line up with the ideas we show
             setMapMarkersFromThemeSelector($('#themaSelector').val());
-            
+
             $(document).on('updateIdeaOverviewDisplay', function () {
                 setMapMarkersFromThemeSelector($('#themaSelector').val());
             });

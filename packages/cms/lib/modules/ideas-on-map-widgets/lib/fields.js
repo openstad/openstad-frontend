@@ -26,6 +26,7 @@ module.exports = [
 		],
     def: 'complete',
 	},
+
   {
     name: 'displayWidth',
     type: 'string',
@@ -186,6 +187,7 @@ module.exports = [
     textarea: true,
     required: false,
   },
+
 	{
 		name: 'mapVariant',
 		type: 'select',
@@ -215,6 +217,12 @@ module.exports = [
       },
     ],
 		required: false
+	},
+  {
+    name: 'mapLocationIcon',
+    type: 'string',
+    label: 'Default Location icon',
+    help: 'JSON object: { "html": "<svg>...</svg>", "className": "osc-ideas-on-map-icon", "width": 39, "height": 50, "iconAnchor": [20,50] }',
 	},
   // zonder clusering werkt hij niet goed, dus die kun je nog niet uit zetten
 	// {
@@ -389,7 +397,7 @@ module.exports = [
       {
         value: 'ideas and addresses',
         label: "Zoek in ideeën en adressen",
-        showFields: ['searchPlaceHolder']
+        showFields: ['searchPlaceHolder','searchAddresssesMunicipality']
       },
       {
         value: 'ideas',
@@ -399,7 +407,7 @@ module.exports = [
       {
         value: 'addresses',
         label: "Zoek in adressen",
-        showFields: ['searchPlaceHolder']
+        showFields: ['searchPlaceHolder','searchAddresssesMunicipality']
       },
       {
         value: 'none',
@@ -408,12 +416,17 @@ module.exports = [
     ],
     def: true
   },
-
 	{
 		name: 'searchPlaceHolder',
 		type: 'string',
 		label: 'Placeholder tekst in het zoekveld',
     def: 'Zoek op trefwoord',
+		required: false
+	},
+	{
+		name: 'searchAddresssesMunicipality',
+		type: 'string',
+		label: 'Gemeente waarin naar adressen wordt gezocht',
 		required: false
 	},
 

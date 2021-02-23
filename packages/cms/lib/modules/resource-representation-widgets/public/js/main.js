@@ -1,7 +1,7 @@
 apos.define('resource-representation-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
-        self.play = function($widget, data, options) {
+        self.playAfterlibsLoaded = function($widget, data, options) {
             initResourceVoteForms($widget);
 
             var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
@@ -9,6 +9,7 @@ apos.define('resource-representation-widgets', {
 
             self.addPolygon(mapConfig);
             self.setIdeaMarker(mapConfig);
+            self.center();
         }
     }
 });

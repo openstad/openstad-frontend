@@ -88,7 +88,7 @@ module.exports = {
                   disableDefaultUI : true,
                   styles: openStadMap.styles
               })
-              .setMarkersByIdeas(ideas)
+              .setMarkersByResources(ideas)
               .setMarkerStyle(markerStyle)
               .setPolygon(widget.mapPolygons || null)
               .getConfig();

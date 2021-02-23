@@ -34,12 +34,35 @@ function initLogoutMijnOpenstad() {
 }
 
 function initDataTables () {
-  if (jQuery().dataTable) {
-    $('.data-table').dataTable({
-      "pageLength" : 50,
-      "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
-    });
-  }
+    var $tableElements = $('.data-table');
+
+    // only run when table elements exist
+    if ($tableElements.length === 0) {
+        return;
+    }
+
+    // the init logic
+    var init = function () {
+        $tableElements.dataTable({
+            "pageLength" : 50,
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+    }
+
+    // in case jquery dataTables already loaded run code immediately
+    if (jQuery().dataTable) {
+        init();
+    // otherwise load scripts first
+    } else {
+        $.getScript( "/modules/openstad-assets/js/vendor/jquery.dataTables.min.js" )
+            .done(function( script, textStatus ) {
+                init();
+            })
+            .fail(function( jqxhr, settings, exception ) {
+                alert('Something went wrong loading the table');
+            });
+    }
+
 }
 
 function initCloseModalWhenClickingOnBackground () {
@@ -168,7 +191,9 @@ function initAjaxForms ($e) {
            ajaxRefresh();
          } else if (redirectUrl) {
            var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
-           window.location.href = window.siteUrl + redirectUrl + separator + 'n=' + new Date().getTime();
+           var redirectUrl = redirectUrl.startsWith('http') ? redirectUrl :  window.siteUrl + redirectUrl;
+
+           window.location.href = redirectUrl  + separator + 'n=' + new Date().getTime();
          } else {
            window.location.hash = "";
            window.location.reload();
@@ -549,4 +574,48 @@ function initTrapFocusInOpenModal () {
       }
     }
   });
+}
+
+function initImagesGallery () {
+    var fotoramaEl = $('.fotorama');
+
+    if (fotoramaEl.length > 0) {
+        var initFotorama = function () {
+            var fotorama = fotoramaEl.fotorama({
+                thumbWidth: 60,
+                thumbHeight: 60,
+                minWidth: 300,
+                keyboard: false
+            });
+
+            fotorama.on('fotorama:fullscreenenter fotorama:fullscreenexit', function (e, fotorama) {
+                if (e.type === 'fotorama:fullscreenenter') {
+                    // Options for the fullscreen
+                    fotorama.setOptions({
+                        fit: 'contain'
+                    });
+                } else {
+                    // Back to normal settings
+                    fotorama.setOptions({
+                        fit: 'cover'
+                    });
+                }
+            });
+        }
+
+        // in case jquery fotorama already loaded run code immediately
+        if (jQuery().fotorama) {
+            initFotorama();
+            // otherwise load scripts first
+        } else {
+            $.getScript( "/modules/openstad-assets/js/vendor/fotorama.min.js" )
+                .done(function( script, textStatus ) {
+                    initFotorama();
+                })
+                .fail(function( jqxhr, settings, exception ) {
+                    alert('Something went wrong loading the photo gallery');
+                });
+        }
+
+    }
 }

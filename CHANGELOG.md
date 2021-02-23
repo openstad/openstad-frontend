@@ -1,10 +1,16 @@
 # Changelog
 
-## v0.13.0
-* Make from paths absolute using siteUrl
-
-## v0.12.1
-* Fix logo syncing with absolute url so in auth server correct logo is visible
+## v0.13.0 (2020-02-23)
+* Add login required to choices-guide results
+* Use refactored react components
+* Change default styling for toggle title in section
+* Update apostrophe to 2.113.0 for @openstad/cms & run `npm update` in root to fix a YouTube oembed bug
+* Add an oembed API endpoint to siteConfig for vimeo.com videos to prevent Vimeo blocking scrapes from oembetter
+* Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
+* Fix incorrect closing tag in slider widget
+* ideas-on-map fixes and extensions
+* Fix openstreetmaps for Forms and Overview
+* Move big libs and assets to dynamic loading
 
 ## v0.12.0 (2020-01-27)
 * Allow for running multiple sites on subdirectories

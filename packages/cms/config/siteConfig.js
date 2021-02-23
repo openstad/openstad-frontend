@@ -8,7 +8,6 @@ module.exports = {
     const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
     const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
 
-
     const siteConfig = {
       shortName: shortName,
       prefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
@@ -19,18 +18,12 @@ module.exports = {
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
+          //lean: true,
           scripts: [
-            //  {name: 'jquery'},
-            //    {name: 'react'},
-            //    {name: 'react.dom'},
-            /* Apos script */
-            //        {name: 'apos/jquery.cookie'},
-            //        {name: 'apos/jquery.json-call'},
             {name: 'cookies'},
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-            {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
           ],
@@ -138,7 +131,11 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-custom-pages': {},
-        'openstad-oembed': {},
+        'openstad-oembed': {
+          endpoints: [
+            { domain: 'vimeo.com', endpoint: 'https://vimeo.com/api/oembed.json' }
+          ]
+        },
 
 
         // Apostrophe module configuration
@@ -159,7 +156,6 @@ module.exports = {
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
-        'main-image-widgets': {},
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},
