@@ -43,7 +43,7 @@ const fields = [
     {
         name: 'hideVoteOverview',
         label: 'Hide vote overview?',
-        help: 'The vote overview is shown in a popup with a simple table overview after clicking the Vote overview button, this works well until a few thousands vote. In that case page load will be slow, it\'s possible to hide it, and edit it in admin interface at /admin',
+        help: 'The vote overview is shown in a popup with a simple table overview after clicking the Vote overview button, this works well until a few thousands votes are present. In that case page load will be slow. Therefore it\'s possible to hide it. If the votes still needs to be edited this can be done under /admin',
         type: 'boolean',
         choices: [
             {
