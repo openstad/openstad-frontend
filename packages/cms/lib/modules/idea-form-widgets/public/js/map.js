@@ -6,6 +6,7 @@ apos.define('idea-form-widgets', {
             self.createMap(mapConfig);
             self.addPolygon(mapConfig);
             self.setIdeaMarker(mapConfig);
+            self.center();
             self.addFormEventListeners(mapConfig);
         }
     }

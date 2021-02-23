@@ -7,6 +7,7 @@ apos.define('idea-single-widgets', {
 
             self.addPolygon(mapConfig);
             self.setIdeaMarker(mapConfig);
+            self.center();
         }
     }
 });

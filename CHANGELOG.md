@@ -3,7 +3,8 @@
 ## UNRELEASED
 * Add page cache for non moderator users
 
-## PRE-RELEASE v0.13.0
+
+## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
 * Use refactored react components
 * Change default styling for toggle title in section

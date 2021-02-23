@@ -9,6 +9,7 @@ apos.define('resource-representation-widgets', {
 
             self.addPolygon(mapConfig);
             self.setIdeaMarker(mapConfig);
+            self.center();
         }
     }
 });

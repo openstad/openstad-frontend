@@ -10,16 +10,19 @@ var Style = ol.style.Style;
 var Fill = ol.style.Fill;
 var Stroke = ol.style.Stroke;
 var MultiPoint = ol.geom.MultiPoint;
-var Marker = nlmaps.openlayers.markerLayer;
 var fromLonLat = ol.proj.fromLonLat;
 
 var OpenlayersMap = {
     map: null,
     marker: null,
-    setDefaultBehaviour: function(map) {
+    setDefaultBehaviour: function (map) {
 
         // Strg+MouseWheel Zoom
-        map.addInteraction(new ol.interaction.MouseWheelZoom({condition: function (e) { return e.originalEvent.ctrlKey }}));
+        map.addInteraction(new ol.interaction.MouseWheelZoom({
+            condition: function (e) {
+                return e.originalEvent.ctrlKey
+            }
+        }));
 
         // desktop: normal; mobile: 2-finger pan to start
         map.addInteraction(new ol.interaction.DragPan({
@@ -31,7 +34,7 @@ var OpenlayersMap = {
         // the quick-changing holder of last touchmove y
         var lastTouchY = null
 
-        var div            = document.getElementById('nlmaps-holder')
+        var div = document.getElementById('nlmaps-holder')
         var scrollerBlades = document.scrollingElement || document.documentElement
 
         if (!!div) {
@@ -49,12 +52,14 @@ var OpenlayersMap = {
             })
 
             // on touchend, reset y
-            div.addEventListener('touchend', function (e) { lastTouchY = null });
+            div.addEventListener('touchend', function (e) {
+                lastTouchY = null
+            });
         }
     },
     init: function () {
 
-        if(markerLocation) {
+        if (markerLocation) {
             this.options.center = {
                 longitude: markerLocation.coordinates[1] || openstadMapDefaults.center.lng,
                 latitude: markerLocation.coordinates[0] || openstadMapDefaults.center.lat
@@ -75,38 +80,63 @@ var OpenlayersMap = {
         }
     },
     createMap: function (settings) {
-        var center = settings.center && settings.center? { latitude: settings.center.lat, longitude: settings.center.lng } : { longitude: 4.2322689, latitude:  52.04946}
+        var center = settings.center && settings.center ? {
+            latitude: settings.center.lat,
+            longitude: settings.center.lng
+        } : {longitude: 4.2322689, latitude: 52.04946};
+
+        var settings = {
+            zoom: settings.zoom || 15.3,
+            minZoom: settings.minZoom,
+            maxZoom: settings.maxZoom,
+            center: ol.proj.fromLonLat([center.longitude, center.latitude])
+        }
+
         var defaultSettings = {
-            view: new ol.View({
-                center: ol.proj.fromLonLat([center.longitude, center.latitude]),
-                zoom:    settings.zoom || 15.3,
-                minZoom: settings.minZoom,
-                maxZoom: settings.maxZoom
-            }),
-            target:  'nlmaps-holder',
-            search:  false
+            view: new ol.View(settings),
+            target: 'nlmaps-holder',
+            search: false
         };
 
         this.map = new ol.Map(defaultSettings);
 
-        var layer = nlmaps.openlayers.bgLayer();
+        var layer = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
         this.map.addLayer(layer);
 
-        var overlayLayer = nlmaps.openlayers.overlayLayer('gebouwen');
-        this.map.addLayer(overlayLayer);
+      //  var layer = nlmaps.openlayers.bgLayer();
+      //
 
-        var marker = nlmaps.openlayers.markerLayer(true);
-        this.map.addLayer(marker);
+      //  var overlayLayer = nlmaps.openlayers.overlayLayer('gebouwen');
+      //  this.map.addLayer(overlayLayer);
 
+     //  var marker = nlmaps.openlayers.markerLayer(true);
+      //  this.map.addLayer(marker);
 
         return this.map;
     },
-    addMarkers: function(markersData) {
+    // center map function
+    // should be called after polygons and markers are added
+    center: function () {
+        // vectorSource is created for the markers
+        // so first try to center the map to the markers
+        // if no vector for markers exists (probably because no makers are added to the map)
+        // then center the map to the polygon
+        // if both don't exists, nothing is done and the center settings provided in the createMap function remain valid (these most likely are set in global of APOS)
+        if (this.markers && this.markers.length > 0 && this.markerVectorSource) {
+            return this.map.getView().fit(this.markerVectorSource.getExtent(), this.map.getSize());
+        } else if (this.polygonVector) {
+            return this.map.getView().fit(this.polygonVector.getExtent(), this.map.getSize());
+        }
+    },
+    addMarkers: function (markersData) {
         this.removeMarkers();
-
+        
         var markers = [];
 
-        markersData.forEach(function(marker) {
+        markersData.forEach(function (marker) {
             var feature = new ol.Feature({
                 geometry: new ol.geom.Point(
                     ol.proj.fromLonLat([marker.position.lng, marker.position.lat])
@@ -127,7 +157,7 @@ var OpenlayersMap = {
             };
 
             feature.setStyle(new ol.style.Style({
-              image: new ol.style.Icon(iconStyling),
+                image: new ol.style.Icon(iconStyling),
             }));
 
             markers.push(feature);
@@ -142,6 +172,10 @@ var OpenlayersMap = {
         });
 
         this.map.addLayer(vectorLayer);
+
+        this.markerVectorSource = vectorSource;
+        this.markers = markers;
+
 
         return {
             vectorSource: vectorSource,
@@ -178,7 +212,8 @@ var OpenlayersMap = {
     },
     addEventListener: function (polygonLngLat, editorInputElement) {
         var editorInputElement = document.getElementById(editorInputElement);
-        var inside  = function (point, vs) {
+
+        var inside = function (point, vs) {
             // ray-casting algorithm based on
             // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
@@ -204,45 +239,85 @@ var OpenlayersMap = {
         });
 
         var self = this;
-        if (this.marker === null) {
-            this.map.on('click', function (event) {
 
-                var pickerCoords = {
-                    latitude: event.coordinate[1],
-                    longitude: event.coordinate[0]
+        // Add on click functionality for a locationpicker
+        // allowing user to click on a location on a map
+        // and pass the lat and lng to the form on which the location picker is included
+        this.map.on('click', function (event) {
+
+            var pickerCoords = {
+                latitude: event.coordinate[1],
+                longitude: event.coordinate[0]
+            };
+
+            var picker = [pickerCoords.longitude, pickerCoords.latitude];
+
+            if (inside(picker, polygonCoords)) {
+                var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
+                var coordinate = {
+                    latitude: latLong[1],
+                    longitude: latLong[0]
                 };
 
-                var picker = [pickerCoords.longitude, pickerCoords.latitude ];
+                self.addMarker(latLong,
+                    {
+                        url: '/modules/openstad-assets/img/idea/flag-blue.png',
+                        size: [22, 24]
+                    });
 
-                if (inside(picker, polygonCoords)) {
-                    var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
-                    var coordinate = {
-                        latitude: latLong[1],
-                        longitude: latLong[0]
-                    };
+                var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
 
-                    self.addMarker(latLong, {url: '/modules/openstad-assets/img/idea/flag-blue.png', size: [22, 24]});
+                editorInputElement.value = JSON.stringify(point);
+            }
 
-                    var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
-
-                    editorInputElement.value = JSON.stringify(point);
-                }
-
-            }, 'click');
-        }
+        }, 'click');
     },
     addPolygon: function (polygonLngLat) {
         this.map.addLayer(buildInvertedPolygon(polygonLngLat));
-        this.map.addLayer(buildOutlinedPolygon(polygonLngLat));
+        this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
     },
     removeMarkers: function () {
         this.map.removeLayer(this.marker);
+    },
+    buildOutlinedPolygon: function (polygonLngLat) {
+        //Style for the outlined polygon
+        var outlineStyles = [
+            new Style({
+                stroke: new Stroke({
+                    color: 'black',
+                    width: 3
+                })
+            }),
+            new Style({
+                geometry: function (feature) {
+                    // return the coordinates of the first ring of the polygon
+                    var coordinates = feature.getGeometry().getCoordinates()[0];
+                    return new MultiPoint(coordinates);
+                }
+            })
+        ];
+
+        var source = new VectorSource({
+            features: (new GeoJSON()).readFeatures(createGeojsonObject(getTransformedPolygon(polygonLngLat)))
+        });
+
+        this.polygonVector = source;
+
+        var outlinedLayer = new VectorLayer({
+            source: source,
+            style: outlineStyles
+        });
+
+        return outlinedLayer;
     }
 };
 
 function getInvertCoordinates() {
 
-    var coordinates = [{"lng": 0, "lat": 90},{"lng": 180, "lat": 90},{"lng": 180, "lat": -90},{"lng": 0, "lat": -90},{"lng": -180, "lat": -90},{"lng": -180, "lat": 0},{"lng": -180, "lat": 90},{"lng": 0, "lat": 90}];
+    var coordinates = [{"lng": 0, "lat": 90}, {"lng": 180, "lat": 90}, {"lng": 180, "lat": -90}, {
+        "lng": 0,
+        "lat": -90
+    }, {"lng": -180, "lat": -90}, {"lng": -180, "lat": 0}, {"lng": -180, "lat": 90}, {"lng": 0, "lat": 90}];
 
     var invertCoords = [];
     coordinates.forEach(function (pointPair) {
@@ -255,17 +330,17 @@ function getInvertCoordinates() {
 
 function createInvertedGeojsonObject(coordinates) {
     var geojsonObject = {
-        'type':     'FeatureCollection',
-        'crs':      {
-            'type':       'name',
+        'type': 'FeatureCollection',
+        'crs': {
+            'type': 'name',
             'properties': {
                 'name': 'EPSG:3857'
             }
         },
         'features': [{
-            'type':     'Feature',
+            'type': 'Feature',
             'geometry': {
-                'type':        'Polygon',
+                'type': 'Polygon',
                 'coordinates': [getInvertCoordinates(), coordinates]
             }
         }]
@@ -276,17 +351,17 @@ function createInvertedGeojsonObject(coordinates) {
 
 function createGeojsonObject(coordinates) {
     var geojsonObject = {
-        'type':     'FeatureCollection',
-        'crs':      {
-            'type':       'name',
+        'type': 'FeatureCollection',
+        'crs': {
+            'type': 'name',
             'properties': {
                 'name': 'EPSG:3857'
             }
         },
         'features': [{
-            'type':     'Feature',
+            'type': 'Feature',
             'geometry': {
-                'type':        'Polygon',
+                'type': 'Polygon',
                 'coordinates': [coordinates]
             }
         }]
@@ -299,52 +374,22 @@ function getTransformedPolygon(polygonLngLat) {
     //transform lnglat array to Spherical Mercator (EPSG:3857)
 
     var polygonCoords = [];
-      if (polygonLngLat) {
-      polygonLngLat.forEach(function (pointPair) {
-          var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
-          polygonCoords.push(newPair);
-      });
+    if (polygonLngLat) {
+        polygonLngLat.forEach(function (pointPair) {
+            var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
+            polygonCoords.push(newPair);
+        });
     }
 
     return polygonCoords;
 }
 
 
-function buildOutlinedPolygon(polygonLngLat) {
-    //Style for the outlined polygon
-    var outlineStyles = [
-        new Style({
-            stroke: new Stroke({
-                color: 'black',
-                width: 3
-            })
-        }),
-        new Style({
-            geometry: function (feature) {
-                // return the coordinates of the first ring of the polygon
-                var coordinates = feature.getGeometry().getCoordinates()[0];
-                return new MultiPoint(coordinates);
-            }
-        })
-    ];
-
-    var source = new VectorSource({
-        features: (new GeoJSON()).readFeatures(createGeojsonObject(getTransformedPolygon(polygonLngLat)))
-    });
-
-    var outlinedLayer = new VectorLayer({
-        source: source,
-        style:   outlineStyles
-    });
-
-    return outlinedLayer;
-}
-
 function buildInvertedPolygon(polygonLngLat) {
     //Style for the inverted polygon
     var invertedStyles = [
         new Style({
-            fill:   new Fill({
+            fill: new Fill({
                 color: 'rgba(0, 0, 0, 0.2)'
             })
         }),
@@ -363,6 +408,6 @@ function buildInvertedPolygon(polygonLngLat) {
 
     return new VectorLayer({
         source: source,
-        style:   invertedStyles
+        style: invertedStyles
     });
 }
