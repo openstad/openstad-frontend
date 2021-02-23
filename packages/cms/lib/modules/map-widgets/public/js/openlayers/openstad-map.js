@@ -101,11 +101,17 @@ var OpenlayersMap = {
 
         this.map = new ol.Map(defaultSettings);
 
-        var layer = nlmaps.openlayers.bgLayer();
+        var layer = new ol.layer.Tile({
+            source: new ol.source.OSM()
+        });
+
         this.map.addLayer(layer);
 
-        var overlayLayer = nlmaps.openlayers.overlayLayer('gebouwen');
-        this.map.addLayer(overlayLayer);
+      //  var layer = nlmaps.openlayers.bgLayer();
+      //
+
+      //  var overlayLayer = nlmaps.openlayers.overlayLayer('gebouwen');
+      //  this.map.addLayer(overlayLayer);
 
         var marker = nlmaps.openlayers.markerLayer(true);
         this.map.addLayer(marker);
@@ -120,15 +126,15 @@ var OpenlayersMap = {
         // if no vector for markers exists (probably because no makers are added to the map)
         // then center the map to the polygon
         // if both don't exists, nothing is done and the center settings provided in the createMap function remain valid (these most likely are set in global of APOS)
-        if (this.vectorSource) {
-            return this.map.getView().fit(this.vectorSource.getExtent(), this.map.getSize());
+        if (this.markers && this.markers.length > 0 && this.markerVectorSource) {
+            return this.map.getView().fit(this.markerVectorSource.getExtent(), this.map.getSize());
         } else if (this.polygonVector) {
             return this.map.getView().fit(this.polygonVector.getExtent(), this.map.getSize());
         }
     },
     addMarkers: function (markersData) {
         this.removeMarkers();
-
+        
         var markers = [];
 
         markersData.forEach(function (marker) {
@@ -168,7 +174,9 @@ var OpenlayersMap = {
 
         this.map.addLayer(vectorLayer);
 
-        this.vectorSource = vectorSource;
+        this.markerVectorSource = vectorSource;
+        this.markers = markers;
+
 
         return {
             vectorSource: vectorSource,
