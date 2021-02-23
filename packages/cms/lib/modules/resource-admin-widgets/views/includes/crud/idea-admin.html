@@ -26,13 +26,15 @@
 </a>
 
 
+{% if data.widget.hideVoteOverview %}
 <a href="#overview-votes" class="edit-button votes-overview-button">
   Stemoverzicht
 </a>
+{% include 'includes/modal-extra-info.html' %}
+{% endif %}
 
 
 
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
-{% include 'includes/modal-extra-info.html' %}
 {% endif %}
