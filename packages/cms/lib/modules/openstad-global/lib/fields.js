@@ -304,7 +304,7 @@ module.exports = [
     type: 'select',
     label: 'Selecteer een polygon',
     apiSyncField: 'area.id',
-    //choices: 'loadPolygonsFromApi',
+    choices: 'loadPolygonsFromApi',
   },
   {
     name: 'displayLoginTopLink',
