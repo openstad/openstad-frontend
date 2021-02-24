@@ -40,18 +40,16 @@ module.exports = function( db, sequelize, DataTypes ) {
     },
 
     images: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue: '{}',
       get: function() {
         let value = this.getDataValue('images');
-        console.log('===1', typeof value);
         try {
           if (typeof value == 'string') {
             value = JSON.parse(value);
           }
         } catch (err) {}
-        console.log('===2', typeof value);
         return value;
       },
       set: function(value) {
@@ -60,7 +58,7 @@ module.exports = function( db, sequelize, DataTypes ) {
             value = JSON.parse(value);
           }
         } catch (err) {}
-        this.setDataValue('images', JSON.stringify(value));
+        this.setDataValue('images', value);
       }
     },
 
