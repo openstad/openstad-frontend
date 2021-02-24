@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {View, Text, StyleSheet, ScrollView} from "react-native";
+import {View, Text, TouchableOpacity, ScrollView} from "react-native";
+import Overview from "../Overview";
 
 const styles = {
     title: {
@@ -12,7 +13,10 @@ const styles = {
 const workoutProgram = {
     periods: [
         {
-            workouts: [{}],
+            workouts: [{
+                id: 1,
+                title: 12
+            }],
         },
         {
             workouts: [{}],
@@ -34,6 +38,7 @@ class WorkoutSelectedProgram extends Component {
     }
 
     render() {
+        console.log('this.props.resourcesData', this.props.resourcesData)
         return (
             <View>
                 <Text style={styles.title}> {workoutProgram.title}</Text>
@@ -43,7 +48,6 @@ class WorkoutSelectedProgram extends Component {
                     flexWrap: 'wrap',
                 }}>
                     {workoutProgram.periods.map((period, i) => {
-                        const styles = this.state.activePeriodIndex === i ? styles.activeTab : {};
 
                         return (
                             <TouchableOpacity key={"period" + i} onPress={() => {
@@ -52,7 +56,9 @@ class WorkoutSelectedProgram extends Component {
                                     activePeriod: workoutProgram.periods[i]
                                 })
                             }}>
-                                <Text style={styles}>{workoutProgram.periodType} i + 1</Text>
+                                <Text style={this.state.activePeriodIndex === i ? styles.activeTab : {}}>
+                                    {workoutProgram.periodType} {i + 1}
+                                </Text>
                             </TouchableOpacity>
                         )
                     })}
@@ -61,7 +67,8 @@ class WorkoutSelectedProgram extends Component {
                     {this.state.activePeriod &&
                     <Overview
                         resource="workout"
-                        resourceData={this.state.activePeriod.workouts}
+                        resourceSchemas={this.props.resourceSchemas}
+                        resourcesData={this.props.resourcesData}
                     />
                     }
                 </ScrollView>

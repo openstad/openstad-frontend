@@ -153,6 +153,7 @@ const workoutSchema = {
             },
         },
         {
+            label: 'Type of workout',
             key: 'type',
             type: 'select',
             options: [{
@@ -625,7 +626,7 @@ const wordsSchema = {
     ]
 };
 
-const chats = {
+const chatSchema = {
     name: "chat",
     fields:
         [
@@ -655,7 +656,7 @@ const schemas = {
     membership: membershipSchema,
     subscription: subscriberSchema,
     userActivity: userActivitySchema,
-    chats: chat
+    chats: chatSchema
 }
 
 // do some formatting for all schema's

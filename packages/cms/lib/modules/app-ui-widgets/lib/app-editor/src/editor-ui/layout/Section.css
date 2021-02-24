@@ -16,7 +16,7 @@
   display: block;
 }
 
-.section input, .section textarea {
+.section input, .section textarea, .section select {
   width: 100%;
     box-sizing: border-box;
     padding: 11px 9px;
@@ -25,6 +25,13 @@
     font-size: 11px;
 }
 
+/*
+width: calc(100%);
+padding: 10px;
+border-color: #d9d9d9;
+border-radius: 5px;
+margin: 15px 0;
+*/
 .section-header {
   padding: 0 10px;
   display: block;

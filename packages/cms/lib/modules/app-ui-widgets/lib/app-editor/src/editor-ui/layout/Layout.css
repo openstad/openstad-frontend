@@ -112,7 +112,21 @@
   font-weight: bold;
   display: block;
   font-size: 11px;
+  position: relative;
 }
+
+.list-link  .more-link {
+  display: none;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+.list-link:hover .more-link {
+  display: block;
+}
+
+
 
 .flex {
   display: flex;

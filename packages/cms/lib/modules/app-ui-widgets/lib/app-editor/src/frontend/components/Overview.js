@@ -91,22 +91,17 @@ const DisplayItems = (props) => {
     return (
         <>
             {props.items.map((item, i) => {
-                console.log('props.resource', props.resource)
-                console.log('display items item', item)
-
-                return <DisplayItem item={item} />
+                return props.linkToScreen ? <TouchableHighlight
+                    key={item.id} onPress={() => {
+                    props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})
+                }} >
+                    <DisplayItem {...props} item={item} />
+                </TouchableHighlight> : <DisplayItem {...props} item={item} key={item.id} />
             })}
         </>
     )
 }
 
-const DisplayItem = (props) => {
-    const item = props.item;
-
-    return props.linkToScreen ? <TouchableHighlight key={item.id} onPress={() => props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})} >
-        <DisplayItem {...props} item={item} />
-    </TouchableHighlight> : <DisplayItem {...props} item={item} key={item.id} />
-}
 
 const OverviewContainer = (props) => {
     return props.scroll === 'horizontal' ?
@@ -114,7 +109,7 @@ const OverviewContainer = (props) => {
             flex: 1,
             flexDirection: 'row',
             flexWrap: 'wrap',
-        }}>{props.children}{props.children}{props.children}</ScrollView>
+        }}>{props.children}</ScrollView>
         :
         <View>{props.children}</View>
  }
@@ -134,8 +129,6 @@ const ResourceOverview = (props) => {
     if (!resourceSchema) {
         throw new Error('Resource schema not found in overview for resource type: ', resourceName);
     }
-
-    console.log('props', props);
 
     const apiUrl = `${resourceSchema.apiBase}/${resourceSchema.apiPath}`;
 

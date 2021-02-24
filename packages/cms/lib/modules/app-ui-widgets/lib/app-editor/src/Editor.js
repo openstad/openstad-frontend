@@ -176,6 +176,22 @@ class Editor extends Component {
 
   }
 
+  updateResources(resourceName, newResourcesItems) {
+    const resources = this.state.resources.map((resource) => {
+      if (resourceName === resource.name) {//add
+        resource.items = newResourcesItems;
+      }
+
+      return resource;
+    });
+
+    this.setState({
+      resources: resources,
+    });
+
+    this.synchData();
+  }
+
   updateResource(resourceName, updateResource) {
 
     let activeResource = this.state.activeResource;
@@ -298,6 +314,7 @@ class Editor extends Component {
             resources={this.state.resources.filter((resource) => this.props.editableResources && this.props.editableResources.includes(resource.name))}
             activeResource={this.state.activeResource}
             activeResourceName={this.state.activeResourceName}
+            updateResources={this.updateResources.bind(this)}
             edit={(resourceName, resource) => {
               this.setState({
                 activeResource: resource,
