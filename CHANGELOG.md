@@ -1,5 +1,9 @@
 # Changelog
 
+## pre-v0.13.1 (2020-...)
+* Load files with middleware instead of site
+
+
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
 * Use refactored react components

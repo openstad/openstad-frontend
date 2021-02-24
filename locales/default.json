@@ -369,5 +369,9 @@
 	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
 	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
-	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
+	"Edit Link or button": "Edit Link or button",
+	"Warning to adminstrator: voting type is not set to count in site settings!": "Warning to adminstrator: voting type is not set to count in site settings!",
+	"Edit Title": "Edit Title",
+	"Edit Accordeon": "Edit Accordeon"
 }
