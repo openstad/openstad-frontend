@@ -191,6 +191,12 @@ router.route('/:choicesGuideId(\\d+)$')
 // -------------------
 	.put(auth.useReqUser)
   .put(function(req, res, next) {
+
+    console.log('--------------------');
+    console.log(typeof req.body);
+    console.log(typeof req.body.images);
+
+    
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -203,6 +209,11 @@ router.route('/:choicesGuideId(\\d+)$')
 			.authorizeData(data, 'update', req.user)
       .update(data)
       .then((result) => {
+    console.log('--------------------');
+    console.log(typeof result);
+    console.log(typeof result.images);
+    console.log('--------------------');
+
         res.json(result);
       })
       .catch(next);

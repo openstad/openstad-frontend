@@ -45,11 +45,13 @@ module.exports = function( db, sequelize, DataTypes ) {
       defaultValue: '{}',
       get: function() {
         let value = this.getDataValue('images');
+        console.log('===1', typeof value);
         try {
           if (typeof value == 'string') {
             value = JSON.parse(value);
           }
         } catch (err) {}
+        console.log('===2', typeof value);
         return value;
       },
       set: function(value) {
