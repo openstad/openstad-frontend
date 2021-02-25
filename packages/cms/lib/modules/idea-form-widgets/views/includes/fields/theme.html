@@ -1,6 +1,0 @@
-<select id="thema" name="theme" class="default-select" value="{% if idea.extraData %}{{idea.extraData.theme}}{% endif %}" {% if data.widget.requiredThemes %}required{% endif %}>
-  <option value="">Kies thema</option>
-  {% for theme in data.global.themes %}
-  <option value="{{theme.value}}" {% if (idea.extraData) and (idea.extraData.theme === theme.value) %}selected{% endif %}>{{theme.value}}</option>
-  {% endfor %}
-</select>
