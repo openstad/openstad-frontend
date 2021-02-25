@@ -1,8 +1,9 @@
 # Changelog
 
 ## pre-v0.13.1 (2020-...)
-* Load files with middleware instead of site
-
+* Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
+* Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
+* Check if maps exists in some places
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results

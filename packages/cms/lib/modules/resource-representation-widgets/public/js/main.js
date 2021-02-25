@@ -5,11 +5,14 @@ apos.define('resource-representation-widgets', {
             initResourceVoteForms($widget);
 
             var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
-            var map = self.createMap(mapConfig);
 
-            self.addPolygon(mapConfig);
-            self.setIdeaMarker(mapConfig);
-            self.center();
+            if (mapConfig) {
+                var map = self.createMap(mapConfig);
+
+                self.addPolygon(mapConfig);
+                self.setIdeaMarker(mapConfig);
+                self.center();
+            }
         }
     }
 });

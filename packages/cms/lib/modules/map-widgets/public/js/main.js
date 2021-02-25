@@ -19,8 +19,6 @@ apos.define('map-widgets', {
                 // this beautiful ladder is easiest way to ensure that libs are
                 // loaded step by step
                 $.getScript("/modules/map-widgets/js/modules/ol.js", function () {
-                    console.log('load openlayers')
-
                     $.getScript("/modules/map-widgets/js/openlayers/openstad-map.js", function () {
                         window.loadingMapLibs = false;
                         self.playAfterlibsLoaded($widget, data, options);
