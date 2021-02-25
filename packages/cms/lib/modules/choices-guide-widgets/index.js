@@ -139,8 +139,8 @@ module.exports = {
             },
             barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
           },
-          beforeUrl: widget.beforeUrl,
-          afterUrl: widget.afterUrl,
+          beforeUrl: widget.beforeUrl && req.data.siteUrl + widget.beforeUrl,
+          afterUrl: widget.afterUrl && req.data.siteUrl + widget.afterUrl,
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
         const containerId = widget._id;
