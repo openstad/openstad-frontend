@@ -97,7 +97,7 @@ const workoutSchema = {
             name: "workout",
             components: [
                 {
-                    type: 'ExcerciseWorkout',
+                    type: 'ExerciseWorkout',
                 }
             ],
         }
@@ -165,6 +165,7 @@ const workoutSchema = {
             }]
         },
         {
+            label: 'Free or Premium (in future specific users)',
             key: 'roleNeeded',
             type: 'select',
             options: [{
@@ -177,27 +178,18 @@ const workoutSchema = {
         },
         {
             displayConditions: [{
-                'type': 'exercise'
+                'key': 'type',
+                'value': 'exercise'
             }],
+            label: 'Exercises',
             key: 'steps',
             type: 'object',
             fields: [
                 {
-                    key: 'type',
-                    type: 'select',
-                    options: [{
-                        value: 'exercise',
-                        label: 'Workout made with a selection of exercises'
-                    }, {
-                        value: 'step',
-                        label: 'Video workout'
-                    }]
-                },
-                {
                     key: 'exercise',
                     type: 'relationship',
-                    multiple: true
-                }
+                    resourceName: 'exercise'
+                },
             ]
         }
     ]
@@ -302,7 +294,7 @@ const exerciseSchema = {
             key: 'title',
             type: 'text',
             label: 'title',
-            default: 'New excercise...',
+            default: 'New exercise...',
             validation: {
                 required: true,
                 minLength: 2,

@@ -4,6 +4,7 @@ import SelectField from './SelectField';
 class RelationshipField extends Component {
   render () {
       const resourceToSelect = this.props.resources ? this.props.resources.find(resource => resource.name === this.props.resourceName) : [];
+      console.log('resourceToSelect', resourceToSelect);
 
       const resourceOptions = resourceToSelect && resourceToSelect.items ? resourceToSelect.items.map((resourceItem) => {
           return {

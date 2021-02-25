@@ -1,4 +1,4 @@
-const excercises = [{
+const exercises = [{
     name: '',
     image: false
 }]

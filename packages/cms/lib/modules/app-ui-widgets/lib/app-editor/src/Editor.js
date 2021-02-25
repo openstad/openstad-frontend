@@ -400,6 +400,7 @@ class Editor extends Component {
             <ResourceForm
               activeResource={this.state.activeResource}
               resourceName={this.state.activeResourceName}
+              resources={this.state.resources}
               update={(key, value) => {
                 this.updateResource(
                     this.state.activeResourceName,

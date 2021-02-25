@@ -89,16 +89,10 @@ class Sidebar extends Component {
                             <ReactSortable
                                 list={resourceItems}
                                 setList={(newResourceItems) => {
-                                    console.log('Set list');
-                                    // Sortable fires this alllll the time
-                                    // also
-
                                     const listedNewIds = newResourceItems.map(item => item.id);
                                     const listedOldIds = resource.items.map(item => item.id);
 
                                      if (JSON.stringify(listedNewIds) !== JSON.stringify(listedOldIds)) {
-                                        console.log('Not the same voobsche list');
-
                                         props.updateResources(resource.name, newResourceItems)
                                     }
 
@@ -111,7 +105,8 @@ class Sidebar extends Component {
 
                                     return (
                                         <ListItem active={active} key={resourceItem.id}>
-                                            <a className={linkClassName} onClick={() => {
+                                            <a className={linkClassName} onClick={(ev) => {
+                                                ev.preventDefault();
                                                 props.edit(resource.name, resourceItem)
                                             }} href="#">
                                                 {resourceItem.title}

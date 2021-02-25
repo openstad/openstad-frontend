@@ -14,10 +14,10 @@ const styles = StyleSheet.create({
  * @returns {JSX.Element}
  * @constructor
  */
-const ExcerciseWorkout = (props) => {
+const ExerciseWorkout = (props) => {
     return <View>
 
     </View>
 }
 
-export default ExcerciseWorkout;
+export default ExerciseWorkout;

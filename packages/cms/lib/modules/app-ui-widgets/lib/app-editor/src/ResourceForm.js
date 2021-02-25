@@ -5,7 +5,8 @@ import resourceSchemas from './config/resourceSchemas';
 
 class ResourceForm extends Component {
     render() {
-        console.log()
+        console.log('ResourceForm props', this.props);
+
         const resourceSchema = resourceSchemas[this.props.resourceName];
 
         if (!resourceSchema) {
@@ -17,13 +18,16 @@ class ResourceForm extends Component {
         // "saves"
         return(
             <form key={`${this.props.resourceName}-${this.props.activeResource.id}`}>
-                {resourceSchema.description && <div className={"info-container"}>
+                {resourceSchema.description &&
+                <div className={"info-container"}>
                     {resourceSchema.description}
-                </div>}
+                </div>
+                }
                 <FormFieldManager
                     activeResource={this.props.activeResource}
                     fields={resourceSchema.fields}
                     update={this.props.update}
+                    resources={this.props.resources}
                 />
             </form>
         )
