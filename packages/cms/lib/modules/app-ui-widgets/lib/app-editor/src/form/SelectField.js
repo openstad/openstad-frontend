@@ -6,9 +6,10 @@ const Select = ({update, options, activeValue}) => {
             onChange={(event) => {
                 update(event.currentTarget.value)
             }}
+            defaultValue={activeValue}
         >
-            {options.map((option) => {
-                return <option value={option.value} selected={option.value === activeValue}>{option.label}</option>
+            {options.map((option, i) => {
+                return <option key={i} value={option.value} >{option.label}</option>
             })}
         </select>
     );

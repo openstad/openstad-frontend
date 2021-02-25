@@ -65,7 +65,6 @@ const ListItem = (props) => {
     // in case backgroundImage is an array grab first image
     backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
 
-    console.log('backgroundImage',  backgroundImage)
 
     return (
         <View style={defaultListItemStylesOuter}>
@@ -118,13 +117,8 @@ const ResourceOverview = (props) => {
 
     const resourceName = props.resource;
 
-    console.log('props', props)
-    console.log('resourceName', resourceName)
-    console.log('resourceSchemas', props.resourceSchemas)
-
     //available resource schema contain the info on how to handle them
     const resourceSchema = props.resourceSchemas[resourceName];
-    console.log('resourceSchema',resourceSchema)
 
     if (!resourceSchema) {
         throw new Error('Resource schema not found in overview for resource type: ', resourceName);

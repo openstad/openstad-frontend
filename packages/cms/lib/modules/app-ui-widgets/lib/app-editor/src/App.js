@@ -228,8 +228,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
 
     if (!this.state.app) {
       return <Loader />

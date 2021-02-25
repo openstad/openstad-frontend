@@ -30,6 +30,13 @@ const postCompononent = (props) => {
       </>
   )
 }
+
+//wrap app so it doesn't get updated on every state change of editor
+const AppWrapper = (props) =>{
+  return <GenericApp
+      {...props}
+  />
+}
 /*
 <TourApp
                 coordinates={this.getResourceItems('coordinates')}
@@ -57,6 +64,7 @@ class Editor extends Component {
       appResource:  props.appResource,
       loading: true,
       lineCoords: false,
+      crudCount: 0
     };
 
   //  this.fetchRoutes.bind(this);
@@ -111,7 +119,6 @@ class Editor extends Component {
 
   updateResourceItems(resourceName, newResourceItems) {
     const resources = this.state.resources.map((resource) => {
-      console.log('resource.name', resource.name)
 
       if (resource.name === resourceName) {
         resource.items = newResourceItems;
@@ -124,6 +131,24 @@ class Editor extends Component {
     this.setState({
       resources: resources,
     });
+  }
+
+  removeResourceItem(resourceName, resourceItemId) {
+    if (window.confirm('Sure ?')) {
+      const resources = this.state.resources.map((resource) => {
+
+        if (resource.name === resourceName) {
+          resource.items = resource.items.filter(item => item.id !== resourceItemId);
+        }
+
+        return resource;
+      });
+
+
+      this.setState({
+        resources: resources,
+      });
+    }
   }
 
   handleHashChange() {
@@ -172,11 +197,16 @@ class Editor extends Component {
       displaySettingsModal: false
     });
 
+    console.log('new me me me');
+
+
     this.synchData();
 
   }
 
   updateResources(resourceName, newResourcesItems) {
+    console.log('update all of me me');
+
     const resources = this.state.resources.map((resource) => {
       if (resourceName === resource.name) {//add
         resource.items = newResourcesItems;
@@ -194,6 +224,8 @@ class Editor extends Component {
 
   updateResource(resourceName, updateResource) {
 
+    console.log('update me');
+
     let activeResource = this.state.activeResource;
 
     const resources = this.state.resources.map((resource) => {
@@ -205,10 +237,14 @@ class Editor extends Component {
         }
 
         //add
-        resource.items = resource.items.map(function (resourceItem) {
-          return updateResource.id === resourceItem.id ? updateResource : resourceItem;
+        resource.items = resource.items.map((resourceItem) => {
+          return updateResource.id === resourceItem.id ? {
+            ...updateResource,
+            updatedAtTimestamp: new Date().getTime()
+          } : resourceItem;
         });
       }
+
 
       return resource;
     });
@@ -224,13 +260,12 @@ class Editor extends Component {
 
     this.synchData();
 
-    this.forceUpdate();
   }
 
   fetchApp () {
+
     axios.get(`/api/tour/${this.props.appId}`)
       .then( (response) => {
-        console.log('response', response);
 
         const appResource =  response.data;
         const resources = appResource.revisions[appResource.revisions.length -1].resources;
@@ -244,7 +279,7 @@ class Editor extends Component {
           })
         });
 
-        this.fetchRoutes();
+        //this.fetchRoutes();
       })
       .catch(function (error) {
         console.log('Error', error);
@@ -260,6 +295,12 @@ class Editor extends Component {
       title: 'App demo 1',
       settings: {},
       resources: this.state.resources
+    })
+
+    console.log('sync')
+
+    this.setState({
+      crudCount: this.state.crudCount + 1
     })
 
     axios.put(`/api/tour/${this.props.appId}`, app)
@@ -304,8 +345,7 @@ class Editor extends Component {
     if (this.state.loading) {
       return <Loader />
     }
-    console.log('this.state.appResource in Editor', this.state.appResource)
-    console.log('this.state.resources in Editor', this.state.resources)
+
 
     return (
       <UI
@@ -315,6 +355,7 @@ class Editor extends Component {
             activeResource={this.state.activeResource}
             activeResourceName={this.state.activeResourceName}
             updateResources={this.updateResources.bind(this)}
+            removeResourceItem={this.removeResourceItem.bind(this)}
             edit={(resourceName, resource) => {
               this.setState({
                 activeResource: resource,
@@ -335,7 +376,7 @@ class Editor extends Component {
               </Modal>
             }
             <AppPreviewer>
-              <GenericApp
+              <AppWrapper
                   id={this.state.appResource.id}
                   title={this.state.appResource.title}
                   styling={this.state.appResource.styling}
@@ -348,7 +389,9 @@ class Editor extends Component {
                   preCompononent={preCompononent}
                   postCompononent={postCompononent}
                   isSignedIn={true}
+                  crudCount={this.state.crudCount}
               />
+
             </AppPreviewer>
           </div>
         }

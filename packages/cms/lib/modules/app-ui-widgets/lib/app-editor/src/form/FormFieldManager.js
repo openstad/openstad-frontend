@@ -38,18 +38,17 @@ const componentstMap = {
 function FormFieldManager(props) {
   return (
     <>
-      {props.fields.map((field)  => {
+      {props.fields.map((field, i)  => {
         const FormField =  componentstMap[field.type] ? componentstMap[field.type].component : false;
         const label = field.label ? field.label : makeCamelCasePretty(field.key);
         // allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
         return (
-          <Section title={field.label}>
+          <Section title={field.label} key={i}>
             {FormField && <FormField
               {...field}
               activeValue={props.activeResource ? props.activeResource[field.key] : null}
               activeResource={props.activeResource}
               update={(value) => {
-                console.log('update formfield with key', field.key, ' and value ', value);
                 props.update(field.key, value)
               }}
             />}

@@ -8,16 +8,12 @@ const saveOrder = () => {
 
 }
 
-class DropDown extends component {
+class DropDown extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeResource: null,
-            resources: props.resources,
-            appResource:  props.appResource,
-            loading: true,
-            lineCoords: false,
+            showMenu: false
         };
 
         //  this.fetchRoutes.bind(this);
@@ -25,15 +21,35 @@ class DropDown extends component {
 
     render () {
         return (
-            <div className={this.props.className}>
-                {this.props.toggle}
-                <
+            <div
+                style={{
+                    display: this.props.active ? 'block' : 'none',
+                    position: 'absolute',
+                    top: 0,
+                    right: 0,
+                }}
+            >
+                <a href="#" onClick={(ev) => {
+                    ev.preventDefault();
+
+                    this.setState({
+                        showMenu: !this.state.showMenu
+                    });
+                }}>
+                    {this.props.toggle}
+                </a>
+
+                {this.state.showMenu &&
+                <div className="dropdown-menu">
+                    {this.props.children}
+                </div>
+                }
             </div>
         )
     }
 }
 
-class Sidebar extends component {
+class Sidebar extends Component {
     constructor(props) {
         super(props);
 
@@ -73,7 +89,19 @@ class Sidebar extends component {
                             <ReactSortable
                                 list={resourceItems}
                                 setList={(newResourceItems) => {
-                                    props.updateResources(resource.name, newResourceItems)
+                                    console.log('Set list');
+                                    // Sortable fires this alllll the time
+                                    // also
+
+                                    const listedNewIds = newResourceItems.map(item => item.id);
+                                    const listedOldIds = resource.items.map(item => item.id);
+
+                                     if (JSON.stringify(listedNewIds) !== JSON.stringify(listedOldIds)) {
+                                        console.log('Not the same voobsche list');
+
+                                        props.updateResources(resource.name, newResourceItems)
+                                    }
+
                                 }}
                             >
                                 {resourceItems.map((resourceItem) => {
@@ -82,7 +110,7 @@ class Sidebar extends component {
                                     var moreLinkClassName = active ? "more-link active" : "more-link";
 
                                     return (
-                                        <ListItem active={active}>
+                                        <ListItem active={active} key={resourceItem.id}>
                                             <a className={linkClassName} onClick={() => {
                                                 props.edit(resource.name, resourceItem)
                                             }} href="#">
@@ -90,13 +118,13 @@ class Sidebar extends component {
                                             </a>
 
                                             <DropDown
-                                                toggle={<img src="/more.svg"/>}
+                                                toggle={<img src="/more.svg" className={moreLinkClassName} />}
+                                                active={active}
                                             >
-                                                <a onClick={() => {
-                                                    this.props.removeResource(resource.name, resource.id)
-                                                }}>
-                                                    Delete
-                                                </a>
+                                                <a href="#" onClick={(ev) => {
+                                                    ev.preventDefault();
+                                                    this.props.removeResourceItem(resource.name, resourceItem.id);
+                                                }}> Remove </a>
                                             </DropDown>
                                         </ListItem>
                                     )

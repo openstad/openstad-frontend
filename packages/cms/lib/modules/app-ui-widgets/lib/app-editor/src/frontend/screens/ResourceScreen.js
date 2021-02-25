@@ -47,8 +47,10 @@ const ResourceScreen = (props) => {
         fetchResource();
     }, []);
 
+
     return (
-        <ScrollView style={{
+        <ScrollView
+            style={{
             flex: 1
         }}>
             {resource.isFetching ?

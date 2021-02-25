@@ -147,7 +147,8 @@ export class AudioRecordField extends React.Component {
     request.onreadystatechange = () => {
       if (request.readyState === 4) {
         var response = JSON.parse(request.responseText);
-        console.log('response', response);
+        console.log('response',
+            );
           if (request.status === 200) {
              console.log('successful', response);
              this.props.update(response.url);

@@ -58,8 +58,8 @@ class GenericApp extends Component {
         }
 
         return (
-            <View style={{
-                height: Platform.OS === 'web' ? '100%' : '100%',
+            <View key={this.props.crudCount} style={{
+                height: '100%',
                 flex: 1
                 //  ...this.props.styling.body.styles
             }}>

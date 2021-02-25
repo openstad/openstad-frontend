@@ -38,7 +38,7 @@ class WorkoutSelectedProgram extends Component {
     }
 
     render() {
-        console.log('this.props.resourcesData', this.props.resourcesData)
+
         return (
             <View>
                 <Text style={styles.title}> {workoutProgram.title}</Text>

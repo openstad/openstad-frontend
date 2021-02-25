@@ -52,8 +52,7 @@ class ImageUploadField extends Component {
     // the way filepond react deals with uploads is a little bit awkward to make work nice with
     // react data but anyway this works
     updateImages(images, newImage) {
-        console.log('Images', images)
-        console.log('newImage', newImage)
+
 
       if (images) {
       images = images
@@ -75,7 +74,6 @@ class ImageUploadField extends Component {
     }
 
     render () {
-      console.log('this.state.images', this.state.images);
 
       return (
         <div>

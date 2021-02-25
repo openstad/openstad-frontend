@@ -126,7 +126,6 @@ if (process.env.FRONTEND) {
 
     const settings = editorSettings[editorType];
 
-    console.log('latestRevision', latestRevision);
 
     ReactDOM.render(
         <React.StrictMode>

@@ -94,14 +94,14 @@
 
 .ListItem {
   /*border-bottom: 1px solid #d4d4d4;*/
-  padding: 8px;
+  position: relative;
 }
 
 .ListItem:first-child {
   /*border-top: 1px solid #d4d4d4;*/
 }
 
-.ListItem.active, .ListItem.active a {
+.ListItem.active, .ListItem.active > a {
   background: #47afff;
   color: white;
   border-radius: 5px;
@@ -113,19 +113,49 @@
   display: block;
   font-size: 11px;
   position: relative;
+  padding: 8px;
 }
 
-.list-link  .more-link {
-  display: none;
-  position: absolute;
-  top: 3px;
-  right: 3px;
-}
-
-.list-link:hover .more-link {
+.ListItem .more-link {
   display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  bottom: 0;
+  padding: 7px 7px;
 }
 
+/*.ListItem:hover .more-link, .ListItem.active .more-link {
+  display: block;
+}*/
+
+.dropdown-menu {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 5px;
+  font-size: 11px;
+}
 
 
 .flex {
