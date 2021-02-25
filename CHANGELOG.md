@@ -1,7 +1,8 @@
 # Changelog
 
 ## UNRELEASED
-* Add page cache for non moderator users
+* Add page cache for non logged in users
+* Remove idea-single, idea-overview and idea-form files (templates will display warning now)
 
 
 ## v0.13.0 (2020-02-23)
