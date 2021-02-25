@@ -26,6 +26,7 @@ module.exports = {
             {name: 'sort'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
+            {name: 'jquery.dataTables.min'}
           ],
           stylesheets: [
             {name: 'main'}
