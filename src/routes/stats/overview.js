@@ -28,7 +28,7 @@ router
 
 router.route('/')
 
-    // count votes
+    // Check if user is allowed to see the statistics
     // -----------
     .get((req, res, next) => {
 
@@ -43,23 +43,80 @@ router.route('/')
     })
     .get((req, res, next) => {
 
+    //    const dateWhere = "";
+
+
         // key: is used in fronted logic, so be careful to change
         // description: describe type of statisic, might be used for displaying, but not for logic, can more easily be changed
         // query, not send to frontend
         // queryVariables
         //  resultType
-
-        // depending on type of query, this will be an array or total key
-        // fil
         const queries = [{
-            key: 'totalIdeaVotes',
-
-            description: 'Total votes made for ideas',
+            key: 'ideaVotesCountForTotal',
+            description: 'Votes on ideas, total count',
             sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
             variables: [req.params.siteId],
-            resultType: 'array',
+            resultType: 'count',
+            // will be filled after running the query
             results: [],
-        }];
+        },
+        {
+            key: 'ideaVotesCountForTotal',
+            description: 'Votes for ideas, total count',
+            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+        {
+            key: 'ideaVotesCountAgainstTotal',
+            description: 'Votes againts ideas, total count',
+            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+        {
+            key: 'usersVotedPerDay',
+            description: 'Amount of users that voted per day. ',
+            help: 'This is not the same as total votes per days, since a user can often vote on more then one idea.',
+            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+        {
+            key: 'argumentCountTotal',
+            description: 'Amount of arguments, total count',
+            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+        {
+            key: 'argumentForCountTotal',
+            description: 'Amount of arguments for an idea, total count',
+            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'for'",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+        {
+            key: 'argumentAgainstCountTotal',
+            description: 'Amount of arguments against an idea, total count',
+            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
+            variables: [req.params.siteId],
+            resultType: 'count',
+            // will be filled after running the query
+            results: [],
+        },
+
+        ];
 
         req.queries = queries;
 
@@ -81,7 +138,8 @@ router.route('/')
             return next(createError(401, 'Error while initialising SQL connection: ', e));
         }
     })
-    .get(async (req, res, next) => {
+
+    .get( (req, res, next) => {
         queries = req.queries.map(async (query) => {
             let result, fields;
 
@@ -92,9 +150,6 @@ router.route('/')
                 return next(createError(401, 'Error while executing statistic query: ' + e));
             }
 
-            console.log('fields', fields)
-            console.log('result', result)
-
             return {
                 key: query.key,
                 description: query.description,
@@ -104,9 +159,6 @@ router.route('/')
 
         Promise.all(queries)
             .then((result) => {
-                console.log('result', result);
-                console.log('queries', queries);
-
                 req.stats = result;
                 next();
             })
