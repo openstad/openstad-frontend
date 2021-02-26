@@ -181,11 +181,12 @@ const workoutSchema = {
                 'key': 'type',
                 'value': 'exercise'
             }],
-            label: 'Exercises',
+            label: 'Workout Sessions',
             key: 'steps',
             type: 'object',
             fields: [
                 {
+                    label: 'Exercise',
                     key: 'exercise',
                     type: 'relationship',
                     resourceName: 'exercise'

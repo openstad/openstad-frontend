@@ -22,7 +22,9 @@ class Section extends Component {
 
     return (
       <div className={className}>
-        <a href="#" className="section-header" onClick={() => {
+        <a href="#" className="section-header" onClick={(ev) => {
+          ev.preventDefault();
+
           if(collapsible) {
             this.setState({
               open: !this.state.open
