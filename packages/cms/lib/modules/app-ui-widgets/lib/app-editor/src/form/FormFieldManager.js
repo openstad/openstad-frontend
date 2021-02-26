@@ -23,6 +23,9 @@ const componentstMap = {
     'text': {
         component: TextField,
     },
+    'number': {
+        component: TextField,
+    },
     'textarea': {
         component: TextField,
     },

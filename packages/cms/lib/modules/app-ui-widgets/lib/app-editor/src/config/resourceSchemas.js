@@ -141,17 +141,7 @@ const workoutSchema = {
             },
             sanitize: 'alphaNumeric'
         },
-        {
-            key: 'video',
-            type: 'image',
-            multiple: true,
-            description: 'First image is used as image',
-            label: 'Video',
-            validation: {
-                required: true,
-                allowedFileTypes: defaultVideoFileTypes
-            },
-        },
+
         {
             label: 'Type of workout',
             key: 'type',
@@ -160,7 +150,7 @@ const workoutSchema = {
                 value: 'exercise',
                 label: 'Workout made with a selection of exercises'
             }, {
-                value: 'step',
+                value: 'video',
                 label: 'Video workout'
             }]
         },
@@ -179,18 +169,154 @@ const workoutSchema = {
         {
             displayConditions: [{
                 'key': 'type',
+                'value': 'video'
+            }],
+            key: 'video',
+            type: 'image',
+            multiple: true,
+            description: 'First image is used as image',
+            label: 'Video',
+            validation: {
+                required: true,
+                allowedFileTypes: defaultVideoFileTypes
+            },
+        },
+        {
+            displayConditions: [{
+                'key': 'type',
                 'value': 'exercise'
             }],
-            label: 'Workout Sessions',
-            key: 'steps',
+            label: 'Workout Rounds',
+            key: 'rounds',
             type: 'object',
             fields: [
                 {
-                    label: 'Exercise',
-                    key: 'exercise',
-                    type: 'relationship',
-                    resourceName: 'exercise'
+                    key: 'round',
+                    type: 'text',
+                    label: 'Amount of repetitions of round',
+                    default: '1',
+                    validation: {
+                        required: true,
+                        minLength: 1,
+                        maxLength: 2
+                    },
+                    sanitize: 'numeric',
+                    format: '',
                 },
+                {
+                    label: 'Round',
+                    key: 'rounds',
+                    type: 'object',
+                    fields: [
+                        {
+                            label: 'Excercise or Rest?',
+                            key: 'exerciseOrRest',
+                            type: 'select',
+                            options: [{
+                                value: 'exercise',
+                                label: 'Excercise'
+                            }, {
+                                value: 'rest',
+                                label: 'Rest'
+                            }]
+                        },
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'exercise'
+                            }],
+                            label: 'Exercise',
+                            key: 'exercise',
+                            type: 'relationship',
+                            resourceName: 'exercise'
+                        },
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'exercise'
+                            }],
+                            label: 'Time or Reps?',
+                            key: 'roleNeeded',
+                            type: 'select',
+                            options: [{
+                                value: 'time',
+                                label: 'Time'
+                            }, {
+                                value: 'reps',
+                                label: 'Reps'
+                            }]
+                        },
+
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'exercise'
+                            }],
+                        key: 'sets',
+                        type: 'number',
+                        textarea: true,
+                        label: 'Sets',
+                        validation: {
+                            required: true,
+                            minLength: 2,
+                            maxLength: 40
+                        },
+                        sanitize: 'numeric',
+                    },
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'exercise'
+                            }],
+                            key: 'reps',
+                            type: 'number',
+                            textarea: true,
+                            label: 'Reps',
+                            validation: {
+                                required: true,
+                                minLength: 2,
+                                maxLength: 40
+                            },
+                            sanitize: 'numeric',
+                        },
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'exercise'
+                            }],
+                            key: 'workoutTime',
+                            type: 'number',
+                            textarea: true,
+                            label: 'Time (in seconds)',
+                            validation: {
+                                required: true,
+                                minLength: 2,
+                                maxLength: 40
+                            },
+                            sanitize: 'numeric',
+                        },
+                        {
+                            displayConditions: [{
+                                'key': 'exerciseOrRest',
+                                'value': 'rest'
+                            }],
+                            key: 'restTime',
+                            type: 'number',
+                            textarea: true,
+                            label: 'Rest Time (in seconds)',
+                            validation: {
+                                required: true,
+                                minLength: 2,
+                                maxLength: 40
+                            },
+                            sanitize: 'numeric',
+                        },
+
+
+
+                    ]
+                }
+
             ]
         }
     ]
