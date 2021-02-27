@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.13.8",
+    "@babel/plugin-transform-flow-strip-types": "^7.13.0",
+    "@babel/plugin-transform-parameters": "^7.13.0",
     "@cleandersonlobo/react-mic": "^1.2.0",
     "@mongodb-js/react-mapbox-gl-leaflet": "^1.0.0",
     "@react-navigation/bottom-tabs": "^5.11.7",
@@ -13,6 +16,10 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react-native-snap-carousel": "^3.8.2",
     "axios": "^0.21.0",
+    "babel-preset-expo": "^8.3.0",
+    "expo": "^40.0.1",
+    "expo-asset": "^8.2.2",
+    "expo-av": "^9.0.0",
     "filepond": "^4.21.1",
     "filepond-plugin-file-poster": "^2.3.1",
     "filepond-plugin-file-validate-type": "^1.2.5",
@@ -41,7 +48,9 @@
     "react-native-tab-view": "^2.15.2",
     "react-native-track-player": "^1.2.3",
     "react-native-vector-icons": "^8.0.0",
-    "react-native-web": "^0.14.8",
+    "react-native-video": "^5.1.1",
+    "react-native-web": "^0.14.13",
+    "react-native-web-video": "^5.0.0",
     "react-places-autocomplete": "^7.3.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -52,8 +61,8 @@
     "typescript": "^4.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start-rewired": "react-app-rewired start",
+    "start-default": "react-scripts start",
+    "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "start-script": "react-scripts start",
@@ -77,11 +86,14 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
     "babel-eslint": "^10.1.0",
     "babel-plugin-react-native-web": "^0.15.0",
     "customize-cra": "^1.0.0",
     "eslint-plugin-react": "^7.22.0",
+    "install": "^0.13.0",
+    "npm": "^7.6.0",
     "react-app-rewired": "^2.1.8"
   }
 }

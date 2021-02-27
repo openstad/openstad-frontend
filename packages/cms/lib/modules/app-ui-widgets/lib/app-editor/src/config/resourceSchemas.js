@@ -61,6 +61,12 @@ const workoutSchema = {
             name: "workoutDetail",
             components: [
                 {
+                    type: 'WorkoutIntro',
+                    props: {
+                        key: 'src'
+                    }
+                },
+                {
                     type: 'images',
                     props: {
                         key: 'src'
@@ -97,7 +103,7 @@ const workoutSchema = {
             name: "workout",
             components: [
                 {
-                    type: 'ExerciseWorkout',
+                    type: 'WorkoutIntro',
                 }
             ],
         }

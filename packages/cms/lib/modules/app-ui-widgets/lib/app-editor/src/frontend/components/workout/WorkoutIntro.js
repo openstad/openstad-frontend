@@ -1,5 +1,6 @@
 import React  from "react";
 import { View, Text, StyleSheet } from "react-native";
+import VideoWorkout from './VideoWorkout';
 
 const styles = StyleSheet.create({
     titleText: {
@@ -9,8 +10,10 @@ const styles = StyleSheet.create({
 });
 
 const WorkoutIntro = (props) => {
+    console.log('const WorkoutIntro = (props) =>', props)
     return <View>
-
+        <Text>This is intro </Text>
+        <VideoWorkout />
     </View>
 }
 

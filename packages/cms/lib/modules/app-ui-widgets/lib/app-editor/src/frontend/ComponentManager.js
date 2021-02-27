@@ -1,6 +1,6 @@
 import React from 'react';
 import { Title, RichText, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash, Images } from './components';
-import {WorkoutSelectedProgram, ExerciseWorkout} from "./components/workout";
+import {WorkoutSelectedProgram, ExerciseWorkout, WorkoutIntro} from "./components/workout";
 
 const componentsMap = {
   'title'   :{
@@ -44,6 +44,9 @@ const componentsMap = {
   },
   'WorkoutSelectedProgram' : {
     component: WorkoutSelectedProgram,
+  },
+  'WorkoutIntro' : {
+    component: WorkoutIntro,
   },
   'ExerciseWorkout' : {
     component: ExerciseWorkout,

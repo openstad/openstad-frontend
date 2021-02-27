@@ -12,6 +12,8 @@ const ResourceScreen = (props) => {
 
     const {id} = props.route.params;
 
+    console.log('ResourceScreen props', props)
+
     const resourceSchema = props.resourceSchemas[props.resource];
 
     if (!resourceSchema) {
