@@ -10,6 +10,7 @@ class StaticScreen extends Component {
     this.state = {};
   }
   render() {
+    console.log('ResourceScreen props', this.props)
 
     return (
       <ScrollView>

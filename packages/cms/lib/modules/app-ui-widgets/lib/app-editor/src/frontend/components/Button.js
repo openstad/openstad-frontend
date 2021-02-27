@@ -23,7 +23,7 @@ const ResourceButton = (props) => {
 const StaticButton = (props) => {
   return (
       <Text style={styles.buttonText}>
-        {props.buttonText}
+        {props.text}
       </Text>
   );
 };

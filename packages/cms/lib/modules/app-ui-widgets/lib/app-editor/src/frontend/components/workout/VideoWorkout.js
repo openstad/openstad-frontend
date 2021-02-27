@@ -5,6 +5,7 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 
 const { width, height } = Dimensions.get('window');
 
+console.log('width, height', width, height)
 
 const styles = StyleSheet.create({
     container: {
@@ -14,8 +15,8 @@ const styles = StyleSheet.create({
     },
     video: {
         alignSelf: 'center',
-        width: width,
-        height: width / (4/3)
+        width: '100%',
+        //height: width
     },
     buttons: {
         flexDirection: 'row',

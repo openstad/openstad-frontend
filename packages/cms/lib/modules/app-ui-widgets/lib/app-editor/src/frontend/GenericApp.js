@@ -6,8 +6,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Platform, StyleSheet} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ScreenStackNavigator from './ScreenStackNavigator';
+import {createStackNavigator} from '@react-navigation/stack';
 
-//import Ionicons from 'react-native-web-vector-icons/Ionicons';
+const Stack = createStackNavigator();
+
+//import
+// Ionicons from 'react-native-web-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -60,52 +64,100 @@ class GenericApp extends Component {
         return (
             <View key={this.props.crudCount} style={{
                 height: '100%',
-                flex: 1
-                //  ...this.props.styling.body.styles
+                flex: 1, //  ...this.props.styling.body.styles
             }}>
                 <NavigationContainer
                 >
-                    <Tab.Navigator
-                        screenOptionsTest={({ route }) => ({
-                            tabBarIcon: ({ focused, color, size }) => {
-                                let iconName;
-
-                                if (route.name === 'Home') {
-                                    iconName = focused
-                                        ? 'ios-information-circle'
-                                        : 'ios-information-circle-outline';
-                                } else if (route.name === 'Settings') {
-                                    iconName = focused ? 'ios-list-box' : 'ios-list';
-                                }
-
-                                // You can return any component that you like here!
-                                return <Text>J</Text>;
-                            },
-                        })}
+                    <Stack.Navigator
+                        screenOptions={{
+                            //headerTitle: props => <Logo {...this.props.styling.header.logo} />,
+                            //headerTitleAlign: 'center',
+                            //headerStyle: this.props.styling.header,
+                            //headerTintColor: '#fff',
+                            //headerTitleStyle: {
+                            //   fontWeight: 'bold',
+                            //},
+                        }}
                     >
-                        {this.props.screens.items.filter((screen) => {
-                            return screen.inTabNavigation;
-                        }).map((screen, i) => {
+                        <Stack.Screen name={'Tabs'}>
+                            {props =>
+                                <Tab.Navigator
+                                    screenOptionsTest={({route}) => ({
+                                        tabBarIcon: ({focused, color, size}) => {
+                                            let iconName;
 
-                            /*{props =>
-                                ScreenStackNavigator
-                            }*/
-                            return (
-                                <Tab.Screen
-                                    name={screen.name}
-                                    key={'tab' + i}
+                                            if (route.name === 'Home') {
+                                                iconName = focused
+                                                    ? 'ios-information-circle'
+                                                    : 'ios-information-circle-outline';
+                                            } else if (route.name === 'Settings') {
+                                                iconName = focused ? 'ios-list-box' : 'ios-list';
+                                            }
+
+                                            // You can return any component that you like here!
+                                            return <Text>J</Text>;
+                                        },
+                                    })}
                                 >
-                                    {(props) =>
-                                        <ScreenStackNavigator
+                                    {this.props.screens.items.filter((screen) => {
+                                        return screen.inTabNavigation;
+                                    }).map((screen, i) => {
+                                        const ScreenComponent = ScreenComponents[screen.type];
+                                        const resourceName = screen.type === 'resource' ? screen.name : false;
+                                        /*{props =>
+                                            ScreenStackNavigator
+                                        }*/
+                                        return (
+                                            <Tab.Screen
+                                                name={screen.name}
+                                                key={'tab' + i}
+                                            >
+                                                {(props) =>
+                                                    <ScreenComponent
+                                                        {...props}
+                                                        resourcesData={this.props.resourcesData}
+                                                        resourceSchemas={this.props.resourceSchemas}
+                                                        resource={resourceName}
+                                                        formatResourceScreenName={(resourceName) => {
+                                                            return resourceName;
+                                                        }}
+                                                        {...screen}
+                                                    />
+
+                                                }
+                                            </Tab.Screen>
+                                        )
+                                    })}
+                                </Tab.Navigator>
+                            }
+                        </Stack.Screen>
+                        {this.props.screens.items.filter((screen) => {
+                            return !screen.inTabNavigation;
+                        }).map((subScreen, j) => {
+                            console.log('ScreenStackNavigator subScreen', subScreen)
+
+                            const ScreenComponent = ScreenComponents[subScreen.type];
+                            const screenName = subScreen.name ? subScreen.name : 'Naam';
+                            const resourceName = subScreen.type === 'resource' ? subScreen.name : false;
+
+
+                            return (
+                                <Stack.Screen name={screenName} key={j}>
+                                    {props =>
+                                        <ScreenComponent
                                             {...props}
-                                            {...this.props}
-                                            screen={screen}
+                                            resourcesData={this.props.resourcesData}
+                                            resources={this.props.resources}
+                                            resourceSchemas={this.props.resourceSchemas}
+                                            resource={resourceName}
+                                            screenName={screenName}
+                                            {...subScreen}
                                         />
                                     }
-                                </Tab.Screen>
+                                </Stack.Screen>
                             )
                         })}
-                    </Tab.Navigator>
+                    </Stack.Navigator>
                 </NavigationContainer>
             </View>
         )

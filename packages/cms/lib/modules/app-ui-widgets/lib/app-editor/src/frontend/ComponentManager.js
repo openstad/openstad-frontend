@@ -54,9 +54,12 @@ const componentsMap = {
 }
 
 function ComponentManager(props) {
+  console.log('ComponentManager', props);
+
   return (
     <>
       {props.components.map((component, i)  => {
+
         if (!componentsMap[component.type]) {
           return 'Component not found: ' + component.type;
         }

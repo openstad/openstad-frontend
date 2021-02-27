@@ -14,21 +14,13 @@ const ScreenComponents = {
 
 class ScreenStackNavigator extends Component {
     render() {
-        const ScreenComponent = ScreenComponents[this.props.screen.type];
-        const resourceName = this.props.screen.type === 'resource' ? this.props.screen.name : false;
+        //const ScreenComponent = ScreenComponents[this.props.screen.type];
+       // const resourceName = this.props.screen.type === 'resource' ? this.props.screen.name : false;
 
-        return <Stack.Navigator
-            screenOptions={{
-                //headerTitle: props => <Logo {...this.props.styling.header.logo} />,
-                //headerTitleAlign: 'center',
-                //headerStyle: this.props.styling.header,
-                //headerTintColor: '#fff',
-                headerTitleStyle: {
-                    fontWeight: 'bold',
-                },
-            }}
-        >
-            <Stack.Screen name={this.props.screen.name}>
+
+        console.log('ScreenStackNavigator this.props', this.props.screens);
+
+        return <>{/*<Stack.Screen name={this.props.screen.name}>
                 {props =>
                     <ScreenComponent
                         {...props}
@@ -45,10 +37,15 @@ class ScreenStackNavigator extends Component {
 
             {this.props.screens.items.filter((subScreen) => {
                 return !subScreen.inTabNavigation && subScreen.name;
-            }).map((subScreen, j) => {
+            })
+            */}
+            {this.props.screens.map((subScreen, j) => {
+                console.log('ScreenStackNavigator subScreen', subScreen)
+
                 const ScreenComponent = ScreenComponents[subScreen.type];
-                const screenName = subScreen.name ? this.props.screen.name + '-' + subScreen.name : 'Naam';
+                const screenName = subScreen.name ? subScreen.name : 'Naam';
                 const resourceName = subScreen.type === 'resource' ? subScreen.name : false;
+
 
                 return (
                     <Stack.Screen name={screenName} key={j}>
@@ -66,7 +63,7 @@ class ScreenStackNavigator extends Component {
                     </Stack.Screen>
                 )
             })}
-        </Stack.Navigator>
+        </>
     }
 }
 
