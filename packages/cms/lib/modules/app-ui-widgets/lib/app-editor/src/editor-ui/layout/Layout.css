@@ -70,8 +70,8 @@
 
 .device-wrapper-mobile {
   background-image: url(/mobile-device.png);
-  width: 340px;
-  height: 632px;
+  width: 437px;
+  height: 666px;
   margin: 0 40px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -80,15 +80,15 @@
 }
 
 .device-wrapper-inner {
-  border-radius: 10px;
+  border-radius: 18px;
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
   position: absolute;
-  top: 43px;
-  left: 17px;
-  right: 16px;
-  bottom: 43px;
+  top: 36px;
+  left: 85px;
+  right: 83px;
+  bottom: 41px
 }
 
 

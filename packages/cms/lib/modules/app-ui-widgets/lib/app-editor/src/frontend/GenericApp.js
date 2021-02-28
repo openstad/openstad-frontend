@@ -69,7 +69,7 @@ class GenericApp extends Component {
                 <NavigationContainer
                 >
                     <Stack.Navigator
-                        screenOptions={{
+                        navigationOptions={{
                             //headerTitle: props => <Logo {...this.props.styling.header.logo} />,
                             //headerTitleAlign: 'center',
                             //headerStyle: this.props.styling.header,
@@ -78,8 +78,11 @@ class GenericApp extends Component {
                             //   fontWeight: 'bold',
                             //},
                         }}
+                        hideForAllAcreenOptions={{
+                            headerShown: false
+                        }}
                     >
-                        <Stack.Screen name={'Tabs'}>
+                        <Stack.Screen name={'Tabs'} options={{headerShown: false}}>
                             {props =>
                                 <Tab.Navigator
                                     screenOptionsTest={({route}) => ({
@@ -98,6 +101,13 @@ class GenericApp extends Component {
                                             return <Text>J</Text>;
                                         },
                                     })}
+                                    tabBarOptions={{
+                                        activeTintColor: "#50d3a7",
+                                        inactiveTintColor: "gray",
+                                        labelStyle: {
+                                            fontSize: 11,
+                                        },
+                                    }}
                                 >
                                     {this.props.screens.items.filter((screen) => {
                                         return screen.inTabNavigation;

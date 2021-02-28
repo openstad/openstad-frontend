@@ -75,7 +75,7 @@ const defaultWorkoutScreens = {
         },
         {
             id: 1,
-            name: 'Programs',
+            name: 'Your programs',
             type: 'static',
             inTabNavigation: true,
             components: [
