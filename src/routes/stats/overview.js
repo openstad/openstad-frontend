@@ -17,6 +17,64 @@ const createError = require('http-errors')
 const router = express.Router({mergeParams: true});
 
 /**
+ * After SQL query only the missing
+ *
+ * @param results [{counted: INT, date: DATE}]
+ * @returns [{counted: INT, date: DATE}]
+ */
+const addMissingDays = (results) => {
+    // in case results are one or less return the results directly
+    if (results.length <= 1) {
+        return results;
+    }
+
+    // just to be sure, sort the order to DESC by date
+    // SQL already should have done this, but this makes it a bit more stable
+    results = results.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+    });
+
+
+    //get first and last date
+    const firstDate = results[0].date;
+    const lastDate = results[results.length - 1].date;
+
+    // if for some strange reasons they are not found, send back results
+    // might be better to throw an error...
+    if (!firstDate || !lastDate) {
+        return results
+    }
+
+
+    const newResults = [];
+
+    let start = new Date(firstDate);
+    const end = new Date(lastDate);
+
+    // loop through every date from start to end add the data from the query
+    while (start <= end) {
+        // get date in SQL format by turning it to json and cutting it till the day
+        // although often done like this, it's not the prettiest way, might be better to move it to moment.js at some point
+        const formattedDate = start.toJSON().slice(0, 10);
+
+        const resultForDate = results.find((result) => {
+            return result.date === formattedDate;
+        });
+
+        newResults.push({
+            date: formattedDate,
+            counted: resultForDate && resultForDate.counted ? resultForDate.counted : 0
+        })
+
+        // set the next day as the start date so we keep the while going untill the last day
+        var newDate = start.setDate(start.getDate() + 1);
+        start = new Date(newDate);
+    }
+
+    return newResults;
+}
+
+/**
  * Generic function for outputting all statistic queries
  */
 
@@ -24,7 +82,8 @@ const router = express.Router({mergeParams: true});
 router
     .all('*', function (req, res, next) {
         return next();
-    })
+    });
+
 
 router.route('/')
 
@@ -43,7 +102,7 @@ router.route('/')
     })
     .get((req, res, next) => {
 
-    //    const dateWhere = "";
+        //    const dateWhere = "";
 
 
         // key: is used in fronted logic, so be careful to change
@@ -51,70 +110,103 @@ router.route('/')
         // query, not send to frontend
         // queryVariables
         //  resultType
-        const queries = [{
-            key: 'ideaVotesCountForTotal',
-            description: 'Votes on ideas, total count',
-            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'ideaVotesCountForTotal',
-            description: 'Votes for ideas, total count',
-            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'ideaVotesCountAgainstTotal',
-            description: 'Votes againts ideas, total count',
-            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'usersVotedPerDay',
-            description: 'Amount of users that voted per day. ',
-            help: 'This is not the same as total votes per days, since a user can often vote on more then one idea.',
-            sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'argumentCountTotal',
-            description: 'Amount of arguments, total count',
-            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'argumentForCountTotal',
-            description: 'Amount of arguments for an idea, total count',
-            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'for'",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
-        {
-            key: 'argumentAgainstCountTotal',
-            description: 'Amount of arguments against an idea, total count',
-            sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
-            variables: [req.params.siteId],
-            resultType: 'count',
-            // will be filled after running the query
-            results: [],
-        },
+        const queries = [
+            {
+                key: 'ideaTotal',
+                description: 'Amount of ideas',
+                sql: "SELECT count(ideas.id) AS counted FROM ideas WHERE ideas.deletedAt IS NULL AND ideas.siteId=?",
+                variables: [req.params.siteId],
+                resultType: 'count',
+                // will be filled after running the query
+                results: [],
+            },
+            {
+                key: 'ideasSubmittedPerDay',
+                description: 'Ideas submitted per day',
+                sql: `SELECT count(ideas.id) AS counted, DATE_FORMAT(ideas.createdAt, '%Y-%m-%d') as date
+                    FROM ideas 
+                    WHERE ideas.deletedAt IS NULL 
+                    AND ideas.deletedAt IS NULL AND ideas.siteId=?
+                    GROUP BY date
+                    ORDER BY date ASC`,
+                variables: [req.params.siteId],
+                formatResults: addMissingDays,
+            },
+            {
+                key: 'ideaVotesCountTotal',
+                description: 'Amount of votes on ideas',
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                variables: [req.params.siteId],
+                resultType: 'count',
+                // will be filled after running the query
+                results: [],
+            },
+            {
+                key: 'ideaVotesCountForTotal',
+                description: 'Amount of votes for an idea',
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
+                variables: [req.params.siteId],
+                resultType: 'count',
+                // will be filled after running the query
+                results: [],
+            },
+
+            {
+                key: 'ideaVotesCountAgainstTotal',
+                description: 'Amount of votes against an idea',
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
+                variables: [req.params.siteId],
+                resultType: 'count',
+                // will be filled after running the query
+                results: [],
+            },
+
+            {
+                key: 'usersVotedPerDay',
+                description: 'Amount of users that voted per day.',
+                help: 'This is not the same as total votes per days, since a user can often vote on more then one idea.',
+                sql: `SELECT count(DISTINCT votes.userId) AS counted, DATE_FORMAT(votes.createdAt, '%Y-%m-%d') as date
+                    FROM votes 
+                    LEFT JOIN ideas ON votes.ideaId = ideas.id 
+                    WHERE votes.deletedAt IS NULL 
+                    AND ideas.deletedAt IS NULL AND ideas.siteId=?
+                    GROUP BY date
+                    ORDER BY date ASC`,
+                variables: [req.params.siteId],
+                formatResults: addMissingDays,
+            },
+            {
+                key: 'votesPerDay',
+                description: 'Amount of votes per day',
+                sql: `SELECT count(votes.id) AS counted, DATE_FORMAT(ideas.createdAt, '%Y-%m-%d') as date
+                    FROM votes 
+                    LEFT JOIN ideas ON votes.ideaId = ideas.id 
+                    WHERE votes.deletedAt IS NULL 
+                    AND ideas.deletedAt IS NULL AND ideas.siteId=?
+                    GROUP BY date
+                    ORDER BY date ASC`,
+                variables: [req.params.siteId],
+                formatResults: addMissingDays,
+            },
+
+            {
+                key: 'argumentCountTotal',
+                description: 'Amount of arguments, total count',
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                variables: [req.params.siteId],
+            },
+            {
+                key: 'argumentForCountTotal',
+                description: 'Amount of arguments for an idea, total count',
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'for'",
+                variables: [req.params.siteId],
+            },
+            {
+                key: 'argumentAgainstCountTotal',
+                description: 'Amount of arguments against an idea, total count',
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
+                variables: [req.params.siteId],
+            },
 
         ];
 
@@ -138,8 +230,7 @@ router.route('/')
             return next(createError(401, 'Error while initialising SQL connection: ', e));
         }
     })
-
-    .get( (req, res, next) => {
+    .get((req, res, next) => {
         queries = req.queries.map(async (query) => {
             let result, fields;
 
@@ -153,7 +244,7 @@ router.route('/')
             return {
                 key: query.key,
                 description: query.description,
-                result: result
+                result: query.formatResults ? query.formatResults(result) : result
             }
         });
 
