@@ -359,7 +359,7 @@ module.exports = {
             maxLabel: widget.choicesMaxLabel,
             withPercentage: widget.choicesWithPercentage,
           },
-          loginUrl: req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url),
+          loginUrl: req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url + '?scroll-to-login'),
           moreInfoUrl: widget.moreInfoUrl && req.data.siteUrl + widget.moreInfoUrl,
           moreInfoLabel: widget.moreInfoLabel,
           beforeUrl: widget.beforeUrl && req.data.siteUrl + widget.beforeUrl,
