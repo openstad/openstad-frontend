@@ -116,6 +116,10 @@ module.exports = {
       label:    '\'Login gelukt\' bericht',
     }, {
       type:     'string',
+      name:     'requireLoginNotYetLoggedInError',
+      label:    'Foutmelding als je nog niet bent ingelogd',
+    }, {
+      type:     'string',
       name:     'requireLoginAlreadySubmittedMessage',
       label:    '\'Je hebt al gestemd\' bericht',
     }, {
@@ -300,7 +304,7 @@ module.exports = {
       {
         name: 'reuiredLogin',
         label: 'Login',
-        fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginAlreadySubmittedMessage',]
+        fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginNotYetLoggedInError', 'requireLoginAlreadySubmittedMessage',]
       },
 
       /*  {
