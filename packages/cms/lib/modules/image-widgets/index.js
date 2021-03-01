@@ -1,5 +1,5 @@
 /**
- * Add an image
+ * Widget that allows for adding an image
  */
 const styleSchema = require('../../../config/styleSchema.js').default;
 
