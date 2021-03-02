@@ -1,10 +1,20 @@
 # Changelog
 
 ## UNRELEASED
-* Remove auth express session and refactor user middleware
+* Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
+
+## v0.13.0 (2020-02-23)
+* Add login required to choices-guide results
+* Include areas with polygons when fetching all site, fixes not showing of polygons. But makes site call substantially bigger, in future might have to move to a different call somewhere.
+* Add user create logic to the User route, syncs tih the OAuth API
+
+## v0.12.0 (2020-01-27)
+* Remove auth express session and refactor user middleware (auth is now stateless)
 * Fix fallback authClientId
 * Use correct env variable for default client_id and client_secret values
-* Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
+
+## v0.11.0 (2020-11-09)
+* Release user listableByRole
 
 ## v0.10.0 (2020-12-09)
 * Open /stats/site/:SITE_ID/vote/total for everybody
@@ -14,7 +24,6 @@
 
 ## v0.9.1 (2020-12-9)
 * Add idea votes to user me call
-
 
 ## v0.9.0 (2020-11-25)
 * Update NPM modules for security

@@ -37,7 +37,10 @@ router.route('/')
 	.get(auth.can('Site', 'list'))
 	.get(pagination.init)
 	.get(function(req, res, next) {
+		const scope = ['withArea'];
+
 		db.Site
+			.scope(scope)
 			.findAndCountAll({ offset: req.dbQuery.offset, limit: req.dbQuery.limit })
 			.then( result => {
         req.results = result.rows;
@@ -67,16 +70,17 @@ router.route('/')
 	.post(function(req, res, next) {
 		db.Site
 			.create(req.body)
-			.then(result => {
+			.then((result) => {
 				req.results = result;
-				return checkHostStatus({id: result.id});
+				next();
+				//return checkHostStatus({id: result.id});
 			})
-      .then(next)
+			.catch(next)
 	})
 	.post(auth.useReqUser)
 	.post(refreshSiteConfigMw)
 	.post(function(req, res, next) {
-    res.json(req.results)
+    return res.json(req.results);
   })
 
 // one site routes: get site

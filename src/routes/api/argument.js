@@ -9,7 +9,6 @@ const router = require('express-promise-router')({ mergeParams: true });
 // scopes: for all get requests
 router
   .all('*', function(req, res, next) {
-
     req.scope = ['defaultScope', 'withIdea'];
     req.scope.push({ method: ['forSiteId', req.params.siteId] });
 
@@ -192,10 +191,13 @@ router.route('/:argumentId(\\d+)')
   })
 
   // delete argument
-  // ---------------
-  .delete(auth.can('Argument', 'delete'))
+  // --------------
+  .delete(auth.useReqUser)
   .delete(function(req, res, next) {
-    req.results
+    const argument = req.results;
+    if (!( argument && argument.can && argument.can('delete') )) return next( new Error('You cannot delete this argument') );
+
+    argument
       .destroy()
       .then(() => {
         res.json({ 'argument': 'deleted' });

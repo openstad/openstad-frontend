@@ -90,7 +90,6 @@ module.exports = function( db, sequelize, DataTypes ) {
 	NewsletterSignup.scopes = function() {
 
 		return {
-
 			forSiteId: function( siteId ) {
 				return {
 					where: {
@@ -98,9 +97,18 @@ module.exports = function( db, sequelize, DataTypes ) {
 					}
 				};
 			},
+			includeSite: {
+				include: [{
+					model: db.Site,
+				}]
+			},
 
 		}
 
+	}
+
+	NewsletterSignup.associate = function( models ) {
+		this.belongsTo(models.Site);
 	}
 
   // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
@@ -121,5 +129,5 @@ module.exports = function( db, sequelize, DataTypes ) {
   }
 
 	return NewsletterSignup;
-	
+
 };

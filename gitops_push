@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "DOCKER LOGIN"
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin;
+echo "DOCKER PUSH TAG"
+echo ${IMAGE_TAG}
+docker push ${IMAGE_TAG}
+
+git config --global user.email ${GIT_USER_EMAIL}
+git config --global user.name ${GIT_USER_NAME}
+
+git clone ${HELM_REPO} && cd ${HELM_REPO_NAME} && \
+
+git remote add origin-ci ${HELM_REPO_WITH_TOKEN} > /dev/null 2>&1
+
+git checkout ${GITOPS_RELEASE_BRANCH}
+
+/snap/bin/yq write -i ${GITOPS_VALUES_FILE} api.deploymentContainer.image ${IMAGE_TAG}  && \
+
+git add ${GITOPS_VALUES_FILE} && \
+
+git commit -am "Release ${IMAGE_TAG}" && \
+
+git push --quiet --set-upstream origin-ci ${GITOPS_RELEASE_BRANCH}

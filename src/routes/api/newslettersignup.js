@@ -12,7 +12,8 @@ const router = express.Router({ mergeParams: true });
 // scopes: for all get requests
 router
   .all('*', function(req, res, next) {
-    req.scope = [{ method: ['forSiteId', req.site.id] }];
+    req.scope = [{ method: ['forSiteId', req.site.id] }, 'includeSite'];
+
     return next();
   })
   .all('*', function(req, res, next) {
@@ -51,14 +52,14 @@ router.route('/$')
     db.NewsletterSignup
       .scope(...req.scope)
 			.findAndCountAll({ where, ...dbQuery })
-      .then( (result) => {
+      .then((result) => {
         req.results = result.rows;
         req.dbQuery.count = result.count;
         return next();
       })
       .catch(next);
   })
-	.get(auth.useReqUser)
+  .get(auth.useReqUser)
 	.get(searchResults)
 	.get(pagination.paginateResults)
 	.get(function(req, res, next) {
