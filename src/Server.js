@@ -40,7 +40,6 @@ module.exports = {
         var middleware = config.express.middleware;
 
         middleware.forEach((entry) => {
-      		console.log('Entry', entry)
             if (typeof entry == 'object') {
                 // nieuwe versie: use route
                 this.app.use(entry.route, require(entry.router));

@@ -92,7 +92,7 @@ router.route('/')
     .get((req, res, next) => {
 
        // let isViewable = req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable;
-        const isViewable = (req.user && (req.user.role == 'admin' || req.user.role == 'moderator'))
+        const isViewable = (req.user && (req.user.role == 'admin' || req.user.role == 'moderator' || req.user.role == 'editor'))
 
         if (isViewable) {
             return next();
@@ -102,14 +102,21 @@ router.route('/')
     })
     .get((req, res, next) => {
 
-        //    const dateWhere = "";
+        /**
+         * List of queries with their description
+         *
+         * Results are automatically send to browser as JSON
+         * Made for rendering analytics dashboard per site
+         *
+         * @type [{
+         *      variables: [string],
+         *      description: string, Describe type of statistics, might be used for displaying, but not for logic, can be changed
+         *      key: string, Should be unique
+         *      sql: string, Currently frontend assumes key: counted, and key counted & date for graphs.
+         *      formatResults: Optional, function, can be used to parse, change results after SQL query is run.
+         *      }]
+         */
 
-
-        // key: is used in fronted logic, so be careful to change
-        // description: describe type of statistics, might be used for displaying, but not for logic, can more easily be changed
-        // query, not send to frontend
-        // queryVariables
-        // currently frontend assumes key: counted, and key counted & date for graphs.
         const queries = [
             {
                 key: 'ideaTotal',
