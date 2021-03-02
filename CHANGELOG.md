@@ -1,6 +1,9 @@
 # Changelog
 
-## ## v0.13.0 (2020-02-23)
+## UNRELEASED
+* Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
+
+## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
 * Include areas with polygons when fetching all site, fixes not showing of polygons. But makes site call substantially bigger, in future might have to move to a different call somewhere.
 * Add user create logic to the User route, syncs tih the OAuth API
