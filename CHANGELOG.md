@@ -1,6 +1,9 @@
 # Changelog
 
-## v0.13.0 (2020-02-23)
+## v0.13.1 (2021-03-02)
+* Better errors in participatory-budgeting when no plans are selected yet
+
+## v0.13.0 (2021-02-23)
 * Add login required to choices-guide results
 * Use refactored react components
 * Change default styling for toggle title in section
@@ -12,11 +15,11 @@
 * Fix openstreetmaps for Forms and Overview
 * Move big libs and assets to dynamic loading
 
-## v0.12.0 (2020-01-27)
+## v0.12.0 (2021-01-27)
 * Allow for running multiple sites on subdirectories
 * Accessibility improvements
 
-## v0.11.0 (2020-01-11)
+## v0.11.0 (2021-01-11)
 * Make the (Google) Analytics block configurable to provide for a new version and also other options
 * Add html class name to resource overview
 * Clear cached session openstad user when making api call or logging out

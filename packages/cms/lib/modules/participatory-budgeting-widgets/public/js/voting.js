@@ -265,7 +265,7 @@ if (votingContainer !== null) {
 
 	  if (currentStep == 0) {
 		  if (!isSelectionValid()) {
-        if (votingType === 'count-per-theme') {
+        if (votingType === 'count-per-theme' || votingType === 'budgeting-per-theme') {
           var totalNoOf = 0; themes.forEach( function(theme, i) {
             if (i > 0) {
               totalNoOf += theme.currentSelection.length;
@@ -320,7 +320,7 @@ if (votingContainer !== null) {
             }
           });
 
-          if (votingType === 'count-per-theme') {
+          if (votingType === 'count-per-theme' || votingType === 'budgeting-per-theme') {
             if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) {
               errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
             };
