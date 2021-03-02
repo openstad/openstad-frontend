@@ -8,9 +8,9 @@ router.use( bruteForce.globalMiddleware );
 router.post( '*', bruteForce.postMiddleware );
 
 // vote
-//router.use( '/site/:siteId(\\d+)/vote', require('./vote') );
+router.use( '/site/:siteId(\\d+)/vote', require('./vote') );
 
-// vote
+// idea
 router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 
 // get overview of stats
