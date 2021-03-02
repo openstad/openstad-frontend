@@ -4,7 +4,7 @@
 * Remove auth express session and refactor user middleware
 * Fix fallback authClientId
 * Use correct env variable for default client_id and client_secret values
-
+* Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
 
 ## v0.10.0 (2020-12-09)
 * Open /stats/site/:SITE_ID/vote/total for everybody
