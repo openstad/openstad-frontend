@@ -91,8 +91,8 @@ router.route('/')
     // -----------
     .get((req, res, next) => {
 
-        let isViewable = req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable;
-        isViewable = isViewable || (req.user && (req.user.role == 'admin' || req.user.role == 'moderator'))
+       // let isViewable = req.site && req.site.config && req.site.config.votes && req.site.config.votes.isViewable;
+        const isViewable = (req.user && (req.user.role == 'admin' || req.user.role == 'moderator'))
 
         if (isViewable) {
             return next();
@@ -106,10 +106,10 @@ router.route('/')
 
 
         // key: is used in fronted logic, so be careful to change
-        // description: describe type of statisic, might be used for displaying, but not for logic, can more easily be changed
+        // description: describe type of statistics, might be used for displaying, but not for logic, can more easily be changed
         // query, not send to frontend
         // queryVariables
-        //  resultType
+        // currently frontend assumes key: counted, and key counted & date for graphs.
         const queries = [
             {
                 key: 'ideaTotal',
@@ -118,7 +118,6 @@ router.route('/')
                 variables: [req.params.siteId],
                 resultType: 'count',
                 // will be filled after running the query
-                results: [],
             },
             {
                 key: 'ideasSubmittedPerDay',
@@ -133,13 +132,19 @@ router.route('/')
                 formatResults: addMissingDays,
             },
             {
+                key: 'userVoteTotal',
+                description: 'Amount of users that voted',
+                sql: "SELECT count(DISTINCT votes.userId) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                variables: [req.params.siteId],
+                resultType: 'count',
+                // will be filled after running the query
+            },
+            {
                 key: 'ideaVotesCountTotal',
                 description: 'Amount of votes on ideas',
                 sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
                 variables: [req.params.siteId],
                 resultType: 'count',
-                // will be filled after running the query
-                results: [],
             },
             {
                 key: 'ideaVotesCountForTotal',
@@ -147,20 +152,14 @@ router.route('/')
                 sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
                 variables: [req.params.siteId],
                 resultType: 'count',
-                // will be filled after running the query
-                results: [],
             },
-
             {
                 key: 'ideaVotesCountAgainstTotal',
                 description: 'Amount of votes against an idea',
                 sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
                 variables: [req.params.siteId],
                 resultType: 'count',
-                // will be filled after running the query
-                results: [],
             },
-
             {
                 key: 'usersVotedPerDay',
                 description: 'Amount of users that voted per day.',
@@ -188,7 +187,6 @@ router.route('/')
                 variables: [req.params.siteId],
                 formatResults: addMissingDays,
             },
-
             {
                 key: 'argumentCountTotal',
                 description: 'Amount of arguments, total count',
@@ -207,7 +205,6 @@ router.route('/')
                 sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
                 variables: [req.params.siteId],
             },
-
         ];
 
         req.queries = queries;
