@@ -44,12 +44,18 @@
         site: {
           id: {{data.global.siteId}}
         },
-        jwt: '{{data.jwt}}',
+       // jwt: '{{data.jwt}}',
         imageApi: {
           url: '/image'
         },
         restApi: {
           url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
+        },
+        restApi: {
+          url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
+        },
+        statsApi:{
+          url: '/stats/site/{{data.global.siteId}}/overview'
         },
         csrf: $.cookie(apos.csrfCookieName),
         resources: {
