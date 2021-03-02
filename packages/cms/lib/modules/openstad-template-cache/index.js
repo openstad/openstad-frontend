@@ -63,7 +63,7 @@ module.exports = {
            // const moderatorRoles = ['member', 'moderator', 'admin'];
 
             // only cache non logged in requests
-            return req.method === 'GET' && (!req.session || req.session.jwt);
+            return req.method === 'GET' && (!req.session || !req.session.jwt);
                 //(!req.session.openstadUser || (req.session.openstadUser && !moderatorRoles.includes(req.session.openstadUser.role)))
         }
 
