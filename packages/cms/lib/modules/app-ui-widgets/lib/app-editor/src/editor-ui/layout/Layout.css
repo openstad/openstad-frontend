@@ -69,31 +69,51 @@
 }
 
 .device-wrapper-mobile {
+  margin: 0 40px;
+  position: relative;
+  padding: 1px;
+}
+
+.device-wrapper-mobile::before {
+  content: ' ';
   background-image: url(/mobile-device.png);
-  width: 437px;
-  height: 666px;
+  width: 320px;
+  height: 650px;
   margin: 0 40px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: relative;
   padding: 1px;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .device-wrapper-inner {
-  border-radius: 18px;
-  overflow: hidden;
+  border-radius: 0;
   position: relative;
   box-sizing: border-box;
   position: absolute;
-  top: 36px;
-  left: 85px;
-  right: 83px;
-  bottom: 41px
+  top: 20px;
+  left: 62px;
+  width: calc(375px* 0.75);
+  height: calc(790px* 0.75);
+}
+
+/*
+  The IOS phone we use for previewing has rounded corner
+  We add small piece of white to the bottom so the navigation tabs are not cut off by the corners
+ */
+.device-wrapper-inner::after {
+  content: ' ';
+  background: #ffffff;
+  height: 25px;
+  display: block;
 }
 
 
 .ListItem {
-  /*border-bottom: 1px solid #d4d4d4;*/
+/*border-bottom: 1px solid #d4d4d4;*/
   position: relative;
 }
 

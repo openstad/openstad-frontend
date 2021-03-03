@@ -34,12 +34,13 @@ defaultResources.forEach((resource) => {
 
 
 const defaultWorkoutScreens = {
-    startScreenId: 1,
+    startScreenId: 5,
     items: [
         {
             id: 5,
             name: 'Your Coach',
             type: 'static',
+            icon: "assignment-ind",
             inTabNavigation: true,
             components: [
                 {
@@ -75,7 +76,8 @@ const defaultWorkoutScreens = {
         },
         {
             id: 1,
-            name: 'Your programs',
+            name: 'Your program',
+            icon: "calendar-today",
             type: 'static',
             inTabNavigation: true,
             components: [
@@ -99,6 +101,7 @@ const defaultWorkoutScreens = {
         {
             id: 2,
             name: 'Workouts',
+            icon: "list-alt",
             type: 'static',
             inTabNavigation: true,
             components: [
@@ -143,6 +146,7 @@ const defaultWorkoutScreens = {
             id: 3,
             name: 'Profile',
             type: 'static',
+            icon: "perm-identity",
             inTabNavigation: true,
             components: [
                 {

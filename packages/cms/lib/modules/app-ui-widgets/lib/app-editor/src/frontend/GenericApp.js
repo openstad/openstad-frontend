@@ -7,6 +7,7 @@ import {View, Text, Platform, StyleSheet} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ScreenStackNavigator from './ScreenStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 
@@ -104,8 +105,10 @@ class GenericApp extends Component {
                                     tabBarOptions={{
                                         activeTintColor: "#50d3a7",
                                         inactiveTintColor: "gray",
+                                        showIcon: true,
+                                        adaptive: false,
                                         labelStyle: {
-                                            fontSize: 11,
+                                            fontSize: 10,
                                         },
                                     }}
                                 >
@@ -114,6 +117,7 @@ class GenericApp extends Component {
                                     }).map((screen, i) => {
                                         const ScreenComponent = ScreenComponents[screen.type];
                                         const resourceName = screen.type === 'resource' ? screen.name : false;
+                                        const iconName = screen.icon ? screen.icon : 'home';
                                         /*{props =>
                                             ScreenStackNavigator
                                         }*/
@@ -121,6 +125,11 @@ class GenericApp extends Component {
                                             <Tab.Screen
                                                 name={screen.name}
                                                 key={'tab' + i}
+                                                options={{
+                                                    tabBarIcon: ({ color, size }) => (
+                                                        <Icon name={iconName} color={color} size={14} style={{marginTop: 10}} />
+                                                    ),
+                                                }}
                                             >
                                                 {(props) =>
                                                     <ScreenComponent

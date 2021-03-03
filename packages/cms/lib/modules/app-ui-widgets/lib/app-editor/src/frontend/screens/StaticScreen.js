@@ -5,7 +5,7 @@ import { View, Text, ScrollView } from "react-native";
 
 const bodyStyles = {
   padding: 10,
-  paddingTop: 20,
+  paddingTop: 40,
 }
 
 class StaticScreen extends Component {
@@ -18,7 +18,7 @@ class StaticScreen extends Component {
     console.log('ResourceScreen props', this.props)
 
     return (
-      <ScrollView style={bodyStyles}>
+      <ScrollView style={bodyStyles} showsVerticalScrollIndicator={false}>
         <ComponentManager
           {...this.props}
         />
