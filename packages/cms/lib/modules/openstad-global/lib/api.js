@@ -1,5 +1,6 @@
 const polygons          = require('../../../../config/map').default.polygons;
 var _ = require('lodash');
+const eventEmitter = require('../../../../events').emitter;
 
 module.exports = (self, options) => {
 
@@ -63,6 +64,10 @@ module.exports = (self, options) => {
           }
         }
     };
+
+    self.clearCache =  (req, doc, options) => {
+        eventEmitter.emit('clearCache');
+    }
 
     self.overrideGlobalDataWithSiteConfig = (req, res, next) => {
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
