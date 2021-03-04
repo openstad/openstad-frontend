@@ -16,8 +16,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
   if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
   contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
 
-  console.log('xxxx', widget.searchAddresssesMunicipality);
-
   // allowMultipleImages to formfields
   let formFields = [ ...widget.formFields ];
   let allowMultipleImages = ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.allowMultipleImages ) || false;
