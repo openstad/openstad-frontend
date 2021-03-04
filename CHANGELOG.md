@@ -6,6 +6,7 @@
 * Update choices-guides to a production level
 * CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
 * CSS fix: Adjust logout link in menu margin for better alignment
+* CSS fix: Make padding for search same as select
 
 
 ## v0.13.0 (2020-02-23)
