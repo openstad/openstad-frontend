@@ -3,8 +3,10 @@
 ## UNRELEASED
 * Add page cache for non logged in users
 * Remove idea-single, idea-overview and idea-form files (templates will display warning now)
-* CSS: Adjust logout link in menu margin for better alignment
 * Update choices-guides to a production level
+* CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
+* CSS fix: Adjust logout link in menu margin for better alignment
+
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
