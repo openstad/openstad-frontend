@@ -642,6 +642,20 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 	})
 
 
+// is de keuzewijzer actief
+	.post(function(req, res, next) {
+
+    let isActive = req.choicesguide.config && req.choicesguide.config.isActive
+
+    if ( isActive == false || isActive == "false" || isActive == 0 || isActive == "0" ) {
+		  return next(createError(401, 'De keuzewijzer is gesloten'));
+    }
+
+    return next();
+
+  })
+
+
 // heb je al ingestuurd
 	.post(function(req, res, next) {
 
