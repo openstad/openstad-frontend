@@ -65,7 +65,7 @@ $(document).ready(function () {
 	}
 });
 
-$(document).on('openstadAjaxRefresh', function () {
+$('body').on('openstadAjaxRefresh', function () {
 	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
 	showVoteCreator();
 
