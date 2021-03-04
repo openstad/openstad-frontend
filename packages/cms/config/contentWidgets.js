@@ -82,13 +82,9 @@ const contentWidgets = {
   },
   'choices-guide': {
     addLabel: 'Keuzewijzer  (beta)',
-    hideByDefault: true,
-    beta: true
   },
   'choices-guide-result': {
     addLabel: 'Keuzewijzer resultaten (beta)',
-    hideByDefault: true,
-    beta: true
   },
   'apostrophe-rich-text': {
     toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],

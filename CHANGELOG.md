@@ -3,7 +3,7 @@
 ## UNRELEASED
 * Add page cache for non logged in users
 * Remove idea-single, idea-overview and idea-form files (templates will display warning now)
-
+* Update choices-guides to a production level
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
