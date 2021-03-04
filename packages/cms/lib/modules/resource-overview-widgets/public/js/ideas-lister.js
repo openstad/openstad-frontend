@@ -35,7 +35,7 @@ function initGridder() {
 	// Call Gridder
   initGridder();
 
-  $('body').on('openstadAjaxRefresh', function () {
+  $(document).on('openstadAjaxRefresh', function () {
     initGridder();
   });
 

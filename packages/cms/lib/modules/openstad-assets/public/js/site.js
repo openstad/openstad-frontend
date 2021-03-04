@@ -512,7 +512,7 @@ function ajaxRefresh (resetHash) {
     });
 
     // trigger ajax refresh event for  binding to new dom events
-    $('body').trigger('openstadAjaxRefresh');
+    $(document).trigger('openstadAjaxRefresh');
 
     // trigger
     if (resetHash && window.location.hash && window.location.hash !== '#closed') {

@@ -65,11 +65,13 @@ $(document).ready(function () {
 	}
 });
 
-$('body').on('openstadAjaxRefresh', function () {
-	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
-	showVoteCreator();
+$(document).on('openstadAjaxRefresh', function () {
+	if (window.voteBlockIdentifier) {
+		var ideaId = openstadGetCookie('ideaId' + voteBlockIdentifier);
+		showVoteCreator();
 
-	if (ideaId) {
-		selectIdea(ideaId, true);
+		if (ideaId) {
+			selectIdea(ideaId, true);
+		}
 	}
 });

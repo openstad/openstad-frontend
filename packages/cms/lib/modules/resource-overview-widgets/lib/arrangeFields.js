@@ -10,7 +10,7 @@ module.exports = (self, options) => {
         {
             name: 'imageSettings',
             label: 'Image settings',
-            fields: ['defaultImage', 'fallBackToMapImage', 'gridder_tile_image_aspect_ratio']
+            fields: ['defaultImage', 'gridder_tile_image_aspect_ratio']
         },
         {
             name: 'displaySettings',
