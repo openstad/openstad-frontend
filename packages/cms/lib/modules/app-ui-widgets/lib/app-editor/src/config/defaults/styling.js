@@ -90,52 +90,19 @@ const fontOptions = [
         value: 'Amiri_400Regular',
         label: 'Amiri_400Regular'
     },
-]
+];
 
-defaults: [{
-    fontFamily: 'Nunito_400Regular',
-    primaryColor: '#000000',
-    accentColor: '#888'
-}],
-    logo: [{
-    display: false,
-    image: '',
-    height: 20,
-    width: 20
-}],
-    background: [{
-    color: '#FFFFFF'
-}],
-    title: [{
-    fontColor: '#000000',
-}],
-    subTitle: [{
-    fontColor: '#000000',
-}],
-    text: [{
-    fontColor: '#000000',
-}],
-    tabBarMenu: [{
-    height: 80,
-    fontSize: 14
-}],
-    card: [{
-    shadow: true,
-    borderRadius: 10,
-    fontStyle: 'Nunito_700Bold',
-    fontColor: 'white',
-    backgroundImage: true, //,
-    //  backgroundColorSecondary: '#4d4e2f'
-}],
-    // background
-    button: [{
-    shadow: true,
-    borderRadius: 25,
-    fontColor: '#fff',
-}],
+const booleanOptions =[{
+    label: 'Yes',
+    value: true
+}, {
+    label: 'No',
+    value: false
+}]
 
 const stylingSchema = {
     name: "styling",
+    label: "Styling",
     fields: [
         {
             label: 'General',
@@ -149,6 +116,7 @@ const stylingSchema = {
                     type: 'select',
                     options: fontOptions
                 },
+
                 {
                     label: 'Primary color',
                     key: 'primaryColor',
@@ -165,6 +133,11 @@ const stylingSchema = {
                     label: 'Background color',
                     key: 'backgroundColor',
                     type: 'color'
+                },
+                {
+                    label: 'Font color',
+                    key: 'fontColor',
+                    type: 'color'
                 }
             ]
         },
@@ -178,13 +151,7 @@ const stylingSchema = {
                     label: 'Display a logo',
                     key: 'displayLogo',
                     type: 'select',
-                    options: [{
-                        label: 'Yes',
-                        value: true
-                    }, {
-                        label: 'No',
-                        value: false
-                    }]
+                    options: booleanOptions
                 },
                 {
                     label: 'Image',
@@ -204,39 +171,53 @@ const stylingSchema = {
             ]
         },
         {
-            label: 'Logo',
-            key: 'logo',
+            label: 'Card',
+            key: 'card',
             type: 'object',
             single: true,
             fields: [
                 {
-                    label: 'Display a logo',
-                    key: 'displayLogo',
+                    label: 'Display a shadow?',
+                    key: 'shadow',
                     type: 'select',
-                    options: [{
-                        label: 'Yes',
-                        value: true
-                    }, {
-                        label: 'No',
-                        value: false
-                    }]
+                    options: booleanOptions
                 },
                 {
-                    label: 'Image',
-                    key: 'src',
+                    label: 'Border radius',
+                    key: 'borderRadius',
                     type: 'image'
                 },
                 {
-                    label: 'Width',
-                    key: 'width',
-                    type: 'number'
+                    label: 'Use background image',
+                    key: 'displayBackgroundImage',
+                    type: 'select',
+                    options: booleanOptions
+                }
+            ]
+        },
+        {
+            label: 'Buttons',
+            key: 'button',
+            type: 'object',
+            single: true,
+            fields: [
+                {
+                    label: 'Display a shadow?',
+                    key: 'shadow',
+                    type: 'select',
+                    options: booleanOptions
                 },
                 {
-                    label: 'Height',
-                    key: 'height',
+                    label: 'Border radius',
+                    key: 'borderRadius',
                     type: 'number'
                 }
             ]
         }
     ]
+}
+
+export default {
+    schema: stylingSchema,
+    defaults: stylingDefaults
 }

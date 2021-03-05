@@ -132,6 +132,7 @@ if (process.env.FRONTEND) {
                 resources={latestRevision.resources}
                 appResource={latestRevision}
                 editableResources={settings.editableResources}
+                singleResources={settings.singleResources}
                 resourceSchemas={ResourceSchemas}
                 defaultResources={settings.defaultResources}
                 user={defaultUser}

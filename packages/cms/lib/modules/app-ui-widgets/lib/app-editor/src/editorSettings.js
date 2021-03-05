@@ -15,6 +15,9 @@ const tour = {
 }
 
 const workout = {
+  singleResources: [
+      'styling'
+  ],
   editableResources: [
     'workoutProgram',
     'workout',
@@ -22,6 +25,12 @@ const workout = {
     'membership'
   ],
   defaultResources: [
+    {
+      name: 'styling',
+      items: [{
+
+      }],
+    },
     {
       name: 'workoutProgram',
       items: [],

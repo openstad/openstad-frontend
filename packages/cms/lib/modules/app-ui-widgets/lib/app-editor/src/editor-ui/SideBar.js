@@ -66,14 +66,27 @@ class Sidebar extends Component {
     render () {
         const props = this.props;
 
+        console.log('props.singleResources', props.singleResources)
+
         return (
             <>
                 <Section title="General">
-                    <ListItem active={false}>
-                        <a className="list-link" href="#settings">
-                            Settings
-                        </a>
-                    </ListItem>
+                    {props.singleResources.map((resource) => {
+                        const resourceItem = resource.items[0] ? resource.items[0] : {};
+                        const active = props.activeResource && resourceItem.id === props.activeResource.id && resource.name === props.activeResourceName;
+                        const linkClassName = active ? "list-link active" : "list-link";
+
+                        return (
+                            <ListItem active={active} key={resourceItem.id}>
+                                <a className={linkClassName} onClick={(ev) => {
+                                    ev.preventDefault();
+                                    props.edit(resource.name, resourceItem)
+                                }} href="#">
+                                    {makeCamelCasePretty(resource.name)}
+                                </a>
+                            </ListItem>
+                        )
+                    })}
                 </Section>
                 {props.resources.map((resource, i) => {
                     let resourceItems = [];

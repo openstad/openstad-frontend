@@ -1,8 +1,11 @@
 import {navigation} from '@react-navigation/native';
 
+import stylingDefaults from './defaults/styling';
+
 const defaultImageFileTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 const defaultVideoFileTypes = ['video/mp4', 'video/mp4'];
 const defaultMaxSize = [];
+
 
 
 // local resources are managed within the application
@@ -790,7 +793,8 @@ const schemas = {
     membership: membershipSchema,
     subscription: subscriberSchema,
     userActivity: userActivitySchema,
-    chats: chatSchema
+    chats: chatSchema,
+    styling: stylingDefaults.schema
 }
 
 // do some formatting for all schema's

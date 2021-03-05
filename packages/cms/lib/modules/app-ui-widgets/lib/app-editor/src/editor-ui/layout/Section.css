@@ -25,6 +25,11 @@
     font-size: 11px;
 }
 
+.section input[type="color"] {
+  padding: 2px 5px;
+}
+
+
 /*
 width: calc(100%);
 padding: 10px;

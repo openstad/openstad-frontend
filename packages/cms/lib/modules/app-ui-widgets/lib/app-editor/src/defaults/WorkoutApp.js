@@ -8,7 +8,8 @@ const defaultResources = [
     resourceSchemas.workoutProgram,
     resourceSchemas.workout,
     resourceSchemas.exercise,
-    resourceSchemas.membership
+    resourceSchemas.membership,
+    resourceSchemas.styling,
 ];
 
 let defaultResourceScreens = [];
