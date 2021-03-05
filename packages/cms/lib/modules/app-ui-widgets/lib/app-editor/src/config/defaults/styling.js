@@ -6,7 +6,8 @@ const stylingDefaults = [
         defaults: [{
             fontFamily: 'Nunito_400Regular',
             primaryColor: '#000000',
-            accentColor: '#888'
+            accentColor: '#888',
+            backgroundColor: '#FFFFFF'
         }],
         logo: [{
            display: false,
@@ -14,19 +15,13 @@ const stylingDefaults = [
            height: 20,
            width: 20
         }],
-        background: [{
-            color: '#FFFFFF'
-        }],
         title: [{
-           fontStyle: 'Nunito_700Bold',
            fontColor: '#000000',
         }],
         subTitle: [{
-            fontStyle: 'Nunito_700Bold',
             fontColor: '#000000',
         }],
         text: [{
-            fontStyle: 'Nunito_700Bold',
             fontColor: '#000000',
         }],
         tabBarMenu: [{
@@ -49,8 +44,6 @@ const stylingDefaults = [
         }],
     }
 ];
-
-expo install @expo-google-fonts/
 
 const fontOptions = [
     {
@@ -99,12 +92,151 @@ const fontOptions = [
     },
 ]
 
+defaults: [{
+    fontFamily: 'Nunito_400Regular',
+    primaryColor: '#000000',
+    accentColor: '#888'
+}],
+    logo: [{
+    display: false,
+    image: '',
+    height: 20,
+    width: 20
+}],
+    background: [{
+    color: '#FFFFFF'
+}],
+    title: [{
+    fontColor: '#000000',
+}],
+    subTitle: [{
+    fontColor: '#000000',
+}],
+    text: [{
+    fontColor: '#000000',
+}],
+    tabBarMenu: [{
+    height: 80,
+    fontSize: 14
+}],
+    card: [{
+    shadow: true,
+    borderRadius: 10,
+    fontStyle: 'Nunito_700Bold',
+    fontColor: 'white',
+    backgroundImage: true, //,
+    //  backgroundColorSecondary: '#4d4e2f'
+}],
+    // background
+    button: [{
+    shadow: true,
+    borderRadius: 25,
+    fontColor: '#fff',
+}],
+
 const stylingSchema = {
     name: "styling",
     fields: [
         {
-            key: 'background',
-            selector: ''
+            label: 'General',
+            key: 'general',
+            type: 'object',
+            single: true,
+            fields: [
+                {
+                    label: 'Font family',
+                    key: 'fontFamily',
+                    type: 'select',
+                    options: fontOptions
+                },
+                {
+                    label: 'Primary color',
+                    key: 'primaryColor',
+                    help: 'Primary color is used as an accent color in button, links etc.',
+                    type: 'color'
+                },
+                {
+                    label: 'Secondary color',
+                    key: 'secondaryColor',
+                    help: 'Secondary color is used for details like ...',
+                    type: 'color'
+                },
+                {
+                    label: 'Background color',
+                    key: 'backgroundColor',
+                    type: 'color'
+                }
+            ]
+        },
+        {
+            label: 'Logo',
+            key: 'logo',
+            type: 'object',
+            single: true,
+            fields: [
+                {
+                    label: 'Display a logo',
+                    key: 'displayLogo',
+                    type: 'select',
+                    options: [{
+                        label: 'Yes',
+                        value: true
+                    }, {
+                        label: 'No',
+                        value: false
+                    }]
+                },
+                {
+                    label: 'Image',
+                    key: 'src',
+                    type: 'image'
+                },
+                {
+                    label: 'Width',
+                    key: 'width',
+                    type: 'number'
+                },
+                {
+                    label: 'Height',
+                    key: 'height',
+                    type: 'number'
+                }
+            ]
+        },
+        {
+            label: 'Logo',
+            key: 'logo',
+            type: 'object',
+            single: true,
+            fields: [
+                {
+                    label: 'Display a logo',
+                    key: 'displayLogo',
+                    type: 'select',
+                    options: [{
+                        label: 'Yes',
+                        value: true
+                    }, {
+                        label: 'No',
+                        value: false
+                    }]
+                },
+                {
+                    label: 'Image',
+                    key: 'src',
+                    type: 'image'
+                },
+                {
+                    label: 'Width',
+                    key: 'width',
+                    type: 'number'
+                },
+                {
+                    label: 'Height',
+                    key: 'height',
+                    type: 'number'
+                }
+            ]
         }
     ]
 }

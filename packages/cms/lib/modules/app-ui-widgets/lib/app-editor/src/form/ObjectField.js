@@ -24,19 +24,21 @@ class ObjectField extends Component {
 
     render() {
         const values = this.props.activeValue ? this.props.activeValue : [{}];
-
-        console.log('ObjectField in values', values);
-
+        // if an array of object or only one item is editable
+        const multiple = !this.props.single;
 
         return <>
             {values.map((activeValue, i) => {
                 return <div>
+                    {multiple &&
                     <Section style={{textAlign: 'right'}} collapsible={false}>
-                        <a href="#" style={{fontSize: '16px', color: '#8f8f8f'}} className="plus-icon" onClick={(ev) => {
-                            ev.preventDefault();
-                            this.remove(i);
-                        }}> ✕ </a>
+                        <a href="#" style={{fontSize: '16px', color: '#8f8f8f'}} className="plus-icon"
+                           onClick={(ev) => {
+                               ev.preventDefault();
+                               this.remove(i);
+                           }}> ✕ </a>
                     </Section>
+                    }
                     <FormFieldManager
                         resources={this.props.resources}
                         update={(key, value) => {
@@ -59,10 +61,12 @@ class ObjectField extends Component {
                     />
                 </div>
             })}
-            <a href="#" className="plus-icon" onClick={(ev) => {
-                ev.preventDefault();
-                this.new();
-            }}> +</a>
+            {multiple &&
+                <a href="#" className="plus-icon" onClick={(ev) => {
+                    ev.preventDefault();
+                    this.new();
+                }}> +</a>
+            }
         </>
     }
 }

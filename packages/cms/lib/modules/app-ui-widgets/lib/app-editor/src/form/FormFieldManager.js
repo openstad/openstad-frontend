@@ -6,7 +6,8 @@ import {
     LocationPicker,
     ObjectField,
     SelectField,
-    RelationshipField
+    RelationshipField,
+    ColorField
 } from './index';
 import PropTypes from "prop-types";
 import Section from '../editor-ui/layout/Section';
@@ -43,6 +44,9 @@ const componentstMap = {
     },
     'location': {
         component: LocationPicker,
+    },
+    'color': {
+        component: ColorField,
     }
 }
 

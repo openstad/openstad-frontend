@@ -6,3 +6,4 @@ export { default as FormFieldManager }   from './FormFieldManager';
 export { default as ObjectField }        from './ObjectField';
 export { default as SelectField }        from './SelectField';
 export { default as RelationshipField }  from './RelationshipsField';
+export { default as ColorField }           from  './ColorField';
