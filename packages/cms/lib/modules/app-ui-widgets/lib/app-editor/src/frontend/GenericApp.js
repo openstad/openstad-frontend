@@ -8,11 +8,13 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ScreenStackNavigator from './ScreenStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
+import * as Font from 'expo-font';
+
+// import fonts
+import './fonts.js'
 
 const Stack = createStackNavigator();
-
-//import
-// Ionicons from 'react-native-web-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,13 +48,33 @@ class GenericApp extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            fontsLoaded: true
+        };
 
+    }
+
+    async _loadFontsAsync() {
+        await Font.loadAsync({
+            Nunito_400Regular,
+        });
+        this.setState({ fontsLoaded: true });
+    }
+
+    componentDidMount() {
+        this._loadFontsAsync();
     }
 
     render() {
         const startScreenId = this.props.screens.startScreenId;
 
+        if (!this.state.fontsLoaded) {
+            return (
+                <View>
+                    <Text> Loading... </Text>
+                </View>
+            );
+        }
 
         if (!startScreenId) {
             return (

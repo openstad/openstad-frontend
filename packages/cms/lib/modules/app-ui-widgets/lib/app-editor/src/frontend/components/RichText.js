@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   baseText: {
-    fontFamily: "Cochin"
+    marginTop: 5,
+    marginBottom: 10,
+    fontFamily: "Nunito_400Regular"
   }
 });
 
@@ -13,9 +15,17 @@ const RichText = (props) => {
 
 const StaticRichText = (props) => {
   return (
-      <Text style={styles.baseText}>
-        {props.text}
-      </Text>
+      <>
+        {props.text.split("\n").map((text) => {
+            return (
+                <View>
+                    <Text style={styles.baseText}>
+                        {text.trim()}
+                    </Text>
+                </View>
+            )
+        })}
+      </>
   );
 };
 

@@ -341,11 +341,14 @@ class Editor extends Component {
     return resource && resource.items ? resource.items : [];
   }
 
+  getStyling() {
+
+  }
+
   render() {
     if (this.state.loading) {
       return <Loader />
     }
-
 
     return (
       <UI

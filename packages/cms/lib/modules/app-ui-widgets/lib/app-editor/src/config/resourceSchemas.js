@@ -675,7 +675,6 @@ const userActivitySchema = {
     ]
 };
 
-
 const commentsSchema = {};
 
 const postSchema = {};
@@ -770,7 +769,17 @@ const chatSchema = {
         ],
 }
 
-const messages = {}
+const messageSchema = {};
+
+
+const screenSchema = {
+    name: "screen",
+    fields: [
+        {
+
+        }
+    ]
+}
 
 const schemas = {
     step: stepSchema,

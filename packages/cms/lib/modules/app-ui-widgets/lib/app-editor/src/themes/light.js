@@ -13,3 +13,17 @@ const card = {
 const background = {
 
 }
+
+
+const theme = {
+    [
+        label: 'Title',
+    ],
+    [
+        background: 'Title',
+    ],
+    [
+        label: 'Title',
+    ],
+
+}

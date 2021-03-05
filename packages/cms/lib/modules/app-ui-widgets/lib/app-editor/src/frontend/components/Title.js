@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
-const styles = StyleSheet.create({
+const styles = {
+  titleTextContainer: {
+
+  },
   titleText: {
-    fontSize: 20,
-    fontWeight: "bold"
+    fontSize: 32,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 10
   }
-});
+};
 
 const defaultStyles = {
   marginTop: 10,
@@ -21,7 +26,7 @@ const Title = (props) => {
 
 const ResourceTitle = (props) => {
   return (
-      <Text style={props.styles}>
+      <Text style={styles.titleText}>
         {props.activeResource[props.keyTitle]}
       </Text>
   );
@@ -29,9 +34,11 @@ const ResourceTitle = (props) => {
 
 const StaticTitle = (props) => {
   return (
-      <Text style={props.styles}>
-        {props.title}
-      </Text>
+      <View>
+        <Text style={styles.titleText}>
+          {props.title}
+        </Text>
+      </View>
   );
 };
 

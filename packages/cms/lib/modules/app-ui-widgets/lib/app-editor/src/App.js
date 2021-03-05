@@ -124,7 +124,6 @@ class App extends Component {
   }
 
   newResource() {
-
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
     var lastResourceId = lastResource.data.id;
@@ -225,6 +224,17 @@ class App extends Component {
       resourceItems: this.state.resourceItems,
       activeResource: activeResource
     })
+  }
+
+  resetResources() {
+
+  }
+
+  loadDefaultResources (overwrite) {
+    const resources = this.state.resources.map((resource) => {
+
+      return resource;
+    });
   }
 
   render() {

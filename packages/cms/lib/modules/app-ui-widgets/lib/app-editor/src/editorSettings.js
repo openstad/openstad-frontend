@@ -36,7 +36,9 @@ const workout = {
     },
     {
       name: 'membership',
-      items: [],
+      items: [{
+
+      }],
     },
   ]
 }

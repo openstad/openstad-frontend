@@ -44,29 +44,33 @@ const defaultWorkoutScreens = {
             inTabNavigation: true,
             components: [
                 {
-                    type: 'image',
+                    type: 'images',
                     props: {
-                        title: 'Timothy Banks'
+                        src: 'https://images.unsplash.com/photo-1518609571773-39b7d303a87b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
+                        width: 200,
+                        height: 200,
+                        circle: true,
+                        center: true
                     }
                 },
 
                 {
                     type: 'title',
                     props: {
-                        title: 'Timothy Banks'
+                        title: 'Michelle Banks'
                     }
                 },
                 {
                     type: 'richText',
                     props: {
-                        text: 'With this app you can pick customized workout program. I offer one for free, the other one for subscription. ' +
-                            'Programs range between 2 tot 12 weeks with 3-5 workouts per week. With the app I hold you accountable to your sessions!' +
-                            'Any questions, for instance about form. Don\'t forget to fill in your reps and weight every workout, this way we can track your progress!'+
-                            'Hide titlebar for tab pages, hide tab bar for detail pages'
+                        text: `With this app you can pick customized workout program. I offer one for free, the other one for subscription.
+                            Programs range between 2 tot 12 weeks with 3-5 workouts per week. With the app I hold you accountable to your sessions!
+                            Any questions, for instance about form. Don\'t forget to fill in your reps and weight every workout, this way we can track your progress!
+                            Hide titlebar for tab pages, hide tab bar for detail pages`
                     }
                 },
                 {
-                    type: 'buttons',
+                    type: 'button',
                     props: {
                         text: 'See programs',
                         action: 'programs'

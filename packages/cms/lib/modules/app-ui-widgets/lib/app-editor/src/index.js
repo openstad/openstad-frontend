@@ -11,8 +11,6 @@ import editorSettings from './editorSettings';
 import {ComponentEditMenu} from './editor-ui/elements';
 import ResourceSchemas from './config/resourceSchemas'
 
-
-
 const preCompononent = (props) => {
     return (
         <div>
