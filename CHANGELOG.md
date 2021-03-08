@@ -6,7 +6,8 @@
 * Update choices-guides to a production level
 * CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
 * CSS fix: Adjust logout link in menu margin for better alignment
-* CSS fix: Make padding for search same as select
+* CSS fix: Make padding for search box same as select
+* CSS fix: Add small padding tweaks
 * Fix displaying default image in gridder
 * Fix gridder not working on pagination
 * Remove googlemaps streetview fallback image from all widgets
