@@ -2,8 +2,15 @@
 
 ## UNRELEASED
 * Add page cache for non logged in users
-* Remove idea-single, idea-overview and idea-form files (templates will display warning now)
+* Remove idea-single, idea-overview and idea-form files (templates will display warning for now)
 * Update choices-guides to a production level
+* CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
+* CSS fix: Adjust logout link in menu margin for better alignment
+* CSS fix: Make padding for search same as select
+* Fix displaying default image in gridder
+* Fix gridder not working on pagination
+* Remove googlemaps streetview fallback image from all widgets
+
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results

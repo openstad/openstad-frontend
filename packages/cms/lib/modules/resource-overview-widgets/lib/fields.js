@@ -97,22 +97,6 @@ module.exports = [
     ]
   },
   {
-    name: 'fallBackToMapImage',
-    label: 'Fall back to map image if no image available?',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-        showFields: []
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ]
-  },
-  {
     name: 'displayPagination',
     label: 'Display pagination',
     type: 'boolean',
