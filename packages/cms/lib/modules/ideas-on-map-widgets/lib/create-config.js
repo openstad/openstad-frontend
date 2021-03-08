@@ -1,6 +1,6 @@
 const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
 
-module.exports = function createConfig(widget, data, jwt, apiUrl) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -15,8 +15,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
   if (widget.selectionInactiveNotLoggedInHTML) contentConfig.selectionInactiveNotLoggedInHTML = widget.selectionInactiveNotLoggedInHTML;
   if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
   contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
-
-  console.log('xxxx', widget.searchAddresssesMunicipality);
 
   // allowMultipleImages to formfields
   let formFields = [ ...widget.formFields ];
@@ -66,12 +64,14 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
 		  height: widget.displayHeight,
     },
 
-		linkToCompleteUrl: widget.linkToCompleteUrl,
+    loginUrl,
+
+		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     canSelectLocation: widget.canSelectLocation,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
-    linkToUserPageUrl: widget.linkToUserPageUrl,
+    linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
 
     search: {
       searchIn: { 'ideas and addresses': ['ideas', 'addresses'], 'ideas': ['ideas'], 'addresses': ['addresses'], 'none': [] }[ widget.searchIn ] || [],
@@ -102,7 +102,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
     },
 
 		idea: {
-      formUrl: widget.formUrl,
+      formUrl: widget.formUrl && data.siteUrl + widget.formUrl,
       showVoteButtons: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? data.global.siteConfig.ideas.showVoteButtons : true,
       showLabels: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showLabels != 'undefined' ? data.global.siteConfig.ideas.showLabels : true,
       canAddNewIdeas: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? data.global.siteConfig.ideas.canAddNewIdeas : true,

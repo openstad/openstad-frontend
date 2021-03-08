@@ -18,6 +18,7 @@ module.exports = {
   addFields: fields,
 
   construct: function(self, options) {
+      require('./lib/routes.js')(self, options);
 
       const superPushAssets = self.pushAssets;
       self.pushAssets = function () {

@@ -26,6 +26,7 @@ module.exports = {
             {name: 'sort'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
+            {name: 'jquery.dataTables.min'}
           ],
           stylesheets: [
             {name: 'main'}
@@ -121,12 +122,14 @@ module.exports = {
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
+        'openstad-template-cache': {},
         'openstad-login': {},
         'openstad-api': {},
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
+
         'openstad-nunjucks-filters': {
           siteUrl: siteUrl,
         },
@@ -257,6 +260,10 @@ module.exports = {
         directory: __dirname + '/locales',
         defaultLocale: 'nl'
       }
+    }
+
+    if (process.env.APOS_PROFILER === 'per-request'){
+      siteConfig.modules['apostrophe-profiler'] = {};
     }
 
     return siteConfig;

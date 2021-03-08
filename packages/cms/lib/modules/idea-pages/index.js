@@ -1,5 +1,24 @@
 /**
- * Deprecated, see resource page
+ * Will be deprecated in the feature, see resource page
+ * Still contains logic for like anonymously
+ *
+ * After redirect user to oAuth to get a JWT
+ * It comes back to CMS where a page is rendered so a form can be submitted.
+ * The users sees a loader, after success is redirect to the initial page where the like button was clicked.
+ *
+ * After this is done the user can simply like without awkwad redirect and using ajax.
+ *
+ * It's not the most user friendly flows, but for oAuth it's required to redirect and
+ * this allows for using some auth flow as the other auth methods and allows for adminstrators to define which fields are required
+ * Even though no e-mail or phone nr is required, often a postal code is asked for.
+ *
+ * Anonymous voting is highly problematic, since it allows users to vote with authenticating with e-mail.
+ * Therefore abuse is happening all the time.
+ * It's possible to enable/disable it in siteconfig.
+ *
+ * This is allowed to keep it to a minimum. In order to not make it too easy an IP can only add one positive or negative vote per 5 minutes (at time of writing)
+ * This type of voting is only being used for liking of ideas where it doesn't all too much influence on the decision making process.
+ *
  */
 const rp  = require('request-promise');
 const Url = require('url');
