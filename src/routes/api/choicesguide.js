@@ -159,6 +159,7 @@ router.route('/:choicesGuideId(\\d+)$')
               questionGroupId: question.questionGroupId,
               title: question.title,
               description: question.description,
+              moreInfo: question.moreInfo,
               images: question.images,
               type: question.type,
               dimensions: question.dimensions,
@@ -508,6 +509,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       questionGroupId: req.questiongroup.id,
       title: req.body.title,
       description: req.body.description,
+      moreInfo: req.body.moreInfo,
       images: req.body.images,
       type: req.body.type,
       dimensions: req.body.dimensions,
@@ -554,6 +556,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
     let data = {
       title: req.body.title,
       description: req.body.description,
+      moreInfo: req.body.moreInfo,
       images: req.body.images,
       type: req.body.type,
       dimensions: req.body.dimensions,
