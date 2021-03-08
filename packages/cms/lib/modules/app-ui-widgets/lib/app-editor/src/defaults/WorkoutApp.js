@@ -140,7 +140,7 @@ const defaultWorkoutScreens = {
                         resource: 'workout',
                         linkToScreen: true,
                         amount: 120,
-                        displayType: 'list',
+                        displayType: 'card',
                         titleKey: 'title',
                         backgroundImageKey: 'images'
                     }

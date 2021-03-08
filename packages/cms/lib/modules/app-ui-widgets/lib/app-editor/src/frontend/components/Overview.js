@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 
 });
 
-const cardStyles = {
+const shadowStyles = {
     shadowColor: "#000",
     shadowOffset: {
         width: 0,
@@ -25,15 +25,55 @@ const cardStyles = {
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-
     elevation: 4,
-    height: 180,
-    width: 100,
-    borderRadius: 5,
-    background: '#FFF'
 }
+
+const cardStyles = {
+    ...shadowStyles,
+    borderRadius: 3,
+    background: '#FFF',
+    overflow: 'hidden',
+    fontWeight: 'bold'
+}
+
+const alignToBottom = {
+    position: 'absolute',
+    bottom: 15,
+    left: 15,
+}
+
+const cardTextStyles = {
+    ...alignToBottom,
+    fontSize: 20,
+    marginTop: 20,
+    //position: ''
+}
+
+const cardTextStylesWhite = {
+    ...cardTextStyles,
+    color: '#FFF'
+}
+
+const cardTextStylesBlack = {
+    ...cardTextStyles,
+    color: '#000'
+}
+
+const horizontalCardStyles = {
+    ...cardStyles,
+    height: 160,
+    width: 150,
+    marginRight: 15
+}
+
+const verticalCardStyles = {
+    ...cardStyles,
+    height: 90,
+    width: '100%',
+}
+
 const defaultListItemStylesOuter = {
-    marginBottom: 8
+    marginBottom: 12
 }
 
 const defaultListItemStylesInner = {
@@ -51,10 +91,18 @@ const Loader = (props) => {
 
 const CardItem = (props) => {
     const titleKey = props.titleKey ? props.titleKey : 'title';
+    let backgroundImage = props.backgroundImageKey && props.item[props.backgroundImageKey] ? props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
+    backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
 
-    return <View style={cardStyles}>
-        <Text>{props.item[titleKey]}</Text>
+    console.log('backgroundImage', backgroundImage)
+
+
+    return   <View style={defaultListItemStylesOuter}>
+            <SafeBackgroundImage backgroundImage={backgroundImage} style={props.scroll === 'horizontal' ? horizontalCardStyles:  verticalCardStyles}>
+                <Text style={backgroundImage ? cardTextStylesWhite : cardTextStylesBlack}>{props.item[titleKey]}</Text>
+            </SafeBackgroundImage>
     </View>
+
 }
 
 const ListItem = (props) => {
@@ -104,7 +152,10 @@ const DisplayItems = (props) => {
 
 const OverviewContainer = (props) => {
     return props.scroll === 'horizontal' ?
-        <ScrollView horizontal style={{
+        <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{
             flex: 1,
             flexDirection: 'row',
             flexWrap: 'wrap',

@@ -6,7 +6,7 @@ const SafeBackgroundImage = (props) => {
       <ImageBackground style={props.style} source={{
         uri: props.backgroundImage
       }}> {props.children} </ImageBackground> :
-        <> {props.children} </>
+        <View style={props.style}> {props.children} </View>
     )
 }
 

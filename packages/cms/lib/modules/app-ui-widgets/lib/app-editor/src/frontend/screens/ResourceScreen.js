@@ -52,6 +52,7 @@ const ResourceScreen = (props) => {
 
     return (
         <ScrollView
+            showsVerticalScrollIndicator={false}
             style={{
             flex: 1
         }}>
