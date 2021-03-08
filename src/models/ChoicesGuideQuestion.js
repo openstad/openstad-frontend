@@ -51,6 +51,7 @@ module.exports = function( db, sequelize, DataTypes ) {
         },
       },
       set: function( text ) {
+        text = text || '';
         this.setDataValue('moreInfo', sanitize.content(text.trim()));
       }
     },
