@@ -5,33 +5,33 @@
 <div class="section-container hide-section-controls">
   {% if data.hasModeratorRights %}
   <style>
-    {{data.widget.formattedContainerStyles}}
+   {{data.widget.formattedContainerStyles}}
 
-    .layout header {
-      position: relative !important;
-      transform: none !important;
-      visibility: visible !important;
-      padding: 0 !important;
-      height: 48px;
-      background-color: rgb(255, 255, 255) !important;
-      color: black !important;
-      margin-top: 0;
-      box-shadow: none;
-      border-bottom: 1px solid #eeeeee;
-    }
+   .layout header {
+     position: relative !important;
+     transform: none !important;
+     visibility: visible !important;
+     padding: 0 !important;
+     height: 48px;
+     background-color: rgb(255, 255, 255) !important;
+     color: black !important;
+     margin-top: 0;
+     box-shadow: none;
+     border-bottom: 1px solid #eeeeee;
+   }
 
-    .RaLayout-root-1, .jss1 {
-      background: white;
-    }
+   .RaLayout-root-1, .jss1 {
+     background: white;
+   }
 
-    .RaLayout-appFrame-2, .jss2 {
-        margin-top: 0;
-    }
+   .RaLayout-appFrame-2, .jss2 {
+     margin-top: 0;
+   }
   </style>
   <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openstad-react-admin@0.1.7/dist/css/main.css">
-  <script src="https://cdn.openstad.nlsvgtr.nl/react-admin/dist/js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/openstad-react-admin@0.1.7/dist/js/index.js"></script>
   <div id="{{data.widget.containerId}}" class="osc-component">
   	<div id="admin-root"></div>
   </div>
@@ -104,7 +104,7 @@
   {% else %}
   <div class="container">
     <div class="col-xs-12">
-    {% include 'login-required.html' %}
+      {% include 'login-required.html' %}
     </div>
   </div>
   {% endif %}
