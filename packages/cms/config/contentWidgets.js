@@ -81,10 +81,10 @@ const contentWidgets = {
     adminOnly: true
   },
   'choices-guide': {
-    addLabel: 'Keuzewijzer  (beta)',
+    addLabel: 'Keuzewijzer',
   },
   'choices-guide-result': {
-    addLabel: 'Keuzewijzer resultaten (beta)',
+    addLabel: 'Keuzewijzer resultaten',
   },
   'apostrophe-rich-text': {
     toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],

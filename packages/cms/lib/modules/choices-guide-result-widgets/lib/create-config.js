@@ -1,4 +1,4 @@
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logoutUrl) {
 
   let requireLoginSettings;
   requireLoginSettings = {};
@@ -40,6 +40,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       withPercentage: widget.choicesWithPercentage,
     },
     loginUrl,
+    logoutUrl,
     moreInfoUrl: widget.moreInfoUrl && data.siteUrl + widget.moreInfoUrl,
     moreInfoLabel: widget.moreInfoLabel,
     beforeUrl: widget.beforeUrl && data.siteUrl + widget.beforeUrl,

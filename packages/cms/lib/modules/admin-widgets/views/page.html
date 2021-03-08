@@ -31,72 +31,75 @@
   <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/openstad-react-admin@0.1.7/dist/css/main.css">
-  <script src="https://cdn.jsdelivr.net/npm/openstad-react-admin@0.1.7/dist/js/index.js"></script>
+  <script src="https://cdn.openstad.nlsvgtr.nl/react-admin/dist/js/index.js"></script>
   <div id="{{data.widget.containerId}}" class="osc-component">
   	<div id="admin-root"></div>
   </div>
   <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-      var appProps = {
-        user: {
-          id: {{data.openstadUser.id}}
-        },
-        site: {
-          id: {{data.global.siteId}}
-        },
+   document.addEventListener("DOMContentLoaded", function(event) {
+     var appProps = {
+       user: {
+         id: {{data.openstadUser.id}}
+       },
+       site: {
+         id: {{data.global.siteId}}
+       },
        // jwt: '{{data.jwt}}',
-        imageApi: {
-          url: '/image'
-        },
-        restApi: {
-          url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
-        },
-        restApi: {
-          url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
-        },
-        statsApi:{
-          url: '/stats/site/{{data.global.siteId}}/overview'
-        },
-        csrf: $.cookie(apos.csrfCookieName),
-        resources: {
-          idea: {
-            active: true
-          },
-          user: {
-            active: true
-          },
-          product: {
-            active: false
-          },
-          order: {
-            active: false
-          },
-          vote: {
-            active: true
-          },
-          article: {
-            active: false
-          },
-          argument: {
-            active: true
-          },
-          area: {
-            active: true
-          },
-          site: {
-            active: true
-          },
-          newsletterSignup: {
-            active: true
-          },
-          tag: {
-            active: true
-          },
-        }
-      };
+       imageApi: {
+         url: '/image'
+       },
+       restApi: {
+         url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
+       },
+       restApi: {
+         url: '{{data.siteUrl}}/api/site/{{data.global.siteId}}'
+       },
+       statsApi:{
+         url: '/stats/site/{{data.global.siteId}}/overview'
+       },
+       csrf: $.cookie(apos.csrfCookieName),
+       resources: {
+         idea: {
+           active: true
+         },
+         user: {
+           active: true
+         },
+         product: {
+           active: false
+         },
+         order: {
+           active: false
+         },
+         vote: {
+           active: true
+         },
+         article: {
+           active: false
+         },
+         argument: {
+           active: true
+         },
+         area: {
+           active: true
+         },
+         site: {
+           active: true
+         },
+         newsletterSignup: {
+           active: true
+         },
+         choicesGuide: {
+           active: true
+         },
+         tag: {
+           active: true
+         },
+       }
+     };
 
-      ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
-    });
+     ReactDOM.render(React.createElement(OpenstadReactAdmin.default, appProps), document.getElementById('admin-root'));
+   });
   </script>
   {% else %}
   <div class="container">
