@@ -297,6 +297,7 @@ module.exports.getMultiSiteApp = (options) => {
 
         // if site exists serve it, otherwise give a 404
         if (site) {
+            req.site = site;
             serveSite(req, res, site, req.forceRestart);
         } else {
             res.status(404).json({error: 'Site not found'});
