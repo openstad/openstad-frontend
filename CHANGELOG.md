@@ -1,11 +1,14 @@
 # Changelog
 
-## ## v0.13.0 (2020-02-23)
+## Unreleased
+* ChoicesGuide: add list results endpoint
+
+## v0.13.0 (2021-02-23)
 * Add login required to choices-guide results
 * Include areas with polygons when fetching all site, fixes not showing of polygons. But makes site call substantially bigger, in future might have to move to a different call somewhere.
 * Add user create logic to the User route, syncs tih the OAuth API
 
-## v0.12.0 (2020-01-27)
+## v0.12.0 (2021-01-27)
 * Remove auth express session and refactor user middleware (auth is now stateless)
 * Fix fallback authClientId
 * Use correct env variable for default client_id and client_secret values
