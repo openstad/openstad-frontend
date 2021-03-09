@@ -137,7 +137,7 @@ module.exports = function( db, sequelize, DataTypes ) {
 
   // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
 	ChoicesGuideResult.auth = ChoicesGuideResult.prototype.auth = {
-    listableBy: 'all',
+    listableBy: 'moderator',
     viewableBy: 'all',
     createableBy: 'all',
     updateableBy: ['editor', 'owner'],
