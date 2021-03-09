@@ -177,9 +177,6 @@ function initAjaxForms($e) {
         var $submitButtons = $form.find('input[type="submit"], button[type="submit"]');
         $submitButtons.attr('disabled', true);
 
-        console.log('redirectUrl', redirectUrl)
-        console.log('redirectErrorUrl', redirectErrorUrl)
-
         $.ajax({
             url: $form.attr('action'),
             //  context: document.body,
@@ -187,34 +184,23 @@ function initAjaxForms($e) {
             data: $form.serialize(),
             //     dataType: 'json',
             success: function (response) {
-                console.log('on success', redirectUrl)
-
+                // for some reason, above redirectUrl is sometimes empty here.
                 redirectUrl = $form.find('.redirect-url').val();
-                console.log('on success 2', redirectUrl)
-                console.log('on success 2', $form.find('.redirect-url').val())
 
                 if ($form.hasClass('ajax-refresh-after-submit')) {
-                    console.log('ajaxRefresh')
-
                     ajaxRefresh();
                 } else if (redirectUrl) {
                     var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
                     var redirectUrl = redirectUrl.startsWith('http') ? redirectUrl : window.siteUrl + redirectUrl;
 
-                    console.log('redirect to', redirectUrl);
-
                     window.location.href = redirectUrl + separator + 'n=' + new Date().getTime();
                 } else {
-                    console.log('reload')
-
                     window.location.hash = "";
                     window.location.reload();
                 }
             },
             error: function (response) {
                 var message, errorMessage;
-
-                console.log('on error');
 
                 response = response && response.responseJSON ? response : JSON.parse(response);
 
