@@ -187,9 +187,14 @@ function initAjaxForms($e) {
             data: $form.serialize(),
             //     dataType: 'json',
             success: function (response) {
-                console.log('on success')
+                console.log('on success', redirectUrl)
+
+                redirectUrl = $(this).find('.redirect-url').val();
+                console.log('on success 2', redirectUrl)
 
                 if ($form.hasClass('ajax-refresh-after-submit')) {
+                    console.log('ajaxRefresh')
+
                     ajaxRefresh();
                 } else if (redirectUrl) {
                     var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
@@ -199,6 +204,8 @@ function initAjaxForms($e) {
 
                     window.location.href = redirectUrl + separator + 'n=' + new Date().getTime();
                 } else {
+                    console.log('reload')
+
                     window.location.hash = "";
                     window.location.reload();
                 }
