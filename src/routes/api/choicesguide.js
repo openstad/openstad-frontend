@@ -612,6 +612,36 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
       .catch(next);
   })
 
+// list results
+// ------------
+
+	.get(auth.can('ChoicesGuideResult', 'list'))
+			 .get(auth.useReqUser)
+	.get(function(req, res, next) {
+		let where = { choicesGuideId: req.choicesguide.id };
+		let choicesGuideQuestionGroupId = parseInt(req.params.choicesGuideQuestionGroupId);
+		if (choicesGuideQuestionGroupId) where.questionGroupId = choicesGuideQuestionGroupId;
+		db.ChoicesGuideResult
+			.scope(...req.scope)
+			.findAll({ where })
+			.then( (found) => {
+				return found.map( (entry) => {
+					let json = {
+						id: entry.id,
+						userId: entry.id,
+						extraData: entry.extraData,
+						userFingerprint: entry.userFingerprint,
+						result: entry.result,
+					};
+					return json;
+				});
+			})
+			.then(function( found ) {
+				res.json(found);
+			})
+			.catch(next);
+	})
+
 // create choicesguideresult
 // --------------------------------
   .post(auth.can('ChoicesGuideResult', 'create'))
