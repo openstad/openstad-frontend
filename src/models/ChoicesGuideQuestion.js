@@ -17,7 +17,7 @@ module.exports = function( db, sequelize, DataTypes ) {
       validate: {
         len: {
           args: [0, 255],
-          msg: 'Titel moet tussen 2 en 255 tekens lang zijn'
+          msg: 'Titel moet tussen 0 en 255 tekens lang zijn'
         }
       },
       set: function( text ) {
@@ -32,11 +32,27 @@ module.exports = function( db, sequelize, DataTypes ) {
       validate: {
         len: {
           args: [0, 5000],
-          msg: 'Beschrijving moet tussen 2 en 5000 tekens zijn'
+          msg: 'Beschrijving moet tussen 0 en 5000 tekens zijn'
         },
       },
       set: function( text ) {
         this.setDataValue('description', sanitize.content(text.trim()));
+      }
+    },
+
+    moreInfo: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '',
+      validate: {
+        len: {
+          args: [0, 5000],
+          msg: 'Meer informatie moet tussen 0 en 5000 tekens zijn'
+        },
+      },
+      set: function( text ) {
+        text = text || '';
+        this.setDataValue('moreInfo', sanitize.content(text.trim()));
       }
     },
 

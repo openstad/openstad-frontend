@@ -159,6 +159,7 @@ router.route('/:choicesGuideId(\\d+)$')
               questionGroupId: question.questionGroupId,
               title: question.title,
               description: question.description,
+              moreInfo: question.moreInfo,
               images: question.images,
               type: question.type,
               dimensions: question.dimensions,
@@ -191,6 +192,7 @@ router.route('/:choicesGuideId(\\d+)$')
 // -------------------
 	.put(auth.useReqUser)
   .put(function(req, res, next) {
+
     let data = {
       title: req.body.title,
       description: req.body.description,
@@ -507,6 +509,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
       questionGroupId: req.questiongroup.id,
       title: req.body.title,
       description: req.body.description,
+      moreInfo: req.body.moreInfo,
       images: req.body.images,
       type: req.body.type,
       dimensions: req.body.dimensions,
@@ -553,6 +556,7 @@ router.route('/:choicesGuideId(\\d+)/questiongroup/:questionGroupId(\\d+)/questi
     let data = {
       title: req.body.title,
       description: req.body.description,
+      moreInfo: req.body.moreInfo,
       images: req.body.images,
       type: req.body.type,
       dimensions: req.body.dimensions,
@@ -669,6 +673,20 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 
 		return next(createError(401, 'Je mag niet insturen op deze site'));
 	})
+
+
+// is de keuzewijzer actief
+	.post(function(req, res, next) {
+
+    let isActive = req.choicesguide.config && req.choicesguide.config.isActive
+
+    if ( isActive == false || isActive == "false" || isActive == 0 || isActive == "0" ) {
+		  return next(createError(401, 'De keuzewijzer is gesloten'));
+    }
+
+    return next();
+
+  })
 
 
 // heb je al ingestuurd

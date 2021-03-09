@@ -40,7 +40,7 @@ module.exports = function( db, sequelize, DataTypes ) {
     },
 
     images: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: false,
       defaultValue: '{}',
       get: function() {
@@ -54,11 +54,11 @@ module.exports = function( db, sequelize, DataTypes ) {
       },
       set: function(value) {
         try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
+          if (typeof value == 'object') {
+            value = JSON.stringify(value);
           }
         } catch (err) {}
-        this.setDataValue('images', JSON.stringify(value));
+        this.setDataValue('images', value);
       }
     },
 
