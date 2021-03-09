@@ -14,6 +14,10 @@ const RichText = (props) => {
 }
 
 const StaticRichText = (props) => {
+  if (!props.text) {
+    return <></>;
+  }
+
   return (
       <>
         {props.text.split("\n").map((text) => {

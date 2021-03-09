@@ -1,16 +1,28 @@
 import React, {Component} from "react";
 import {View, Text, TouchableOpacity, ScrollView} from "react-native";
-import Overview from "../Overview";
+import {Overview, RichText, Title, Card} from "../index";
+
+const tabStyles = {
+    fontSize: 13,
+    textTransform: 'uppercase',
+    marginRight: 10,
+}
 
 const styles = {
     title: {
         fontSize: 20,
         fontWeight: "bold"
     },
-    activeTab: {}
+
+    activeTab: {
+        ...tabStyles,
+        textDecorationLine: 'underline',
+    }
 };
 
 const workoutProgram = {
+    title: "Strength training",
+    description: "This program lasts for 4 weeks with 3 sessions per week with low reps high weight. Take at least one rest day between every session\n",
     periods: [
         {
             workouts: [{
@@ -41,14 +53,20 @@ class WorkoutSelectedProgram extends Component {
 
         return (
             <View>
-                <Text style={styles.title}> {workoutProgram.title}</Text>
+                <Title
+                    title={workoutProgram.title}
+                    style={{marginTop: 5}}
+                />
+                <RichText text={workoutProgram.description} />
+
                 <ScrollView horizontal style={{
                     flex: 1,
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                 }}>
-                    {workoutProgram.periods.map((period, i) => {
 
+
+                    {workoutProgram.periods.map((period, i) => {
                         return (
                             <TouchableOpacity key={"period" + i} onPress={() => {
                                 this.setState({
@@ -56,7 +74,7 @@ class WorkoutSelectedProgram extends Component {
                                     activePeriod: workoutProgram.periods[i]
                                 })
                             }}>
-                                <Text style={this.state.activePeriodIndex === i ? styles.activeTab : {}}>
+                                <Text style={this.state.activePeriodIndex === i ? styles.activeTab : tabStyles}>
                                     {workoutProgram.periodType} {i + 1}
                                 </Text>
                             </TouchableOpacity>
@@ -64,11 +82,18 @@ class WorkoutSelectedProgram extends Component {
                     })}
                 </ScrollView>
                 <ScrollView>
+                    <Card>
+                        0 of 3 sessions done
+                        this {workoutProgram.periodType}
+                    </Card>
                     {this.state.activePeriod &&
                     <Overview
                         resource="workout"
                         resourceSchemas={this.props.resourceSchemas}
                         resourcesData={this.props.resourcesData}
+                        titleKey={'title'}
+                        displayType={'card'}
+                        backgroundImageKey={'images'}
                     />
                     }
                 </ScrollView>

@@ -61,19 +61,20 @@ const cardTextStylesBlack = {
 
 const horizontalCardStyles = {
     ...cardStyles,
-    height: 160,
-    width: 150,
+    height: 150,
+    display: 'block',
+    width: 160,
     marginRight: 15
 }
 
 const verticalCardStyles = {
     ...cardStyles,
     height: 90,
-    width: '100%',
 }
 
 const defaultListItemStylesOuter = {
-    marginBottom: 12
+    marginBottom: 12,
+    position: 'relative'
 }
 
 const defaultListItemStylesInner = {
@@ -89,20 +90,23 @@ const Loader = (props) => {
     return <Text> Loading... </Text>;
 }
 
+const Card = (props) => {
+    console.log('In CardCard prop', props)
+
+    return <View style={defaultListItemStylesOuter}>
+        <SafeBackgroundImage backgroundImage={props.backgroundImage} style={props.scroll === 'horizontal' ? horizontalCardStyles :  verticalCardStyles}>
+            <Text style={props.backgroundImage ? cardTextStylesWhite : cardTextStylesBlack}>{props.children}</Text>
+        </SafeBackgroundImage>
+    </View>
+}
+
 const CardItem = (props) => {
     const titleKey = props.titleKey ? props.titleKey : 'title';
     let backgroundImage = props.backgroundImageKey && props.item[props.backgroundImageKey] ? props.item[props.backgroundImageKey] : (props.defaultBackgroundImage ? props.defaultBackgroundImage : false);
     backgroundImage = backgroundImage.constructor === Array ? backgroundImage[0] : backgroundImage;
 
-    console.log('backgroundImage', backgroundImage)
 
-
-    return   <View style={defaultListItemStylesOuter}>
-            <SafeBackgroundImage backgroundImage={backgroundImage} style={props.scroll === 'horizontal' ? horizontalCardStyles:  verticalCardStyles}>
-                <Text style={backgroundImage ? cardTextStylesWhite : cardTextStylesBlack}>{props.item[titleKey]}</Text>
-            </SafeBackgroundImage>
-    </View>
-
+    return <Card {...props} backgroundImage={backgroundImage}>{props.item[titleKey]}</Card>
 }
 
 const ListItem = (props) => {
@@ -135,11 +139,14 @@ const displayTypes = {
 const DisplayItems = (props) => {
     const DisplayItem = props.displayType ? displayTypes[props.displayType] : displayTypes['list'];
 
+    console.log('DisplayItem', DisplayItem);
+
     return (
         <>
             {props.items.map((item, i) => {
                 return props.linkToScreen ? <TouchableHighlight
-                    key={item.id} onPress={() => {
+                    key={item.id}
+                    onPress={() => {
                     props.navigation.navigate(props.formatResourceScreenName(props.resource), {id: item.id})
                 }} >
                     <DisplayItem {...props} item={item} />
@@ -165,6 +172,8 @@ const OverviewContainer = (props) => {
  }
 
 const ResourceOverview = (props) => {
+
+    console.log('ResourceOverview', props)
 
     const resourceName = props.resource;
 
@@ -246,4 +255,8 @@ const Overview = (props) => {
     return <ResourceOverview {...props} />
 }
 
-export default Overview;
+
+export  {
+    Card as Card,
+    Overview as Overview
+};

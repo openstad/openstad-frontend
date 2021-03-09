@@ -39,11 +39,18 @@ const defaultWorkoutScreens = {
     items: [
         {
             id: 5,
-            name: 'Your Coach',
+            name: 'Coach',
             type: 'static',
             icon: "assignment-ind",
             inTabNavigation: true,
             components: [
+                {
+                    type: 'title',
+                    props: {
+                        title: 'Your coach',
+                        variant: 'upperTitle',
+                    }
+                },
                 {
                     type: 'images',
                     props: {
@@ -64,7 +71,8 @@ const defaultWorkoutScreens = {
                 {
                     type: 'richText',
                     props: {
-                        text: `With this app you can pick customized workout program. I offer one for free, the other one for subscription.
+                        text: `Welcome! I'm your coach Michelle!
+                            With this app you can pick customized workout program. I offer one for free, the other one for subscription.
                             Programs range between 2 tot 12 weeks with 3-5 workouts per week. With the app I hold you accountable to your sessions!
                             Any questions, for instance about form. Don\'t forget to fill in your reps and weight every workout, this way we can track your progress!
                             Hide titlebar for tab pages, hide tab bar for detail pages`
@@ -81,7 +89,7 @@ const defaultWorkoutScreens = {
         },
         {
             id: 1,
-            name: 'Your program',
+            name: 'Program',
             icon: "calendar-today",
             type: 'static',
             inTabNavigation: true,
@@ -89,7 +97,9 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
-                        title: 'Your program'
+
+                        title: 'Your program',
+                        variant: 'upperTitle',
                     }
                 },
                 {
@@ -97,8 +107,9 @@ const defaultWorkoutScreens = {
                     props: {
                         resource: 'program',
                         amount: 1,
-                        titleKey: 'first_name',
-                        backgroundImageKey: 'avatar'
+                        titleKey: 'title',
+                        backgroundImageKey: 'images',
+
                     }
                 },
             ]
@@ -113,6 +124,16 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
+                        title: 'Workouts & programs',
+                        variant: 'upperTitle'
+                    }
+                },
+                {
+                    type: 'title',
+                    props: {
+                        style: {
+                            marginTop: 5
+                        },
                         title: 'Programs'
                     }
                 },
@@ -125,7 +146,7 @@ const defaultWorkoutScreens = {
                         displayType: 'card',
                         scroll: "horizontal",
                         titleKey: 'title',
-                        backgroundImageKey: 'image'
+                        backgroundImageKey: 'images'
                     }
                 },
                 {
@@ -149,6 +170,22 @@ const defaultWorkoutScreens = {
         },
         {
             id: 3,
+            name: 'Nutrition',
+            type: 'static',
+            icon: "perm-identity",
+            inTabNavigation: true,
+            components: [
+                {
+                    type: 'title',
+                    props: {
+                        title: 'Nutrition',
+                        variant: 'upperTitle',
+                    }
+                },
+            ]
+        },
+        {
+            id: 4,
             name: 'Profile',
             type: 'static',
             icon: "perm-identity",
@@ -157,13 +194,14 @@ const defaultWorkoutScreens = {
                 {
                     type: 'title',
                     props: {
-                        title: 'My Account'
+                        title: 'Your account',
+                        variant: 'upperTitle',
                     }
                 },
                 {
                     type: 'title',
                     props: {
-                        title: 'Workouts',
+                        title: 'Workout log',
                         //@Todo: implement variant h2 for title
                         variant: 'h2'
                     }
