@@ -189,8 +189,9 @@ function initAjaxForms($e) {
             success: function (response) {
                 console.log('on success', redirectUrl)
 
-                redirectUrl = $(this).find('.redirect-url').val();
+                redirectUrl = $form.find('.redirect-url').val();
                 console.log('on success 2', redirectUrl)
+                console.log('on success 2', $form.find('.redirect-url').val())
 
                 if ($form.hasClass('ajax-refresh-after-submit')) {
                     console.log('ajaxRefresh')
