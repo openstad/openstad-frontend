@@ -268,7 +268,9 @@ class Editor extends Component {
 
     fetchApp() {
 
-        axios.get(`/api/tour/${this.props.appId}`)
+        const apiBase = this.props.apiBase ? this.props.apiBase : '/api';
+
+        axios.get(`${apiBase}/tour/${this.props.appId}`)
             .then((response) => {
 
                 const appResource = response.data;

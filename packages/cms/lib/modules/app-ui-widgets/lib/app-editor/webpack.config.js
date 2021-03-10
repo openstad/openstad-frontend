@@ -8,7 +8,7 @@ module.exports = {
     devtool: 'none',
 //	mode: 'development',
     mode: 'production',
-    entry: ['./src/lib.js'],
+    entry: ['babel-polyfill', './src/lib.js'],
 
     resolve: {
         // This will only alias the exact import "react-native"
@@ -53,7 +53,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use:[MiniCssExtractPlugin.loader, 'css-loader']
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
