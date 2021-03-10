@@ -98,7 +98,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     sort: {
       sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
       showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
-      defaultSortOrder: widget.defaultSorting,
+      defaultValue: widget.defaultSorting,
     },
 
 		idea: {
