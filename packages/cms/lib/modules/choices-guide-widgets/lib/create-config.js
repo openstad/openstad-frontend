@@ -30,6 +30,10 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     },
     beforeUrl: widget.beforeUrl && data.siteUrl + widget.beforeUrl,
     afterUrl: widget.afterUrl && data.siteUrl + widget.afterUrl,
+    imageserver: {
+			process: '/image',
+			fetch: '/image',
+    },
   }
 
   return config;
