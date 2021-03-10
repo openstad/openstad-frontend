@@ -170,10 +170,7 @@ function initBrowserWarning() {
 function initAjaxForms($e) {
     $('body').on('submit', '.ajax-form', function (ev) {
         ev.preventDefault();
-
         var $form = $(this);
-        var redirectUrl = $(this).find('.redirect-url').val();
-        var redirectErrorUrl = $(this).find('.redirect-error-url').val();
         var $submitButtons = $form.find('input[type="submit"], button[type="submit"]');
         $submitButtons.attr('disabled', true);
 
@@ -185,13 +182,13 @@ function initAjaxForms($e) {
             //     dataType: 'json',
             success: function (response) {
                 // for some reason, above redirectUrl is sometimes empty here.
-                redirectUrl = $form.find('.redirect-url').val();
+                var redirectUrl = $form.find('.redirect-url').val();
 
                 if ($form.hasClass('ajax-refresh-after-submit')) {
                     ajaxRefresh();
                 } else if (redirectUrl) {
                     var separator = redirectUrl.indexOf('?') !== -1 ? '&' : '?';
-                    var redirectUrl = redirectUrl.startsWith('http') ? redirectUrl : window.siteUrl + redirectUrl;
+                    redirectUrl = redirectUrl.startsWith('http') ? redirectUrl : window.siteUrl + redirectUrl;
 
                     window.location.href = redirectUrl + separator + 'n=' + new Date().getTime();
                 } else {
@@ -201,6 +198,7 @@ function initAjaxForms($e) {
             },
             error: function (response) {
                 var message, errorMessage;
+                var redirectErrorUrl = $form.find('.redirect-error-url').val();
 
                 response = response && response.responseJSON ? response : JSON.parse(response);
 
@@ -218,6 +216,7 @@ function initAjaxForms($e) {
                 }
 
                 if (redirectErrorUrl) {
+                    redirectErrorUrl = redirectErrorUrl.startsWith('http') ? redirectErrorUrl : window.siteUrl + redirectErrorUrl;
                     window.location.replace(redirectErrorUrl);
                 }
             },
