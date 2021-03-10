@@ -313,4 +313,4 @@ const Loader = function () {
   return <div style={{position: 'fixed', top: '50%', width: '100%', textAlign: 'center'  }}> Loading... </div>
 }
 
-export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(App);
+export default App;

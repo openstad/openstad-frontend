@@ -408,5 +408,8 @@
 	"Save Recource raw widget": "Save Recource raw widget",
 	"Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)": "Templates (templating: nunjucks. variables is the data object: idea, ideas etc.)",
 	"Edit Recource raw widget": "Edit Recource raw widget",
-	"Modified fields: %s": "Modified fields: %s"
+	"Modified fields: %s": "Modified fields: %s",
+	"Edit Ideas map": "Edit Ideas map",
+	"stemvancentrumss": "stemvancentrumss",
+	"Create test": "Create test"
 }

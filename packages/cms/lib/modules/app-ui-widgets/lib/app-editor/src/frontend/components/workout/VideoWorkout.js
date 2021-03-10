@@ -1,6 +1,6 @@
 import React  from "react";
 import { View, Text, StyleSheet, Dimensions, Button } from "react-native";
-import { Video, AVPlaybackStatus } from 'expo-av';
+//import { Video, AVPlaybackStatus } from 'expo-av';
 
 
 const { width, height } = Dimensions.get('window');
@@ -63,8 +63,7 @@ const VideoWorkout = (props) => {
     const [status, setStatus] = React.useState({});
     return (
         <View style={styles.container}>
-
-            <Video
+            {/*<Video
                 ref={video}
                 style={styles.video}
                 source={{
@@ -74,7 +73,7 @@ const VideoWorkout = (props) => {
                 resizeMode="contain"
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
-            />
+            />*/}
         </View>
     )
 }

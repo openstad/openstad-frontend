@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import appResource from './defaults';
@@ -123,7 +121,6 @@ if (process.env.FRONTEND) {
     const latestRevision = appResource.revisions[appResource.revisions.length - 1];
 
     const settings = editorSettings[editorType];
-
 
     ReactDOM.render(
         <React.StrictMode>

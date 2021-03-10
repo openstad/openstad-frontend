@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
+import './index.css';
+
 import scriptLoader from 'react-async-script-loader';
 
 import axios from 'axios';
@@ -58,10 +60,12 @@ class Editor extends Component {
     constructor(props) {
         super(props);
 
+        const latestRevision = appResource.revisions[appResource.revisions.length - 1];
+
         this.state = {
             activeResource: null,
-            resources: props.resources,
-            appResource: props.appResource,
+            resources: props.resources ? props.resources : latestRevision.resources,
+            appResource: props.appResource ? props.appResource : latestRevision,
             loading: true,
             lineCoords: false,
             crudCount: 0
@@ -388,7 +392,7 @@ class Editor extends Component {
                                 styling={this.state.appResource.styling}
                                 settings={this.state.appResource.settings}
                                 resourcesData={this.state.resources}
-                                resourceSchemas={this.props.resourceSchemas}
+                                resourceSchemas={resourceSchemas}
                                 navigationSettings={this.state.appResource.navigationSettings}
                                 screens={this.state.appResource.screens}
                                 user={this.props.user}
@@ -428,4 +432,4 @@ class Editor extends Component {
     }
 }
 
-export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(Editor);
+export default Editor;

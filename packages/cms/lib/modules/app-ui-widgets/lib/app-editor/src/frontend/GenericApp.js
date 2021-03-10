@@ -8,11 +8,11 @@ import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ScreenStackNavigator from './ScreenStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
-import * as Font from 'expo-font';
+//import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
+//import * as Font from 'expo-font';
 
 // import fonts
-import './fonts.js'
+//import './fonts.js'
 
 const Stack = createStackNavigator();
 
@@ -55,9 +55,10 @@ class GenericApp extends Component {
     }
 
     async _loadFontsAsync() {
-        await Font.loadAsync({
+       /* await Font.loadAsync({
             Nunito_400Regular,
-        });
+        });*/
+
         this.setState({ fontsLoaded: true });
     }
 
