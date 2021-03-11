@@ -71,7 +71,12 @@ module.exports = {
             {
                 test: /\.(eot|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
                 use: 'file-loader?name=[name].[ext]&outputPath=fonts/&publicPath=/modules/app-widgets/'
-            }
+            },
+            {
+                test: /\.ttf$/,
+                loader: "url-loader", // or directly file-loader
+                include: path.resolve(__dirname, "node_modules/react-native-vector-icons"),
+            },
         ],
     },
 

@@ -3,11 +3,13 @@ import React, {Component} from 'react';
 import {StaticScreen, ResourceScreen, LoginScreen, SplashScreen, SignInScreen, SignUpScreen} from './screens';
 import {Logo} from './layout';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Text, Platform, StyleSheet} from "react-native";
+import {View, Text, Platform, StyleSheet, Image} from "react-native";
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import ScreenStackNavigator from './ScreenStackNavigator';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+
 //import { useFonts, Nunito_400Regular } from '@expo-google-fonts/nunito';
 //import * as Font from 'expo-font';
 
@@ -150,7 +152,10 @@ class GenericApp extends Component {
                                                 key={'tab' + i}
                                                 options={{
                                                     tabBarIcon: ({ color, size }) => (
-                                                        <Icon name={iconName} color={color} size={14} style={{marginTop: 10}} />
+                                                        <Image
+                                                            source={require('./info-icon-gray.svg')}
+                                                            style={{width: 20, height: 20, tintColor: color}}
+                                                        />
                                                     ),
                                                 }}
                                             >
