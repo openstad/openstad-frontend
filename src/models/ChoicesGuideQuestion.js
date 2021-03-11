@@ -43,16 +43,23 @@ module.exports = function( db, sequelize, DataTypes ) {
     moreInfo: {
       type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: '',
-      validate: {
-        len: {
-          args: [0, 5000],
-          msg: 'Meer informatie moet tussen 0 en 5000 tekens zijn'
-        },
+      defaultValue: '{}',
+      get: function() {
+        let value = this.getDataValue('moreInfo');
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        return value;
       },
-      set: function( text ) {
-        text = text || '';
-        this.setDataValue('moreInfo', sanitize.content(text.trim()));
+      set: function(value) {
+        try {
+          if (typeof value == 'string') {
+            value = JSON.parse(value);
+          }
+        } catch (err) {}
+        this.setDataValue('moreInfo', JSON.stringify(value));
       }
     },
 

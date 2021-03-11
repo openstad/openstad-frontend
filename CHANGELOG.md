@@ -4,6 +4,7 @@
 * Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
 * Add isActive check on choices-guide
 * ChoicesGuide: add list results endpoint
+* Bugfix on nested argument attributes
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
