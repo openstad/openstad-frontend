@@ -1,0 +1,202 @@
+.App {
+
+}
+
+
+
+a, a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.App-logo {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #000000;
+  padding: 0;
+  border-radius: 5px;
+}
+
+/*
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+*/
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/**
+ * Filepond
+ */
+
+body .filepond--root {
+  font-size: 12px;
+}
+
+body .filepond--panel-top {
+  background: white;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-top: 1px solid #d9d9d9;
+}
+
+body .filepond--panel-bottom {
+  background: white;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+body .filepond--panel-center {
+  background: white;
+
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+}
+
+/*
+  Record css
+ */
+ button.recorder {
+ 	width: 35px;
+ 	height: 35px;
+ 	font-size: 0;
+ 	background-color: red;
+ 	border: 0;
+ 	border-radius: 35px;
+ 	margin: 18px;
+ 	outline: none;
+ }
+
+ .notRec{
+ 	background-color: darkred;
+ }
+
+ .Rec{
+ 	animation-name: pulse;
+ 	animation-duration: 1.5s;
+ 	animation-iteration-count: infinite;
+ 	animation-timing-function: linear;
+ }
+
+ @keyframes pulse{
+ 	0%{
+ 		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+ 	}
+ 	65%{
+ 		box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+ 	}
+ 	90%{
+ 		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+ 	}
+ }
+
+
+ .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1111111111;
+}
+
+.modal-main {
+  position: fixed;
+  background: white;
+  width: 500px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: 22px;
+  box-shadow: 0px 0px 3px 3px rgb(0 0 0 / 10%);
+  border: 1px solid #eee;
+  border-radius: 3px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  background: white;
+  left: 0px;
+  top: -3px;
+  border-left: 1px solid #d8d8d8;
+  border-right: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+  box-sizing: border-box;
+  right: 0px;
+  border-radius: 0 0 5px 5px;
+  padding: 0 10px 0;
+  display: block;
+}
+
+.autocomplete-dropdown-container--active {
+    display: block;
+}
+
+.suggestion-item, .suggestion-item--active {
+  font-size: 12px;
+  padding: 10px 0;
+}
+
+.icon-img {
+  width: 20px;
+}
+
+body .leaflet-div-icon {
+	background: transparent;
+	border: none;
+}
+
+body .leaflet-marker-icon .number {
+    position: relative;
+    top: -28px;
+    font-size: 10px;
+    width: 25px;
+    text-align: center;
+    left: -2px;
+    color: black;
+    font-weight: bold;
+}

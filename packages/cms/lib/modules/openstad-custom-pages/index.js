@@ -52,9 +52,14 @@ module.exports = {
         label: 'Redirect to account page if required',
       },
       {
+        name: 'noCSS',
+        type: 'boolean',
+        label: 'No CSS for non-cms users?',
+      },
+      {
         name: 'hideHeader',
         type: 'boolean',
-        label: 'Hide the header??',
+        label: 'Hide the header?',
       },
       {
         name: 'hideNavigation',

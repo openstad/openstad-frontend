@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Section.css';
+import chevronImg from './chevron.svg';
+
 
 function Chevron (props) {
   var viewBox = `0 0 ${props.width ? props.width : 24} ${props.height ? props.height : 24}`;
@@ -22,7 +24,9 @@ class Section extends Component {
 
     return (
       <div className={className}>
-        <a href="#" className="section-header" onClick={() => {
+        <a href="#" className="section-header" onClick={(ev) => {
+          ev.preventDefault();
+
           if(collapsible) {
             this.setState({
               open: !this.state.open
@@ -31,9 +35,9 @@ class Section extends Component {
 
         }}>
           <h3 className=""> {this.props.title} </h3>
-          {collapsible && <span href="#" className="section-toggle-icon"> <img src="chevron.svg" class="chevron-icon"/> </span>}
+          {collapsible && <span href="#" className="section-toggle-icon"> <img src={chevronImg} className="chevron-icon"/> </span>}
         </a>
-        <div class="section-content">
+        <div className="section-content">
           {this.props.children}
         </div>
       </div>

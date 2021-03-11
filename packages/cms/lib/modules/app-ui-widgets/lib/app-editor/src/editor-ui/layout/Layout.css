@@ -69,39 +69,59 @@
 }
 
 .device-wrapper-mobile {
-  background-image: url(/mobile-device.png);
-  width: 340px;
-  height: 632px;
+  margin: 0 40px;
+  position: relative;
+  padding: 1px;
+}
+
+.device-wrapper-mobile::before {
+  content: ' ';
+  background-image: url(./mobile-device.png);
+  width: 320px;
+  height: 650px;
   margin: 0 40px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: relative;
   padding: 1px;
+  display: block;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .device-wrapper-inner {
-  border-radius: 10px;
-  overflow: hidden;
+  border-radius: 0;
   position: relative;
   box-sizing: border-box;
   position: absolute;
-  top: 43px;
-  left: 17px;
-  right: 16px;
-  bottom: 43px;
+  top: 20px;
+  left: 62px;
+  width: calc(375px* 0.75);
+  height: calc(790px* 0.75);
+}
+
+/*
+  The IOS phone we use for previewing has rounded corner
+  We add small piece of white to the bottom so the navigation tabs are not cut off by the corners
+ */
+.device-wrapper-inner::after {
+  content: ' ';
+  background: #ffffff;
+  height: 25px;
+  display: block;
 }
 
 
 .ListItem {
-  /*border-bottom: 1px solid #d4d4d4;*/
-  padding: 8px;
+/*border-bottom: 1px solid #d4d4d4;*/
+  position: relative;
 }
 
 .ListItem:first-child {
   /*border-top: 1px solid #d4d4d4;*/
 }
 
-.ListItem.active, .ListItem.active a {
+.ListItem.active, .ListItem.active > a {
   background: #47afff;
   color: white;
   border-radius: 5px;
@@ -112,7 +132,51 @@
   font-weight: bold;
   display: block;
   font-size: 11px;
+  position: relative;
+  padding: 8px;
 }
+
+.ListItem .more-link {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 15px;
+  bottom: 0;
+  padding: 7px 7px;
+}
+
+/*.ListItem:hover .more-link, .ListItem.active .more-link {
+  display: block;
+}*/
+
+.dropdown-menu {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+  box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 5px;
+  font-size: 11px;
+}
+
 
 .flex {
   display: flex;

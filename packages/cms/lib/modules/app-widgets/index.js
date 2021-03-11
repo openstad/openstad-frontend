@@ -8,16 +8,22 @@ module.exports = {
   extend: 'openstad-widgets',
   label: 'App widgets',
   addFields: [
-  //  styleSchema.definition('containerStyles', 'Styles for the container')
+    {
+      name: 'appType',
+      type: 'select',
+      label: 'Select App type',
+      choices: [
+        {
+          label: 'Editor app',
+          value: 'editor',
+        },
+        {
+          label: 'Frontend app',
+          value: 'frontend'
+        }
+      ]
+    },
   ],
   construct: function(self, options) {
-    self.apos.app.get('/admin', function(req, res) {
-        // Place any data you need to access in your template here:
-    //    req.data = {};
-
-        // self.sendPage is what will actually return the page and render the template 'profile.html' in your views folder.
-        // You can change 'profile' to the name of your template minus '.html' - e.g. 'page.html' would just be 'page'
-        return self.sendPage(req, '/page', {});
-    });
   }
 };

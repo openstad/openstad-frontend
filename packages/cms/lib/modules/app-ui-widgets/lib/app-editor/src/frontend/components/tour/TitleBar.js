@@ -1,14 +1,37 @@
 import React, { Component } from 'react';
+import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
+
+const styles = {
+  positionBg: {
+    left: 0,
+    top: 0,
+    width: '100%',
+    position: 'absolute'
+  },
+  topMe: {
+    position: 'relative',
+    zIndex: 1000
+  }
+}
 
 function TitleBar (props) {
   return (
     <div className="title-bar">
-      <a href="#" className="title-bar-back-button">
-        <img src="/arrow-left-circle.svg" />
-      </a>
-      <span className="title-bar-title">
-        {props.title}
-      </span>
+      <View pointerEvents="none" style={{...styles.positionBg}}>
+        <Image source={require('../../../images/oval@4x.png')} style={{width: '100%', height: 225}} />
+      </View>
+
+      <View pointerEvents="none" style={{...styles.gradientBg, ...styles.positionBg2}}></View>
+
+      <div style={styles.topMe}>
+        <a href="#" className="title-bar-back-button">
+          <Image src="/arrow-left-circle.svg" />
+          <Image source={require('../../../images/back@2x.png')} style={{height: 10, width: 14}}/>
+        </a>
+        <span className="title-bar-title">
+          {props.title}
+        </span>
+      </div>
     </div>
   )
 }

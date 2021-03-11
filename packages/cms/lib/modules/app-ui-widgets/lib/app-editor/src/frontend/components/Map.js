@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
 
 const Map = (props) => {
-  return <<WebViewLeaflet
+  return <WebViewLeaflet
       ref={component => (this.webViewLeaflet = component)}
       // The rest of your props, see the list below
     /> ;

@@ -1,3 +1,18 @@
+import React, { Component } from 'react';
+import "leaflet/dist/leaflet.css";
+import { FilePond, registerPlugin } from 'react-filepond';
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFilePoster, FilePondPluginFileValidateType)
+
 class ImageUploadField extends Component {
     constructor(props) {
       super(props);
@@ -8,7 +23,8 @@ class ImageUploadField extends Component {
     }
 
     handleInit() {
-      const currentImages = this.props.images ? this.props.images.map(function (image) {
+      const currentImages = this.props.activeValue ? this.props.activeValue.map(function (image) {
+
         return {
           source: {url: image},
           options: {
@@ -25,28 +41,32 @@ class ImageUploadField extends Component {
         }
       }) : false;
 
-      this.setState({
-        images: currentImages
-      })
+      if (currentImages) {
+          this.setState({
+              images: currentImages
+          })
+      }
+
     }
 
+    // the way filepond react deals with uploads is a little bit awkward to make work nice with
+    // react data but anyway this works
     updateImages(images, newImage) {
+
+
       if (images) {
       images = images
         .filter(function (fileItem) {
           return fileItem.serverId;
         })
         .map(function (fileItem) {
-          console.log('fileItem', fileItem)
           const file = fileItem.file;
           const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
-
-          console.log('fileItem.id', url)
           return url;
         });
 
         if (newImage) {
-          images = [newImage].concat(images);
+          images = [newImage.url].concat(images);
         }
 
         this.props.update(images);
@@ -54,7 +74,6 @@ class ImageUploadField extends Component {
     }
 
     render () {
-      console.log('this.state.images', this.state.images);
 
       return (
         <div>
@@ -101,3 +120,6 @@ class ImageUploadField extends Component {
       );
   }
 }
+
+export default ImageUploadField;
+

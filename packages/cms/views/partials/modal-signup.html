@@ -1,0 +1,166 @@
+<div id="signup" class="content-modal content-modal--xs">
+  <div class="content-modal-content">
+    <div class="content-modal-header">
+      <h3 class="content-modal-title">
+        {{ data.global.newsletterModalTitle }}
+      </h3>
+    </div>
+    <div class="content-modal-body">
+      <p class="modal-newsletter-text">
+        {{ data.global.newsletterModalDescription }}
+      </p>
+      <style>
+       /* dit moet niet hier, maar ik zie even niet hoe de defaults werken */
+       .input-field-checkbox-container {
+         display: block;
+         position: relative;
+         padding-left: 35px;
+         margin-bottom: 12px;
+         cursor: pointer;
+         font-weight: normal;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+       }
+
+       /* Hide the browser's default checkbox */
+       .input-field-checkbox-container input {
+         position: absolute;
+         opacity: 0;
+         cursor: pointer;
+         height: 0;
+         width: 0;
+       }
+
+       /* Create a custom checkbox */
+       .input-field-checkbox-checkmark {
+         position: absolute;
+         top: 0;
+         left: 0;
+         height: 24px;
+         width: 24px;
+         background-color: white;
+         border: 1px solid black;
+       }
+
+       /* On mouse-over, add a grey background color */
+       .input-field-checkbox-container:hover input ~ .input-field-checkbox-checkmark {
+         background-color: #ddd;
+       }
+
+       /* When the checkbox is checked, add a blue background */
+       .input-field-checkbox-container input:checked ~ .input-field-checkbox-checkmark {
+         background-color: white;
+       }
+
+       /* Create the checkmark/indicator (hidden when not checked) */
+       .input-field-checkbox-checkmark:after {
+         content: "";
+         position: absolute;
+         display: none;
+       }
+
+       /* Show the checkmark when checked */
+       .input-field-checkbox-container input:checked ~ .input-field-checkbox-checkmark:after {
+         display: block;
+       }
+
+       /* Style the checkmark/indicator */
+       .input-field-checkbox-container .input-field-checkbox-checkmark:after {
+         left: 9px;
+         top: 5px;
+         width: 5px;
+         height: 10px;
+         border: solid black;
+         border-width: 0 3px 3px 0;
+         -webkit-transform: rotate(45deg);
+         -ms-transform: rotate(45deg);
+         transform: rotate(45deg);
+       }
+
+       #newsletter .content-modal-content {
+         max-width: 620px;
+       }
+       #newsletter .form-field {
+         margin-bottom: 15px;
+       }
+
+      </style>
+      <form id="newsletter-form" method="post"  action="/api/site/{{data.global.siteId}}/newslettersignup">
+
+        {% if data.global.newsletterModalFormFields and data.global.newsletterModalFormFields.length %}
+	      {% for field in data.global.newsletterModalFormFields %}
+        {% if field.inputType == 'text' %}
+        <div class="form-field">
+          <label>{{field.title}}</label>
+          <br />
+          <input type="text" class="input-field" {% if field.required %}required{% endif %} name="{{field.name}}" placeholder="{{field.placeholder}}" />
+        </div>
+        {% endif %}
+        {% if field.inputType == 'checkbox' %}
+        <div class="form-field">
+          <label class="input-field-checkbox-container">{{field.title}}
+            <input type="checkbox" class="input-field-checkbox" {% if field.required %}required{% endif %} name="{{field.name}}" placeholder="{{field.placeholder}}"/>
+            <span class="input-field-checkbox-checkmark"></span>
+          </label>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <div class="form-field" style="margin-bottom: 10px">
+          <label>  {{ __('Name') }} </label>
+          <br />
+          <input type="text" class="input-field" required name="firstName" />
+        </div>
+        <div class="form-field">
+          <label>  {{ __('Email') }} </label>
+          <br />
+          <input type="email" class="input-field" required name="email" />
+        </div>
+        {% endif %}
+
+
+        <div class="form-field">
+
+          <img src="{{data.siteUrl}}/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
+          <br />
+          <a href="#" class="captcha-refresh">
+            <small class="underline">
+            {% if data.global.captchaLabel %}
+               {{data.global.captchaRefreshText}}
+            {% else %}
+              refresh
+            {% endif %}
+            </small>
+          </a>
+          <br />
+          <label>
+           {% if data.global.captchaLabel %}
+              {{data.global.captchaLabel}}
+           {% else %}
+             {{ __('Please enter the words you see into the field below ') }}
+           {% endif %}
+          </label>
+          <br />
+          <input type="text" class="input-field" required name="areYouABot" />
+        </div>
+
+        <div class="error-message error-block" style="display: none;"> </div>
+        <div class="success-message success-block" style="display: none;"> </div>
+
+
+        <button href="/oauth/login?returnTo={{data.currentUrl}}" class="filled-button" type="submit">
+          {{ data.global.newsletterModalSubmit or __('Sign up') }}
+        </button>
+        <a href="#closed" class="outlined-button" type="submit">
+          {{ data.global.newsletterModalCancel or __('Cancel') }}
+        </a>
+        <a href="#closed" class="content-modal-close" >
+          <img src="{{appUrl}}/modules/openstad-assets/img/close.svg" width="13" height="13"/>
+        </a>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -79,6 +79,14 @@ module.exports = {
          const fullUrl = siteUrl + req.originalUrl;
          const parsedUrl = url.parse(fullUrl, true);
 
+         if (pageData && pageData.noCSS && !req.user) {
+           // the when parameter is used by Apos to determine which assets is loaded
+           // by forcing it to none will not find a used one
+           req.data.dontAddAposCSS = true;
+         }
+
+         console.log('lets go req.url', req.url, req.data.when)
+
         if (pageData && pageData.notLoggedInRedirect && !req.data.loggedIn) {
           return req.res.redirect(pageData.notLoggedInRedirect);
         }

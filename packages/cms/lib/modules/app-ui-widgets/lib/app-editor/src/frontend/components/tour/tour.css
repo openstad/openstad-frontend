@@ -1,7 +1,8 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,800;1,300;1,400&display=swap');
 
+body {
+  font-family: 'Source Sans Pro', sans-serif !important;
 }
-
 
 a, a:hover {
   color: black;
@@ -180,7 +181,7 @@ body .filepond--panel-center {
 }
 
 .icon-img {
-  width: 20px;
+  width: 22px;
 }
 
 body .leaflet-div-icon {
@@ -190,32 +191,40 @@ body .leaflet-div-icon {
 
 body .leaflet-marker-icon .number {
     position: relative;
-    top: -28px;
+    top: -24px;
     font-size: 10px;
     width: 25px;
     text-align: center;
-    left: -2px;
-    color: black;
+    left: -1px;
+    color: white;
     font-weight: bold;
 }
 
 .tour-detail-view {
   position: absolute;
-  z-index: 1000;
+  z-index: 100000;
   overflow: auto;
-  top: 80px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  background: white;
 }
 
 .tour-detail-view-inner {
   overflow: hidden;
   min-height: 700px;
-  margin-left: 8px;
-  margin-right: 8px;
-  background: white;
-  border-radius: 10px 10px 0 0
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+.tour-detail-view-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 5;
 }
 
 .tour-detail-view-inner-content {
@@ -253,7 +262,7 @@ body .leaflet-marker-icon .number {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 10000;
+  z-index: 10000000;
   box-shadow: 0px 0 30px rgb(86 86 86 / 30%);
   background: white;
 }
@@ -262,20 +271,49 @@ body .leaflet-marker-icon .number {
 
 .title-bar {
   background: white;
-  padding: 15px 5px;
-  border-bottom: 1px solid #efefef;
+  padding: 10px 5px;
   text-align: center;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  background: transparent;
+  padding: 15px 5px;
+  /* border-bottom: 1px solid #efefef; */
+  text-align: center;
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  box-sizing: border-box;
+}
+
+.leaflet-control-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 80px;
+  width: 100%;
 }
 
 .title-bar-title {
+  font-weight: bold;
+  padding: 0px 12px 0px 40px;
+  font-size: 12px;
+  font-size: 14px;
+  color: #333d48;
   font-weight: bold;
 }
 
 
 .title-bar-back-button {
   position: absolute;
-  top: 12px;
-  left: 10px;
+  top: 6px;
+  left: 14px;
 }
 
 body .rhap_container {

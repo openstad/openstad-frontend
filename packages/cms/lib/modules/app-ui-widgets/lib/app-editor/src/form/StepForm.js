@@ -5,6 +5,7 @@ import L from 'leaflet';
 import { FilePond, File, registerPlugin } from 'react-filepond'
 import Section from '../editor-ui/layout/Section';
 import { ReactMic } from '@cleandersonlobo/react-mic';
+import LocationPicker  from "./LocationPicker";
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
@@ -43,36 +44,6 @@ var toMMSS = function (string) {
     return minutes+':'+seconds;
 }
 
-class LocationPicker extends Component {
-  handleClick(e){
-    this.props.onPositionChange(e.latlng.lat, e.latlng.lng);
-  }
-
-  getZoomLevel() {
-    return this.map && this.map.leafletElement ? this.map.leafletElement.getZoom() : 12;
-  }
-
-  render() {
-    var currentPos = this.props.lat &&  this.props.lng ? [this.props.lat, this.props.lng] : false;
-
-    console.log('currentPos', currentPos)
-    return (
-      <Map
-        center={currentPos}
-        ref={(ref) => { this.map = ref; }}
-        zoom={this.getZoomLevel()}
-        style={{ width: '100%', height: '250px'}}
-        onClick={this.handleClick.bind(this)}
-      >
-        <TileLayer
-          url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=BqThJi6v35FQeB3orVDl"
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
-        {currentPos && <Marker position={currentPos} />}
-      </Map>
-    )
-  }
-}
 
 
 export class AudioRecordField extends React.Component {
@@ -147,9 +118,7 @@ export class AudioRecordField extends React.Component {
     request.onreadystatechange = () => {
       if (request.readyState === 4) {
         var response = JSON.parse(request.responseText);
-        console.log('response', response);
           if (request.status === 200) {
-             console.log('successful', response);
              this.props.update(response.url);
           } else {
              console.log('failed');
@@ -205,109 +174,6 @@ export class AudioRecordField extends React.Component {
   }
 }
 
-class ImageUploadField extends Component {
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        images: []
-      };
-    }
-
-    handleInit() {
-      const currentImages = this.props.images ? this.props.images.map(function (image) {
-        return {
-          source: {url: image},
-          options: {
-            type: "local",
-            file: {
-                name: image,
-           //		 size: 3001025,
-             //	 type: 'image/png'
-           },
-            metadata: {
-              poster: image,
-            }
-          },
-        }
-      }) : false;
-
-      this.setState({
-        images: currentImages
-      })
-    }
-
-    updateImages(images, newImage) {
-      if (images) {
-      images = images
-        .filter(function (fileItem) {
-          return fileItem.serverId;
-        })
-        .map(function (fileItem) {
-          console.log('fileItem', fileItem)
-          const file = fileItem.file;
-          const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
-
-          console.log('fileItem.id', url)
-          return url;
-        });
-
-        if (newImage) {
-          images = [newImage].concat(images);
-        }
-
-        this.props.update(images);
-      }
-    }
-
-    render () {
-      console.log('this.state.images', this.state.images);
-
-      return (
-        <div>
-          <FilePond
-            ref={ref => (this.pond = ref)}
-            onupdatefiles={fileItems => {
-              // Set currently active file objects to this.state
-              this.setState({
-                images: fileItems.map(fileItem => fileItem.file)
-              });
-            }}
-            files={this.state.images}
-            acceptedFileTypes={['image/png', 'image/jpeg']}
-            allowMultiple={true}
-            allowReorder={true}
-            maxFiles={10}
-            oninit={() => this.handleInit()}
-            server={{
-              process: {
-                url: '/image',
-                onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
-                  const file = JSON.parse(response);
-                  this.updateImages(this.pond.getFiles(), file);
-                  return JSON.parse(response).url;
-                },
-                onerror: (response) => {
-                  return false;
-                }
-              }
-            }}
-            onremovefile={(error, file) => {
-              this.updateImages(this.pond.getFiles());
-            }}
-            onreorderfiles={(files, origin, target) => {
-              this.updateImages(this.pond.getFiles());
-            }}
-            maxTotalFileSize="10MB"
-            imagePreviewMinHeight={22}
-            imagePreviewMaxHeight={100}
-            name="image"
-            labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-          />
-        </div>
-      );
-  }
-}
 
 function AudioUploadField (props) {
   return (
@@ -425,6 +291,107 @@ class AudioFormField extends Component {
     )
   }
 }
+
+class ImageUploadField extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      images: []
+    };
+  }
+
+  handleInit() {
+    const currentImages = this.props.images ? this.props.images.map(function (image) {
+      return {
+        source: {url: image},
+        options: {
+          type: "local",
+          file: {
+            name: image,
+            //		 size: 3001025,
+            //	 type: 'image/png'
+          },
+          metadata: {
+            poster: image,
+          }
+        },
+      }
+    }) : false;
+
+    this.setState({
+      images: currentImages
+    })
+  }
+
+  updateImages(images, newImage) {
+    if (images) {
+      images = images
+          .filter(function (fileItem) {
+            return fileItem.serverId;
+          })
+          .map(function (fileItem) {
+            const file = fileItem.file;
+            const url = fileItem.serverId && fileItem.serverId.url ? fileItem.serverId.url : fileItem.serverId;
+
+            return url;
+          });
+
+      if (newImage) {
+        images = [newImage].concat(images);
+      }
+
+      this.props.update(images);
+    }
+  }
+
+  render () {
+    return (
+        <div>
+          <FilePond
+              ref={ref => (this.pond = ref)}
+              onupdatefiles={fileItems => {
+                // Set currently active file objects to this.state
+                this.setState({
+                  images: fileItems.map(fileItem => fileItem.file)
+                });
+              }}
+              files={this.state.images}
+              acceptedFileTypes={['image/png', 'image/jpeg']}
+              allowMultiple={true}
+              allowReorder={true}
+              maxFiles={10}
+              oninit={() => this.handleInit()}
+              server={{
+                process: {
+                  url: '/image',
+                  onload: (response) => { // Once response is received, pushed new value to Final Form value variable, and populate through the onChange handler.
+                    const file = JSON.parse(response);
+                    this.updateImages(this.pond.getFiles(), file);
+                    return JSON.parse(response).url;
+                  },
+                  onerror: (response) => {
+                    return false;
+                  }
+                }
+              }}
+              onremovefile={(error, file) => {
+                this.updateImages(this.pond.getFiles());
+              }}
+              onreorderfiles={(files, origin, target) => {
+                this.updateImages(this.pond.getFiles());
+              }}
+              maxTotalFileSize="10MB"
+              imagePreviewMinHeight={22}
+              imagePreviewMaxHeight={100}
+              name="image"
+              labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          />
+        </div>
+    );
+  }
+}
+
 
 class StepForm extends Component {
   render() {

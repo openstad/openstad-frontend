@@ -7,20 +7,17 @@ class TextField extends Component {
       <>
         {this.props.textarea ?
           <textarea
-            type=""
-            name="title"
-            defaultValue={this.props.resource.data.description}
+            defaultValue={this.props.activeValue}
             onChange={(event) => {
-              update(this.props.resource, 'description', event.currentTarget.value)
+              this.props.update(event.currentTarget.value)
             }}
           />
           :
           <input
-            type=""
-            name="title"
-            defaultValue={this.props.resource.data.title}
+            type="text"
+            defaultValue={this.props.activeValue}
             onChange={(event) => {
-              update(this.props.resource, 'title', event.currentTarget.value)
+              this.props.update(event.currentTarget.value);
             }}
          />
        }
@@ -29,4 +26,4 @@ class TextField extends Component {
   }
 }
 
-export default TextField
+export default TextField;

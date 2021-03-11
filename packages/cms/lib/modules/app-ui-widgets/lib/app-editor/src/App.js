@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, useLocation } from 'react';
 import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
@@ -81,7 +82,6 @@ class App extends Component {
       return resourceItem.data.position[1] + ',' + resourceItem.data.position[0];
     }).join(';') : false;
 
-
     const apiUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeURIComponent(coordinates)}?alternatives=false&geometries=geojson&steps=true&annotations=distance,duration&access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
 
 
@@ -124,7 +124,6 @@ class App extends Component {
   }
 
   newResource() {
-
     var newResource = JSON.parse(JSON.stringify(blancResource));
     var lastResource = this.state.resourceItems[this.state.resourceItems.length - 1];
     var lastResourceId = lastResource.data.id;
@@ -227,9 +226,18 @@ class App extends Component {
     })
   }
 
+  resetResources() {
+
+  }
+
+  loadDefaultResources (overwrite) {
+    const resources = this.state.resources.map((resource) => {
+
+      return resource;
+    });
+  }
+
   render() {
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
-    console.log(' process.env.GOOGLE_MAPS_API_KEY',  process.env);
 
     if (!this.state.app) {
       return <Loader />
@@ -305,4 +313,4 @@ const Loader = function () {
   return <div style={{position: 'fixed', top: '50%', width: '100%', textAlign: 'center'  }}> Loading... </div>
 }
 
-export default scriptLoader(['https://maps.googleapis.com/maps/api/js?libraries=places&key=' + process.env.REACT_APP_GOOGLE_MAPS_API_KEY])(App);
+export default App;

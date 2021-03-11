@@ -1,7 +1,12 @@
 /* Layout elements */
 import React, { Component } from 'react';
 import ComponentManager from '../ComponentManager';
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+
+const bodyStyles = {
+  padding: 10,
+  paddingTop: 40,
+}
 
 class StaticScreen extends Component {
   constructor(props) {
@@ -10,13 +15,14 @@ class StaticScreen extends Component {
     this.state = {};
   }
   render() {
+    console.log('ResourceScreen props', this.props)
 
     return (
-      <View>
+      <ScrollView style={bodyStyles} showsVerticalScrollIndicator={false}>
         <ComponentManager
           {...this.props}
         />
-      </View>
+      </ScrollView>
     )
   }
 }

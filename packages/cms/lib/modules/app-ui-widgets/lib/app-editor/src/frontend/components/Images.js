@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 
 const styles = StyleSheet.create({
   titleText: {
@@ -19,8 +19,25 @@ const ResourceImage = (props) => {
 }
 
 const StaticImage = (props) => {
+  const style = {
+    height: props.height,
+    width: props.width
+  };
+
+  if (props.circle) {
+    style.borderRadius = props.height ? props.height / 2 : 50;
+    style.overflow = 'hidden';
+  }
+
+  console.log('style', style)
+
   return (
-    <Image style={styles.titleText} src={props.image} />
+      <View style={{
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+          <Image source={{uri: props.src}} style={style}  resizeMode={"cover"} />
+      </View>
   );
 };
 

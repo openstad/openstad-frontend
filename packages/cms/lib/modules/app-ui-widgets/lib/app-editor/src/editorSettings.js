@@ -1,12 +1,54 @@
 const tour = {
   editableResources: [
     'step'
+  ],
+  defaultResources: [
+    {
+      name: 'step',
+      items: [],
+    },
+    {
+      name: 'coordinates',
+      items: [],
+    },
   ]
 }
 
 const workout = {
+  singleResources: [
+      'styling'
+  ],
   editableResources: [
-    'workout'
+    'workoutProgram',
+    'workout',
+    'exercise',
+    'membership'
+  ],
+  defaultResources: [
+    {
+      name: 'styling',
+      items: [{
+
+      }],
+    },
+    {
+      name: 'workoutProgram',
+      items: [],
+    },
+    {
+      name: 'workout',
+      items: [],
+    },
+    {
+      name: 'exercise',
+      items: [],
+    },
+    {
+      name: 'membership',
+      items: [{
+
+      }],
+    },
   ]
 }
 

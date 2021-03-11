@@ -1,16 +1,16 @@
 import React from 'react';
-import { Title, RichText, Images, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash } from './components';
-import { View, Text } from "react-native";
+import { Title, RichText, Button, Video, Overview, Form, Columns, Game, Tour, Login, Splash, Images } from './components';
+import {WorkoutSelectedProgram, ExerciseWorkout, WorkoutIntro} from "./components/workout";
 
-const componentstMap = {
+const componentsMap = {
   'title'   :{
     component: Title,
   },
   'richText'    : {
     component: RichText,
   },
-  'image'   : {
-    component :Image,
+  'images'   : {
+    component : Images,
   },
   'button'  : {
     component :Button,
@@ -41,28 +41,45 @@ const componentstMap = {
   },
   'splash'   : {
     component :Splash,
+  },
+  'WorkoutSelectedProgram' : {
+    component: WorkoutSelectedProgram,
+  },
+  'WorkoutIntro' : {
+    component: WorkoutIntro,
+  },
+  'ExerciseWorkout' : {
+    component: ExerciseWorkout,
   }
 }
 
 function ComponentManager(props) {
+  console.log('ComponentManager', props);
+
   return (
     <>
-      {props.components.map((component)  => {
-        const FrontendComponent = componentstMap[component.type].component;
+      {props.components.map((component, i)  => {
 
-        // preCompononent / postCompononent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
+        if (!componentsMap[component.type]) {
+          return 'Component not found: ' + component.type;
+        }
+        const FrontendComponent = componentsMap[component.type].component;
+
+        // preComponent / postComponent allow per app to inject components, mainly used for allowing editing components to be injected without needing to be present in the frontend app itself
 
         return (
-          <>
-            {props.preCompononent && props.preCompononent}
+          <div key={i}>
+            {props.preComponent && <props.preComponent />}
             <FrontendComponent
               {...component.props}
               activeResource={props.activeResource}
-              resources={props.resources}
+              resourceSchemas={props.resourceSchemas}
+              resourcesData={props.resourcesData}
               navigation={props.navigation}
+              formatResourceScreenName={props.formatResourceScreenName}
             />
-            {props.postCompononent && props.postCompononent}
-          </>
+            {props.postComponent && <props.postComponent />}
+          </div>
         )
       })}
     </>
