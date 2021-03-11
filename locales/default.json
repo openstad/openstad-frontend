@@ -411,5 +411,10 @@
 	"Modified fields: %s": "Modified fields: %s",
 	"Edit Ideas map": "Edit Ideas map",
 	"stemvancentrumss": "stemvancentrumss",
-	"Create test": "Create test"
+	"Create test": "Create test",
+	"Save App widgets": "Save App widgets",
+	"Select App type": "Select App type",
+	"Editor app": "Editor app",
+	"Frontend app": "Frontend app",
+	"Edit App widgets": "Edit App widgets"
 }

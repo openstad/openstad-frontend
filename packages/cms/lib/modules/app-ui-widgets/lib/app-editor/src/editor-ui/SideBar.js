@@ -3,6 +3,7 @@ import Section from './layout/Section';
 import ListItem from './layout/ListItem';
 import {makeCamelCasePretty} from '../utils';
 import {ReactSortable} from "react-sortablejs";
+import moreImg from './more.svg';
 
 const saveOrder = () => {
 
@@ -126,7 +127,7 @@ class Sidebar extends Component {
                                             </a>
 
                                             <DropDown
-                                                toggle={<img src="/more.svg" className={moreLinkClassName} />}
+                                                toggle={<img src={moreImg} className={moreLinkClassName} />}
                                                 active={active}
                                             >
                                                 <a href="#" onClick={(ev) => {

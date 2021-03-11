@@ -1,0 +1,33 @@
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+
+<link rel="stylesheet" href="/modules/app-widgets/css/main.css">
+<script src="/modules/app-widgets/js/{{data.widget.appType}}.js"></script>
+
+<div id="{{data.widget.containerId}}">
+    <div id="app-root" style="    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;"></div>
+</div>
+
+<script>
+
+
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var appProps = {
+            id: {{data.activeResource.id}},
+        title: '{{data.activeResource.title}}',
+            styling:{},
+        screens:[{
+            type: "TourGuide",
+            elements: {{data.activeResource.revisions[data.activeResource.revisions.length -1].resourceItems  | json}},
+        coordinates: {{data.activeResource.revisions[data.activeResource.revisions.length -1].coordinates  | json}},
+    }]
+    };
+
+        ReactDOM.render(React.createElement(AppFrontend.default, appProps), document.getElementById('app-root'));
+    });
+</script>

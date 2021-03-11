@@ -76,7 +76,7 @@
 
 .device-wrapper-mobile::before {
   content: ' ';
-  background-image: url(/mobile-device.png);
+  background-image: url(./mobile-device.png);
   width: 320px;
   height: 650px;
   margin: 0 40px;
