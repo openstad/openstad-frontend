@@ -12,12 +12,25 @@ module.exports = {
   ],
   construct: function(self, options) {
     self.apos.app.get('/admin', function(req, res) {
-        // Place any data you need to access in your template here:
-    //    req.data = {};
+      // Place any data you need to access in your template here:
+      //    req.data = {};
 
+
+      
         // self.sendPage is what will actually return the page and render the template 'profile.html' in your views folder.
         // You can change 'profile' to the name of your template minus '.html' - e.g. 'page.html' would just be 'page'
         return self.sendPage(req, '/page', {});
     });
+
+    const superLoad = self.load;
+		self.load = function(req, widgets, next) {
+      let siteConfig = self.apos.settings.getOption(req, 'siteConfig')
+			widgets.forEach((widget) => {
+        widget.openstadReactAdminUrl = siteConfig.openstadReactAdminUrl || '/openstad-react-admin';
+			});
+			return superLoad(req, widgets, next);
+			next();
+		}
+
   }
 };

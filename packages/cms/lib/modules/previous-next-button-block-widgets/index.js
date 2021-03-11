@@ -1,6 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
-const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const rp = require('request-promise');
 
 module.exports = {
@@ -39,6 +38,7 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
+      let siteConfig = self.apos.settings.getOption(req, 'siteConfig');
 			widgets.forEach((widget) => {
 			  widget.config = JSON.stringify({
           // req.data.isAdmin
@@ -48,7 +48,7 @@ module.exports = {
           nextUrl: widget.nextLabel && req.data.siteUrl + widget.nextUrl,
           nextLabel: widget.nextLabel,
         });
-        widget.openstadComponentsUrl = openstadComponentsUrl;
+        widget.openstadComponentsUrl = siteConfig.openstadComponentsUrl || '/openstad-components';
         const containerId = widget._id;
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);

@@ -1,6 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
-const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const imageApiUrl   = process.env.IMAGE_API_URL;
 const imageApiToken = process.env.IMAGE_API_ACCESS_TOKEN;
 const rp = require('request-promise');
@@ -67,10 +66,11 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
+      let siteConfig = self.apos.settings.getOption(req, 'siteConfig');
 			widgets.forEach((widget) => {
 
 			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
-        widget.openstadComponentsUrl = openstadComponentsUrl;
+        widget.openstadComponentsUrl = siteConfig.openstadComponentsUrl || '/openstad-components';
 
         const containerId = widget._id;
         widget.containerId = containerId;

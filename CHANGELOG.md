@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* New way of loading OpenStad libs from CDNs
+
 ## pre-v0.14.0 (2020-...)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
 * Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore

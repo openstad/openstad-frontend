@@ -12,6 +12,7 @@
  */
 require('dotenv').config();
 //external libs
+const fs = require('fs');
 const express = require('express');
 const http2 = require('http2');
 const apostrophe = require('apostrophe');
@@ -40,18 +41,26 @@ let sitesResponse = [];
 const aposStartingUp = {};
 const REFRESH_SITES_INTERVAL = 60000 * 5;
 
-
 if (process.env.REQUEST_LOGGING === 'ON') {
     app.use(morgan('dev'));
 }
-
 
 const aposServer = {};
 
 app.use(express.static('public'));
 
-
 app.set('trust proxy', true);
+
+// once on startup
+let openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '';
+let packageFile = fs.readFileSync(`${__dirname}/package.json`).toString() || '';
+let match = packageFile && packageFile.match(/"openstad-components":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/);
+let version = match && match[1] || null;
+openstadComponentsUrl = openstadComponentsUrl.replace(/{version}/, version)
+let openstadReactAdminUrl = process.env.OPENSTAD_REACT_ADMIN_URL || '';
+match = packageFile && packageFile.match(/"openstad-react-admin":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/);
+version = match && match[1] || null;
+openstadReactAdminUrl = openstadReactAdminUrl.replace(/{version}/, version)
 
 function fetchAllSites(req, res, startSites) {
     const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
@@ -168,7 +177,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
 function run(id, siteData, options, callback) {
     const site = {_id: id}
 
-    const config = _.merge(siteData, options);
+  const config = _.merge(siteData, options, {openstadComponentsUrl, openstadReactAdminUrl});
     let assetsIdentifier;
 
     // for dev sites grab the assetsIdentifier from the first site in order to share assets
