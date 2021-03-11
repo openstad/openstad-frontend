@@ -18,8 +18,6 @@ import StepForm from './StepForm';
 import TourApp from './frontend/components/TourApp';
 import AppSettingsForm from './editor-ui/AppSettingsForm';
 
-
-
 function UI (props) {
   return (
     <div className="App">

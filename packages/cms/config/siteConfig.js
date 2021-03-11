@@ -35,6 +35,7 @@ module.exports = {
             {name: 'main'}
           ],
         },
+        'app-widgets': {},
         'settings': {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
