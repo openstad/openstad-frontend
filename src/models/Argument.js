@@ -184,7 +184,9 @@ module.exports = function( db, sequelize, DataTypes ) {
 					include: [{
 						model      : db.Argument,
 						as         : 'reactions',
-						required   : false
+						required   : false,
+            // force attribs because the automatic list is incomplete
+					  attributes : ['id', 'parentId', 'ideaId', 'userId', 'sentiment', 'description', 'label', 'createdAt', 'updatedAt', 'createDateHumanized']
 					}],
 					where: {
 						parentId: null
