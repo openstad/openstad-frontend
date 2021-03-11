@@ -29,17 +29,17 @@ module.exports = [
 			{
 				label: 'Standaard',
 				value: 'default',
-        showFields: ['choicesPreferenceTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
+        showFields: ['choicesPreferenceTitle','choicesInBetweenPreferenceTitle','choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 			},
 			{
 				label: 'Van min naar plus 100',
 				value: 'minus-to-plus-100',
-        showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
+        showFields: ['choicesPreferenceMinColor','choicesPreferenceMaxColor','choicesPreferenceTitle','choicesInBetweenPreferenceTitle','choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 			},
 			{
 				label: 'In een vlak',
 				value: 'plane',
-        showFields: ['choicesPreferenceTitle','choicesInBetweenPreferenceTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
+        showFields: ['choicesPreferenceTitle','choicesInBetweenPreferenceTitle','choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
 			}
 		]
 	},

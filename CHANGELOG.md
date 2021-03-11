@@ -1,6 +1,9 @@
 # Changelog
 
-## UNRELEASED
+## pre-v0.14.0 (2020-...)
+* Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
+* Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
+* Check if maps exists in some places
 * Add page cache for non logged in users
 * Remove idea-single, idea-overview and idea-form files (templates will display warning for now)
 * Update choices-guides to a production level
@@ -11,7 +14,6 @@
 * Fix displaying default image in gridder
 * Fix gridder not working on pagination
 * Remove googlemaps streetview fallback image from all widgets
-
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results

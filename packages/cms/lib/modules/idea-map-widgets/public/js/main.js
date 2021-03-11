@@ -4,13 +4,15 @@ apos.define('idea-map-widgets', {
         self.playAfterlibsLoaded = function($widget, data, options) {
             var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
 
-            var map = self.createMap(mapConfig);
-            self.addPolygon(mapConfig);
+            if (mapConfig) {
+                var map = self.createMap(mapConfig);
+                self.addPolygon(mapConfig);
 
-            var markers = self.addMarkers(mapConfig);
-            self.addOverviewEventListeners(map);
+                var markers = self.addMarkers(mapConfig);
+                self.addOverviewEventListeners(map);
 
-            self.center();
+                self.center();
+            }
 
             /**
              * This is meant to filter the markers based on category

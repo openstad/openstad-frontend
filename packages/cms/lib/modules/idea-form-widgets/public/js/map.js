@@ -1,4 +1,4 @@
-apos.define('resource-form-widgets', {
+apos.define('idea-form-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
         self.playAfterlibsLoaded = function($widget, data, options) {
@@ -8,8 +8,8 @@ apos.define('resource-form-widgets', {
                 self.createMap(mapConfig);
                 self.addPolygon(mapConfig);
                 self.setIdeaMarker(mapConfig);
-                self.addFormEventListeners(mapConfig);
                 self.center();
+                self.addFormEventListeners(mapConfig);
             }
 
         }

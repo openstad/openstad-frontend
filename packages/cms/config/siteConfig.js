@@ -15,6 +15,9 @@ module.exports = {
         'api-proxy': {
           sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
+        'image-proxy': {
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
+        },
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,

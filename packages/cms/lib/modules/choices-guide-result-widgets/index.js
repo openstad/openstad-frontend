@@ -37,7 +37,7 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle',  'choicesMinLabel', 'choicesMaxLabel', 'choicesWithPercentage', 'startWithAllQuestionsAnswered', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
+        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesInBetweenPreferenceTitle', 'choicesMinLabel', 'choicesMaxLabel', 'choicesWithPercentage', 'startWithAllQuestionsAnswered', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
       },
       {
         name: 'form',
@@ -45,7 +45,7 @@ module.exports = {
         fields: ['formTitle', 'formIntro', 'formFields', 'beforeUrl', 'beforeLabel', 'afterUrl', 'afterLabel',]
       },
       {
-        name: 'reuiredLogin',
+        name: 'requiredLogin',
         label: 'Login',
         fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginNotYetLoggedInError', 'requireLoginAlreadySubmittedMessage',]
       },
