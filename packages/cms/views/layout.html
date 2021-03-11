@@ -1,4 +1,4 @@
-{% if data.idea %}
+header-side-container{% if data.idea %}
 {% set activeResource = data.idea %}
 {% else %}
 {% set activeResource = data.activeResource %}
@@ -161,16 +161,16 @@
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
         </a>
         {% endif %}
-        <div class="header-side-container">
+        <div class="header-side-container {{ 'without-site-title' if data.global.hideSiteTitle}}">
           <div class="row">
+            {% if not data.global.hideSiteTitle %}
             <div class="col-sm-7 col-md-6 col-xs-12">
-              {% if not data.global.hideSiteTitle %}
               <h2 class="header-subtitle">
                 {{data.global.siteTitle}}
               </h2>
-              {% endif %}
             </div>
-            <div class="col-sm-5 col-md-6 hidden-xs">
+            {% endif %}
+            <div class="{{ 'col-xs-12' if data.global.hideSiteTitle else 'col-sm-5 col-md-6' }}  hidden-xs">
               {% if data.global.topLinks or data.global.displayLoginTopLink %}
               <ul class="top-links">
                 {% if data.global.displayLoginTopLink %}

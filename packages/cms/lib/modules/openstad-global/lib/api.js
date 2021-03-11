@@ -1,5 +1,6 @@
 const polygons          = require('../../../../config/map').default.polygons;
 var _ = require('lodash');
+const eventEmitter = require('../../../../events').emitter;
 
 module.exports = (self, options) => {
 
@@ -64,6 +65,10 @@ module.exports = (self, options) => {
         }
     };
 
+    self.clearCache =  (req, doc, options) => {
+        eventEmitter.emit('clearCache');
+    }
+
     self.overrideGlobalDataWithSiteConfig = (req, res, next) => {
       const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
 
@@ -75,18 +80,19 @@ module.exports = (self, options) => {
       // empty
     //  req.data.global.siteTitle = '';
 
-      req.data.global.siteConfig = siteConfig;
+    //  req.data.global.siteConfig = siteConfig;
       req.data.originalUrl = req.originalUrl;
 
       //add query tot data object, so it can be used
       req.data.query = req.query;
 
+      //
       if (siteConfig && siteConfig.area && siteConfig.area.polygon) {
         req.data.global.mapPolygons =  siteConfig && siteConfig.area && siteConfig.area.polygon || '';
       }
 
-      // add the polygon object to the global data object
-      // Todo: remove fallback when every site use the areaId from the api.
+      // Todo: remove this fallback when every site use the areaId from the api.
+      // This is the fallback for old sites, polygons were hardcoded in the site
       if (req.data.global.mapPolygons === '' && req.data.global.mapPolygonsKey) {
         req.data.global.mapPolygons = polygons[req.data.global.mapPolygonsKey];
       }
@@ -100,6 +106,7 @@ module.exports = (self, options) => {
 
         if (areas) {
           return [{label: 'Geen', value: ''}].concat(areas.map((area) => {
+
             const data = {
               label: area.name,
               value: area.id

@@ -1,6 +1,6 @@
 const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
 
-module.exports = function createConfig(widget, data, jwt, apiUrl) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -34,14 +34,15 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
       mapicon: JSON.parse(type.mapicon),
       listicon: JSON.parse(type.listicon || '{}'),
     }})
-  } catch (err) {
-  }
+  } catch (err) {}
   let ideaTypes = data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.types != 'undefined' ? data.global.siteConfig.ideas.types : undefined;
-  let types = widget.typeField == 'typeId' ? ideaTypes : themeTypes;
+  let typeField = widget.typeField|| 'typeId';
+  let types = typeField == 'typeId' ? ideaTypes : themeTypes;
 
-
-  console.log('====================');
-  console.log(types);
+  let mapLocationIcon = widget.mapLocationIcon;
+  try {
+    mapLocationIcon = JSON.parse(mapLocationIcon);
+  } catch (err) {}
 
   let config = {
     // data.isAdmin
@@ -63,12 +64,14 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
 		  height: widget.displayHeight,
     },
 
-		linkToCompleteUrl: widget.linkToCompleteUrl,
+    loginUrl,
+
+		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     canSelectLocation: widget.canSelectLocation,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
-    linkToUserPageUrl: widget.linkToUserPageUrl,
+    linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
 
     search: {
       searchIn: { 'ideas and addresses': ['ideas', 'addresses'], 'ideas': ['ideas'], 'addresses': ['addresses'], 'none': [] }[ widget.searchIn ] || [],
@@ -76,17 +79,18 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
       showButton: true,  // todo: naar settings?
       showSuggestions: true,  // todo: naar settings?
       defaultValue: '',  // todo: naar settings?
+      addresssesMunicipality: widget.searchAddresssesMunicipality || null,
     },
 
     content: contentConfig,
     ideaName: widget.ideaName,
 
-    typeField: widget.typeField,
+    typeField,
     types,
     filter: [{
       label: '',
       showFilter: true,
-      fieldName: widget.typeField,
+      fieldName: typeField,
       filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
       defaultValue: '',
     }],
@@ -94,11 +98,11 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
     sort: {
       sortOptions: widget.selectedSorting ? widget.selectedSorting.map(key => sortingOptions.find(option => option.value == key ) ) : [],
       showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
-      defaultSortOrder: widget.defaultSorting,
+      defaultValue: widget.defaultSorting,
     },
 
 		idea: {
-      formUrl: widget.formUrl,
+      formUrl: widget.formUrl && data.siteUrl + widget.formUrl,
       showVoteButtons: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? data.global.siteConfig.ideas.showVoteButtons : true,
       showLabels: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showLabels != 'undefined' ? data.global.siteConfig.ideas.showLabels : true,
       canAddNewIdeas: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.canAddNewIdeas != 'undefined' ? data.global.siteConfig.ideas.canAddNewIdeas : true,
@@ -140,6 +144,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl) {
         isActive: true, // widget.mapClustering,
         maxClusterRadius: widget.mapMaxClusterRadius,
       },
+      locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
       polygon: ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,

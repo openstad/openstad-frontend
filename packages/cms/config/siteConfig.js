@@ -15,23 +15,21 @@ module.exports = {
         'api-proxy': {
           sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
+        'image-proxy': {
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
+        },
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
+          //lean: true,
           scripts: [
-            //  {name: 'jquery'},
-            //    {name: 'react'},
-            //    {name: 'react.dom'},
-            /* Apos script */
-            //        {name: 'apos/jquery.cookie'},
-            //        {name: 'apos/jquery.json-call'},
             {name: 'cookies'},
             {name: 'site'},
             {name: 'shuffle.min'},
             {name: 'sort'},
-            {name: 'jquery.dataTables.min'},
             {name: 'jquery.validate.min'},
             {name: 'jquery.validate.nl'},
+            {name: 'jquery.dataTables.min'}
           ],
           stylesheets: [
             {name: 'main'}
@@ -127,12 +125,14 @@ module.exports = {
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
+        'openstad-template-cache': {},
         'openstad-login': {},
         'openstad-api': {},
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
+
         'openstad-nunjucks-filters': {
           siteUrl: siteUrl,
         },
@@ -162,7 +162,6 @@ module.exports = {
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
-        'main-image-widgets': {},
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},
@@ -264,6 +263,10 @@ module.exports = {
         directory: __dirname + '/locales',
         defaultLocale: 'nl'
       }
+    }
+
+    if (process.env.APOS_PROFILER === 'per-request'){
+      siteConfig.modules['apostrophe-profiler'] = {};
     }
 
     return siteConfig;

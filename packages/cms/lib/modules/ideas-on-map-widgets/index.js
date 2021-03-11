@@ -25,7 +25,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation' ]
+        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapLocationIcon', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation' ]
       },
       {
         name: 'content',
@@ -45,7 +45,7 @@ module.exports = {
       {
         name: 'filters',
         label: 'Filterbalk',
-        fields: ['searchIn', 'searchPlaceHolder']
+        fields: ['searchIn', 'searchPlaceHolder', 'searchAddresssesMunicipality']
       },
       {
         name: 'reactions',
@@ -69,7 +69,7 @@ module.exports = {
 
 			widgets.forEach((widget) => {
 
-			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl')));
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
 
         const containerId = widget._id;

@@ -159,13 +159,14 @@
             data-thumbheight="105"
             data-auto="true"
             >
-              {% if (idea.extraData) and (idea.extraData.images) %}
+              {% if (idea.extraData) and (idea.extraData.images) and (idea.extraData.images.length > 0) %}
               {% for image in idea.extraData.images %}
               <a href="{{data.widget.formatImageUrl(image, idea.location, data.widget, 1200, 1200, false, data.cookieConsent)}}"></a>
               {% endfor %}
               {% else %}
               <a href="{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 1200, 1200, true, data.cookieConsent)}}"></a>
               {% endif %}
+
             </div>
           </div>
         </div>
@@ -212,7 +213,7 @@
       {% include 'includes/modbreak.html' %}
 
       {% if data.widget.displayEditLinkForModerator and data.hasModeratorRights %}
-      <div class="description"><a href="{{data.siteUrl}}{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl | safeRelativeUrl }}?resourceId={{idea.id}}&resourceType={{data.widget.resource}}" target="_blank">Bewerk</a></div>
+      <div class="description"><a href="{{ data.widget.editUrl if data.widget.editUrl else data.global.editIdeaUrl | safeRelativeUrl }}?resourceId={{idea.id}}&resourceType={{data.widget.resource}}" target="_blank">Bewerk</a></div>
       {% endif %}
 
       <div class="share-spacer"></div>

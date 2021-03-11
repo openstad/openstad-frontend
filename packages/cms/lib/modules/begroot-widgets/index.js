@@ -254,10 +254,8 @@ module.exports = {
 
        widget.formatImageUrl = function (url, width, height, crop, location) {
          if (url) {
-           url = url + '/:/rs=w:'+ width + ',h:' + height;
-           url =  crop ? url + ';cp=w:' + width + ',h:' + height : url;
-         } else if (location) {
-           url = `https://maps.googleapis.com/maps/api/streetview?size=${width}x${height}&location=${location.coordinates[0]},${location.coordinates[1]}&heading=151.78&key=${googleMapsApiKey}`;
+           url = url + '/:/rs=w:' + width + ',h:' + height;
+           url = crop ? url + ';cp=w:' + width + ',h:' + height : url;
          } else {
            url = '/modules/openstad-assets/img/placeholders/idea.jpg';
          }

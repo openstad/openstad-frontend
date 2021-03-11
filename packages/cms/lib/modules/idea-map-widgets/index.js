@@ -185,7 +185,7 @@ module.exports = {
               googleMapsApiKey: googleMapsApiKey
             })
             .setPolygon(globalData.mapPolygons)
-            .setMarkersByIdeas(widget.ideas)
+            .setMarkersByResources(widget.ideas)
             .getConfig()
         });
 

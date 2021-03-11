@@ -1,6 +1,8 @@
 /**
- * We copied the admin bar code from workflow
+ * We copied the admin bar code from workflow apostrophe
  * Only change we made is add 'apostrophe-palette' to the notSafeLiveList
+ * This is to not show pallette in live modus,
+ * otherwise it's confusing to directly edit elements in live,  causing weird commit issues
  */
 var _ = require('@sailshq/lodash');
 

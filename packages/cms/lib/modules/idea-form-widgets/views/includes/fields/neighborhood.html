@@ -1,6 +1,0 @@
-<select id="gebied" class="default-select" name="area" value="{% if idea.extraData %}{{idea.extraData.area}}{% endif %}"  {% if data.widget.requiredAreas %}required{% endif %}>
-  <option value="">Kies gebied</option>
-  {% for area in data.global.areas %}
-    <option value="{{area.value}}" {% if (idea.extraData) and (idea.extraData.area === area.value) %}selected{% endif %}>{{area.value}}</option>
-  {% endfor %}
-</select>

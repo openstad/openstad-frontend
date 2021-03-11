@@ -38,7 +38,7 @@ module.exports = {
       /**
        * Add script that handles the clear cache options
        */
-      var superPushAssets = self.pushAssets;
+      const superPushAssets = self.pushAssets;
       self.pushAssets = () => {
         superPushAssets();
         self.pushAsset('script', 'clear-cache', { when: 'always' });

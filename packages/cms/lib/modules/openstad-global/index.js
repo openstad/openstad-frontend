@@ -27,6 +27,7 @@ module.exports = {
     self.on('apostrophe:modulesReady', 'setSyncFields');
     self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
     self.on('apostrophe-docs:afterSave', 'syncApi');
+    self.on('apostrophe-docs:afterSave', 'clearCache');
 
     options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
 
@@ -75,6 +76,7 @@ module.exports = {
         ideas: siteConfig.ideas,
         polls: siteConfig.polls,
         votes: siteConfig.votes,
+        area: siteConfig.area,
         arguments:siteConfig.arguments,
         openstadMap:siteConfig.openstadMap,
       };
