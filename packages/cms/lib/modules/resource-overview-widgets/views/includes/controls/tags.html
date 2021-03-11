@@ -18,7 +18,7 @@
     <div class="content-modal-body">
       <h3 class="filter-tags-modal-title "> Filter op tags </h3>
       <a href="#closed" class="content-modal-close">
-        <img src="/modules/openstad-assets/img/close.svg" width="13" height="13">
+        <img src="{{data.siteUrl}}/modules/openstad-assets/img/close.svg" width="13" height="13">
       </a>
       {% for tag in data.widget.openstadTags %}
       {% if data.widget.isTagSelected(tag, data.query) %}

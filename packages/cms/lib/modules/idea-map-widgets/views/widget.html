@@ -8,13 +8,12 @@
   </script>
 {% endif %}
 
-{% if data.widget.mapType == 'nlmaps-openlayers' %}
   <div id="nlmaps-holder" style="height: 400px;">
     <div id="map-with-buttons-container">
       <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
       <div class="map-buttons-container">
         {% if (data.widget.displayCtaButton) %}
-        <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
+        <a href="{{data.widget.ctaUrl | safeRelativeUrl}}" class="page-button page-button-blue page-button-flag">
           {{ data.widget.ctaText if data.widget.ctaText else 'Voeg een opknappunt toe' }}
         </a>
         {% endif %}
@@ -26,26 +25,3 @@
   </div>
 
 
-  {% else %}
-  {% if data.cookieConsent %}
-  <script src="https://maps.googleapis.com/maps/api/js?key={{apos.settings.getOption('googleMapsApiKey')}}"></script>
-
-  <div id="map-with-buttons-container">
-    <div id="{{editorInputElementId}}" style="width: 100%; height: 400px;"></div>
-    <div class="map-buttons-container">
-      {% if (data.widget.displayCtaButton) %}
-      <a href="{{data.widget.ctaUrl}}" class="page-button page-button-blue page-button-flag">
-        {{ data.widget.ctaText if data.widget.ctaText else 'Stuur je plan in!' }}
-      </a>
-      {% endif %}
-      {% if (data.widget.displayCounter) %}
-      {{numberPlateButton.numberPlateButton('no-of-locations', data.widget.counterText, data.ideas.length, '#')}}
-      {% endif %}
-    </div>
-  </div>
-  {% else %}
-  <div style="width: 100%; height: 400px;">
-    {% include "partials/placeholder-no-cookie-consent-map.html" ignore missing %}
-  </div>
-  {% endif %}
-{% endif %}

@@ -141,11 +141,6 @@ module.exports = [
   },
   {
     type: 'string',
-    name: 'captchLabel',
-    label: "Label for captcha",
-  },
-  {
-    type: 'string',
     name: 'captchaRefreshText',
     label: "Text for captcha refresh",
   },
@@ -216,8 +211,8 @@ module.exports = [
     type: 'string',
     label: 'Formatted Logo',
     formatField: function (value, apos, doc, req) {
-    //  const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
-      return  doc.siteLogo ? apos.attachments.url(doc.siteLogo) : '';
+      const siteUrl = apos.settings.getOption(req, 'siteUrl');
+      return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
     },
     apiSyncField: 'styling.logo',
   },

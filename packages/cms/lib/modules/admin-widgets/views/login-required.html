@@ -1,7 +1,7 @@
 <div class="box-grey">
   {% if not data.loggedIn %}
   <h1>Om deze sectie te kunnen zien moet je ingelogd zijn.</h1>
-  <p><a href="/admin/login">Klik hier om in te loggen. </a>
+  <p><a href="{{data.siteUrl}}/admin/login">Klik hier om in te loggen. </a>
   {% else %}
   <h1> U heeft niet de rechten om deze sectie te zien</h1>
   {% endif %}

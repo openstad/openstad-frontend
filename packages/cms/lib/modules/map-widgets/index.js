@@ -1,39 +1,28 @@
 /**
  * Abstract map widget, is extended by several other map widgets
- * Offers both implementation with openstreed map and google maps
+ * Used to offer implementation with Google Maps and Openlayers with NLmaps.
+ *
+ * In future will move the Openstad react maps
  */
 'use strict';
 
-const config = require('./lib/config');
-const MapConfigBuilder = require( './lib/map-data');
+const MapConfigBuilder = require('./lib/map-data');
 
 module.exports = {
     extend: 'openstad-widgets',
     label: 'Map widgets',
     deferWidgetLoading: false,
     construct: function(self, options) {
-        if(config.getMapType() === 'nlmaps-openlayers') {
+        const superPushAssets = self.pushAssets;
 
+        self.pushAssets = function() {
+            superPushAssets();
             self.pushAsset('stylesheet', 'ol', { when: 'always' });
             self.pushAsset('stylesheet', 'openlayers', { when: 'always' });
-
-            self.pushAsset('script', 'modules/ol', { when: 'always' });
-            self.pushAsset('script', 'modules/nlmaps', { when: 'always' });
-            self.pushAsset('script', 'openlayers/openstad-map', { when: 'always' });
-            self.pushAsset('script', 'nlmaps-openlayers', { when: 'always' });
-        } else {
-            self.pushAsset('script', 'googlemaps/openstad-map', { when: 'always' });
-            self.pushAsset('script', 'googlemaps', { when: 'always' });
-        }
-
-        const superLoad = self.load;
-        self.load = (req, widgets, callback) => {
-            widgets.forEach((widget) => {
-                widget.mapType = config.getMapType();
-            });
-
-            return superLoad(req, widgets, callback);
-        }
+            // openlayers lib is loaded async because of it's size
+            // including it would be an exta 500kb of JS on every page request
+            self.pushAsset('script', 'main', { when: 'always' });
+        };
 
         self.getMapConfigBuilder = (globalData) => {
             // set the absolute url of uploaded image before it goes to the client side code.
@@ -46,7 +35,6 @@ module.exports = {
                 return theme;
               });
             }
-
 
             return new MapConfigBuilder(globalData);
         }

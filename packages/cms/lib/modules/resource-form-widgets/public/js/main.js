@@ -212,8 +212,8 @@ function initUploadField(resourceForm) {
     allowBrowse: true,
     files: uploadedFiles, //Fixme: remove this global var?
     server: {
-      process: '/image',
-      fetch: '/fetch-image?img=',
+      process:  window.siteUrl + '/image',
+      fetch: window.siteUrl +  '/fetch-image?img=',
       revert: null
     },
     labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>klik hier</span>",
@@ -383,7 +383,7 @@ function bindResourceFormValidation(resourceForm) {
 
             redirectUrl = redirectUrl ? redirectUrl : redirect;
             //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-            window.location.href = (redirectUrl);
+            window.location.href = window.siteUrl + (redirectUrl);
           }
         },
         error:function(response) {

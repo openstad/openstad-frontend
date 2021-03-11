@@ -12,7 +12,7 @@
         {% if data.widget.agreedLabel %}
         {{data.widget.agreedLabel | sanitize | safe}}
         {% else %}
-        Ik ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden. </a>
+        Ik ga akkoord met de <a href="{{data.siteUrl}}/algemene-voorwaarden">algemene voorwaarden. </a>
         {% endif%}
       </label>
     </div>

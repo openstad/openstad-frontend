@@ -3,7 +3,7 @@
 <h2 class="edit-header">Beheren</h2>
 
 
-<form method="POST" class="idea-status-form ajax-form" action="/modules/resource-admin-widgets/update">
+<form method="POST" class="idea-status-form ajax-form" action="{{data.siteUrl}}/modules/resource-admin-widgets/update">
   <select name="status" onchange="$(this).closest('form').submit();" class="button status">
     <option {{'selected' if idea.status==='OPEN'}}     value="OPEN">    Status: Open</option>
     <option {{'selected' if idea.status==='CLOSED'}}   value="CLOSED">  Status: Gesloten</option>
@@ -26,13 +26,15 @@
 </a>
 
 
+{% if not data.widget.hideVoteOverview %}
 <a href="#overview-votes" class="edit-button votes-overview-button">
   Stemoverzicht
 </a>
+{% include 'includes/modal-extra-info.html' %}
+{% endif %}
 
 
 
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
-{% include 'includes/modal-extra-info.html' %}
 {% endif %}

@@ -51,7 +51,9 @@ services:
 
 addons:
   snaps:
-    – yq
+    - name: yq
+      confinement: classic
+      channel: v3/stable
 
 before_install:
   - sleep 15

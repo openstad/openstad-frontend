@@ -1,6 +1,39 @@
 # Changelog
 
-## UNRELEASED
+## pre-v0.14.0 (2020-...)
+* Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
+* Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
+* Check if maps exists in some places
+* Add page cache for non logged in users
+* Remove idea-single, idea-overview and idea-form files (templates will display warning for now)
+* Update choices-guides to a production level
+* CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
+* CSS fix: Adjust logout link in menu margin for better alignment
+* CSS fix: Make padding for search box same as select
+* CSS fix: Add small padding tweaks
+* Fix displaying default image in gridder
+* Fix gridder not working on pagination
+* Remove googlemaps streetview fallback image from all widgets
+
+## v0.13.0 (2020-02-23)
+* Add login required to choices-guide results
+* Use refactored react components
+* Change default styling for toggle title in section
+* Update apostrophe to 2.113.0 for @openstad/cms & run `npm update` in root to fix a YouTube oembed bug
+* Add an oembed API endpoint to siteConfig for vimeo.com videos to prevent Vimeo blocking scrapes from oembetter
+* Fix bug in Participatory Budgeting where removing ideas in the selection was stored wrongly.
+* Fix incorrect closing tag in slider widget
+* ideas-on-map fixes and extensions
+* Fix openstreetmaps for Forms and Overview
+* Move big libs and assets to dynamic loading
+* Fixes on choices-guide result forms
+* Add choices guide to /admin
+
+## v0.12.0 (2020-01-27)
+* Allow for running multiple sites on subdirectories
+* Accessibility improvements
+
+## v0.11.0 (2020-01-11)
 * Make the (Google) Analytics block configurable to provide for a new version and also other options
 * Add html class name to resource overview
 * Clear cached session openstad user when making api call or logging out

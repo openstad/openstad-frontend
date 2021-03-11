@@ -21,7 +21,7 @@
 			<p>
 				Je gaat hiervoor naar een nieuwe pagina, en komt daarna weer hier terug.
 			</p>
-			<a href="/oauth/login?returnTo={{data.currentUrl}}" class="button-blue">
+			<a href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="button-blue">
 				Aanmelden
 			</a>
 		</div>
@@ -212,15 +212,17 @@
 						</div>
 					</div>
 
-					<script src="/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond.js"></script>
+					{#
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
+					#}
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond.js"></script>
 
-					<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
-					<script src="/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-preview.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-type.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-validate-size.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-file-poster.js"></script>
+					<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-plugin-image-exif-orientation.js"></script>
 
 					<script>
 

@@ -19,10 +19,6 @@
 				<div class="primary">
 					{% if idea.extraData.images[0] %}
 					<div class="image" style="background-image: url('{{idea.extraData.images[0]}}');"></div>
-					{% elif idea.location and data.cookieConsent %}
-					<div class="image" style="background-image: url(
-					'https://maps.googleapis.com/maps/api/streetview?size=1400x700&location={{idea.location.coordinates[0]}},{{idea.location.coordinates[1]}}&heading=151.78&key={{apos.settings.getOption('googleMapsApiKey')}}'
-					);"></div>
 					{% elif data.widget.defaultImage %}
           <div class="image"  style="background-image: url('{{apos.attachments.url(data.widget.defaultImage)}}')"></div>
           {% else %}
@@ -46,7 +42,7 @@
 							<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
 								laden...
 							</div>
-							<form id="idea-vote-form-yes" method="POST" action="/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
+							<form id="idea-vote-form-yes" method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="yes" />
 								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
@@ -71,7 +67,7 @@
 
 							<div style="clear: both;"></div>
 	            {% if data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
-							<form id="idea-vote-form-no" method="POST" action="/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
+							<form id="idea-vote-form-no" method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
 								<input type="hidden" name="ideaId" value="{{idea.id}}" />
 								<input type="hidden" name="opinion" value="no"/>
 								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
@@ -186,7 +182,7 @@
 		<div class="secondary">
 			{# <h2>Volgen</h2>
 
-			<form action="/plan/{{idea.id}}/notify">
+			<form action="{{data.siteUrl}}/plan/{{idea.id}}/notify">
 			  <input type="submit" value="Mail updates">
 			</form> #}
 

@@ -9,93 +9,29 @@ const fs = require('fs');
 const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const rp = require('request-promise');
 
+const fields = require('./lib/fields');
+const createConfig = require('./lib/create-config');
+
+let styleSchemaDefinition = styleSchema.definition('containerStyles', 'Styles for the container');
+
 module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Keuzewijzer',
-  addFields: [
-		{
-			name: 'choicesGuideId',
-      type: 'integer',
-			label: 'Id van de Keuzewijzer',
-			required: true
-		},
-		{
-			name: 'noOfQuestionsToShow',
-      type: 'integer',
-			label: 'Aantal vragen per pagina',
-			required: true,
-      def: 1,
-		},
-		{
-			name: 'startWithAllQuestionsAnswered',
-      type: 'boolean',
-			label: 'Begin met alle vragen beantwoord op 50%',
-			required: true,
-      def: false,
-		},
-		{
-			type: 'select',
-			name: 'choicesType',
-			label: 'Weergave van de voorkeuren',
-			choices: [
-				{
-					label: 'Standaard',
-					value: 'default',
-				},
-				{
-					label: 'Van min naar plus 100',
-					value: 'minus-to-plus-100',
-          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor']
-				},
-				{
-					label: 'In een vlak',
-					value: 'plane'
-				}
-			]
-		},
-    {
-      type:     'string',
-      name:     'choicesPreferenceMinColor',
-      label:    'Kleur van de balken, minimaal',
-      help:     'Dit moet (nu nog) in het formaat #123456',
-      def:      '#ff9100',
-    },
-    {
-      type:     'string',
-      name:     'choicesPreferenceMaxColor',
-      label:    'Kleur van de balken, maximaal',
-      help:     'Dit moet (nu nog) in het formaat #123456',
-      def:      '#bed200',
-    },
-    {
-      type:     'string',
-      name:     'choicesPreferenceTitle',
-      label:    'Titel boven de keuzes, met voorkeur',
-      help:     'Bijvoorbeeld "Jouw voorkeur is {preferredChoice}"',
-      def:      'Jouw voorkeur is {preferredChoice}',
-    },
-    {
-      type:     'string',
-      name:     'choicesNoPreferenceYetTitle',
-      label:    'Titel boven de keuzes, nog geen voorkeur',
-      help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
-      def:      'Je hebt nog geen keuze gemaakt',
-    },
-		{
-			name: 'beforeUrl',
-      type: 'string',
-			label: 'URL van de inleidende pagina',
-			required: false,
-		},
-		{
-			name: 'afterUrl',
-      type: 'string',
-			label: 'URL van de reultaat pagina',
-			required: false,
-		},
-    styleSchema.definition('containerStyles', 'Styles for the container')
-  ],
+  addFields: fields.concat(styleSchemaDefinition),
   construct: function(self, options) {
+
+    require('./lib/api')(self, options);
+
+    self.expressMiddleware = {
+      when: 'beforeRequired',
+      middleware: (req, res, next) => {
+        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+        self.apiUrl = apiUrl;
+        const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
+        self.siteId = siteConfig.id;
+        next();
+      }
+    };
 
     const superPushAssets = self.pushAssets;
 		self.pushAssets = function () {
@@ -106,36 +42,7 @@ module.exports = {
 		self.load = function(req, widgets, next) {
 
 			widgets.forEach((widget) => {
-			  widget.config = JSON.stringify({
-          // req.data.isAdmin
-          divId: 'choices-guide',
-          siteId: req.data.global.siteId,
-          api: {
-            url: self.apos.settings.getOption(req, 'apiUrl'),
-            headers: req.session.jwt ? { 'X-Authorization': 'Bearer ' + req.session.jwt } : {},
-            isUserLoggedIn: req.data.loggedIn,
-          },
-          user: {
-            role:  req.data.openstadUser && req.data.openstadUser.role,
-            fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
-			    },
-          choicesGuideId: widget.choicesGuideId,
-          noOfQuestionsToShow: widget.noOfQuestionsToShow,
-          choices: {
-            type: widget.choicesType,
-            startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
-            sticky: {
-              offsetTop: 10,
-            },
-            title: {
-              preference: widget.choicesPreferenceTitle,
-              noPreferenceYet: widget.choicesNoPreferenceYetTitle,
-            },
-            barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
-          },
-          beforeUrl: widget.beforeUrl,
-          afterUrl: widget.afterUrl,
-        });
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
         const containerId = widget._id;
         widget.containerId = containerId;

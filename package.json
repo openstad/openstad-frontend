@@ -22,12 +22,13 @@
     "apostrophe": "2.113.0",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
-    "apostrophe-palette": "^2.0.28",
+    "apostrophe-palette": "^2.0.30",
     "apostrophe-workflow": "2.38.2",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
-    "npm": "^6.14.8",
-    "query-string": "^6.13.6",
+    "morgan": "^1.10.0",
+    "npm": "^6.14.11",
+    "query-string": "^6.13.8",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
