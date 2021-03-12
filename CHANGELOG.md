@@ -15,6 +15,7 @@
 * Fix gridder not working on pagination
 * Remove googlemaps streetview fallback image from all widgets
 * Disable mousewheel zoom on maps
+* Add sanitize function to href in rich text, which adds siteUrl to relative paths
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
