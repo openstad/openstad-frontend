@@ -18,23 +18,16 @@ var OpenlayersMap = {
     setDefaultBehaviour: function (map) {
 
         // Strg+MouseWheel Zoom
-
-        /*
-        Mousewheel zoom sucks
         map.addInteraction(new ol.interaction.MouseWheelZoom({
             condition: function (e) {
-                return false
+                return e.originalEvent.ctrlKey
             }
         }));
 
-         */
-
-        //
+        // desktop: normal; mobile: 2-finger pan to start
         map.addInteraction(new ol.interaction.DragPan({
             condition: function (e) {
-             //   return ol.events.condition.noModifierKeys(e) && (!/Mobi|Android/i.test(navigator.userAgent) || (this.targetPointers && this.targetPointers.length === 2))
-                return true;
-
+                return ol.events.condition.noModifierKeys(e) && (!/Mobi|Android/i.test(navigator.userAgent) || (this.targetPointers && this.targetPointers.length === 2))
             }
         }));
 
@@ -92,8 +85,6 @@ var OpenlayersMap = {
             longitude: settings.center.lng
         } : {longitude: 4.2322689, latitude: 52.04946};
 
-        var lastScrollZoom;
-
         var settings = {
             zoom: settings.zoom || 15.3,
             minZoom: settings.minZoom,
@@ -104,11 +95,8 @@ var OpenlayersMap = {
         var defaultSettings = {
             view: new ol.View(settings),
             target: 'nlmaps-holder',
-            search: false,
-            interactions: ol.interaction.defaults({mouseWheelZoom:false}),
+            search: false
         };
-
-
 
         this.map = new ol.Map(defaultSettings);
 
@@ -116,6 +104,7 @@ var OpenlayersMap = {
             source: new ol.source.OSM()
         });
 
+        this.map.addLayer(layer);
 
       //  var layer = nlmaps.openlayers.bgLayer();
       //
