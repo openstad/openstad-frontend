@@ -1,7 +1,7 @@
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
-const searchResults = require('../../middleware/search-results');
+const searchResults = require('../../middleware/search-results-static');
 const convertDbPolygonToLatLng = require('../../util/convert-db-polygon-to-lat-lng');
 const {formatGeoJsonToPolygon} = require('../../util/geo-json-formatter');
 

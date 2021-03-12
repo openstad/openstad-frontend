@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
-const searchResults = require('../../middleware/search-results');
+const searchResults = require('../../middleware/search-results-static');
 
 const router = require('express-promise-router')({ mergeParams: true });
 
