@@ -8,12 +8,6 @@
  */
 const cacheLifespan = 15 * 60;   // set lifespan of 15 minutes;
 const cache = require('../../../services/cache').cache;
-
-/*
-  CURRENTLY IN TRANSITION.
-  SOME ASSETS FILES ARE IN THE IDEA overview
-  MAIN ISSUE IS
- */
 const Promise = require("bluebird");
 const rp = require('request-promise');
 const moment = require("moment");
@@ -52,7 +46,7 @@ module.exports = {
 
             //for now uses the one from participatory budgetting, should move to ASSETS
             //but order issues then, probably moving initialisation code to play will fix that.
-            //       self.pushAsset('script', 'jquery.gridder', { when: 'always' });
+            //self.pushAsset('script', 'jquery.gridder', { when: 'always' });
 
             self.pushAsset('script', 'thumbnail-tile-loading', {when: 'always'});
             self.pushAsset('script', 'tabs', {when: 'always'});
@@ -112,9 +106,6 @@ module.exports = {
                 widget.themes = req.data.global.themes;
                 widget.areas = req.data.global.areas;
 
-                const containerId = widget._id;
-                widget.containerId = containerId;
-
                 widget.parseDateToTime = (date) => {
                     return new Date(date).getTime();
                 }
@@ -164,7 +155,7 @@ module.exports = {
                 }
 
                 if (widget.containerStyles) {
-                    widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+                    widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
                 }
 
                 const siteConfig = req.data.global.siteConfig;

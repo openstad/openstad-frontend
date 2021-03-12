@@ -8,22 +8,6 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 
 const fields = [
   {
-    name: 'fallBackToMapImage',
-    label: 'Fall back to map image if no image available?',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-        showFields: []
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ]
-  },
-  {
     name: 'defaultImage',
     type: 'attachment',
     label: 'Default image',
@@ -60,9 +44,7 @@ module.exports = {
      self.load = function (req, widgets, next) {
          widgets.forEach((widget) => {
            if (widget.containerStyles) {
-             const containerId = widget._id;
-             widget.containerId = containerId;
-             widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+             widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
            }
         });
 

@@ -96,9 +96,8 @@ module.exports = {
           }
 
           if (widget.containerStyles) {
-            const containerId = widget._id;
-            widget.containerId = containerId;
-            widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+
+            widget.formattedContainerStyles = styleSchema.format( widget._id, widget.containerStyles);
           }
           widget.siteId = req.data.global.siteId;
         });

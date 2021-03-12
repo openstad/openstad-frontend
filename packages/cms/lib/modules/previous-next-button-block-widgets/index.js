@@ -49,9 +49,7 @@ module.exports = {
           nextLabel: widget.nextLabel,
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        const containerId = widget._id;
-        widget.containerId = containerId;
-        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+        widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
 			});
 
 			return superLoad(req, widgets, next);

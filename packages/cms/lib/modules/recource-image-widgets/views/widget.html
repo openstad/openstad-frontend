@@ -1,7 +1,7 @@
 {% set activeResource = data.activeResource %}
 
 <div
-  id="{{data.widget.containerId}}"
+  id="{{data.widget._id}}"
   class="main-cover-image"
 {% if activeResource.extraData.images[0] %}
   style="background-image: url('{{activeResource.extraData.images[0]}}/:/rs=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}};cp=w:{{data.widget.imageWidth}},h:{{data.widget.imageHeight}}');"

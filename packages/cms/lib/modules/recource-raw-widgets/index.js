@@ -23,9 +23,7 @@ module.exports = {
         widgets.forEach((widget) => {
           // render string with variables. Add active recource
           if (widget.containerStyles) {
-            const containerId = widget._id;
-            widget.containerId = containerId;
-            widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+            widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
           }
 
           // Add function for rendering raw string with nunjucks templating engine

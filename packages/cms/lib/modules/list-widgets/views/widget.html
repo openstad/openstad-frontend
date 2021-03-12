@@ -8,7 +8,7 @@
   {% set listType = 'ul' %}
 {% endif %}
 
-<{{listType}} id="{{data.widget.containerId}}" class="{{data.widget.listClassName}} parent-list">
+<{{listType}} id="{{data.widget._id}}" class="{{data.widget.listClassName}} parent-list">
   {% for item in data.widget.items %}
   <li class="parent-item">
     {{ item.item | sanitize | safe }}

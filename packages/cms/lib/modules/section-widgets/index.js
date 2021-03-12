@@ -23,11 +23,6 @@ module.exports = {
       svgImages: true,
       trash: true
     },
-  /*  {
-      name:     'containerId',
-      type:     'string',
-      label:    'HTML Container id (must be unique on the page for css)',
-    },*/
     {
       name: 'displayType',
       label: 'Columns',
@@ -235,7 +230,7 @@ module.exports = {
       {
         name: 'advanced',
         label: 'Advanced',
-        fields: ['containerId', 'marginType', 'htmlId', 'htmlClass']
+        fields: ['marginType', 'htmlClass']
       }
     ]);
 
@@ -258,8 +253,7 @@ module.exports = {
 
         widgets.forEach((widget) => {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
-          widget.containerId = widget._id;
-          widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
+          widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
 
           // get the content widget that fit with the role of logged in user and insert data
           const isAdmin = self.apos.permissions.can(req, 'admin');

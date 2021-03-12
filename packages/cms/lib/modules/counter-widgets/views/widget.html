@@ -13,12 +13,12 @@
 {% else %}
   <span
   {% endif %}
-  id="{{data.widget.containerId}}"
+  id="{{data.widget._id}}"
   class="margin-bottom-xs scroll-link block no-decoration"
   >
 	  <span class="box-blue block">
       <span class="flexcontainer">
-        <span class="flexleft" id="counter-{{data.widget.counterType}}-{{data.widget.containerId}}">
+        <span class="flexleft" id="counter-{{data.widget.counterType}}-{{data.widget._id}}">
         </span>
         <span class="flexright">
           {{data.widget.label}}
@@ -33,7 +33,7 @@
 
 
   <script>
-   function setNumberPlates{{data.widget.containerId}}(count) {
+   function setNumberPlates{{data.widget._id}}(count) {
      let len = count.toString().length;
      if (len < 3) len = 3;
      count = ('000' + count).slice(-len);
@@ -42,15 +42,15 @@
        html += '<span id="counter-number-plate-'+i+'" class="number-plate">'+count[i]+'</span>'
      }
      html += '</span>';
-     document.getElementById("counter-{{data.widget.counterType}}-{{data.widget.containerId}}").innerHTML = html;
+     document.getElementById("counter-{{data.widget.counterType}}-{{data.widget._id}}").innerHTML = html;
    }
-   setNumberPlates{{data.widget.containerId}}('{{data.widget.count}}' || 0)
+   setNumberPlates{{data.widget._id}}('{{data.widget.count}}' || 0)
   </script>
 
 
   {% if data.widget.statsUrl %}
   <script>
-   function fetchStats{{data.widget.containerId}}() {
+   function fetchStats{{data.widget._id}}() {
 
      let url = '{{data.widget.statsUrl}}';
 	   $.ajax({
@@ -63,7 +63,7 @@
 		   success: function(result) {
          let count = result.count;
          if ( count == -1 ) count = 0;
-         setNumberPlates{{data.widget.containerId}}(count);
+         setNumberPlates{{data.widget._id}}(count);
 		   },
 		   error: function(error) {
 		     console.log('Niet goed');
@@ -72,7 +72,7 @@
 	   });
    }
    window.addEventListener("load", function() {
-     fetchStats{{data.widget.containerId}}()
+     fetchStats{{data.widget._id}}()
    });
    
   </script>
