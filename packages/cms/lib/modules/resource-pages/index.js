@@ -138,9 +138,6 @@ module.exports = {
        */
 
        const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === req.data.activeResourceType);
-       console.log('resourcesSchema', resourcesSchema)
-       console.log('req.data.activeResourceType', req.data.activeResourceType)
-       console.log('resourceInfo', resourceInfo)
 
        req.data.activeResourceEndpoint = resourceInfo.resourceEndPoint;
 
