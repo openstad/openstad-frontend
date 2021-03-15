@@ -197,19 +197,25 @@ router.route('/')
             {
                 key: 'argumentCountTotal',
                 description: 'Amount of arguments, total count',
-                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
                 variables: [req.params.siteId],
             },
             {
                 key: 'argumentForCountTotal',
                 description: 'Amount of arguments for an idea, total count',
-                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'for'",
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'for'",
                 variables: [req.params.siteId],
             },
             {
                 key: 'argumentAgainstCountTotal',
                 description: 'Amount of arguments against an idea, total count',
-                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId LEFT JOIN sites ON sites.id = ideas.siteId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
+                sql: "SELECT count(arguments.id) AS counted FROM arguments LEFT JOIN ideas ON ideas.id = arguments.ideaId WHERE arguments.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND arguments.sentiment = 'against'",
+                variables: [req.params.siteId],
+            },
+            {
+                key: 'choicesguideresultsCountTotal',
+                description: 'Amount of choices guide results',
+                sql: "SELECT count(choicesGuideResults.id) AS counted FROM choicesGuideResults LEFT JOIN choicesGuides ON choicesGuides.id = choicesGuideResults.choicesGuideId WHERE choicesGuideResults.deletedAt IS NULL AND choicesGuides.deletedAt IS NULL AND choicesGuides.siteId=?",
                 variables: [req.params.siteId],
             },
         ];
@@ -231,7 +237,7 @@ router.route('/')
             next();
         } catch (e) {
             console.log('Error while initialising SQL connection: ', e);
-            return next(createError(401, 'Error while initialising SQL connection: ', e));
+            return next(createError(500, 'Error while initialising SQL connection: ', e));
         }
     })
     .get((req, res, next) => {
