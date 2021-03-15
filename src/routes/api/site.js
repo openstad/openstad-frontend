@@ -4,7 +4,7 @@ const config 					= require('config');
 const db      				= require('../../db');
 const auth 						= require('../../middleware/sequelize-authorization-middleware');
 const pagination 			= require('../../middleware/pagination');
-const searchResults 	= require('../../middleware/search-results');
+const searchResults 	= require('../../middleware/search-results-user');
 const oauthClients 		= require('../../middleware/oauth-clients');
 const checkHostStatus = require('../../services/checkHostStatus')
 

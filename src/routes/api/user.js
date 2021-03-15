@@ -7,7 +7,7 @@ const db = require('../../db');
 const auth = require('../../middleware/sequelize-authorization-middleware');
 const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
-const searchResults = require('../../middleware/search-results');
+const searchResults = require('../../middleware/search-results-user');
 const fetch = require('node-fetch');
 const rp = require('request-promise');
 

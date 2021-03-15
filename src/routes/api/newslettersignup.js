@@ -5,7 +5,7 @@ const auth = require('../../middleware/sequelize-authorization-middleware');
 const mail = require('../../lib/mail');
 const generateToken = require('../../util/generate-token');
 const pagination = require('../../middleware/pagination');
-const searchResults = require('../../middleware/search-results');
+const searchResults = require('../../middleware/search-results-static');
 
 const router = express.Router({ mergeParams: true });
 

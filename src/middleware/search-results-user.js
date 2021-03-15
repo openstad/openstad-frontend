@@ -1,3 +1,11 @@
+/**
+ * Currently there are 2 implementations of search
+ * Both are not sufficient.
+ * This one only works for users properly when querying from
+ * The other one only works for ideas
+ *
+ * @type {Config}
+ */
 const config = require('config');
 const fuzzysort = require('fuzzysort');
 
