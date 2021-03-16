@@ -56,7 +56,8 @@ module.exports = {
       type: 'string',
       label: 'Set Custom classname',
     },
-    styleSchema.definition('containerStyles', 'Styles for the container')
+    styleSchema.definition('containerStyles', 'Styles for the container'),
+    styleSchema.getHelperClassesField(),
   ],
   construct: function(self, options) {
 
@@ -83,6 +84,7 @@ module.exports = {
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
       });
 
       return superLoad(req, widgets, callback);

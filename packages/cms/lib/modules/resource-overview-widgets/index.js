@@ -163,6 +163,9 @@ module.exports = {
                     widget.themes = includeThemes.length > 0 ? widget.themes.filter(theme => includeThemes.indexOf(theme.value) > -1) : widget.themes;
                 }
 
+                widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
+
                 if (widget.containerStyles) {
                     widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
                 }

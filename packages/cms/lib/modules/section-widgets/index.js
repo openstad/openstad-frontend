@@ -121,6 +121,7 @@ module.exports = {
       contextual: true
     },
     styleSchema.definition('containerStyles', 'Styles for the container'),
+    styleSchema.getHelperClassesField(),
     {
       name: 'marginType',
       label: 'Margin type',
@@ -235,7 +236,7 @@ module.exports = {
       {
         name: 'styling',
         label: 'Styling',
-        fields: ['backgroundColor', 'backgroundImage', 'containerStyles']
+        fields: ['backgroundColor', 'backgroundImage', 'containerStyles', 'cssHelperClasses']
       },
       {
         name: 'advanced',
@@ -265,6 +266,7 @@ module.exports = {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
           widget.containerId = self.apos.utils.generateId();
           widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
+          widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
           // get the content widget that fit with the role of logged in user and insert data
           const isAdmin = self.apos.permissions.can(req, 'admin');

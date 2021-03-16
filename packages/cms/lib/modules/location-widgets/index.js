@@ -33,8 +33,11 @@ module.exports = {
               if (widget.containerStyles) {
                 const containerId = self.apos.utils.generateId();
                 widget.containerId = containerId;
-                widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+                  widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
               }
+
+              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
 
               widget.siteConfig = {
                   minimumYesVotes: (siteConfig && siteConfig.ideas && siteConfig.ideas.minimumYesVotes),

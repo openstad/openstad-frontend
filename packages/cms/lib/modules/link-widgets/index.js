@@ -122,6 +122,9 @@ module.exports = {
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
+
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
       });
 
       return superLoad(req, widgets, callback);

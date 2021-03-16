@@ -72,6 +72,7 @@ module.exports = {
          * Because widget._id is often not unique after copying in the CMS
          */
         widget.hidden = hiddenInfoBars ? hiddenInfoBars.indexOf(widget._id) !== -1 : false;
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
 
         if (widget.containerStyles) {
