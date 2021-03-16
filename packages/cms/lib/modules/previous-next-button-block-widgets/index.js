@@ -49,7 +49,7 @@ module.exports = {
           nextLabel: widget.nextLabel,
         });
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        const containerId = widget._id;
+        const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 			});

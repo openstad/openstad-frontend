@@ -190,16 +190,220 @@ exports.default = {
 
     return formattedStyles;
   },
-  generateId: () => {
-    function makeid(length) {
-       var result           = '';
-       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-       var charactersLength = characters.length;
-       for ( var i = 0; i < length; i++ ) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-       }
-       return result;
+  getClassField: (name, label) => {
+    return {
+      name: name ? name : 'cssClasses',
+      label: label ? label : 'Classes',
+      type: 'array',
+      titleField: 'property',
+      schema: [
+        {
+          name: 'property',
+          type: 'checkbox',
+          label: 'Add styling classes classes',
+          choices: [
+            {
+              'label': 'Overflow hidden',
+              'value': 'overflow-hidden'
+            },
+            {
+              'label': 'Children elements in one row, justified (display flex, has some quirks)',
+              'value': 'display-flex'
+            },
+            {
+              'label': 'Display block',
+              'value': 'display-block'
+            },
+            {
+              'label': 'Rounded corners s',
+              'value': 'rounder-corder-xs'
+            },
+            {
+              'label': 'Rounded corners m',
+              'value': 'rounder-corder-s'
+            },
+            {
+              'label': 'Rounded corners lg',
+              'value': 'rounder-corder-lg'
+            },
+            {
+              'label': 'Margin top 0',
+              'value': 'margin-top-0'
+            },
+            {
+              'label': 'Margin bottom 0',
+              'value': 'margin-bottom-0'
+            },
+            {
+              'label': 'Margin top and bottom s',
+              'value': 'margin-top-bottom-s'
+            },
+            {
+              'label': 'Margin top and bottom m',
+              'value': 'margin-top-bottom-m'
+            },
+            {
+              'label': 'Padding full s',
+              'value': 'padding-full-s'
+            },
+            {
+              'label': 'Padding full m',
+              'value': 'padding-full-m'
+            },
+            {
+              'label': 'Padding full lg',
+              'value': 'padding-full-lg'
+            },
+            {
+              'label': 'Padding top and bottom s',
+              'value': 'padding-top-bottom-s'
+            },
+            {
+              'label': 'Padding top and bottom m',
+              'value': 'padding-top-bottom-s'
+            },
+            {
+              'label': 'Padding top and bottom lg',
+              'value': 'padding-top-bottom-lg'
+            },
+            {
+              'label': 'Background color grey',
+              'value': 'background-color-grey'
+            },
+            {
+              'label': 'Background color black',
+              'value': 'background-color-black'
+            },
+            {
+              'label': 'Text color white',
+              'value': 'text-color-white'
+            },
+            {
+              'label': 'Text color grey',
+              'value': 'text-color-grey'
+            },
+            {
+              'label': 'Text color black',
+              'value': 'text-color-black'
+            },
+            {
+              'label': 'Font size xs',
+              'value': 'font-size-xs'
+            },
+            {
+              'label': 'Font size s',
+              'value': 'font-size-s'
+            },
+            {
+              'label': 'Font size m',
+              'value': 'font-size-m'
+            },
+            {
+              'label': 'Font size lg',
+              'value': 'font-size-lg'
+            },
+            {
+              'label': 'Font size xl',
+              'value': 'font-size-xl'
+            },
+            {
+              'label': 'Font italic',
+              'value': 'font-italic'
+            },
+            {
+              'label': 'Font bold',
+              'value': 'font-bold'
+            },
+            {
+              'label': 'Text underline',
+              'value': 'text-underline'
+            },
+            {
+              'label': 'Box shadow s',
+              'value': 'box-shadow-s'
+            },
+            {
+              'label': 'Box shadow m',
+              'value': 'box-shadow-m'
+            },
+            {
+              'label': 'Border thin grey',
+              'value': 'border-thin-grey'
+            },
+            {
+              'label': 'Border thin blue',
+              'value': 'border-thin-blue'
+            },
+            {
+              'label': 'Border thin black',
+              'value': 'border-thin-black'
+            },
+            {
+              'label': 'Center container (needs a width or max width)',
+              'value': 'center-container'
+            },
+            {
+              'label': 'Max width s',
+              'value': 'max-width-s'
+            },
+            {
+              'label': 'Max width m',
+              'value': 'max-width-m'
+            },
+            {
+              'label': 'Max width lg',
+              'value': 'max-width-lg'
+            },
+            {
+              'label': 'Text align left',
+              'value': 'text-align-left'
+            },
+            {
+              'label': 'Text align center',
+              'value': 'text-align-center'
+            },
+            {
+              'label': 'Text align right',
+              'value': 'text-align-right'
+            },
+          ]
+        },
+        {
+          name: 'value',
+          type: 'text',
+          label: 'CSS Value',
+          type: 'string',
+        },
+        {
+          name: 'mediaQuery',
+          type: 'select',
+          label: 'Media Query',
+          choices: [
+            {
+              'label': 'None',
+              'value': ''
+            },
+            {
+              'label': 'Phone (767px and smaller)',
+              'value': '@media screen and (max-width: 767px)'
+            },
+            {
+              'label': 'Tablet (between 768px - 991px)',
+              'value': '@media screen and (min-width: 768px) and (max-width: 991px)'
+            },
+            {
+              'label': 'Tablet & phone (991px and smaller)',
+              'value': '@media screen and (max-width: 991px)'
+            },
+            {
+              'label': 'Desktop (min width 992px)',
+              'value': '@media screen and (min-width: 992px)'
+            },
+          ]
+        },
+
+
+      ],
     }
-     return 'ID-' + makeid(22);
-  }
+  },
 }

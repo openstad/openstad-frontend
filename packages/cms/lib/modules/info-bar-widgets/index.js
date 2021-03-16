@@ -61,16 +61,23 @@ module.exports = {
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       const hiddenInfoBars = parseCookie(req.cookies['hidden-info-bars']) || [];
+
       widgets.forEach((widget) => {
 
         /**
          * Users can close an infobar,
          * This is saved in a cookie so we can hide it server side
+         *
+         * @TODO: this probably leads to a bug when copying an infobar,
+         * Because widget._id is often not unique after copying in the CMS
          */
         widget.hidden = hiddenInfoBars ? hiddenInfoBars.indexOf(widget._id) !== -1 : false;
 
+
         if (widget.containerStyles) {
-          widget.formattedContainerStyles = styleSchema.format(widget._id, widget.containerStyles);
+          widget.styleId = self.apos.utils.generateId();
+
+          widget.formattedContainerStyles = styleSchema.format(widget.styleId, widget.containerStyles);
         }
       });
 

@@ -17,6 +17,11 @@ module.exports = {
 
     },
     {
+      name: 'htmlId',
+      type: 'string',
+      label: 'HTML ID',
+    },
+    {
       name: 'backgroundImage',
       type: 'attachment',
       label: 'Background image',
@@ -258,7 +263,7 @@ module.exports = {
 
         widgets.forEach((widget) => {
           //is Admin needs to be set to widget object otherwise it's not present during ajax call
-          widget.containerId = widget._id;
+          widget.containerId = self.apos.utils.generateId();
           widget.formattedContainerStyles = styleSchema.format(widget.containerId, widget.containerStyles);
 
           // get the content widget that fit with the role of logged in user and insert data

@@ -112,7 +112,7 @@ module.exports = {
                 widget.themes = req.data.global.themes;
                 widget.areas = req.data.global.areas;
 
-                const containerId = widget._id;
+                const containerId = self.apos.utils.generateId();
                 widget.containerId = containerId;
 
                 widget.parseDateToTime = (date) => {

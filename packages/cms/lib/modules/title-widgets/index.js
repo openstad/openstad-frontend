@@ -78,7 +78,8 @@ module.exports = {
 
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = widget._id;
+          const containerId = self.apos.utils.generateId();
+          console.log('Title self.apos.utils.generateId()', self.apos.utils.generateId(), widget.title)
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }

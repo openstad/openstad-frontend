@@ -44,7 +44,7 @@ module.exports = {
 			widgets.forEach((widget) => {
 			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        const containerId = widget._id;
+        const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
         widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 			});
