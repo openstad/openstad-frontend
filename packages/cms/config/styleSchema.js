@@ -225,6 +225,18 @@ exports.default = {
           'value': 'margin-bottom-0'
         },
         {
+          'label': 'Margin top and bottom s',
+          'value': 'margin-top-bottom-s'
+        },
+        {
+          'label': 'Margin top and bottom m',
+          'value': 'margin-top-bottom-m'
+        },
+        {
+          'label': 'Margin top and bottom lg',
+          'value': 'margin-top-bottom-lg'
+        },
+        {
           'label': 'Padding full s',
           'value': 'padding-full-s'
         },
@@ -248,6 +260,7 @@ exports.default = {
           'label': 'Padding top and bottom lg',
           'value': 'padding-top-bottom-lg'
         },
+
         {
           'label': 'Background color grey',
           'value': 'background-color-grey'

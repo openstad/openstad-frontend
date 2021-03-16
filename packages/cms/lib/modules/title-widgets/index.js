@@ -70,7 +70,7 @@ module.exports = {
       {
         name: 'stylingGroup',
         label: 'Styling',
-        fields: ['className', 'classNameCustom', 'containerStyles']
+        fields: ['className', 'classNameCustom', 'containerStyles', 'cssHelperClasses']
       }
     ]);
 
