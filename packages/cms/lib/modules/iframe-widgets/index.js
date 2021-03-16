@@ -33,7 +33,7 @@ module.exports = {
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {
           if (widget.iframeStyles) {
-            const containerId = widget._id;
+            const containerId = self.apos.utils.generateId();
             widget.iframeId = containerId;
             widget.formattedIframeStyles = styleSchema.format(containerId, widget.iframeStyles);
           }

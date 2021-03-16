@@ -13,7 +13,7 @@
   {% endif %}
   {{data.widget.htmlClass}}
   {% if data.widget.marginType === 'up' %} margin-up {% endif %}
-"
+  {{data.widget.cssHelperClassesString}}
   style="
   {% if data.widget.backgroundImage %}
   background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
