@@ -258,8 +258,6 @@ LocationEditor.prototype.removeMarker = function() {
 };
 
 LocationEditor.prototype._createMarker = function( latLng ) {
-	console.log('latLng', latLng);
-
 	var marker = initMarker({
 		position  : latLng,
 		map       : this.map,

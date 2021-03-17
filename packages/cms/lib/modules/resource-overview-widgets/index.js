@@ -64,8 +64,6 @@ module.exports = {
 
         const superLoad = self.load;
         self.load = function (req, widgets, next) {
-            console.log('Load widgets');
-
             const promises = [];
             const globalData = req.data.global;
 

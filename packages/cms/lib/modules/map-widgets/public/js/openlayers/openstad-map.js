@@ -264,8 +264,6 @@ var OpenlayersMap = {
                 console.log('click in')
 
             if (inside(picker, polygonCoords)) {
-                console.log('click in 2', polygonCoords)
-
                 var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
                 var coordinate = {
                     latitude: latLong[1],

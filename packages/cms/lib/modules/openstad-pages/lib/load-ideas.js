@@ -67,8 +67,6 @@ module.exports =  function (req, res, next) {
          const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
          const siteUrl = req.data.cmsUrl;
 
-         console.log('siteUrl', siteUrl)
-
          /**
           * Format ideas data
           */

@@ -367,8 +367,6 @@ function initLeavePageWarningForForm () {
     $(document).ready(function () {
 
       $(window).on('beforeunload', function(e){
-        console.log('formHasChanged in here', formHasChanged)
-
         if (formHasChanged) {
           var message = 'Weet u zeker dat u de pagina wilt verlaten? (Het formulier wordt dan geleegd)', e = e || window.event;
           if (e) {  e.returnValue = message; }

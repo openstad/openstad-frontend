@@ -58,8 +58,6 @@ module.exports = async function(self, options) {
          data.modBreakDate = req.body.modBreakDate ? req.body.modBreakDate : toSqlDatetime();
        }
 
-       console.log('req.body', req.body);
-       console.log('req.data', data);
 
        const options = {
            method: 'PUT',
@@ -68,8 +66,6 @@ module.exports = async function(self, options) {
            body: data,
            json: true // Automatically parses the JSON string in the response
        };
-
-       console.log('opetions', options)
 
        rp(options)
        .then(function (response) {

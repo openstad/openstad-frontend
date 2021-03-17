@@ -5,7 +5,6 @@ function initAttachmentManager( form, editor ) {
 
 	document.addEventListener('trix-file-accept', function( event ) {
 		// afbeeldingen in de tekst kunnen niet langer
-		console.log('WTF');
 		event.preventDefault();
 	});
 	document.addEventListener('trix-attachment-add', function( event ) {

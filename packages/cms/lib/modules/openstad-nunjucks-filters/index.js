@@ -12,8 +12,6 @@ module.exports = {
 
       // overwrite default config to add possibility to put siteUrl in front of it
       sanitizeConfig.transformTags.a = function( tagName, attrs ) {
-        console.log('her33333e', attrs)
-
         if( attrs.href && remoteURL.test(attrs.href) ) {
           attrs.target = '_blank';
           attrs.rel    = 'noreferrer noopener';

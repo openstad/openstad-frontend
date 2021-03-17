@@ -30,7 +30,7 @@ module.exports = {
 	allowedSchemes: ['http', 'https', 'ftp', 'mailto', 'tel'],
 	transformTags: {
 		a: function( tagName, attrs ) {
-			console.log('here', tagName)
+
 			if( attrs.href && remoteURL.test(attrs.href) ) {
 				attrs.target = '_blank';
 				attrs.rel    = 'noreferrer noopener';
