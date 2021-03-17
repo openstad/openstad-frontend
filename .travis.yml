@@ -65,7 +65,7 @@ before_install:
   - docker build -t ${IMAGE_TAG} .
 
 stages:
-  - name: docker_push
+  - name: docker_publish
     if: branch = master
   - name: docker_push_tag
     if: tag IS present
@@ -86,7 +86,7 @@ jobs:
   include:
     - stage: docker_push
       name: 'Publish new docker image'
-      script: bash docker_publish
+      script: bash docker_publish_latest
     - stage: docker_push_tag
       name: 'Push new image with tag to docker'
       env:
