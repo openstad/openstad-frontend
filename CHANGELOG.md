@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## v0.14.0 (2020-03-17)
 * Add stats overview route for displaying statistics, currently used in react admin on CMS and Admin panel
 * Add isActive check on choices-guide
 * ChoicesGuide: add list results endpoint
