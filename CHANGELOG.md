@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* Hide palette in global modal
+
+
 ## v0.14.0 (2020-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
 * Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore

@@ -80,15 +80,15 @@ var OpenlayersMap = {
         }
     },
     createMap: function (settings) {
-        var center = settings.center && settings.center ? {
+        var center = settings && settings.center && settings.center ? {
             latitude: settings.center.lat,
             longitude: settings.center.lng
         } : {longitude: 4.2322689, latitude: 52.04946};
 
         var settings = {
-            zoom: settings.zoom || 15.3,
-            minZoom: settings.minZoom,
-            maxZoom: settings.maxZoom,
+            zoom: settings && settings.zoom ?  settings.zoom : 15.3,
+            minZoom: settings && settings.minZoom ?  settings.minZoom : 15,
+            maxZoom:  settings && settings.maxZoom ?  settings.maxZoom : 5,
             center: ol.proj.fromLonLat([center.longitude, center.latitude])
         }
 

@@ -29,7 +29,7 @@ module.exports = {
     self.on('apostrophe-docs:afterSave', 'syncApi');
     self.on('apostrophe-docs:afterSave', 'clearCache');
 
-    options.arrangeFields = (options.arrangeFields || []).concat(arrangeFields);
+    options.arrangeFields = arrangeFields.concat(options.arrangeFields || []);
 
     self.apos.app.use((req, res, next) => {
 
