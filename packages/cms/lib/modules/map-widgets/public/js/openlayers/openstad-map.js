@@ -214,29 +214,38 @@ var OpenlayersMap = {
         var editorInputElement = document.getElementById(editorInputElement);
 
         var inside = function (point, vs) {
-            // ray-casting algorithm based on
-            // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+            if (vs && vs.length > 0) {
+                // ray-casting algorithm based on
+                // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
 
-            var x = point[0], y = point[1];
+                var x = point[0], y = point[1];
 
-            var inside = false;
-            for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-                var xi = vs[i][0], yi = vs[i][1];
-                var xj = vs[j][0], yj = vs[j][1];
+                var inside = false;
+                for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+                    var xi = vs[i][0], yi = vs[i][1];
+                    var xj = vs[j][0], yj = vs[j][1];
 
-                var intersect = ((yi > y) != (yj > y))
-                    && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-                if (intersect) inside = !inside;
+                    var intersect = ((yi > y) != (yj > y))
+                        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+                    if (intersect) inside = !inside;
+                }
+
+                return inside;
+            } else {
+                // validate true if no vs is supplied
+                return true;
             }
-
-            return inside;
         };
 
         var polygonCoords = [];
-        polygonLngLat.forEach(function (pointPair) {
-            var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
-            polygonCoords.push(newPair);
-        });
+
+        if (polygonLngLat && polygonLngLat.length >0) {
+            polygonLngLat.forEach(function (pointPair) {
+                var newPair = ol.proj.fromLonLat([pointPair.lng, pointPair.lat], 'EPSG:3857');
+                polygonCoords.push(newPair);
+            });
+        }
+
 
         var self = this;
 
@@ -251,6 +260,8 @@ var OpenlayersMap = {
             };
 
             var picker = [pickerCoords.longitude, pickerCoords.latitude];
+
+                console.log('click in')
 
             if (inside(picker, polygonCoords)) {
                 var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
@@ -273,8 +284,10 @@ var OpenlayersMap = {
         }, 'click');
     },
     addPolygon: function (polygonLngLat) {
-        this.map.addLayer(buildInvertedPolygon(polygonLngLat));
-        this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
+        if (polygonLngLat && polygonLngLat.length >0) {
+            this.map.addLayer(buildInvertedPolygon(polygonLngLat));
+            this.map.addLayer(this.buildOutlinedPolygon(polygonLngLat));
+        }
     },
     removeMarkers: function () {
         this.map.removeLayer(this.marker);
