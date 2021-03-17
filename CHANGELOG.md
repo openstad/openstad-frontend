@@ -1,9 +1,26 @@
 # Changelog
 
+## v0.14.0 (2020-03-17)
+* Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
+* Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
+* Check if maps exists in some places
+* Add page cache for non logged in users
+* Remove idea-single, idea-overview and idea-form files (templates will display warning for now)
+* Update choices-guides to a production level
+* CSS fix: Make sure logo is fully clickable and side menu doesn't overlap
+* CSS fix: Adjust logout link in menu margin for better alignment
+* CSS fix: Make padding for search box same as select
+* CSS fix: Add small padding tweaks
+* Fix displaying default image in gridder
+* Fix gridder not working on pagination
+* Remove googlemaps streetview fallback image from all widgets
+* Disable mousewheel zoom on maps
+* Add sanitize function to href in rich text, which adds siteUrl to relative paths
+
 ## v0.13.1 (2021-03-02)
 * Better errors in participatory-budgeting when no plans are selected yet
 
-## v0.13.0 (2021-02-23)
+## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
 * Use refactored react components
 * Change default styling for toggle title in section
@@ -14,6 +31,8 @@
 * ideas-on-map fixes and extensions
 * Fix openstreetmaps for Forms and Overview
 * Move big libs and assets to dynamic loading
+* Fixes on choices-guide result forms
+* Add choices guide to /admin
 
 ## v0.12.0 (2021-01-27)
 * Allow for running multiple sites on subdirectories

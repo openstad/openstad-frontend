@@ -9,296 +9,35 @@ const fs = require('fs');
 const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const rp = require('request-promise');
 
+const fields = require('./lib/fields');
+const createConfig = require('./lib/create-config');
+
+let styleSchemaDefinition = styleSchema.definition('containerStyles', 'Styles for the container');
+
 module.exports = {
   extend: 'apostrophe-widgets',
   label: 'Keuzewijzer resultaat',
-  addFields: [
-		{
-			name: 'choicesGuideId',
-      type: 'integer',
-			label: 'Id van de Keuzewijzer',
-			required: true
-		},
-		{
-			name: 'questionGroupId',
-      type: 'integer',
-			label: 'Id van de vragen groep',
-			required: true,
-		},
-		{
-			name: 'startWithAllQuestionsAnswered',
-      type: 'boolean',
-			label: 'Begin met alle vragen beantwoord op 50%',
-			required: true,
-      def: false,
-		},
-		{
-			type: 'select',
-			name: 'choicesType',
-			label: 'Weergave van de voorkeuren',
-			choices: [
-				{
-					label: 'Standaard',
-					value: 'default',
-          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
-				},
-				{
-					label: 'Van min naar plus 100',
-					value: 'minus-to-plus-100',
-          showFields: ['choicesPreferenceMinColor', 'choicesPreferenceMaxColor','choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
-				},
-				{
-					label: 'In een vlak',
-					value: 'plane',
-          showFields: ['choicesPreferenceTitle','choicesNoPreferenceYetTitle', 'choicesWithPercentage','choicesMinLabel','choicesMaxLabel'],
-				}
-			]
-		},
-    {
-      type:     'string',
-      name:     'choicesPreferenceMinColor',
-      label:    'Kleur van de balken, minimaal',
-      help:     'Dit moet (nu nog) in het formaat #123456',
-      def:      '#ff9100',
-    }, {
-      type:     'string',
-      name:     'choicesPreferenceMaxColor',
-      label:    'Kleur van de balken, maximaal',
-      help:     'Dit moet (nu nog) in het formaat #123456',
-      def:      '#bed200',
-    }, {
-      type:     'string',
-      name:     'choicesPreferenceTitle',
-      label:    'Titel boven de keuzes, met voorkeur',
-      help:     'Bijvoorbeeld "Jouw voorkeur is {preferredChoice}"',
-      def:      'Jouw voorkeur is {preferredChoice}',
-    }, {
-      type:     'string',
-      name:     'choicesNoPreferenceYetTitle',
-      label:    'Titel boven de keuzes, nog geen voorkeur',
-      help:     'Bijvoorbeeld "Je hebt nog geen keuze gemaakt"',
-      def:      'Je hebt nog geen keuze gemaakt',
-    }, {
-      type:     'string',
-      name:     'choicesMinLabel',
-      label:    'Tekst links bij de balken',
-    }, {
-      type:     'string',
-      name:     'choicesMaxLabel',
-      label:    'Tekst rechts bij de balken',
-    },{
-      type:     'string',
-      name:     'requireLoginTitle',
-      label:    'Titel',
-    }, {
-      type:     'string',
-      name:     'requireLoginDescription',
-      label:    'Beschrijving',
-    }, {
-      type:     'string',
-      name:     'requireLoginButtonTextLogin',
-      label:    'Tekst op de button - je moet nog inloggen',
-    }, {
-      type:     'string',
-      name:     'requireLoginButtonTextLoggedIn',
-      label:    'Tekst op de button - je bent ingelogd',
-    }, {
-      type:     'string',
-      name:     'requireLoginButtonTextAlreadySubmitted',
-      label:    'Tekst op de button - je hebt al gestemd',
-    }, {
-      type:     'string',
-      name:     'requireLoginChangeLoginLinkText',
-      label:    'Tekst voor link \'Opnieuw inloggen\'',
-    }, {
-      type:     'string',
-      name:     'requireLoginLoggedInMessage',
-      label:    '\'Login gelukt\' bericht',
-    }, {
-      type:     'string',
-      name:     'requireLoginAlreadySubmittedMessage',
-      label:    '\'Je hebt al gestemd\' bericht',
-    }, {
-      type: 'boolean',
-      name:     'choicesWithPercentage',
-      label:    'Toon percentage achter de balk',
-      def:      false,
-      
-    },
-		{
-			type: 'select',
-			name: 'submissionType',
-			label: 'Opsturen van resultaten',
-      def: 'none',
-			choices: [
-				{
-					label: 'Niet',
-					value: 'none',
-				},
-				{
-					label: 'Automatisch',
-					value: 'auto'
-				},
-				{
-					label: 'Een formulier met extra gegevens',
-					value: 'form',
-					showTab: [
-						'form', "requireLogin"
-					]
-				}
-			]
-		},
-
-		{
-			name: 'moreInfoUrl',
-      type: 'string',
-			label: 'Url achter de \'meer info\' link',
-		},
-		{
-			name: 'moreInfoLabel',
-      type: 'string',
-			label: 'Tekst op de \'meer info\' link',
-		},
-
-		{
-			name: 'beforeUrl',
-      type: 'string',
-			label: 'Url achter de \'vorige\' knop',
-		},
-		{
-			name: 'beforeLabel',
-      type: 'string',
-			label: 'Tekst op de \'vorige\' knop',
-		},
-		{
-			name: 'afterUrl',
-      type: 'string',
-			label: 'Url achter de \'volgende\' knop',
-		},
-		{
-			name: 'afterLabel',
-      type: 'string',
-			label: 'Tekst op de \'volgende\' knop',
-		},
-
-    // ----------------------------------------------------------------------------------------------------
-    // dit komt uit user-form en moet daarmee gelijk getrokken als dat echt werkt
-    {
-      type:  'string',
-      name:  'formTitle',
-      label: 'Title',
-    }, {
-      type:     'string',
-      name:     'formIntro',
-      label:    'Intro',
-      textarea: true
-    }, {
-      name:       'formFields',
-      label:      'Form fields',
-      type:       'array',
-      titleField: 'title',
-      schema:     [
-        {
-          type:  'string',
-          name:  'title',
-          label: 'Title'
-        },
-        {
-          type:     'string',
-          name:     'description',
-          label:    'Beschrijving',
-          textarea: true
-        },
-        {
-          name:    'inputType',
-          label:   'Type veld',
-          type:    'select',
-          choices: [
-            {
-              label: 'Multiple choice',
-              value: 'multiple-choice',
-            },
-            {
-              label: 'Select',
-              value: 'select',
-            },
-            {
-              label: 'Text',
-              value: 'text',
-            },
-            {
-              label: 'Textarea',
-              value: 'textarea',
-            },
-            {
-              label: 'Postcode',
-              value: 'postcode',
-            },
-            {
-              label: 'Image upload',
-              value: 'image-upload',
-            },
-            {
-              label: 'Locatie picker',
-              value: 'location-picker',
-            }
-          ]
-        },
-        {
-          name:       'choices',
-          label:      'Keuzes (enkel voor multiple choice of select)',
-          type:       'array',
-          titleField: 'title',
-          schema:     [
-            {
-              name:     'image',
-              type:     'attachment',
-              label:    'Icon',
-              required: false,
-              trash:    true
-            },
-            {
-              type:  'string',
-              name:  'title',
-              label: 'Titel'
-            },
-            {
-              type:  'string',
-              name:  'value',
-              label: 'Waarde'
-            }
-          ]
-        },
-		    {
-			    type: 'select',
-			    name: 'required',
-			    label: 'Is verplicht',
-          def: 'none',
-			    choices: [
-				    {
-					    label: 'Ja',
-					    value: true,
-				    },
-				    {
-					    label: 'Nee',
-					    value: false
-				    },
-			    ]
-		    },
-      ]
-    },
-    // einde uit user-form
-    // ----------------------------------------------------------------------------------------------------
-
-    styleSchema.definition('containerStyles', 'Styles for the container')
-  ],
+  addFields: fields.concat(styleSchemaDefinition),
   construct: function(self, options) {
+
+    require('./lib/api')(self, options);
+
+    self.expressMiddleware = {
+      when: 'beforeRequired',
+      middleware: (req, res, next) => {
+        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+        self.apiUrl = apiUrl;
+        const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
+        self.siteId = siteConfig.id;
+        next();
+      }
+    };
 
     options.arrangeFields = (options.arrangeFields || []).concat([
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesNoPreferenceYetTitle', 'choicesMinLabel', 'choicesMaxLabel', 'choicesWithPercentage', 'startWithAllQuestionsAnswered', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
+        fields: ['choicesGuideId', 'questionGroupId', 'choicesType', 'choicesPreferenceMinColor', 'choicesPreferenceMaxColor', 'choicesPreferenceTitle', 'choicesInBetweenPreferenceTitle', 'choicesMinLabel', 'choicesMaxLabel', 'choicesWithPercentage', 'startWithAllQuestionsAnswered', 'moreInfoUrl', 'moreInfoLabel', 'submissionType', ]
       },
       {
         name: 'form',
@@ -306,18 +45,12 @@ module.exports = {
         fields: ['formTitle', 'formIntro', 'formFields', 'beforeUrl', 'beforeLabel', 'afterUrl', 'afterLabel',]
       },
       {
-        name: 'reuiredLogin',
+        name: 'requiredLogin',
         label: 'Login',
-        fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginAlreadySubmittedMessage',]
+        fields: ['requireLoginTitle', 'requireLoginDescription', 'requireLoginButtonTextLogin', 'requireLoginButtonTextLoggedIn', 'requireLoginButtonTextAlreadySubmitted', 'requireLoginChangeLoginLinkText', 'requireLoginLoggedInMessage', 'requireLoginNotYetLoggedInError', 'requireLoginAlreadySubmittedMessage',]
       },
 
-      /*  {
-        name: 'text',
-        label: 'Text',
-        fields: ['text_', 'text_', 'text_' ]
-      },*/
     ]);
-
 
     const superPushAssets = self.pushAssets;
 		self.pushAssets = function () {
@@ -328,65 +61,8 @@ module.exports = {
 		self.load = function(req, widgets, next) {
 
 			widgets.forEach((widget) => {
-
-        let requireLoginSettings;
-        requireLoginSettings = {};
-        if (widget.requireLoginTitle) requireLoginSettings.title = widget.requireLoginTitle;
-        if (widget.requireLoginDescription) requireLoginSettings.description = widget.requireLoginDescription;
-        if (widget.requireLoginButtonTextLogin) requireLoginSettings.buttonTextLogin = widget.requireLoginButtonTextLogin;
-        if (widget.requireLoginButtonTextLoggedIn) requireLoginSettings.buttonTextLoggedIn = widget.requireLoginButtonTextLoggedIn;
-        if (widget.requireLoginButtonTextAlreadySubmitted) requireLoginSettings.buttonTextAlreadySubmitted = widget.requireLoginButtonTextAlreadySubmitted;
-        if (widget.requireLoginChangeLoginLinkText) requireLoginSettings.changeLoginLinkText = widget.requireLoginChangeLoginLinkText;
-        if (widget.requireLoginLoggedInMessage) requireLoginSettings.loggedInMessage = widget.requireLoginLoggedInMessage;
-        if (widget.requireLoginAlreadySubmittedMessage) requireLoginSettings.alreadySubmittedMessage = widget.requireLoginAlreadySubmittedMessage;
-
-        widget.config = JSON.stringify({
-          // req.data.isAdmin
-          divId: 'choices-guide-result',
-          siteId: req.data.global.siteId,
-          api: {
-            url: self.apos.settings.getOption(req, 'apiUrl'),
-            headers: req.session.jwt ? { 'X-Authorization': 'Bearer ' + req.session.jwt } : {},
-            isUserLoggedIn: req.data.loggedIn,
-          },
-          user: {
-            role:  req.data.openstadUser && req.data.openstadUser.role,
-            fullName:  req.data.openstadUser && (req.data.openstadUser.fullName || req.data.openstadUser.firstName + ' ' + req.data.openstadUser.lastName)
-          },
-          choicesGuideId: widget.choicesGuideId,
-          questionGroupId: widget.questionGroupId,
-          choices: {
-            type: widget.choicesType,
-            title: {
-              preference: widget.choicesPreferenceTitle,
-              noPreferenceYet: widget.choicesNoPreferenceYetTitle,
-            },
-            barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
-            startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
-            minLabel: widget.choicesMinLabel,
-            maxLabel: widget.choicesMaxLabel,
-            withPercentage: widget.choicesWithPercentage,
-          },
-          loginUrl: req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url + '?scroll-to-login'),
-          moreInfoUrl: widget.moreInfoUrl && req.data.siteUrl + widget.moreInfoUrl,
-          moreInfoLabel: widget.moreInfoLabel,
-          beforeUrl: widget.beforeUrl && req.data.siteUrl + widget.beforeUrl,
-          beforeLabel: widget.beforeLabel,
-          afterUrl: widget.afterUrl && req.data.siteUrl + widget.afterUrl,
-          afterLabel: widget.afterLabel,
-          submission: {
-            type: widget.submissionType,
-            form: {
-              title: widget.formTitle,
-              intro: widget.formIntro,
-              fields: widget.formFields,
-            },
-            requireLogin: widget.requireLogin,
-            requireLoginSettings,
-          },
-          preferenceTitle: widget.preferenceTitle,
-        });
-        
+        let apiUrl = self.apos.settings.getOption(req, 'apiUrl')
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, apiUrl, req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), apiUrl + '/oauth/logout' ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
         const containerId = widget._id;
         widget.containerId = containerId;

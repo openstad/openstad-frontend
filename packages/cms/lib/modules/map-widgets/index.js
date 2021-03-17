@@ -6,7 +6,6 @@
  */
 'use strict';
 
-const config = require('./lib/config');
 const MapConfigBuilder = require('./lib/map-data');
 
 module.exports = {
@@ -20,18 +19,10 @@ module.exports = {
             superPushAssets();
             self.pushAsset('stylesheet', 'ol', { when: 'always' });
             self.pushAsset('stylesheet', 'openlayers', { when: 'always' });
-            self.pushAsset('script', 'nlmaps-openlayers', { when: 'always' });
+            // openlayers lib is loaded async because of it's size
+            // including it would be an exta 500kb of JS on every page request
+            self.pushAsset('script', 'main', { when: 'always' });
         };
-
-        const superLoad = self.load;
-
-        self.load = (req, widgets, callback) => {
-            widgets.forEach((widget) => {
-                widget.mapType = config.getMapType();
-            });
-            return superLoad(req, widgets, callback);
-
-        }
 
         self.getMapConfigBuilder = (globalData) => {
             // set the absolute url of uploaded image before it goes to the client side code.

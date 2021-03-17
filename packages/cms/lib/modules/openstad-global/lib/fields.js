@@ -141,11 +141,6 @@ module.exports = [
   },
   {
     type: 'string',
-    name: 'captchLabel',
-    label: "Label for captcha",
-  },
-  {
-    type: 'string',
     name: 'captchaRefreshText',
     label: "Text for captcha refresh",
   },

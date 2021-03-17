@@ -3,11 +3,28 @@ const dateFormat  = require('./dateFormat');
 const sanitizeConfig =  require('./sanitizeConfig');
 const addHttp =  require('./addHttp');
 const slugify =  require('./slugify');
+const remoteURL = /^(?:\/\/)|(?:\w+?:\/{0,2})/;
 
 module.exports = {
   construct: function(self, options) {
     self.apos.templates.addFilter('sanitize', function (s) {
-      return s ? sanitize(s, sanitizeConfig) : '';
+      const siteUrl = options.siteUrl;
+
+      // overwrite default config to add possibility to put siteUrl in front of it
+      sanitizeConfig.transformTags.a = function( tagName, attrs ) {
+        console.log('her33333e', attrs)
+
+        if( attrs.href && remoteURL.test(attrs.href) ) {
+          attrs.target = '_blank';
+          attrs.rel    = 'noreferrer noopener';
+        } else if (siteUrl)  {
+          attrs.href =  attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
+        }
+
+        return {tagName: tagName, attribs: attrs};
+      };
+
+      return s ? sanitize(s, sanitizeConfig, options.siteUrl) : '';
     });
 
     self.apos.templates.addFilter('ensureHttp', function (s) {

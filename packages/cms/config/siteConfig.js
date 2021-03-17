@@ -15,6 +15,9 @@ module.exports = {
         'api-proxy': {
           sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
+        'image-proxy': {
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
+        },
         'openstad-assets': {
           minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
@@ -122,12 +125,14 @@ module.exports = {
         'openstad-widgets': {},
         'openstad-users': {},
         'openstad-auth': {},
+        'openstad-template-cache': {},
         'openstad-login': {},
         'openstad-api': {},
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
         'attachment-upload': {},
+
         'openstad-nunjucks-filters': {
           siteUrl: siteUrl,
         },
@@ -150,6 +155,7 @@ module.exports = {
         // If a template is not found somewhere else, serve it from the top-level
         // `views/` folder of the project
         'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
+        'openstad-rich-text-widgets' : {},
         'openstad-logger': {},
         'idea-pages': {},
         'section-widgets': {},
@@ -258,6 +264,10 @@ module.exports = {
         directory: __dirname + '/locales',
         defaultLocale: 'nl'
       }
+    }
+
+    if (process.env.APOS_PROFILER === 'per-request'){
+      siteConfig.modules['apostrophe-profiler'] = {};
     }
 
     return siteConfig;

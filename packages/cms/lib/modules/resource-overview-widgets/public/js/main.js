@@ -66,10 +66,12 @@ $(document).ready(function () {
 });
 
 $(document).on('openstadAjaxRefresh', function () {
-	var ideaId  = openstadGetCookie('ideaId' + voteBlockIdentifier);
-	showVoteCreator();
+	if (window.voteBlockIdentifier) {
+		var ideaId = openstadGetCookie('ideaId' + voteBlockIdentifier);
+		showVoteCreator();
 
-	if (ideaId) {
-		selectIdea(ideaId, true);
+		if (ideaId) {
+			selectIdea(ideaId, true);
+		}
 	}
 });

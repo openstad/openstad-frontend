@@ -50,6 +50,10 @@ module.exports = {
           'value': 'no-styling'
         },
         {
+          'label': 'Link with back icon',
+          'value': 'link-caret--back-black'
+        },
+        {
           'label': 'List style Link',
           'value': 'link-caret--blue'
         },
