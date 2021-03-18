@@ -769,5 +769,8 @@
 	"Ja/Voor": "Ja/Voor",
 	"Nee/tegen": "Nee/tegen",
 	"Display caption in vote counter": "Display caption in vote counter",
-	"Caption for vote counter": "Caption for vote counter"
+	"Caption for vote counter": "Caption for vote counter",
+	"The captcha code is not correct, try again or refresh the captcha.": "De code klopt niet. Probeer het nogmaals of vraag een andere code op.",
+	"My account": "My account",
+	"Edit Like": "Edit Like"
 }
