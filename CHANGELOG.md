@@ -2,6 +2,8 @@
 
 ## Unreleased
 * Hide palette in global modal
+* Move editUrl in resource overview widget to display so it's easier to find
+* Add caption to vote counter in resource overview widget
 
 
 ## v0.14.0 (2020-03-17)
