@@ -4,6 +4,8 @@
 * Hide palette in global modal
 * Move editUrl in resource overview widget to display so it's easier to find
 * Add caption to vote counter in resource overview widget
+* Add a bunch of selectable styling classes to section, title and raw widgets
+* Make inline styling selected via a random CSS class, instead of relying on widget._id since this turns out to not always be unique after copying (when it's parent is copied)
 
 
 ## v0.14.0 (2020-03-17)
