@@ -98,7 +98,6 @@ module.exports = (self, options) => {
 
     resource = resource || 'idea'
     const queryParams = queryString.stringify(Object.assign(defaultParams, params));
-    console.log(`${self.apiUrl}/api/site/${siteId}/${resource}/${resourceId}?${queryParams}`);
     const options = self.getOptions({
       uri: `${self.apiUrl}/api/site/${siteId}/${resource}/${resourceId}?${queryParams}`
     });
