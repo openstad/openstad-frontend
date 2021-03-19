@@ -137,10 +137,8 @@ module.exports = {
     const superLoad = self.load;
     self.load = async function (req, widgets, next) {
       const promises = widgets.map(async (widget) => {
-        console.log(widget)
         if (widget.ideaId) {
           const resource = await self.apos.openstadApi.getResource(req, req.data.global.siteId, 'idea', widget.ideaId, {includeArguments: 1});
-          console.log(resource);
           widget.ajaxError = null;
           if (resource) {
             widget.activeResource = resource
