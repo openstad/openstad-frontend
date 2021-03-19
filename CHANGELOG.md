@@ -1,6 +1,14 @@
 # Changelog
 
-## pre-v0.14.0 (2020-...)
+## Unreleased
+* Hide palette in global modal
+* Move editUrl in resource overview widget to display so it's easier to find
+* Add caption to vote counter in resource overview widget
+* Add a bunch of selectable styling classes to section, title and raw widgets
+* Make inline styling selected via a random CSS class, instead of relying on widget._id since this turns out to not always be unique after copying (when it's parent is copied)
+* Remove warning not the right budgeting type
+
+## v0.14.0 (2020-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
 * Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
 * Check if maps exists in some places
@@ -14,6 +22,11 @@
 * Fix displaying default image in gridder
 * Fix gridder not working on pagination
 * Remove googlemaps streetview fallback image from all widgets
+* Disable mousewheel zoom on maps
+* Add sanitize function to href in rich text, which adds siteUrl to relative paths
+
+## v0.13.1 (2021-03-02)
+* Better errors in participatory-budgeting when no plans are selected yet
 
 ## v0.13.0 (2020-02-23)
 * Add login required to choices-guide results
@@ -29,11 +42,11 @@
 * Fixes on choices-guide result forms
 * Add choices guide to /admin
 
-## v0.12.0 (2020-01-27)
+## v0.12.0 (2021-01-27)
 * Allow for running multiple sites on subdirectories
 * Accessibility improvements
 
-## v0.11.0 (2020-01-11)
+## v0.11.0 (2021-01-11)
 * Make the (Google) Analytics block configurable to provide for a new version and also other options
 * Add html class name to resource overview
 * Clear cached session openstad user when making api call or logging out

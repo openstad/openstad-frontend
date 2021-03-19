@@ -155,6 +155,7 @@ module.exports = {
         // If a template is not found somewhere else, serve it from the top-level
         // `views/` folder of the project
         'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
+        'openstad-rich-text-widgets' : {},
         'openstad-logger': {},
         'idea-pages': {},
         'section-widgets': {},

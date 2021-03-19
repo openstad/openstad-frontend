@@ -37,11 +37,8 @@ module.exports = {
                 const cachedResponse = cache.get(cacheKey);
 
                 if (cachedResponse && self.shouldRequestBeCached(req)) {
-                    console.log('send Cached Page')
                     return req.res.send(cachedResponse);
                 } else {
-                    console.log('next not cached')
-
                     // in case cache requirements are met,
                     // call self.sendPage();
                     next();

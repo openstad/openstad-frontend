@@ -64,8 +64,6 @@ module.exports = {
 
         const superLoad = self.load;
         self.load = function (req, widgets, next) {
-            console.log('Load widgets');
-
             const promises = [];
             const globalData = req.data.global;
 
@@ -112,7 +110,7 @@ module.exports = {
                 widget.themes = req.data.global.themes;
                 widget.areas = req.data.global.areas;
 
-                const containerId = widget._id;
+                const containerId = self.apos.utils.generateId();
                 widget.containerId = containerId;
 
                 widget.parseDateToTime = (date) => {
@@ -162,6 +160,9 @@ module.exports = {
 
                     widget.themes = includeThemes.length > 0 ? widget.themes.filter(theme => includeThemes.indexOf(theme.value) > -1) : widget.themes;
                 }
+
+                widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
 
                 if (widget.containerStyles) {
                     widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);

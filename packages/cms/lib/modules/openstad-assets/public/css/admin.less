@@ -147,3 +147,23 @@
     padding: 25px 20px 20px;
   }
 }
+
+.apos-field-css-helper-classes .apos-form-checkbox{
+  width: 50%;
+  float: left;
+  background: #fafafa;
+}
+
+
+
+/*
+  Slightly hackish, but hide the menu links of apostrophe palette in Global Via CSS
+  Not sure why, but they started showing in the global popup in the a new version
+  Problem is they don't get updated for some reason in the modal,
+  so we hide it for now instead of diving it into it for a long.... time
+  It works well in the right sidebar where the PAllete is supposed to be edited
+ */
+
+.apos-schema--with-tabs [data-apos-open-group="palette"] {
+  display: none;
+}

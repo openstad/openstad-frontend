@@ -56,7 +56,8 @@ module.exports = {
       type: 'string',
       label: 'Set Custom classname',
     },
-    styleSchema.definition('containerStyles', 'Styles for the container')
+    styleSchema.definition('containerStyles', 'Styles for the container'),
+    styleSchema.getHelperClassesField(),
   ],
   construct: function(self, options) {
 
@@ -69,7 +70,7 @@ module.exports = {
       {
         name: 'stylingGroup',
         label: 'Styling',
-        fields: ['className', 'classNameCustom', 'containerStyles']
+        fields: ['className', 'classNameCustom', 'containerStyles', 'cssHelperClasses']
       }
     ]);
 
@@ -78,10 +79,12 @@ module.exports = {
 
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = widget._id;
+          const containerId = self.apos.utils.generateId();
+          console.log('Title self.apos.utils.generateId()', self.apos.utils.generateId(), widget.title)
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
       });
 
       return superLoad(req, widgets, callback);

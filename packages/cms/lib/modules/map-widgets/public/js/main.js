@@ -12,7 +12,6 @@ apos.define('map-widgets', {
     construct: function (self, options) {
         self.loadLibs = function ($widget, data, options) {
             if (!window.loadingMapLibs && !window.ol) {
-                console.log('load openlayers')
                 //prevent loading multiple maps for multiple widgets on one page
                 window.loadingMapLibs = true;
 

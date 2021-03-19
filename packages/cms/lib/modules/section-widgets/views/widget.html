@@ -3,7 +3,9 @@
 </style>
 
 <div
-  id="{% if data.widget.htmlId%}{{data.widget.htmlId}}{% else %}{{data.widget.containerId}}{% endif %}"
+  {% if data.widget.htmlId %}
+  id="{{data.widget.htmlId}}"
+  {% endif %}
   class="section
   {% if data.widget.sectionToggle %}
   {% if data.widget.sectionOpen %}open{% else %}closed{% endif %}
@@ -11,9 +13,10 @@
   {% if data.widget.mobileToggle %}
   mobileonly
   {% endif %}
+  {{data.widget.containerId}}
   {{data.widget.htmlClass}}
   {% if data.widget.marginType === 'up' %} margin-up {% endif %}
-"
+  {{data.widget.cssHelperClassesString}}
   style="
   {% if data.widget.backgroundImage %}
   background-image:url({{ apos.attachments.url(data.widget.backgroundImage) }});
