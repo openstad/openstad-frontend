@@ -86,6 +86,7 @@
             // OPEN EXPANDER
             function openExpander(myself) {
 
+
                 /* CURRENT ACTIVE GRIDDER */
                 $(".currentGridder").removeClass("currentGridder");
                 _this.addClass("currentGridder");
@@ -123,6 +124,9 @@
                     // Load #ID Content
                     thecontent = $(myself.data("griddercontent")).html();
                     processContent(myself, thecontent);
+
+
+
                 }else{
 
                     // Load AJAX Content

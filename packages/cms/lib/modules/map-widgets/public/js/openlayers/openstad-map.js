@@ -94,7 +94,7 @@ var OpenlayersMap = {
 
         var defaultSettings = {
             view: new ol.View(settings),
-            target: 'nlmaps-holder',
+            target: settings ? settings.target :  'nlmaps-holder',
             search: false
         };
 

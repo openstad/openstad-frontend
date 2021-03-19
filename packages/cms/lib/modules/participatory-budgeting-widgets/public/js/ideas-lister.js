@@ -25,6 +25,10 @@
 			// might be better to move to events
 			initImagesGallery();
 
+			var $mapContainer = $(element).find('.map-container');
+
+			$('body').trigger('openGridder');
+
 			return false;
 		},
     onClosed: function(){
