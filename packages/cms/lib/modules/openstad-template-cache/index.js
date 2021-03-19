@@ -48,7 +48,9 @@ module.exports = {
         };
 
         self.formatCacheKey = (req) => {
-            return encodeURIComponent(`${req.site.id}-${req.url}?${qs.stringify(req.query)}`);
+            let cookieConsent = req.cookies && req.cookies['cookie-consent'] || 0;
+            let key = encodeURIComponent(`${req.site.id}-${cookieConsent}-${req.url}?${qs.stringify(req.query)}`);
+            return key
         }
 
         // check if it's a request that should be cached
