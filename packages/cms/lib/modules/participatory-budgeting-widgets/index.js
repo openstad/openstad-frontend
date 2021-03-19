@@ -21,13 +21,10 @@ module.exports = {
        self.pushAsset('stylesheet', 'button-add', { when: 'always' });
        self.pushAsset('stylesheet', 'sticky', { when: 'always' });
        self.pushAsset('stylesheet', 'gridder', { when: 'always' });
-
        self.pushAsset('script', 'sticky', { when: 'always' });
        self.pushAsset('script', 'accordion', { when: 'always' });
        self.pushAsset('script', 'jquery.gridder', { when: 'always' });
-
        self.pushAsset('script', 'ideas-lister', { when: 'always' });
-
        self.pushAsset('script', 'find-polyfill', { when: 'always' });
        self.pushAsset('script', 'voting', { when: 'always' });
        self.pushAsset('script', 'westbegroot-enhancements', { when: 'always' });
