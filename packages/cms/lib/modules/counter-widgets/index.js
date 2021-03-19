@@ -2,6 +2,7 @@
  * Widget displays a counter with dynamic count of votes, users voted and ideas submitted
  * Often used to display "120 ideas submitted" "3000 users voted"
  */
+const _ = require('lodash');
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -47,11 +48,13 @@ module.exports = {
 						'staticCount'
 					]
         },
-/*         {
-          label: 'Arguments count',
-          value: 'argumentsCount',
+        {
+          label: 'Argument count',
+          value: 'argumentCount',
+          showFields: [
+            'ideaId'
+          ]
         },
-        */
       ]
     },
     {
@@ -80,6 +83,12 @@ module.exports = {
       ],
       required: false
     },
+    {
+      name: 'ideaId',
+      type: 'string',
+      label: 'idea ID - leave empty to fetch total arguments',
+      required: false,
+    },
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
@@ -89,8 +98,16 @@ module.exports = {
         widgets.forEach((widget) => {
 
           const siteConfig = req.data.global.siteConfig;
-          if (widget.counterType == 'voteCount') {
+          if (widget.counterType === 'voteCount') {
             widget.isCountPublic = siteConfig && siteConfig.votes && siteConfig.votes.isViewable ? siteConfig.votes.isViewable : false;
+          }
+          else if (widget.counterType === 'argumentCount') {
+            if (!widget.ideaId) {
+              widget.argsCount = req.data.ideas ? _.reduce(req.data.ideas, (count, idea) => { return count + (idea.argCount ? idea.argCount : 0)}, 0) : false;
+            } else {
+              const idea = req.data.ideas ? req.data.ideas.filter(function (idea) { return idea.id == widget.ideaId}) : [];
+              widget.argsCount = idea ? _.reduce(idea, (count, idea) => { return count + (idea.argCount ? idea.argCount : 0)}, 0) : false;
+            }
           } else {
             widget.isCountPublic = true;
           }
@@ -151,6 +168,10 @@ module.exports = {
 
         case 'staticCount':
           count = widget.staticCount;
+          break;
+
+        case 'argumentCount':
+          count = widget.argsCount;
           break;
 
         default:
