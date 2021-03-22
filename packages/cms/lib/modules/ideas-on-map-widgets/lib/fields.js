@@ -257,14 +257,25 @@ module.exports = [
 		def: 'Inzending',
 		required: false
 	},
+
 	{
 		name: 'typeField',
-		type: 'string',
+    type: 'select',
 		label: 'Veld voor type inzending',
+	  choices: [
+		  {
+			  label: 'Idee type',
+			  value: 'typeId',
+		  },{
+			  label: 'Thema',
+			  value: 'extraData.theme',
+		  },
+	  ],
 		def: 'extraData.theme',
 		required: false
 	},
-	{
+
+  {
 		name: 'typesFilterLabel',
 		type: 'string',
 		label: 'Label voor type in filters',
