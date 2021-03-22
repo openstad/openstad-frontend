@@ -22,7 +22,7 @@ module.exports = {
         return {tagName: tagName, attribs: attrs};
       };
 
-      return s ? sanitize(s, sanitizeConfig, options.siteUrl) : '';
+      return s ? sanitize(s, sanitizeConfig) : '';
     });
 
     self.apos.templates.addFilter('ensureHttp', function (s) {
