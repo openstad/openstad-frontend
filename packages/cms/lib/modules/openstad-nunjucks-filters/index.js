@@ -15,7 +15,7 @@ module.exports = {
         if( attrs.href && remoteURL.test(attrs.href) ) {
           attrs.target = '_blank';
           attrs.rel    = 'noreferrer noopener';
-        } else if (siteUrl)  {
+        } else if (attrs && attrs.href && siteUrl)  {
           attrs.href =  attrs.href && attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
         }
 
