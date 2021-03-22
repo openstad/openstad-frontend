@@ -8,6 +8,12 @@
 {% endif %}
 
 
+{% for idea in runningIdeas %}
+{% if idea.location %}
+	<div id="map-container-{{idea.id}}-2" class="map-container" style="width: 250px; height: 250px; position: relative;" data-marker-lat="{{idea.location.coordinates[0]}}" data-marker-lng="{{idea.location.coordinates[1]}}">
+	</div>
+{% endif %}
+{% endfor %}
 
 <ul
 id="ideaList"
@@ -106,7 +112,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						{% if idea.location %}
 						<div class="location-image-container">
 							<div class="location-image-mask">
-								<div id="map-container-{{idea.id}}" class="map-container" style="width: 100%; height: 100%;" data-marker-lat="{{idea.location.coordinates[0]}}" data-marker-lng="{{idea.location.coordinates[1]}}">
+								<div id="map-container-{{idea.id}}" class="map-container" style="width: 100%; height: 100%; top: 0; left: 0; position: absolute;" data-marker-lat="{{idea.location.coordinates[0]}}" data-marker-lng="{{idea.location.coordinates[1]}}">
 									<div id="map-with-buttons-container">
 										<div class="map-buttons-container">
 										</div>
