@@ -16,7 +16,7 @@ module.exports = {
           attrs.target = '_blank';
           attrs.rel    = 'noreferrer noopener';
         } else if (siteUrl)  {
-          attrs.href =  attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
+          attrs.href =  attrs.href && attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
         }
 
         return {tagName: tagName, attribs: attrs};
