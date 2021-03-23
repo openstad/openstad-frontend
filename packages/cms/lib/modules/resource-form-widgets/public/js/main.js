@@ -63,8 +63,6 @@ if (fieldsetElement) {
     labelButtonProcessItem: "Upload"
   }
 
-  console.log('filePond', filePondSettings)
-
   var pond = FilePond.create(fieldsetElement, filePondSettings);
 
   var sortableInstance;

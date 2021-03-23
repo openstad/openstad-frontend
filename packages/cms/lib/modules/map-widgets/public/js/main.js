@@ -68,9 +68,6 @@ apos.define('map-widgets', {
 
         self.setIdeaMarker = function (mapConfig) {
             const firstMarker = mapConfig.markers && mapConfig.markers[0] ? mapConfig.markers[0] : null;
-
-            console.log('firstMarker', firstMarker)
-
             return OpenlayersMap.setIdeaMarker(firstMarker);
         }
 
