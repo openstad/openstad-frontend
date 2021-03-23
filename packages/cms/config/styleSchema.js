@@ -260,15 +260,6 @@ exports.default = {
           'label': 'Padding top and bottom lg',
           'value': 'padding-top-bottom-lg'
         },
-
-        {
-          'label': 'Background color grey',
-          'value': 'background-color-grey'
-        },
-        {
-          'label': 'Background color black',
-          'value': 'background-color-black'
-        },
         {
           'label': 'Text color white',
           'value': 'text-color-white'
