@@ -53,12 +53,12 @@ module.exports = [
     {
         name: 'newsletter',
         label: 'Newsletter',
-      fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel', 'captchaRefreshText']
+        fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel', 'captchaRefreshText']
     },
     {
         name: 'themes-areas',
-        label: 'Themes & areas',
-        fields: ['themes', 'areas']
+        label: 'Themes, areas & idea types',
+        fields: ['themes', 'areas', 'ideaTypes']
     },
 
     // this is a bit of a hack. We hide the section link with CSS

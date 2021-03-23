@@ -36,7 +36,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     }})
   } catch (err) {}
   let ideaTypes = data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.types != 'undefined' ? data.global.siteConfig.ideas.types : undefined;
-  let typeField = widget.typeField|| 'typeId';
+  let typeField = widget.typeField || 'typeId';
   let types = typeField == 'typeId' ? ideaTypes : themeTypes;
 
   let mapLocationIcon = widget.mapLocationIcon;
