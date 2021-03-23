@@ -108,6 +108,7 @@ module.exports = {
               const idea = req.data.ideas ? req.data.ideas.filter(function (idea) { return idea.id == widget.ideaId}) : [];
               widget.argsCount = idea ? _.reduce(idea, (count, idea) => { return count + (idea.argCount ? idea.argCount : 0)}, 0) : false;
             }
+            widget.isCountPublic = true;
           } else {
             widget.isCountPublic = true;
           }
