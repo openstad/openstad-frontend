@@ -69,6 +69,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     canSelectLocation: widget.canSelectLocation,
+    onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,

@@ -83,7 +83,25 @@ module.exports = [
 			},
 		]
 	},
+
+	{
+		type: 'select',
+		name: 'onMarkerClickAction',
+		label: 'Op een kaart icon klikken',
+    def: true,
+		choices: [
+			{
+				label: 'Selecteert een idee',
+				value: 'selectIdea',
+			},
+			{
+				label: 'Toon idee details',
+				value: 'showIdeaDetails'
+			},
+		]
+	},
   
+
 	{ 
 		name: 'noSelectionHTML',
 		type: 'string',
