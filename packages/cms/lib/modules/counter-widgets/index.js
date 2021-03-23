@@ -84,7 +84,7 @@ module.exports = {
       required: false
     },
     {
-      name: 'ideaId',
+      name: 'id',
       type: 'string',
       label: 'idea ID - leave empty to fetch total arguments',
       required: false,
@@ -102,10 +102,10 @@ module.exports = {
             widget.isCountPublic = siteConfig && siteConfig.votes && siteConfig.votes.isViewable ? siteConfig.votes.isViewable : false;
           }
           else if (widget.counterType === 'argumentCount') {
-            if (!widget.ideaId) {
+            if (!widget.id) {
               widget.argsCount = req.data.ideas ? _.reduce(req.data.ideas, (count, idea) => { return count + (idea.argCount ? idea.argCount : 0)}, 0) : false;
             } else {
-              const idea = req.data.ideas ? req.data.ideas.filter(function (idea) { return idea.id == widget.ideaId}) : [];
+              const idea = req.data.ideas ? req.data.ideas.filter(function (idea) { return idea.id == widget.id}) : [];
               widget.argsCount = idea ? _.reduce(idea, (count, idea) => { return count + (idea.argCount ? idea.argCount : 0)}, 0) : false;
             }
             widget.isCountPublic = true;
