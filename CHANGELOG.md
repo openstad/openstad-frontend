@@ -8,6 +8,7 @@
 * Make inline styling selected via a random CSS class, instead of relying on widget._id since this turns out to not always be unique after copying (when it's parent is copied)
 * Remove warning not the right budgeting type
 * Better export of choices-guide results
+* Move google static map image to interactive map in Participatory Budgeting Widget
 
 ## v0.14.0 (2020-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found

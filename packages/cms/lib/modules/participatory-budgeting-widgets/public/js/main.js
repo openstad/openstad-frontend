@@ -4,6 +4,7 @@ apos.define('participatory-budgeting-widgets', {
     construct: function(self, options) {
         var maps = [];
 
+        // on open rerender map
         $('body').on('openGridder', function () {
 
             setTimeout(function() {
@@ -24,13 +25,14 @@ apos.define('participatory-budgeting-widgets', {
         self.playAfterlibsLoaded = function () {
             // run your code in this function
             self.mapLibsLoaded = true;
+            // initMaps
             self.initMaps();
         }
 
         self.initMaps = function () {
                 self.initiatedMaps = true;
 
-                var $mapContainer = $('.map-container');
+                var $mapContainer = $('.map-container').filter(":visible");
 
                 $mapContainer.each(function (ev) {
                     var $mappy = $(this);
