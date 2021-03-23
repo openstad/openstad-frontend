@@ -75,26 +75,30 @@ var OpenlayersMap = {
     setIdeaMarker: function (marker) {
         //Add marker if present
         if (marker && marker.position) {
+
             var coordinate = [marker.position.lng, marker.position.lat];
+
             this.addMarker(coordinate, marker.icon);
         }
     },
     createMap: function (settings) {
+
         var center = settings && settings.center && settings.center ? {
             latitude: settings.center.lat,
             longitude: settings.center.lng
-        } : {longitude: 4.2322689, latitude: 52.04946};
+        } : {longitude: 4.899431, latitude: 52.379189};
 
-        var settings = {
-            zoom: settings && settings.zoom ?  settings.zoom : 15.3,
+        settings = {
+            zoom: settings && settings.zoom ?  settings.zoom : 15,
             minZoom: settings && settings.minZoom ?  settings.minZoom : 15,
             maxZoom:  settings && settings.maxZoom ?  settings.maxZoom : 5,
-            center: ol.proj.fromLonLat([center.longitude, center.latitude])
+            center: ol.proj.fromLonLat([center.longitude, center.latitude]),
+            target: settings.target
         }
 
         var defaultSettings = {
             view: new ol.View(settings),
-            target: 'nlmaps-holder',
+            target: settings && settings.target ? settings.target :  'nlmaps-holder',
             search: false
         };
 
@@ -147,8 +151,8 @@ var OpenlayersMap = {
 
             const iconStyling = {
                 crossOrigin: 'anonymous',
-                anchorOrigin: 'bottom-left',
-                anchor: [0, 0],
+               // anchorOrigin: 'top-left',
+                anchor: [24, 22],
                 size: marker.icon.size,
                 anchorXUnits: 'pixels',
                 anchorYUnits: 'pixels',
@@ -191,6 +195,7 @@ var OpenlayersMap = {
                 ol.proj.fromLonLat(latLong)
             ),
         });
+
         marker.setStyle(new ol.style.Style({
             image: new ol.style.Icon(({
                 crossOrigin: 'anonymous',
@@ -199,9 +204,11 @@ var OpenlayersMap = {
                 size: icon.size
             }))
         }));
+
         var vectorSource = new VectorSource({
             features: [marker]
         });
+
         var vectorLayer = new VectorLayer({
             source: vectorSource
         });
@@ -260,8 +267,6 @@ var OpenlayersMap = {
             };
 
             var picker = [pickerCoords.longitude, pickerCoords.latitude];
-
-                console.log('click in')
 
             if (inside(picker, polygonCoords)) {
                 var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
