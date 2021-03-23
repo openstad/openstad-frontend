@@ -77,8 +77,9 @@ var OpenlayersMap = {
 
         //Add marker if present
         if (marker && marker.position) {
+
             var coordinate = [marker.position.lng, marker.position.lat];
-            console.log('coordinate', coordinate)
+
             this.addMarker(coordinate, marker.icon);
         }
     },
@@ -94,7 +95,7 @@ var OpenlayersMap = {
         console.log('createMap center', center);
 
         settings = {
-            zoom: settings && settings.zoom ?  settings.zoom : 15.3,
+            zoom: settings && settings.zoom ?  settings.zoom : 15,
             minZoom: settings && settings.minZoom ?  settings.minZoom : 15,
             maxZoom:  settings && settings.maxZoom ?  settings.maxZoom : 5,
             center: ol.proj.fromLonLat([center.longitude, center.latitude]),
@@ -106,7 +107,7 @@ var OpenlayersMap = {
 
         var defaultSettings = {
             view: new ol.View(settings),
-            target: settings ? settings.target :  'nlmaps-holder',
+            target: settings && settings.target ? settings.target :  'nlmaps-holder',
             search: false
         };
 
@@ -116,7 +117,6 @@ var OpenlayersMap = {
         this.map = new ol.Map(defaultSettings);
 
         console.log('createMap this.map', this.map);
-
 
         var layer = new ol.layer.Tile({
             source: new ol.source.OSM()
@@ -209,6 +209,9 @@ var OpenlayersMap = {
                 ol.proj.fromLonLat(latLong)
             ),
         });
+
+        console.log('Add marker', marker)
+
         marker.setStyle(new ol.style.Style({
             image: new ol.style.Icon(({
                 crossOrigin: 'anonymous',
@@ -217,12 +220,23 @@ var OpenlayersMap = {
                 size: icon.size
             }))
         }));
+
+        console.log('Add marker', marker)
+
+
         var vectorSource = new VectorSource({
             features: [marker]
         });
+
+        console.log('Add marker vectorSource', vectorSource)
+
+
         var vectorLayer = new VectorLayer({
             source: vectorSource
         });
+
+        console.log('Add marker vectorSource', vectorLayer)
+
 
         this.marker = vectorLayer;
 

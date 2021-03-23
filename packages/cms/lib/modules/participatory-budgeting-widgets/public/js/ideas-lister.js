@@ -32,8 +32,9 @@
 			return false;
 		},
     onClosed: function(){
-			window.history.replaceState({}, '', '#');
-		}
+		$('body').trigger('closeGridder');
+		window.history.replaceState({}, '', '#');
+    }
   });
 })(jQuery);
 

@@ -1,68 +1,105 @@
+
 apos.define('participatory-budgeting-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
         var maps = [];
 
         $('body').on('openGridder', function () {
-            console.log('self.openGridder', self.openGridder);
-            maps.forEach(function (map) {
-                console.log('openGridder.map', map);
 
-                map.updateSize();
-            });
+            console.log('self.openGridder');
+
+            setTimeout(function() {
+                maps.forEach(function (map) {
+                    console.log('mappp', map)
+                    map.render();
+                });
+                self.initMaps();
+            }, 300);
+
         });
 
-        self.playAfterlibsLoaded = function($widget, data, options) {
-            alert('oplayAfterlibsLoadedpwn', self.createMap)
+        $('body').on('closeGridder', function () {});
 
-            self.loadedLibs = true;
+        self.initMaps = function () {
+                self.initiatedMaps = true;
 
-            var $mapContainer = $('.map-container');
+                var $mapContainer = $('.map-container');
 
-            $mapContainer.each(function () {
-                var $mappy = $(this);
+                $mapContainer.each(function (ev) {
+                    var $mappy = $(this);
 
-                console.log('$mappy.attr(\'id\')', $mappy.attr('id'))
+                    var mapLoaded = $mappy.attr('data-map-loaded');
 
-                var map = self.createMap({
-                    defaultSettings: {
-                        target: $mappy.attr('id'),
+                    if (true || !mapLoaded) {
+                        $mappy.empty();
+
+                        var map = self.createMap({
+                            defaultSettings: {
+                                target: $mappy.get(0),
+                                 zoom: 12,
+                                 minZoom: 12,
+                                 maxZoom:10,
+                                 center: {
+                                    lat:  parseFloat($mappy.attr('data-marker-lat')),
+                                    lng: parseFloat($mappy.attr('data-marker-lng'))
+                                 },
+                            }
+                        });
+
+                        $mappy.attr('data-map-loaded', map)
+
+                        var markerData = {
+                            name: 'marker',
+                            position: {
+                                lng:parseFloat($mappy.attr('data-marker-lng')),
+                                lat:  parseFloat($mappy.attr('data-marker-lat')),
+                            },
+                            icon: {
+                                url: '/modules/openstad-assets/img/idea/flag-red.png',
+                                size: [22, 24],
+                                anchor: [4, 21],
+                            }
+                        }
+
+                        var marker = new ol.Feature({
+                            geometry: new ol.geom.Point(
+                                ol.proj.fromLonLat([markerData.position.lng, markerData.position.lat])
+                            ),
+                        });
+                        console.log('Add marker', ol.proj.fromLonLat([markerData.position.lng, markerData.position.lat]))
+
+                        console.log('Add marker', marker)
+
+                        marker.setStyle(new ol.style.Style({
+                            image: new ol.style.Icon(({
+                                crossOrigin: 'anonymous',
+                                src: markerData.icon.url,
+                                anchor: [0, 0],
+                                size: markerData.icon.size
+                            }))
+                        }));
+
+
+                        var vectorSource = new ol.source.Vector({
+                            features: [marker]
+                        });
+
+                        console.log('Add marker vectorSource', vectorSource)
+
+
+                        var vectorLayer = new ol.layer.Vector({
+                            source: vectorSource
+                        });
+
+
+                        map.addLayer(vectorLayer);
+
+                        // center map
+                       // self.center();
+
+                        maps.push(map);
                     }
                 });
-
-                var marker = {
-                    name: 'marker',
-                    position: {
-                        lng: $mappy.attr('data-marker-lat'),
-                        lat: $mappy.attr('data-marker-lng'),
-                    },
-                    icon : {
-                        url: '/modules/openstad-assets/img/idea/flag-red.png',
-                        size: [22, 24],
-                        anchor: [4, 21],
-                    }
-                }
-
-                self.setIdeaMarker({
-                    markers: [marker]
-                });
-
-                // center map
-                self.center();
-
-                maps.push(map);
-            })
-        }
-
-        self.initMap = function () {
-            var $mapContainer = $('.map-container');
-
-            if ($mapContainer.length > 0) {
-                console.log('$mapContainer 333', self.createMap)
-
-
-
             }
         }
-    }
 });

@@ -15,14 +15,14 @@ module.exports = {
         if( attrs.href && remoteURL.test(attrs.href) ) {
           attrs.target = '_blank';
           attrs.rel    = 'noreferrer noopener';
-        } else if (siteUrl)  {
+        } else if (attrs && attrs.href && siteUrl)  {
           attrs.href =  attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
         }
 
         return {tagName: tagName, attribs: attrs};
       };
 
-      return s ? sanitize(s, sanitizeConfig, options.siteUrl) : '';
+      return s ? sanitize(s, sanitizeConfig) : '';
     });
 
     self.apos.templates.addFilter('ensureHttp', function (s) {
