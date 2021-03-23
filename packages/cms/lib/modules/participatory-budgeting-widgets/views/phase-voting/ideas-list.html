@@ -191,13 +191,6 @@ data-default-sort="{{data.widget.defaultSorting}}"
 						<div class="description"><a href="{{data.siteUrl}}{{data.global.editIdeaUrl}}?resourceId={{idea.id}}&resourceType=idea" target="_blank">Bewerk dit plan</a></div>
 						{% endif %}
 
-						{% if idea.location %}
-						<div id="map-container-{{idea.id}}-2" class="map-container"
-							 style="width: 250px; height: 250px; position: relative; border: 1px solid red;"
-							 data-marker-lat="{{idea.location.coordinates[0]}}" data-marker-lng="{{idea.location.coordinates[1]}}"
-						>
-						</div>
-						{% endif %}
 					</div>
 				</div>
 			</div>

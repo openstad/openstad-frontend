@@ -6,19 +6,26 @@ apos.define('participatory-budgeting-widgets', {
 
         $('body').on('openGridder', function () {
 
-            console.log('self.openGridder');
-
             setTimeout(function() {
                 maps.forEach(function (map) {
-                    console.log('mappp', map)
                     map.render();
                 });
-                self.initMaps();
-            }, 300);
+
+                if (self.mapLibsLoaded) {
+                    self.initMaps();
+                }
+
+            }, 10);
 
         });
 
         $('body').on('closeGridder', function () {});
+
+        self.playAfterlibsLoaded = function () {
+            // run your code in this function
+            self.mapLibsLoaded = true;
+            self.initMaps();
+        }
 
         self.initMaps = function () {
                 self.initiatedMaps = true;
@@ -36,9 +43,9 @@ apos.define('participatory-budgeting-widgets', {
                         var map = self.createMap({
                             defaultSettings: {
                                 target: $mappy.get(0),
-                                 zoom: 12,
-                                 minZoom: 12,
-                                 maxZoom:10,
+                                 zoom: 14,
+                                 minZoom: 10,
+                                 maxZoom:16,
                                  center: {
                                     lat:  parseFloat($mappy.attr('data-marker-lat')),
                                     lng: parseFloat($mappy.attr('data-marker-lng'))
