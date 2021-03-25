@@ -140,6 +140,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
     map: {
       variant: widget.mapVariant,
+      mapTilesUrl: widget.mapTilesUrl,
+      mapTilesSubdomains: widget.mapTilesSubdomains,
       zoom: 16,
       clustering: {
         isActive: true, // widget.mapClustering,
@@ -147,7 +149,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       },
       locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
-      polygon: ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
+      polygon: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
 		},
 

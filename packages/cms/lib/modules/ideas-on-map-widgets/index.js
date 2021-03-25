@@ -25,7 +25,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Kaart',
-        fields: ['mapVariant', 'mapAutoZoomAndCenter', 'mapLocationIcon', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation', 'onMarkerClickAction' ]
+        fields: ['mapVariant', 'mapTilesUrl', 'mapTilesSubdomains', 'mapAutoZoomAndCenter', 'mapLocationIcon', 'mapClustering', 'mapMaxClusterRadius', 'canSelectLocation', 'onMarkerClickAction' ]
       },
       {
         name: 'content',

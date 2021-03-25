@@ -862,5 +862,13 @@
 	"Op een kaart icon klikken": "Op een kaart icon klikken",
 	"Selecteert een idee": "Selecteert een idee",
 	"Toon ide details": "Toon ide details",
-	"Toon idee details": "Toon idee details"
+	"Toon idee details": "Toon idee details",
+	"Drenthe": "Drenthe",
+	"Geavanceerd": "Geavanceerd",
+	"Url van de tiles server": "Url van de tiles server",
+	"Die ziet er uit als dit: https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png": "Die ziet er uit als dit: https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+	"Subdomains van de tiles server": "Subdomains van de tiles server",
+	"De waarden voor s hierboven. Meestal '1234' of 'abcd'.": "De waarden voor s hierboven. Meestal '1234' of 'abcd'.",
+	"Een lijst van gemeenten is beschikbaar op <a href=\"https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten\">Wikipedia</a>": "Een lijst van gemeenten is beschikbaar op <a href=\"https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten\">Wikipedia</a>",
+	"Een lijst van gemeenten is o.m. beschikbaar op Wikipedia: https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten": "Een lijst van gemeenten is o.m. beschikbaar op Wikipedia: https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten"
 }

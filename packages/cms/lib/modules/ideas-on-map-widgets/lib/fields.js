@@ -217,10 +217,28 @@ module.exports = [
       },{
         label: 'Amsterdam',
         value: 'amaps',
+      },{
+        label: 'Geavanceerd',
+        value: 'custom',
+        showFields: ['mapTilesUrl', 'mapTilesSubdomains'],
       },
     ],
 		required: false
 	},
+  { 
+    name: 'mapTilesUrl',
+    type: 'string',
+    label: 'Url van de tiles server',
+    help: 'Ziet er uit als: https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    required: false,
+  },
+  { 
+    name: 'mapTilesSubdomains',
+    type: 'string',
+    label: 'Subdomains van de tiles server',
+    help: 'De mogelijke waarden voor \'s\' hierboven. Meestal \'1234\' of \'abcd\'.',
+    required: false,
+  },
 	{
 		name: 'mapAutoZoomAndCenter',
 		type: 'select',
@@ -456,6 +474,7 @@ module.exports = [
 		name: 'searchAddresssesMunicipality',
 		type: 'string',
 		label: 'Gemeente waarin naar adressen wordt gezocht',
+    help: 'Een lijst van gemeenten is o.m. beschikbaar op Wikipedia: https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten',
 		required: false
 	},
 

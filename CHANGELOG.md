@@ -10,6 +10,8 @@
 * Better export of choices-guide results
 * Move google static map image to interactive map in Participatory Budgeting Widget
 * Added configuration of idea types to global settings
+* Select custom tiles server in idea-on-map.
+* Use global area in ideas-on-map
 
 ## v0.14.0 (2020-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
