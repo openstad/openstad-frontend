@@ -15,6 +15,7 @@ function unauthorized(req, res) {
     return res.status(401).send('Authentication required.');
 }
 
+
 module.exports = {
   improve: 'apostrophe-global',
   addFields: fields,
