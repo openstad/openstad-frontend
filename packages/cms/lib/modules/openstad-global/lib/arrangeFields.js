@@ -1,13 +1,13 @@
 module.exports = [
     {
         name: 'general',
-        label: 'Algemeen',
+        label: 'Algemene instellingen',
         fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
     },
     {
         name: 'analytics',
         label: 'Analytics',
-      fields: ['analyticsType', 'analyticsIdentifier', 'analyticsCodeBlock', 'tagmanager']
+        fields: ['analyticsType', 'analyticsIdentifier', 'analyticsCodeBlock', 'tagmanager']
     },
     {
         name: 'api',
