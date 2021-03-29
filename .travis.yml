@@ -43,11 +43,11 @@ stages:
   - name: docker_push_tag
     if: tag IS present
   - name: kubectl_deploy_dev
-    if: env(KUBE_DEPLOY) IS present AND branch =~ /development|feature\/.*/
+    if: env(KUBE_CONFIG) IS present AND branch = development
   - name: kubectl_deploy_acc
-    if: env(KUBE_DEPLOY) IS present AND branch =~ /staging|release|release\/.*/
+    if: env(KUBE_CONFIG) IS present AND branch = release
   - name: kubectl_deploy_prod
-    if: env(KUBE_DEPLOY) IS present AND tag IS present
+    if: env(KUBE_CONFIG) IS present AND branch = master
   - name: gitops_dev
     if: env(GITOPS) IS present AND branch =~ /development|feature\/.*/
   - name: gitops_acc
