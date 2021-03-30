@@ -28,7 +28,7 @@ module.exports = function( req, res, next ) {
   	.then(function( found ) {
       if (!found) {
         console.log('Site not found for siteId query: ', where);
-        return next(new createError('400', 'Site niet gevonden for siteId: '+ siteId));
+        return next(new createError('404', 'Site niet gevonden for siteId: '+ siteId));
       }
       siteConfig.setFromSite(found);
   		req.site = found;

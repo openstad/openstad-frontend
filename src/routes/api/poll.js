@@ -47,13 +47,14 @@ router.route('/')
 
 		return db.Poll
 			.scope(...req.scope)
-			.findAndCountAll({ where, offset: req.pagination.offset, limit: req.pagination.limit })
+			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
 			.then(function( result ) {
         result.rows.forEach((poll) => {
           if (req.query.withVoteCount) poll.countVotes(!req.query.withVotes);
         });
         req.results = result.rows;
-        req.pagination.count = result.count;
+        req.results = result.rows;
+        req.dbQuery.count = result.count;
         return next();
 			})
 			.catch(next);
