@@ -10,11 +10,12 @@ module.exports = {
   label: 'Arguments form',
   adminOnly: true,
   addFields: [
+      /*
     {
       name: 'ideaId',
       type: 'string',
       label: 'Idea ID (if empty it will try to fetch the ideaId from the URL)',
-    },
+    },*/
     {
       name: 'placeholder',
       type: 'string',
