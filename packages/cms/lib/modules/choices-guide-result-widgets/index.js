@@ -64,9 +64,10 @@ module.exports = {
         let apiUrl = self.apos.settings.getOption(req, 'apiUrl')
 			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, apiUrl, req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), apiUrl + '/oauth/logout' ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
-        const containerId = widget._id;
+        const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
-        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 			});
 
 			return superLoad(req, widgets, next);

@@ -83,7 +83,25 @@ module.exports = [
 			},
 		]
 	},
+
+	{
+		type: 'select',
+		name: 'onMarkerClickAction',
+		label: 'Op een kaart icon klikken',
+    def: true,
+		choices: [
+			{
+				label: 'Selecteert een idee',
+				value: 'selectIdea',
+			},
+			{
+				label: 'Toon idee details',
+				value: 'showIdeaDetails'
+			},
+		]
+	},
   
+
 	{ 
 		name: 'noSelectionHTML',
 		type: 'string',
@@ -199,10 +217,28 @@ module.exports = [
       },{
         label: 'Amsterdam',
         value: 'amaps',
+      },{
+        label: 'Geavanceerd',
+        value: 'custom',
+        showFields: ['mapTilesUrl', 'mapTilesSubdomains'],
       },
     ],
 		required: false
 	},
+  { 
+    name: 'mapTilesUrl',
+    type: 'string',
+    label: 'Url van de tiles server',
+    help: 'Ziet er uit als: https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+    required: false,
+  },
+  { 
+    name: 'mapTilesSubdomains',
+    type: 'string',
+    label: 'Subdomains van de tiles server',
+    help: 'De mogelijke waarden voor \'s\' hierboven. Meestal \'1234\' of \'abcd\'.',
+    required: false,
+  },
 	{
 		name: 'mapAutoZoomAndCenter',
 		type: 'select',
@@ -257,14 +293,25 @@ module.exports = [
 		def: 'Inzending',
 		required: false
 	},
+
 	{
 		name: 'typeField',
-		type: 'string',
+    type: 'select',
 		label: 'Veld voor type inzending',
+	  choices: [
+		  {
+			  label: 'Idee type',
+			  value: 'typeId',
+		  },{
+			  label: 'Thema',
+			  value: 'extraData.theme',
+		  },
+	  ],
 		def: 'extraData.theme',
 		required: false
 	},
-	{
+
+  {
 		name: 'typesFilterLabel',
 		type: 'string',
 		label: 'Label voor type in filters',
@@ -427,6 +474,7 @@ module.exports = [
 		name: 'searchAddresssesMunicipality',
 		type: 'string',
 		label: 'Gemeente waarin naar adressen wordt gezocht',
+    help: 'Een lijst van gemeenten is o.m. beschikbaar op Wikipedia: https://nl.wikipedia.org/wiki/Lijst_van_Nederlandse_gemeenten',
 		required: false
 	},
 

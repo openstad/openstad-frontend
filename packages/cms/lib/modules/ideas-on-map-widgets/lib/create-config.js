@@ -36,7 +36,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     }})
   } catch (err) {}
   let ideaTypes = data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.types != 'undefined' ? data.global.siteConfig.ideas.types : undefined;
-  let typeField = widget.typeField|| 'typeId';
+  let typeField = widget.typeField || 'typeId';
   let types = typeField == 'typeId' ? ideaTypes : themeTypes;
 
   let mapLocationIcon = widget.mapLocationIcon;
@@ -69,6 +69,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     canSelectLocation: widget.canSelectLocation,
+    onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
@@ -139,6 +140,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
     map: {
       variant: widget.mapVariant,
+      mapTilesUrl: widget.mapTilesUrl,
+      mapTilesSubdomains: widget.mapTilesSubdomains,
       zoom: 16,
       clustering: {
         isActive: true, // widget.mapClustering,
@@ -146,7 +149,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       },
       locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
-      polygon: ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
+      polygon: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
 		},
 

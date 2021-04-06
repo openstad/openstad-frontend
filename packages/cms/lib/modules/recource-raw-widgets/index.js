@@ -8,6 +8,8 @@ const fields = [
     textarea: true,
   },
   styleSchema.definition('containerStyles', 'Styles for the container'),
+    styleSchema.getHelperClassesField(),
+
 ]
 
 module.exports = {
@@ -23,12 +25,15 @@ module.exports = {
         widgets.forEach((widget) => {
           // render string with variables. Add active recource
           if (widget.containerStyles) {
-            const containerId = widget._id;
+            const containerId = self.apos.utils.generateId();
             widget.containerId = containerId;
-            widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
           }
 
-          // Add function for rendering raw string with nunjucks templating engine
+            widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
+
+            // Add function for rendering raw string with nunjucks templating engine
           // Yes this ia a powerful but dangerous plugin :), admin only
           widget.renderString = (data) => {
               try {

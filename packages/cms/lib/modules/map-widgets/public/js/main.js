@@ -62,12 +62,12 @@ apos.define('map-widgets', {
         };
 
         self.addMarkers = function (mapConfig) {
+
             return OpenlayersMap.addMarkers(mapConfig.markers);
         };
 
         self.setIdeaMarker = function (mapConfig) {
             const firstMarker = mapConfig.markers && mapConfig.markers[0] ? mapConfig.markers[0] : null;
-
             return OpenlayersMap.setIdeaMarker(firstMarker);
         }
 

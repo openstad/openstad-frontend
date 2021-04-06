@@ -25,11 +25,16 @@
 			// might be better to move to events
 			initImagesGallery();
 
+			var $mapContainer = $(element).find('.map-container');
+
+			$('body').trigger('openGridder');
+
 			return false;
 		},
     onClosed: function(){
-			window.history.replaceState({}, '', '#');
-		}
+		$('body').trigger('closeGridder');
+		window.history.replaceState({}, '', '#');
+    }
   });
 })(jQuery);
 

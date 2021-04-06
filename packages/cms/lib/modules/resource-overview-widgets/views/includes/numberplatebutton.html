@@ -1,4 +1,4 @@
-{% macro numberPlateButton(id, class, caption, value, href, color="#004699") %}
+{% macro numberPlateButton(id, class, caption, value, href, color="#004699", displayVoteCaption=false) %}
 	{% if not value %}
 	{% set value = 0 %}
 	{% endif %}
@@ -15,8 +15,9 @@
 			<div id="{{id}}-number-plate-000" class="number-plate"> 0 </div>
 			<div id="{{id}}-number-plate-00" class="number-plate"> 0 </div>
 			<div id="{{id}}-number-plate-0" class="number-plate"> 0 </div>
-		</div><div class="{{id}}-caption">
-			{{caption}}
+			{% if displayVoteCaption %}
+			<div id="{{id}}-caption" class="number-plate number-plate-caption"> {{caption if caption else 'stemmen'}}</div>
+			{% endif %}
 		</div>
 	</div>
 	<script>

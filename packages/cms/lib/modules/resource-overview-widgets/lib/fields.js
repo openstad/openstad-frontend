@@ -103,9 +103,42 @@ module.exports = [
     def: true
   },
   {
+    name: 'displayVoteCaption',
+    label: 'Display caption in vote counter',
+    type: 'boolean',
+    choices: [
+      {
+        value: true,
+        label: "Yes",
+        showFields: ['voteCaption'],
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: false
+  },
+  {
+    name: 'voteCaption',
+    label: 'Caption for vote counter',
+    type: 'string',
+  },
+  {
     name: 'displayEditLinkForModerator',
     label: 'Display edit link for Moderator?',
     type: 'boolean',
+    choices: [
+      {
+        value: true,
+        label: "Yes",
+        showFields: ['editUrl'],
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
     def: true
   },
   {

@@ -25,7 +25,7 @@ module.exports = (self, options) => {
     if (config.id) delete config.id;
     if (config.title) delete config.title;
     if (config.area) delete config.area;
-
+    
     await self.updateSite({
       id: config.id,
       areaId,

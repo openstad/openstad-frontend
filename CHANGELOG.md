@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.15.0 (2020-04-06)
+* Hide palette in global modal
+* Move editUrl in resource overview widget to display so it's easier to find
+* Add caption to vote counter in resource overview widget
+* Add a bunch of selectable styling classes to section, title and raw widgets
+* Make inline styling selected via a random CSS class, instead of relying on widget._id since this turns out to not always be unique after copying (when it's parent is copied)
+* Remove warning not the right budgeting type
+* Better export of choices-guide results
+* Move google static map image to interactive map in Participatory Budgeting Widget
+* Added configuration of idea types to global settings
+* Select custom tiles server in idea-on-map.
+* Use global area in ideas-on-map
+
 ## v0.14.1 (2020-03-17)
 * Add check to make sure if href not exists in a tags Rich Text the sanitize functions fails
 
