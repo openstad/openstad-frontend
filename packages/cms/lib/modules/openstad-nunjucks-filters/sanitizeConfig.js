@@ -31,7 +31,7 @@ module.exports = {
 	transformTags: {
 		a: function( tagName, attrs ) {
 
-			if( attrs.href && remoteURL.test(attrs.href) ) {
+			if( attrs && attrs.href && remoteURL.test(attrs.href) ) {
 				attrs.target = '_blank';
 				attrs.rel    = 'noreferrer noopener';
 			}
