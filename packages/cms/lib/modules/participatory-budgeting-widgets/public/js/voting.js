@@ -1640,7 +1640,7 @@ if (votingContainer !== null) {
       console.log(err);
     }
 
-    document.location.href = `${siteUrl}/oauth/irma?vote=${votesToSubmit}&returnTo=${returnUrl}`
+    document.location.href = siteUrl + '/oauth/irma?vote=' + votesToSubmit + '&returnTo=' + returnUrl;
   }
 
   // end IRMA
