@@ -262,5 +262,42 @@ module.exports = {
                 res.redirect(url);
             });
         });
+
+
+        // nice route for admin login
+        self.apos.app.get('/oauth/irma', (req, res, next) => {
+
+          req.session.returnTo = req.query.returnTo ? decodeURIComponent(req.query.returnTo) : null;
+
+          req.session.save(() => {
+            const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+            const thisHost = req.headers['x-forwarded-host'] || req.get('host');
+            const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+            let returnUrl = self.apos.settings.getOption(req, 'siteUrl');
+
+            if (req.query.returnTo && typeof req.query.returnTo === 'string') {
+              //only get the pathname to prevent external redirects
+              let pathToReturnTo = Url.parse(req.query.returnTo, true);
+              pathToReturnTo = pathToReturnTo.path;
+              returnUrl = returnUrl + pathToReturnTo;
+            }
+
+            let vote = null;
+            if (req.query.vote) {
+              vote = req.query.vote;
+              vote = encodeURIComponent(vote);
+            }
+
+            let url = `${apiUrl}/irma/site/${req.data.global.siteId}/vote?`
+            if (vote) url += `&vote=${vote}`
+            url += `&redirectUrl=${returnUrl}`;
+
+            url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
+            res.redirect(url);
+
+          });
+
+        });
+
     }
 };

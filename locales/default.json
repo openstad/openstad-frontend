@@ -617,5 +617,9 @@
 	"Screen reader info (will be added after the label)": "Screen reader info (will be added after the label)",
 	"Link with back icon": "Link with back icon",
 	"Edit Accordeon": "Edit Accordeon",
-	"Edit Info bar": "Edit Info bar"
+	"Edit Info bar": "Edit Info bar",
+	"Save Date countdown bar": "Save Date countdown bar",
+	"Date": "Date",
+	"Text to show before the set date is passed": "Text to show before the set date is passed",
+	"Text to show after the set date has passed": "Text to show after the set date has passed"
 }

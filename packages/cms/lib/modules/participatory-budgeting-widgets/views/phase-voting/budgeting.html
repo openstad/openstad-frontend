@@ -122,8 +122,11 @@
 											{% set returnUrl = data.currentUrl + '&stemcode' %}
 											{% endif %}
 											{% endif %}
-											<a href="{{data.siteUrl}}/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+											<!-- a href="{{data.siteUrl}}/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
 												Vul je stemcode in
+											</a -->
+											<a href="javascript: void voteWithIRMA('{{data.siteUrl}}', '{{returnUrl}}')" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+												Stem met IRMA
 											</a>
 											<div class="error-block">
 												Met deze stemcode is al gestemd.
@@ -432,14 +435,14 @@
 	</div>
 </div>
 {% if data.widget.scrollBackToBudgetBlock %}
-	<script type="text/javascript">
-		document.addEventListener("DOMContentLoaded", function() {
-			if (window.location.search && window.location.search.indexOf('stemcode') !== -1) {
-				window.setTimeout(function () {
-					$('html, body').animate({scrollTop: $("#budget-block").offset().top}, 1000);
-				}, 250);
-			}
-		});
-	</script>
+<script type="text/javascript">
+ document.addEventListener("DOMContentLoaded", function() {
+	 if (window.location.search && window.location.search.indexOf('stemcode') !== -1) {
+		 window.setTimeout(function () {
+			 $('html, body').animate({scrollTop: $("#budget-block").offset().top}, 1000);
+		 }, 250);
+	 }
+ });
+</script>
 {% endif %}
 {% endmacro %}

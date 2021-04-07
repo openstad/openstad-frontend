@@ -368,7 +368,16 @@ if (votingContainer !== null) {
 	  }
 
 	  if (currentStep == 7) {
-		  window.location.href = authServerLogoutUrl ? authServerLogoutUrl : currentPath;
+      let path = authServerLogoutUrl ? authServerLogoutUrl : currentPath;
+      path = path.replace(/votedWithIRMA=1/, '');
+			currentSelection = [];
+			openstadRemoveStorage('currentSelection');
+			openstadRemoveStorage('lastSorted');
+			openstadRemoveStorage('plannenActiveTab');
+			openstadRemoveStorage('plannenActiveFilter');
+			openstadRemoveStorage('sortOrder');
+			availableBudgetAmount = initialAvailableBudget;
+		  window.location.href = path;
 	  }
 
   }
@@ -1600,11 +1609,41 @@ if (votingContainer !== null) {
   // ----------------------------------------------------------------------------------------------------
   // infoblock
 
-
-
-
-
   // end infoblock
+  // ----------------------------------------------------------------------------------------------------
+  // IRMA
+
+  function voteWithIRMA(siteUrl, returnUrl) {
+
+    // see submitBudget
+	  var data = {
+		  budgetVote: currentSelection,
+	  }
+    if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
+      data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
+    }
+
+	  var votesToSubmit = [];
+	  for (var i = 0; i < data.budgetVote.length; i++) {
+      if ( sortedElements.find(function (element) { return element.ideaId == data.budgetVote[i]}) ) { // filter old data from the vote
+        votesToSubmit.push({
+			    opinion: "yes",
+			    ideaId: data.budgetVote[i]
+		    })
+	    }
+    }
+
+    try {
+      votesToSubmit = JSON.stringify(votesToSubmit);
+      votesToSubmit = encodeURIComponent(votesToSubmit)
+    } catch (err) {
+      console.log(err);
+    }
+
+    document.location.href = `${siteUrl}/oauth/irma?vote=${votesToSubmit}&returnTo=${returnUrl}`
+  }
+
+  // end IRMA
   // ----------------------------------------------------------------------------------------------------
   // other
 
@@ -1783,6 +1822,11 @@ if (votingContainer !== null) {
 		  }
 	  }
 
+  }
+
+  // IRMA return; dat moet beter
+  if (document.location.search.match('votedWithIRMA=1')) {
+		currentStep = 6;
   }
 
   updateBudgetDisplay();
