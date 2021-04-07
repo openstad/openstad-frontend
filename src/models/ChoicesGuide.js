@@ -15,7 +15,7 @@ module.exports = function( db, sequelize, DataTypes ) {
       defaultValue: '',
       validate: {
         len: {
-          args: [2, 255],
+          args: [0, 255],
           msg: 'Titel moet tussen 2 en 255 tekens lang zijn'
         }
       },
@@ -30,7 +30,7 @@ module.exports = function( db, sequelize, DataTypes ) {
       defaultValue: '',
       validate: {
         len: {
-          args: [2, 5000],
+          args: [0, 5000],
           msg: 'Beschrijving moet tussen 2 en 5000 tekens zijn'
         },
       },
