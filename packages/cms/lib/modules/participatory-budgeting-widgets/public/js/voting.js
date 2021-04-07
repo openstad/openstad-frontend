@@ -368,7 +368,7 @@ if (votingContainer !== null) {
 	  }
 
 	  if (currentStep == 7) {
-      let path = authServerLogoutUrl ? authServerLogoutUrl : currentPath;
+      var path = authServerLogoutUrl ? authServerLogoutUrl : currentPath;
       path = path.replace(/votedWithIRMA=1/, '');
 			currentSelection = [];
 			openstadRemoveStorage('currentSelection');
