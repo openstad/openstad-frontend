@@ -1194,6 +1194,12 @@ if (votingContainer !== null) {
 	  updateBudgetNextButton(true);
   }
 
+  // irma error
+  function showIrmaError(error) {
+	  document.querySelector('#current-step').querySelector('.error-block').innerHTML = error;
+		removeFromClassName(document.querySelector('#current-step').querySelector('.error-block'), 'hidden');
+  }
+
   // end budgeting functions
   // ----------------------------------------------------------------------------------------------------
   // sort functions
@@ -1828,6 +1834,14 @@ if (votingContainer !== null) {
   if (document.location.search.match('votedWithIRMA=1')) {
 		currentStep = 6;
   }
+  let match = document.location.search.match(/votedWithIRMAerror=([^&]+)/)
+  if (match) {
+  	let errorMessage = decodeURIComponent(match[1])
+		currentStep = 3;
+    userHasVoted = 1
+		showIrmaError(errorMessage)
+  }
+
 
   updateBudgetDisplay();
 
