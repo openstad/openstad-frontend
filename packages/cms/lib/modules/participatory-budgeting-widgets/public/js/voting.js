@@ -1834,9 +1834,9 @@ if (votingContainer !== null) {
   if (document.location.search.match('votedWithIRMA=1')) {
 		currentStep = 6;
   }
-  let match = document.location.search.match(/votedWithIRMAerror=([^&]+)/)
+  var match = document.location.search.match(/votedWithIRMAerror=([^&]+)/)
   if (match) {
-  	let errorMessage = decodeURIComponent(match[1])
+  	var errorMessage = decodeURIComponent(match[1])
 		currentStep = 3;
     userHasVoted = 1
 		showIrmaError(errorMessage)
