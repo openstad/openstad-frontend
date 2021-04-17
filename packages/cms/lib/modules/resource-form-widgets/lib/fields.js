@@ -20,6 +20,10 @@ const fields = [
               label: "Checkout (default)"
             },
             {
+                value: 'user',
+                label: "User form (default)"
+            },
+            {
               value: 'dynamic',
               label: "Dynamic",
               showFields: ['dynamicFormSections']
@@ -48,6 +52,25 @@ const fields = [
       def: false
     },
     {
+        name: 'autoSubmitForm',
+        label: 'Auto submit form?',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false
+    },
+
+
+
+    {
       name: 'displayUserInfoAtTop',
       label: 'Display user info at the top?',
       type: 'boolean',
@@ -61,7 +84,7 @@ const fields = [
           value: false,
         }
       ],
-      def: true
+      def: false
     },
     {
       name: 'hideAdminAfterPublicAction',

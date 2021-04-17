@@ -47,9 +47,34 @@ module.exports = {
         label: 'Redirect to create anonymous user',
       },
       {
+        name: 'accountPresentRedirect',
+        type: 'string',
+        label: 'Redirect from account create page to other page if account is present',
+      },
+      {
+        name: 'userPresentRedirect',
+        type: 'string',
+        label: 'Redirect from user create page to other page if user',
+      },
+      {
+        name: 'userWitEmailPresentRedirect',
+        type: 'string',
+        label: 'Redirect from user create page to other page if user is present with email',
+      },
+      {
+        name: 'userNotPresentRedirect',
+        type: 'string',
+        label: 'Redirect from to page if user doesn\'t exists, for instance to user create form',
+      },
+      {
         name: 'accountNeededRedirect',
         type: 'string',
         label: 'Redirect to account page if required',
+      },
+      {
+        name: 'activeAccountRequiredRedirect',
+        type: 'string',
+        label: 'Active account required (if not empty will redirect to string)',
       },
       {
         name: 'noCSS',

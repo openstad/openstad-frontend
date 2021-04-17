@@ -28,6 +28,7 @@
     "memory-cache": "^0.2.0",
     "npm": "^6.14.8",
     "query-string": "^6.13.6",
+    "stripe": "^8.142.0",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {

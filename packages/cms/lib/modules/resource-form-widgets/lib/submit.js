@@ -17,7 +17,7 @@ module.exports = async function(self, options) {
      */
     const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
     const siteId = req.data.global.siteId;
-    const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
+    const postUrl = req.body.resourceEndPoint === 'site' ? `${apiUrl}/api/site` : `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
 
     /**
      * Format headerr

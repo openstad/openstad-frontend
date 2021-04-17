@@ -680,6 +680,12 @@ module.exports = [
     choices: rightsChoices,
     def: 'member'
   },
+  {
+    name: 'recaptchaKey',
+    type: 'text',
+    label: 'Recaptcha key',
+    type: 'string',
+  },
   /*
   {
     name: 'canAddNewIdeas',

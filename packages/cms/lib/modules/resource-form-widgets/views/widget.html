@@ -35,6 +35,8 @@
 			{% include 'includes/repeatable.html' %}
 			{% elseif data.widget.formType === 'order' %}
 			{% include 'includes/order-form.html' %}
+			{% elseif data.widget.formType === 'user' %}
+			{% include 'includes/user-form.html' %}
 			{% elseif data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}

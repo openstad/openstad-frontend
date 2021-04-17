@@ -1,4 +1,9 @@
-<form method="post" id="js-form" action="/modules/resource-form-widgets/submit" class="add-warning-when-leaving-page resource-form">
+<form
+    method="post"
+    id="js-form"
+    action="/modules/resource-form-widgets/submit"
+    class="add-warning-when-leaving-page resource-form {{'auto-submit-form-container' if data.widget.autoSubmitForm}}"
+>
   {% if data.widget.displayUserInfoAtTop %}
   <div class="form-group form-user-name">
     <h2>Naam</h2>

@@ -53,6 +53,10 @@
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
 
+{% if data.global.recaptchaKey %}
+<script src="https://www.google.com/recaptcha/api.js?render={{data.global.recaptchaKey}}"></script>
+{% endif %}
+
 {% if activeResource %}
 <meta property="og:title" content="{{activeResource.title}}">
 <meta property="og:type" content="website">
@@ -85,6 +89,12 @@
 	{% endif %}
   {# will be defined later, but will cause errors otherwise #}
   var doShowImage;
+
+  {% if data.global.recaptchaKey %}
+  var recaptchaKey = '{{data.global.recaptchaKey}}';
+  {% endif %}
+
+
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}

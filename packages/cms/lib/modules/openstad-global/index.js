@@ -75,6 +75,8 @@ module.exports = {
         openstadMap:siteConfig.openstadMap,
       };
 
+      req.data.global.recaptchaKey = siteConfig.recaptcha && siteConfig.recaptcha.siteKey ? siteConfig.recaptcha.siteKey : false;
+
       req.data.originalUrl = req.originalUrl;
 
       // backwards compatibility for analytics
