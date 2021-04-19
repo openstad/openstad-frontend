@@ -53,8 +53,8 @@
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
 
-{% if data.global.recaptchaKey %}
-<script src="https://www.google.com/recaptcha/api.js?render={{data.global.recaptchaKey}}"></script>
+{% if data.recaptchaKey %}
+<script src="https://www.google.com/recaptcha/api.js?render={{data.recaptchaKey}}"></script>
 {% endif %}
 
 {% if activeResource %}
@@ -90,8 +90,15 @@
   {# will be defined later, but will cause errors otherwise #}
   var doShowImage;
 
-  {% if data.global.recaptchaKey %}
-  var recaptchaKey = '{{data.global.recaptchaKey}}';
+  {% if data.recaptchaKey %}
+    grecaptcha.ready(function () {
+      grecaptcha.execute('{{data.recaptchaKey}}', {action: 'submit'}).then(function (token) {
+        var elements = document.querySelectorAll('input[name="recaptcha"]');
+        console.log('Elements', elements);
+        console.log('Token', token);
+        elements[0].value= token;
+      });
+    });
   {% endif %}
 
 

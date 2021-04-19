@@ -18,8 +18,6 @@
 </div>
 {% endif %}
 
-{{activeResource | dump}}
-
 {% if activeResource %}
 <input type="submit" class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
 {% else %}

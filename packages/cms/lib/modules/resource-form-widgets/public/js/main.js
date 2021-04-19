@@ -355,13 +355,7 @@ function bindResourceFormValidation(resourceForm) {
 
             if (window.grecaptcha && window.recaptchaKey) {
                 console.log('grecaptcha validation')
-                grecaptcha.ready(function () {
-                    grecaptcha.execute(window.recaptchaKey, {action: 'submit'}).then(function (token) {
-                        console.log('grecaptcha', token);
 
-                        submitForm(form);
-                    });
-                });
             } else {
                 console.log(' no grecaptcha validation')
 

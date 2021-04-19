@@ -75,7 +75,9 @@ module.exports = {
         openstadMap:siteConfig.openstadMap,
       };
 
-      req.data.global.recaptchaKey = siteConfig.recaptcha && siteConfig.recaptcha.siteKey ? siteConfig.recaptcha.siteKey : false;
+      // don\t set to global, somtimes ends up in html, sucks apostrophe in this sense
+      req.data.recaptchaKey = siteConfig.recaptcha && siteConfig.recaptcha.key ? siteConfig.recaptcha.key : false;
+      req.data.recaptchaSecret = siteConfig.recaptcha && siteConfig.recaptcha.key ? siteConfig.recaptcha.key : false;
 
       req.data.originalUrl = req.originalUrl;
 

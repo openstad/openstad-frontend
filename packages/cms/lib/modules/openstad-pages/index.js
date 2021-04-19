@@ -98,7 +98,7 @@ module.exports = {
                 if (!req.data.hasModeratorRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
             }
 
-            if (pageData && pageData.userWitEmailPresentRedirect && !req.data.openstadUser) {
+            if (pageData && pageData.userWitEmailPresentRedirect && (req.data.openstadUser && req.data.openstadUser.email)) {
                 if (!req.data.hasModeratorRights) return req.res.redirect(pageData.userWitEmailPresentRedirect);
             }
 

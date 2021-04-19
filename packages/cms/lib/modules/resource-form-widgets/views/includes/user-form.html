@@ -3,13 +3,13 @@
 <div class="row form-group">
     <div class="col-md-6 mb-3">
         <div class="hip-label">
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="{{activeResource.firstName}}" required>
             <label for="firstName"  class="hip">Firstname</label>
         </div>
     </div>
     <div class="col-md-6 mb-3">
         <div class="hip-label">
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="{{activeResource.lastName}}" required>
             <label for="lastName" class="hip">Surname</label>
         </div>
     </div>
@@ -17,7 +17,7 @@
 
 <div class="mb-3 form-group ">
     <div class="hip-label">
-        <input type="email" class="form-control" id="email" required name="email" />
+        <input type="email" class="form-control" id="email" required name="email" value="{{activeResource.email}}" />
         <label for="email" class="hip">E-mail </label>
     </div>
 </div>
