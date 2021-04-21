@@ -12,11 +12,6 @@ module.exports = {
         let imagePath = options.sitePrefix ? (options.sitePrefix + '/image' ) : '/image';
         let imagesPath = options.sitePrefix ? (options.sitePrefix + '/images') : '/images';
 
-        imagePath = imagePath ? imagePath.startsWith('/') : '/' + imagePath;
-        imagesPath = imagesPath ? imagesPath.startsWith('/') : '/' + imagePath;
-
-
-
         console.log('options.sitePrefix on image proxy', options.sitePrefix);
 
         /**
