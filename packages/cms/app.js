@@ -263,6 +263,7 @@ module.exports.getMultiSiteApp = (options) => {
 
         if (site) {
             site.sitePrefix = req.params.sitePrefix;
+            console.log();
             req.sitePrefix = req.params.sitePrefix;
             req.site = site;
 
