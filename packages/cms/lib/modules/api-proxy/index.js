@@ -8,7 +8,7 @@ const eventEmitter = require('../../../events').emitter;
 module.exports = {
     construct: function (self, options) {
 
-        const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api'
+        const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api';
 
         /*
          * Create api route for proxying api so we don't have cross origin errors when making AJAX requests

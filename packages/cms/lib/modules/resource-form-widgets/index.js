@@ -7,7 +7,6 @@
  */
 
 const rp            = require('request-promise');
-const proxy         = require('http-proxy-middleware');
 const url           = require('url');
 const request       = require('request');
 const pick          = require('lodash/pick')
