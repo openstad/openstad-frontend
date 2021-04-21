@@ -622,6 +622,21 @@
 	"Date": "Date",
 	"Text to show before the set date is passed": "Text to show before the set date is passed",
 	"Text to show after the set date has passed": "Text to show after the set date has passed"
+	"Local Video": "Local Video",
+	"Save Local Video": "Save Local Video",
+	"Video": "Video",
+	"Poster image (for when loading & before starting, optional)": "Poster image (for when loading & before starting, optional)",
+	"Edit Local Video": "Edit Local Video",
+	"Algemene instellingen": "Algemene instellingen",
+	"Themes, areas & idea types": "Themes, areas & idea types",
+	"Wordt momenteel alleen gebruikt in 'Ideeen op een kaart' widget": "Wordt momenteel alleen gebruikt in 'Ideeen op een kaart' widget",
+	"Typen ideeën": "Typen ideeën",
+	"Save Video": "Save Video",
+	"Video URL": "Video URL",
+	"This supports Vimeo, YouTube, and many other services listed <a href=\"https://apostrophecms.org/video-options\" target=\"_blank\">in the widget documentation</a>.": "This supports Vimeo, YouTube, and many other services listed <a href=\"https://apostrophecms.org/video-options\" target=\"_blank\">in the widget documentation</a>.",
+	"Embedding is not allowed for this video.": "Embedding is not allowed for this video.",
+	"That video was not found. Paste a URL to the video's page.": "That video was not found. Paste a URL to the video's page.",
+	"Edit Video": "Edit Video",
 	"Styling classes": "Styling classes",
 	"Overflow hidden": "Overflow hidden",
 	"Display block": "Display block",
@@ -669,4 +684,6 @@
 	"Edit List": "Edit List",
 	"Edit Agenda": "Edit Agenda",
 	"Drenthe": "Drenthe"
+}
+	"HTML ID": "HTML ID"
 }

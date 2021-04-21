@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Add cookie consent for video widget
+
 ## v0.15.0 (2020-04-06)
 * Hide palette in global modal
 * Move editUrl in resource overview widget to display so it's easier to find
