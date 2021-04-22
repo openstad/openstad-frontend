@@ -334,7 +334,7 @@ function initRoleRequired() {
             ev.preventDefault();
             var loginUrl = '/oauth/login?useOauth=anonymous';
             loginUrl = $(this).attr('data-return-to') ? loginUrl + '&returnTo=' + encodeURIComponent($(this).attr('data-return-to')) : loginUrl;
-            window.location.href = loginUrl;
+            window.location.href = getSiteUrl() + loginUrl;
         }
     });
 
@@ -380,6 +380,11 @@ function initTrashPageWarning() {
 // this version is a bit less efficient since we get back almost whole the page
 // the control elements should be refreshed server side otherwise it's values will not be corrrect
 //
+
+function getSiteUrl () {
+    return  window.siteUrl ?  window.siteUrl : '';
+}
+
 function initAjaxRefresh() {
 
     $('body').on('click', '.openstad-ajax-refresh-link', function (ev) {
