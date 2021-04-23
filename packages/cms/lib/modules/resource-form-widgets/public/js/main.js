@@ -8,6 +8,44 @@ apos.define('resource-form-widgets', {
     extend: 'map-widgets',
     construct: function (self, options) {
 
+        self.playAfterlibsLoaded = function($widget, data, options) {
+            var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
+
+            console.log('mapConfig', mapConfig);
+
+            if (mapConfig && Object.keys(mapConfig).length > 0) {
+                self.createMap(mapConfig);
+                self.addPolygon(mapConfig);
+                self.setIdeaMarker(mapConfig);
+                self.addFormEventListeners(mapConfig);
+                self.center();
+            }
+
+
+            self.initRepeatableForm($widget);
+
+            self.initPlaceholderLabel($widget);
+
+            $widget.find('.resource-form').each(function () {
+                var form = this;
+                initUploadField(form);
+                bindResourceFormValidation(form);
+
+                console.log('running ');
+
+                if ($(form).hasClass('auto-submit-form-container')) {
+                    console.log('has class true ');
+
+                    if (!window.hasModeratorRights) {
+                        console.log('$(form)', form);
+
+                        $(form).submit();
+                    }
+                }
+            });
+
+        }
+
         self.initPlaceholderLabel = function ($widget) {
             var $hipInputElements = $widget.find('.hip-label input, .hip-label textarea');
             var handleElementClass = function (el) {
@@ -108,33 +146,6 @@ apos.define('resource-form-widgets', {
             FilePond.registerPlugin(FilePondPluginImageExifOrientation);
         };
 
-        self.play = function ($widget, data, options) {
-            // Init map
-            if (!self.map) {
-                var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
-
-                self.map = self.createMap(data.mapConfig);
-                self.addPolygon(data.mapConfig);
-                self.setIdeaMarker(data.mapConfig);
-                self.addFormEventListeners(data.mapConfig);
-            }
-
-            self.initRepeatableForm($widget);
-
-            self.initPlaceholderLabel($widget);
-
-            $widget.find('.resource-form').each(function () {
-                var form = this;
-                initUploadField(form);
-                bindResourceFormValidation(form);
-
-                if ($(form).hasClass('auto-submit-form-container')) {
-                    if (!window.hasModeratorRights) {
-                        $(form).submit();
-                    }
-                }
-            });
-        }
     }
 });
 

@@ -560,5 +560,6 @@
 	"Redirect from user create page to other page if user": "Redirect from user create page to other page if user",
 	"User form (default)": "User form (default)",
 	"Redirect from user create page to other page if user is present with email": "Redirect from user create page to other page if user is present with email",
-	"Site": "Site"
+	"Site": "Site",
+	"Please enter the words you see into the field below ": "Please enter the words you see into the field below "
 }

@@ -26,6 +26,7 @@
     "apostrophe-workflow": "2.38.2",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
+    "morgan": "^1.10.0",
     "npm": "^6.14.8",
     "query-string": "^6.13.6",
     "stripe": "^8.142.0",
