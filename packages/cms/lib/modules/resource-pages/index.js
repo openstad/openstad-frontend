@@ -1,4 +1,4 @@
-/**
+  /**
  * The Resource page manages fetching the data from the REST api
  *
  * 2 ways of doing this:

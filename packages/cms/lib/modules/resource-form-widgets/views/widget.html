@@ -30,11 +30,20 @@
 		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
 	</div>
 	{% elseif showForm %}
+		{% if data.widget.autoSubmitForm and not data.hasModeratorRights %}
+		<div class="full-page-loader-overlay">
+			<div class="loader-content">
+				<img src="/modules/idea-pages/img/loader.svg" class="loader-spinner" width="50" height="50" />
+			</div>
+		</div>
+		{% endif %}
 		<div  id="formulier-block">
 			{% if data.widget.formType === 'repeatable' %}
 			{% include 'includes/repeatable.html' %}
 			{% elseif data.widget.formType === 'order' %}
 			{% include 'includes/order-form.html' %}
+			{% elseif data.widget.formType === 'user' %}
+			{% include 'includes/user-form.html' %}
 			{% elseif data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}

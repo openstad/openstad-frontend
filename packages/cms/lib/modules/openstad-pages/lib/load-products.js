@@ -28,10 +28,12 @@ module.exports =  function (req, res, next) {
     }
 
     // if cacheIdeas is turned on, get ideas from cache
-    if (products && products.length > 0) {
-      req.data.products = products;
+    if (true || products && products.length > 0) {
+      req.data.products = products || [];
       next();
     } else {
+       // next();
+
 
       var options = {
          uri: `${apiUrl}/api/site/${globalData.siteId}/product`,

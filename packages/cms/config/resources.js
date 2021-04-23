@@ -7,6 +7,13 @@ const resources = [
     configKey: 'ideas'
   },
   {
+    label: 'Site',
+    value: 'site',
+    resourceEndPoint: 'site',
+    //config is used in API config
+    configKey: 'sites'
+  },
+  {
     label: 'Article',
     value: 'article',
     resourceEndPoint: 'article',

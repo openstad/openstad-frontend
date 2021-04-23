@@ -82,6 +82,10 @@ module.exports = {
         openstadMap:siteConfig.openstadMap,
       };
 
+      // don\t set to global, somtimes ends up in html, sucks apostrophe in this sense
+      req.data.recaptchaKey = siteConfig.recaptcha && siteConfig.recaptcha.key ? siteConfig.recaptcha.key : false;
+      req.data.recaptchaSecret = siteConfig.recaptcha && siteConfig.recaptcha.secret ? siteConfig.recaptcha.secret : false;
+
       req.data.originalUrl = req.originalUrl;
 
       // backwards compatibility for analytics
