@@ -63,18 +63,27 @@ module.exports = async function (self, options) {
          */
         if (req.data.recaptchaSecret) {
             try {
-                const VERIFY_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${req.data.recaptchaSecret}&response=${req.body['recaptcha']}`;
-                const recaptchaResponse = await rp(VERIFY_URL, {method: 'POST'});
+                const VERIFY_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${req.data.recaptchaSecret}&response=${encodeURIComponent(req.body['recaptcha'])}`;
+                let recaptchaResponse = await rp(VERIFY_URL, {method: 'POST'});
+                recaptchaResponse = recaptchaResponse ? JSON.parse(recaptchaResponse) : '';
 
+                console.log('VERIFY_URL', VERIFY_URL);
                 console.log('recaptchaResponse', recaptchaResponse);
+                console.log('recaptchaResponse.success', recaptchaResponse.success);
 
                 if (!recaptchaResponse.success) {
-                    throw new Error('Recaptcha validation failed')
+                    throw new Error('Bot validation failed, Google thinks you are a bot. If not please refresh and retry')
                 }
             } catch(e) {
-                return next(e);
+                console.log('e',e)
+                res.setHeader('Content-Type', 'application/json');
+                return res.status(500).end(JSON.stringify({
+                    msg: e.message
+                }));
             }
         }
+
+        console.log('Post the request..')
 
         const options = {
             method: req.body.resourceId ? 'PUT' : 'POST',
@@ -94,7 +103,7 @@ module.exports = async function (self, options) {
 
                 res.setHeader('Content-Type', 'application/json');
                 res.status(500).end(JSON.stringify({
-                    msg: err.error[0]
+                    msg: err.message
                 }));
             });
     });

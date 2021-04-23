@@ -109,7 +109,6 @@ apos.define('resource-form-widgets', {
         };
 
         self.play = function ($widget, data, options) {
-
             // Init map
             if (!self.map) {
                 var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
@@ -128,7 +127,6 @@ apos.define('resource-form-widgets', {
                 var form = this;
                 initUploadField(form);
                 bindResourceFormValidation(form);
-
 
                 if ($(form).hasClass('auto-submit-form-container')) {
                     if (!window.hasModeratorRights) {
@@ -353,8 +351,14 @@ function bindResourceFormValidation(resourceForm) {
             $(form).removeClass('success-submit');
             $(form).removeClass('error-submit');
 
-            if (window.grecaptcha && window.recaptchaKey) {
+            if (window.recaptchaKey) {
                 console.log('grecaptcha validation')
+                grecaptcha.ready(function() {
+                    grecaptcha.execute(window.recaptchaKey, {action: 'submit'}).then(function (token) {
+                        $(form).find('input[name="recaptcha"]').val(token);
+                        submitForm(form);
+                    });
+                });
 
             } else {
                 console.log(' no grecaptcha validation')

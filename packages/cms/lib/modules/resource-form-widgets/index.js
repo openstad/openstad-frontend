@@ -51,7 +51,7 @@ module.exports = {
             {
                 name: 'general',
                 label: 'Algemeen',
-                fields: ['resource', 'redirect', '∂', 'dynamicFormSections']
+                fields: ['resource', 'redirect', 'dynamicFormSections']
             },
             {
                 name: 'title',
@@ -153,8 +153,6 @@ module.exports = {
                 }
 
                 widget.guestHash = await guestService.getHash(req);
-
-                console.log('widget.guestHash', widget.guestHash)
 
                 widget.resourceEndPoint = resourceInfo.resourceEndPoint;
 

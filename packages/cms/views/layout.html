@@ -91,17 +91,8 @@
   var doShowImage;
 
   {% if data.recaptchaKey %}
-    grecaptcha.ready(function () {
-      grecaptcha.execute('{{data.recaptchaKey}}', {action: 'submit'}).then(function (token) {
-        var elements = document.querySelectorAll('input[name="recaptcha"]');
-        console.log('Elements', elements);
-        console.log('Token', token);
-        elements[0].value= token;
-      });
-    });
+  var recaptchaKey = '{{data.recaptchaKey}}';
   {% endif %}
-
-
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}

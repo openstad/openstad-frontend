@@ -7,6 +7,8 @@
 <input class="form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
 <input type="hidden" name="resourceType" value="{{data.widget.resource}}" />
 <input type="hidden" name="resourceEndPoint" value="{{data.widget.resourceEndPoint}}" />
+<input type="hidden" name="recaptcha" />
+
 
 {% if data.widget.allowGuestFormSubmission %}
 <input type="hidden" name="guestHash" value="{{data.widget.guestHash}}" />
