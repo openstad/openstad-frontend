@@ -156,7 +156,7 @@ exports.fields = [
     name: 'buttonBorderRadius',
     label: 'Border radius of button',
     type: 'range',
-    selector: ['a.page-button-flag', '.filled-button', '.outlined-button', '.btn-primary', '.btn--blue', '.btn', '.btn-primary' ],
+    selector: ['a.page-button-flag', '.filled-button', '.outlined-button', '.btn-primary', '.btn--blue', '.btn', '.btn-primary', '.menu-cta-button' ],
     property: 'border-radius',
     min: 0,
     max: 50,

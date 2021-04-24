@@ -1,0 +1,190 @@
+@media screen and (min-width: 1200px) {
+    .container {
+        max-width: 1040px;
+    }
+}
+.section, header, footer, body {
+    background: #18171c !important;
+}
+
+.text-highlight {
+    color: #6f34fe !important;
+    font-weight: inherit;
+}
+
+.section {
+    padding: 100px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .section {
+        padding: 40px 0;
+    }
+}
+
+.outlined-button {
+    background: transparent;
+}
+
+/*
+    /images/icon-upload-video.png
+ */
+
+/* Maybe shouldnt be here */
+h1, h2, h3, h4, h5 {
+    color: #dad9df !important;
+    line-height: 1;
+}
+
+
+p {
+    color: #8c8a9d !important;
+    line-height: 1;
+}
+
+h1 {
+    font-size: 42px;
+}
+
+h2 {
+    font-size: 35px;
+}
+
+h3 {
+    font-size: 35px;
+}
+
+h4 {
+    font-size: 25px;
+}
+
+h5 {
+    font-size: 20px;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.bg-bubbles-dots-top-right {
+    background-repeat: no-repeat;
+    background-image: url(/images/bg-bubbles-dots-top-right.png);
+    background-position: top right;
+}
+
+.bg-double-bubbles-dots-left {
+    background-repeat: no-repeat;
+    background-image: url(/images/bg-double-bubbles-dots-left.png);
+    background-position: left center;
+}
+
+.bg-gradient-bubble-right {
+    background-repeat: no-repeat;
+    background-image: url(/images/bg-gradient-bubble-right.png);
+    background-position: center right;
+}
+
+.bg-bubble-dots-left {
+    background-repeat: no-repeat;
+    background-image: url(/images/bg-bubble-dots-left.png);
+    background-position: center right;
+}
+
+.card-with-icon {
+    background: #212026;
+    padding: 20px 15px;
+    height: 140px;
+    width: 140px;
+    font-size: 10px;
+    border-radius: 10px;
+    color: #797989;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.navbar-toggle .icon-bar {
+    background: #dad9df;
+}
+
+.card-with-icon .icon-for-card {
+    height: 35px;
+    display: block;
+    margin: 0 auto 8px;
+}
+
+.card-in-grid {
+    display: block;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    float: left;
+}
+
+@media screen and (max-width: 768px) {
+    .card-in-grid-container {
+        text-align: center;
+        font-size:0;
+    }
+    .card-in-grid {
+        display: inline-block;
+        margin: 15px;
+        float: none;
+        vertical-align: middle;
+    }
+}
+
+.account-menu {
+    background: #18171c;
+}
+
+#navbar .navbar-menu {
+    background: #18171c;
+
+}
+
+.accordeon .accordeon-item .title {
+    padding: 15px 60px 15px 20px;
+    font-size: 16px;
+    display: block;
+    background: transparent;
+    border: 1px solid #8c8a9d;
+    font-weight: bold;
+    text-align: left;
+    color: #8c8a9d;
+    border: none;
+}
+
+.accordeon .accordeon-item.closed .title {
+    background: transparent;
+    color: #8c8a9d;
+
+}
+
+.accordeon .accordeon-item .title:after {
+    background-image: url(/images/icon-add-grey.svg);
+}
+
+.accordeon .accordeon-item .description {
+    text-align: left;
+}
+
+.accordeon-item {
+    border: 1px solid #8c8a9d;
+    border-radius: 10px;
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.accordeon .accordeon-item:hover .title, .accordeon .accordeon-item .title:hover, .accordeon .accordeon-item .title {
+    background: transparent !important;
+}
+
+.accordeon .accordeon-item .description p {
+    padding: 10px 21px;
+    font-size: 14px;
+}
+
+footer, footer a, footer span, footer li,  footer p {
+    color: #8c8a9d !important;
+    font-size: 12px;
+}

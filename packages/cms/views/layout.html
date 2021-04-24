@@ -151,6 +151,9 @@
 {% set logoLink = appUrl %}
 {% endif %}
 
+{% if data.global.iconTheme %}
+{% set iconTheme = '-' + data.global.iconTheme %}
+{% endif %}
 {{ apos.cookieWarning.renderCookieWarning() | safe }}
 <a href="#main" class="skip-to-content-link">{{ __('Spring naar inhoud') }}</a>
 {% if not data.page.hideHeader %}
@@ -158,7 +161,6 @@
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-          {% if not data.global.logoPlacement or data.global.logoPlacement === 'aboveMenu' %}
           {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
@@ -168,15 +170,15 @@
               </div>
             </a>
             {% else %}
-            <a href="{{logoLink}}/" class="logo-uploaded logo-main-container">
+              {# in case logo is inMenu for mobile now still show above menu untill mobile menu structure is changed/improved #}
+            <a href="{{logoLink}}/" class="logo-uploaded logo-main-container {{ 'visible-xs' if data.global.logoPlacement === 'inMenu' }}">
             <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
             </a>
             {% endif %}
           {% else %}
-          <a href="{{logoLink}}/" class="logo-default logo-main-container">
+          <a href="{{logoLink}}/" class="logo-default logo-main-containerß">
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
           </a>
-          {% endif %}
           {% endif %}
         <div class="header-side-container">
           <div class="row">
@@ -262,12 +264,13 @@
         </div>
         <div class="hidden-active">
           <!--<span class="glyphicon glyphicon-remove"></span>!-->
-          <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
+          <img src="/modules/openstad-assets/img/close-icon{{iconTheme}}.svg" width="14" />
         </div>
       </button>
 
+
       {% if data.global.logoPlacement === 'inMenu' %}
-      <a href="{{logoLink}}/" class="logo-main-container logo-uploaded">
+      <a href="{{logoLink}}/" class="logo-main-container logo-uploaded hidden-xs">
         {% if data.global.siteLogo %}
         <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
         {% else %}
@@ -275,16 +278,17 @@
         {% endif %}
       </a>
       {% endif %}
+    `
       </div>
       <div class="{{ 'col-sm-10  col-xs-4' if data.global.logoPlacement === 'inMenu' else 'col-xs-12' }}" style="position: static">
 
       {% if data.global.displayMyAcount %}
       <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
         <div class="visible-active">
-          <img src="/modules/openstad-assets/img/avatar.svg" />
+          <img src="/modules/openstad-assets/img/avatar{{iconTheme}}.svg" />
         </div>
         <div class="hidden-active">
-          <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
+          <img src="/modules/openstad-assets/img/close-icon{{iconTheme}}.svg" width="14" />
         </div>
       </a>
       <div class="account-menu toggle-menu">
@@ -293,13 +297,22 @@
             {% if data.loggedIn %}
             <a href="/oauth/logout" class="logout-button" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
-              <img src="/modules/openstad-assets/img/avatar.svg" />
+              <img src="/modules/openstad-assets/img/avatar{{iconTheme}}.svg" />
+              <img src="/modules/openstad-assets/img/avatar{{iconTheme}}.svg" />
+              {% if data.global.textLogout %}
+              {{data.global.textLogout}}
+              {% else %}
               {{ __('Uitloggen') }}
+              {% endif %}
             </a>
             {% else %}
             <a href="/oauth/login"  role="button">
-              <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+              {% if data.global.textLogin %}
+              {{data.global.textLogin}}
+              {% else %}
               {{ __('Mijn account') }}
+              {% endif %}
+              <!-- <span class="glyphicon glyphicon-user"></span>  !-->
             </a>
             {% endif %}
           </div>
@@ -364,7 +377,7 @@
             {% if data.global.displayLoginTopLink %}
             <li class="visible-xs">
               {% if data.loggedIn %}
-              <a href="/oauth/logout"                       class="nav-link ">
+              <a href="/oauth/logout" class="nav-link ">
                 {{ __('Uitloggen') }}
               </a>
               {% else %}
@@ -387,14 +400,21 @@
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}
       				<a href="/oauth/logout" class="account logout-button" role="button">
-                <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
-                {{ __('Uitloggen') }}
-              </a>
+                      {% if data.global.textLogout %}
+                      {{data.global.textLogout}}
+                      {% else %}
+                      {{ __('Uitloggen') }}
+                      {% endif %}
+                    </a>
         			{% else %}
       				<a href="/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-                <img src="/modules/openstad-assets/img/avatar.svg" />
-                {{ __('Mijn account') }}
+                      {% if data.global.textLogin %}
+                      {{data.global.textLogin}}
+                      {% else %}
+                      <img src="/modules/openstad-assets/img/avatar{{iconTheme}}.svg" />
+                      {{ __('Mijn account') }}
+                      {% endif %}
               </a>
         			{% endif %}
               {% endif %}
@@ -431,7 +451,7 @@
         <div class="col-sm-3 col-xs-12">
           <h2>{{column.title}}</h2>
           <p>
-            {{column.description}}
+            {{column.description | safe}}
           </p>
           <ul>
             {% for link in column.links %}

@@ -146,6 +146,42 @@ module.exports = [
   },
 
   {
+    type: 'string',
+    name: 'textLogin',
+    label: "Text for login",
+  },
+  {
+    type: 'string',
+    name: 'textLogout',
+    label: "Text for logout",
+  },
+  {
+    type: 'string',
+    name: 'textLogout',
+    label: "Text for logout",
+  },
+  {
+    type: 'select',
+    name: 'iconTheme',
+    label: 'Icon theme ',
+    choices: [
+      {
+        value: '',
+        label: "None",
+      },
+      {
+        value: 'dark',
+        label: "Dark",
+
+      },
+      {
+        value: 'light',
+        label: "Light",
+
+      },
+    ]
+  },
+  {
     type: 'boolean',
     name: 'hideSiteTitle',
     label: 'Hide the site title in the header?',
