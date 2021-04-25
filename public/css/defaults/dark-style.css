@@ -13,7 +13,7 @@
 }
 
 .section {
-    padding: 100px 0;
+    padding: 70px 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -188,3 +188,4 @@ footer, footer a, footer span, footer li,  footer p {
     color: #8c8a9d !important;
     font-size: 12px;
 }
+

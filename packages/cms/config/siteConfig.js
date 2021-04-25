@@ -188,6 +188,7 @@ module.exports = {
         'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
         'submissions-widgets': {},
+        'pricing-table-widgets': {},
         'participatory-budgeting-widgets': {},
         'begroot-widgets': {},
         'choices-guide-widgets': {},
