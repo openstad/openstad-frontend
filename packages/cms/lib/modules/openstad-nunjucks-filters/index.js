@@ -15,8 +15,8 @@ module.exports = {
       return s ? addHttp(s) : '';
     });
 
-    self.apos.templates.addFilter('currency', function (s) {
-      return s ? currency(s) : '';
+    self.apos.templates.addFilter('currency', function (s, sign) {
+      return s ? currency(s, sign) : '';
     });
 
     self.apos.templates.addFilter('safeRelativeUrl', function (s) {

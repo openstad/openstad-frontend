@@ -1,163 +1,79 @@
 <style>
- {{data.widget.formattedContainerStyles}}
+    {{data.widget.formattedContainerStyles}}
 </style>
 
-<div id="{{data.widget.containerId}}" class="pricing-table"  >
-		<div class="pricing-content">
-			<div class="PageWidth">
-				<div class="pricing-detail-content">
-				<div class="pricing-content-items-tabs">
-					<div class="pricing-yearly">
-            {% for step in data.widget.steps %}
-    					<div class="pricing-item">
-    						<div class="pricing-item-box">
-    						<div class="plan-name">{{step.title}}</div>
-    						<div class="plan-text">
-                  {{step.description | sanitize | safe}}
+<div id="{{data.widget.containerId}}" class="pricing-table">
+    <div class="pricing-content">
+        <div class="PageWidth">
+            <div class="pricing-detail-content">
+                <div class="pricing-content-items-tabs">
+                    <div class="pricing-yearly">
+                        {% for step in data.widget.steps %}
+                        <div class="pricing-item">
+                            <div class="pricing-item-box">
+                                <div class="plan-name">{{step.title}}</div>
+                                <div class="plan-text">
+                                    {{step.description | sanitize | safe}}
+                                </div>
+
+                                {% if step.price %}
+                                <div class="plan-price-content">
+                                    <div class="plan-price">
+                                        {{step.price | currency(data.widget.currency)}} <span class="month-text">/{{step.pricePer}}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                {% if step.links %}
+                                <ul>
+
+                                </ul>
+                                {% endif %}
+
+                                <div class="plan-features">
+                                    {% for feature in step.features %}
+                                    <div class="plan-feature-item">
+                                        {{ feature.description }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+
+                                {% if step.ctaButtonUrl %}
+                                <div class="plan-button">
+                                    <a href="{{step.ctaButtonUrl}}">
+                                        {{step.ctaButtonText}}
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
-
-    						<div class="plan-price-content">
-    							<div class="plan-price">
-                    {{step.price | currency}} <span class="month-text">/{{step.pricePer}}</span>
-                  </div>
-    						</div>
-
-               {% if step.links %}
-               <ul>
-
-               </ul>
-               {% endif %}
-
-    						<div class="plan-features">
-                  {% for feature in step.features %}
-                  <div class="plan-feature-item">
-                    {{ feature.description }}
-                  </div>
-                  {% endfor %}
-    						</div>
-
-                {% if step.ctaButtonUrl %}
-    						<div class="plan-button">
-                  <a href="{{step.ctaButtonUrl}}">
-                    {{step.ctaButtonText}}
-                  </a>
-                </div>
-                {% endif %}
-    						</div>
-    					</div>
-            {% endfor %}
-				 </div>
-
-					<div class="pricing-monthly">
-					<div class="pricing-item">
-						<div class="pricing-item-box">
-						<div class="plan-name">Free</div>
-						<div class="plan-text"><span class="text-bold">Best for</span> Startup agencies who want to automate their reporting</div>
-
-						<div class="plan-price-content">
-							<div class="plan-price">$0<span class="month-text">/month</span></div>
-
-						</div>
-
-						<div class="plan-features">
-							<div class="plan-feature-item">5 Clients</div>
-
-						</div>
-
-						<div class="plan-button"><a href="">Buy Now</a></div>
-						</div>
-					</div>
-					<div class="pricing-item">
-						<div class="pricing-item-box">
-						<div class="plan-name">Starter</div>
-						<div class="plan-text"><span class="text-bold">Best for</span> Startup agencies who want to automate their reporting</div>
-
-						<div class="plan-price-content">
-							<div class="plan-price">$300<span class="month-text">/month</span></div>
-
-						</div>
-
-						<div class="plan-features">
-							<div class="plan-feature-item">15 Clients</div>
-							<div class="plan-feature-item">Unlimited Reports</div>
-							<div class="plan-feature-item">Unlimited Live Dashboards</div>
-						</div>
-
-						<div class="plan-button"><a href="">Buy Starter</a></div>
-						</div>
-					</div>
-					<div class="pricing-item">
-
-						<div class="pricing-item-box">
-							<span class="ribbon"></span>
-						<div class="plan-name">Professional</div>
-						<div class="plan-text"><span class="text-bold">Best for</span> Agencies who want a brandable marketing platform</div>
-
-						<div class="plan-price-content">
-							<div class="plan-price">$625<span class="month-text">/month</span></div>
-
-						</div>
-
-						<div class="plan-features">
-							<div class="plan-feature-item">30 Clients</div>
-							<div class="plan-feature-item">Unlimited Reports</div>
-							<div class="plan-feature-item">Unlimited Live Dashboards</div>
-						</div>
-						<div class="plan-button"><a href="" class="plan-button-blue ">Buy Professional</a></div>
-						</div>
-					</div>
-					<div class="pricing-item">
-						<div class="pricing-item-box">
-						<div class="plan-name">Enterprise</div>
-						<div class="plan-text"><span class="text-bold">Best for</span> Large agencies who want to scale their processes</div>
-
-						<div class="plan-price-content">
-							<div class="plan-price">Contact us</div>
-
-						</div>
-
-						<div class="plan-features">
-							<div class="plan-feature-item">Everything in Team plan &</div>
-							<div class="plan-feature-item">Marketing Operations - Workflow Management</div>
-							<div class="plan-feature-item">Marketing Analytics</div>
-							<div class="plan-feature-item">Custom Connectors</div>
-							<div class="plan-feature-item">Data </div>
-							<div class="plan-feature-item">HIPAA compliance</div>
-							<div class="plan-feature-item">Franchise Solutions</div>
-							<div class="plan-feature-item">Storage</div>
-							<div class="plan-feature-item">150+ Data Sources</div>
-						</div>
-						<div class="plan-button"><a href="">Contact Us</a></div>
-						</div>
-					</div>
-				</div>
-
-
-         </div>
-			</div>
-  </div>
-</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-  $("#tab1").click(function(){
+    $(document).ready(function () {
+        $("#tab1").click(function () {
 
-   $('.pricing-monthly').addClass('active-tab-content');
-   $('.pricing-yearly').hide();
-   $(this).addClass('tab-active');
-     $('#tab2').removeClass('tab-active');
+            $('.pricing-monthly').addClass('active-tab-content');
+            $('.pricing-yearly').hide();
+            $(this).addClass('tab-active');
+            $('#tab2').removeClass('tab-active');
 
-  });
- $("#tab2").click(function(){
+        });
+        $("#tab2").click(function () {
 
-   $('.pricing-monthly').removeClass('active-tab-content');
-   $('.pricing-yearly').show();
-  $(this).addClass('tab-active');
-     $('#tab1').removeClass('tab-active');
-  });
+            $('.pricing-monthly').removeClass('active-tab-content');
+            $('.pricing-yearly').show();
+            $(this).addClass('tab-active');
+            $('#tab1').removeClass('tab-active');
+        });
 
 
-  });
+    });
 
 </script>

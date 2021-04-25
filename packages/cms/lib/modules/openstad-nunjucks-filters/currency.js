@@ -9,11 +9,14 @@
  * // => $102,432.56
  *
  * @param  {Number} input The input to convert.
- * @param  {String} sign  The currency string, defaults to '$'
+ * @param  {String} sign  The currency string, defaults to '€' ($)
  * @return {String}
  */
 module.exports = function(input, sign) {
   const digitsRegex= /(\d{3})(?=\d)/g;
+
+  console.log('input ----', input);
+  console.log('sign ----', sign);
 
   if(input == null || !isFinite(input)) {
     //throw new Error('input needs to be a number');

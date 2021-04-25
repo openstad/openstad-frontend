@@ -73,8 +73,21 @@ module.exports = {
 
             ]
         },
-
-
+        {
+            type: 'select',
+            name: 'currency',
+            label: 'Currency SIGN',
+            choices: [
+                {
+                    value: '€',
+                    label: "Euro (€)",
+                },
+                {
+                    value: '$',
+                    label: "Dollar ($)",
+                }
+            ]
+        },
       styleSchema.definition('containerStyles', 'Styles for the container')
     ],
   construct: function (self, options) {
