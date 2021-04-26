@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.16.0 (2020-04-26)
 * Add cookie consent for video widget
 
 ## v0.15.0 (2020-04-06)
