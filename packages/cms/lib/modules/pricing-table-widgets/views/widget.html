@@ -54,26 +54,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#tab1").click(function () {
-
-            $('.pricing-monthly').addClass('active-tab-content');
-            $('.pricing-yearly').hide();
-            $(this).addClass('tab-active');
-            $('#tab2').removeClass('tab-active');
-
-        });
-        $("#tab2").click(function () {
-
-            $('.pricing-monthly').removeClass('active-tab-content');
-            $('.pricing-yearly').show();
-            $(this).addClass('tab-active');
-            $('#tab1').removeClass('tab-active');
-        });
-
-
-    });
-
-</script>
