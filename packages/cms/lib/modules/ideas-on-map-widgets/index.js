@@ -38,6 +38,11 @@ module.exports = {
         fields: ['selectedSorting', 'defaultSorting']
       },
       {
+        name: 'idea-image',
+        label: 'Idee afbeeldingen',
+        fields: ['imageAllowMultipleImages', 'imageAspectRatio', 'imagePlaceholderImageSrc']
+      },
+      {
         name: 'idea-details',
         label: 'Idee details',
         fields: ['metaDataTemplate', 'showShareButtons', 'shareChannelsSelection']
@@ -69,7 +74,7 @@ module.exports = {
 
 			widgets.forEach((widget) => {
 
-			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), self.apos ));
         widget.openstadComponentsUrl = openstadComponentsUrl;
 
         const containerId = self.apos.utils.generateId();

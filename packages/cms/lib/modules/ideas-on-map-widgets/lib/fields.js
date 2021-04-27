@@ -289,7 +289,7 @@ module.exports = [
 	{
 		name: 'ideaName',
 		type: 'string',
-		label: 'Naam voor idea',
+		label: 'Naam voor ideas',
 		def: 'Inzending',
 		required: false
 	},
@@ -384,6 +384,49 @@ module.exports = [
     label: 'Select the default sorting',
     choices: sortingOptions
   },
+
+  {
+    name: 'imageAllowMultipleImages',
+    type: 'boolean',
+    label: 'Meerdere afbeeldingen bij een idee',
+    choices: [
+      {
+        value: true,
+        label: "Yes",
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: false
+  },
+
+  {
+    name: 'imagePlaceholderImageSrc',
+    type: 'attachment',
+    svgImages: true,
+    label: 'Default afbeelding',
+    apiSyncField: 'styling.logo',
+    trash: true
+  },
+
+	{
+		name: 'imageAspectRatio',
+		type: 'select',
+		label: 'Aspect ratio',
+		choices: [
+			{
+				label: '16:9',
+				value: '16x9'
+			},
+			{
+				label: '1:1',
+				value: '1x1'
+			}
+		],
+    def: '16x9',
+	},
 
   { 
     name: 'metaDataTemplate',

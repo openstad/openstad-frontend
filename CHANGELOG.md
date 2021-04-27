@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add config options to openstad components: default image, aspect ratio, allow multiple
+
 ## v0.16.0 (2020-04-26)
 * Add cookie consent for video widget
 

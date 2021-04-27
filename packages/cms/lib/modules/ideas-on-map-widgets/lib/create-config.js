@@ -1,6 +1,6 @@
 const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
 
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, apos) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -16,12 +16,15 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
   if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
   contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
 
-  // allowMultipleImages to formfields
+  // image settings; todo: deze moeten syncen naar de api en dan moet de voorwaardelijkheid omgedraaid
+  let allowMultipleImages = typeof widget.imageAllowMultipleImages != 'undefined' ? widget.imageAllowMultipleImages : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.allowMultipleImages != 'undefined' ) ? data.global.siteConfig.ideas.allowMultipleImages : false );
+  let placeholderImageSrc = typeof widget.imagePlaceholderImageSrc != 'undefined' ? apos.attachments.url(widget.imagePlaceholderImageSrc) : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.placeholderImageSrc != 'undefined' ) ? data.global.siteConfig.ideas.placeholderImageSrc : undefined );
+
+  // formfields
   let formFields = [ ...widget.formFields ];
-  let allowMultipleImages = ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.allowMultipleImages ) || false;
   formFields.forEach((formField) => {
     if ( formField.inputType ==  "image-upload" ) {
-      formField.allowMultiple = allowMultipleImages;
+      formField.allowMultiple = allowMultipleImages; // todo: ik dnek dat deze niet meer nodig is
     }
   });
 
@@ -102,6 +105,17 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       defaultValue: widget.defaultSorting,
     },
 
+    image: {
+      server: {
+				process: '/image',
+				fetch: '/image',
+        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
+      },
+      aspectRatio: widget.imageAspectRatio || '16x9',
+      allowMultipleImages,
+      placeholderImageSrc,
+    },
+    
 		idea: {
       formUrl: widget.formUrl && data.siteUrl + widget.formUrl,
       showVoteButtons: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? data.global.siteConfig.ideas.showVoteButtons : true,
@@ -114,11 +128,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 			descriptionMinLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
 			allowMultipleImages,
-      imageserver: {
-        // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
-				process: '/image',
-				fetch: '/image',
-      },
       fields: formFields,
       shareChannelsSelection: widget.showShareButtons ? widget.shareChannelsSelection : [],
       metaDataTemplate: widget.metaDataTemplate,
