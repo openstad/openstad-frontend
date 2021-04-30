@@ -757,5 +757,15 @@
 	"Niels' zn test keuzes": "Niels' zn test keuzes",
 	"Test voor Fleur": "Test voor Fleur",
 	"ACC keuzewijzer": "ACC keuzewijzer",
-	"Weergave: afbeeldingen aspect ratio": "Weergave: afbeeldingen aspect ratio"
+	"Weergave: afbeeldingen aspect ratio": "Weergave: afbeeldingen aspect ratio",
+	"Edit Iframe": "Edit Iframe",
+	"Stop": "Stop",
+	"Done": "Done",
+	"In Progress...": "In Progress...",
+	"Successful": "Successful",
+	"Errors": "Errors",
+	"Completed": "Completed",
+	"Exporting changes for %s item(s) (%s)": "Exporting changes for %s item(s) (%s)",
+	"This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.": "This change is already committed for the %s locale. To push this change to additional locales, select them below, then click Export. Selecting the %s locale may still be helpful to select sub-locales.",
+	"Batch Export": "Batch Export"
 }
