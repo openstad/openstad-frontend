@@ -41,15 +41,16 @@
 
 		 window.addEventListener('scroll', function(event) {
        if (element) {
+         let questiongroupdiv = document.querySelector('.osc-question-group');
          if (window.pageYOffset >= threshold) {
            if (!element.className.match(/\ ?sticky/)) {
              element.classList += ' sticky';
-             document.querySelector('.osc-question-group').className += ' sticky-placeholder';
+             if (questiongroupdiv) questiongroupdiv.className += ' sticky-placeholder';
            }
            element.style.left = absLeft + 'px'
          } else {
            element.className = element.className.replace(/\ ?sticky/, '')
-           document.querySelector('.osc-question-group').className = document.querySelector('.osc-question-group').className.replace(/ ?sticky-placeholder/, '');
+           if (questiongroupdiv) questiongroupdiv.className = questiongroupdiv.className.replace(/ ?sticky-placeholder/, '');
            element.style.position = orgPos;
            element.style.top = orgTop;
            element.style.left = orgLeft;
