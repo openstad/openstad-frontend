@@ -616,7 +616,7 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 // ------------
 
 	.get(auth.can('ChoicesGuideResult', 'list'))
-			 .get(auth.useReqUser)
+	.get(auth.useReqUser)
 	.get(function(req, res, next) {
 		let where = { choicesGuideId: req.choicesguide.id };
 		let choicesGuideQuestionGroupId = parseInt(req.params.choicesGuideQuestionGroupId);
@@ -632,6 +632,8 @@ router.route('/:choicesGuideId(\\d+)(/questiongroup/:questionGroupId(\\d+))?/res
 						extraData: entry.extraData,
 						userFingerprint: entry.userFingerprint,
 						result: entry.result,
+						createdAt: entry.createdAt,
+						updatedAt: entry.updatedAt,
 					};
 					return json;
 				});
