@@ -129,7 +129,6 @@ router
         // get the user info using the access token
         let which = req.query.useOauth || 'default';
         let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
-        ;
         let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
         let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
         let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
@@ -232,7 +231,7 @@ router
     .get(function (req, res, next) {
         let which = req.query.useOauth || 'default';
         let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
-        ;
+
         let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
 
         let returnTo = req.query.returnTo;
