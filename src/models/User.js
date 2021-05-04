@@ -83,10 +83,10 @@ module.exports = function (db, sequelize, DataTypes) {
 					// for fields no DELETE action exists
 					if (action === 'create' || action === 'update') {
 						// if user is allowed to update all status
-						if (updateAllRoles.includes(user.role)) {
+						if (userHasRole(user, updateAllRoles)) {
 							roleToReturn = actionUserRole;
 						// check if active user is allowed to set user's role to member
-						} else if (updateMemberRoles.includes(user.role) && actionUserRole === memberRole) {
+						} else if (userHasRole(user, updateMemberRoles) && actionUserRole === memberRole) {
 							roleToReturn = actionUserRole;
 						} else {
 							roleToReturn = fallBackRole;
