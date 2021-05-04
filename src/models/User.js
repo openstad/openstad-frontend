@@ -44,11 +44,6 @@ module.exports = function (db, sequelize, DataTypes) {
 
         role: {
             type: DataTypes.STRING(32),
-            auth: {
-                createableBy: 'admin',
-                updateableBy: 'admin',
-                viewableBy: 'all',
-            },
             allowNull: false,
             defaultValue: 'anonymous',
             validate: {
@@ -57,10 +52,53 @@ module.exports = function (db, sequelize, DataTypes) {
                     msg: 'Unknown user role'
                 }
             },
-            auth: {
-                createableBy: 'admin',
-                updateableBy: 'admin',
-            },
+			auth:  {
+				/**
+				 * In case of setting the role
+				 * Admin are allowed to set all roles, but moderators only are allowed
+				 * to set members.
+				 *
+				 * @param actionUserRole
+				 * @param action (c)
+				 * @param user ()
+				 * @param self (user model)
+				 * @param site (site on which model is queried)
+				 */
+				authorizeData: function(actionUserRole, action, user, self, site) {
+					if (!self) return;
+
+					const updateAllRoles = ['admin'];
+					const updateMemberRoles = ['moderator'];
+					const fallBackRole = 'anonymous';
+					const memberRole = 'member';
+
+					// this is the role for User on which action is performed, not of the user doing the update
+                    actionUserRole = actionUserRole || self.role;
+
+					// by default return anonymous role if none of the conditions are met
+					let roleToReturn;
+
+					// only for create and update check if allowed, the other option, view and list
+					// for now its ok if a the public sees the role
+					// for fields no DELETE action exists
+					if (action === 'create' || action === 'update') {
+						// if user is allowed to update all status
+						if (updateAllRoles.includes(user.role)) {
+							roleToReturn = actionUserRole;
+						// check if active user is allowed to set user's role to member
+						} else if (updateMemberRoles.includes(user.role) && actionUserRole === memberRole) {
+							roleToReturn = actionUserRole;
+						} else {
+							roleToReturn = fallBackRole;
+						}
+
+					} else {
+						roleToReturn = actionUserRole;
+					}
+
+					return roleToReturn;
+				},
+			},
         },
         // For unknown/anon: Always `false`.
         // For members: `true` when the user profile is complete. This is set
