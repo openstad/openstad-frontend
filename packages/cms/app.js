@@ -169,8 +169,8 @@ async function run(id, siteData, options, callback) {
     const site = {_id: id}
 
     // construct cdn urls
-    let openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '';
-    if (openstadComponentsUrl.match('{version}')) {
+    let openstadComponentsCdn = process.env.OPENSTAD_COMPONENTS_CDN || 'https://cdn.jsdelivr.net/npm/openstad-components@{version}/dist';
+    if (openstadComponentsCdn.match('{version}')) {
 
       try {
         const fs = require('fs').promises;
@@ -195,12 +195,12 @@ async function run(id, siteData, options, callback) {
             let match = packageFile && packageFile.match(/"openstad-components":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/);
             version = match && match[1] || null;
         }
-        openstadComponentsUrl = openstadComponentsUrl.replace('{version}', version);
+        openstadComponentsCdn = openstadComponentsCdn.replace('{version}', version);
       } catch (err) {console.log('Error constructing cdn url', err);}
 
     }
 
-    const config = _.merge(siteData, options, { openstadComponentsUrl });
+    const config = _.merge(siteData, options, { openstadComponentsCdn });
     let assetsIdentifier;
 
     // for dev sites grab the assetsIdentifier from the first site in order to share assets

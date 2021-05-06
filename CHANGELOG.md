@@ -4,6 +4,7 @@
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
 * Fix js error when editing choices guides
+* Add CDN automation
 
 ## v0.16.0 (2020-04-26)
 * Add cookie consent for video widget

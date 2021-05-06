@@ -47,7 +47,7 @@ module.exports = {
           nextUrl: widget.nextLabel && req.data.siteUrl + widget.nextUrl,
           nextLabel: widget.nextLabel,
         });
-        widget.openstadComponentsUrl = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsUrl;
+        widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
