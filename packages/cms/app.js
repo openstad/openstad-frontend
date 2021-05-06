@@ -165,10 +165,42 @@ function serveSite(req, res, siteConfig, forceRestart) {
         });
 }
 
-function run(id, siteData, options, callback) {
+async function run(id, siteData, options, callback) {
     const site = {_id: id}
 
-    const config = _.merge(siteData, options);
+    // construct cdn urls
+    let openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '';
+    if (openstadComponentsUrl.match('{version}')) {
+
+      try {
+        const fs = require('fs').promises;
+        const util = require('util');
+        const exec = util.promisify(require('child_process').exec);
+     
+        let { stdout, stderr } = await exec('git rev-parse --abbrev-ref HEAD');
+        let branch = stdout && stdout.toString();
+
+        let tag = 'alpha';
+        if (branch == 'release') tag = 'beta';
+        if (branch == 'master') tag = 'latest';
+     
+        // get current published version
+        ({ stdout, stderr } = await exec('npm view --json openstad-components'));
+        let info = stdout && stdout.toString();
+        info = JSON.parse(info)
+        let version = info['dist-tags'][tag];
+        if (!version) {
+            // fallback
+            let packageFile = fs.readFileSync(`${__dirname}/package.json`).toString() || '';
+            let match = packageFile && packageFile.match(/"openstad-components":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/);
+            version = match && match[1] || null;
+        }
+        openstadComponentsUrl = openstadComponentsUrl.replace('{version}', version);
+      } catch (err) {console.log('Error constructing cdn url', err);}
+
+    }
+
+    const config = _.merge(siteData, options, { openstadComponentsUrl });
     let assetsIdentifier;
 
     // for dev sites grab the assetsIdentifier from the first site in order to share assets

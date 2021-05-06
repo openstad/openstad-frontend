@@ -1,6 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
-const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const rp = require('request-promise');
 
 module.exports = {
@@ -48,7 +47,7 @@ module.exports = {
           nextUrl: widget.nextLabel && req.data.siteUrl + widget.nextUrl,
           nextLabel: widget.nextLabel,
         });
-        widget.openstadComponentsUrl = openstadComponentsUrl;
+        widget.openstadComponentsUrl = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsUrl;
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';

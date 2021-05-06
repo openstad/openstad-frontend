@@ -6,7 +6,6 @@
  */
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
-const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const rp = require('request-promise');
 
 const fields = require('./lib/fields');
@@ -43,7 +42,7 @@ module.exports = {
 
 			widgets.forEach((widget) => {
 			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
-        widget.openstadComponentsUrl = openstadComponentsUrl;
+        widget.openstadComponentsUrl = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsUrl;
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
