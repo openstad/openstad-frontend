@@ -10,58 +10,22 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
 
-        var settings = {
-            singleResources: [
-                'styling'
-            ],
-            editableResources: [
-                'workoutProgram',
-                'workout',
-                'exercise',
-                'membership'
-            ],
-            defaultResources: [
-                {
-                    name: 'styling',
-                    items: [{
-
-                    }],
-                },
-                {
-                    name: 'workoutProgram',
-                    items: [],
-                },
-                {
-                    name: 'workout',
-                    items: [],
-                },
-                {
-                    name: 'exercise',
-                    items: [],
-                },
-                {
-                    name: 'membership',
-                    items: [{
-
-                    }],
-                },
-            ]
-        }
-
-        var defaultUser = {
-            id: 1,
-            firstName: 'Tosh',
-            lastName: 'koevoets'
-        }
+        var settings = AppEditor.settings.workout;
 
         var appProps = {
-            appId:1,
-            editableResources: settings.editableResources,
-            singleResources: settings.singleResources,
-            defaultResources: settings.defaultResources,
-            user: defaultUser,
-            apiBase: '/api/site/{{data.global.siteId}}'
+                appId: {{data.activeResource.id}},
+                editableResources: settings.editableResources,
+                singleResources: settings.singleResources,
+                defaultResources: settings.defaultResources,
+                appTemplates: settings.appTemplates,
+                apiBase: '/api/site/{{data.global.siteId}}',
+                siteKey: '',
+                jwt: '',
+                dummyUser: AppEditor.dummyUser,
+                logo: {src: '/modules/app-widgets/logo-your-move.png', width: 40, height: 40}
         };
+
+        console.log('AppEditor', AppEditor);
 
         ReactDOM.render(React.createElement(AppEditor.default, appProps), document.getElementById('admin-root'));
     });

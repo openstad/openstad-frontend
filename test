@@ -1,0 +1,80 @@
+staging - productions
+{
+  "grant": {
+        "defaults": {
+  "protocol": "https",
+  "host": "buurtbudget-api.openstadsdeel.nl"
+},
+
+    "mijnopenstad": {
+      "protocol": "https",
+      "host": "buurtbudget-api.staging.openstadsdeel.nl",
+      "oauth_host": "mijnopenstad.staging.openstadsdeel.nl",
+      "oauth_protocol": "https",
+      "authorize_url":  "https://mijnopenstad.staging.openstadsdeel.nl/dialog/authorize",
+      "access_url": "https://mijnopenstad.staging.openstadsdeel.nl/oauth/token",
+      "callback": "/auth/mijnopenstad/callback",
+      "oauth": 2,
+      "key": "064e10ac0e36b0e2bff24a130f29e670",
+      "secret": "4c9bbb60ba9f30f2e7e5687592de2c11",
+      "scope": ["*"]
+    }
+  }
+}
+
+{
+  "grant": {
+"defaults": {
+  "protocol": "https",
+  "host": "buurtbudget-api.openstadsdeel.nl"
+},
+    "mijnopenstad": {
+      "protocol": "https",
+      "host": "buurtbudget-api.staging.openstadsdeel.nl",
+      "oauth_host": "mijnopenstad.staging.openstadsdeel.nl",
+      "oauth_protocol": "https",
+      "authorize_url":  "https://mijnopenstad.staging.openstadsdeel.nl/dialog/authorize",
+      "access_url": "https://mijnopenstad.staging.openstadsdeel.nl/oauth/token",
+      "callback": "/auth/mijnopenstad/callback",
+      "oauth": 2,
+      "key": "064e10ac0e36b0e2bff24a130f29e670",
+      "secret": "4c9bbb60ba9f30f2e7e5687592de2c11",
+      "scope": ["*"]
+    }
+  }
+}
+
+
+
+{
+  "grant": {
+  "defaults": {
+    "protocol": "https",
+    "host": "buurtbudget-api.openstadsdeel.nl"
+  },
+    "mijnopenstad": {
+      "protocol": "https",
+      "host": "buurtbudget-api.openstadsdeel.nl",
+      "oauth_host": "mijnopenstad.openstadsdeel.nl",
+      "oauth_protocol": "https",
+      "authorize_url":  "https://mijnopenstad.openstadsdeel.nl/dialog/authorize",
+      "access_url": "https://mijnopenstad.openstadsdeel.nl/oauth/token",
+      "callback": "/auth/mijnopenstad/callback",
+      "oauth": 2,
+      "key": "064e10ac0e36b0e2bff24a130f29e670",
+      "secret": "4c9bbb60ba9f30f2e7e5687592de2c11314",
+      "scope": ["*"]
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -15,7 +15,6 @@
 
 {# --- Google new style --- #}
 {% if data.global.analyticsType == 'google-analytics-new-style' %}
-{% if data.cookieConsent %}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{data.global.analyticsIdentifier}}"></script>
 <script>
  window.dataLayer = window.dataLayer || [];
@@ -24,12 +23,9 @@
  gtag('config', '{{data.global.analyticsIdentifier}}');
 </script>
 {% endif %}
-{% endif %}
 
 {# --- Custom code --- #}
 {% if data.global.analyticsType == 'custom' %}
-{% if data.cookieConsent %}
 {{data.global.analyticsCodeBlock | safe}}
-{% endif %}
 {% endif %}
 

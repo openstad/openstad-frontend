@@ -22,6 +22,16 @@
     font-weight: inherit;
 }
 
+.hip-label.hip-active label.hip, .hip-label :focus+label.hip {
+    color: #6f34fe;
+    top: -2px;
+    font-size: 11px;
+}
+
+.hip-label input[type="text"], .hip-label input[type="date"], .hip-label input[type="phone"], .hip-label input[type="email"], .hip-label input[type="number"], .hip-label textarea, .hip-label trix-editor {
+    padding: 15px 9px 10px;
+}
+
 .section {
     padding: 70px 0;
 }
@@ -47,7 +57,7 @@ h1, h2, h3, h4, h5 {
 }
 
 
-p {
+p, a, label {
     color: #8c8a9d !important;
     line-height: 1;
 }

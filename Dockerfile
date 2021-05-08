@@ -51,6 +51,7 @@ RUN npm install -g nodemon
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
 RUN mkdir -p /home/app/public
+RUN mkdir -p /home/app/public
 RUN mkdir -p /home/app/public/modules
 RUN mkdir -p /home/app/public/css
 RUN mkdir -p /home/app/public/js
