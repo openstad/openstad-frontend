@@ -38,7 +38,7 @@ WORKDIR /home/app
 # Bundle app source
 COPY . /home/app
 
-RUN cp -r ./packages/cms/test test
+#RUN cp -r ./packages/cms/test test
 
 RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
