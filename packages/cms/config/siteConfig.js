@@ -77,6 +77,10 @@ module.exports = {
               '/fetch-image',
               '/api/site/167/newslettersignup',
               '/api/site/*/newslettersignup',
+              '/api/site/*/tour/*',
+                '/api/site/19/tour/*',
+              '/api/site/19/tour/1'
+
               //     '/api/site/*/vote/*/toggle',
 
               //     '/vote',
