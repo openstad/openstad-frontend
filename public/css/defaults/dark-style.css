@@ -57,8 +57,13 @@ h1, h2, h3, h4, h5 {
 }
 
 
-p, a, label {
+p {
     color: #8c8a9d !important;
+    line-height: 1;
+}
+
+a, label {
+    color: #8c8a9d;
     line-height: 1;
 }
 
