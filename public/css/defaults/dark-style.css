@@ -24,12 +24,12 @@
 
 .hip-label.hip-active label.hip, .hip-label :focus+label.hip {
     color: #6f34fe;
-    top: -2px;
+    top: 3px;
     font-size: 11px;
 }
 
 .hip-label input[type="text"], .hip-label input[type="date"], .hip-label input[type="phone"], .hip-label input[type="email"], .hip-label input[type="number"], .hip-label textarea, .hip-label trix-editor {
-    padding: 15px 9px 10px;
+    padding: 10px 9px 10px;
 }
 
 .section {
