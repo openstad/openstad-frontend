@@ -400,7 +400,8 @@ function bindResourceFormValidation(resourceForm) {
                             var resourceIdInput = '<input type="hidden" name="resourceId" value="' + response.id + '">';
                             var putInput = '<input type="hidden" name="_method" value="PUT">';
                             $(form).append(resourceIdInput + putInput);
-                            $(form).find('input[type="submit"]').val('Opslaan');
+                            var inputLabel = $(form).find('input[type="submit"]').val()
+                            $(form).find('input[type="submit"]').val(inputLabel.replace("...", ""));
                             $(form).find('input[type="submit"]').attr('disabled', false);
                         }
 
