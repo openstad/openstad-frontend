@@ -31,14 +31,9 @@ apos.define('resource-form-widgets', {
                 initUploadField(form);
                 bindResourceFormValidation(form);
 
-                console.log('running ');
 
                 if ($(form).hasClass('auto-submit-form-container')) {
-                    console.log('has class true ');
-
                     if (!window.hasModeratorRights) {
-                        console.log('$(form)', form);
-
                         $(form).submit();
                     }
                 }
@@ -356,8 +351,12 @@ function bindResourceFormValidation(resourceForm) {
                 }*/
         },
         submitHandler: function (form) {
-            $(form).find('input[type="submit"]').val('Verzenden...');
+            var buttonText = $(form).find('input[type="submit"]').val();
+
+            $(form).find('input[type="submit"]').val(buttonText + '...');
+
             $(form).find('input[type="submit"]').attr('disabled', true);
+
             $(form).addClass('submitting');
             $(form).removeClass('success-submit');
             $(form).removeClass('error-submit');
