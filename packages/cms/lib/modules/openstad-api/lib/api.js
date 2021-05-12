@@ -16,7 +16,6 @@ module.exports = (self, options) => {
       const value = self.getFieldValue(item, field);
       self.setApiConfigValue(siteConfig, field.apiSyncField, value);
     });
-
     const config = Object.assign({}, siteConfig);
     const areaId = config.area && config.area.id || null;
 
@@ -97,6 +96,107 @@ module.exports = (self, options) => {
 
     return request(options);
   };
+
+  /**
+   *
+   * @param {string} label
+   * @returns {Promise<*|null>}
+   */
+  self.getNotificationRuleSetByName = async (label) => {
+    const options = self.getOptionsWithAuth({
+      method: 'GET',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/?includeTemplate=true&includeRecipients=true&label=${label}`,
+
+    });
+
+    const result = await request(options);
+
+    return result[0] ? result[0] : null
+  };
+
+  self.addOrUpdateNotificationTemplate = async (data) => {
+    const options = self.getOptionsWithAuth({
+      method: 'POST',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/template`,
+      body: data,
+    });
+
+    if (data.id) {
+      options.method = 'PUT'
+    }
+
+    return request(options);
+  };
+
+  self.addOrUpdateNotificationRuleSet = async (data) => {
+    const options = self.getOptionsWithAuth({
+      method: 'POST',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset`,
+      body: data,
+    });
+
+    if (data.id) {
+      options.method = 'PUT'
+    }
+
+    return request(options);
+  };
+
+  self.addOrUpdateNotificationRecipient = async (data) => {
+    const options = self.getOptionsWithAuth({
+      method: 'POST',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/recipient`,
+      body: data,
+    });
+
+    if (data.id) {
+      options.method = 'PUT'
+    }
+
+    return request(options);
+  };
+
+  /**
+   * Delete Ruleset by id
+   * @param {int} id
+   * @returns {Promise<void>}
+   */
+  self.deleteNotificationRuleSet = async (id) => {
+    const options = self.getOptionsWithAuth({
+      method: 'DELETE',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/${id}`
+    });
+
+    return request(options);
+  }
+
+  /**
+   * Delete Template by id
+   * @param {int} id
+   * @returns {Promise<void>}
+   */
+  self.deleteNotificationTemplate = async (id) => {
+    const options = self.getOptionsWithAuth({
+      method: 'DELETE',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/template/${id}`
+    });
+
+    return request(options);
+  }
+
+  /**
+   * Delete Recipient by id
+   * @param {int} id
+   * @returns {Promise<void>}
+   */
+  self.deleteNotificationRecipient = async (id) => {
+    const options = self.getOptionsWithAuth({
+      method: 'DELETE',
+      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/recipient/${id}`
+    });
+
+    return request(options);
+  }
 
   self.getAllPolygons = async () => {
     const options = self.getOptions({

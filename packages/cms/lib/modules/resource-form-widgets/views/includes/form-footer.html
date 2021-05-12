@@ -7,6 +7,7 @@
 <input class="form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
 <input type="hidden" name="resourceType" value="{{data.widget.resource}}" />
 <input type="hidden" name="resourceEndPoint" value="{{data.widget.resourceEndPoint}}" />
+<input type="hidden" name="formName" value="{{data.widget.formName}}" />
 
 {% if data.widget.agreedRequired %}
 {% include 'includes/fields/agreed-checkbox.html' %}

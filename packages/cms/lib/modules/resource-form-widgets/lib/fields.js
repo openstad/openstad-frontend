@@ -1,4 +1,11 @@
 const fields = [
+    {
+      name: 'formName',
+      type: 'string',
+      label: 'Unique form id',
+      help: 'This form id must be unique on this site and must be lowercase with no whitespaces',
+      required: true
+    },
      {
         name: 'redirect',
         type: 'string',
@@ -21,6 +28,22 @@ const fields = [
               showFields: ['dynamicFormSections']
             },
         ]
+    },
+    {
+      name: 'formVisibility',
+      type: 'select',
+      label: 'Who can view this form?',
+      choices: [
+        {
+          value: 'user',
+          label: "Only users (and admin users)",
+        },
+        {
+          value: 'always',
+          label: "Everyone"
+        },
+      ],
+      def: 'user'
     },
     {
       name: 'hideAdminAfterPublicAction',
@@ -782,6 +805,80 @@ const fields = [
        type: 'string',
        label: 'Text for button to save',
     },
+    {
+      name: 'confirmationEnabledUser',
+      type: 'boolean',
+      label: 'Confirmation to user',
+      choices: [
+        {
+          value: 1,
+          label: "Yes",
+          showFields: ['confirmationTemplateNameUser', 'confirmationSubjectUser', 'confirmationEmailFieldUser', 'confirmationTemplateUser', 'confirmationEmailContentUser']
+        },
+        {
+          value: 0,
+          label: "No"
+        }
+      ]
+    },
+    {
+      name: 'confirmationTemplateNameUser',
+      type: 'string',
+      label: 'User template name',
+    },
+    {
+      name: 'confirmationSubjectUser',
+      type: 'string',
+      label: 'Confirmation subject to user',
+    },
+    {
+      name: 'confirmationEmailFieldUser',
+      type: 'string',
+      label: 'Confirmation email field',
+    },
+    {
+      name: 'confirmationEmailContentUser',
+      type: 'string',
+      label: 'Confirmation email content',
+      textarea: true
+    },
+    {
+      name: 'confirmationEnabledAdmin',
+      type: 'boolean',
+      label: 'Confirmation to admin',
+      choices: [
+        {
+          value: 1,
+          label: "Yes",
+          showFields: ['confirmationTemplateNameAdmin', 'confirmationSubjectAdmin', 'confirmationEmailFieldAdmin', 'confirmationTemplateAdmin', 'confirmationEmailContentAdmin']
+        },
+        {
+          value: 0,
+          label: "No"
+        }
+      ]
+    },
+    {
+      name: 'confirmationTemplateNameAdmin',
+      type: 'string',
+      label: 'Admin template name',
+    },
+    {
+      name: 'confirmationSubjectAdmin',
+      type: 'string',
+      label: 'Confirmation subject to Admin',
+    },
+    {
+      name: 'confirmationEmailFieldAdmin',
+      type: 'string',
+      label: 'Admin email field',
+    },
+    {
+      name: 'confirmationEmailContentAdmin',
+      type: 'string',
+      label: 'Admin email content',
+      textarea: true
+    }
 ];
 
 module.exports = fields;
