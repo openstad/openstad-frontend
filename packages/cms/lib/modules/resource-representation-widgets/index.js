@@ -35,7 +35,6 @@ module.exports = {
           const globalData = req.data.global;
           const siteConfig = req.data.global.siteConfig;
 
-
           widgets.forEach((widget) => {
               // render string with variables. Add active recource
               if (widget.containerStyles) {
