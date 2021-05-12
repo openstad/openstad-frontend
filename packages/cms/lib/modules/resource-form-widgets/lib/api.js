@@ -7,7 +7,7 @@ module.exports = async function(self, options) {
    * @returns {Promise<void>}
    */
   self.syncConfirmationFields = async (req, doc, options) => {
-    if ((doc.workflowLocale && doc.workflowLocale === 'default-draft') || (!doc.body || doc.body.items)) {
+    if ((doc.workflowLocale && doc.workflowLocale === 'default-draft') || (!doc.body || !doc.body.items)) {
       return;
     }
 
