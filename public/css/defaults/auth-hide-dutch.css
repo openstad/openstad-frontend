@@ -1,0 +1,7 @@
+.show-on-load h1, .show-on-load .intro{
+    display: none !important;
+}
+
+.flash-message--success {
+    display: none !important;
+}
