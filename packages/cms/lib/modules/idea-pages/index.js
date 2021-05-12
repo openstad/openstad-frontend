@@ -116,9 +116,16 @@ module.exports = {
             }
             const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
             const siteId = req.data.global.siteId;
+            const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+            const sitePrefix = '/' + req.sitePrefix;
 
-            req.redirectUrl = req.query.redirectUrl ? req.query.redirectUrl : '/' + req.data.global.ideaSlug + '/' + req.query.ideaId;
-
+            let redirectUrl  = req.query.redirectUrl ? req.query.redirectUrl : '/' + req.data.global.ideaSlug + '/' + req.query.ideaId;
+            // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
+            redirectUrl = sitePrefix && redirectUrl.startsWith(sitePrefix) ? redirectUrl.replace(sitePrefix, '') : redirectUrl;
+            // in case full url is prefixed remove it, otherwise will also cause issues
+            redirectUrl = siteUrl && redirectUrl.startsWith(siteUrl) ? redirectUrl.replace(siteUrl, '') : redirectUrl;
+            redirectUrl = siteUrl + redirectUrl;
+            req.redirectUrl = redirectUrl;
 
             req.data.formToSubmit = {
                 url: `/api/site/${siteId}/vote`,
@@ -135,12 +142,12 @@ module.exports = {
                     {
                         class: 'redirect-url',
                         name: 'redirectUrl',
-                        value: req.redirectUrl,
+                        value: redirectUrl,
                     },
                     {
                         class: 'redirect-error-url',
                         name: 'redirectErrorUrl',
-                        value: req.redirectUrl,
+                        value: redirectUrl,
                     },
                 ]
             }
