@@ -217,7 +217,7 @@ function selectIdea(newIdeaId, doNotOpen) {
 
 
 function setLoginUrlWithIdeaId(ideaId) {
-  var url =  loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
+  var url =  window.siteUrl + loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
   $('.validate-auth-button').attr('href', url);
 }
 

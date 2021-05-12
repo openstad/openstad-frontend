@@ -127,7 +127,9 @@ module.exports = {
         'openstad-auth': {},
         'openstad-template-cache': {},
         'openstad-login': {},
-        'openstad-api': {},
+        'openstad-api':  {
+          siteUrl: siteUrl,
+        },
         'openstad-pages': {},
         'openstad-global': {},
         'openstad-attachments': {},
