@@ -11,13 +11,13 @@
 							<div class="content">1. Kies</div>
 						</div>
 						<div id="steps-bar-2" class="step">
-							<div class="content">2. Overzicht</div>
+							<div class="content">2. Controleer</div>
 						</div>
 						<div id="steps-bar-3" class="step">
-							<div class="content">3. Stemcode</div>
+							<div class="content">3. Stem</div>
 						</div>
 						<div id="steps-bar-4" class="step">
-							<div class="content">4. Stem</div>
+							<div class="content">4. Bedankt</div>
 						</div>
 					</div>
 
@@ -62,7 +62,7 @@
 											{% if data.widget.votingType === 'count' or data.widget.votingType === 'count-per-theme'  %}
 											<table class="primary-color stretch table-reset">
 												<tr >
-													<td><label>Ideeën gekozen:</label> </td>
+													<td><label>Projecten gekozen:</label> </td>
 													<td><span class="current-ideas-count text-align-right block bold">0</span></td>
 												</tr>
 												<tr>
@@ -96,20 +96,20 @@
 											</div>
 										</div>
                     <div id="overview-themes-warning" class="hidden">
-                      <strong>Let op, je hebt (nog) geen plannen geselecteerd binnen de volgende thema’s:</strong>
+                      <strong>Let op, je hebt (nog) geen projecten geselecteerd binnen de volgende thema’s:</strong>
                       <ul class="themes"></ul>
-                      Je kunt doorgaan, of teruggaan naar de vorige stap om alsnog plannen te kiezen voor deze thema’s.
+                      Je kunt doorgaan, of teruggaan naar de vorige stap om alsnog projecten te kiezen voor deze thema’s.
                     </div>
 										<div id="budgeting-edit-mode-container" class="hidden align-left">
 											<div class="onoffswitch">
-												<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox budgeting-edit-mode"  onchange="setBudgetingEditMode();" id="budgeting-edit-mode" title="Verwijder een plan">
+												<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox budgeting-edit-mode"  onchange="setBudgetingEditMode();" id="budgeting-edit-mode" title="Verwijder een project">
 												<label class="onoffswitch-label" for="budgeting-edit-mode" tabindex="-1">
 													<span class="onoffswitch-inner"></span>
 													<span class="onoffswitch-switch"></span>
 												</label>
 											</div>
 											<div>
-												Verwijder een plan
+												Verwijder een project
 											</div>
 										</div>
 										<div id="vote-button-container">
@@ -122,12 +122,18 @@
 											{% set returnUrl = data.currentUrl + '&stemcode' %}
 											{% endif %}
 											{% endif %}
+                      <script>
+                       var IrmaParams = {
+                         siteUrl: '{{data.siteUrl}}',
+                         returnUrl: '{{returnUrl}}'
+                       }
+                      </script>
 											<!-- a href="{{data.siteUrl}}/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
-												Vul je stemcode in
-											</a -->
-											<a href="javascript: void voteWithIRMA('{{data.siteUrl}}', '{{returnUrl}}')" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
-												Stem met IRMA
-											</a>
+												   Vul je stemcode in
+											     </a -->
+											<!--a href="javascript: void voteWithIRMA('{{data.siteUrl}}', '{{returnUrl}}')" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
+												   Stem met IRMA
+											     </a -->
 											<div class="error-block">
 												Met deze stemcode is al gestemd.
 												Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.
@@ -163,6 +169,9 @@
 							Volgende
 						</button>
 					</div>
+					<div id="extra-info-bar">
+					  Om uw stem uit te brengen heeft u een stempas nodig. Heeft u nog geen stempas? <a id="extra-info-bar-link" href="https://openstad-irma-stempas.nl/">Haal dan een stempas op</a>.
+					</div>
 					<div id="steps-content-0" class="step">
 					  {% if (( data.widget.votingType == 'count-per-theme' or data.widget.votingType == 'budgeting-per-theme' ) and data.global.themes and data.global.themes.length > 0) %}
             <div class="themes-bar">
@@ -197,10 +206,10 @@
 									</div>
 								</a>
 								<div class="mobile-accordion-body" tabindex="0">
-                  <h4 style="padding-top: 10px;">Kies jouw favoriete plannen per thema!</h4>
+                  <h4 style="padding-top: 10px;">Kies jouw favoriete projecten per thema!</h4>
                   <ol type="1">
-                    <li>Selecteer hieronder een thema om de plannen voor dat thema te bekijken</li>
-                    <li>Kies jouw favoriete plannen voor dat thema{% if data.widget.votingType == 'budgeting-per-theme' %} binnen het beschikbare budget{% endif %}</li>
+                    <li>Selecteer hieronder een thema om de projecten voor dat thema te bekijken</li>
+                    <li>Kies jouw favoriete projecten voor dat thema{% if data.widget.votingType == 'budgeting-per-theme' %} binnen het beschikbare budget{% endif %}</li>
                     <li>Ga naar het volgende thema om hetzelfde te doen</li>
                     <li>Klaar en tevreden? In stap 3 vul je ter controle de stemcode in die je per post hebt ontvangen. Tot slot verstuur je in stap 4 je stem</li>
                   </ol>

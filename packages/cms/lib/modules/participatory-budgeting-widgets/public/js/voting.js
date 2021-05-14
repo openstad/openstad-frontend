@@ -5,8 +5,8 @@ if (votingContainer !== null) {
   // ----------------------------------------------------------------------------------------------------
   // budgeting functions
 
-  // stap 1: kies plannen
-  // stap 2: overzicht van je gekozen plannen
+  // stap 1: kies projecten
+  // stap 2: overzicht van je gekozen projecten
   // stap 3: vul je stemcode in, met knop naar mijnopenstad
   // stap 4: resultaat van het invullen van je stemcode
   // stap 5: stem nu, met knop
@@ -261,6 +261,7 @@ if (votingContainer !== null) {
 
   function nextStep(errorMessage) {
 
+    console.log('NEXTSTEP', currentStep);
 	  scrollToBudget()
 
 	  if (currentStep == 0) {
@@ -272,7 +273,7 @@ if (votingContainer !== null) {
             }
           });
           if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) {
-            errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
+            errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' projecten selecteren.';
             addError(document.querySelector('#current-budget-preview'), errorMessage)
 			      return;
           };
@@ -285,17 +286,17 @@ if (votingContainer !== null) {
 		  if (!isSelectionValid()) {
 			  var errorMessage;
 			  if (( votingType === 'count' && currentSelection.length === 0) || ( votingType === 'budgeting' && initialAvailableBudget - availableBudgetAmount == 0 )) {
-				  errorMessage = 'Je hebt nog geen plannen geselecteerd.'
+				  errorMessage = 'Je hebt nog geen projecten geselecteerd.'
 			  } else {
           if (votingType === 'count') {
-            errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+            errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' projecten selecteren.'
           }
           if (votingType === 'budgeting') {
             console.log(initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent, initialAvailableBudget, availableBudgetAmount, minimalBudgetSpent);
             if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
-				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
+				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan projecten geselecteerd.';
             } else {
-              errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
+              errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' projecten selecteren.'
             }
 			    }
 			  }
@@ -308,13 +309,13 @@ if (votingContainer !== null) {
               if (votingType === 'budgeting-per-theme') {
                 if (!(theme.initialAvailableBudget - theme.availableBudgetAmount >= theme.minimalBudgetSpent && theme.availableBudgetAmount >= 0) ) {
                   errorTheme = i;
-				          errorMessage = 'Je hebt nog niet voor ' + formatEuros(theme.minimalBudgetSpent) + ' aan plannen geselecteerd.';
+				          errorMessage = 'Je hebt nog niet voor ' + formatEuros(theme.minimalBudgetSpent) + ' aan projecten geselecteerd.';
                 }
               } else {
                 totalNoOf += theme.currentSelection.length;
                 if (!(theme.currentSelection.length >= theme.minIdeas)) {
                   errorTheme = i;
-                  errorMessage = 'Je moet ' + ( theme.minIdeas != theme.maxIdeas ? 'minimaal ' + theme.minIdeas : theme.minIdeas ) + ' plannen selecteren.';
+                  errorMessage = 'Je moet ' + ( theme.minIdeas != theme.maxIdeas ? 'minimaal ' + theme.minIdeas : theme.minIdeas ) + ' projecten selecteren.';
                 }
               }
             }
@@ -322,7 +323,7 @@ if (votingContainer !== null) {
 
           if (votingType === 'count-per-theme' || votingType === 'budgeting-per-theme') {
             if (( totalMaxIdeas && totalNoOf > totalMaxIdeas ) || ( totalMinIdeas && totalNoOf < totalMinIdeas )) {
-              errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' plannen selecteren.';
+              errorMessage = 'Je ' + ( totalNoOf < totalMinIdeas ? 'moet in totaal minimaal ' + totalMinIdeas : 'kunt in totaal maximaal ' + totalMaxIdeas ) + ' projecten selecteren.';
             };
           }
 
@@ -336,8 +337,8 @@ if (votingContainer !== null) {
 
 	  if (currentStep == 3) {
 		  // in stap 3 doet de knop niets
-		  addToClassName(document.querySelector('.button-stemcode.vul-je-stemcode-in'), 'do-this-first');
-		  return;
+			// addToClassName(document.querySelector('.button-stemcode.vul-je-stemcode-in'), 'do-this-first');
+			// return;
 	  }
 
 	  if (( votingType == 'budgeting-per-theme' || votingType == 'count-per-theme' ) && currentStep == 0) {
@@ -347,16 +348,21 @@ if (votingContainer !== null) {
     }
 
 	  if (currentStep == 3) {
-		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
-			  // user is al ingelogd en kan gaan stemmen
-			  currentStep = 4;
-		  }
+      return voteWithIRMA()
+      // if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+			//   // user is al ingelogd en kan gaan stemmen
+			//   currentStep = 4;
+		  // }
 	  }
 
 	  updateBudgetDisplay();
 
 	  if (currentStep == 3) {
-	  	$('a.button-stemcode').focus();
+	  	// $('a.button-stemcode').focus();
+		}
+
+	  if (currentStep == 4) {
+      return voteWithIRMA()
 		}
 
 	  if (currentStep == 5) {
@@ -373,8 +379,8 @@ if (votingContainer !== null) {
 			currentSelection = [];
 			openstadRemoveStorage('currentSelection');
 			openstadRemoveStorage('lastSorted');
-			openstadRemoveStorage('plannenActiveTab');
-			openstadRemoveStorage('plannenActiveFilter');
+			openstadRemoveStorage('projectenActiveTab');
+			openstadRemoveStorage('projectenActiveFilter');
 			openstadRemoveStorage('sortOrder');
 			availableBudgetAmount = initialAvailableBudget;
 		  window.location.href = path;
@@ -459,6 +465,7 @@ if (votingContainer !== null) {
 			    addToClassName(previewImages, 'hidden');
 			    addToClassName(document.querySelector('#budgeting-edit-mode-container'), 'hidden');
 			    addToClassName(previewTable, 'hidden');
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 
           // theme buttons
           themes.forEach( function(theme) {
@@ -480,6 +487,7 @@ if (votingContainer !== null) {
 
 			    addToClassName(document.querySelector('#steps-bar-1'), 'active')
 			    addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('.sticky-expand'), 'hidden')
 			    removeFromClassName(document.querySelector('.sticky-bar'), 'do-not-show-sticky')
@@ -513,7 +521,7 @@ if (votingContainer !== null) {
 
   				    var screenReaderTitle = document.createElement("span");
   				    screenReaderTitle.className = 'sr-only';
-  				    screenReaderTitle.textContent = 'Plan: ' + element.title + ', Thema: ' + element.getAttribute('data-theme') + ', Budget: € ' + element.getAttribute('data-budget');
+  				    screenReaderTitle.textContent = 'Project: ' + element.title + ', Thema: ' + element.getAttribute('data-theme') + ', Budget: € ' + element.getAttribute('data-budget');
 
   				    linkToIdea.appendChild(screenReaderTitle);
 
@@ -541,6 +549,7 @@ if (votingContainer !== null) {
 		    case 2:
 			    addToClassName(document.querySelector('#steps-bar-1'), 'passed')
 			    addToClassName(document.querySelector('#steps-bar-2'), 'active')
+			    removeFromClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden')
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
@@ -666,6 +675,7 @@ if (votingContainer !== null) {
 			    addToClassName(document.querySelector('#steps-bar-2'), 'passed')
 			    addToClassName(document.querySelector('#steps-bar-3'), 'active')
 			    addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden')
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
@@ -706,6 +716,7 @@ if (votingContainer !== null) {
 			    addToClassName(document.querySelector('#steps-bar-2'), 'passed');
 			    addToClassName(document.querySelector('#steps-bar-3'), 'active');
 			    addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
@@ -742,6 +753,7 @@ if (votingContainer !== null) {
 			    addToClassName(document.querySelector('#steps-bar-3'), 'passed');
 			    addToClassName(document.querySelector('#steps-bar-4'), 'active');
 			    addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
@@ -764,6 +776,7 @@ if (votingContainer !== null) {
 			    addToClassName(document.querySelector('#steps-bar-3'), 'passed');
 			    addToClassName(document.querySelector('#steps-bar-4'), 'active');
 			    addToClassName(document.querySelector('#overview-themes-warning'), 'hidden')
+			    addToClassName(document.querySelector('#extra-info-bar'), 'hidden')
 			    removeFromClassName(document.querySelector('#current-budget-bar'), 'hidden')
 			    addToClassName(document.querySelector('#ideasList'), 'hidden');
 			    addToClassName(document.querySelector('#begroot-content-area'), 'hidden');
@@ -975,7 +988,7 @@ if (votingContainer !== null) {
 			    removeFromClassName(previousButton, 'hidden');
         } else {
 			    addToClassName(previousButton, 'hidden');
-			    nextButton.innerHTML = 'Volgende';
+			    nextButton.innerHTML = 'Controleer';
         }
 			  if (isSelectionValid()) {
 				  addToClassName(nextButton, 'active')
@@ -986,7 +999,7 @@ if (votingContainer !== null) {
 
 		  case 2:
 			  previousButton.innerHTML = 'Vorige';
-			  nextButton.innerHTML = 'Volgende';
+			  nextButton.innerHTML = 'Stem met IRMA';
 			  removeFromClassName(previousButton, 'hidden');
 			  removeFromClassName(nextButton, 'hidden');
 
@@ -999,14 +1012,15 @@ if (votingContainer !== null) {
 			  break;
 
 		  case 3:
-			  nextButton.innerHTML = 'Stemmen';
+			  nextButton.innerHTML = 'Stem met IRMA';
 			  removeFromClassName(previousButton, 'hidden');
 			  removeFromClassName(nextButton, 'hidden');
-			  removeFromClassName(nextButton, 'active')
+			  // removeFromClassName(nextButton, 'active')
+			  addToClassName(nextButton, 'active');
 			  break;
 
 		  case 4:
-			  nextButton.innerHTML = 'Stemmen';
+			  nextButton.innerHTML = 'Stem met IRMA';
 			  removeFromClassName(previousButton, 'hidden');
 			  removeFromClassName(nextButton, 'hidden');
 			  addToClassName(nextButton, 'active');
@@ -1015,7 +1029,7 @@ if (votingContainer !== null) {
 			  break;
 
 		  case 6:
-			  nextButton.innerHTML = 'Klaar';
+			  nextButton.innerHTML = 'Naar projecten';
 			  addToClassName(previousButton, 'hidden');
 			  removeFromClassName(nextButton, 'hidden');
 			  addToClassName(nextButton, 'active');
@@ -1121,8 +1135,8 @@ if (votingContainer !== null) {
 			  currentSelection = [];
 			  openstadRemoveStorage('currentSelection');
 			  openstadRemoveStorage('lastSorted');
-			  openstadRemoveStorage('plannenActiveTab');
-			  openstadRemoveStorage('plannenActiveFilter');
+			  openstadRemoveStorage('projectenActiveTab');
+			  openstadRemoveStorage('projectenActiveFilter');
 			  openstadRemoveStorage('sortOrder');
 			  availableBudgetAmount = initialAvailableBudget;
 			  //nextStep();
@@ -1256,8 +1270,8 @@ if (votingContainer !== null) {
   // ----------------------------------------------------------------------------------------------------
   // tab selector functions
 
-  var activeTab = openstadGetStorage('plannenActiveTab') || 0;
-  var activeFilter = openstadGetStorage('plannenActiveFilter') || 0;
+  var activeTab = openstadGetStorage('projectenActiveTab') || 0;
+  var activeFilter = openstadGetStorage('projectenActiveFilter') || 0;
 
   (function() {
     //	activateTab(activeTab)
@@ -1277,7 +1291,7 @@ if (votingContainer !== null) {
 	  }
 
 
-    //	openstadSetStorage('plannenActiveTab', activeTab);
+    //	openstadSetStorage('projectenActiveTab', activeTab);
 
 	  var filterSelectorEl = document.getElementById('themaSelector');
 
@@ -1298,7 +1312,7 @@ if (votingContainer !== null) {
 	  gridderClose();
 	  activeTab = which;
 	  var filterSelectorEl = document.getElementById('filterSelector');
-	  //openstadSetStorage('plannenActiveFilter', activeTab);
+	  //openstadSetStorage('projectenActiveFilter', activeTab);
 
 	  if (which > 0) {
 		  addToClassName(filterSelectorEl, 'active');
@@ -1621,6 +1635,11 @@ if (votingContainer !== null) {
 
   function voteWithIRMA(siteUrl, returnUrl) {
 
+    console.log('VOTEWITHIRMA');
+    
+    siteUrl = siteUrl || IrmaParams.siteUrl;
+    returnUrl = returnUrl || IrmaParams.returnUrl;
+
     // see submitBudget
 	  var data = {
 		  budgetVote: currentSelection,
@@ -1859,10 +1878,10 @@ if (votingContainer !== null) {
 		}
 
   	// Todo: Refactor this into using constants and a user-changeable text
-  	var planMessage = 'Plan toegevoegd aan winkelmand.';
+  	var planMessage = 'Project toegevoegd aan winkelmand.';
 
   	if (!productAdded) {
-			planMessage = 'Plan verwijderd uit winkelmand.';
+			planMessage = 'Project verwijderd uit winkelmand.';
 		}
 
 		var div = document.createElement('div');
