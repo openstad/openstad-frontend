@@ -4,15 +4,15 @@ let resources  = require('../../../../config/resources.js').schemaFormat;
 
 resources = resources.map((resource) => {
   if ('idea' === resource.value) {
-    resource.showFields = ['voting', 'displayType', 'allowVotingInOverview'];
+    resource.showFields = ['voting', 'allowVotingInOverview'];
   } else if ('article' === resource.value) {
-    resource.showFields = ['displayType'];
+    //resource.showFields = ['displayType'];
   } else if ('activeUser' === resource.value) {
-    resource.showFields = ['displayType'];
+    //resource.showFields = ['displayType'];
   } else if ('user' === resource.value) {
-    resource.showFields = ['displayType'];
+    //resource.showFields = ['displayType'];
   } else if ('product' === resource.value) {
-    resource.showFields = ['displayType'];
+   // resource.showFields = ['displayType'];
   }
 
   return resource;
@@ -111,6 +111,13 @@ module.exports = [
     type: 'boolean',
     def: true
   },
+  {
+    name: 'includeUserId',
+    label: 'Include user id for fetching it\'s own ',
+    type: 'boolean',
+    def: true
+  },
+
   {
     name: 'displayEditLinkForModerator',
     label: 'Display edit link for Moderator?',

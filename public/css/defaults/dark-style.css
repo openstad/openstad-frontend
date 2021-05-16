@@ -261,3 +261,34 @@ footer, footer a, footer span, footer li,  footer p {
     background: #6f34fe;
     color: white;
 }
+
+.dark-row {
+    background: #212026;
+    padding: 15px 25px;
+    border-radius: 9px;
+    margin: 25px 0;
+}
+
+.dark-row h4, .dark-row a {
+    margin: 0;
+}
+
+.dark-row h4 {
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.flex-vertical-center {
+    align-items: center;
+}
+
+
