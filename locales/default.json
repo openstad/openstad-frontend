@@ -751,5 +751,6 @@
 	"Edit": "Edit",
 	"Revert": "Revert",
 	"No modifications to commit.": "No modifications to commit.",
-	"Include user id for fetching it's own ": "Include user id for fetching it's own "
+	"Include user id for fetching it's own ": "Include user id for fetching it's own ",
+	"Extra Meta Tags": "Extra Meta Tags"
 }

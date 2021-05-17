@@ -37,6 +37,12 @@ module.exports = {
         type: 'string'
       },
       {
+        name: 'extraMetaTags',
+        label: 'Extra Meta Tags',
+        type: 'string',
+        textarea: true
+      },
+      {
         name: 'notLoggedInRedirect',
         type: 'string',
         label: 'Redirect user when not logged in',

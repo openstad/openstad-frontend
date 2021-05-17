@@ -30,6 +30,10 @@
 {{ palette.stylesheetLink(data.global) }}
 {{ palette.stylesheetTag() }}
 
+{% if data.page.extraMetaTags %}
+{{data.page.extraMetaTags | safe}}
+{% endif %}
+
 {{ apos.logger.renderClientProvider() | safe }}
 
 <!--
