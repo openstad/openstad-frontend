@@ -12,7 +12,7 @@ module.exports = async function(self, options) {
     }
 
     doc.body.items.forEach((item) => {
-      const items = [].concat(...item.area1.items, ...item.area2.items, ...item.area3.items, ...item.area4.items);
+      const items = self.getAreaItems(item);
 
       items.forEach(async (item) => {
         if (item.type === 'resource-form') {
@@ -162,5 +162,19 @@ module.exports = async function(self, options) {
         }
       });
     });
+  }
+
+  /**
+   *
+   * @param item
+   * @returns {*[]}
+   */
+  self.getAreaItems = (item) => {
+    return [].concat(
+      ...(item.area1 && item.area1.items ? item.area1.items : []),
+      ...(item.area2 && item.area2.items ? item.area2.items : []),
+      ...(item.area3 && item.area3.items ? item.area3.items : []),
+      ...(item.area4 && item.area4.items ? item.area4.items : [])
+    );
   }
 }
