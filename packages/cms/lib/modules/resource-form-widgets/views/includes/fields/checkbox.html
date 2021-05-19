@@ -1,0 +1,40 @@
+{% if activeResource %}
+  {% if field.notExtraDataKey %}
+  {% set fieldValue = activeResource[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = activeResource.extraData[field.fieldKey] %}
+  {% endif %}
+{% endif %}
+
+{% if not fieldValue %}
+  {% if data.query[field.fieldKey] %}
+  {% set fieldValue = data.query[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = field.fieldValue %}
+  {% endif %}
+{% endif %}
+
+
+<div class="checkbox-container">
+  {% for option in field.fieldOptions %}
+  <div class="checkbox">
+    <input
+      type="checkbox"
+      {% if field.notExtraDataKey %}
+      name="{{field.fieldKey}}"
+      {% else %}
+      name="extraData[{{field.fieldKey}}]"
+      {% endif %}
+      value="{{option.value}}"
+      id="checkbox-{{loop.index}}-{{option.value}}"
+
+      {% if field.fieldRequired %}required{% endif %}
+      {% if fieldValue === option.value %}checked{% endif %}
+    />
+
+    <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">
+       {{option.label}}
+    </label>
+  </div>
+  {% endfor %}
+</div>

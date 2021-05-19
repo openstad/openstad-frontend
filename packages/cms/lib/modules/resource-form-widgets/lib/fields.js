@@ -2,7 +2,7 @@ const fields = [
     {
       name: 'formName',
       type: 'string',
-      label: 'Unique form id',
+      label: 'Unique form name',
       help: 'This form id must be unique on this site and must be lowercase with no whitespaces',
       required: true
     },
@@ -44,6 +44,22 @@ const fields = [
         },
       ],
       def: 'user'
+    },
+    {
+      name: 'shouldDisplayUserName',
+      type: 'boolean',
+      label: 'Show user name in form header?',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
     },
     {
       name: 'hideAdminAfterPublicAction',
@@ -95,6 +111,16 @@ const fields = [
                       value: 'radio',
                       label: "Radio",
                       showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'checkbox',
+                      label: 'Checkbox',
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
+                  },
+                  {
+                    value: 'select',
+                    label: 'Select',
+                    showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
                   },
                   {
                       value: 'text',
@@ -809,6 +835,7 @@ const fields = [
       name: 'confirmationEnabledUser',
       type: 'boolean',
       label: 'Confirmation to user',
+      help: 'Only implemented for resource `submissions` at the moment, other resource will use the "default" notification flow',
       choices: [
         {
           value: 1,
@@ -823,8 +850,18 @@ const fields = [
     },
     {
       name: 'confirmationTemplateNameUser',
-      type: 'string',
+      type: 'select',
       label: 'User template name',
+      choices: [
+        {
+          label: 'Submission default',
+          value: 'submission_default.njk'
+        },
+        {
+          label: 'Blanco template',
+          value: 'blanco.njk'
+        }
+      ]
     },
     {
       name: 'confirmationSubjectUser',
@@ -846,6 +883,7 @@ const fields = [
       name: 'confirmationEnabledAdmin',
       type: 'boolean',
       label: 'Confirmation to admin',
+      help: 'Only implemented for resource `submissions` at the moment, other resource will use the "default" notification flow',
       choices: [
         {
           value: 1,
@@ -860,8 +898,18 @@ const fields = [
     },
     {
       name: 'confirmationTemplateNameAdmin',
-      type: 'string',
+      type: 'select',
       label: 'Admin template name',
+      choices: [
+        {
+          label: 'submission default',
+          value: 'submission_default.njk'
+        },
+        {
+          label: 'Blanco template',
+          value: 'blanco.njk'
+        }
+      ]
     },
     {
       name: 'confirmationSubjectAdmin',

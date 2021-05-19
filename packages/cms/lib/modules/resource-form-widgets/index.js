@@ -34,12 +34,12 @@ module.exports = {
       {
         name: 'general',
         label: 'Algemeen',
-        fields: ['resource', 'redirect', 'formType', 'dynamicFormSections']
+        fields: ['resource', 'formName', 'redirect', 'hideAdminAfterPublicAction', 'formType', 'dynamicFormSections']
       },
       {
         name: 'visibility',
         label: 'Visibility settings',
-        fields: ['formVisibility']
+        fields: ['formVisibility', 'shouldDisplayUserName']
       },
       {
         name: 'title',
@@ -115,7 +115,6 @@ module.exports = {
         name: 'confirmation',
         label: 'Confirmation',
         fields: [
-          'formName',
           'confirmationEnabledUser', 'confirmationTemplateNameUser', 'confirmationSubjectUser', 'confirmationEmailFieldUser', 'confirmationEmailFieldUser', 'confirmationEmailContentUser',
           'confirmationEnabledAdmin', 'confirmationTemplateNameAdmin', 'confirmationSubjectAdmin', 'confirmationEmailFieldAdmin', 'confirmationEmailFieldAdmin', 'confirmationEmailContentAdmin'
         ]
