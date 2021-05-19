@@ -11,7 +11,6 @@ apos.define('resource-form-widgets', {
                 self.addFormEventListeners(mapConfig);
                 self.center();
             }
-
         }
     }
 });

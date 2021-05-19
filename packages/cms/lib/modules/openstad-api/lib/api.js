@@ -16,6 +16,7 @@ module.exports = (self, options) => {
       const value = self.getFieldValue(item, field);
       self.setApiConfigValue(siteConfig, field.apiSyncField, value);
     });
+
     const config = Object.assign({}, siteConfig);
     const areaId = config.area && config.area.id || null;
 
@@ -114,10 +115,16 @@ module.exports = (self, options) => {
     return result[0] ? result[0] : null
   };
 
-  self.addOrUpdateNotificationTemplate = async (data) => {
+  /**
+   * Add or update resource
+   * @param data
+   * @param resourcePath
+   * @returns {Promise<*>}
+   */
+  self.addOrUpdateResource = async (data, resourcePath) => {
     const options = self.getOptionsWithAuth({
       method: 'POST',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/template`,
+      uri: `${self.apiUrl}/api/site/${self.siteId}/${resourcePath}`,
       body: data,
     });
 
@@ -126,34 +133,18 @@ module.exports = (self, options) => {
     }
 
     return request(options);
+  }
+
+  self.addOrUpdateNotificationTemplate = async (data) => {
+    return self.addOrUpdateResource(data, 'notification/template');
   };
 
   self.addOrUpdateNotificationRuleSet = async (data) => {
-    const options = self.getOptionsWithAuth({
-      method: 'POST',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset`,
-      body: data,
-    });
-
-    if (data.id) {
-      options.method = 'PUT'
-    }
-
-    return request(options);
+    return self.addOrUpdateResource(data, 'notification/ruleset');
   };
 
   self.addOrUpdateNotificationRecipient = async (data) => {
-    const options = self.getOptionsWithAuth({
-      method: 'POST',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/recipient`,
-      body: data,
-    });
-
-    if (data.id) {
-      options.method = 'PUT'
-    }
-
-    return request(options);
+    return self.addOrUpdateResource(data, 'notification/recipient');
   };
 
   /**

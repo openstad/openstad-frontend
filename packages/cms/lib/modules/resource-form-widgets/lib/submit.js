@@ -45,7 +45,7 @@ module.exports = async function(self, options) {
         return image ? image.url : '';
       }) : [];
 
-      // add the formated images
+      // add the formatted images
       data.extraData.images = images;
 
       //clean up data object

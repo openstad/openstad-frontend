@@ -23,7 +23,7 @@ module.exports = async function(self, options) {
   /**
    * Format value by resource to save correct data in api.
    * @param {string} resource
-   * @param {string} fieldValue
+   * @param {string} formatUserEmailFieldValue
    * @returns {string}
    */
   self.formatUserEmailFieldValue = (resource, fieldValue) => {
@@ -39,7 +39,7 @@ module.exports = async function(self, options) {
    * @param {string} fieldValue
    * @returns {string}
    */
-  self.reformatUserEmailFieldValue = (fieldValue) => {
+  self.removeColumnNameFromEmailFieldValue = (fieldValue) => {
     return fieldValue ? fieldValue.replace(/submittedData\.|extraData\./, '') : '';
   }
 }

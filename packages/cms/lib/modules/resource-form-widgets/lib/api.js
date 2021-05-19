@@ -93,7 +93,7 @@ module.exports = async function(self, options) {
 
   self.disableNotificationRuleSet = async (formName) => {
     const { ruleset } = await self.getNotificationByFormName(formName);
-    console.log('disable ', ruleset);
+
     await self.apos.openstadApi.addOrUpdateNotificationRuleSet({
       id: ruleset.id,
       active: 0
@@ -165,7 +165,7 @@ module.exports = async function(self, options) {
   }
 
   /**
-   *
+   * Collect all items from the four areas Apostrophe provide.
    * @param item
    * @returns {*[]}
    */
