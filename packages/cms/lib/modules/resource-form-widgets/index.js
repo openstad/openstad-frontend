@@ -144,10 +144,9 @@ module.exports = {
           return;
         }
 
-        const resourceConfigKey = resourceInfo ? resourceInfo.configKey : false;
-        const resourceConfig = req.data.global.siteConfig && req.data.global.siteConfig[resourceConfigKey] ? req.data.global.siteConfig[resourceConfigKey] : {};
-
         const siteConfig = req.data.global.siteConfig;
+        const resourceConfigKey = resourceInfo ? resourceInfo.configKey : false;
+        const resourceConfig = siteConfig && siteConfig[resourceConfigKey] ? siteConfig[resourceConfigKey] : {};
 
         widget.resourceConfig = {
           titleMinLength: (resourceConfig.titleMinLength) || 10,
@@ -172,6 +171,7 @@ module.exports = {
           try {
             return self.apos.templates.renderStringForModule(req, rawInput, data, self);
           } catch (e) {
+            console.error(e);
             return 'Error....'
           }
         }
@@ -218,7 +218,7 @@ module.exports = {
 
               widget[`confirmationTemplateName${type}`] = template.templateFile || '';
               widget[`confirmationSubject${type}`] = template.subject || '';
-              widget[`confirmationEmailField${type}`] = self.reformatUserEmailFieldValue(recipient.value)
+              widget[`confirmationEmailField${type}`] = self.removeColumnNameFromEmailFieldValue(recipient.value)
               widget[`confirmationEmailContent${type}`] = template.text || '';
             }
           }
