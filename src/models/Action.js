@@ -1,16 +1,18 @@
-var config         = require('config')
-    , log            = require('debug')('app:user')
-    , pick           = require('lodash/pick');
-const { Op } = require('sequelize')
+const config = require('config')
+    , log = require('debug')('app:user')
+    , pick = require('lodash/pick');
+const Sequelize = require('sequelize')
+const {Op} = require('sequelize')
+const _    = require('lodash');
 
 const Url = require('url');
 
-var dateFilter   = require('../lib/nunjucks-date-filter');
+var dateFilter = require('../lib/nunjucks-date-filter');
 
-var sanitize        = require('../util/sanitize');
-var nunjucks        = require('nunjucks');
-var env             = nunjucks.configure('email');
-const htmlToText   = require('html-to-text');
+var sanitize = require('../util/sanitize');
+var nunjucks = require('nunjucks');
+var env = nunjucks.configure('email');
+const htmlToText = require('html-to-text');
 
 env.addFilter('date', dateFilter);
 // Global variables.
@@ -29,8 +31,8 @@ const sendMail = (options) => {
     return Promise((resolve, reject) => {
         mailTransporter.getTransporter().sendMail(
             options,
-            function( error, info ) {
-                if ( error ) {
+            function (error, info) {
+                if (error) {
                     reject(error.message);
                 } else {
                     resolve(info.response);
@@ -41,67 +43,94 @@ const sendMail = (options) => {
 }
 
 
-module.exports = function( db, sequelize, DataTypes ) {
+module.exports = function (db, sequelize, DataTypes) {
     var Action = sequelize.define('action', {
         siteId: {
-            type         : DataTypes.INTEGER,
-            defaultValue : 0,
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
 
         accountId: {
-            type         : DataTypes.INTEGER,
-            defaultValue : 0,
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
 
 
         status: {
-            type         : DataTypes.ENUM('active', 'inactive'),
-            defaultValue : 'active',
-            allowNull    : false
+            type: DataTypes.ENUM('active', 'inactive'),
+            defaultValue: 'active',
+            allowNull: false
         },
 
-        priority : {
-            type         : DataTypes.INTEGER,
-            defaultValue : 0,
+        priority: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         },
 
         name: {
-            type         : DataTypes.STRING(64),
-            allowNull    : true,
-            set          : function( value ) {
+            type: DataTypes.STRING(64),
+            allowNull: true,
+            set: function (value) {
                 this.setDataValue('name', sanitize.noTags(value));
             }
         },
 
+        type: {
+            type: DataTypes.ENUM('continuously', 'once'),
+            defaultValue: 'once'
+        },
+
+        runDate: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+
+        finished: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false
+        },
+
         settings: {
             type: DataTypes.JSON,
-            allowNull		 : false,
-            defaultValue : [],
+            allowNull: false,
+            defaultValue: [],
         },
 
         conditions: {
             type: DataTypes.JSON,
-            allowNull		 : true,
-            defaultValue : null,
+            allowNull: true,
+            defaultValue: null,
         },
 
         action: {
-            type: DataTypes.JSON,
-            allowNull		 : false,
-            defaultValue : [],
+            type: DataTypes.STRING(64),
+            allowNull: true,
+            set: function (value) {
+                this.setDataValue('name', sanitize.noTags(value));
+            }
         },
     }, {
         charset: 'utf8',
         validate: {},
     });
 
-    Action.scopes = function scopes() {
-        return {
 
-        }
+    Action.auth = Action.prototype.auth = {
+        listableBy: 'all',
+        viewableBy: 'all',
+        createableBy: 'admin',
+        updateableBy: ['admin','editor','owner', 'moderator'],
+        deleteableBy: ['admin','editor','owner', 'moderator'],
     }
 
-    Action.associate = function( models ) {
+
+    
+    Action.scopes = function scopes() {
+        return {}
+    }
+
+    Action.associate = function (models) {
         this.belongsTo(models.User, {constraints: false});
     }
 
@@ -121,10 +150,54 @@ module.exports = function( db, sequelize, DataTypes ) {
 
                 try {
                     await db[resource].create(values);
-                } catch(e) {
-                    throw new Error('Error while creating model in createModel action for variables: '+ JSON.stringify(variables));
+                } catch (e) {
+                    throw new Error('Error while creating model in createModel action for variables: ' + JSON.stringify(variables));
                 }
 
+            }
+        },
+        /***
+         * models can be updated
+         */
+        {
+            name: 'updateModel',
+            act: async (action, selectedResource, req, res) => {
+                console.log('Start selectedResource action updateModel ', action, ' with selectedResource with ID: ', selectedResource, 'full data: ', selectedResource);
+
+                const {
+                    keyToUpdate,
+                    newValue
+                } = action.settings;
+
+                if (!keyToUpdate) {
+                    throw new Error('No keyToUpdate was defined for updateModel');
+                }
+
+                if (!newValue) {
+                    throw new Error('No valueToUpdate was defined for updateModel');
+                }
+
+                const updates = {};
+                let pointer = updates;
+
+                keyToUpdate.split('.').map((key, index, arr) => {
+                    pointer = (pointer[key] = (index == arr.length - 1 ? newValue : {}))
+                });
+
+                let resourceData = selectedResource.toJSON();
+                resourceData = _.merge(resourceData, updates);
+
+                console.log('updateModel resourceData', resourceData);
+
+
+                selectedResource
+                    .update(resourceData)
+                    .then(result => {
+                        console.log('Succesful updateModel action');
+                    })
+                    .catch((err) => {
+
+                    });
             }
         },
         {
@@ -137,12 +210,19 @@ module.exports = function( db, sequelize, DataTypes ) {
                     data,
                     subject,
                     fromAddress,
-                    conditions
+                    conditions,
+                    recipients
                 } = action.settings;
 
                 console.log('Start email action ', action, ' with selectedResource', selectedResource);
 
                 let recipientUsers = [];
+
+                if (!recipients) {
+                    console.log('No recipients defined; abort mission for action: ', action);
+                    throw new Error('No recipients defined; abort mission for action: ' + action.id, 'with selectedResource' + selectedResource.id);
+                    return;
+                }
 
                 for (var i = 0; i < recipients.length; i++) {
                     const recipient = recipients[i];
@@ -159,8 +239,8 @@ module.exports = function( db, sequelize, DataTypes ) {
                             if (selectedResource.account.email) {
                                 return {
                                     email: selectedResource.account.email,
-                                    firstName:  selectedResource.account.firstName,
-                                    lastName:  selectedResource.account.lastName,
+                                    firstName: selectedResource.account.firstName,
+                                    lastName: selectedResource.account.lastName,
                                 }
                             } else {
                                 return selectedResource.user;
@@ -207,6 +287,7 @@ module.exports = function( db, sequelize, DataTypes ) {
                             email: recipientEmail
                         });
 
+                        /*
                         if (actionLog) {
                             return await db.Event.create({
                                 message: `Tried to email ${recipientEmail} double in action ${action.id}`,
@@ -216,6 +297,8 @@ module.exports = function( db, sequelize, DataTypes ) {
                                 resourceType: 'action'
                             });
                         }
+
+                         */
 
                         const templateData = {
                             ...data,
@@ -260,14 +343,16 @@ module.exports = function( db, sequelize, DataTypes ) {
         }
     ]
 
-    Action.prototype.getSelection = async (checkFromDate) => {
+    Action.prototype.getSelection = async (action, checkFromDate) => {
         let selection = [];
 
-        if (!this.conditions) {
+        console.log('this',  action);
+
+
+        if (!action.conditions) {
             return selection;
         }
 
-        let where = {};
 
         /**
          * Example:
@@ -288,54 +373,67 @@ module.exports = function( db, sequelize, DataTypes ) {
          * },
          *
          */
-        const conditions = this.conditions;
-        const siteId = this.siteId;
+        const conditions = action.conditions;
+        const siteId = conditions.siteId;
         const modelName = conditions.model;
-        const eventName = conditions.event;
+        const dateSelection = conditions.dateSelection;
         const filters = conditions.filters;
         const hours = conditions.hours;
+        let where = {};
+
+
+        console.log('vconditions', conditions);
+        console.log('modelName', modelName);
 
         if (!db[modelName]) {
-            throw new Error(`Model defined as ${modelName} in conditions of action with id ${this.id} doesn't exists.`)
+            throw new Error(`Model defined as ${modelName} in conditions of action with id ${action.id} doesn't exists.`)
         }
 
         /**
          * @todo Scenario's after 7 days set a model to new status
          */
-        switch (eventName) {
+        switch (dateSelection) {
             case 'create':
                 // Sequelize.literal('NOW() - INTERVAL \'7d\'')
                 where = {
-                    'createdAt' : {
-                        [Op.gte] : checkFromDate
+                    'createdAt': {
+                        [Op.lte]: checkFromDate
                     }
                 }
                 break;
-            case 'after':
+            case 'afterDate':
+                where = {
+                    'createdAt': {
+                        [Op.lte]: checkFromDate
+                    }
+                }
+                break;
+            case 'afterCreate':
                 const escapedAfter = sequelize.escape(`${hours}`);
 
                 where = {
-                    'createdAt' : {
-                        [Op.gte] : Sequelize.literal(`DATE_SUB(NOW(), INTERVAL ${escapedAfter} HOUR)`),
+                    'createdAt': {
+                        [Op.lte]: Sequelize.literal(`DATE_SUB(NOW(), INTERVAL ${escapedAfter} HOUR)`),
                         // add the date check to make sure
-                        [Op.gte]: checkFromDate,
+                        [Op.lte]: checkFromDate,
                     }
                 }
                 break;
             case 'update':
                 where = {
-                    'updatedAt' : checkFromDate
+                    'updatedAt': checkFromDate
                 }
 
                 break;
 
             default:
-                throw new Error(`Event defined as ${modelName} in conditions of action with id ${this.id}`)
+                //throw new Error(`Event defined as ${modelName} in conditions of action with id ${action.id}`)
         }
 
         // add filters to where object
         // so for instance filters can be [{key: 'status', value: 'PUBLISHED'}]
         // currently only = operator, but easy to add more when needed
+        // for most cases a siteId is wanted, so for
 
         if (filters) {
             filters.forEach((filter) => {
@@ -343,11 +441,17 @@ module.exports = function( db, sequelize, DataTypes ) {
             })
         }
 
-        where.siteId = siteId;
+        // for some models siteId is not referenced directly, for instance arguments,
+        // so in this case selections should be more indirect, or in future add JOINS out of the box
+        if (siteId) {
+            where[modelName === 'Site' ? 'id' : 'siteId'] = siteId;
+        }
 
         selection = await db[modelName].findAll({
             where: where
         });
+
+        console.log('where', where);
 
         return selection;
     };
@@ -355,74 +459,112 @@ module.exports = function( db, sequelize, DataTypes ) {
     Action.run = async (req, res) => {
         const self = this;
 
+        // Get last run
+        const lastRun = await db.ActionRun.findOne({
+            order: [['createdAt', 'DESC']],
+        });
+
+
+        if (lastRun && lastRun.status === 'running') {
+            console.log('lastRun', lastRun.id)
+            throw new Error(`Last run with id ${lastRun.id} still has status running, new run not starting`);
+            return;
+        }
+
+        // if it fails before we get to the end, currently the run will be stuck, need to have a self healing
+        // mechanism, or report option
+        const currentRun = await db.ActionRun.create({status: 'running'});
+
+        console.log('currentRun', currentRun)
+
         //resource, action, lastCheck
         // trigger, resource created
         try {
-            // Get last run
-            const lastRun = await db.ActionsRun.findOne({
-                order: [ [ 'createdAt', 'DESC' ]],
-            });
-
-            if (lastRun && lastRun.status === 'running') {
-                throw new Error(`Last run with id ${lastRun.id} still has status running, new run not starting`);
-                return
-            }
-
-            // if it fails before we get to the end, currently the run will be stuck, need to have a self healing
-            // mechanism, or report option
-            const currentRun = await db.ActionsRun.create({ status: 'running'});
 
             // Get last run date, or now, don't leave blanco otherwise a run can target all previous resources
             // Running actions on lots of rows in the past. In same cases that might desired, but is not default behaviour
             const lastRunDate = lastRun ? lastRun.createdAt : new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-            const actions = db.Actions.findAll({
+            console.log('lastRunDate', lastRunDate)
+
+
+            const actions = await db.Action.findAll({
                 where: {
+                    status: 'active',
                     //only fetch items that are always running
-                    type: 'continuously'
+                    [Op.or]: [
+                        {
+                            type: 'continuously'
+                        },
+                        {
+                            type: 'once',
+                            finished: false,
+                            runDate: {
+                                [Op.lte]: Sequelize.literal('NOW()'),
+                            }
+                        }
+                    ]
                 },
-                order: [ [ 'priority', 'DESC' ], [ 'createdAt', 'DESC' ]],
-            });
+                order: [['priority', 'DESC'], ['createdAt', 'DESC']],
+            })
+
+            //console.log('Actions to run: ', actions);
 
             for (var i = 0; i < actions.length; i++) {
                 const action = actions[i];
 
-                const actionType = db.Actions.types.find(actionType => actionType.name === action.type);
+                const actionType = db.Action.types.find(actionType => actionType.name === action.action);
 
                 if (!actionType) {
                     throw new Error(`Action type ${action.type} not found in ActionSequence with id ${self.id}`);
                 }
 
+
                 // array, can be one or more
-                const selectionToActUpon = await action.getSelection(lastRunDate);
+                const selectionToActUpon = await action.getSelection(action, lastRunDate);
+
+                console.log('SelectionToActUpon: ', selectionToActUpon)
 
                 // there are also actions where all the resources should be bundled, or treated as one
                 for (var j = 0; j < selectionToActUpon.length; j++) {
                     const selectedResource = selectionToActUpon[j];
 
+
+                    console.log('selectedResource', selectedResource)
                     try {
                         // cron runs req, res will be empty, this will cause request actions to fail in case people try to run them as cron
                         // which is perfectly fine, the act method should properly display an error here.
                         await actionType.act(action, selectedResource, req, res);
 
-                        await db.ActionLog.create({
+                       /* await db.ActionLog.create({
                             actionId: action.id,
-                            settings: settings,
+                           // settings: settings,
                             status: 'success'
-                        });
-                    } catch(e) {
-                        await db.ActionLog.create({
+                        });*/
+                    } catch (e) {
+                        console.log('Errror: ', e)
+                     /*   await db.ActionLog.create({
                             actionId: action.id,
-                            settings: settings,
+                          //  settings: settings,
                             status: 'error'
-                        });
+                        });*/
                     }
                 }
             }
 
-            await currentRun.update({ status: 'finished' });
+            console.log('Action run finished: ', currentRun.id)
+
+            await currentRun.update({status: 'finished'});
         } catch (e) {
-            console.log('Error while executing ActionSequence with id ', self.id, ' with the following error: ', error);
+            const errorMessage = 'Error while executing ActionSequence with id ' + currentRun.id + ' with the following error: ' + e;
+
+            console.log(errorMessage);
+
+            await currentRun.update({
+                status: 'errored',
+                message: errorMessage
+            });
+
         }
     }
 
