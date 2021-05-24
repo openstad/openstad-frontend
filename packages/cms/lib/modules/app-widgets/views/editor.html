@@ -10,7 +10,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
 
-        var settings = AppEditor.settings.workout;
+        var settings = AppEditor.settings.{{data.widget.editorType if data.widget.editorType  else 'workout'}};
 
         var appProps = {
                 appId: {{data.activeResource.id}},

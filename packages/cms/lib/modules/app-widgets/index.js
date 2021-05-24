@@ -9,17 +9,17 @@ module.exports = {
   label: 'App widgets',
   addFields: [
     {
-      name: 'appType',
+      name: 'editorType',
       type: 'select',
-      label: 'Select App type',
+      label: 'Select Editor type',
       choices: [
         {
-          label: 'Editor app',
-          value: 'editor',
+          label: 'Workout editor',
+          value: 'workout',
         },
         {
-          label: 'Frontend app',
-          value: 'frontend'
+          label: 'Games editor',
+          value: 'games'
         }
       ]
     },

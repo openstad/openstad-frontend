@@ -752,5 +752,8 @@
 	"Revert": "Revert",
 	"No modifications to commit.": "No modifications to commit.",
 	"Include user id for fetching it's own ": "Include user id for fetching it's own ",
-	"Extra Meta Tags": "Extra Meta Tags"
+	"Extra Meta Tags": "Extra Meta Tags",
+	"Select Editor type": "Select Editor type",
+	"Workout editor": "Workout editor",
+	"Games editor": "Games editor"
 }
