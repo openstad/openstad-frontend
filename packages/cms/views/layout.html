@@ -340,7 +340,7 @@ header-side-container{% if data.idea %}
         	<nav id="subMenu" class="" role="navigation">
         		<div>
               {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button">{{data.global.ctaButtonText}}</a>
+              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button" {% if data.global.ctaButtonTargetBlank %} target="_blank" {% endif %}>{{data.global.ctaButtonText}}</a>
               {% endif %}
               {% if data.global.displayMyAcount %}
         			{% if data.loggedIn %}

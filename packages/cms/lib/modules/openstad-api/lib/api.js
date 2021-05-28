@@ -1,4 +1,5 @@
 const request = require('request-promise');
+const queryString = require('query-string');
 
 module.exports = (self, options) => {
 
@@ -83,6 +84,22 @@ module.exports = (self, options) => {
   self.getAllIdeas = async (req, siteId, sort) => {
     const options = self.getOptions({
       uri: `${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeArgsCount=1`,
+    });
+
+    return request(options);
+  };
+
+  self.getResource = async (req, siteId, resource, resourceId, params) => {
+    const defaultParams = {
+      includeVoteCount: 1,
+      includeUserVote: 1,
+      includeArgsCount: 1
+    };
+
+    resource = resource || 'idea'
+    const queryParams = queryString.stringify(Object.assign(defaultParams, params));
+    const options = self.getOptions({
+      uri: `${self.apiUrl}/api/site/${siteId}/${resource}/${resourceId}?${queryParams}`
     });
 
     return request(options);

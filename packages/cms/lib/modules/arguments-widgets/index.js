@@ -1,23 +1,18 @@
 /**
  * A widget for displaying a list of arguments it's reactions, and a reaction form
- * Needs to be placed on a resource form 
+ * Needs to be placed on a resource form
  */
-const rp = require('request-promise');
-
 module.exports = {
   extend: 'openstad-widgets',
   label: 'Arguments',
   alias: 'arguments',
   adminOnly: true,
   addFields: [
-  /*
-    Not being used for now,
-    but might in the future
     {
       name: 'ideaId',
       type: 'string',
       label: 'Idea ID (if empty it will try to fetch the ideaId from the URL)',
-    },*/
+    },
     {
       name: 'emptyPlaceholder',
       type: 'string',
@@ -126,13 +121,12 @@ module.exports = {
       {
         name: 'advanced',
         label: 'Advanced',
-        fields: ['replyingEnabled', 'votingEnabled', 'showLastNameForArguments', 'showLastNameForReactions']
+        fields: ['replyingEnabled', 'votingEnabled', 'showLastNameForArguments', 'showLastNameForReactions', 'ideaId']
       }
     ]);
 
 
      const superPushAssets = self.pushAssets;
-     //const auth = "Basic " + new Buffer("xxx:xxx#").toString("base64");
 
      self.pushAssets = function() {
        superPushAssets();
@@ -140,12 +134,34 @@ module.exports = {
        self.pushAsset('stylesheet', 'main', { when: 'always' });
      };
 
+    const superLoad = self.load;
+    self.load = async function (req, widgets, next) {
+      const promises = widgets.map(async (widget) => {
+        if (widget.ideaId) {
+          const resource = await self.apos.openstadApi.getResource(req, req.data.global.siteId, 'idea', widget.ideaId, {includeArguments: 1});
+          widget.ajaxError = null;
+          if (resource) {
+            widget.activeResource = resource
+            widget.activeResourceType = 'idea';
+            widget.activeResourceId = resource.id;
+          }
+        }
+      });
+
+      await Promise.all(promises);
+
+      return superLoad(req, widgets, next);
+    }
+
      var superOutput = self.output;
      self.output = function(widget, options) {
-       widget.ideaId =  options.activeResource ?  options.activeResource.id : false;
-       widget.activeResourceType = options.activeResourceType;
-       widget.activeResource = options.activeResource ?  options.activeResource : {};
-       widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
+       if(!widget.ideaId || !widget.activeResource) {
+         widget.ideaId = options.activeResource ? options.activeResource.id : false;
+         widget.activeResourceType = options.activeResourceType;
+         widget.activeResource = options.activeResource ? options.activeResource : {};
+         widget.activeResourceId = options.activeResource ? options.activeResource.id : false;
+       }
+
        return superOutput(widget, options);
      };
 
@@ -160,7 +176,5 @@ module.exports = {
             return '';
         }
      });
-
-
    },
 };

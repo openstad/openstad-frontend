@@ -522,6 +522,11 @@ module.exports = [
     label: 'CTA button url',
   },
   {
+      name: 'ctaButtonTargetBlank',
+      type: 'boolean',
+      label: 'Open CTA link in new window',
+    },
+  {
     name: 'topLinks',
     type: 'array',
     label: 'Top Links',
