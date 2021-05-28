@@ -2,9 +2,22 @@
   {{data.widget.formattedImageStyles}}
 </style>
 
-<img
-  id="{{data.widget.imageId}}"
-  src="{{apos.attachments.url(data.widget.uploadedImage)}}"
-  title="{{data.widget.uploadedImageTitle}}"
-  alt="{{data.widget.uploadedImageAlt}}"
-/>
+{% if data.widget.useLink %}
+<a
+  id="{{data.widget.imageId}}-link"
+  href="{{ data.widget.url | safeRelativeUrl }}"
+  {% if data.widget.targetBlank %} target="_blank" {% endif %}
+  style=""
+>
+{% endif %}
+
+    <img
+      id="{{data.widget.imageId}}"
+      src="{{apos.attachments.url(data.widget.uploadedImage)}}"
+      title="{{data.widget.uploadedImageTitle}}"
+      alt="{{data.widget.uploadedImageAlt}}"
+    />
+
+{% if data.widget.useLink %}
+</a>
+{% endif %}
