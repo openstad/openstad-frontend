@@ -28,6 +28,48 @@ module.exports = {
       label: 'Textual alternative',
       type: 'string'
     },
+    {
+      name: 'useLink',
+      label: 'Add a link to the image?',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Ja',
+          value: true,
+          showFields: [
+            'url',
+            'targetBlank',
+          ]
+        },
+        {
+          label: 'Nee',
+          value: false,
+        }
+      ],
+      def: false
+    },
+    {
+      name: 'url',
+      type: 'url',
+      label: 'URL',
+      required: true
+    },
+    {
+      name: 'targetBlank',
+      type: 'boolean',
+      label: 'Open in new window',
+      choices: [
+        {
+          label: 'Ja',
+          value: true,
+        },
+        {
+          label: 'Nee',
+          value: false,
+        }
+      ],
+      def: false
+    },
     styleSchema.definition('imageStyles', 'Styles for the image'),
 
   ],
@@ -36,7 +78,7 @@ module.exports = {
       {
         name: 'generalGroup',
         label: 'General',
-        fields: ['uploadedImage']
+        fields: ['uploadedImage', 'uploadedImageTitle', 'uploadedImageAlt', 'useLink', 'url', 'targetBlank']
       },
       {
         name: 'stylingGroup',
