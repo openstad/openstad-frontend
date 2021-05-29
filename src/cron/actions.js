@@ -9,8 +9,8 @@ const db = require('../db');
 // Runs every 5 minutes on the 15th second, because the close_ideas
 // cron already runs on the 0th second.
 module.exports = {
-    //cronTime: '*/5 * * * * *',
-    cronTime: '*/10 * * * * *',
+    cronTime: '*/5  * * * *',
+    //cronTime: '*/10 * * * *',
     runOnInit: false,
     onTick: async () => {
         try {
