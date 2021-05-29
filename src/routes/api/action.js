@@ -9,7 +9,7 @@ let router = express.Router({mergeParams: true});
 router
     .all('*', function(req, res, next) {
         req.scope = [];
-        req.scope.push('includeSite');
+     //   req.scope.push('includeSite');
         next();
     });
 
@@ -23,10 +23,10 @@ router.route('/')
     .get(function(req, res, next) {
         let { dbQuery } = req;
 
-        req.scope.push({method: ['forSiteId', req.params.siteId]});
+       // req.scope.push({method: ['forSiteId', req.params.siteId]});
 
         db.Action
-            .scope(...req.scope)
+         //   .scope(...req.scope)
             .findAndCountAll(dbQuery)
             .then(result => {
                 req.results = result.rows;
@@ -67,11 +67,9 @@ router.route('/:actionId(\\d+)')
         const actionId = parseInt(req.params.actionId);
         if (!actionId) next('No action id found');
 
-        req.scope = ['defaultScope'];
-        req.scope.push({method: ['forSiteId', req.params.siteId]});
 
         db.Action
-            .scope(...req.scope)
+         //   .scope(...req.scope)
             .findOne({ where: { id: actionId } })
             .then(found => {
                 if ( !found ) throw new Error('Action not found');

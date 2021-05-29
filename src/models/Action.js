@@ -55,7 +55,6 @@ module.exports = function (db, sequelize, DataTypes) {
             defaultValue: 0,
         },
 
-
         status: {
             type: DataTypes.ENUM('active', 'inactive'),
             defaultValue: 'active',
@@ -173,7 +172,7 @@ module.exports = function (db, sequelize, DataTypes) {
                     throw new Error('No keyToUpdate was defined for updateModel');
                 }
 
-                if (!newValue) {
+                if (typeof newValue === 'undefined') {
                     throw new Error('No valueToUpdate was defined for updateModel');
                 }
 
@@ -475,8 +474,6 @@ module.exports = function (db, sequelize, DataTypes) {
         // mechanism, or report option
         const currentRun = await db.ActionRun.create({status: 'running'});
 
-        console.log('currentRun', currentRun)
-
         //resource, action, lastCheck
         // trigger, resource created
         try {
@@ -535,6 +532,13 @@ module.exports = function (db, sequelize, DataTypes) {
                         // cron runs req, res will be empty, this will cause request actions to fail in case people try to run them as cron
                         // which is perfectly fine, the act method should properly display an error here.
                         await actionType.act(action, selectedResource, req, res);
+
+                        if (action.type === 'once') {
+                            await action.update({
+                                finished: true
+                            });
+                        }
+
 
                        /* await db.ActionLog.create({
                             actionId: action.id,

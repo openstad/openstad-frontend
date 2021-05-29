@@ -50,6 +50,10 @@ router.use( '/site/:siteId(\\d+)/newslettersignup', require('./newslettersignup'
 // choices-guide
 router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
 
+router.use( '/site/:siteId(\\d+)/action', require('./action') );
+
+router.use( '/site/:siteId(\\d+)/log', require('./log') );
+
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );
 
