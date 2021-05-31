@@ -13,7 +13,7 @@ module.exports = {
 				  \`name\` varchar(64) DEFAULT NULL,
 				  \`type\` enum('continuously','once') DEFAULT 'once',
 				  \`runDate\` datetime NOT NULL,
-				  \`finished\` tinyint(1) DEFAULT NULL,
+				  \`finished\` tinyint(1) NOT NULL,
 				  \`settings\` json NOT NULL,
 				  \`conditions\` json DEFAULT NULL,
 				  \`action\` varchar(64) DEFAULT NULL,
@@ -22,7 +22,7 @@ module.exports = {
 				  \`deletedAt\` datetime DEFAULT NULL,
 				  \`userId\` int DEFAULT NULL,
 				  PRIMARY KEY (\`id\`)
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+				) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 			`);
 		} catch(e) {
 			return true;

@@ -52,7 +52,8 @@ router.use( '/site/:siteId(\\d+)/choicesguide', require('./choicesguide') );
 
 router.use( '/site/:siteId(\\d+)/action', require('./action') );
 
-router.use( '/site/:siteId(\\d+)/log', require('./log') );
+// To do test and fix log API
+//router.use( '/site/:siteId(\\d+)/log', require('./log') );
 
 // openstad-map
 router.use( '/site/:siteId(\\d+)/openstad-map', require('./openstad-map') );

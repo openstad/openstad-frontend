@@ -116,11 +116,11 @@ module.exports = function (db, sequelize, DataTypes) {
 
 
     Action.auth = Action.prototype.auth = {
-        listableBy: 'all',
-        viewableBy: 'all',
+        listableBy: 'admin',
+        viewableBy: 'admin',
         createableBy: 'admin',
-        updateableBy: ['admin','editor','owner', 'moderator'],
-        deleteableBy: ['admin','editor','owner', 'moderator'],
+        updateableBy: 'admin',
+        deleteableBy: 'admin',
     }
 
 
@@ -134,7 +134,9 @@ module.exports = function (db, sequelize, DataTypes) {
     }
 
     Action.types = [
-        {
+       /*
+        TODO!
+
             name: 'createModel',
             act: async (action, selectedResource, req, res) => {
                 const {modelName, values} = settings;
@@ -155,13 +157,14 @@ module.exports = function (db, sequelize, DataTypes) {
 
             }
         },
+         */
+
         /***
          * models can be updated
          */
         {
             name: 'updateModel',
             act: async (action, selectedResource, req, res) => {
-                console.log('Start selectedResource action updateModel ', action, ' with selectedResource with ID: ', selectedResource, 'full data: ', selectedResource);
 
                 const {
                     keyToUpdate,
@@ -186,8 +189,6 @@ module.exports = function (db, sequelize, DataTypes) {
                 let resourceData = selectedResource.toJSON();
                 resourceData = _.merge(resourceData, updates);
 
-                console.log('updateModel resourceData', resourceData);
-
 
                 selectedResource
                     .update(resourceData)
@@ -199,38 +200,41 @@ module.exports = function (db, sequelize, DataTypes) {
                     });
             }
         },
-        {
-            name: 'mail',
-            act: async (action, selectedResource, req, res) => {
-                const {
-                    usePredefinedTemplate,
-                    templateString,
-                    templateName,
-                    data,
-                    subject,
-                    fromAddress,
-                    conditions,
-                    recipients
-                } = action.settings;
+        /*
+ TODO!
 
-                console.log('Start email action ', action, ' with selectedResource', selectedResource);
+ {
+     name: 'mail',
+     act: async (action, selectedResource, req, res) => {
+         const {
+             usePredefinedTemplate,
+             templateString,
+             templateName,
+             data,
+             subject,
+             fromAddress,
+             conditions,
+             recipients
+         } = action.settings;
 
-                let recipientUsers = [];
+         console.log('Start email action ', action, ' with selectedResource', selectedResource);
 
-                if (!recipients) {
-                    console.log('No recipients defined; abort mission for action: ', action);
-                    throw new Error('No recipients defined; abort mission for action: ' + action.id, 'with selectedResource' + selectedResource.id);
-                    return;
-                }
+         let recipientUsers = [];
 
-                for (var i = 0; i < recipients.length; i++) {
-                    const recipient = recipients[i];
+         if (!recipients) {
+             console.log('No recipients defined; abort mission for action: ', action);
+             throw new Error('No recipients defined; abort mission for action: ' + action.id, 'with selectedResource' + selectedResource.id);
+             return;
+         }
 
-                    if (recipient.type === 'owner') {
-                        /**
-                         * @todo better handling of getting users
-                         * fetch all users connected to accountId, probably can just set better type
-                         */
+         for (var i = 0; i < recipients.length; i++) {
+             const recipient = recipients[i];
+
+             if (recipient.type === 'owner') {
+                 /**
+                  * @todo better handling of getting users
+                  * fetch all users connected to accountId, probably can just set better type
+                  *
                         recipientUsers = selectedResources.filter((selectedResource) => {
                             return (selectedResource.user && selectedResource.user) || (selectedResource.account && selectedResource.account);
                         }).map((selectedResource) => {
@@ -252,7 +256,7 @@ module.exports = function (db, sequelize, DataTypes) {
                     if (recipient.type === 'admin') {
                         /**
                          * Todo fetch admin for all sites
-                         */
+                         *
                     }
 
                     if (recipient.type === 'static') {
@@ -297,7 +301,7 @@ module.exports = function (db, sequelize, DataTypes) {
                             });
                         }
 
-                         */
+
 
                         const templateData = {
                             ...data,
@@ -339,14 +343,11 @@ module.exports = function (db, sequelize, DataTypes) {
                     console.log(`No recipients found for action with ID ${action.id}`);
                 }
             }
-        }
+        }*/
     ]
 
     Action.prototype.getSelection = async (action, checkFromDate) => {
         let selection = [];
-
-        console.log('this',  action);
-
 
         if (!action.conditions) {
             return selection;
@@ -379,10 +380,6 @@ module.exports = function (db, sequelize, DataTypes) {
         const filters = conditions.filters;
         const hours = conditions.hours;
         let where = {};
-
-
-        console.log('vconditions', conditions);
-        console.log('modelName', modelName);
 
         if (!db[modelName]) {
             throw new Error(`Model defined as ${modelName} in conditions of action with id ${action.id} doesn't exists.`)
@@ -450,8 +447,6 @@ module.exports = function (db, sequelize, DataTypes) {
             where: where
         });
 
-        console.log('where', where);
-
         return selection;
     };
 
@@ -465,7 +460,6 @@ module.exports = function (db, sequelize, DataTypes) {
 
 
         if (lastRun && lastRun.status === 'running') {
-            console.log('lastRun', lastRun.id)
             throw new Error(`Last run with id ${lastRun.id} still has status running, new run not starting`);
             return;
         }
@@ -481,8 +475,6 @@ module.exports = function (db, sequelize, DataTypes) {
             // Get last run date, or now, don't leave blanco otherwise a run can target all previous resources
             // Running actions on lots of rows in the past. In same cases that might desired, but is not default behaviour
             const lastRunDate = lastRun ? lastRun.createdAt : new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-            console.log('lastRunDate', lastRunDate)
 
 
             const actions = await db.Action.findAll({
@@ -505,8 +497,6 @@ module.exports = function (db, sequelize, DataTypes) {
                 order: [['priority', 'DESC'], ['createdAt', 'DESC']],
             })
 
-            //console.log('Actions to run: ', actions);
-
             for (var i = 0; i < actions.length; i++) {
                 const action = actions[i];
 
@@ -520,14 +510,10 @@ module.exports = function (db, sequelize, DataTypes) {
                 // array, can be one or more
                 const selectionToActUpon = await action.getSelection(action, lastRunDate);
 
-                console.log('SelectionToActUpon: ', selectionToActUpon)
-
                 // there are also actions where all the resources should be bundled, or treated as one
                 for (var j = 0; j < selectionToActUpon.length; j++) {
                     const selectedResource = selectionToActUpon[j];
 
-
-                    console.log('selectedResource', selectedResource)
                     try {
                         // cron runs req, res will be empty, this will cause request actions to fail in case people try to run them as cron
                         // which is perfectly fine, the act method should properly display an error here.
@@ -556,13 +542,10 @@ module.exports = function (db, sequelize, DataTypes) {
                 }
             }
 
-            console.log('Action run finished: ', currentRun.id)
 
             await currentRun.update({status: 'finished'});
         } catch (e) {
             const errorMessage = 'Error while executing ActionSequence with id ' + currentRun.id + ' with the following error: ' + e;
-
-            console.log(errorMessage);
 
             await currentRun.update({
                 status: 'errored',
