@@ -2,12 +2,9 @@ var log           = require('debug')('app:cron');
 var notifications = require('../notifications');
 const db = require('../db');
 
-// Purpose
 // -------
-// Send notifications emails.
+// Run actions
 //
-// Runs every 5 minutes on the 15th second, because the close_ideas
-// cron already runs on the 0th second.
 module.exports = {
     cronTime: '*/5  * * * *',
     //cronTime: '*/10 * * * *',
