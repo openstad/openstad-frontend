@@ -7,9 +7,9 @@ module.exports = {
 				CREATE TABLE \`logs\` (
 				  \`id\` int NOT NULL AUTO_INCREMENT,
 				  \`status\` enum('success','error','info') NOT NULL DEFAULT 'info',
-				  \`name\` varchar(255) NOT NULL,
-				  \`type\` varchar(255) NOT NULL,
-				  \`email\` varchar(255) NOT NULL,
+				  \`name\` varchar(255) DEFAULT NULL,
+				  \`type\` varchar(255) DEFAULT NULL,
+				  \`email\` varchar(255) DEFAULT NULL,
 				  \`userId\` int DEFAULT '0',
 				  \`actionId\` int DEFAULT '0',
 				  \`extraData\` json DEFAULT NULL,
@@ -19,7 +19,7 @@ module.exports = {
 				  PRIMARY KEY (\`id\`),
 				  KEY \`userId\` (\`userId\`),
 				  CONSTRAINT \`actionlogs_ibfk_1\` FOREIGN KEY (\`userId\`) REFERENCES \`users\` (\`id\`) ON UPDATE CASCADE
-				) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+				) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 			`);
 		} catch(e) {
 			return true;

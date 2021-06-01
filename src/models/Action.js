@@ -69,9 +69,6 @@ module.exports = function (db, sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING(64),
             allowNull: true,
-            set: function (value) {
-                this.setDataValue('name', sanitize.noTags(value));
-            }
         },
 
         type: {
@@ -86,7 +83,7 @@ module.exports = function (db, sequelize, DataTypes) {
 
         finished: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
+            allowNull: true,
             default: false
         },
 
@@ -105,9 +102,6 @@ module.exports = function (db, sequelize, DataTypes) {
         action: {
             type: DataTypes.STRING(64),
             allowNull: true,
-            set: function (value) {
-                this.setDataValue('name', sanitize.noTags(value));
-            }
         },
     }, {
         charset: 'utf8',

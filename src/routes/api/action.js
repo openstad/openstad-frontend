@@ -45,10 +45,7 @@ router.route('/')
     // ---------------
     .post(auth.can('Action', 'create'))
     .post(function(req, res, next) {
-        const data = {
-            name   : req.body.name,
-            siteId : req.params.siteId,
-        };
+        const data = req.body;
 
         db.Action
             .authorizeData(data, 'create', req.user)
@@ -66,7 +63,6 @@ router.route('/:actionId(\\d+)')
     .all(function(req, res, next) {
         const actionId = parseInt(req.params.actionId);
         if (!actionId) next('No action id found');
-
 
         db.Action
          //   .scope(...req.scope)
@@ -92,7 +88,9 @@ router.route('/:actionId(\\d+)')
     .put(auth.useReqUser)
     .put(function(req, res, next) {
         const action = req.results;
+
         if (!( action && action.can && action.can('update') )) return next( new Error('You cannot update this action') );
+
         action
             .authorizeData(req.body, 'update')
             .update(req.body)
