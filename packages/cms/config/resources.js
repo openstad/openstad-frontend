@@ -71,6 +71,15 @@ const resources = [
     //config is used in API config
     configKey: 'tour'
   },
+  {
+    label: 'Newsletter signup',
+    value: 'newslettersignup',
+    resourceEndPoint: 'newslettersignup',
+    //config is used in API config
+    configKey: 'newslettersignup'
+  },
+
+
 ]
 
 exports.schemaFormat = resources;
