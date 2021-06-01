@@ -15,9 +15,10 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 		},
     choicesGuideId: widget.choicesGuideId,
     noOfQuestionsToShow: widget.noOfQuestionsToShow,
+    startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
+    startWithAllQuestionsAnsweredAndConfirmed: widget.startWithAllQuestionsAnsweredAndConfirmed,
     choices: {
       type: widget.choicesType,
-      startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
       sticky: {
         offsetTop: 10,
       },

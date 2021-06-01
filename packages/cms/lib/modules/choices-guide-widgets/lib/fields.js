@@ -14,13 +14,41 @@ module.exports = [
 			required: true,
       def: 1,
 		},
-		{
-			name: 'startWithAllQuestionsAnswered',
+ 		{
+ 			name: 'startWithAllQuestionsAnswered',
       type: 'boolean',
-			label: 'Begin met alle vragen beantwoord op 50%',
-			required: true,
-      def: false,
+      type: 'select',
+ 			label: 'Begin met alle vragen beantwoord op 50%',
+ 			required: true,
+       def: false,
+			choices: [
+				{
+					label: 'Ja',
+					value: true,
+					showFields: ['startWithAllQuestionsAnsweredAndConfirmed'],
+				},
+				{
+					label: 'Nee',
+					value: false,
+				}
+			]
 		},
+		{
+			name: 'startWithAllQuestionsAnsweredAndConfirmed',
+			type: 'select',
+			label: 'En die 50%',
+			def: false,
+			choices: [
+				{
+					label: 'Moet je aanpassen voor een vraag telt als benantwoord',
+					value: false,
+				},
+				{
+					label: 'Hoef je niet aan te passen, de vraag telt als benantwoord',
+					value: true,
+				}
+			]
+ 		},
 		{
 			type: 'select',
 			name: 'choicesType',
