@@ -324,7 +324,6 @@ router
             "deletedAt": req.user.deletedAt,
             'votes': req.user.votes
         };
-
         res.json(data);
     })
 

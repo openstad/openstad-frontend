@@ -118,8 +118,7 @@ async function getUserInstance( user, siteOauthConfig ) {
 			throw new Error('Error fetching user')
 		}
 
-		const authUser = response.json();
-
+		const authUser = await response.json();
 		authUser.role = authUser.role || user.role || 'member';
 
 		return merge(dbUser, authUser);
