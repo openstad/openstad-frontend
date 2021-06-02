@@ -6,7 +6,7 @@ module.exports = {
   config: defaultSiteConfig,
   
   setFromSite: function (site) {
-    this.config = merge.recursive(this.config, config || {});
+    this.config = merge.recursive(true, this.config, config || {});
     
     // Exceptions from local config because field names don't match
     this.config.cms.url = config.url || this.config.title;
