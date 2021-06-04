@@ -22,10 +22,10 @@ router.route('/')
     .get(pagination.init)
     .get(function(req, res, next) {
         let { dbQuery } = req;
-        dbQuery.siteId = req.params.siteId;
+        dbQuery.where = dbQuery.where ? dbQuery.where : {};
 
-            // req.scope.push({method: ['forSiteId', req.params.siteId]});
-
+        dbQuery.where.siteId = req.params.siteId;
+        
         db.Action
          //   .scope(...req.scope)
             .findAndCountAll(dbQuery)
