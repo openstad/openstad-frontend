@@ -9,7 +9,7 @@ let router = express.Router({mergeParams: true});
 router
     .all('*', function(req, res, next) {
         req.scope = [];
-     //   req.scope.push('includeSite');
+        req.scope.push('includeSite');
         next();
     });
 
@@ -22,8 +22,9 @@ router.route('/')
     .get(pagination.init)
     .get(function(req, res, next) {
         let { dbQuery } = req;
+        dbQuery.siteId = req.params.siteId;
 
-       // req.scope.push({method: ['forSiteId', req.params.siteId]});
+            // req.scope.push({method: ['forSiteId', req.params.siteId]});
 
         db.Action
          //   .scope(...req.scope)
@@ -46,6 +47,8 @@ router.route('/')
     .post(auth.can('Action', 'create'))
     .post(function(req, res, next) {
         const data = req.body;
+
+        data.siteId = req.params.siteId;
 
         db.Action
             .authorizeData(data, 'create', req.user)

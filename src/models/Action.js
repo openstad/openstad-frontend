@@ -120,7 +120,13 @@ module.exports = function (db, sequelize, DataTypes) {
 
     
     Action.scopes = function scopes() {
-        return {}
+        return {
+            includeSite: {
+                include : [{
+                    model: db.Site,
+                }]
+            },
+        }
     }
 
     Action.associate = function (models) {
@@ -368,7 +374,7 @@ module.exports = function (db, sequelize, DataTypes) {
          *
          */
         const conditions = action.conditions;
-        const siteId = conditions.siteId;
+        const siteId = action.siteId;
         const modelName = conditions.model;
         const dateSelection = conditions.dateSelection;
         const filters = conditions.filters;
@@ -378,6 +384,7 @@ module.exports = function (db, sequelize, DataTypes) {
         if (!db[modelName]) {
             throw new Error(`Model defined as ${modelName} in conditions of action with id ${action.id} doesn't exists.`)
         }
+
 
         /**
          * @todo Scenario's after 7 days set a model to new status
@@ -432,10 +439,12 @@ module.exports = function (db, sequelize, DataTypes) {
         }
 
         // for some models siteId is not referenced directly, for instance arguments,
-        // so in this case selections should be more indirect, or in future add JOINS out of the box
-        if (siteId) {
-            where[modelName === 'Site' ? 'id' : 'siteId'] = siteId;
+        // so in this case current implementations in not sufficient
+        if (!siteId) {
+            throw new Error(`No siteId defined, action only allowed to run within a site scope for security and data bug prevention`)
         }
+
+        where[modelName === 'Site' ? 'id' : 'siteId'] = siteId;
 
         selection = await db[modelName].findAll({
             where: where
@@ -504,6 +513,8 @@ module.exports = function (db, sequelize, DataTypes) {
                 // array, can be one or more
                 const selectionToActUpon = await action.getSelection(action, lastRunDate);
 
+                console.log('selectionToActUpon', selectionToActUpon);
+
                 // there are also actions where all the resources should be bundled, or treated as one
                 for (var j = 0; j < selectionToActUpon.length; j++) {
                     const selectedResource = selectionToActUpon[j];
@@ -540,6 +551,8 @@ module.exports = function (db, sequelize, DataTypes) {
             await currentRun.update({status: 'finished'});
         } catch (e) {
             const errorMessage = 'Error while executing ActionSequence with id ' + currentRun.id + ' with the following error: ' + e;
+
+            console.log('errorMessage', errorMessage)
 
             await currentRun.update({
                 status: 'errored',

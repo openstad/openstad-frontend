@@ -5,6 +5,11 @@ module.exports = function( db, sequelize, DataTypes ) {
             defaultValue : 'running',
             allowNull    : false
         },
+
+        message: {
+            type: DataTypes.STRING(200),
+            allowNull: true,
+        },
     });
 
     ActionRun.associate = function( models ) {
