@@ -40,11 +40,11 @@ module.exports = [
 		def: false,
 		choices: [
 			{
-				label: 'Moet je aanpassen voor een vraag telt als benantwoord',
+				label: 'Moet je aanpassen voor een vraag telt als beantwoord',
 				value: false,
 			},
 			{
-				label: 'Hoef je niet aan te passen, de vraag telt als benantwoord',
+				label: 'Hoef je niet aan te passen, de vraag telt als beantwoord',
 				value: true,
 			}
 		]
