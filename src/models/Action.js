@@ -176,7 +176,7 @@ module.exports = function (db, sequelize, DataTypes) {
                 }
 
                 if (typeof newValue === 'undefined') {
-                    throw new Error('No valueToUpdate was defined for updateModel');
+                    throw new Error('No newValue was defined for updateModel');
                 }
 
                 const updates = {};
