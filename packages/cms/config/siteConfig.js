@@ -5,8 +5,10 @@ const resourcesSchema = require('./resources.js').schemaFormat;
 
 module.exports = {
   get: (shortName, siteData, assetsIdentifier) => {
-    const resources = siteData && siteData.resources ? siteData.resources : resourcesSchema;
-    const siteUrl = siteData && siteData.cms && siteData.cms.url ?  siteData.cms.url : false;
+    const resources =
+      siteData && siteData.resources ? siteData.resources : resourcesSchema;
+    const siteUrl =
+      siteData && siteData.cms && siteData.cms.url ? siteData.cms.url : false;
 
     const siteConfig = {
       shortName: shortName,
@@ -16,26 +18,26 @@ module.exports = {
           sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
         'image-proxy': {
-          sitePrefix: siteData.sitePrefix ?  '/' +  siteData.sitePrefix : false,
+          sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
         'openstad-assets': {
-          minify: process.env.MINIFY_JS && (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
+          minify:
+            process.env.MINIFY_JS &&
+            (process.env.MINIFY_JS == 1 || process.env.MINIFY_JS === 'ON'),
           jQuery: 3,
           //lean: true,
           scripts: [
-            {name: 'cookies'},
-            {name: 'site'},
-            {name: 'shuffle.min'},
-            {name: 'sort'},
-            {name: 'jquery.validate.min'},
-            {name: 'jquery.validate.nl'},
-            {name: 'jquery.dataTables.min'}
+            { name: 'cookies' },
+            { name: 'site' },
+            { name: 'shuffle.min' },
+            { name: 'sort' },
+            { name: 'jquery.validate.min' },
+            { name: 'jquery.validate.nl' },
+            { name: 'jquery.dataTables.min' },
           ],
-          stylesheets: [
-            {name: 'main'}
-          ],
+          stylesheets: [{ name: 'main' }],
         },
-        'settings': {
+        settings: {
           ignoreNoCodeWarning: true,
           // So we can write `apos.settings` in a template
           alias: 'settings',
@@ -45,7 +47,7 @@ module.exports = {
           apiLogoutUrl: process.env.API_LOGOUT_URL,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           siteConfig: siteData,
-          contentWidgets: contentWidgets
+          contentWidgets: contentWidgets,
         },
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
@@ -61,8 +63,8 @@ module.exports = {
               httpOnly: true,
               secure: process.env.COOKIE_SECURE_OFF === 'yes' ? false : true,
               // Default login lifetime between requests is one day
-              maxAge: process.env.COOKIE_MAX_AGE || 86400000
-            }
+              maxAge: process.env.COOKIE_MAX_AGE || 86400000,
+            },
           },
           csrf: {
             exceptions: [
@@ -80,11 +82,11 @@ module.exports = {
 
               //     '/vote',
               //     '/api/**'
-            ]
-          }
+            ],
+          },
         },
         'apostrophe-login': {
-          localLogin: false
+          localLogin: false,
         },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
@@ -94,26 +96,27 @@ module.exports = {
               if (self.apos.options.afterListen) {
                 return self.apos.options.afterListen(null);
               }
-            }
-          }
+            };
+          },
         },
         'apostrophe-multisite-patch-assets': {
-          construct: function(self, options) {
+          construct: function (self, options) {
             // For dev: at least one site has already started up, which
             // means assets have already been attended to. Steal its
             // asset generation identifier so they don't fight.
             // We're not too late because apostrophe-assets doesn't
             // use this information until afterInit
-            const superDetermineDevGeneration = self.apos.assets.determineDevGeneration;
-            self.apos.assets.determineDevGeneration = function() {
+            const superDetermineDevGeneration =
+              self.apos.assets.determineDevGeneration;
+            self.apos.assets.determineDevGeneration = function () {
               const original = superDetermineDevGeneration();
               return assetsIdentifier ? assetsIdentifier : original;
             };
-          }
-         },
+          },
+        },
         'apostrophe-palette-global': {
           paletteFields: palette.fields,
-          arrangePaletteFields: palette.arrangeFields
+          arrangePaletteFields: palette.arrangeFields,
         },
         'apostrophe-palette-widgets': {},
         'apostrophe-palette': {},
@@ -139,10 +142,12 @@ module.exports = {
         'openstad-custom-pages': {},
         'openstad-oembed': {
           endpoints: [
-            { domain: 'vimeo.com', endpoint: 'https://vimeo.com/api/oembed.json' }
-          ]
+            {
+              domain: 'vimeo.com',
+              endpoint: 'https://vimeo.com/api/oembed.json',
+            },
+          ],
         },
-
 
         // Apostrophe module configuration
 
@@ -154,8 +159,10 @@ module.exports = {
 
         // If a template is not found somewhere else, serve it from the top-level
         // `views/` folder of the project
-        'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
-        'openstad-rich-text-widgets' : {},
+        'openstad-templates': {
+          viewsFolderFallback: path.join(__dirname, '../views'),
+        },
+        'openstad-rich-text-widgets': {},
         'openstad-logger': {},
         'idea-pages': {},
         'section-widgets': {},
@@ -198,25 +205,24 @@ module.exports = {
         'recource-raw-widgets': {},
         'recource-image-widgets': {},
         'recource-like-widgets': {},
-        'resource-admin-widgets' : {},
-        'resource-pages' : {
-          resources: resources
+        'resource-admin-widgets': {},
+        'resource-pages': {
+          resources: resources,
         },
-        'resource-representation-widgets' : {
-          resources: resources
+        'resource-representation-widgets': {
+          resources: resources,
         },
-        'resource-overview-widgets' : {
-          resources: resources
+        'resource-overview-widgets': {
+          resources: resources,
         },
-        'resource-form-widgets' : {
-          resources: resources
+        'resource-form-widgets': {
+          resources: resources,
         },
-
 
         'info-bar-widgets': {},
 
-        'vimeo-upload': {}
-      }
+        'vimeo-upload': {},
+      },
     };
 
     // can turn on workflow per site, but WARNING this only works for DEV sites currently,
@@ -225,7 +231,10 @@ module.exports = {
     const turnOffWorkflow = siteData.cms && siteData.cms.turnOffWorkflow;
 
     // If apostrophe workflow is turned o
-    if ((process.env.APOS_WORKFLOW === 'ON' || useAposWorkflow) && !turnOffWorkflow) {
+    if (
+      (process.env.APOS_WORKFLOW === 'ON' || useAposWorkflow) &&
+      !turnOffWorkflow
+    ) {
       siteConfig.modules['apostrophe-workflow'] = {
         // IMPORTANT: if you follow the examples below,
         // be sure to set this so the templates work
@@ -240,7 +249,7 @@ module.exports = {
             label: 'Default',
             private: false,
             children: [
-            /*  {
+              /*  {
                 name: 'nl',
                 label: 'Nederlands',
                 private: false,
@@ -250,26 +259,25 @@ module.exports = {
             name: 'en',
                 label: 'England'
               }*/
-            ]
+            ],
           },
         ],
-        defaultLocale: 'default'
+        defaultLocale: 'default',
       };
 
       siteConfig.modules['apostrophe-workflow-modified-documents'] = {};
-
     } else {
       siteConfig.modules['apostrophe-i18n'] = {
         locales: ['nl', 'en'],
         directory: __dirname + '/locales',
-        defaultLocale: 'nl'
-      }
+        defaultLocale: 'nl',
+      };
     }
 
-    if (process.env.APOS_PROFILER === 'per-request'){
+    if (process.env.APOS_PROFILER === 'per-request') {
       siteConfig.modules['apostrophe-profiler'] = {};
     }
 
     return siteConfig;
-  }
-}
+  },
+};

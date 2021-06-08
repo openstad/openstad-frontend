@@ -8,5 +8,5 @@ var apos = openstadCms.site({
   // responsible for serving static assets, managing page templates and
   // configuring user accounts.
 
-  modules: {  }
+  modules: {},
 });

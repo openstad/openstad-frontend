@@ -1,77 +1,76 @@
 const contentWidgets = {
-  'admin': {
-    adminOnly: true
+  admin: {
+    adminOnly: true,
   },
   'resource-overview': {
-    adminOnly: true
+    adminOnly: true,
   },
   'resource-form': {
-    adminOnly: true
+    adminOnly: true,
   },
   'resource-representation': {
-    adminOnly: true
+    adminOnly: true,
   },
-  'agenda': {},
-  'accordeon': {},
-  'arguments': {
-    adminOnly: true
+  agenda: {},
+  accordeon: {},
+  arguments: {
+    adminOnly: true,
   },
   'arguments-form': {
-    adminOnly: true
+    adminOnly: true,
   },
-  'section': {
+  section: {
     addLabel: 'Columns',
     controls: {
       movable: true,
       removable: true,
-      position: 'bottom-left'
+      position: 'bottom-left',
     },
   },
-  'slider': {
-  },
-  'counter': {
+  slider: {},
+  counter: {
     addLabel: 'Counter',
   },
   'cookie-warning': {
-    adminOnly: true
+    adminOnly: true,
   },
   'date-bar': {},
   'idea-form': {
-    adminOnly: true
+    adminOnly: true,
   },
   'idea-map': {
-    adminOnly: true
+    adminOnly: true,
   },
   'idea-overview': {},
   'idea-single': {
-    adminOnly: false
+    adminOnly: false,
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
-    adminOnly: true
+    adminOnly: true,
   },
   'previous-next-button-block': {
     addLabel: 'Vorige volgende knoppen',
   },
-  'iframe': {
-    adminOnly: true
+  iframe: {
+    adminOnly: true,
   },
-  'image': {},
+  image: {},
   'info-bar': {},
-  'link': {},
-  'list': {},
-  'begroot': {
+  link: {},
+  list: {},
+  begroot: {
     addLabel: 'Begroot (deprecated, please use Participatory budgetting)',
     adminOnly: true,
     readOnly: true,
   },
   'gebiedsontwikkeling-tool': {
     addLabel: 'Map for area development',
-    adminOnly: true
+    adminOnly: true,
   },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
-    adminOnly: true
+    adminOnly: true,
   },
   'choices-guide': {
     addLabel: 'Keuzewijzer',
@@ -80,27 +79,38 @@ const contentWidgets = {
     addLabel: 'Keuzewijzer resultaten',
   },
   'main-image': {
-    adminOnly: true
+    adminOnly: true,
   },
   'apostrophe-rich-text': {
-    toolbar: ['Styles', 'Bold', 'Italic', 'Link', 'Unlink', 'BulletedList', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',],
-    styles: [
-      {name: 'Paragraph', element: 'p'}
+    toolbar: [
+      'Styles',
+      'Bold',
+      'Italic',
+      'Link',
+      'Unlink',
+      'BulletedList',
+      '-',
+      'JustifyLeft',
+      'JustifyCenter',
+      'JustifyRight',
+      'JustifyBlock',
+      '-',
     ],
+    styles: [{ name: 'Paragraph', element: 'p' }],
     controls: {
       movable: true,
       removable: true,
-      position: 'top-left'
-    }
+      position: 'top-left',
+    },
   },
   'speech-bubble': {
     controls: {
-      position: 'top-left'
+      position: 'top-left',
     },
   },
-  'title': {},
+  title: {},
   'user-form': {
-    adminOnly: true
+    adminOnly: true,
   },
   'local-video': {
     addLabel: 'Video (upload)',
@@ -108,30 +118,33 @@ const contentWidgets = {
   'apostrophe-video': {
     addLabel: 'Video (3d party, youtube, vimeo, etc.)',
   },
-  'location': {
-    adminOnly: true
+  location: {
+    adminOnly: true,
   },
-  'share': {
-    adminOnly: true
+  share: {
+    adminOnly: true,
   },
   'recource-raw': {
-    adminOnly: true
+    adminOnly: true,
   },
   'recource-image': {
-    adminOnly: true
+    adminOnly: true,
   },
   'recource-like': {
-    adminOnly: true
+    adminOnly: true,
   },
   'resource-admin': {
-    adminOnly: true
-  }
+    adminOnly: true,
+  },
+  '@savvycodes/openstad-event': {
+    adminOnly: true,
+  },
 };
 
 exports.getAdminWidgets = () => {
   const filteredContentWidgets = {};
 
-  Object.keys(contentWidgets).forEach(function(key) {
+  Object.keys(contentWidgets).forEach(function (key) {
     filteredContentWidgets[key] = contentWidgets[key];
 
     /**
@@ -142,16 +155,15 @@ exports.getAdminWidgets = () => {
       filteredContentWidgets[key].readOnly = false;
       filteredContentWidgets[key].edit = true;
     }
-
   });
 
   return filteredContentWidgets;
-}
+};
 
 exports.getEditorWidgets = () => {
   const filteredContentWidgets = {};
 
-  Object.keys(contentWidgets).forEach(function(key) {
+  Object.keys(contentWidgets).forEach(function (key) {
     filteredContentWidgets[key] = contentWidgets[key];
 
     /**
@@ -163,8 +175,7 @@ exports.getEditorWidgets = () => {
       //setting edit to false removes the edit controls for this module
       filteredContentWidgets[key].edit = false;
     }
-
   });
 
   return filteredContentWidgets;
-}
+};
