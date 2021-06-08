@@ -10,11 +10,18 @@ jobs:
     env:
       DOCKER_PUBLIC_USERNAME: savvycodes
       DOCKER_IMAGE_NAME: openstad-frontend
+      FRONTEND_MONGO_SCHEME: mongodb://mongo
+      FRONTEND_MONGO_DB_HOST: mongo
+      FRONTEND_MONGO_PORT: 27017
 
-    # Enable docker
+    # Setup docker and mongodb services
     services:
       docker:
         image: docker
+      mongodb:
+        image: mongo:4
+        ports:
+          - 27017:27017
 
     steps:
       - name: Checkout code
@@ -37,7 +44,9 @@ jobs:
       # We skip tests for now
 
       - name: Generate and bundle assets
-        run: NODE_ENV=production APOS_MINIFY=1 APOS_WORKFLOW=ON APOS_BUNDLE=assets MINIFY_JS='ON' node apostrophe.js apostrophe:generation --create-bundle assets
+        run: |
+          mongo default --eval 'db.createUser({user:"ci",pwd:"test",roles:["readWrite"]});'
+          NODE_ENV=production APOS_MINIFY=1 APOS_WORKFLOW=ON APOS_BUNDLE=assets MINIFY_JS='ON' node apostrophe.js apostrophe:generation --create-bundle assets
 
       - name: Build container
         run: docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }} .
