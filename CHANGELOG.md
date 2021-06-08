@@ -5,10 +5,13 @@
 * Fix cookie warning in iframes
 * Fix js error when editing choices guides
 
-## v0.16.0 (2020-04-26)
+## v0.16.1 (2021-06-01)
+* Add option startWithAllQuestionsAnsweredAndConfirmed to Choices Guide
+
+## v0.16.0 (2021-04-26)
 * Add cookie consent for video widget
 
-## v0.15.0 (2020-04-06)
+## v0.15.0 (2021-04-06)
 * Hide palette in global modal
 * Move editUrl in resource overview widget to display so it's easier to find
 * Add caption to vote counter in resource overview widget
@@ -21,10 +24,10 @@
 * Select custom tiles server in idea-on-map.
 * Use global area in ideas-on-map
 
-## v0.14.1 (2020-03-17)
+## v0.14.1 (2021-03-17)
 * Add check to make sure if href not exists in a tags Rich Text the sanitize functions fails
 
-## v0.14.0 (2020-03-17)
+## v0.14.0 (2021-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
 * Remove nlmaps map type from all widget files, not necessary to set MAP_TYPE env value anymore
 * Check if maps exists in some places
@@ -44,7 +47,7 @@
 ## v0.13.1 (2021-03-02)
 * Better errors in participatory-budgeting when no plans are selected yet
 
-## v0.13.0 (2020-02-23)
+## v0.13.0 (2021-02-23)
 * Add login required to choices-guide results
 * Use refactored react components
 * Change default styling for toggle title in section
