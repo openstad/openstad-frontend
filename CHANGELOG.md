@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED
+## v0.15.0 (2020-06-08)
 * Add create/update date to choices-guide results
 * Allow moderators to update role of users to member (but not to moderator or admin role)
 
