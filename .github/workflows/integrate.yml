@@ -46,6 +46,7 @@ jobs:
       - name: Generate and bundle assets
         run: |
           mongo default --eval 'db.createUser({user:"ci",pwd:"test",roles:["readWrite"]});'
+          mkdir -p assets
           NODE_ENV=production APOS_MINIFY=1 APOS_WORKFLOW=ON APOS_BUNDLE=assets MINIFY_JS='ON' node apostrophe.js apostrophe:generation --create-bundle assets
 
       - name: Build container
