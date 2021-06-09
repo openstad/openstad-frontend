@@ -38,7 +38,7 @@ jobs:
       - name: Set outputs
         id: vars
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=sha_short::$(echo ${{ github.sha }} | cut -c1-7)"
           echo "::set-output name=branch::$(echo ${{github.event.pull_request.head.ref}} | sed 's/\//-/g')"
 
       - name: Setup node
