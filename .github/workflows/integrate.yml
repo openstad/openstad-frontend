@@ -1,0 +1,67 @@
+name: Integration
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  # Build job creates a docker image and publishes it to the registry
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_PUBLIC_USERNAME: savvycodes
+      DOCKER_IMAGE_NAME: openstad-frontend
+      FRONTEND_MONGO_SCHEME: mongodb://mongo
+      FRONTEND_MONGO_DB_HOST: mongo
+      FRONTEND_MONGO_PORT: 27017
+      DEFAULT_HOST: localhost:4444
+      APP_URL: http://localhost:4444
+      FRONTED_PORT: 4444
+      COOKIE_SECURE_OFF: yes
+      API: http://localhost:8111
+      IMAGE_API_URL: http://localhost:3333
+      IMAGE_API_ACCESS_TOKEN: xxxx
+      SITE_API_KEY: xxxx
+
+    # Setup docker and mongodb services
+    services:
+      docker:
+        image: docker
+      mongodb:
+        image: mongo:4
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set outputs
+        id: vars
+        run: |
+          echo "::set-output name=sha_short::$(echo ${{ github.sha }} | cut -c1-7)"
+          echo "::set-output name=branch::$(echo ${{github.event.pull_request.head.ref}} | sed 's/\//-/g')"
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install node_modules
+        run: npm ci
+
+      # We skip tests for now
+
+      - name: Generate and bundle assets
+        run: |
+          mongo default --eval 'db.createUser({user:"ci",pwd:"test",roles:["readWrite"]});'
+          mkdir -p assets
+          NODE_ENV=production APOS_MINIFY=1 APOS_WORKFLOW=ON APOS_BUNDLE=assets MINIFY_JS='ON' node apostrophe.js apostrophe:generation --create-bundle assets
+
+      - name: Build container
+        run: docker build -t ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }} .
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Publish container
+        run: docker push ${DOCKER_PUBLIC_USERNAME}/${DOCKER_IMAGE_NAME}:${{ steps.vars.outputs.branch }}-${{ steps.vars.outputs.sha_short }}
