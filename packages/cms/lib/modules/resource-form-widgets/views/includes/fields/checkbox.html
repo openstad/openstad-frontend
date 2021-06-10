@@ -14,6 +14,7 @@
   {% endif %}
 {% endif %}
 
+{% set uniqueId = apos.utils.generateId() %}
 
 <div class="checkbox-container">
   {% for option in field.fieldOptions %}
@@ -26,13 +27,13 @@
       name="extraData[{{field.fieldKey}}]"
       {% endif %}
       value="{{option.value}}"
-      id="checkbox-{{loop.index}}-{{option.value}}"
+      id="checkbox-{{uniqueId}}-{{loop.index}}-{{option.value}}"
 
       {% if field.fieldRequired %}required{% endif %}
       {% if fieldValue === option.value %}checked{% endif %}
     />
 
-    <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">
+    <label for="checkbox-{{uniqueId}}-{{loop.index}}-{{option.value}}" class="checkbox-label">
        {{option.label}}
     </label>
   </div>

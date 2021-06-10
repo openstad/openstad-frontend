@@ -14,6 +14,7 @@
   {% endif %}
 {% endif %}
 
+{% set uniqueId = apos.utils.generateId() %}
 
 <div class="radio-container">
   {% for option in field.fieldOptions %}
@@ -26,13 +27,13 @@
       name="extraData[{{field.fieldKey}}]"
       {% endif %}
       value="{{option.value}}"
-      id="radio-{{loop.index}}-{{option.value}}"
+      id="radio-{{uniqueId}}-{{loop.index}}-{{option.value}}"
 
       {% if field.fieldRequired %}required{% endif %}
       {% if fieldValue === option.value %}checked{% endif %}
     />
 
-    <label for="radio-{{loop.index}}-{{option.value}}" class="radio-label">
+    <label for="radio-{{uniqueId}}-{{loop.index}}-{{option.value}}" class="radio-label">
        {{option.label}}
     </label>
   </div>
