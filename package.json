@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
   "dependencies": {
     "@openstad/cms": "file:packages/cms",
-    "@savvycodes/openstad-event-planner-widgets": "0.0.4-alpha.5",
+    "@savvycodes/openstad-event-planner-widgets": "0.0.4-alpha.6",
     "apostrophe": "2.113.0",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
