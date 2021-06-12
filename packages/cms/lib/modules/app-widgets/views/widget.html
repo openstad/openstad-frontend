@@ -1,1 +1,6 @@
+{% if data.widget.appType %}
+{% include 'frontend.html' %}
+{% else %}
 {% include 'editor.html' %}
+{% endif %}
+

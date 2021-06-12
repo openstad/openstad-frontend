@@ -106,5 +106,29 @@ module.exports = {
      }
    }));
 
+
+      const oauthUrl = options.sitePrefix ? options.sitePrefix + '/api-oauth' : '/api-oauth'
+
+      /*
+      * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
+      */
+      self.apos.app.use('/api-oauth', proxy({
+          target: apiUrl,
+          changeOrigin: true,
+          pathRewrite: {['^'+oauthUrl] : '/oauth'},
+          onProxyReq : (proxyReq, req, res) => {
+              // add custom header to request
+              proxyReq.setHeader('Accept', 'application/json');
+
+              if (req.session.jwt) {
+                  //proxyReq.setHeader('X-Authorization', `Bearer ${req.session.jwt}`);
+              }
+          },
+          onError: function(err) {
+              //console.log('errerrerr newBody', err);
+          }
+      }));
+
+
   }
 };

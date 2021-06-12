@@ -1,33 +1,24 @@
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="/modules/app-widgets/js/index.js?v={{data.assetsGeneration}}"></script>
 
-<link rel="stylesheet" href="/modules/app-widgets/css/main.css">
-<script src="/modules/app-widgets/js/{{data.widget.appType}}.js"></script>
-
-<div id="{{data.widget.containerId}}">
-    <div id="app-root" style="    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;"></div>
+<div id="{{data.widget.containerId}}" class="osc-component" style="width:100%; height:100%">
+    <div id="admin-root"></div>
 </div>
-
 <script>
-
-
-
     document.addEventListener("DOMContentLoaded", function(event) {
+        var settings = AppEditor.settings.{{data.widget.editorType if data.widget.editorType  else 'workout'}};
+
         var appProps = {
-            id: {{data.activeResource.id}},
-        title: '{{data.activeResource.title}}',
-            styling:{},
-        screens:[{
-            type: "TourGuide",
-            elements: {{data.activeResource.revisions[data.activeResource.revisions.length -1].resourceItems  | json}},
-        coordinates: {{data.activeResource.revisions[data.activeResource.revisions.length -1].coordinates  | json}},
-    }]
+             appId: {{data.widget.appId if data.widget.appId else 0}},
+             defaultResources: settings.defaultResources,
+             apiBase: '/api/site/{{data.global.siteId}}',
+             oAuthBase:  '/api-oauth/site/{{data.global.siteId}}',
+             urlPrefix: '{{data.currentPath}}',
+             startState: '{{data.widget.startState}}',
+             loginUrl: '/oauth/login?returnTo=/login-feedback'
     };
 
-        ReactDOM.render(React.createElement(AppFrontend.default, appProps), document.getElementById('app-root'));
+        ReactDOM.render(React.createElement(AppEditor.FrontendApp, appProps), document.getElementById('admin-root'));
     });
 </script>
