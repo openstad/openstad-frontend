@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Set default noOfQuestionsToShow to 100
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes

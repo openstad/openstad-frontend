@@ -12,7 +12,7 @@ module.exports = [
     type: 'integer',
 		label: 'Aantal vragen per pagina',
 		required: true,
-    def: 1,
+    def: 100,
 	},
  	{
  		name: 'startWithAllQuestionsAnswered',
