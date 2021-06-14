@@ -1,4 +1,4 @@
-{% if data.widget.appType %}
+{% if data.widget.appType === 'frontend' %}
 {% include 'frontend.html' %}
 {% else %}
 {% include 'editor.html' %}
