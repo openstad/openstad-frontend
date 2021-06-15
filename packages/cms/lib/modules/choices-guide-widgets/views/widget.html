@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="{{data.widget.openstadComponentsUrl}}/css/all.css?{{data.assetsGeneration}}"/>
+<link rel="stylesheet" type="text/css" href="{{data.widget.openstadComponentsCdn}}/css/all.css"/>
 
 <style>
  {{data.widget.formattedContainerStyles}}
@@ -12,14 +12,17 @@
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js"></script>
-<script src="{{data.widget.openstadComponentsUrl}}/all.js?{{data.assetsGeneration}}"></script>
+<script src="{{data.widget.openstadComponentsCdn}}/all.js"></script>
 
 <script>
 
  window.addEventListener('load', function(e) {
    let config = {{data.widget.config | safe}};
    let element = document.querySelector('.openstad-component-choices-guide');
+   console.log('XX')
+   console.log('OpenStadComponents', window.OpenStadComponents)
    OpenStadComponents.ChoicesGuide.renderElement(element, config);
+   console.log('XX')
  });
 
  // sticky

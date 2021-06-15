@@ -7,6 +7,7 @@
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
 * Fix js error when editing choices guides
+* Add CDN automation
 
 ## v0.16.1 (2021-06-01)
 * Add option startWithAllQuestionsAnsweredAndConfirmed to Choices Guide
