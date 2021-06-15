@@ -10,5 +10,6 @@ var apos = openstadCms.site({
 
   modules: {
     '@savvycodes/openstad-event-planner-widgets': {},
+    '@savvycodes/openstad-event-browser-widgets': {},
   },
 });
