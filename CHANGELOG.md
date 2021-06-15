@@ -2,12 +2,12 @@
 
 ## Unreleased
 * Set default noOfQuestionsToShow to 100
+* Add components cdn and version automation
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
 * Fix js error when editing choices guides
-* Add CDN automation
 
 ## v0.16.1 (2021-06-01)
 * Add option startWithAllQuestionsAnsweredAndConfirmed to Choices Guide
