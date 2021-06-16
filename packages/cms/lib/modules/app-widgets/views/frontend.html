@@ -11,12 +11,13 @@
 
         var appProps = {
              appId: {{data.widget.appId if data.widget.appId else 0}},
+             jwt: '{{data.jwt}}',
              defaultResources: settings.defaultResources,
              apiBase: '/api/site/{{data.global.siteId}}',
              oAuthBase:  '/api-oauth/site/{{data.global.siteId}}',
              urlPrefix: '{{data.currentPath}}',
              startState: '{{data.widget.startState}}',
-             loginUrl: '/oauth/login?returnTo=/login-feedback'
+             loginUrl: '/oauth/login?returnTo={{data.currentPath}}'
     };
 
         ReactDOM.render(React.createElement(AppEditor.FrontendApp, appProps), document.getElementById('admin-root'));
