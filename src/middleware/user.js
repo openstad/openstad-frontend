@@ -119,7 +119,7 @@ async function getUserInstance( user, siteOauthConfig ) {
 		}
 
 		const authUser = await response.json();
-		authUser.role = authUser.role || user.role || 'member';
+		authUser.role = authUser.role || user.role || 'anonymous';
 
 		return merge(dbUser, authUser);
 	} catch(error) {
