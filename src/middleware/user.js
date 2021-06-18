@@ -119,9 +119,12 @@ async function getUserInstance( user, siteOauthConfig ) {
 		}
 
 		const authUser = await response.json();
-		authUser.role = authUser.role || user.role || 'anonymous';
 
-		return merge(dbUser, authUser);
+    let mergedUser = merge(dbUser, authUser);
+    mergedUser.role = mergedUser.role || ((mergedUser.email || mergedUser.phoneNumber || mergedUser.hashedPhoneNumber) ? 'member' : 'anonymous');
+    
+		return mergedUser;
+
 	} catch(error) {
 		// Todo: Do we always need to reset user token when an error occurs?
 		console.error(error);
