@@ -1,0 +1,25 @@
+<form
+        method="post"
+        action="/auth/url/login?&clientId={{clientId}}&redirect_uri={{redirectUrl}}"
+        class="validate-form"
+>
+    <div class="form-group">
+        {% include 'elements/error-flash.html' %}
+
+        <label>
+            {{ label if label else 'Emailadres:' }}
+        </label>
+
+        <input
+                type="email"
+                value=""
+                name="email"
+                class="form-input"
+                required
+        />
+    </div>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="clientId" value="{{clientId}}">
+
+    <input type="submit" value="{{ buttonText if buttonText else 'Stuur link' }}" class="btn btn-primary">
+</form>

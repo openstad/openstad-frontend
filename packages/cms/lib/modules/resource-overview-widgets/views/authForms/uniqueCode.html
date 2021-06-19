@@ -1,0 +1,31 @@
+<form
+        method="post"
+        action="/auth/code/login?clientId={{clientId}}&redirect_uri={{redirect_uri}}"
+>
+    <div class="form-group">
+        <label>
+            {{label}}
+        </label>
+
+        <div {% if (messages.error) %} class="side-error" {% endif%}>
+            {% if (messages.error)  %}
+            {% for error in messages.error %}
+            <span class="error-label"> {{ error.msg }} </span>
+            {% endfor %}
+            {% endif %}
+
+            <input
+                    type="text"
+                    value=""
+                    name="unique_code"
+                    class="form-input"
+                    required
+                    autocomplete="off"
+            />
+        </div>
+    </div>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <input type="hidden" name="clientId" value="{{clientId}}">
+    <br />
+    <input type="submit" value="{{buttonText}}" class="btn btn-primary">
+</form>
