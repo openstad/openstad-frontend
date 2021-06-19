@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+* Autosubmit vote in resource overview after return from oauth
+* Autosubmit vote in participatory budgeting after returning from oauth
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes

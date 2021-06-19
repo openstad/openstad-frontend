@@ -366,10 +366,11 @@ function sendVote() {
   $.ajax({
     method: 'POST',
   //  url: "/api/site/"+siteId+"/idea/" + ideaId + "/vote",
-    url: "/vote",
+    url: window.siteUrl + "/vote",
     data: { opinion: 'yes', ideaId: ideaId },
     json: true,
-    error: function() {
+    error: function(error) {
+
       hideWaitLayer();
       hideStep(steps[currentStep]);
 
@@ -493,6 +494,9 @@ var returnedFromVerification =  !!returnFromId;
       //  setHasVoted();
         selectIdea(parseInt(returnFromId,10));
         setVerified();
+
+        // This used to be done by the user manually
+        votingNextStep();
       }
     }
 
