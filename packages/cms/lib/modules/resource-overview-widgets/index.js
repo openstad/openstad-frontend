@@ -267,6 +267,7 @@ module.exports = {
                     }
                 }
 
+
                 // if cache is set then render from cache, otherwise
                 if (response) {
                     // pass query obj without reference
@@ -294,6 +295,75 @@ module.exports = {
                         })
                     }(req, self));
                 }
+
+
+                //auth-client-secret
+                const oAuthUrl = self.apos.settings.getOption(req, 'oAuthUrl');
+                const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
+
+                const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
+                const oauthClientSecret = oauthConfig.default && oauthConfig.default["auth-client-secret"] ? oauthConfig.default["auth-client-secret"] : false;
+                console.log('oauthClientId', oauthClientId);
+                console.log('oauthClientSecret', oauthClientSecret);
+
+                if (oauthClientId && oauthClientSecret) {
+                    const authHeaders = JSON.stringify({
+                        client_id: oauthClientId,
+                        client_secret: oauthClientSecret
+                    });
+
+                    console.log('add another promise', `${oAuthUrl}/api/admin/csrf-session-token`);
+
+                    /**
+                     * We are posting directly email, sms, code to the oAuth server.
+                     * This means CSRF validation fails.
+                     * In order for CSRF to work we fetch a token as admin an pass it to the request.
+                     * Theoretically one can argue that since oAuth redirects are only allowed
+                     * to restricted domains, it will be impossible to execute a CSRF login anyway.
+                     * Most of the time pentesters will flag you for it anyway, because CSRF is a check on the list.
+                     * Their argument for it not being needed is it CSRF might not be needed, if the redirect check fails
+                     * or has a bug, then at least csrf is working.
+                     *
+                     * So this might not be necessary. For now we leave it in and consult with Security expert.
+                     */
+                    promises.push(function (req, self) {
+                        return new Promise((resolve, reject) => {
+                            rp({
+                                url: `${oAuthUrl}/api/admin/csrf-session-token`,
+                                method: 'post',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                mode: 'cors',
+                                body: authHeaders
+                            })
+                            .then((response) => {
+                                widget.oAuthClientId = oauthClientId;
+
+                                // javascript will add returnedFromVerification=:ideaId
+                                // important to do it via URL, because users don't always return to same client
+                                // if they login via e-mail
+                                let returnTo = req.data.currentUrl;
+
+                                const authServerLoginPath = "/dialog/authorize?redirect_uri=[[redirectUrl]]&response_type=code&client_id=[[clientId]]&scope=offline";
+                                let redirectUrl = encodeURIComponent(apiUrl + '/oauth/site/' + req.site.id + '/digest-login?useOauth=default&returnTo=' + returnTo);
+
+                                widget.oAuthRedirectUrl = redirectUrl;
+                                widget.oAuthSessionToken = response.token;
+
+                                resolve(response);
+                            })
+                            .catch((err) => {
+                                console.log('oauth err', err)
+                                reject(err);
+                            })
+                            })
+
+                    }(req, self));
+
+                    console.log('Promises list promises', promises);
+                }
+
             });
 
             if (promises.length > 0) {
@@ -302,6 +372,7 @@ module.exports = {
                         return superLoad(req, widgets, next);
                     })
                     .catch(function (err) {
+                      //  console.log('errrr', err)
                         return superLoad(req, widgets, next);
                     });
             } else {

@@ -1,10 +1,13 @@
 <form
         method="post"
-        action="/auth/code/login?clientId={{clientId}}&redirect_uri={{redirect_uri}}"
+        class="openstad-form"
+
+
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/code/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
 >
     <div class="form-group">
         <label>
-            {{label}}
+            {{label if label else 'Code:' }}
         </label>
 
         <div {% if (messages.error) %} class="side-error" {% endif%}>
@@ -27,5 +30,5 @@
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <input type="hidden" name="clientId" value="{{clientId}}">
     <br />
-    <input type="submit" value="{{buttonText}}" class="btn btn-primary">
+    <input type="submit" value="{{ buttonText if buttonText else 'Verstuur' }}" class="btn btn-primary">
 </form>

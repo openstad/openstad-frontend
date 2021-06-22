@@ -1,11 +1,13 @@
 
 <form
         method="post"
-        action="/auth/phonenumber/login?&clientId={{clientId}}&redirect_uri={{redirectUrl}}"
+        class="openstad-form"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
+
 >
     <div class="form-group">
         <label>
-            {{label}}
+            {{label if label else 'Telefoonnummer' }}
         </label>
 
         <div {% if (messages.error) %} class="side-error" {% endif%}>

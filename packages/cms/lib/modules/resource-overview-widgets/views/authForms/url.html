@@ -1,7 +1,7 @@
 <form
         method="post"
-        action="/auth/url/login?&clientId={{clientId}}&redirect_uri={{redirectUrl}}"
-        class="validate-form"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/url/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
+        class="openstad-form"
 >
     <div class="form-group">
         {% include 'elements/error-flash.html' %}

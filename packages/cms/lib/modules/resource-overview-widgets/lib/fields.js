@@ -360,7 +360,7 @@ module.exports = [
     name: 'authEmbeddedForm',
     label: 'Auth form embedded',
     type: 'select',
-    options: [
+    choices: [
       {
         value: false,
         //  label: 'Newest first',
