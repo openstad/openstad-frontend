@@ -129,6 +129,24 @@ module.exports = {
           }
       }));
 
+      const videoApi = options.sitePrefix ? options.sitePrefix + '/video-api' : '/video-api'
+
+      /*
+     * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
+     */
+      self.apos.app.use('/video-api', proxy({
+          target: process.env.VIDEO_API_URL,
+          changeOrigin: true,
+          pathRewrite: {['^' + videoApi]: ''},
+          onProxyReq: (proxyReq, req, res) => {
+              // add custom header to request
+              proxyReq.setHeader("X-Auth-Key", process.env.VIDEO_API_KEY);
+              proxyReq.setHeader("X-Auth-Email",process.env.VIDEO_API_EMAIL);
+          },
+          onError: function (err) {
+              //console.log('errerrerr newBody', err);
+          }
+      }));
 
   }
 };
