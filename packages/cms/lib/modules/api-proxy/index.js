@@ -3,6 +3,7 @@
  */
 const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
+const videoApiUrl = process.env.VIDEO_API_URL ? process.env.VIDEO_API_URL : '/video';
 const eventEmitter  = require('../../../events').emitter;
 
 module.exports = {
@@ -135,7 +136,7 @@ module.exports = {
      * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
      */
       self.apos.app.use('/video-api', proxy({
-          target: process.env.VIDEO_API_URL,
+          target: videoApiUrl,
           changeOrigin: true,
           pathRewrite: {['^' + videoApi]: ''},
           onProxyReq: (proxyReq, req, res) => {
