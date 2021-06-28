@@ -152,7 +152,7 @@ var OpenlayersMap = {
             const iconStyling = {
                 crossOrigin: 'anonymous',
                // anchorOrigin: 'top-left',
-                anchor: [24, 22],
+                anchor: [4, 21],
                 size: marker.icon.size,
                 anchorXUnits: 'pixels',
                 anchorYUnits: 'pixels',
@@ -200,7 +200,9 @@ var OpenlayersMap = {
             image: new ol.style.Icon(({
                 crossOrigin: 'anonymous',
                 src: icon.url,
-                anchor: [0, 0],
+                anchor: [4, 21],
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 size: icon.size
             }))
         }));
@@ -214,11 +216,43 @@ var OpenlayersMap = {
         });
 
         this.marker = vectorLayer;
+        this.markerFeature = marker; // tsja, sorry, het is al een puinhoop en dat ga ik nu niet fixen; hopelijk kan dit binnenkort gewoon weg
 
         this.map.addLayer(vectorLayer);
+        return marker;
+    },
+    setEditorLocation: function(latLong, editorInputElementId) {
+
+      var self = this;
+      var editorInputElement = document.getElementById(editorInputElementId);
+
+      if (latLong) {
+        var coordinate = {
+          latitude: latLong[1],
+          longitude: latLong[0]
+        };
+        let marker = self.addMarker(
+          latLong,
+          {
+            url: '/modules/openstad-assets/img/idea/flag-blue.png',
+            size: [22, 24],
+          });
+
+        var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
+
+        editorInputElement.value = JSON.stringify(point);
+
+      } else {
+        self.removeMarkers();
+        editorInputElement.value = '';
+      }
+
     },
     addEventListener: function (polygonLngLat, editorInputElement) {
-        var editorInputElement = document.getElementById(editorInputElement);
+
+      // WTF: 1.addEventListener is een gestandaardiseerde term lijkt me, waarbij de eerste param een eventnaam is.
+      // 2. De functionaliteit hier is: voeg een marker toe en update het input veld; ik heb eea verplaatst neer een functie setEditorLocation heet (doe er gek)
+      // 3. En als je editorInputElement als id doorgeeft noem hem dan editorInputElementId
 
         var inside = function (point, vs) {
             if (vs && vs.length > 0) {
@@ -261,29 +295,28 @@ var OpenlayersMap = {
         // and pass the lat and lng to the form on which the location picker is included
         this.map.on('click', function (event) {
 
-            var pickerCoords = {
-                latitude: event.coordinate[1],
-                longitude: event.coordinate[0]
-            };
+          var feature = self.map.forEachFeatureAtPixel(event.pixel,
+                                                  function(feature) {
+                                                    return feature;
+                                                  });
+            if (feature === self.markerFeature) {
 
-            var picker = [pickerCoords.longitude, pickerCoords.latitude];
+                self.setEditorLocation(null, editorInputElement)
 
-            if (inside(picker, polygonCoords)) {
-                var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
-                var coordinate = {
-                    latitude: latLong[1],
-                    longitude: latLong[0]
+            } else {
+          
+                var pickerCoords = {
+                    latitude: event.coordinate[1],
+                    longitude: event.coordinate[0]
                 };
+     
+                var picker = [pickerCoords.longitude, pickerCoords.latitude];
+     
+                if (inside(picker, polygonCoords)) {
+                  var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
+                  self.setEditorLocation(latLong, editorInputElement)
+                }
 
-                self.addMarker(latLong,
-                    {
-                        url: '/modules/openstad-assets/img/idea/flag-blue.png',
-                        size: [22, 24]
-                    });
-
-                var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
-
-                editorInputElement.value = JSON.stringify(point);
             }
 
         }, 'click');
