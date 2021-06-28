@@ -222,6 +222,59 @@ module.exports = {
             });
         });
 
+        self.apos.app.get('/oauth-csrf', (req, res, next) => {
+            //only allow AJAX requests, from trusted domains, otherwise there is no point to CSRF token
+
+            //auth-client-secret
+            const oAuthUrl = self.apos.settings.getOption(req, 'oAuthUrl');
+            const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
+            const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
+            const oauthClientSecret = oauthConfig.default && oauthConfig.default["auth-client-secret"] ? oauthConfig.default["auth-client-secret"] : false;
+
+            if (oauthClientId && oauthClientSecret) {
+                const authHeaders = JSON.stringify({
+                    client_id: oauthClientId,
+                    client_secret: oauthClientSecret
+                });
+
+                /**
+                 * We are posting directly email, sms, code to the oAuth server.
+                 * This means CSRF validation fails.
+                 * In order for CSRF to work we fetch a token as admin an pass it to the request.
+                 * Theoretically one can argue that since oAuth redirects are only allowed
+                 * to restricted domains, it will be impossible to execute a CSRF login anyway.
+                 * Most of the time pentesters will flag you for it anyway, because CSRF is a check on the list.
+                 * Their argument for it not being needed is it CSRF might not be needed, if the redirect check fails
+                 * or has a bug, then at least csrf is working.
+                 *
+                 * So this might not be necessary. For now we leave it in and consult with Security expert.
+                 */
+
+                rp({
+                    url: `${oAuthUrl}/api/admin/csrf-session-token`,
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    body: authHeaders
+                })
+                .then((response) => {
+                    if (response) {
+                        response = JSON.parse(response);
+                    }
+
+                    res.json({
+                        token: response.token
+                    })
+                })
+                .catch((err) => {
+                    console.log('oauth err', err)
+                    next(err)
+                })
+            }
+        });
+
         // nice route for admin login
         self.apos.app.get('/admin/login', (req, res, next) => {
             // empty openstadUser, this doesn't logout user

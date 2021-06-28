@@ -1,8 +1,8 @@
 
 <form
         method="post"
-        class="openstad-form"
-        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
+        class="openstad-form form-fill-external-csrf"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}"
 
 >
     <div class="form-group">
@@ -11,11 +11,6 @@
         </label>
 
         <div {% if (messages.error) %} class="side-error" {% endif%}>
-            {% if (messages.error)  %}
-            {% for error in messages.error %}
-            <span class="error-label"> {{ error.msg }} </span>
-            {% endfor %}
-            {% endif %}
 
             <input
                     type="text"
@@ -27,8 +22,7 @@
             />
         </div>
     </div>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="clientId" value="{{clientId}}">
+
     <br />
     <input type="submit" value="{{buttonText}}" class="btn btn-primary">
 </form>

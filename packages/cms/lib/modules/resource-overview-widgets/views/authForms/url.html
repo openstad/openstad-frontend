@@ -1,10 +1,9 @@
 <form
         method="post"
         action="{{apos.settings.getOption('oAuthUrl')}}/auth/url/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
-        class="openstad-form"
+        class="openstad-form form-fill-external-csrf"
 >
     <div class="form-group">
-        {% include 'elements/error-flash.html' %}
 
         <label>
             {{ label if label else 'Emailadres:' }}
@@ -18,8 +17,6 @@
                 required
         />
     </div>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <input type="hidden" name="clientId" value="{{clientId}}">
 
     <input type="submit" value="{{ buttonText if buttonText else 'Stuur link' }}" class="btn btn-primary">
 </form>

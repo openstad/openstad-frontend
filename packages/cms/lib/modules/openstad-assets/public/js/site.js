@@ -15,7 +15,35 @@ $(function () {
     initAjaxRefresh();
     initFormSubmit();
     initTrapFocusInOpenModal();
+    initFillExternalCsrfToken();
 });
+
+function initFillExternalCsrfToken () {
+    var $form = $('.form-fill-external-csrf');
+
+    if ($form && $form.length > 0) {
+        $form.css({
+            opacity: 0.4,
+            'pointer-events': 'none'
+        });
+
+        $.ajax({
+            url: '/oauth-csrf',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $form.append('<input type="hidden" name="externalCSRF" value="'+response.token+'" />');
+                $form.css({
+                    opacity: 1,
+                    'pointer-events': 'all'
+                });
+            },
+            error: function() {
+                alert('Something is wrong, try refreshing the page')
+            }
+        })
+    }
+}
 
 function initLogoutMijnOpenstad() {
     $('.logout-button').click(function (ev) {

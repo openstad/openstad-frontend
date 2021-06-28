@@ -264,7 +264,6 @@ module.exports.getMultiSiteApp = (options) => {
     const resetConfigMw = async (req, res, next) => {
         let host = req.headers['x-forwarded-host'] || req.get('host');
         host = host.replace(['http://', 'https://'], ['']);
-        console.log('reset host', host)
         await fetchAllSites(req, res);
         req.forceRestart = true;
         next();
@@ -295,7 +294,6 @@ module.exports.getMultiSiteApp = (options) => {
 
         if (site) {
             site.sitePrefix = req.params.sitePrefix;
-            console.log();
             req.sitePrefix = req.params.sitePrefix;
             req.site = site;
 
