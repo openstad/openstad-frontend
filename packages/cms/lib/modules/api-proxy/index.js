@@ -110,6 +110,7 @@ module.exports = {
 
       const oauthUrl = options.sitePrefix ? options.sitePrefix + '/api-oauth' : '/api-oauth'
 
+
       /*
       * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
       */
