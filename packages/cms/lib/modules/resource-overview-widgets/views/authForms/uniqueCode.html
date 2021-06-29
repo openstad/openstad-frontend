@@ -9,7 +9,6 @@
         <label>
             {{label if label else 'Code:' }}
         </label>
-
         <div {% if (messages.error) %} class="side-error" {% endif%}>
             {% if (messages.error)  %}
             {% for error in messages.error %}

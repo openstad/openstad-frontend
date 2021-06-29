@@ -224,6 +224,9 @@ module.exports = {
 
         self.apos.app.get('/oauth-csrf', (req, res, next) => {
             //only allow AJAX requests, from trusted domains, otherwise there is no point to CSRF token
+            if (!req.xhr) {
+                return;
+            }
 
             //auth-client-secret
             const oAuthUrl = self.apos.settings.getOption(req, 'oAuthUrl');
