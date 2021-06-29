@@ -156,6 +156,8 @@ module.exports = {
         });
 
         const postVote = (req, res, next) => {
+
+            // todo: waaarom gebruikt dit niet de api proxy?
             eventEmitter.emit('voted');
 
             const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
@@ -194,7 +196,8 @@ module.exports = {
                 })
                 .catch(function (err) {
                     console.log(err);
-                    res.status(500).json(err);
+                    let statusCode = err && err.statusCode || 500
+                    res.status(statusCode).json(err);
                 });
         }
 

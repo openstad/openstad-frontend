@@ -7,6 +7,8 @@
 * Add components cdn and version automation - OPENSTAD_COMPONENTS_URL in .env is now optional, and renamed to OPENSTAD_COMPONENTS_CDN
 * Add react-admin cdn and version automation - OPENSTAD_REACT_ADMIN_URL in .env is now optional, and renamed to OPENSTAD_REACT_ADMIN_CDN
 * Make sure that basic auth is handled before anything else
+* Resource-overview: show api error on failed vote
+* Show API status code on error (was always 500)
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
