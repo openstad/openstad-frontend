@@ -124,6 +124,7 @@ module.exports = {
         'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
+        'openstad-basic-auth': {},
         'openstad-auth': {},
         'openstad-template-cache': {},
         'openstad-login': {},

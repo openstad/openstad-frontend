@@ -32,31 +32,31 @@ module.exports =  function (req, res, next) {
     } else {
 
       var options = {
-         uri: `${apiUrl}/api/site/${globalData.siteId}/tag`,
-         headers: headers,
-         json: true // Automatically parses the JSON string in the response
-     };
+        uri: `${apiUrl}/api/site/${globalData.siteId}/tag`,
+        headers: headers,
+        json: true // Automatically parses the JSON string in the response
+      };
+      
+      rp(options)
+        .then(function (response) {
+          //add tags to to the data object so it's available in templates
+          //use openstadTags instead of tags  to prevent colliding with Apos
+          req.data.openstadTags = response;
 
-     rp(options)
-       .then(function (response) {
-         //add tags to to the data object so it's available in templates
-         //use openstadTags instead of tags  to prevent colliding with Apos
-         req.data.openstadTags = response;
-
-         // set the cache
-         if (globalData.cacheIdeas) {
-           cache.set('tags-' +req.data.global.siteId, response, {
-             life: cacheLifespan
-           });
-         }
-         next();
-         return null;
-       })
-       .catch((e) => {
-         next();
-         return null;
-       });
-     }
+          // set the cache
+          if (globalData.cacheIdeas) {
+            cache.set('tags-' +req.data.global.siteId, response, {
+              life: cacheLifespan
+            });
+          }
+          next();
+          return null;
+        })
+        .catch((e) => {
+          next();
+          return null;
+        });
+    }
   } else {
     next();
   }
