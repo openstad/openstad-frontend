@@ -180,7 +180,7 @@ router.route('/*')
 			.scope(req.scope)
 			.findAll({ where: { userId: req.user.id } })
 			.then(found => {
-				if (req.site.config.votes.voteType !== 'likes' && req.site.config.votes.withExisting == 'error' && found && found.length ) throw new Error('Je hebt al gestemd');
+				if (req.site.config.votes.voteType !== 'likes' && req.site.config.votes.withExisting == 'error' && found && found.length ) throw createError(403, 'Je hebt al gestemd');
 				req.existingVotes = found.map(entry => entry.toJSON());
 				return next();
 			})
@@ -206,7 +206,11 @@ router.route('/*')
     // merge
     if (req.site.config.votes.withExisting == 'merge') {
       // no double votes
-      if (req.existingVotes.find( newVote => votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )) throw new Error('Je hebt al gestemd');
+      try {
+        if (req.existingVotes.find( newVote => votes.find( oldVote => oldVote.ideaId == newVote.ideaId) )) throw createError(403, 'Je hebt al gestemd');
+      } catch (err) {
+        return next(err);
+      }
       // now merge
       votes = votes
         .concat(
@@ -279,7 +283,7 @@ router.route('/*')
 					.findAll({ where: whereClause })
 					.then(found => {
 						if (found && found.length > 0) {
-							throw new Error('Je hebt al gestemd');
+							throw createError(403, 'Je hebt al gestemd');
 						}
 						return next();
 					})
