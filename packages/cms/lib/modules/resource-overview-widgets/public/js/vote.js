@@ -389,8 +389,14 @@ function sendVote() {
         barId: 'steps-bar-3',
         contentId: 'steps-content-error',
         doBeforeShow: function() {
-        //  document.querySelector('#showZipCodeError').innerHTML = document.querySelector('input[name=zipCode]').value;
-        //  document.querySelector('#showEmailError').innerHTML = document.querySelector('input[name=email]').value;
+          let message = 'Er is iets misgegaan bij het opslaan van je stem.<br/>Probeer het later nog eens of neem contact op met de site beheerder.'
+          if (error && error.responseJSON && error.responseText) {
+            try {
+              let errorObj = JSON.parse(error.responseText);
+              message = 'Foutmelding:<br/>' + errorObj.error.message;
+            } catch (err) {}
+          }
+          document.querySelector('#steps-content-error .info-block').innerHTML = message;
         }
       });
 

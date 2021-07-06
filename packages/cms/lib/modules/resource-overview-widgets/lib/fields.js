@@ -427,12 +427,16 @@ module.exports = [
     type: 'string'
   },
   {
+    name: 'gridder_open_text_vote_button',
+    label: 'Text in vote button in open ideas',
+    type: 'string',
+  },
+  {
     name: 'gridder_tile_image_aspect_ratio',
     label: 'Aspect ratio of images in tiles',
     type: 'string',
     def: '1:1',
   },
-
   {
     name: 'gridder_use_field_as_title',
     label: 'Which field should be used as title for an idea',
