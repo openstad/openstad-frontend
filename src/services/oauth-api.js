@@ -22,10 +22,10 @@ const formatOAuthApiUrl = (path, siteConfig, which = 'default') => {
 
 let OAuthAPI ={};
 
-OAuthAPI.fetchClient = (siteConfig, clientId) => {
+OAuthAPI.fetchClient = ({ siteConfig, which = 'default' }) => {
 
-  const oauthServerUrl = formatOAuthApiUrl('/api/admin/client/{{clientId}}', siteConfig, 'default');
-  const oauthServerCredentials = formatOAuthApiCredentials(siteConfig, 'default');
+  const oauthServerUrl = formatOAuthApiUrl('/api/admin/client/{{clientId}}', siteConfig, which);
+  const oauthServerCredentials = formatOAuthApiCredentials(siteConfig, which);
 
   return fetch(oauthServerUrl, {
 	  headers: { "Authorization": oauthServerCredentials, "Content-type": "application/json" },

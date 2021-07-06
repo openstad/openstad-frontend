@@ -49,30 +49,21 @@ exports.withAllForSite = (req, res, next) => {
   const site          = req.site;
   const authServerUrl = config.authorization['auth-server-url'];
 
-  const oauthConfig   = req.site.config.oauth;
-
-  let which = req.query.useOauth || 'default';
-  let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which] ) || {};
-  let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-  let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
-
-  const apiCredentials = {
-      client_id:  authClientId,
-      client_secret: authClientSecret,
-  }
-
+  const siteConfig = req.site && req.site.config
+  const oauthConfig  = siteConfig.oauth;
   
   const fetchActions = [];
-  const fetchClient = (req, oauthClientId) => {
+  const fetchClient = (req, which) => {
     return new Promise((resolve, reject) => {
       return OAuthApi
-        .fetchClient(req.site && req.site.config , oauthClientId)
+        .fetchClient({ siteConfig, which })
         .then((client) => {
+          console.log('++', client.clientId);
           req.siteOAuthClients.push(client);
           resolve();
         })
         .catch((err) => {
-          console.log('==>> err oauthClientId', oauthClientId, err.message);
+          console.log('==>> err oauthClientId', which, err.message);
           resolve();
         });
     })
@@ -84,6 +75,8 @@ exports.withAllForSite = (req, res, next) => {
       fetchActions.push(fetchClient(req, oauthClientId));
     })
   } else {
+    let which = req.query.useOauth || 'default';
+    let authClientId = oauthConfig[which]['auth-client-id'] || config.authorization['auth-client-id'];
     fetchActions.push(fetchClient(req, authClientId));
   }
 
