@@ -514,7 +514,9 @@ var returnedFromVerification =  !!returnFromId;
         setVerified();
 
         // This used to be done by the user manually
-        votingNextStep();
+        setTimeout(function () {
+          votingNextStep();
+        }, 250);
       }
     }
 
