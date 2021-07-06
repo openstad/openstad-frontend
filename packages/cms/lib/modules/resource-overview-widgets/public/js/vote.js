@@ -277,7 +277,7 @@ function ideaOverviewClickPreview(event) {
   if (!ideaId) {
      overviewScrollToIdeas();
   } else {
-    // let previewElement = target.querySelector('.preview');
+    // var previewElement = target.querySelector('.preview');
     // previewElement.innerHTML = {
     //
     // };
@@ -389,10 +389,11 @@ function sendVote() {
         barId: 'steps-bar-3',
         contentId: 'steps-content-error',
         doBeforeShow: function() {
-          let message = 'Er is iets misgegaan bij het opslaan van je stem.<br/>Probeer het later nog eens of neem contact op met de site beheerder.'
+          var message = 'Er is iets misgegaan bij het opslaan van je stem.<br/>Probeer het later nog eens of neem contact op met de site beheerder.';
+          
           if (error && error.responseJSON && error.responseText) {
             try {
-              let errorObj = JSON.parse(error.responseText);
+              var errorObj = JSON.parse(error.responseText);
               message = 'Foutmelding:<br/>' + errorObj.error.message;
             } catch (err) {}
           }
