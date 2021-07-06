@@ -217,6 +217,34 @@ const fields = [
     ]
   },
   {
+    name: 'authEmbeddedForm',
+    label: 'Auth form embedded',
+    type: 'select',
+    choices: [
+      {
+        value: false,
+        //  label: 'Newest first',
+        label: 'No'
+      },
+      {
+        value: 'url',
+        //  label: 'Newest first',
+        label: 'Email login url'
+      },
+      {
+        value: 'uniqueCode',
+        //  label: 'Newest first',
+        label: 'Voting code'
+      },
+      {
+        value: 'sms',
+        //  label: 'Newest first',
+        label: 'Sms'
+      },
+
+    ]
+  },
+  {
     name: 'newsletterButtonText',
     label: 'Text on the newsletter button',
     type: 'string'

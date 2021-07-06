@@ -83,10 +83,6 @@
         {% include 'includes/fields/description.html' %}
       </div>
 
-      <div id="charsLeftDescription" class="charsLeft">
-        <div class="min">Nog minimaal <span>0</span> tekens</div>
-        <div class="max">Je hebt nog <span>0</span> tekens over.</div>
-      </div>
 
 
     </div>
@@ -178,6 +174,10 @@
 
     {% include 'includes/fields/budget.html' %}
   </div>
+  {% endif %}
+
+  {% if data.widget.formType === 'staticWithDynamicFieldsAppended' %}
+  {% include 'includes/dynamic-form-fields.html' %}
   {% endif %}
 
   {% include 'includes/form-footer.html' %}

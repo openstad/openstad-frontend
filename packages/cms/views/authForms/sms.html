@@ -1,9 +1,9 @@
 
 <form
+        id="auth-form"
         method="post"
         class="openstad-form form-fill-external-csrf"
-        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}"
-
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.oAuthClientId}}&redirect_uri={{data.oAuthRedirectUrl}}"
 >
     <div class="form-group">
         <label>
@@ -24,5 +24,5 @@
     </div>
 
     <br />
-    <input type="submit" value="{{buttonText}}" class="btn btn-primary">
+    <input type="submit" value="{{ buttonText if buttonText else 'Verstuur' }}" class="btn btn-primary">
 </form>

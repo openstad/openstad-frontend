@@ -60,6 +60,19 @@ module.exports = {
                 return self.apos.permissions.can(req, permission);
             };
 
+
+            /**
+             * Add oAuth defaults to data object so it can be reused in the application
+             */
+            const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+            const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
+            const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
+            const returnTo = fullUrl;
+            const redirectUrl = encodeURIComponent(apiUrl + '/oauth/site/' + req.site.id + '/digest-login?useOauth=default&returnTo=' + returnTo);
+
+            req.data.oAuthRedirectUrl = redirectUrl;
+            req.data.oAuthClientId = oauthClientId;
+
             if (req.query.jwt) {
                 const thisHost = req.headers['x-forwarded-host'] || req.get('host');
                 const protocol = req.headers['x-forwarded-proto'] || req.protocol;

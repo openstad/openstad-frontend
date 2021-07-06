@@ -267,13 +267,7 @@ module.exports = {
                     }
                 }
 
-                const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
-                const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
-                const returnTo = req.data.currentUrl;
-                const redirectUrl = encodeURIComponent(apiUrl + '/oauth/site/' + req.site.id + '/digest-login?useOauth=default&returnTo=' + returnTo);
 
-                widget.oAuthRedirectUrl = redirectUrl;
-                widget.oAuthClientId = oauthClientId;
 
 
                 // if cache is set then render from cache, otherwise

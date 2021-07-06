@@ -16,6 +16,7 @@ $(function () {
     initFormSubmit();
     initTrapFocusInOpenModal();
     initFillExternalCsrfToken();
+    initValidateAuthForms();
 });
 
 function initFillExternalCsrfToken () {
@@ -253,6 +254,14 @@ function initAjaxForms($e) {
         })
 
     });
+}
+
+function initValidateAuthForms () {
+    var $form = $('#auth-form');
+
+    if ($form.length > 0) {
+        $form.validate();
+    }
 }
 
 /**

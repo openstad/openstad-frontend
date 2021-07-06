@@ -1,6 +1,7 @@
 <form
+        id="auth-form"
         method="post"
-        action="{{apos.settings.getOption('oAuthUrl')}}/auth/url/login?&clientId={{data.widget.oAuthClientId}}&redirect_uri={{data.widget.oAuthRedirectUrl}}&session_token={{data.widget.oAuthSessionToken}}"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/url/login?&clientId={{data.oAuthClientId}}&redirect_uri={{data.oAuthRedirectUrl}}"
         class="openstad-form form-fill-external-csrf"
 >
     <div class="form-group">

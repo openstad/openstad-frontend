@@ -217,8 +217,19 @@ function selectIdea(newIdeaId, doNotOpen) {
 
 
 function setLoginUrlWithIdeaId(ideaId) {
-  var url =  window.siteUrl + loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
-  $('.validate-auth-button').attr('href', url);
+  var $form = $('.auth-form');
+
+  if ($form.length > 0) {
+    var action = $form.attr('action');
+    $form.attr('action', action + '?' + returnFromKey + '=' + ideaId)
+  }
+
+  var $validateAuthButton =  $('.validate-auth-button');
+
+  if ($validateAuthButton.length > 0) {
+    var url =  window.siteUrl + loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
+    $validateAuthButton.attr('href', url);
+  }
 }
 
 function unSelectIdea(event) {
