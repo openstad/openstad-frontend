@@ -357,6 +357,34 @@ module.exports = [
     def: 'Vul je e-mailadres in'
   },
   {
+    name: 'authEmbeddedForm',
+    label: 'Auth form embedded',
+    type: 'select',
+    choices: [
+      {
+        value: false,
+        //  label: 'Newest first',
+        label: 'No'
+      },
+      {
+        value: 'url',
+        //  label: 'Newest first',
+        label: 'Email login url'
+      },
+      {
+        value: 'uniqueCode',
+        //  label: 'Newest first',
+        label: 'Voting code'
+      },
+      {
+        value: 'sms',
+        //  label: 'Newest first',
+        label: 'Sms'
+      },
+
+     ]
+  },
+  {
     name: 'placeholder_empty_item',
     label: 'Placeholder when no item is selected',
     type: 'string',

@@ -122,13 +122,24 @@
 											{% set returnUrl = data.currentUrl + '&stemcode' %}
 											{% endif %}
 											{% endif %}
+
+											{% if data.widget.authEmbeddedForm %}
+											{% include 'authForms/' + data.widget.authEmbeddedForm + '.html'  %}
+											{% else %}
 											<a href="{{data.siteUrl}}/oauth/login?returnTo={{returnUrl}}" class="button-stemcode vul-je-stemcode-in" onmouseover="removeFromClassName(this, 'do-this-first');">
 												Vul je stemcode in
 											</a>
+											{% endif %}
+
+
 											<div class="error-block">
 												Met deze stemcode is al gestemd.
 												Een stemcode kan maar één keer gebruikt worden. Je eerst verstuurde stem blijft bewaard.
 											</div>
+
+
+
+
 											{% if 0 %}
 											<br/></br><a href="{{data.siteUrl}}/dev/delete-user-budget-vote">Dev optie: gooi eerst je oude stem weg</a>
 											{% endif %}

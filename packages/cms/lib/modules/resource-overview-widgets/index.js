@@ -267,6 +267,9 @@ module.exports = {
                     }
                 }
 
+
+
+
                 // if cache is set then render from cache, otherwise
                 if (response) {
                     // pass query obj without reference
@@ -294,6 +297,7 @@ module.exports = {
                         })
                     }(req, self));
                 }
+
             });
 
             if (promises.length > 0) {
@@ -302,6 +306,7 @@ module.exports = {
                         return superLoad(req, widgets, next);
                     })
                     .catch(function (err) {
+                        console.log('errrr', err)
                         return superLoad(req, widgets, next);
                     });
             } else {

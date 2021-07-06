@@ -43,7 +43,7 @@ apos.define('map-widgets', {
 
         self.playAfterlibsLoaded = function () {
             // run your code in this function
-            console.log('playAfterlibsLoaded map widget')
+           // console.log('playAfterlibsLoaded map widget')
         }
 
         self.createMap = function (mapConfig) {

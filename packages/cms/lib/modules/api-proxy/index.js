@@ -10,6 +10,8 @@ module.exports = {
 
         const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api';
 
+
+
         /*
          * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
          */
@@ -104,6 +106,9 @@ module.exports = {
                 //console.log('errerrerr newBody', err);
             }
         }));
+
+
+
 
     }
 };

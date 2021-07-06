@@ -93,7 +93,7 @@ var OpenlayersMap = {
             minZoom: settings && settings.minZoom ?  settings.minZoom : 15,
             maxZoom:  settings && settings.maxZoom ?  settings.maxZoom : 5,
             center: ol.proj.fromLonLat([center.longitude, center.latitude]),
-            target: settings.target
+            target: settings ? settings.target : null
         }
 
         var defaultSettings = {
