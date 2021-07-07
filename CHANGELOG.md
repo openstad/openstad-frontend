@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Allow counter-widgets to display the argument count for a specific idea
+
 ## v0.20.0
 * Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
