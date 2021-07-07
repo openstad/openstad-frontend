@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+* Add options to hide votes / status / last name in resource-representation-widgets
+* Allow title above share buttons to be changed in resource-representation-widgets
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
