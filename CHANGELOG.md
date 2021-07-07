@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Allow arguments-widget and arguments-form-widget to be used outside of a resource page by setting the idea ID in the options.
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
