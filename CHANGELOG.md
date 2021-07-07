@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add global option to disable newsletter captcha
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
