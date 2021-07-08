@@ -5,6 +5,17 @@
 {% endif %}
 
 <div id="nlmaps-holder" style="width: 100%; height: 100%;">
+	<div class="accessible-location">
+		<input
+				type="text"
+				tabindex="0"
+				id="accessible_location"
+				name="accessible_location"
+				class="sr-only sr-only-focusable"
+				title="{{ __('Enter the location manually') }}"
+				placeholder="{{ __('Enter the location manually') }}"
+				aria-labelledby="location_label" >
+	</div>
 	<div id="map-with-buttons-container">
 		<div class="map-buttons-container">
 			{% if (data.widget.displayCounter) %}
