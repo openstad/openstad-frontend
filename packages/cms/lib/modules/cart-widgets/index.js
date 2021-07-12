@@ -70,9 +70,7 @@ module.exports = {
       };
 
       self.apos.app.get('/cart/remove/:id', (req, res) => {
-        console.log('remove', req.session.cart)
          req.session.cart = Cart.removeFromCart(parseInt(req.params.id, 10), req.session.cart);
-         console.log('remove', req.session.cart)
          res.redirect('/cart');
       });
 
@@ -99,9 +97,18 @@ module.exports = {
       }
 
       //add is direct link for products to check
-      self.apos.app.get('/add/:productId', (req, res) => {
-        self.addToCart(req, true);
-        res.redirect('/checkout');
+      self.apos.app.get('/add/:productId', async (req, res) => {
+          self.addToCart(req, true);
+          await req.session.save();
+          res.redirect('/checkout');
+      });
+
+      //add is direct link for products to check
+      self.apos.app.get('/cart/set/:productId',async (req, res) => {
+          req.session.cart = Cart.initCart();
+          self.addToCart(req, true);
+          await req.session.save();
+          res.redirect('/checkout');
       });
 
       self.apos.app.get('/cart/:productId', (req, res) => {
