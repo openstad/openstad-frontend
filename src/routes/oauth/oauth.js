@@ -1,13 +1,17 @@
 const Sequelize = require('sequelize');
 const express = require('express');
 const createError = require('http-errors');
-const fetch = require('isomorphic-fetch');
+const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const merge = require('merge');
 const config = require('config');
 const URL = require('url').URL;
 const db = require('../../db');
+const OAuthApi = require('../../services/oauth-api');
 
 let router = express.Router({mergeParams: true});
+
+// TODO: gebruik de oauth-api service
 
 /**
  * Check if redirectURI same host as registered
@@ -126,50 +130,31 @@ router
     })
     .get(function (req, res, next) {
 
-        // get the user info using the access token
-        let which = req.query.useOauth || 'default';
-        let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
-        let authServerUrl = siteOauthConfig['auth-internal-server-url'] || config.authorization['auth-server-url'];
-        let authServerGetUserPath = siteOauthConfig['auth-server-get-user-path'] || config.authorization['auth-server-get-user-path'];
-        let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-        let url = authServerUrl + authServerGetUserPath;
-        url = url.replace(/\[\[clientId\]\]/, authClientId);
+		  const which = req.query.useOauth || 'default';
+      let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
 
-        fetch(
-            url, {
-                method: 'get',
-                headers: {
-                    authorization: 'Bearer ' + req.userAccessToken,
-                },
-                mode: 'cors',
-            })
-            .then(
-                response => response.json(),
-                error => {
-                    return next(createError(403, 'User niet bekend'));
-                }
-            )
-            .then(
-                json => {
-                    req.userData = json;
-                    return next();
-                }
-            )
-            .catch(err => {
-                //console.log('OAUTH DIGEST - GET USER ERROR');
-                //console.log(err);
-                next(err);
-            })
+      OAuthApi
+        .fetchUser({ siteConfig, which, token: req.userAccessToken })
+        .then(json => {
+          req.userData = json;
+          return next();
+        })
+        .catch(err => {
+          //console.log('OAUTH DIGEST - GET USER ERROR');
+          //console.log(err);
+          next(err);
+        })
 
     })
-    .get(function (req, res, next) {
-
+  .get(function (req, res, next) {
+    
         let data = {
             externalUserId: req.userData.user_id,
             externalAccessToken: req.userAccessToken,
             email: req.userData.email || null,
             firstName: req.userData.firstName,
             siteId: req.site.id,
+            extraData: req.userData.extraData,
             zipCode: req.userData.postcode ? req.userData.postcode : null,
             lastName: req.userData.lastName,
             // xxx

@@ -143,6 +143,8 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	// update certain parts of config to the oauth client
 	// mainly styling settings are synched so in line with the CMS
 	.put(function (req, res, next) {
+
+    // todo: gebruik de oauth-api service
 		const authServerUrl = config.authorization['auth-server-url'];
 		const updates = [];
 

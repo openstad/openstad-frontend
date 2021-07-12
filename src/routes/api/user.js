@@ -9,25 +9,9 @@ const pagination = require('../../middleware/pagination');
 const {Op} = require('sequelize');
 const searchResults = require('../../middleware/search-results-user');
 const fetch = require('node-fetch');
-const rp = require('request-promise');
-
+const merge = require('merge');
 const OAuthApi = require('../../services/oauth-api');
-
-const formatOAuthApiCredentials = (site, which = 'default') => {
-  let siteOauthConfig = (site && site.config && site.config.oauth && site.config.oauth[which]) || {};
-  let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-  let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
-
-  return {
-    client_id: authClientId,
-    client_secret: authClientSecret,
-  }
-}
-
-const formatOAuthApiUrl = (site, which = 'default') => {
-  let siteOauthConfig = (site && site.config && site.config.oauth && site.config.oauth[which]) || {};
-  return siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-}
+const OAuthUser = require('../../services/oauth-user');
 
 const filterBody = (req, res, next) => {
   const data = {};
@@ -123,28 +107,16 @@ router.route('/')
   .post(filterBody)
   .post(function (req, res, next) {
     // Look for an Openstad user with this e-mail
+    // TODO: other types of users
     if (!req.body.email) return next(createError(401, 'E-mail is a required field'));
-
-    const authServerUrl = formatOAuthApiUrl(req.site, 'default');
-    const apiCredentials = formatOAuthApiCredentials(req.site, 'default');
-    const options = {
-      uri: `${authServerUrl}/api/admin/users?email=${req.body.email}`,
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: apiCredentials,
-      json: true
-    };
-
-    rp(options)
-      .then((result) => {
-        if (result && result.data && result.data.length > 0) {
-          req.oAuthUser = result.data[0];
-          next();
-        } else {
-          next();
-        }
+    let which = req.query.useOauth || 'default';
+    let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+    let email = req.body && req.body.email;
+    OAuthApi
+      .fetchUser({ siteConfig, which, email })
+      .then(json => {
+        req.oAuthUser = json;
+        next();
       })
       .catch(next);
   })
@@ -157,22 +129,13 @@ router.route('/')
       next();
     } else {
       // in case no oauth user is found with this e-mail create it
-      const authServerUrl = formatOAuthApiUrl(req.site, 'default');
-      const apiCredentials = formatOAuthApiCredentials(req.site, 'default');
-      const apiOptions = formatOAuthApiCredentials(apiCredentials, req.body);
-      const options = {
-        uri: `${authServerUrl}/api/admin/user`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: Object.assign(req.body, apiCredentials),
-        json: true
-      }
-
-      rp(options)
-        .then((result) => {
-          req.oAuthUser = result;
+      let which = req.query.useOauth || 'default';
+      let siteConfig = req.site && req.site.config;
+      let userData = Object.assign(req.body);
+      OAuthApi
+        .createUser({ siteConfig, which, userData })
+        .then(json => {
+          req.oAuthUser = json;
           next()
         })
         .catch(next);
@@ -184,7 +147,6 @@ router.route('/')
       .scope(...req.scope)
       .findOne({
         where: {email: req.body.email, siteId: req.params.siteId},
-        //where: { id: userId }
       })
       .then(found => {
         if (found) {
@@ -202,7 +164,6 @@ router.route('/')
       role: req.body.role ? req.body.role : 'member',
       externalUserId: req.oAuthUser.id
     };
-
 
     db.User
       .authorizeData(data, 'create', req.user)
@@ -245,7 +206,7 @@ router.route('/:userId(\\d+)')
       .catch(next);
   })
 
-// view idea
+// view user
 // ---------
   .get(auth.can('User', 'view'))
   .get(auth.useReqUser)
@@ -255,6 +216,9 @@ router.route('/:userId(\\d+)')
 
 // update user
 // -----------
+// TODO: hier zit de suggestie in dat je al je users op anders sites ook mag updaten. Maar dan toch niet, want dat geeft errors.
+// Dus neem een besluit, maar dat expliciet, en zorg dan dat het gaat werken.
+// -----------
   .put(auth.useReqUser)
   .put(filterBody)
   .put(function (req, res, next) {
@@ -263,48 +227,26 @@ router.route('/:userId(\\d+)')
 
     if (!(user && user.can && user.can('update'))) return next(new Error('You cannot update this User'));
 
-    const userId = parseInt(req.params.userId, 10);
+    let userId = parseInt(req.params.userId, 10);
+    let externalUserId = req.results.externalUserId;
 
-    const data = req.body;
+    let userData = merge.recursive(true, req.body);
 
     /**
-     * Update the user API first
+     * Update the oauth API first
      */
     let which = req.query.useOauth || 'default';
-    let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth[which]) || {};
-    let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-    let authUpdateUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId;
-    let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-    let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
+    let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+    OAuthApi
+      .updateUser({ siteConfig, which, userData: merge(true, userData, { id: externalUserId }) })
+      .then(json => {
+        let mergedUserData = json;
 
-    const apiCredentials = {
-      client_id: authClientId,
-      client_secret: authClientSecret,
-    }
-
-    const options = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: 'cors',
-      body: JSON.stringify(Object.assign(apiCredentials, data))
-    }
-
-    fetch(authUpdateUrl, options)
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        }
-
-        throw createError('Updaten niet gelukt', response);
-      })
-      .then((json) => {
         return db.User
           .scope(['includeSite'])
           .findAll({
             where: {
-              externalUserId: json.id,
+              externalUserId: mergedUserData.id,
               // old users have no siteId, this will break the update
               // skip them
               // probably should clean up these users
@@ -316,15 +258,22 @@ router.route('/:userId(\\d+)')
           .then(function (users) {
             const actions = [];
 
+            // dit gaat mis omdat hij het per site doet maar het resultaat al is geparsed voor deze site
+            
             if (users) {
               users.forEach((user) => {
                 // only update users with active site (they can be deleteds)
                 if (user.site) {
                   actions.push(function () {
                     return new Promise((resolve, reject) => {
+
+                      let userSiteConfig = merge(true, user.site.config, {id: user.site.id});
+                      let clonedUserData = merge(true, mergedUserData);
+                      let siteUserData = OAuthUser.parseDataForSite(userSiteConfig, clonedUserData);
+
                       user
-                        .authorizeData(data, 'update', req.user)
-                        .update(data)
+                        .authorizeData(siteUserData, 'update', req.user)
+                        .update(siteUserData)
                         .then((result) => {
                           resolve();
                         })
@@ -355,10 +304,9 @@ router.route('/:userId(\\d+)')
       })
       .then((result) => {
         return db.User
-          .scope(['includeSite'])
+          .scope(['includeSite']) // TODO: waarom includeSite? Kan dat weg?
           .findOne({
             where: {id: userId, siteId: req.params.siteId}
-            //where: { id: parseInt(req.params.userId) }
           })
       })
       .then(found => {
@@ -371,56 +319,33 @@ router.route('/:userId(\\d+)')
       });
   })
 
-// delete idea
-// ---------
+// delete user
+// -----------
   .delete(auth.can('User', 'delete'))
   .delete(async function (req, res, next) {
-    const user = req.results;
 
+    const user = req.results;
+    
     /**
      * An oauth user can have multiple users in the api, every site has it's own user and right
      * In case for this oauth user there is only one site user in the API we also delete the oAuth user
      * Otherwise we keep the oAuth user since it's still needed for the other website
      */
     const userForAllSites = await db.User.findAll({where: {externalUserId: user.externalUserId}});
-
-
+    
     if (userForAllSites.length <= 1) {
-      /*
-        @todo move this calls to oauth to own apiClient
-      */
-      let siteOauthConfig = (req.site && req.site.config && req.site.config.oauth && req.site.config.oauth['default']) || {};
-      let authServerUrl = siteOauthConfig['auth-server-url'] || config.authorization['auth-server-url'];
-      let authUserDeleteUrl = authServerUrl + '/api/admin/user/' + req.results.externalUserId + '/delete';
-      let authClientId = siteOauthConfig['auth-client-id'] || config.authorization['auth-client-id'];
-      let authClientSecret = siteOauthConfig['auth-client-secret'] || config.authorization['auth-client-secret'];
-
-      const apiCredentials = {
-        client_id: authClientId,
-        client_secret: authClientSecret,
-      }
-
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'cors',
-        body: JSON.stringify(apiCredentials)
-      }
-
-      authUserDeleteUrl = authUserDeleteUrl + '?client_id=' + authClientId + '&client_secret=' + authClientSecret;
-
-      const result = await fetch(authUserDeleteUrl, options);
+      let which = req.query.useOauth || 'default';
+      let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+      let result = await OAuthApi.deleteUser({ siteConfig, which, userData: { id: user.externalUserId }})
     }
-
+    
     /**
      * Delete all connected arguments, votes and ideas created by the user
      */
     await db.Idea.destroy({where: {userId: req.results.id}});
     await db.Argument.destroy({where: {userId: req.results.id}});
     await db.Vote.destroy({where: {userId: req.results.id}});
-
+    
     /**
      * Make anonymous? Delete posts
      */
@@ -430,6 +355,7 @@ router.route('/:userId(\\d+)')
         res.json({"user": "deleted"});
       })
       .catch(next);
+
   })
 
 module.exports = router;
