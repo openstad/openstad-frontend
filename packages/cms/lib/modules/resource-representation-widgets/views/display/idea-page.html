@@ -114,7 +114,11 @@
 
 	          {% if data.widget.siteConfig.minimumYesVotes and data.widget.hideVotes !== true %}
 						<div class="ideaProgress">
-							<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
+							<div class="progress">
+								<div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
+									<span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
+								</div>
+							</div>
 						</div>
 	          {% endif %}
 						{% if data.widget.hideStatus !== true %}
