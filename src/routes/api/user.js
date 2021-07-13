@@ -311,7 +311,9 @@ router.route('/:userId(\\d+)')
       })
       .then(found => {
         if (!found) throw new Error('User not found');
-        res.json(found);
+        let result = found.toJSON();
+        delete result.site;
+        res.json(result);
       })
       .catch(err => {
         console.log(err);

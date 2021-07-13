@@ -1,6 +1,7 @@
 const Promise 				= require('bluebird');
 const express 				= require('express');
 const config 					= require('config');
+const fetch           = require('node-fetch');
 const db      				= require('../../db');
 const auth 						= require('../../middleware/sequelize-authorization-middleware');
 const pagination 			= require('../../middleware/pagination');
@@ -158,7 +159,9 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				 oauthClient.config[field] = req.site.config[field];
 			 });
 
-			 const apiCredentials = {
+
+			// todo: use the oauth-api service
+      const apiCredentials = {
 				 client_id: oauthClient.clientId,
 				 client_secret: oauthClient.clientSecret,
 			 }
