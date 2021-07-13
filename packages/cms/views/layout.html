@@ -194,6 +194,7 @@ header-side-container{% if data.idea %}
                   href="{{topLink.url | safeRelativeUrl}}"
                   {% if topLink.targetBlank %} target="_blank" {% endif %}
                   class="link-caret--black"
+                  {% if data.currentPath.startsWith(topLink.url) %}  aria-current="page" {% endif %}
                   >
                     {{topLink.label}}
                   </a>
@@ -256,6 +257,12 @@ header-side-container{% if data.idea %}
                       href="{{ item.mainMenuUrl | safeRelativeUrl }}"
                       {% if item.mainMenuTarget %} target="_blank" {% endif %}
                       role="menuitem"
+
+                      {% if item.mainMenuUrl === '\/' %}
+              {% if data.currentPath === '\/' %}  aria-current="page" {% endif %}
+              {% else %}
+              {% if data.currentPath.startsWith(item.mainMenuUrl) %} aria-current="page" {% endif %}
+              {% endif %}
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -264,11 +271,15 @@ header-side-container{% if data.idea %}
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url  }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
+              <a href="{{ data.home._url  }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem"
+                 {% if data.originalUrl === '/' %}  aria-current="page" {% endif %}>
+                {{ data.home.title }}
+              </a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem"
+                 {% if data.currentPath.startsWith(tab._url) %}  aria-current="page" {% endif %}>
                 {{ tab.title }}
               </a>
             </li>
@@ -312,7 +323,10 @@ header-side-container{% if data.idea %}
           <nav id="subMenu" class="" role="navigation">
             <div>
               {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button">{{data.global.ctaButtonText}}</a>
+              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button"
+                 {% if data.currentPath.startsWith(data.global.ctaButtonUrl) %}  aria-current="page" {% endif %}>
+                {{data.global.ctaButtonText}}
+              </a>
               {% endif %}
               {% if data.global.displayMyAcount %}
               {% if data.loggedIn %}
