@@ -1,8 +1,8 @@
+// deze wordt momenteel alleen gebruikt door middleware/oauth-clients, en die gebruikt alleen de fetch
+
 const rp = require('request-promise');
-const nestedObjectAssign = require('nested-object-assign');
+const merge = require('merge');
 const httpBuildQuery = require('../util/httpBuildQuery')
-
-
 
 exports.fetch = (apiUrl, apiCredentials, clientId) => {
   return rp({
@@ -34,7 +34,7 @@ exports.fetchAll = (apiUrl, apiCredentials, params) => {
 
 
 exports.create = (apiUrl, data) => {
-  let body = nestedObjectAssign(data, apiCredentials);
+  let body = merge.recursive(data, apiCredentials);
 
   return rp({
       method: 'POST',
@@ -54,7 +54,7 @@ exports.update = (apiUrl, clientId, data) => {
     headers: {
         'Accept': 'application/json',
     },
-    body: nestedObjectAssign(data, apiCredentials),
+    body: merge.recursive(data, apiCredentials),
     json: true // Automatically parses the JSON string in the response
   });
 }
