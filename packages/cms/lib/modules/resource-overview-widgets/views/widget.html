@@ -1,65 +1,66 @@
 {% import 'includes/vote-creator.html' as voteCreator %}
 
 <div class="{{ data.widget.className if data.widget.className }}">
-	<div id="ideas-overview" class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
-		{{ __('Loading...') }}
-	</div>
-	<div id="overview-container-{{data.widget.id}}" class="idea-overview-container opacity-0-for-load  resource-overview-container openstad-ajax-refresh">
-		{% include 'includes/moderator-warnings.html' %}
+    <div id="ideas-overview" class="hide-when-loaded" style="text-align: center; padding: 30px 0;">
+        {{ __('Loading...') }}
+    </div>
+    <div id="overview-container-{{data.widget.id}}"
+         class="idea-overview-container opacity-0-for-load  resource-overview-container openstad-ajax-refresh">
+        {% include 'includes/moderator-warnings.html' %}
 
-		{% if data.widget.voting %}
-	    {{ voteCreator.showVoteCreator(false, data.widget.ideas, data) }}
-	  {% endif %}
+        {% if data.widget.voting %}
+        {{ voteCreator.showVoteCreator(false, data.widget.ideas, data) }}
+        {% endif %}
 
-		<div class="ideasList" >
-	    {% include 'includes/filters.html' %}
+        <div class="ideasList">
+            {% include 'includes/filters.html' %}
 
-			{% if data.widget.formattedResultCountText %}
-			<div class="resource-overview-counter-text ">
-				{{data.widget.formattedResultCountText | sanitize | safe}}
-			</div>
-			{% endif %}
+            {% if data.widget.formattedResultCountText %}
+            <div class="resource-overview-counter-text ">
+                {{data.widget.formattedResultCountText | sanitize | safe}}
+            </div>
+            {% endif %}
 
-			{% if data.widget.formattedSearchText %}
-			<div class="resource-overview-counter-text ">
-				{{data.widget.formattedSearchText | sanitize | safe}}
-			</div>
-			{% endif %}
+            {% if data.widget.formattedSearchText %}
+            <div class="resource-overview-counter-text ">
+                {{data.widget.formattedSearchText | sanitize | safe}}
+            </div>
+            {% endif %}
 
-	    <br />
-			<div id="ideas-anchor"></div>
+            <br/>
+            <div id="ideas-anchor"></div>
 
-	    <div id="ideas" class="primary">
-	      {% if not data.widget.activeResources or data.widget.activeResources.length === 0 %}
-	      <h3 style="text-align: center;"> <em> Nog geen resultaten </em> </h3>
-	      {% else %}
-					{% if data.widget.voting %}
-					{# voting currectly only works for voting #}
-					{% include 'display/gridder.html' %}
-					{% else %}
-			      {% if data.widget.displayType === 'minimalVotes' %}
-			      {% include 'display/minimalVotes.html' %}
-			      {% endif %}
+            <div id="ideas" class="primary">
+                {% if not data.widget.activeResources or data.widget.activeResources.length === 0 %}
+                <h3 style="text-align: center;"><em> Nog geen resultaten </em></h3>
+                {% else %}
+                {% if data.widget.voting %}
+                {# voting currectly only works for voting #}
+                {% include 'display/gridder.html' %}
+                {% else %}
+                {% if data.widget.displayType === 'minimalVotes' %}
+                {% include 'display/minimalVotes.html' %}
+                {% endif %}
 
-			      {% if data.widget.displayType === 'gridder' %}
-			      {% include 'display/gridder.html' %}
-			      {% endif %}
+                {% if data.widget.displayType === 'gridder' %}
+                {% include 'display/gridder.html' %}
+                {% endif %}
 
-						{% if data.widget.displayType === 'raw' %}
-						{% include 'display/raw.html' %}
-						{% endif %}
+                {% if data.widget.displayType === 'raw' %}
+                {% include 'display/raw.html' %}
+                {% endif %}
 
-						{% if data.widget.displayType === 'product' %}
-						{% include 'display/product.html' %}
-						{% endif %}
+                {% if data.widget.displayType === 'product' %}
+                {% include 'display/product.html' %}
+                {% endif %}
 
-					{% endif %}
+                {% endif %}
 
-					{% if data.widget.displayPagination %}
-					{% include 'includes/pagination.html' %}
-					{% endif %}
-				{% endif %}
-	    </div>
-	  </div>
-	</div>
+                {% if data.widget.displayPagination %}
+                {% include 'includes/pagination.html' %}
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>

@@ -165,6 +165,7 @@ module.exports = {
         'idea-pages': {},
         'section-widgets': {},
         'card-widgets': {},
+        'cart-widgets': {},
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},

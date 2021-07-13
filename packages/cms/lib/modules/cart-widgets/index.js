@@ -11,6 +11,17 @@ module.exports = {
   extend: 'openstad-widgets',
   label: 'Cart',
   addFields: [
+      {
+          name: 'displayQuantity',
+          type: 'boolean',
+          label: 'Display quantity'
+      },
+      {
+          name: 'removableItems',
+          type: 'boolean',
+          label: 'Allow items to be removed?'
+
+      },
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
@@ -84,11 +95,15 @@ module.exports = {
         let qty = req.query.q ? parseInt(req.query.q, 10) : 1;
         const cart = req.session.cart ? {...req.session.cart} : false;
 
+        console.log('->>> productId', productId)
+
         if (qty === 0) {
           Cart.removeFromCart(productId, req.session.cart);
         } else if (qty > 0) {
           const product = req.data.products.find(product => product.id === productId);
           const cart = req.session.cart ? {...req.session.cart} : false;
+            console.log('->>> product', req.data.products)
+            console.log('->>> product', product)
 
           if (product) {
             req.session.cart = Cart.addToCart(product, qty, cart, replaceQuantity);

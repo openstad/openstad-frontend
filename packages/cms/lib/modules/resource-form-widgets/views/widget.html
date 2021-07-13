@@ -24,46 +24,48 @@
 {% endif %}
 
 <div class="pageContent newactiveResource" id="content">
-	{% if not showForm %}
-	<div class="box-grey">
-		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
-		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
-	</div>
-	{% elseif showForm %}
-		{% if data.widget.autoSubmitForm and not data.hasModeratorRights %}
-		<div class="full-page-loader-overlay">
-			<div class="loader-content">
-				<img src="/modules/idea-pages/img/loader.svg" class="loader-spinner" width="50" height="50" />
-			</div>
-		</div>
-		{% endif %}
-		<div  id="formulier-block">
-			{% if data.widget.formType === 'repeatable' %}
-			{% include 'includes/repeatable.html' %}
-			{% elseif data.widget.formType === 'order' %}
-			{% include 'includes/order-form.html' %}
-			{% elseif data.widget.formType === 'user' %}
-			{% include 'includes/user-form.html' %}
-			{% elseif data.widget.formType === 'dynamic' %}
-			{% include 'includes/dynamic-form.html' %}
-			{% else %}
-			{% include 'includes/static-form.html' %}
-			{% endif %}
-		</div>
-	 {% endif %}
+    {% if not showForm %}
+    <div class="box-grey">
+        <h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
+        <p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
+    </div>
+    {% elseif showForm %}
+    {% if data.widget.autoSubmitForm and not data.hasModeratorRights %}
+    <div class="full-page-loader-overlay">
+        <div class="loader-content">
+            <img src="/modules/idea-pages/img/loader.svg" class="loader-spinner" width="50" height="50"/>
+        </div>
+    </div>
+    {% endif %}
+    <div id="formulier-block">
+        {% if data.widget.formType === 'repeatable' %}
+        {% include 'includes/repeatable.html' %}
+        {% elseif data.widget.formType === 'order' %}
+        {% include 'includes/order-form.html' %}
+        {% elseif data.widget.formType === 'order-minimum' %}
+        {% include 'includes/order-form-minimum.html' %}
+        {% elseif data.widget.formType === 'user' %}
+        {% include 'includes/user-form.html' %}
+        {% elseif data.widget.formType === 'dynamic' %}
+        {% include 'includes/dynamic-form.html' %}
+        {% else %}
+        {% include 'includes/static-form.html' %}
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 <script>
-	var titleMinLength = parseInt('{{data.widget.resourceConfig.titleMinLength}}');
-  var titleMaxLength = parseInt('{{data.widget.resourceConfig.titleMaxLength}}');
-  var summaryMinLength = parseInt('{{data.widget.resourceConfig.summaryMinLength}}');
-  var summaryMaxLength = parseInt('{{data.widget.resourceConfig.summaryMaxLength}}');
-  var descriptionMinLength = parseInt('{{data.widget.resourceConfig.descriptionMinLength}}');
-  var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
+    var titleMinLength = parseInt('{{data.widget.resourceConfig.titleMinLength}}');
+    var titleMaxLength = parseInt('{{data.widget.resourceConfig.titleMaxLength}}');
+    var summaryMinLength = parseInt('{{data.widget.resourceConfig.summaryMinLength}}');
+    var summaryMaxLength = parseInt('{{data.widget.resourceConfig.summaryMaxLength}}');
+    var descriptionMinLength = parseInt('{{data.widget.resourceConfig.descriptionMinLength}}');
+    var descriptionMaxLength = parseInt('{{data.widget.resourceConfig.descriptionMaxLength}}');
 </script>
 
 <script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/trix.js"></script>
 {#
-	<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
+<script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/browser-polyfill.min.js"></script>
 #}
 <script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond-polyfill.min.js"></script>
 <script src="{{data.siteUrl}}/modules/openstad-assets/js/vendor/filepond.js"></script>

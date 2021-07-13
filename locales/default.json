@@ -764,5 +764,9 @@
 	"Sign in": "Sign in",
 	"wizard": "wizard",
 	"You are now editing this document in another tab or window.": "You are now editing this document in another tab or window.",
-	"Control of this document has been taken by another user.": "Control of this document has been taken by another user."
+	"Control of this document has been taken by another user.": "Control of this document has been taken by another user.",
+	"Save Cart": "Save Cart",
+	"Display quantity": "Display quantity",
+	"Allow items to be removed?": "Allow items to be removed?",
+	"Checkout minimum (default)": "Checkout minimum (default)"
 }

@@ -1,6 +1,3 @@
-// This configures the apostrophe-pages module to add a "home" page type to the
-// pages menu
-
 const loadIdeas = require('./lib/load-ideas');
 const loadTags = require('./lib/load-tags');
 const loadProducts = require('./lib/load-products');
@@ -32,6 +29,7 @@ module.exports = {
         require('./lib/api.js')(self, options);
         require('./lib/middlewares.js')(self, options);
 
+        console.log('=>>>>>> Load construct')
 
         /**
          * Add button to admin menu to clear cache

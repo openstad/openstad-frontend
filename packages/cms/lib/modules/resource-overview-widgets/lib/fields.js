@@ -19,8 +19,6 @@ resources = resources.map((resource) => {
 });
 
 
-console.log('resources', resources)
-
 module.exports = [
   {
     type: 'select',

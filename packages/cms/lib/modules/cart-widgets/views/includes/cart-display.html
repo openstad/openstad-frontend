@@ -9,9 +9,10 @@
                   {{ item.name }}<br/>
               </div>
               <div class="col-xs-2 text-right">
-                  <small><b> Prijs </b></small><br/>
+                  <small><b> Price </b></small><br/>
                   {{ item.price | currency}}
               </div>
+              {% if data.widget.displayQuantity %}
               <div class="col-xs-4 text-right product-change">
                   {% if item and item.qty > 0 %}
                   <a href="/cart/{{item.product.id}}" data-quantity="{{item.qty + 1}}" data-product-id="{{item.product.id}}" class="cart-add btn-group-last pull-right btn btn-primary">
@@ -29,16 +30,20 @@
                   </a>
                   {% endif %}
               </div>
+              {% endif %}
               <div class="col-xs-2 text-right">
-                  <small><b> Totaal </b></small><br/>
-
+                  <small><b> Total </b></small><br/>
                   {{ (item.price * item.qty)  | currency}}
               </div>
+              {% if data.widget.removableItems %}
+
               <div class="col-xs-2 text-right">
                   <a href="/cart/remove/{{item.product.id}}" class="btn btn-default cart-remove" data-product-id="{{item.product.id}}">
                     ✕
                   </a>
               </div>
+              {% endif %}
+
           </li>
           {% endfor %}
           {% for orderFee in data.orderFees %}

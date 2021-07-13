@@ -20,6 +20,10 @@ const fields = [
               label: "Checkout (default)"
             },
             {
+                value: 'order-minimum',
+                label: "Checkout minimum (default)"
+            },
+            {
                 value: 'user',
                 label: "User form (default)"
             },
@@ -67,9 +71,6 @@ const fields = [
         ],
         def: false
     },
-
-
-
     {
       name: 'displayUserInfoAtTop',
       label: 'Display user info at the top?',
