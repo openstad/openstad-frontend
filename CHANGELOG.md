@@ -11,6 +11,9 @@
 * Show API status code on error (was always 500)
 * Make the vote button in resource-overview editable
 
+## v0.17.1 (2021-07-14)
+* Add user authorization to imgage upload
+
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes
