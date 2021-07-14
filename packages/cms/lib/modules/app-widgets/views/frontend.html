@@ -15,6 +15,7 @@
              defaultResources: settings.defaultResources,
              apiBase: '/api/site/{{data.global.siteId}}',
              oAuthBase:  '/api-oauth/site/{{data.global.siteId}}',
+             checkoutUrl: '{{data.siteUrl}}/cart/set',
              urlPrefix: '{{data.currentPath}}',
              startState: '{{data.widget.startState}}',
              loginUrl: '/oauth/login?returnTo={{data.currentPath}}'
