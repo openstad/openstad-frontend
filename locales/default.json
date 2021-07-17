@@ -768,5 +768,17 @@
 	"Save Cart": "Save Cart",
 	"Display quantity": "Display quantity",
 	"Allow items to be removed?": "Allow items to be removed?",
-	"Checkout minimum (default)": "Checkout minimum (default)"
+	"Checkout minimum (default)": "Checkout minimum (default)",
+	"DisplayUserPasswordField? (only working for user form)": "DisplayUserPasswordField? (only working for user form)",
+	"Templates": "Templates",
+	"Key": "Key",
+	"Template": "Template",
+	"Global raw widget": "Global raw widget",
+	"Save Global raw widget": "Save Global raw widget",
+	"Fill in key for your defined template in global": "Fill in key for your defined template in global",
+	"Edit Global raw widget": "Edit Global raw widget",
+	"Set html class to your page body": "Set html class to your page body",
+	"subscription": "subscription",
+	"Redirect to other page if user is present": "Redirect to other page if user is present",
+	"Redirect to other page if user has active subscription": "Redirect to other page if user has active subscription"
 }

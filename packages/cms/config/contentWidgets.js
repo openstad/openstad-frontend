@@ -78,6 +78,9 @@ const contentWidgets = {
     hideByDefault: true,
     beta: true
   },
+  'global-raw': {
+
+  },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
     adminOnly: true

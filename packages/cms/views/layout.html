@@ -230,8 +230,7 @@
 </header>
 {% endif %}
 {% include 'partials/flash.html' %}
-<div id="page" class="{{ 'cms-admin' if data.user }}">
-
+<div id="page" class="{{ 'cms-admin' if data.user }} {{data.page.htmlClass}}">
   {% if not data.page.hideNavigation %}
   <nav id="navbar" class="navbar navbar-static-top">
       <div class="container">

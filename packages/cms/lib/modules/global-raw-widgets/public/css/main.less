@@ -1,0 +1,113 @@
+.link-box {
+    width: 100%;
+    background: #f3f3f3;
+    font-size: 18px;
+    color: #000;
+    font-weight: 800;
+    border-bottom: 2px solid #e6e6e6;
+    border-right: 2px solid #e6e6e6;
+    display: block;
+    position: relative;
+    max-width: 500px;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 17px 15px 15px;
+
+    &:visited, &:active, &:focus {
+      color: #000;
+    }
+}
+
+.back-link {
+  background-repeat: no-repeat;
+  background-position: top 2px left;
+  padding-left: 20px;
+  font-size: 15px;
+  color: #062037;
+}
+
+.back-link-arrow {
+  background-image: url(/uploads/attachments/ckf1ldr0i24zbnl3w1zydijht-separator-copy.svg);
+}
+
+.filled-button, .outlined-button, .next-button {
+  background-color: #164995;
+  color: white;
+  display: inline-block;
+  box-sizing: border-box;
+  /*width: 151px;*/
+  padding: 0 10px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 15px;
+  line-height: 1.1;
+  text-align: center;
+  color: white;
+  background-color: #164995;
+  border: 2px solid #164995;
+  text-shadow: none;
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+ &.button-with-icon img {
+   height: 20px;
+   width: auto;
+  }
+
+}
+
+.filled-button{
+  &:focus{
+    color: #fff;
+  }
+}
+
+.next-button {
+  position: relative;
+
+    &:before {
+      position: absolute;
+      border-left: 15px solid #164995;
+      border-top: 22px solid transparent;
+      border-bottom: 23px solid transparent;
+      border-right: 0;
+      top: -2px;
+      right: -17px;
+      width: 0px;
+      height: 0px;
+      content: '';
+    }
+}
+
+
+.outlined-button {
+  background: white;
+  border: 2px solid #164995;
+  color: #164995;
+  position: relative;
+  display: inline-block;
+
+  &:hover, &:visited, &:focus, &:active {
+    text-decoration: none;
+    color: #164995;
+  }
+}
+
+.button-with-icon {
+  padding-left: 58px;
+
+  img {
+    max-width: 35px;
+    width: 35px;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

@@ -39,6 +39,23 @@ const fields = [
             },
         ]
     },
+
+    {
+        name: 'displayUserPasswordField',
+        label: 'DisplayUserPasswordField? (only working for user form)',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false
+    },
     {
       name: 'allowGuestFormSubmission',
       label: 'Allow guest form submissions?',

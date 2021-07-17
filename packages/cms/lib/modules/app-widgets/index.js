@@ -61,6 +61,10 @@ module.exports = {
         {
           label: 'wizard',
           value: 'wizard'
+        },
+        {
+          label: 'subscription',
+          value: 'subscription'
         }
       ]
     },

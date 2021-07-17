@@ -432,6 +432,26 @@ module.exports = [
     ]
   },
   {
+    name: 'rawTemplates',
+    type: 'array',
+    titleField: 'key',
+    label: 'Templates',
+    schema: [
+      {
+        name: 'key',
+        type: 'text',
+        label: 'Key',
+        type: 'string',
+      },
+      {
+        name: 'template',
+        type: 'text',
+        label: 'Template',
+        type: 'string',
+        textarea: true
+      }]
+  },
+  {
     name: 'areas',
     type: 'array',
     titleField: 'label',

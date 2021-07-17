@@ -60,7 +60,12 @@ module.exports = {
       {
         name: 'userPresentRedirect',
         type: 'string',
-        label: 'Redirect from user create page to other page if user',
+        label: 'Redirect to other page if user is present',
+      },
+      {
+        name: 'userHasActiveSubscriptionRedirect',
+        type: 'string',
+        label: 'Redirect to other page if user has active subscription',
       },
       {
         name: 'userWitEmailPresentRedirect',
@@ -108,7 +113,12 @@ module.exports = {
         label: 'Set the cookiebar fixed at the footer?',
         def: false,
       },
-
+      {
+        name: 'htmlClass',
+        type: 'string',
+        label: 'Set html class to your page body',
+        def: false,
+      },
 
 
     ];

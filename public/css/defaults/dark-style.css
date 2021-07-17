@@ -28,7 +28,7 @@
     font-size: 11px;
 }
 
-.hip-label input[type="text"], .hip-label input[type="date"], .hip-label input[type="phone"], .hip-label input[type="email"], .hip-label input[type="number"], .hip-label textarea, .hip-label trix-editor {
+.hip-label input[type="text"], .hip-label input[type="date"], .hip-label input[type="phone"], .hip-label input[type="email"], .hip-label input[type="number"], .hip-label input[type="password"], .hip-label textarea, .hip-label trix-editor {
     padding: 10px 9px 10px;
 }
 

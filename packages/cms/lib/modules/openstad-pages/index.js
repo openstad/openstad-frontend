@@ -69,6 +69,7 @@ module.exports = {
 
         const superPageBeforeSend = self.pageBeforeSend;
         self.pageBeforeSend = (req, callback) => {
+            const hasAdminRights = req.data.openstadUser &&  req.data.openstadUser.role === 'admin';
 
             /**
              * Allow pages to redirect if not logged in
@@ -93,31 +94,36 @@ module.exports = {
             }
 
             if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
-                if (!req.data.hasModeratorRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
+                if (!hasAdminRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
             }
 
             if (pageData && pageData.userWitEmailPresentRedirect && (req.data.openstadUser && req.data.openstadUser.email)) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.userWitEmailPresentRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.userWitEmailPresentRedirect);
             }
 
             if (pageData && pageData.userNotPresentRedirect && !req.data.openstadUser) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.userNotPresentRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.userNotPresentRedirect);
             }
 
             if (pageData && pageData.action && !req.data.openstadUser) {
-                if (!req.data.hasModeratorRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
+                if (!hasAdminRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
             }
 
             if (pageData && pageData.accountNeededRedirect && !req.data.openstadUser.account) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.accountNeededRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.accountNeededRedirect);
             }
 
             if (pageData && pageData.activeAccountRequiredRedirect && !req.data.openstadUser && !req.data.openstadUser.account || (req.data.openstadUser && req.data.openstadUser.account && !req.data.openstadUser.account.isActive)) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.activeAccountRequiredRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.activeAccountRequiredRedirect);
             }
 
             if (pageData && pageData.accountPresentRedirect && req.data.openstadUser.account) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.accountPresentRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.accountPresentRedirect);
+            }
+
+
+            if (pageData && pageData.userPresentRedirect && req.data.openstadUser) {
+                if (!hasAdminRights) return req.res.redirect(pageData.userPresentRedirect);
             }
 
             if (pageData) {
@@ -125,8 +131,8 @@ module.exports = {
                 console.log('pageData.req.data.openstadUser', req.data.openstadUser);
             }
 
-            if (pageData && pageData.userPresentRedirect && req.data.openstadUser) {
-                if (!req.data.hasModeratorRights) return req.res.redirect(pageData.userPresentRedirect);
+            if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.extraData && req.data.openstadUser.extraData.isActiveSubscriber) {
+                if (!hasAdminRights) return req.res.redirect(pageData.userHasActiveSubscriptionRedirect);
             }
 
             self.setActiveIdeaId(req);

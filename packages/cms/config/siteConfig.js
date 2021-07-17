@@ -92,6 +92,9 @@ module.exports = {
         'apostrophe-login': {
           localLogin: false
         },
+        'global-raw-widgets': {
+
+        },
         'apostrophe-multisite-fake-listener': {
           construct: function (self, options) {
             // Don't really listen for connections. We'll run as middleware

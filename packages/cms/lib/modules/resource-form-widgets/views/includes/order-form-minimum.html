@@ -2,13 +2,13 @@
 <div class="row form-group">
   <div class="col-md-6 mb-3">
     <div class="hip-label">
-      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="" required>
+      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="" value="{{data.openstadUser.firstName}}" required>
       <label for="firstName"  class="hip">Voornaam</label>
     </div>
   </div>
   <div class="col-md-6 mb-3">
     <div class="hip-label">
-      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="" required>
+      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="" value="{{data.openstadUser.lastName}}" required>
       <label for="lastName" class="hip">Achternaam</label>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <div class="mb-3 form-group ">
   <div class="hip-label">
-    <input type="email" class="form-control" id="email" name="email" />
+    <input type="email" class="form-control" id="email" name="email" value="{{data.openstadUser.email}}" />
     <label for="email" class="hip">E-mail </label>
   </div>
 </div>
