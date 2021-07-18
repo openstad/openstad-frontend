@@ -126,6 +126,10 @@ module.exports = {
                 if (!hasAdminRights) return req.res.redirect(pageData.userPresentRedirect);
             }
 
+            if (pageData && pageData.userNotOrNotEmailPresentRedirect && (!req.data.openstadUser || req.data.openstadUser && !req.data.openstadUser.email)) {
+                if (!hasAdminRights) return req.res.redirect(pageData.userNotOrNotEmailPresentRedirect);
+            }
+
             if (pageData) {
                 console.log('pageData.userPresentRedirect', pageData.userPresentRedirect);
                 console.log('pageData.req.data.openstadUser', req.data.openstadUser);

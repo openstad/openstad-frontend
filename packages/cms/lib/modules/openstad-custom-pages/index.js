@@ -73,6 +73,11 @@ module.exports = {
         label: 'Redirect from user create page to other page if user is present with email',
       },
       {
+        name: 'userNotOrNotEmailPresentRedirect',
+        type: 'string',
+        label: 'Redirect to page if user doesnt exists or has no email',
+      },
+      {
         name: 'userNotPresentRedirect',
         type: 'string',
         label: 'Redirect from to page if user doesn\'t exists, for instance to user create form',
