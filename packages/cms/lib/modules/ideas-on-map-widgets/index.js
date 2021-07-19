@@ -54,7 +54,7 @@ module.exports = {
       {
         name: 'reactions',
         label: 'Reacties',
-        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'closeReactionsForIdeaIds', ]
+        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'reactionsClosed', 'reactionsClosedText', 'closeReactionsForIdeaIds', ]
       },
       {
         name: 'idea-form',

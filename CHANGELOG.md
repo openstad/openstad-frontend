@@ -1,6 +1,9 @@
 # Changelog
 
 ## UNRELEASED
+* Better settings for closed reactions on idea-on-map
+
+## UNRELEASED
 * Autosubmit vote in resource overview after return from oauth
 * Autosubmit vote in participatory budgeting after returning from oauth
 * Set default noOfQuestionsToShow to 100
