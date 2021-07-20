@@ -48,6 +48,11 @@ module.exports = {
         label: 'Redirect user when not logged in',
       },
       {
+        name: 'notModeratorRedirect',
+        type: 'string',
+        label: 'Redirect user when not a moderator',
+      },
+      {
         name: 'anonymousUserRequired',
         type: 'string',
         label: 'Redirect to create anonymous user',

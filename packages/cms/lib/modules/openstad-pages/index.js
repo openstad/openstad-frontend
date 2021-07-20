@@ -93,6 +93,10 @@ module.exports = {
                 return req.res.redirect(pageData.notLoggedInRedirect);
             }
 
+            if (pageData && pageData.notModeratorRedirect && !req.data.hasModeratorRights) {
+                return req.res.redirect(pageData.notModeratorRedirect);
+            }
+
             if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
                 if (!hasAdminRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
             }
