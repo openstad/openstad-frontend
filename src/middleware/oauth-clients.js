@@ -1,3 +1,5 @@
+// deze wordt momenteel alleen gebruikt in de update site route, en dan alleen withAllForSite
+
 const userClientApi = require('../services/userClientApi');
 const config = require('config');
 

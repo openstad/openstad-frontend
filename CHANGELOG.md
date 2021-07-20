@@ -1,5 +1,9 @@
 # Changelog
 
+
+## v0.16.0
+* Statuscode for error 'Already voted' was 500 and is now 403
+
 ## v0.15.1 (2020-07-14)
 * Give anonymous user the default correct role
 

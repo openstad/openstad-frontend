@@ -40,7 +40,6 @@
     "morgan": "^1.10.0",
     "mysql2": "^1.7.0",
     "mysqldump": "^3.2.0",
-    "nested-object-assign": "^1.0.3",
     "nodemailer": "^6.6.1",
     "nodemon": "^1.17.5",
     "nunjucks": "^3.2.2",
