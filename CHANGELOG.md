@@ -1,6 +1,12 @@
 # Changelog
 
-## v0.17.0 (2021-07-14)
+## v0.18.0 (2021-07-30)
+* Add embedded email, sms, code auth form directly to voting proces
+* Add automated voting submission when returning from oauth, instead of manually having to click
+* Possibility to add custom fields at the end of an resource (idea) form
+
+
+## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
 
 ## v0.17.0 (2021-06-08)
