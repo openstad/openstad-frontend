@@ -107,7 +107,7 @@ Notifications.sendMessage = function(siteId, type, action, data) {
 						}
 						return json;
 					});
-					mail.sendNotificationMail(maildata);
+					mail.sendNotificationMail(maildata, site);
 				});
 
 		})

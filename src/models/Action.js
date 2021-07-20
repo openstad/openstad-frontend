@@ -27,9 +27,9 @@ const mailTransporter = require('../lib/mailTransporter');
 
 // Default options for a single email.
 
-const sendMail = (options) => {
+const sendMail = (options, site) => {
     return Promise((resolve, reject) => {
-        mailTransporter.getTransporter().sendMail(
+        mailTransporter.getTransporter(site).sendMail(
             options,
             function (error, info) {
                 if (error) {
@@ -321,6 +321,7 @@ module.exports = function (db, sequelize, DataTypes) {
                             uppercaseHeadings: false
                         });
 
+                        // TODO: site meesturen in sendmail
                         const response = await sendMail({
                             // in some cases the resource, like order or account has a different email from the submitted user, default to resource, otherwise send to owner of resource
                             to: recipientEmail, //resource.email ?  resource.email : user.email,

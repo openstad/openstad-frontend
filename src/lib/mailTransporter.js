@@ -1,12 +1,14 @@
 const config     = require('config');
-const siteConfig = require('./siteConfig');
 const merge      = require('merge');
 const nodemailer = require('nodemailer');
+const MailConfig = require('./mail-config');
 
 const transport = config.get('mail.transport');
 
-exports.getTransporter = () => {
-  
+exports.getTransporter = (site) => {
+
+  let siteConfig = new MailConfig(site)
+
   const method = siteConfig.getMailMethod();
   const transporterConfig = siteConfig.getMailTransport();
   

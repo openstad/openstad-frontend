@@ -1,6 +1,5 @@
 const db = require('../db');
 const createError = require('http-errors');
-const siteConfig = require('../lib/siteConfig');
 
 const getSiteId = (path) => {
   const match = path.match(/\/site\/(\d+)?\//);
@@ -30,7 +29,6 @@ module.exports = function( req, res, next ) {
         console.log('Site not found for siteId query: ', where);
         return next(new createError('404', 'Site niet gevonden for siteId: '+ siteId));
       }
-      siteConfig.setFromSite(found);
   		req.site = found;
   		next();
       return null;
