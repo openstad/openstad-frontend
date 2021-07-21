@@ -1,4 +1,6 @@
 # Changelog
+## Unreleased
+* Add submission to resource form with configurable confirmation settings
 
 ## v0.14.0 (2020-03-17)
 * Load files with static middleware instead of sendFile, fallback to ApostropheCMS in case a file is not found
