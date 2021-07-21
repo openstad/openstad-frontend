@@ -357,7 +357,7 @@ if (votingContainer !== null) {
 
 	  if (currentStep == 3) {
 	  	$('a.button-stemcode').focus();
-		}
+	  }
 
 	  if (currentStep == 5) {
 		  submitBudget();
@@ -1100,10 +1100,10 @@ if (votingContainer !== null) {
     }
 
 	  //var url = '/api/site/'+siteId+'/vote';
-	  var url = '/vote';
+	  var url = window.siteUrl + '/vote';
 
 	  var options = {
-      url: url,
+      		url: url,
 		  type: 'post',
 		  dataType: 'json',
 		  data: {votes: votesToSubmit}, //votesToSubmit, //{idea: 52, sentiment: 'for'},//votesToSubmit,
@@ -1779,7 +1779,21 @@ if (votingContainer !== null) {
 		  if (userHasVoted) {
 			  currentStep = 3;
 		  } else {
+
 			  currentStep = 4;
+
+			  /**
+			   * in this case user returns from oauth server, we automatically submit,
+			   * other cases we still allow user to click through it themselves
+			   *
+			   * it needs setTimeout, otherwise ajax call will not be ready with CSRF header.
+			   * in refactor, this has to be done pretty
+			   */
+			  setTimeout(function () {
+				  nextStep();
+			  },500)
+
+
 		  }
 	  }
 
@@ -1792,7 +1806,7 @@ if (votingContainer !== null) {
 
   	if (votingType != 'budgeting') {
   		return;
-		}
+	}
 
   	if (typeof productAdded === 'undefined') {
   		productAdded = true;

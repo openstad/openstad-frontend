@@ -1,10 +1,16 @@
 # Changelog
 
-## v0.18.0 (2021-07-30)
-* Add embedded email, sms, code auth form directly to voting proces
-* Add automated voting submission when returning from oauth, instead of manually having to click
-* Possibility to add custom fields at the end of an resource (idea) form
-
+## UNRELEASED
+* Autosubmit vote in resource overview after return from oauth
+* Autosubmit vote in participatory budgeting after returning from oauth
+* Set default noOfQuestionsToShow to 100
+* Add components cdn and version automation - OPENSTAD_COMPONENTS_URL in .env is now optional, and renamed to OPENSTAD_COMPONENTS_CDN
+* Add react-admin cdn and version automation - OPENSTAD_REACT_ADMIN_URL in .env is now optional, and renamed to OPENSTAD_REACT_ADMIN_CDN
+* Make sure that basic auth is handled before anything else
+* Resource-overview: show api error on failed vote
+* Show API status code on error (was always 500)
+* Make the vote button in resource-overview editable
+* Fix location picker if no polygon
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload

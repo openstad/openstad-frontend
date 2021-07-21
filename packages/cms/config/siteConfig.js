@@ -42,9 +42,11 @@ module.exports = {
           siteUrl: siteUrl,
           apiUrl: process.env.API,
           appUrl: process.env.APP_URL,
+          oAuthUrl: process.env.OAUTH_URL,
           apiLogoutUrl: process.env.API_LOGOUT_URL,
           googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
           siteConfig: siteData,
+          oAuthConfig: siteData && siteData.oauth ? siteData.oauth : [],
           contentWidgets: contentWidgets
         },
         'apostrophe-db': {
@@ -71,6 +73,7 @@ module.exports = {
               //     '/modules/idea-form-widgets/submit',
               '/image',
               '/images',
+              '/video-api',
               '/vimeo-upload',
               '/attachment-upload',
               '/fetch-image',
@@ -124,6 +127,7 @@ module.exports = {
         'openstad-captcha': {},
         'openstad-widgets': {},
         'openstad-users': {},
+        'openstad-basic-auth': {},
         'openstad-auth': {},
         'openstad-template-cache': {},
         'openstad-login': {},

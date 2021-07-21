@@ -76,10 +76,14 @@ todo: ik ben begonnen met een generiek en een speciek deel maar het generieke de
 						<div class="fields">
 
 							<div class="vote-not-logged-in">
-
+								{% if data.widget.authEmbeddedForm %}
+									{% include 'authForms/' + data.widget.authEmbeddedForm + '.html'  %}
+								{% else %}
 								<a href="{{data.siteUrl}}/oauth/login?returnTo={{data.currentUrl}}" class="validate-auth-button outlined-button" onmouseover="removeFromClassName(this, 'do-this-first');">
 									{{data.widget.button_authenticating | sanitize | safe }}
 								</a>
+								{% endif %}
+
 							</div>
 							<div class="vote-logged-in">
 								<div class="button-stemcode geldige-code">
