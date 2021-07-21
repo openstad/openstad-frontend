@@ -522,6 +522,7 @@ module.exports = function (db, sequelize, DataTypes) {
         this.hasMany(models.Vote);
         this.hasMany(models.Argument);
         this.belongsTo(models.Site);
+        this.hasMany(models.User, { as: 'thisUserOnOtherSites', sourceKey: 'externalUserId', foreignKey: 'externalUserId' });
     }
 
     User.prototype.authenticate = function (password) {

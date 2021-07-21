@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased
+* Add endpoint /user/:id/activity
+
+## Unreleased
 * Statuscode for error 'Already voted' was 500 and is now 403
 
 ## v0.15.0 (2020-06-08)
