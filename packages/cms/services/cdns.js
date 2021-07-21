@@ -29,6 +29,7 @@ exports.contructComponentsCdn = async function() {
         version = match && match[1] || null;
       }
       openstadComponentsCdn = openstadComponentsCdn.replace('{version}', version);
+      console.log('Using cdn', openstadComponentsCdn);
     } catch (err) {console.log('Error constructing cdn url', err);}
 
   }
@@ -50,11 +51,11 @@ exports.contructReactAdminCdn = async function() {
       
       let { stdout, stderr } = await exec('git rev-parse --abbrev-ref HEAD');
       let branch = stdout && stdout.toString();
+      branch = branch.trim();
 
       let tag = 'alpha';
       if (branch == 'release') tag = 'beta';
       if (branch == 'master') tag = 'latest';
-      branch = branch.trim();
       
       // get current published version
       ({ stdout, stderr } = await exec('npm view --json openstad-react-admin'));
@@ -68,6 +69,7 @@ exports.contructReactAdminCdn = async function() {
         version = match && match[1] || null;
       }
       openstadReactAdminCdn = openstadReactAdminCdn.replace('{version}', version);
+      console.log('Using cdn', openstadReactAdminCdn);
     } catch (err) {console.log('Error constructing cdn url', err);}
 
   }
