@@ -1,6 +1,7 @@
 const Promise 				= require('bluebird');
 const express 				= require('express');
 const config 					= require('config');
+const fetch           = require('node-fetch');
 const db      				= require('../../db');
 const auth 						= require('../../middleware/sequelize-authorization-middleware');
 const pagination 			= require('../../middleware/pagination');
@@ -143,6 +144,8 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	// update certain parts of config to the oauth client
 	// mainly styling settings are synched so in line with the CMS
 	.put(function (req, res, next) {
+
+    // todo: gebruik de oauth-api service
 		const authServerUrl = config.authorization['auth-server-url'];
 		const updates = [];
 
@@ -156,7 +159,9 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				 oauthClient.config[field] = req.site.config[field];
 			 });
 
-			 const apiCredentials = {
+
+			// todo: use the oauth-api service
+      const apiCredentials = {
 				 client_id: oauthClient.clientId,
 				 client_secret: oauthClient.clientSecret,
 			 }
