@@ -24,15 +24,14 @@
                 urlPrefix: '{{data.currentPath}}',
                 urlPrefix1: '{{data.currentPathname}}',
                 videoApiUrl: '/video-api',
+                userRole: '{{data.openstadUser.role}}',
                 siteKey: '',
                 jwt: '',
                 dummyUser: AppEditor.dummyUser,
                 logo: {src: '/modules/app-widgets/logo-your-move.png', width: 40, height: 40}
         };
 
-
-        console.log('AppEditor', AppEditor);
-
+        
         ReactDOM.render(React.createElement(AppEditor.default, appProps), document.getElementById('admin-root'));
     });
 </script>
