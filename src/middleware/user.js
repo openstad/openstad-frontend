@@ -13,30 +13,30 @@ const OAuthApi = require('../services/oauth-api');
  * @returns {Promise<*>}
  */
 module.exports = async function getUser( req, res, next ) {
-	try {
+  try {
 
     if (!req.headers['x-authorization']) {
-			return nextWithEmptyUser(req, res, next);
-		}
+      return nextWithEmptyUser(req, res, next);
+    }
 
-		const user = getUserId(req.headers['x-authorization']);
+    const userId = getUserId(req.headers['x-authorization']);
 
-		const which = req.query.useOauth || 'default';
+    const which = req.query.useOauth || 'default';
     let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
 
-		if(user === null) {
-			return nextWithEmptyUser(req, res, next);
-		}
+    if(userId === null) {
+      return nextWithEmptyUser(req, res, next);
+    }
 
-		const userEntity = await getUserInstance({ siteConfig, which, user });
-		req.user = userEntity
-		// Pass user entity to template view.
-		res.locals.user = userEntity;
-		next();
+    const userEntity = await getUserInstance({ siteConfig, which, userId });
+    req.user = userEntity
+    // Pass user entity to template view.
+    res.locals.user = userEntity;
+    next();
   } catch(error) {
-		console.error(error);
-		next(error);
-	}
+    console.error(error);
+    next(error);
+  }
 }
 
 /**
@@ -47,10 +47,10 @@ module.exports = async function getUser( req, res, next ) {
  * @returns {*}
  */
 function nextWithEmptyUser(req, res, next) {
-	req.user = {};
-	res.locals.user = {};
+  req.user = {};
+  res.locals.user = {};
 
-	return next();
+  return next();
 }
 
 /**
@@ -60,25 +60,25 @@ function nextWithEmptyUser(req, res, next) {
  * @constructor
  */
 function UserId(id, fixed) {
-	this.id = id;
-	this.fixed = fixed;
+  this.id = id;
+  this.fixed = fixed;
 }
 
 function getUserId(authorizationHeader) {
-	const tokens = config && config.authorization && config.authorization['fixed-auth-tokens'];
+  const tokens = config && config.authorization && config.authorization['fixed-auth-tokens'];
 
-	if (authorizationHeader.match(/^bearer /i)) {
-		const jwt = parseJwt(authorizationHeader);
-		return (jwt && jwt.userId) ? new UserId(jwt.userId, false) : null;
-	}
-	if (tokens) {
-		const token = tokens.find(token => token.token === authorizationHeader);
-		if (token) {
-			return new UserId(token.userId, true);
-		}
-	}
+  if (authorizationHeader.match(/^bearer /i)) {
+    const jwt = parseJwt(authorizationHeader);
+    return (jwt && jwt.userId) ? new UserId(jwt.userId, false) : null;
+  }
+  if (tokens) {
+    const token = tokens.find(token => token.token === authorizationHeader);
+    if (token) {
+      return new UserId(token.userId, true);
+    }
+  }
 
-	return null;
+  return null;
 }
 
 /**
@@ -87,8 +87,8 @@ function getUserId(authorizationHeader) {
  * @returns {*}
  */
 function parseJwt(authorizationHeader) {
-	let token = authorizationHeader.replace(/^bearer /i, '');
-	return jwt.verify(token, config.authorization['jwt-secret']);
+  let token = authorizationHeader.replace(/^bearer /i, '');
+  return jwt.verify(token, config.authorization['jwt-secret']);
 }
 
 /**
@@ -99,24 +99,24 @@ function parseJwt(authorizationHeader) {
  */
 async function getUserInstance({ siteConfig, which = 'default', user }) {
 
-	const dbUser = await db.User.findByPk(user.id);
+  const dbUser = await db.User.findByPk(user.id);
 
-	if (!dbUser || !dbUser.externalUserId || !dbUser.externalAccessToken) {
-		return user.fixed ? dbUser : {};
-	}
+  if (!dbUser || !dbUser.externalUserId || !dbUser.externalAccessToken) {
+    return user.fixed ? dbUser : {};
+  }
 
-	try {
+  try {
 
     let oauthUser = await OAuthApi.fetchUser({ siteConfig, which, token: dbUser.externalAccessToken });
 
     let mergedUser = merge(dbUser, oauthUser);
     mergedUser.role = mergedUser.role || ((mergedUser.email || mergedUser.phoneNumber || mergedUser.hashedPhoneNumber) ? 'member' : 'anonymous');
     
-		return mergedUser;
+    return mergedUser;
 
-	} catch(error) {
-		return await resetUserToken(dbUser);
-	}
+  } catch(error) {
+    return await resetUserToken(dbUser);
+  }
 
 }
 
@@ -128,9 +128,9 @@ async function getUserInstance({ siteConfig, which = 'default', user }) {
  */
 async function resetUserToken(user) {
   if (!( user && user.update )) return {};
-	await user.update({
-		externalAccessToken: null
-	});
+  await user.update({
+    externalAccessToken: null
+  });
 
-	return {};
+  return {};
 }

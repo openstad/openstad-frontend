@@ -35,8 +35,6 @@ let parseConfig = function(siteConfig) {
 
 let parseData = function(siteId, config, value) {
 
-  console.log(siteId, config, value);
-
   let result;
   let siteDataFound = false;
 
@@ -67,8 +65,6 @@ let parseData = function(siteId, config, value) {
 }
 
 OAuthUser.parseDataForSite = function(siteConfig, data) {
-
-  console.log(siteConfig);
 
   let config = parseConfig(siteConfig);
 
