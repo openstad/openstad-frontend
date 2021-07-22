@@ -97,12 +97,12 @@ function parseJwt(authorizationHeader) {
  * @param siteConfig
  * @returns {Promise<{}|{externalUserId}|*>}
  */
-async function getUserInstance({ siteConfig, which = 'default', user }) {
+async function getUserInstance({ siteConfig, which = 'default', userId }) {
 
-  const dbUser = await db.User.findByPk(user.id);
+  const dbUser = await db.User.findByPk(userId.id);
 
   if (!dbUser || !dbUser.externalUserId || !dbUser.externalAccessToken) {
-    return user.fixed ? dbUser : {};
+    return userId.fixed ? dbUser : {};
   }
 
   try {
