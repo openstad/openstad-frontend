@@ -37,6 +37,7 @@ router.use( '/site/:siteId(\\d+)/tag', require('./tag') );
 
 // users
 router.use( '/site/:siteId(\\d+)/user', require('./user') );
+router.use( '/site/:siteId(\\d+)/user/:userId(\\d+)/activity', require('./user-activity') );
 
 // submissions
 router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
