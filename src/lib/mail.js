@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const Promise    = require('bluebird');
 const merge = require('merge');
 const htmlToText   = require('html-to-text');
-const siteConfig = require('./siteConfig');
+const MailConfig = require('./mail-config');
 const mailTransporter = require('./mailTransporter');
 
 const debug      = require('debug');
@@ -38,7 +38,7 @@ let defaultSendMailOptions = {
 };
 
 // generic send mail function
-function sendMail( options ) {
+function sendMail( site, options ) {
 
   if ( options.attachments ) {
     options.attachments.forEach((entry, index) => {
@@ -50,7 +50,7 @@ function sendMail( options ) {
     });
   }
 
-  mailTransporter.getTransporter().sendMail(
+  mailTransporter.getTransporter(site).sendMail(
     merge(defaultSendMailOptions, options),
     function( error, info ) {
       if ( error ) {
@@ -62,9 +62,9 @@ function sendMail( options ) {
   );
 }
 
-function sendNotificationMail( data ) {
-  //site is not present so will fallback to defaults
-  //Email also has a fallback if all is empty
+function sendNotificationMail( data, site ) {
+
+  let siteConfig = new MailConfig(site)
   data.logo = siteConfig.getLogo();
 
 	let html;
@@ -74,25 +74,28 @@ function sendNotificationMail( data ) {
 		html = nunjucks.render('notifications_admin.njk', data)
 	}
 
-	sendMail({
+	sendMail(site, {
 		to          : data.to,
 		from        : data.from,
 		subject     : data.subject,
 		html        : html,
 		text        : `Er hebben recent activiteiten plaatsgevonden op ${data.SITENAME} die mogelijk voor jou interessant zijn!`,
-		attachments : siteConfig.getDefaultEmailAttachments()
+		attachments : siteConfig.getDefaultEmailAttachments(),
 	});
+
 };
 
 // send email to user that submitted a resource
-function sendThankYouMail (resource, resourceType, user) {
-  
+function sendThankYouMail(resource, resourceType, site, user) {
+
+  let siteConfig = new MailConfig(site)
+
   if (!resourceType) return console.error('sendThankYouMail error: resourceType not provided');
-  
+
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
   const sitename    = siteConfig.getTitle();
-  let fromAddress = siteConfig.getFeedbackEmailFrom(resourceType) || config.email;
+  let fromAddress   = siteConfig.getFeedbackEmailFrom(resourceType) || config.email;
   if (fromAddress.match(/^.+<(.+)>$/, '$1')) fromAddress = fromAddress.replace(/^.+<(.+)>$/, '$1');
 
   // todo: als je dan toch met een siteConfig.get werkt, moet deze search-and-replace dan niet ook daar?
@@ -144,7 +147,7 @@ function sendThankYouMail (resource, resourceType, user) {
   let attachments = siteConfig.getResourceFeedbackEmailAttachments(resourceType) || siteConfig.getDefaultEmailAttachments();
   
   try {
-  sendMail({
+  sendMail(site, {
     // in some cases the resource, like order or account has a different email from the submitted user, default to resource, otherwise send to owner of resource
     to: resource.email ?  resource.email : user.email,
     from: fromAddress,
@@ -160,7 +163,9 @@ function sendThankYouMail (resource, resourceType, user) {
 }
 
 // send email to user that submitted a NewsletterSignup
-function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
+function sendNewsletterSignupConfirmationMail( newslettersignup, site, user ) {
+
+  let siteConfig = new MailConfig(site)
 
   const url         = siteConfig.getCmsUrl();
   const hostname    = siteConfig.getCmsHostname();
@@ -198,7 +203,7 @@ function sendNewsletterSignupConfirmationMail( newslettersignup, user ) {
 
   const attachments = siteConfig.getNewsletterSignupConfirmationEmailAttachments();
 
-  sendMail({
+  sendMail(site, {
     to: newslettersignup.email,
     from: fromAddress,
     subject: siteConfig.getNewsletterSignupConfirmationEmailSubject() || 'Bedankt voor je aanmelding',

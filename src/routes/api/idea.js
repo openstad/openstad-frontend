@@ -249,7 +249,10 @@ router.route('/')
   })
   .post(function(req, res, next) {
     res.json(req.results);
-    mail.sendThankYouMail(req.results, 'ideas', req.user); // todo: optional met config?
+    // TODO!! xxx
+    setTimeout(function() {
+      mail.sendThankYouMail(req.results, 'ideas', req.site, req.user); // todo: optional met config?
+    }, 5000);
   });
 
 // one idea
@@ -277,7 +280,7 @@ router.route('/:ideaId(\\d+)')
         next();
       })
       .catch((err) => {
-        console.log('errr', err);
+        console.log('err', err);
         next(err);
       });
   })
