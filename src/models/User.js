@@ -589,6 +589,71 @@ module.exports = function (db, sequelize, DataTypes) {
             })
     }
 
+
+    User.prototype.willAnonymize = async function() {
+
+      // dit is een stuk overzichtelijker met async await, al is dat niet consistent met de rest van de code; sorry daarvoor
+      let self = this;
+      let result = { user: self };
+      
+      try {
+
+        if (self.siteId) {
+          self.site = await db.Site.findByPk(self.siteId);
+        }
+
+        if (self.site) {
+
+          // wat gaat er allemaal gewijzigd worden
+          result.site = self.site;
+          result.ideas = await self.getIdeas();
+          result.articles = await self.getArticles();
+          result.arguments = await self.getArguments();
+
+          // TODO: for now the check is on active vote but this is wrong; a new 'vote had ended' param should be created
+          let voteIsActive = self.site.isVoteActive();
+          if (voteIsActive) {
+            result.votes = await self.getVotes();
+          }
+
+        }
+
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+
+      return result;
+
+    }
+
+    User.prototype.doAnonymize = async function() {
+
+      let self = this;
+      let result = await self.willAnonymize();
+
+      console.log('* Anonimize user', self.id, self.email, self.firstName, self.lastName, 'for site', self.siteId);
+      
+      try {
+        // remove existing votes
+        if (result.votes && result.votes.length) {
+          // todo: check rechten
+          for (const vote of result.votes) {
+            console.log('    Remove vote', vote.id);
+          };
+        }
+        
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+
+      return result;
+
+    }
+
+  
+  
     User.auth = User.prototype.auth = {
         listableBy: 'editor',
         viewableBy: 'all',

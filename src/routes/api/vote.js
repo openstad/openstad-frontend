@@ -1,7 +1,6 @@
 const Promise     = require('bluebird');
 const express     = require('express');
 const createError = require('http-errors')
-const moment      = require('moment');
 const db          = require('../../db');
 const auth        = require('../../middleware/sequelize-authorization-middleware');
 const config      = require('config');
@@ -33,15 +32,7 @@ router.route('*')
 
   // mag er gestemd worden
 	.post(function(req, res, next) {
-		let isActive = req.site.config.votes.isActive;
-		if ( isActive == null && req.site.config.votes.isActiveFrom && req.site.config.votes.isActiveTo ) {
-			isActive = moment().isAfter(req.site.config.votes.isActiveFrom) && moment().isBefore(req.site.config.votes.isActiveTo)
-		}
-
-		if (!isActive) {
-			return next(createError(403, 'Stemmen is gesloten'));
-		}
-
+		if (!req.site.isVoteActive()) return next(createError(403, 'Stemmen is gesloten'));
 		return next();
 	})
 

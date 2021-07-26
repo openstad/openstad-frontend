@@ -10,7 +10,6 @@ const router = express.Router({mergeParams: true});
 //router.use( bruteForce.globalMiddleware );
 //router.post( '*', bruteForce.postMiddleware );
 
-
 // dbQuery middleware
 router.use(dbQuery);
 router.use(sorting);
