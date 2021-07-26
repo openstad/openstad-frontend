@@ -249,10 +249,7 @@ router.route('/')
   })
   .post(function(req, res, next) {
     res.json(req.results);
-    // TODO!! xxx
-    setTimeout(function() {
-      mail.sendThankYouMail(req.results, 'ideas', req.site, req.user); // todo: optional met config?
-    }, 5000);
+    mail.sendThankYouMail(req.results, 'ideas', req.site, req.user); // todo: optional met config?
   });
 
 // one idea
