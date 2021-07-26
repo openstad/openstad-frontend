@@ -652,8 +652,6 @@ module.exports = function (db, sequelize, DataTypes) {
 
     }
 
-  
-  
     User.auth = User.prototype.auth = {
         listableBy: 'editor',
         viewableBy: 'all',
@@ -661,13 +659,22 @@ module.exports = function (db, sequelize, DataTypes) {
         updateableBy: ['editor', 'owner'],
         deleteableBy: ['editor', 'owner'],
 
-        /*canView: function(user, self) {
-            if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
-                return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
-            } else {
-                return true
-            }
-        },*/
+        canUpdate: function(user, self) {
+
+            // copy the base functionality
+            self = self || this;
+
+            if (!user) user = self.auth && self.auth.user;
+            if (!user || !user.role) user = { role: 'all' };
+
+            let valid = userHasRole(user, self.auth && self.auth.updateableBy, self.id);
+
+            // extra: isOwner throug user on different site
+            valid = valid || ( self.externalUserId && self.externalUserId == user.externalUserId );
+            return valid;
+
+        }
+
     }
 
     return User;

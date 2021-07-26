@@ -5,7 +5,6 @@ module.exports = function hasRole(user, minRoles, ownerId) {
   minRoles = minRoles || 'admin'; // admin can do anything
   if (!Array.isArray(minRoles)) minRoles = [minRoles];
 
-  // todo: owner
   let userRole = user && user.role;
 
   let valid = minRoles.find( minRole => {
