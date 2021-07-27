@@ -614,6 +614,8 @@ module.exports = function (db, sequelize, DataTypes) {
           let voteIsActive = self.site.isVoteActive();
           if (voteIsActive) {
             result.votes = await self.getVotes();
+          } else {
+            result.votes = [];
           }
 
         }
@@ -632,14 +634,44 @@ module.exports = function (db, sequelize, DataTypes) {
       let self = this;
       let result = await self.willAnonymize();
 
-      console.log('* Anonimize user', self.id, self.email, self.firstName, self.lastName, 'for site', self.siteId);
-      
       try {
+
+        // anonymize
+
+        let extraData = {};
+        if (!self.site) throw Error('Site not found');
+        if (self.site.config.users && self.site.config.users.extraData) {
+          Object.keys(self.site.config.users.extraData).map( key => extraData[key] = null );
+        }
+        
+        await self.update({
+          externalUserId: null,
+          externalAccessToken: null,
+          role: 'anonymous',
+          passwordHash: null,
+          listableByRole: 'moderator',
+          detailsViewableByRole: 'moderator',
+          viewableByRole: 'admin',
+          email: null,
+          nickName: null, 
+          firstName: ( config.users && config.users.anonymize && config.users.anonymize.firstName ) || 'Gebruiker',
+          lastName: ( config.users && config.users.anonymize && config.users.anonymize.lastName ) || 'verwijderd',
+          gender: null,
+          zipCode: null,
+          postcode: null,
+          suffix: null,
+          houseNumber: null,
+          city: null,
+          streetName: null,
+          phoneNumber: null,
+          extraData,
+          signedUpForNewsletter: 0,
+        })
+
         // remove existing votes
         if (result.votes && result.votes.length) {
-          // todo: check rechten
           for (const vote of result.votes) {
-            console.log('    Remove vote', vote.id);
+            await vote.destroy();
           };
         }
         

@@ -229,8 +229,8 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
       .catch(next);
   })
   .put(async function (req, res, next) {
-    console.log('ANONYMIZE USER');
-    let result;
+   let result;
+    if (!(req.targetUser && req.targetUser.can && req.targetUser.can('update', req.user))) return next(new Error('You cannot update this User'));
     if (req.params.willOrDo == 'do') {
       result = await req.targetUser.doAnonymize();
     } else {
@@ -245,9 +245,9 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
   })
   .put(async function (req, res, next) {
     if ( !(req.params.all) ) return next();
-    console.log('ANONYMIZE LINKED USERS');
     for (const user of req.linkedUsers) {
       let result;
+      if (!(user && user.can && user.can('update', req.user))) return next(new Error('You cannot update this User'));
       if (req.params.willOrDo == 'do') {
         result = await user.doAnonymize();
       } else {
@@ -262,10 +262,13 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
     }
     return next();
   })
-  .put(function (req, res, next) {
-    if ( !(req.params.all || req.linkedUsers.length == 0) ) return next();
+  .put(async function (req, res, next) {
+    if (req.params.willOrDo != 'do') return next();
+    if ( !(req.params.all || !req.linkedUsers || req.linkedUsers.length == 0) ) return next();
     // no api users left for this oauth user, so remove the oauth user
-    console.log('REMOVE FROM OAUTH');
+    let which = req.query.useOauth || 'default';
+    let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+    let result = await OAuthApi.deleteUser({ siteConfig, which, userData: { id: req.externalUserId }})
     return next();
   })
   .get(function (req, res, next) {

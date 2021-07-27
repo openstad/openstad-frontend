@@ -2,6 +2,7 @@
 
 ## Unreleased
 * Add endpoint /user/:id/activity
+* Add endpoints /user/:id/(do|will)-anonymize(all?)
 
 ## Unreleased
 * Statuscode for error 'Already voted' was 500 and is now 403
