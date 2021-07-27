@@ -1,9 +1,11 @@
 {% if activeResource %}
-  {% if field.notExtraDataKey %}
-  {% set fieldValue = activeResource[field.fieldKey] %}
-  {% else %}
-  {% set fieldValue = activeResource.extraData[field.fieldKey] %}
-  {% endif %}
+{% if field.isConfigKey %}
+{% set fieldValue = activeResource.config[field.configKey][field.fieldKey] %}
+{% elseif field.notExtraDataKey %}
+{% set fieldValue = activeResource[field.fieldKey] %}
+{% else %}
+{% set fieldValue = activeResource.extraData[field.fieldKey] %}
+{% endif %}
 {% endif %}
 
 {% if not fieldValue %}
@@ -14,13 +16,14 @@
   {% endif %}
 {% endif %}
 
-
 <div class="radio-container">
   {% for option in field.fieldOptions %}
   <div class="radio">
     <input
       type="radio"
-      {% if field.notExtraDataKey %}
+      {% if field.isConfigKey %}
+      name="config[{{field.configKey}}][{{field.fieldKey}}]"
+      {% elseif field.notExtraDataKey %}
       name="{{field.fieldKey}}"
       {% else %}
       name="extraData[{{field.fieldKey}}]"

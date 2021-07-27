@@ -55,9 +55,6 @@ module.exports = async function (self, options) {
             data.extraData.images = [];
         }
 
-        console.log('req.data.recaptchaSecret', req.data.recaptchaSecret);
-        console.log('req.body', req.body);
-
         /**
          * In case secrets are set validate
          */
@@ -66,10 +63,6 @@ module.exports = async function (self, options) {
                 const VERIFY_URL = `https://www.google.com/recaptcha/api/siteverify?secret=${req.data.recaptchaSecret}&response=${encodeURIComponent(req.body['recaptcha'])}`;
                 let recaptchaResponse = await rp(VERIFY_URL, {method: 'POST'});
                 recaptchaResponse = recaptchaResponse ? JSON.parse(recaptchaResponse) : '';
-
-                console.log('VERIFY_URL', VERIFY_URL);
-                console.log('recaptchaResponse', recaptchaResponse);
-                console.log('recaptchaResponse.success', recaptchaResponse.success);
 
                 if (!recaptchaResponse.success) {
                     throw new Error('Bot validation failed, Google thinks you are a bot. If not please refresh and retry')
@@ -83,8 +76,6 @@ module.exports = async function (self, options) {
             }
         }
 
-        console.log('Post the request..')
-
         const options = {
             method: req.body.resourceId ? 'PUT' : 'POST',
             uri: req.body.resourceId ? `${postUrl}/${req.body.resourceId}` : postUrl,
@@ -93,13 +84,15 @@ module.exports = async function (self, options) {
             json: true // Automatically parses the JSON string in the response
         };
 
+        console.log('options', options)
+
         rp(options)
             .then(function (response) {
                 res.setHeader('Content-Type', 'application/json');
                 res.end(JSON.stringify(response));
             })
             .catch(function (err) {
-                console.log('err', err);
+               // console.log('err', err);
 
                 res.setHeader('Content-Type', 'application/json');
                 res.status(500).end(JSON.stringify({

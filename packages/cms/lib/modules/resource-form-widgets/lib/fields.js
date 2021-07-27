@@ -1,5 +1,5 @@
 const fields = [
-     {
+    {
         name: 'redirect',
         type: 'string',
         label: 'Redirect after submit',
@@ -12,12 +12,12 @@ const fields = [
         label: 'How do you want to organise the form?',
         choices: [
             {
-              value: 'static',
-              label: "Static (default)"
+                value: 'static',
+                label: "Static (default)"
             },
             {
-              value: 'order',
-              label: "Checkout (default)"
+                value: 'order',
+                label: "Checkout (default)"
             },
             {
                 value: 'order-minimum',
@@ -28,19 +28,37 @@ const fields = [
                 label: "User form (default)"
             },
             {
-              value: 'dynamic',
-              label: "Dynamic",
-              showFields: ['dynamicFormSections']
+                value: 'dynamic',
+                label: "Dynamic",
+                showFields: ['dynamicFormSections']
             },
             {
-              value: 'repeatable',
-              label: "Repeatable",
-              showFields: ['dynamicFormSections']
+                value: 'repeatable',
+                label: "Repeatable",
+                showFields: ['dynamicFormSections']
             },
         ]
     },
-
     {
+        name: 'appendFormFields',
+        label: 'Append form fields?',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+                showFields: ['dynamicFormSections']
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false,
+
+    },
+    {
+
         name: 'displayUserPasswordField',
         label: 'DisplayUserPasswordField? (only working for user form)',
         type: 'boolean',
@@ -57,20 +75,20 @@ const fields = [
         def: false
     },
     {
-      name: 'allowGuestFormSubmission',
-      label: 'Allow guest form submissions?',
-      type: 'boolean',
-      choices: [
-        {
-          label: 'Yes',
-          value: true,
-        },
-        {
-          label: 'No',
-          value: false,
-        }
-      ],
-      def: false
+        name: 'allowGuestFormSubmission',
+        label: 'Allow guest form submissions?',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false
     },
     {
         name: 'autoSubmitForm',
@@ -89,313 +107,334 @@ const fields = [
         def: false
     },
     {
-      name: 'displayUserInfoAtTop',
-      label: 'Display user info at the top?',
-      type: 'boolean',
-      choices: [
-        {
-          label: 'Yes',
-          value: true,
-        },
-        {
-          label: 'No',
-          value: false,
-        }
-      ],
-      def: false
-    },
-    {
-      name: 'hideAdminAfterPublicAction',
-      label: 'Hide admin after first public action? (not yet connected to the API)',
-      type: 'boolean',
-      choices: [
-        {
-          label: 'Yes',
-          value: true,
-        },
-        {
-          label: 'No',
-          value: false,
-        }
-      ],
-      def: true
-    },
-
-
-    {
-      name: 'dynamicFormSections',
-      label: 'Form Sections',
-      type: 'array',
-      titleField: 'title',
-      schema: [
-        {
-          type: 'string',
-          name: 'title',
-          label: 'Title'
-        },
-        {
-          type: 'string',
-          name: 'info',
-          label: 'Info'
-        },
-        {
-          type: 'array',
-          titleField: 'fieldKey',
-          name: 'fields',
-          label: 'Form fields',
-          schema: [
+        name: 'displayUserInfoAtTop',
+        label: 'Display user info at the top?',
+        type: 'boolean',
+        choices: [
             {
-              type: 'select',
-              name: 'type',
-              label: 'Type',
-              required: true,
-              choices: [
-                  {
-                      value: 'radio',
-                      label: "Radio",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
-                  },
-                  {
-                      value: 'text',
-                      label: "Text",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
-                  },
-                  {
-                      value: 'hidden',
-                      label: "Hidden",
-                      showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey']
-                  },
-                  {
-                      value: 'textarea',
-                      label: "Textarea",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
-                  },
-                  {
-                      value: 'tags',
-                      label: "Tags (currently only works for ideas)",
-                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
-                  },
-                  {
-                      value: 'price',
-                      label: "Price",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'raw',
-                      label: "Raw",
-                      showFields: ['rawInput']
-                  },
-                  {
-                      value: 'advice',
-                      label: "Advice"
-                  },
-                  {
-                      value: 'neighborhood',
-                      label: "Neighborhood"
-                  },
-                  {
-                      value: 'budget',
-                      label: "Budget"
-                  },
-                  {
-                      value: 'description',
-                      label: "Description"
-                  },
-                  {
-                      value: 'estimate',
-                      label: "Estimate"
-                  },
-                  {
-                      value: 'image',
-                      label: "Image",
-                      showFields: ["uploadMultiple", "requiredImages"]
-                  },
-                  {
-                      value: 'map',
-                      label: "Map"
-                  },
-                  {
-                      value: 'phone',
-                      label: "Idea: Phone"
-                  },
-                  {
-                      value: 'role',
-                      label: "Role"
-                  },
-                  {
-                      value: 'summary',
-                      label: "Summary"
-                  },
-                  {
-                      value: 'theme',
-                      label: "Theme"
-                  },
-                  {
-                      value: 'name',
-                      label: "Name"
-                  },
-                  {
-                      value: 'title',
-                      label: "Title"
-                  },
-                  {
-                      value: 'vimeo',
-                      label: "Vimeo",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'userFirstName',
-                      label: "User: Firstname",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'userLastName',
-                      label: "User: Lastname",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'userPostcode',
-                      label: "User: Postcode",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'function',
-                      label: "User: function",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'expertise',
-                      label: "User: expertise",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'userPhone',
-                      label: "User: phone",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'bio',
-                      label: "User: biography",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'image',
-                      label: "User: profile image",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'neighborhood',
-                      label: "User: neighborhood",
-                      showFields: ['fieldRequired']
-                  },
-                  {
-                      value: 'userIsPublic',
-                      label: "User: public status",
-                      showFields: ['fieldRequired']
-                  },
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false
+    },
+    {
+        name: 'hideAdminAfterPublicAction',
+        label: 'Hide admin after first public action? (not yet connected to the API)',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: true
+    },
+
+
+    {
+        name: 'dynamicFormSections',
+        label: 'Form Sections',
+        type: 'array',
+        titleField: 'title',
+        schema: [
+            {
+                type: 'string',
+                name: 'title',
+                label: 'Title'
+            },
+            {
+                type: 'string',
+                name: 'info',
+                label: 'Info'
+            },
+            {
+                type: 'array',
+                titleField: 'fieldKey',
+                name: 'fields',
+                label: 'Form fields',
+                schema: [
+                    {
+                        type: 'select',
+                        name: 'type',
+                        label: 'Type',
+                        required: true,
+                        choices: [
+                            {
+                                value: 'radio',
+                                label: "Radio",
+                                showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey', 'isConfigKey']
+                            },
+                            {
+                                value: 'text',
+                                label: "Text",
+                                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey', 'isConfigKey']
+                            },
+                            {
+                                value: 'hidden',
+                                label: "Hidden",
+                                showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey', 'isConfigKey']
+                            },
+                            {
+                                value: 'textarea',
+                                label: "Textarea",
+                                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey', 'isConfigKey']
+                            },
+                            {
+                                value: 'tags',
+                                label: "Tags (currently only works for ideas)",
+                                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                            },
+                            {
+                                value: 'price',
+                                label: "Price",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'raw',
+                                label: "Raw",
+                                showFields: ['rawInput']
+                            },
+                            {
+                                value: 'advice',
+                                label: "Advice"
+                            },
+                            {
+                                value: 'neighborhood',
+                                label: "Neighborhood"
+                            },
+                            {
+                                value: 'budget',
+                                label: "Budget"
+                            },
+                            {
+                                value: 'description',
+                                label: "Description"
+                            },
+                            {
+                                value: 'estimate',
+                                label: "Estimate"
+                            },
+                            {
+                                value: 'image',
+                                label: "Image",
+                                showFields: ["uploadMultiple", "requiredImages"]
+                            },
+                            {
+                                value: 'map',
+                                label: "Map"
+                            },
+                            {
+                                value: 'phone',
+                                label: "Idea: Phone"
+                            },
+                            {
+                                value: 'role',
+                                label: "Role"
+                            },
+                            {
+                                value: 'summary',
+                                label: "Summary"
+                            },
+                            {
+                                value: 'theme',
+                                label: "Theme"
+                            },
+                            {
+                                value: 'name',
+                                label: "Name"
+                            },
+                            {
+                                value: 'title',
+                                label: "Title"
+                            },
+                            {
+                                value: 'vimeo',
+                                label: "Vimeo",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'userFirstName',
+                                label: "User: Firstname",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'userLastName',
+                                label: "User: Lastname",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'userPostcode',
+                                label: "User: Postcode",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'function',
+                                label: "User: function",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'expertise',
+                                label: "User: expertise",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'userPhone',
+                                label: "User: phone",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'bio',
+                                label: "User: biography",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'image',
+                                label: "User: profile image",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'neighborhood',
+                                label: "User: neighborhood",
+                                showFields: ['fieldRequired']
+                            },
+                            {
+                                value: 'userIsPublic',
+                                label: "User: public status",
+                                showFields: ['fieldRequired']
+                            },
+                        ]
+                    },
+                    {
+                        name: 'fieldKey',
+                        type: 'string',
+                        label: 'Key (for storing, must be unique, no spaces and special characters)',
+                    },
+                    {
+                        name: 'fieldInfo',
+                        type: 'string',
+                        label: 'Info',
+                    },
+                    {
+                        name: 'fieldValue',
+                        type: 'string',
+                        label: 'Default value (will be overwritten by url and resource value)',
+                    },
+                    {
+                        name: 'fieldRequired',
+                        label: 'Required',
+                        type: 'boolean'
+                    },
+                    {
+                        name: 'fieldMin',
+                        label: 'Min length',
+                        type: 'string',
+                    },
+                    {
+                        name: 'fieldMax',
+                        label: 'Max length',
+                        type: 'string',
+                    },
+                    {
+                        name: 'rawInput',
+                        label: 'Raw input',
+                        type: 'string',
+                        textarea: true
+                    },
+                    {
+                        name: 'isConfigKey',
+                        label: 'Save field in config',
+                        type: 'boolean',
+                        choices: [
+                            {
+                                label: 'Yes',
+                                value: true,
+                            },
+                            {
+                                label: 'No',
+                                value: false,
+                            }
+                        ],
+                        def: false
+                    },
+                    {
+                        name: 'configKey',
+                        label: 'What key to save the key under',
+                        type: 'string',
+                    },
+                    {
+                        name: 'notExtraDataKey',
+                        label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',
+                        type: 'boolean',
+                        choices: [
+                            {
+                                label: 'Yes',
+                                value: true,
+                            },
+                            {
+                                label: 'No',
+                                value: false,
+                            }
+                        ],
+                        def: false
+                    },
+                    {
+                        name: 'onlyForModerator',
+                        label: 'Only show to moderators',
+                        type: 'boolean',
+                        choices: [
+                            {
+                                label: 'Yes',
+                                value: true,
+                            },
+                            {
+                                label: 'No',
+                                value: false,
+                            }
+                        ],
+                        def: false
+                    },
+                    {
+                        name: 'fieldOptions',
+                        label: 'Field options',
+                        titleField: 'label',
+                        type: 'array',
+                        schema: [
+                            {
+                                type: 'string',
+                                name: 'value',
+                                label: 'Value',
+                            },
+                            {
+                                type: 'string',
+                                name: 'label',
+                                label: 'Label',
+                            },
+                        ]
+                    },
+
+
                 ]
             },
-            {
-              name: 'fieldKey',
-              type: 'string',
-              label: 'Key (for storing, must be unique, no spaces and special characters)',
-            },
-            {
-              name: 'fieldInfo',
-              type: 'string',
-              label: 'Info',
-            },
-            {
-              name: 'fieldValue',
-              type: 'string',
-              label: 'Default value (will be overwritten by url and resource value)',
-            },
-            {
-              name: 'fieldRequired',
-              label: 'Required',
-              type: 'boolean'
-            },
-            {
-              name: 'fieldMin',
-              label: 'Min length',
-              type: 'string',
-            },
-            {
-              name: 'fieldMax',
-              label: 'Max length',
-              type: 'string',
-            },
-            {
-              name: 'rawInput',
-              label: 'Raw input',
-              type: 'string',
-              textarea: true
-            },
-            {
-              name: 'notExtraDataKey',
-              label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',
-              type: 'boolean',
-              choices: [
-                {
-                  label: 'Yes',
-                  value: true,
-                },
-                {
-                  label: 'No',
-                  value: false,
-                }
-              ],
-              def: false
-            },
-            {
-              name: 'onlyForModerator',
-              label: 'Only show to moderators',
-              type: 'boolean',
-              choices: [
-                {
-                  label: 'Yes',
-                  value: true,
-                },
-                {
-                  label: 'No',
-                  value: false,
-                }
-              ],
-              def: false
-            },
-            {
-              name: 'fieldOptions',
-              label: 'Field options',
-              titleField: 'label',
-              type: 'array',
-              schema: [
-                {
-                  type: 'string',
-                  name: 'value',
-                  label: 'Value',
-                },
-                {
-                  type: 'string',
-                  name: 'label',
-                  label: 'Label',
-                },
-              ]
-            },
-
-
-          ]
-        },
-      ]
+        ]
     },
     {
-       name: 'labelTitle',
-       type: 'string',
-       label: 'Label for Title',
+        name: 'labelTitle',
+        type: 'string',
+        label: 'Label for Title',
     },
     {
-       name: 'infoTitle',
-       type: 'string',
-       label: 'Info for Title',
+        name: 'infoTitle',
+        type: 'string',
+        label: 'Info for Title',
     },
 
     {
@@ -414,14 +453,14 @@ const fields = [
         ]
     },
     {
-       name: 'labelSummary',
-       type: 'string',
-       label: 'Label for Summary',
+        name: 'labelSummary',
+        type: 'string',
+        label: 'Label for Summary',
     },
     {
-       name: 'infoSummary',
-       type: 'string',
-       label: 'Info for Summary',
+        name: 'infoSummary',
+        type: 'string',
+        label: 'Info for Summary',
     },
     {
         name: 'typeSummary',
@@ -455,30 +494,30 @@ const fields = [
     },
 
     {
-       name: 'labelDescription',
-       type: 'string',
-       label: 'Label for Description',
+        name: 'labelDescription',
+        type: 'string',
+        label: 'Label for Description',
     },
     {
-       name: 'infoDescription',
-       type: 'string',
-       label: 'Info for Description',
-       textarea: true,
+        name: 'infoDescription',
+        type: 'string',
+        label: 'Info for Description',
+        textarea: true,
     },
     {
-       name: 'editorDescription',
-       type: 'boolean',
-       label: 'Use text editor',
-            choices: [
-                {
-                    value: true,
-                    label: "Display"
-                },
-                {
-                    value: false,
-                    label: "Hide"
-                },
-            ]
+        name: 'editorDescription',
+        type: 'boolean',
+        label: 'Use text editor',
+        choices: [
+            {
+                value: true,
+                label: "Display"
+            },
+            {
+                value: false,
+                label: "Hide"
+            },
+        ]
     },
     {
         name: 'requiredDescription',
@@ -496,20 +535,20 @@ const fields = [
         ]
     },
     {
-       name: 'labelImages',
-       type: 'string',
-       label: 'Label for Images',
+        name: 'labelImages',
+        type: 'string',
+        label: 'Label for Images',
     },
     {
-       name: 'infoImages',
-       type: 'string',
-       label: 'Info for Images',
-       textarea: true
+        name: 'infoImages',
+        type: 'string',
+        label: 'Info for Images',
+        textarea: true
     },
     {
-       name: 'uploadMultiple',
-       type: 'boolean',
-       label: 'Allow multiple images to be uploaded',
+        name: 'uploadMultiple',
+        type: 'boolean',
+        label: 'Allow multiple images to be uploaded',
     },
     {
         name: 'requiredImages',
@@ -527,15 +566,15 @@ const fields = [
         ]
     },
     {
-       name: 'labelThemes',
-       type: 'string',
-       label: 'Label for Themes',
+        name: 'labelThemes',
+        type: 'string',
+        label: 'Label for Themes',
     },
     {
-       name: 'infoThemes',
-       type: 'string',
-       label: 'Info for Themes',
-       textarea: true
+        name: 'infoThemes',
+        type: 'string',
+        label: 'Info for Themes',
+        textarea: true
 
     },
     {
@@ -554,74 +593,74 @@ const fields = [
         ]
     },
     {
-       name: 'labelAreas',
-       type: 'string',
-       label: 'Label for Areas',
+        name: 'labelAreas',
+        type: 'string',
+        label: 'Label for Areas',
     },
     {
-       name: 'infoAreas',
-       type: 'string',
-       label: 'Info for Areas',
-       textarea: true
-
-    },
-        {
-            name: 'requiredAreas',
-            type: 'boolean',
-            label: 'This field is required',
-            choices: [
-                {
-                    value: true,
-                    label: "Yes"
-                },
-                {
-                    value: false,
-                    label: "No"
-                },
-            ]
-        },
-    {
-       name: 'labelLocation',
-       type: 'string',
-       label: 'Label for Location',
-    },
-    {
-       name: 'infoLocation',
-       type: 'string',
-       label: 'Info for Location',
-       textarea: true
+        name: 'infoAreas',
+        type: 'string',
+        label: 'Info for Areas',
+        textarea: true
 
     },
     {
-       name: 'displayLocation',
-       type: 'boolean',
-       label: 'Display Location',
-       choices: [
-         {
-           value: true,
-           label: "Display"
-         },
-         {
-           value: false,
-           label: "Hide"
-         },
-       ]
+        name: 'requiredAreas',
+        type: 'boolean',
+        label: 'This field is required',
+        choices: [
+            {
+                value: true,
+                label: "Yes"
+            },
+            {
+                value: false,
+                label: "No"
+            },
+        ]
     },
-        {
-            name: 'requiredLocation',
-            type: 'boolean',
-            label: 'This field is required',
-            choices: [
-                {
-                    value: true,
-                    label: "Yes"
-                },
-                {
-                    value: false,
-                    label: "No"
-                },
-            ]
-        },
+    {
+        name: 'labelLocation',
+        type: 'string',
+        label: 'Label for Location',
+    },
+    {
+        name: 'infoLocation',
+        type: 'string',
+        label: 'Info for Location',
+        textarea: true
+
+    },
+    {
+        name: 'displayLocation',
+        type: 'boolean',
+        label: 'Display Location',
+        choices: [
+            {
+                value: true,
+                label: "Display"
+            },
+            {
+                value: false,
+                label: "Hide"
+            },
+        ]
+    },
+    {
+        name: 'requiredLocation',
+        type: 'boolean',
+        label: 'This field is required',
+        choices: [
+            {
+                value: true,
+                label: "Yes"
+            },
+            {
+                value: false,
+                label: "No"
+            },
+        ]
+    },
     {
         name: 'labelEstimate',
         type: 'string',
@@ -793,64 +832,64 @@ const fields = [
             },
         ]
     },
-        {
-            name: 'requiredPhone',
-            type: 'boolean',
-            label: 'This field is required',
-            choices: [
-                {
-                    value: true,
-                    label: "Yes"
-                },
-                {
-                    value: false,
-                    label: "No"
-                },
-            ]
-        },
     {
-       name: 'labelAdvice',
-       type: 'string',
-       label: 'Label for Tip',
+        name: 'requiredPhone',
+        type: 'boolean',
+        label: 'This field is required',
+        choices: [
+            {
+                value: true,
+                label: "Yes"
+            },
+            {
+                value: false,
+                label: "No"
+            },
+        ]
     },
     {
-       name: 'infoAdvice',
-       type: 'string',
-       label: 'Info for Tip',
-       textarea: true
+        name: 'labelAdvice',
+        type: 'string',
+        label: 'Label for Tip',
     },
     {
-       name: 'displayAdvice',
-       type: 'boolean',
-       label: 'Display Tip',
-       choices: [
-         {
-           value: true,
-           label: "Display"
-         },
-         {
-           value: false,
-           label: "Hide"
-         },
-       ]
+        name: 'infoAdvice',
+        type: 'string',
+        label: 'Info for Tip',
+        textarea: true
     },
     {
-       name: 'displayBudget',
-       type: 'boolean',
-       label: 'Display budget for moderators?',
-       def: false
+        name: 'displayAdvice',
+        type: 'boolean',
+        label: 'Display Tip',
+        choices: [
+            {
+                value: true,
+                label: "Display"
+            },
+            {
+                value: false,
+                label: "Hide"
+            },
+        ]
     },
     {
-       name: 'agreedRequired',
-       type: 'boolean',
-       label: 'Display agreed checkbox?',
-       def: false
+        name: 'displayBudget',
+        type: 'boolean',
+        label: 'Display budget for moderators?',
+        def: false
     },
     {
-       name: 'agreedLabel',
-       type: 'string',
-       label: 'Text for checkbox (html allowed)',
-       textarea: true
+        name: 'agreedRequired',
+        type: 'boolean',
+        label: 'Display agreed checkbox?',
+        def: false
+    },
+    {
+        name: 'agreedLabel',
+        type: 'string',
+        label: 'Text for checkbox (html allowed)',
+        textarea: true
     },
     {
         name: 'minAdvice',
@@ -862,30 +901,30 @@ const fields = [
         type: 'float',
         label: 'Maximum number of characters needed for advice',
     },
-        {
-            name: 'requiredAdvice',
-            type: 'boolean',
-            label: 'This field is required',
-            choices: [
-                {
-                    value: true,
-                    label: "Yes"
-                },
-                {
-                    value: false,
-                    label: "No"
-                },
-            ]
-        },
     {
-       name: 'buttonTextSubmit',
-       type: 'string',
-       label: 'Text for button to submit',
+        name: 'requiredAdvice',
+        type: 'boolean',
+        label: 'This field is required',
+        choices: [
+            {
+                value: true,
+                label: "Yes"
+            },
+            {
+                value: false,
+                label: "No"
+            },
+        ]
     },
     {
-       name: 'buttonTextSave',
-       type: 'string',
-       label: 'Text for button to save',
+        name: 'buttonTextSubmit',
+        type: 'string',
+        label: 'Text for button to submit',
+    },
+    {
+        name: 'buttonTextSave',
+        type: 'string',
+        label: 'Text for button to save',
     },
 ];
 

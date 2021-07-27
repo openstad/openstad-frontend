@@ -1,9 +1,11 @@
 {% if activeResource %}
-  {% if field.notExtraDataKey %}
-  {% set fieldValue = activeResource[field.fieldKey] %}
-  {% else %}
-  {% set fieldValue = activeResource.extraData[field.fieldKey] %}
-  {% endif %}
+{% if field.isConfigKey %}
+{% set fieldValue = activeResource.config[field.configKey][field.fieldKey] %}
+{% elseif field.notExtraDataKey %}
+{% set fieldValue = activeResource[field.fieldKey] %}
+{% else %}
+{% set fieldValue = activeResource.extraData[field.fieldKey] %}
+{% endif %}
 {% endif %}
 
 {% if not fieldValue %}
@@ -21,7 +23,9 @@
   class="chars-counter"
   minlength="{{field.fieldMin if field.fieldMin else 2}}"
   maxlength="{{field.fieldMax if field.fieldMax else 140}}"
-  {% if field.notExtraDataKey %}
+  {% if field.isConfigKey %}
+  name="config[{{field.configKey}}][{{field.fieldKey}}]"
+  {% elseif field.notExtraDataKey %}
   name="{{field.fieldKey}}"
   {% else %}
   name="extraData[{{field.fieldKey}}]"

@@ -1,3 +1,8 @@
+{% if data.widget.appendFormFields %}
+{% include 'includes/dynamic-form-fields.html' %}
+{% endif %}
+
+
 {% if activeResource %}
 <input type="hidden" name="resourceId" value="{{activeResource.id}}">
 <input type="hidden" name="id" value="{{activeResource.id}}" />

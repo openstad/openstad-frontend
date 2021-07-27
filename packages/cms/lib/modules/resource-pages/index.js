@@ -38,6 +38,7 @@ module.exports = {
       const globalData = req.data.global;
       const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
       const appUrl = self.apos.settings.getOption(req, 'appUrl');
+      const resourceType = req.data.activeResourceType;
 
       const headers = {
         'Accept': 'application/json',
@@ -51,11 +52,17 @@ module.exports = {
 
       const activeResourceEndpoint = resourceInfo && resourceInfo.resourceEndPoint ? resourceInfo.resourceEndPoint : false;
 
+
+
+      const uriBase = resourceType === 'site' ? `${apiUrl}/api/site/${req.data.activeResourceId}` : `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}`;
+
       var options = {
-              uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.activeResourceHash}`,
+          uri: `${uriBase}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&hash=${req.data.activeResourceHash}`,
           headers: headers,
           json: true // Automatically parses the JSON string in the response
       };
+
+      console.log('options', options);
 
       /**
        * Add the arguments to the resouce object.
@@ -77,7 +84,7 @@ module.exports = {
               return callback(null);
             })
             .catch((e) => {
-              console.log('e', e);
+            //  console.log('e', e);
 
               return callback(null);
             });

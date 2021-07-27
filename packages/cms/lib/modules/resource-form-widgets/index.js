@@ -179,7 +179,9 @@ module.exports = {
                 const resources = activeResource ? [activeResource] : [];
                 const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
-                widget.mapConfig = self.getMapConfigBuilder(globalData)
+
+                widget.mapConfig = self
+                    .getMapConfigBuilder(globalData)
                     .setDefaultSettings({
                         mapCenterLat: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[0]) || globalData.mapCenterLat,
                         mapCenterLng: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[1]) || globalData.mapCenterLng,

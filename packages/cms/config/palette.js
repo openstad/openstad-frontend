@@ -167,7 +167,7 @@ exports.fields = [
     name: 'buttonOutlinedColor',
     label: 'Outlined color of button',
     type: 'color',
-    selector: ['.outlined-button', '.outlined-button:hover', '.begroot-container .button-add-idea-to-budget.added', '.begroot-container .button-add-idea-to-budget.added:hover'],
+    selector: ['.outlined-button', '.outlined-button:hover', '.outlined-button:visited', '.begroot-container .button-add-idea-to-budget.added', '.begroot-container .button-add-idea-to-budget.added:hover'],
     property: ['color', 'border-color', 'outline-color'],
   },
   {

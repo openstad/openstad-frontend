@@ -780,5 +780,12 @@
 	"Set html class to your page body": "Set html class to your page body",
 	"subscription": "subscription",
 	"Redirect to other page if user is present": "Redirect to other page if user is present",
-	"Redirect to other page if user has active subscription": "Redirect to other page if user has active subscription"
+	"Redirect to other page if user has active subscription": "Redirect to other page if user has active subscription",
+	"Static with dynamic fields appended": "Static with dynamic fields appended",
+	"Append form fields?": "Append form fields?",
+	"Save field in config": "Save field in config",
+	"What key to save the key under": "What key to save the key under",
+	"Redirect user when not a moderator": "Redirect user when not a moderator",
+	"Redirect to page if user doesnt exists or has no email": "Redirect to page if user doesnt exists or has no email",
+	"Value": "Value"
 }

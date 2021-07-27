@@ -41,6 +41,8 @@ module.exports = {
         proxyReq.setHeader('Accept', 'application/json');
         proxyReq.setHeader('Content-Type', 'application/json; charset=utf-8');
 
+        console.log('req.session.jwt', req.session.jwt);
+
         if (req.session.jwt) {
           proxyReq.setHeader('X-Authorization', `Bearer ${req.session.jwt}`);
         }
