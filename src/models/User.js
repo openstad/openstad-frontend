@@ -589,6 +589,101 @@ module.exports = function (db, sequelize, DataTypes) {
             })
     }
 
+
+    User.prototype.willAnonymize = async function() {
+
+      // dit is een stuk overzichtelijker met async await, al is dat niet consistent met de rest van de code; sorry daarvoor
+      let self = this;
+      let result = { user: self };
+      
+      try {
+
+        if (self.siteId) {
+          self.site = await db.Site.findByPk(self.siteId);
+        }
+
+        if (self.site) {
+
+          // wat gaat er allemaal gewijzigd worden
+          result.site = self.site;
+          result.ideas = await self.getIdeas();
+          result.articles = await self.getArticles();
+          result.arguments = await self.getArguments();
+
+          // TODO: for now the check is on active vote but this is wrong; a new 'vote had ended' param should be created
+          let voteIsActive = self.site.isVoteActive();
+          if (voteIsActive) {
+            result.votes = await self.getVotes();
+          } else {
+            result.votes = [];
+          }
+
+        }
+
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+
+      return result;
+
+    }
+
+    User.prototype.doAnonymize = async function() {
+
+      let self = this;
+      let result = await self.willAnonymize();
+
+      try {
+
+        // anonymize
+
+        let extraData = {};
+        if (!self.site) throw Error('Site not found');
+        if (self.site.config.users && self.site.config.users.extraData) {
+          Object.keys(self.site.config.users.extraData).map( key => extraData[key] = null );
+        }
+        
+        await self.update({
+          externalUserId: null,
+          externalAccessToken: null,
+          role: 'anonymous',
+          passwordHash: null,
+          listableByRole: 'moderator',
+          detailsViewableByRole: 'moderator',
+          viewableByRole: 'admin',
+          email: null,
+          nickName: null, 
+          firstName: ( config.users && config.users.anonymize && config.users.anonymize.firstName ) || 'Gebruiker',
+          lastName: ( config.users && config.users.anonymize && config.users.anonymize.lastName ) || 'verwijderd',
+          gender: null,
+          zipCode: null,
+          postcode: null,
+          suffix: null,
+          houseNumber: null,
+          city: null,
+          streetName: null,
+          phoneNumber: null,
+          extraData,
+          signedUpForNewsletter: 0,
+        })
+
+        // remove existing votes
+        if (result.votes && result.votes.length) {
+          for (const vote of result.votes) {
+            await vote.destroy();
+          };
+        }
+        
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+
+      return result;
+
+    }
+
     User.auth = User.prototype.auth = {
         listableBy: 'editor',
         viewableBy: 'all',
@@ -596,13 +691,22 @@ module.exports = function (db, sequelize, DataTypes) {
         updateableBy: ['editor', 'owner'],
         deleteableBy: ['editor', 'owner'],
 
-        /*canView: function(user, self) {
-            if (self && self.viewableByRole && self.viewableByRole != 'all' ) {
-                return userHasRole(user, [ self.viewableByRole, 'owner' ], self.userId)
-            } else {
-                return true
-            }
-        },*/
+        canUpdate: function(user, self) {
+
+            // copy the base functionality
+            self = self || this;
+
+            if (!user) user = self.auth && self.auth.user;
+            if (!user || !user.role) user = { role: 'all' };
+
+            let valid = userHasRole(user, self.auth && self.auth.updateableBy, self.id);
+
+            // extra: isOwner through user on different site
+            valid = valid || ( self.externalUserId && self.externalUserId == user.externalUserId );
+            return valid;
+
+        }
+
     }
 
     return User;

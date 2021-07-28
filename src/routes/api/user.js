@@ -36,6 +36,7 @@ router
     next();
   });
 
+
 router.route('/')
 // list users
 // ----------
@@ -186,6 +187,103 @@ router.route('/')
         }
       });
   });
+
+
+// anonymize user
+// --------------
+router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
+  .put(function (req, res, next) {
+    // this user
+    req.userId = parseInt(req.params.userId);
+    if (!req.userId) return next(new createError('404', 'User not found'))
+    return db.User
+      .scope(...req.scope)
+      .findOne({
+        where: {id: req.userId, siteId: req.params.siteId},
+        //where: { id: userId }
+      })
+      .then(found => {
+        if (!found) throw new Error('User not found');
+        req.targetUser = found;
+        req.externalUserId= found.externalUserId;
+        next();
+        return null;
+      })
+      .catch(next);
+  })
+  .put(function (req, res, next) {
+    if (!req.externalUserId) return next();
+    // this user on other sites
+    let where = { externalUserId: req.externalUserId, [Op.not]: { id: req.userId } };
+    db.User
+      .scope(...req.scope)
+      .findAll({
+        where,
+      })
+      .then(found => {
+        if (!found) return next();
+        req.linkedUsers = found;
+        next();
+        return null;
+      })
+      .catch(next);
+  })
+  .put(async function (req, res, next) {
+   let result;
+    if (!(req.targetUser && req.targetUser.can && req.targetUser.can('update', req.user))) return next(new Error('You cannot update this User'));
+    if (req.params.willOrDo == 'do') {
+      result = await req.targetUser.doAnonymize();
+    } else {
+      result = await req.targetUser.willAnonymize();
+    }
+    result.users = [ result.user ];
+    delete result.user;
+    result.sites = [ result.site ];
+    delete result.site;
+    req.results = result;
+    return next();
+  })
+  .put(async function (req, res, next) {
+    if ( !(req.params.all) ) return next();
+    for (const user of req.linkedUsers) {
+      let result;
+      if (!(user && user.can && user.can('update', req.user))) return next(new Error('You cannot update this User'));
+      if (req.params.willOrDo == 'do') {
+        result = await user.doAnonymize();
+      } else {
+        result = await user.willAnonymize();
+      }
+      req.results.users.push(result.user);
+      req.results.sites.push(result.site);
+      req.results.ideas = req.results.ideas.concat(result.ideas || []);
+      req.results.articles = req.results.articles.concat(result.articles || []);
+      req.results.arguments = req.results.arguments.concat(result.arguments || []);
+      req.results.votes = req.results.votes.concat(result.votes || []);
+    }
+    return next();
+  })
+  .put(async function (req, res, next) {
+    if (req.params.willOrDo != 'do') return next();
+    if ( !(req.params.all || !req.linkedUsers || req.linkedUsers.length == 0) ) return next();
+    // no api users left for this oauth user, so remove the oauth user
+    let which = req.query.useOauth || 'default';
+    let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+    let result = await OAuthApi.deleteUser({ siteConfig, which, userData: { id: req.externalUserId }})
+    return next();
+  })
+  .get(function (req, res, next) {
+    // customized version of auth.useReqUser
+    req.results.forEach(which => {
+      req.results[which] && req.results[which].forEach( result => {
+        result.auth = result.auth || {};
+        result.auth.user = req.user;
+      });
+    });
+    return next();
+  })
+  .put(function (req, res, next) {
+    res.json(req.results);
+  })
 
 // one user
 // --------
