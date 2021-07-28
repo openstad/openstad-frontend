@@ -13,6 +13,7 @@ module.exports = {
   extend: 'map-widgets',
   label: 'Location',
   addFields: fields,
+  playerData: ['mapConfig'],
   construct: function(self, options) {
      let classIdeaId;
 
