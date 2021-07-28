@@ -701,7 +701,7 @@ module.exports = function (db, sequelize, DataTypes) {
 
             let valid = userHasRole(user, self.auth && self.auth.updateableBy, self.id);
 
-            // extra: isOwner throug user on different site
+            // extra: isOwner through user on different site
             valid = valid || ( self.externalUserId && self.externalUserId == user.externalUserId );
             return valid;
 

@@ -716,14 +716,14 @@ module.exports = function (db, sequelize, DataTypes) {
 
     }
 
-  Site.prototype.isVoteActive = function () {
-    let self = this;
-		let voteIsActive = self.config.votes.isActive;
-		if ( voteIsActive == null && self.config.votes.isActiveFrom && self.config.votes.isActiveTo ) {
-			voteIsActive = moment().isAfter(self.config.votes.isActiveFrom) && moment().isBefore(self.config.votes.isActiveTo)
-		}
-    return voteIsActive;
-  }
+    Site.prototype.isVoteActive = function () {
+        let self = this;
+        let voteIsActive = self.config.votes.isActive;
+        if ( ( voteIsActive == null || typeof voteIsActive == 'undefined' ) && self.config.votes.isActiveFrom && self.config.votes.isActiveTo ) {
+            voteIsActive = moment().isAfter(self.config.votes.isActiveFrom) && moment().isBefore(self.config.votes.isActiveTo)
+        }
+        return voteIsActive;
+    }
 
     Site.auth = Site.prototype.auth = {
         listableBy: 'all',
