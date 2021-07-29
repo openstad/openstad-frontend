@@ -1,6 +1,11 @@
 # Changelog
 
 ## UNRELEASED
+* Better settings for closed reactions on idea-on-map
+* Don't show pagination if only one page
+* Add larger minimum height to prevent overlapping controls on the map application
+
+## v0.18.0
 * Autosubmit vote in resource overview after return from oauth
 * Autosubmit vote in participatory budgeting after returning from oauth
 * Set default noOfQuestionsToShow to 100
@@ -14,6 +19,9 @@
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
+
+## v0.17.1 (2021-07-14)
+* Add user authorization to image upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

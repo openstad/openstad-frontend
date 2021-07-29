@@ -409,6 +409,10 @@
 	"Palette Counter": "Palette Counter",
 	"This is managed by the Palette module": "This is managed by the Palette module",
 	"Text in vote button in open ideas": "Text in vote button in open ideas",
+	"Auth form embedded": "Auth form embedded",
+	"Email login url": "Email login url",
+	"Voting code": "Voting code",
+	"Sms": "Sms"
 	"Edit Resource form": "Edit Resource form",
 	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
 	"This related item may also be visible on the page. Please consider it first so that your final commit is more complete.": "This related item may also be visible on the page. Please consider it first so that your final commit is more complete.",
