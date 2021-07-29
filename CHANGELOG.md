@@ -15,6 +15,10 @@
 * Resource-overview: show api error on failed vote
 * Show API status code on error (was always 500)
 * Make the vote button in resource-overview editable
+* Fix location picker if no polygon
+
+## v0.17.1 (2021-07-14)
+* Add user authorization to imgage upload
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to image upload

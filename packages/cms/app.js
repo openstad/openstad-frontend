@@ -170,8 +170,8 @@ async function run(id, siteData, options, callback) {
     const site = {_id: id}
 
     let openstadComponentsCdn = await cdns.contructComponentsCdn();
-  let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
-  console.log('xxx', openstadReactAdminCdn);
+    let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
+
     const config = _.merge(siteData, options, { openstadComponentsCdn, openstadReactAdminCdn });
 
     let assetsIdentifier;

@@ -1,6 +1,6 @@
 const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
 
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, apos) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -107,8 +107,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, apos
 
     image: {
       server: {
-				process: '/image',
-				fetch: '/image',
+				process: imageProxy,
+				fetch: imageProxy,
         srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
       },
       aspectRatio: widget.imageAspectRatio || '16x9',

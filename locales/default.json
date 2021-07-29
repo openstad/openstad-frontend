@@ -413,4 +413,11 @@
 	"Email login url": "Email login url",
 	"Voting code": "Voting code",
 	"Sms": "Sms"
+	"Edit Resource form": "Edit Resource form",
+	"[%s of %s] Committing %s": "[%s of %s] Committing %s",
+	"This related item may also be visible on the page. Please consider it first so that your final commit is more complete.": "This related item may also be visible on the page. Please consider it first so that your final commit is more complete.",
+	"Commit all like this": "Commit all like this",
+	"Skip all like this": "Skip all like this",
+	"Modified fields: %s": "Modified fields: %s",
+	"The document was committed successfully.": "The document was committed successfully."
 }
