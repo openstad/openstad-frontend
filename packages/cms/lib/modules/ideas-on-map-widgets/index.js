@@ -71,9 +71,12 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
+      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      let imageProxy = siteUrl + '/image';
+
 			widgets.forEach((widget) => {
 
-			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), self.apos ));
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), imageProxy, self.apos ));
         widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
         const containerId = self.apos.utils.generateId();
