@@ -13,7 +13,7 @@
         max-width: 1040px;
     }
 }
-.section, header, footer, body {
+.section, header, footer, body, html {
     background: #18171c !important;
 }
 
