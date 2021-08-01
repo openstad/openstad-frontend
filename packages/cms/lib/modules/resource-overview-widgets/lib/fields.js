@@ -97,12 +97,6 @@ module.exports = [
     ]
   },
   {
-    name: 'displayPagination',
-    label: 'Display pagination',
-    type: 'boolean',
-    def: true
-  },
-  {
     name: 'displayVoteCaption',
     label: 'Display caption in vote counter',
     type: 'boolean',

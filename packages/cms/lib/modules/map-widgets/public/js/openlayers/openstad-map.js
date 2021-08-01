@@ -299,7 +299,7 @@ var OpenlayersMap = {
                                                   function(feature) {
                                                     return feature;
                                                   });
-            if (feature === self.markerFeature) {
+            if (self.markerFeature && feature === self.markerFeature) {
 
                 self.setEditorLocation(null, editorInputElement)
 

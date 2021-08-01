@@ -215,13 +215,12 @@ function selectIdea(newIdeaId, doNotOpen) {
   return false;
 }
 
-
 function setLoginUrlWithIdeaId(ideaId) {
-  var $form = $('.auth-form');
+  var $form = $('#auth-form');
 
   if ($form.length > 0) {
     var action = $form.attr('action');
-    $form.attr('action', action + '?' + returnFromKey + '=' + ideaId)
+    $form.attr('action', action + encodeURIComponent('?' + returnFromKey + '=' + ideaId))
   }
 
   var $validateAuthButton =  $('.validate-auth-button');
