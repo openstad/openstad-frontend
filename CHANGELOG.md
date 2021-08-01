@@ -4,6 +4,8 @@
 * Better settings for closed reactions on idea-on-map
 * Don't show pagination if only one page
 * Add larger minimum height to prevent overlapping controls on the map application
+* Make sure default logo's width is correct
+
 
 ## v0.18.0
 * Autosubmit vote in resource overview after return from oauth
