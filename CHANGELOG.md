@@ -3,6 +3,7 @@
 ## Unreleased
 * Add endpoint /user/:id/activity
 * Add endpoints /user/:id/(do|will)-anonymize(all?)
+* Areas only create, edit, delete by admin
 
 ## Unreleased
 * Statuscode for error 'Already voted' was 500 and is now 403
