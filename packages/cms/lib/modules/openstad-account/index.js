@@ -6,7 +6,7 @@ const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Admin panel',
+  label: 'Account page',
   addFields: [
     //  styleSchema.definition('containerStyles', 'Styles for the container')
   ],

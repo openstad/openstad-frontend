@@ -1,6 +1,11 @@
-<h1> Account </h1>
-{{ apos.singleton(piece, 'description', 'apostrophe-rich-text', { edit: false }) }}
+{% extends "layout.html" %}
 
-{{ apos.singleton(data.widget, 'account', 'apostrophe-rich-text',{
-toolbar: [ 'Bold', 'Italic', 'Link', 'Unlink' ]
+{% block main %}
+
+<h1> Account </h1>
+
+{{ apos.singleton(data.page, 'textBlock', 'apostrophe-rich-text', {
+toolbar: [ 'Bold', 'Italic' ]
 }) }}
+
+{% endblock %}
