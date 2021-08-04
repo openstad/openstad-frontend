@@ -84,6 +84,7 @@ module.exports = function (db, sequelize, DataTypes) {
   async function beforeUpdateOrCreate(instance, options) {
     try {
 
+      // TODO: dit gebeurd nu in de route maar moet denk ik naar hier
 //      // canCreateNewUsers must be updated on the clients
 //      if (instance.config.users && typeof instance.config.users.canCreateNewUsers != 'undefined' ) {
 //        let config = { users: { canCreateNewUsers: instance.config.users.canCreateNewUsers } }
