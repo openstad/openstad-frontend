@@ -185,6 +185,53 @@ module.exports = function (db, sequelize, DataTypes) {
             default: 'LqKNcKC7',
           },
         }
+
+  });
+
+  Site.scopes = function scopes() {
+    return {
+      defaultScope: {},
+
+      withArea: {
+        include: [{
+          model: db.Area
+        }]
+      }
+    };
+  }
+
+  Site.associate = function (models) {
+    this.hasMany(models.Idea);
+    this.belongsTo(models.Area);
+  }
+
+  Site.configOptions = function () {
+    // definition of possible config values
+    // todo: formaat gelijktrekken met sequelize defs
+    // todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
+    return {
+      allowedDomains: {
+        type: 'arrayOfStrings',
+        default: [
+          'openstad-api.amsterdam.nl'
+        ]
+      },
+      basicAuth: {
+        type: 'object',
+        subset: {
+          active: {
+            type: 'boolean',
+            default: false,
+          },
+          user: {
+            type: 'string',
+            default: 'openstad',
+          },
+          password: {
+            type: 'string',
+            default: 'LqKNcKC7',
+          },
+        }
       },
       cms: {
         type: 'object',
@@ -437,6 +484,138 @@ module.exports = function (db, sequelize, DataTypes) {
                 default: ['zipCode', 'nickName'],
               }
             }
+          },
+
+          isClosed: {
+            type: 'boolean',
+            default: false,
+          },
+
+          closedText: {
+            type: 'string',
+            default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
+          },
+
+        }
+      },
+      users: {
+        type: 'object',
+        subset: {
+          extraDataMustBeDefined: {
+            type: 'boolean',
+            default: false,
+          },
+          extraData: {
+            type: 'object',
+          },
+          canCreateNewUsers: {
+            type: 'boolean',
+            default: true,
+          },
+        },
+      },
+      votes: {
+        type: 'object',
+        subset: {
+
+          isViewable: {
+            type: 'boolean',
+            default: false,
+          },
+
+          isActive: {
+            type: 'boolean',
+            default: null,
+          },
+
+          isActiveFrom: {
+            type: 'string',
+            default: undefined,
+          },
+
+          isActiveTo: {
+            type: 'string',
+            default: undefined,
+          },
+
+          requiredUserRole: {
+            type: 'string',
+            default: 'member',
+          },
+
+          mustConfirm: {
+            type: 'boolean',
+            default: false,
+          },
+
+          withExisting: {
+            type: 'enum',
+            values: ['error', 'replace', 'merge'],
+            default: 'error',
+          },
+
+          voteType: {
+            type: 'enum',
+            values: ['likes', 'count', 'budgeting', 'count-per-theme', 'budgeting-per-theme'],
+            default: 'likes',
+          },
+
+          voteValues: {
+            type: 'arrayOfObjects',
+            default: [
+              {
+                label: 'voor',
+                value: 'yes'
+              },
+              {
+                label: 'tegen',
+                value: 'no'
+              },
+            ],
+          },
+
+          maxIdeas: {
+            type: 'int',
+            default: 100,
+          },
+
+          minIdeas: {
+            type: 'int',
+            default: 1,
+          },
+
+          minBudget: {
+            type: 'int',
+            default: undefined,
+          },
+
+          maxBudget: {
+            type: 'int',
+            default: undefined,
+          },
+
+          themes: {
+            type: 'objectList',
+            elementSubset: {
+              minBudget: {
+                type: 'int',
+                default: undefined,
+              },
+              maxBudget: {
+                type: 'int',
+                default: undefined,
+              },
+            }
+          },
+
+          descriptionMinLength: {
+            type: 'int',
+            default: 30,
+          },
+
+          descriptionMaxLength: {
+            type: 'int',
+            default: 500,
           },
 
           isClosed: {
