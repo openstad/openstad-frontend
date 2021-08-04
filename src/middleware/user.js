@@ -99,10 +99,19 @@ function parseJwt(authorizationHeader) {
  */
 async function getUserInstance({ siteConfig, which = 'default', userId }) {
 
-  const dbUser = await db.User.findByPk(userId.id);
+  let dbUser;
+  
+  try {
 
-  if (!dbUser || !dbUser.externalUserId || !dbUser.externalAccessToken) {
-    return userId.fixed ? dbUser : {};
+    dbUser = await db.User.findByPk(userId.id);
+
+    if (!dbUser || !dbUser.externalUserId || !dbUser.externalAccessToken) {
+      return userId.fixed ? dbUser : {};
+    }
+
+  } catch(error) {
+    console.log(error);
+    throw error;
   }
 
   try {
