@@ -751,4 +751,12 @@ module.exports = [
         choices: rightsChoices,
         def: 'member'
         },*/
+  
+  {
+    type: 'string',
+    name: 'openstadComponentsUrl',
+    label: 'Openstad Components URL',
+    help: 'Specify the URL where the Openstad Components (choice guide, ideas on map etc.) are loaded from. Leave empty to use the default URL.',
+    def: ''
+  },
 ];

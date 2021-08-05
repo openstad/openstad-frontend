@@ -78,7 +78,7 @@ module.exports = {
 
 			  let config = createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?{returnTo}', imageProxy, self.apos );
 			  widget.config = JSON.stringify(config);
-        widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;;
 
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
