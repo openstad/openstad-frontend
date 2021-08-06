@@ -70,13 +70,11 @@ exports.withAllForSite = (req, res, next) => {
 
   if (oauthConfig && Object.keys(oauthConfig).length > 0) {
     Object.keys(oauthConfig).forEach((configKey) => {
-      let oauthClientId = oauthConfig[configKey]["auth-client-id"];
-      fetchActions.push(fetchClient(req, oauthClientId));
+      fetchActions.push(fetchClient(req, configKey));
     })
   } else {
     let which = req.query.useOauth || 'default';
-    let authClientId = oauthConfig[which]['auth-client-id'] || config.authorization['auth-client-id'];
-    fetchActions.push(fetchClient(req, authClientId));
+    fetchActions.push(fetchClient(req, which));
   }
 
   return Promise
