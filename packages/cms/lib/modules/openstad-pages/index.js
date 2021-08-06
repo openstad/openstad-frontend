@@ -16,6 +16,10 @@ module.exports = {
         label: 'Resource'
       },
       {
+        name: 'account',
+        label: 'Account'
+      },
+      {
         name: 'idea',
         label: 'Idea (Deprecated, please use Resource and set resource to Idea)'
       },

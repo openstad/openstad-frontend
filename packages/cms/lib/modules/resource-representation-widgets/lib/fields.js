@@ -39,6 +39,14 @@ const fields = [
       {
         'label': 'Help needed',
         'value': 'help-needed',
+      },
+      {
+        'label': 'User activity',
+        'value': 'user-activity',
+      },
+      {
+        'label': 'User active sites',
+        'value': 'user-sites-active',
       }
     ]
   },

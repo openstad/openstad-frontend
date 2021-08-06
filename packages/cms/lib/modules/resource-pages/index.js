@@ -17,8 +17,10 @@ module.exports = {
     self.expressMiddleware = {
       when: 'afterRequired',
       middleware: (req, res, next) => {
+        console.log('when do I run?')
+
         // allow for setting the query and resource Id through the query params
-        // in case it's set through resource page type it will be overwritten, before attempat to load the data
+        // in case it's set through resource page type it will be overwritten, before attempting to load the data
         if (req.query.resourceId && req.query.resourceType) {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
@@ -100,7 +102,9 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
-      req.data.activeResourceType = req.data.page.resource;
+      console.log('when is me running 222?')
+
+      req.data.activeResourceType = req.data.page.type === 'account' ? 'activeUser' : req.data.page.resource;
 
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying
