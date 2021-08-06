@@ -195,7 +195,9 @@ router
                 } else {
 
                     // user not found; create
-
+                    // TODO: dit zou al op de oauth server afgevangen moeten worden, ik denk met een 'only existing' oid.
+                    if (!req.site.config.users.canCreateNewUsers) return next(createError('403', 'Users mogen niet aangemaakt worden op deze site'));
+                  
                     data.complete = true;
 
                     db.User
