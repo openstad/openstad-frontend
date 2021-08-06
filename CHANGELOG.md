@@ -5,6 +5,7 @@
 * Add endpoints /user/:id/(do|will)-anonymize(all?)
 * Areas only create, edit, delete by admin
 * User email no longer editable by owner
+* Fix extraData returning for Article by adding includeSite to the scope
 
 ## Unreleased
 * Statuscode for error 'Already voted' was 500 and is now 403

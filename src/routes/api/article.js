@@ -19,7 +19,7 @@ const userhasModeratorRights = (user) => {
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api'];
+		req.scope = ['api', 'includeSite'];
 
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['article_sort'] && req.cookies['article_sort'].replace(/[^a-z_]+/i, ''));
 		if (sort) {
