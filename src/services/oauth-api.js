@@ -49,6 +49,37 @@ OAuthAPI.fetchClient = async function({ siteConfig, which = 'default' }) {
 
 }
 
+OAuthAPI.updateClient = async function({ siteConfig, which = 'default', clientData = {} }) {
+
+  
+  let orgClientData = await OAuthAPI.fetchClient({ siteConfig, which });
+  let mergedClientData = merge.recursive(true, orgClientData, clientData);
+
+  // for now only the config is updateable from here
+  mergedClientData = { config: mergedClientData.config };
+
+  const oauthServerUrl = formatOAuthApiUrl(`/api/admin/client/${orgClientData.id}`, siteConfig, which);
+  const oauthServerCredentials = formatOAuthApiCredentials(siteConfig, which);
+
+  return fetch(oauthServerUrl, {
+	  headers: { "Authorization": oauthServerCredentials, "Content-type": "application/json" },
+    method: 'POST', // TODO: dit is hoe de oauth server nu werkt; dat zou natuurlijk een put of patch moeten worden.
+    body: JSON.stringify(mergedClientData),
+  })
+	  .then((response) => {
+		  if (!response.ok) throw Error(response)
+		  return response.json();
+	  })
+	  .then((json) => {
+	    return json;
+	  })
+	  .catch((err) => {
+		  console.log('Niet goed');
+		  console.log(err);
+	  });
+
+}
+
 OAuthAPI.fetchUser = async function({ siteConfig, which = 'default', email, userId, token, raw = false }) {
 
   let path = '';
@@ -121,7 +152,7 @@ OAuthAPI.updateUser = async function({ siteConfig, which = 'default', userData =
 
   return fetch(oauthServerUrl, {
 	  headers: { "Authorization": oauthServerCredentials, "Content-type": "application/json" },
-    method: 'POST', // TODO: dit is hoie de oauth server nu werkt; dat zou natuurlijk een put of patch moeten worden.
+    method: 'POST', // TODO: dit is hoe de oauth server nu werkt; dat zou natuurlijk een put of patch moeten worden.
     body: JSON.stringify(mergedUserData),
   })
 	  .then((response) => {
@@ -156,7 +187,7 @@ OAuthAPI.deleteUser = async function({ siteConfig, which = 'default', userData =
 
   return fetch(oauthServerUrl, {
 	  headers: { "Authorization": oauthServerCredentials, "Content-type": "application/json" },
-    method: 'POST', // TODO: dit is hoie de oauth server nu werkt; dat zou natuurlijk een put of patch moeten worden.
+    method: 'POST', // TODO: dit is hoe de oauth server nu werkt; dat zou natuurlijk een put of patch moeten worden.
     body: JSON.stringify({}),
   })
 	  .then((response) => {

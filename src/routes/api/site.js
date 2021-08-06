@@ -151,13 +151,18 @@ router.route('/:siteIdOrDomain') //(\\d+)
 
 		req.siteOAuthClients.forEach((oauthClient, i) => {
 			 const authUpdateUrl = authServerUrl + '/api/admin/client/' + oauthClient.id;
-			 const configKeysToSync = ['styling', 'ideas'];
+			const configKeysToSync = ['users', 'styling', 'ideas'];
+
+      // todo: gebruik de oauth-api service
+      // todo: specifieker selecteren van sync velden (user.canCreateNewUsers)
+      // todo: ik denk dat dit in het model moet    
 
 			 oauthClient.config = oauthClient.config ? oauthClient.config : {};
 
 			 configKeysToSync.forEach(field => {
 				 oauthClient.config[field] = req.site.config[field];
 			 });
+       oauthClient.config['users'] = { canCreateNewUsers: req.site.config.users.canCreateNewUsers }
 
 
 			// todo: use the oauth-api service

@@ -121,7 +121,7 @@ module.exports = function (db, sequelize, DataTypes) {
                 listableBy: ['editor', 'owner'],
                 viewableBy: ['editor', 'owner'],
                 createableBy: ['editor', 'owner'],
-                updateableBy: ['editor', 'owner'],
+                updateableBy: ['editor'],
             },
             allowNull: true,
             validate: {

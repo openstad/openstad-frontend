@@ -1,5 +1,6 @@
 const merge = require('merge');
 const moment = require('moment');
+const OAuthApi = require('../services/oauth-api');
 
 module.exports = function (db, sequelize, DataTypes) {
 
@@ -64,7 +65,39 @@ module.exports = function (db, sequelize, DataTypes) {
       allowNull: true,
     }
 
+  }, {
+
+    hooks: {
+
+      beforeCreate: function (instance, options) {
+        return beforeUpdateOrCreate(instance, options);
+      },
+
+      beforeUpdate: function (instance, options) {
+        return beforeUpdateOrCreate(instance, options);
+      },
+
+    },
+
   });
+
+  async function beforeUpdateOrCreate(instance, options) {
+    try {
+
+//      // canCreateNewUsers must be updated on the clients
+//      if (instance.config.users && typeof instance.config.users.canCreateNewUsers != 'undefined' ) {
+//        let config = { users: { canCreateNewUsers: instance.config.users.canCreateNewUsers } }
+//        //        for ( let which of Object.keys(instance.config.oauth) ) { // TODO: moet deze loop naar dde OAuthApi?
+//        let which = 'anonymous';
+//          await OAuthApi.updateClient({ siteConfig: instance.config, which, clientData: { config } })
+////        }
+//      }
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 
   Site.scopes = function scopes() {
     return {
