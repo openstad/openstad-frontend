@@ -466,5 +466,20 @@
 	"Labelfor time status: : OPEN": "Labelfor time status: : OPEN",
 	"Labelfor time status: : CLOSED": "Labelfor time status: : CLOSED",
 	"Labelfor time status: : BUSY": "Labelfor time status: : BUSY",
-	"Labelfor time status: : DONE": "Labelfor time status: : DONE"
+	"Labelfor time status: : DONE": "Labelfor time status: : DONE",
+	"User activity": "User activity",
+	"User active sites": "User active sites",
+	"Edit Resource representation": "Edit Resource representation",
+	"Save List": "Save List",
+	"Items": "Items",
+	"Select type of list": "Select type of list",
+	"Unordered list": "Unordered list",
+	"Ordered list": "Ordered list",
+	"Select appearance modus for list": "Select appearance modus for list",
+	"Bullets": "Bullets",
+	"Checkmarks with blue background": "Checkmarks with blue background",
+	"Blue Checkmarks": "Blue Checkmarks",
+	"Stripes": "Stripes",
+	"Numbers": "Numbers",
+	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page."
 }

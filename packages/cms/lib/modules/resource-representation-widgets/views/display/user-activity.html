@@ -3,10 +3,10 @@
 {% else %}
 {% set ideaUrl = '/plan' %}
 {% endif %}
+
 <div class="user-activity-box">
     <h3> Plannen ingestuurd </h3>
     {% if data.activeResource.ideas %}
-
     {% for idea in data.activeResource.ideas %}
     <a href="{{ideaUrl}}/{{idea.id}}">
         {{idea.title}}
@@ -17,6 +17,7 @@
     {% endif %}
 
     <h3> Argumenten geplaatst </h3>
+    {% if data.activeResource.arguments %}
     {% for argument in data.activeResource.arguments %}
     <a href="{{ideaUrl}}/{{idea.id}}#argument{{argument.id}}">
         {{argument.description | truncate(30)}}
@@ -27,9 +28,10 @@
     {% endif %}
 
     <h3> Stemmen geplaatst </h3>
-    {% for argument in data.activeResource.arguments %}
+    {% if data.activeResource.votes %}
+    {% for vote in data.activeResource.votes %}
     <a href="{{ideaUrl}}/{{idea.id}}#argument{{argument.id}}">
-        {{argument.description}}
+        Vote for idea: {{vote | json}}
     </a>
     {% endfor %}
     {% else %}

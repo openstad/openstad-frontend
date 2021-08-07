@@ -78,10 +78,26 @@ module.exports = {
               return callback(null);
             })
             .catch((e) => {
-              console.log('e', e);
-
               return callback(null);
             });
+          } else if (req.data.activeResourceType === 'activeUser') {
+            return rp({
+              uri: `${apiUrl}/api/site/${req.data.global.siteId}/user/${req.data.activeResourceId}/activity`,
+              headers: headers,
+              json: true // Automatically parses the JSON string in the response
+            })
+              .then(function (result) {
+                const activeResource = req.data.activeResource;
+                activeResource.ideas = result && result.ideas ? result.ideas : false;
+                activeResource.votes = result && result.votes ? result.votes : false;
+                activeResource.arguments = result && result.arguments ? result.arguments : false;
+
+                req.data.activeResource = activeResource;
+                return callback(null);
+              })
+              .catch((e) => {
+                return callback(null);
+              });
           } else {
             callback(null);
           }
@@ -102,7 +118,6 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
-      console.log('when is me running 222?')
 
       req.data.activeResourceType = req.data.page.type === 'account' ? 'activeUser' : req.data.page.resource;
 
