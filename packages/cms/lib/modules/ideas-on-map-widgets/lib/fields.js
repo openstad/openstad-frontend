@@ -400,7 +400,7 @@ module.exports = [
 	{
 		name: 'reactionsClosedText',
 		type: 'string',
-		label: 'Ids van Ideas waarvoor reacties gesloten zijn',
+		label: 'Tekst boven gesloten reacties blok',
     help: 'Deze wijzigingen zijn pas zichbaar na een commit',
     default: "De reactiemogelijkheid is gesloten, u kunt niet meer reageren",
 		required: false,
