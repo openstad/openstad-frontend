@@ -1,5 +1,5 @@
 {% if data.widget.ideaUrl %}
-{% set ideaUrl = data.widget.ideaUrl' %}
+{% set ideaUrl = data.widget.ideaPageUrl' %}
 {% else %}
 {% set ideaUrl = '/plan' %}
 {% endif %}
@@ -7,33 +7,47 @@
 <div class="user-activity-box">
     <h3> Plannen ingestuurd </h3>
     {% if data.activeResource.ideas %}
+    <ul>
     {% for idea in data.activeResource.ideas %}
-    <a href="{{ideaUrl}}/{{idea.id}}">
-        {{idea.title}}
-    </a>
+        <li>
+            <a href="{{ideaUrl}}/{{idea.id}}" target="_blank">
+                {{idea.title}}
+            </a>
+        </li>
     {% endfor %}
+    </ul>
     {% else %}
     <em>Nog geen plannen</em>
     {% endif %}
 
     <h3> Argumenten geplaatst </h3>
-    {% if data.activeResource.arguments %}
+    {% if data.activeResource.arguments and data.activeResource.arguments.length > 0 %}
+
     {% for argument in data.activeResource.arguments %}
-    <a href="{{ideaUrl}}/{{idea.id}}#argument{{argument.id}}">
-        {{argument.description | truncate(30)}}
-    </a>
+    <ul>
+        <li>
+            <a href="{{ideaUrl}}/{{idea.id}}#arg{{argument.id}}">
+                {{argument.description | truncate(30)}}
+            </a>
+        </li>
     {% endfor %}
+    </ul>
+
     {% else %}
     <em>Nog geen argument geplaatst</em>
     {% endif %}
 
-    <h3> Stemmen geplaatst </h3>
-    {% if data.activeResource.votes %}
+    <h3> Stemmen geplaatst op </h3>
+    {% if data.activeResource.votes and data.activeResource.votes.length > 0  %}
+    <ul>
     {% for vote in data.activeResource.votes %}
-    <a href="{{ideaUrl}}/{{idea.id}}#argument{{argument.id}}">
-        Vote for idea: {{vote | json}}
-    </a>
+        <li>
+            <a href="{{ideaUrl}}/{{vote.ideaId}}">
+                {{vote.ideaId}}
+            </a>
+        </li>
     {% endfor %}
+    </ul>
     {% else %}
     <em>Nog niet gestemd</em>
     {% endif %}

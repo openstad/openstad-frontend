@@ -17,8 +17,6 @@ module.exports = {
     self.expressMiddleware = {
       when: 'afterRequired',
       middleware: (req, res, next) => {
-        console.log('when do I run?')
-
         // allow for setting the query and resource Id through the query params
         // in case it's set through resource page type it will be overwritten, before attempting to load the data
         if (req.query.resourceId && req.query.resourceType) {
@@ -91,6 +89,7 @@ module.exports = {
                 activeResource.ideas = result && result.ideas ? result.ideas : false;
                 activeResource.votes = result && result.votes ? result.votes : false;
                 activeResource.arguments = result && result.arguments ? result.arguments : false;
+                activeResource.sites = result && result.sites ? result.sites : false;
 
                 req.data.activeResource = activeResource;
                 return callback(null);

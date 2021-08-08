@@ -91,7 +91,6 @@ if (votingContainer !== null) {
 	  }
     if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
       data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
-      console.log(data.budgetVote);
     }
 
   }
@@ -118,7 +117,6 @@ if (votingContainer !== null) {
 	  }
     if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
       data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
-      console.log(data.budgetVote);
     }
 
   }
@@ -291,7 +289,6 @@ if (votingContainer !== null) {
             errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
           }
           if (votingType === 'budgeting') {
-            console.log(initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent, initialAvailableBudget, availableBudgetAmount, minimalBudgetSpent);
             if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
             } else {
