@@ -29,8 +29,8 @@ router.route('/')
         req.activities.push(key)
       }
     });
-    if ( req.activities.length == 0 ) req.activities = ['ideas', 'articles', 'arguments', 'votes'];
-    console.log(req.activities);
+    if ( req.activities.length == 0 ) req.activities = ['ideas', 'articles', 'arguments', 'votes', 'sites'];
+
     if (req.query.includeOtherSites == 'false' || req.query.includeOtherSites == '0') req.query.includeOtherSites = false;
     req.includeOtherSites = typeof req.query.includeOtherSites != 'undefined' ? !!req.query.includeOtherSites : true;
     req.results = {};
@@ -52,13 +52,48 @@ router.route('/')
         return user
           .getThisUserOnOtherSites()
           .then(users => {
-            users.map(user => req.userIds.push(user.id));
-            // console.log('req.userIds', req.userIds);
+            users.forEach((user) => {
+              req.userIds.push(user.id);
+            });
+
+            req.users =  users;
+
+
+
             return next()
           })
       });
   })
+  // sites
+  .get(function(req, res, next) {
 
+    if (!req.activities.includes('sites')) return next();
+    return auth.can('Site', 'list')(req, res, next);
+  })
+  .get(function(req, res, next) {
+
+    if (!req.activities.includes('sites')) return next();
+    const siteIds = req.users.map(user => user.siteId);
+    let where = { id: siteIds };
+
+    return db.Site
+      .findAll({ where })
+      .then(function(rows) {
+        // sites should only contain non sensitve fields
+        // config contains keys, the standard library should prevent this
+        // in case a bug makes that fails, we only cherry pick the fields to be sure
+        req.results.sites = rows.map(site => {
+          return {
+            id: site.id,
+            domain: site.domain,
+            title: site.title,
+            createdAt: site.createdAt,
+            updatedAt: site.updatedAt,
+          }
+        });
+        return next();
+      })
+  })
 // ideas
   .get(function(req, res, next) {
     if (!req.activities.includes('ideas')) return next();
@@ -140,6 +175,7 @@ router.route('/')
     //   arguments: req.results.arguments && req.results.arguments.length,
     //   votes: req.results.votes && req.results.votes.length,
     // });
+
     res.json(req.results);
   })
 
