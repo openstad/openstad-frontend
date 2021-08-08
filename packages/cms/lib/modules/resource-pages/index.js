@@ -117,7 +117,9 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
+      console.log('Here we issss',  req.data.page)
 
+      console.log('Here we issss',  req.data.page.type)
       req.data.activeResourceType = req.data.page.type === 'account' ? 'activeUser' : req.data.page.resource;
 
       // if not logged in user throw a 404 because it needs a url to work
