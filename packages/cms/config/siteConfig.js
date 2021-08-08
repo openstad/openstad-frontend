@@ -86,7 +86,6 @@ module.exports = {
             ]
           }
         },
-        'openstad-account': { },
         'apostrophe-login': {
           localLogin: false
         },
