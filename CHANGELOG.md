@@ -8,7 +8,7 @@
 * Add user account features: active user in resource form, user activity & sites logged in resource representation, type account page
 
 ## v0.18.0
-* Autosubmit vote in resource overview after return from oauth
+* Autosubmit vote in resource overview after ret2urn from oauth
 * Autosubmit vote in participatory budgeting after returning from oauth
 * Set default noOfQuestionsToShow to 100
 * Add components cdn and version automation - OPENSTAD_COMPONENTS_URL in .env is now optional, and renamed to OPENSTAD_COMPONENTS_CDN
