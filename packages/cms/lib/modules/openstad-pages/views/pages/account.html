@@ -1,27 +1,2 @@
-{% extends "layout.html" %}
-{% block main %}
-{% if data.userCan('add-sections') %}
-{% set readOnly = false %}
-{% else %}
-{% set readOnly = true %}
-{% endif %}
-
-<div class="section-container {% if not data.userCan('add-sections')%} hide-section-controls {% endif %}">
-    <div class="row">
-        <div class="col-sm-8 col-xs-12">
-        {{
-            apos.area(data.page, 'area1', {
-                widgets: data.widget.contentWidgets
-            })
-        }}
-        </div>
-        <div class="col-sm-4 col-xs-12">
-        {{
-            apos.area(data.page, 'area2', {
-                widgets: data.widget.contentWidgets
-            })
-        }}
-        </div>
-    </div>
-</div>
-{% endblock %}
+{# default and home are the same, but apostrophe expects a home page template after creating first item #}
+{% include 'pages/default.html' %}
