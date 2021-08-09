@@ -144,7 +144,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.arguments && data.global.siteConfig.arguments.descriptionMaxLength ) || 100,
       isClosed: typeof widget.reactionsClosed != 'undefined' ? !!widget.reactionsClosed : (data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.isClosed != 'undefined' ? data.global.siteConfig.arguments.isClosed : false),
       closedText: typeof widget.reactionsClosedText != 'undefined' ? widget.reactionsClosedText : (data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.closedText != 'undefined' ? data.global.siteConfig.arguments.closedText : true),
-      closeReactionsForIdeaIds: !widget.reactionsClosed && widget.closeReactionsForIdeaIds,
+      closeReactionsForIdeaIds: widget.reactionsClosed === '' && widget.closeReactionsForIdeaIds || '',
 		},
 
     map: {
