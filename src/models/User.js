@@ -5,6 +5,7 @@ var config = require('config')
 const Password = require('../lib/password');
 const sanitize = require('../util/sanitize');
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
+const defaultCan = require('../lib/sequelize-authorization/mixins/can');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
 const roles = require('../lib/sequelize-authorization/lib/roles');
 
@@ -23,7 +24,7 @@ module.exports = function (db, sequelize, DataTypes) {
       auth: {
         listableBy: 'admin',
         viewableBy: 'admin',
-        createableBy: 'admin',
+        createableBy: 'moderator',
         updateableBy: 'admin',
       },
       allowNull: true,
@@ -147,6 +148,7 @@ module.exports = function (db, sequelize, DataTypes) {
       auth: {
         listableBy: 'none',
         viewableBy: 'none',
+        updateableBy: 'owner',
       },
       validate: {
         len: {
@@ -691,6 +693,23 @@ module.exports = function (db, sequelize, DataTypes) {
     updateableBy: ['editor', 'owner'],
     deleteableBy: ['editor', 'owner'],
 
+    canCreate: function(user, self) {
+
+      // copy the base functionality
+      self = self || this;
+
+      if (!user) user = self.auth && self.auth.user;
+      if (!user || !user.role) user = { role: 'all' };
+
+      let valid = userHasRole(user, self.auth && self.auth.updateableBy, self.id);
+
+      // extra: geen acties op users met meer rechten dan je zelf hebt
+      valid = valid && (!self.role || userHasRole(user, self.role));
+
+      return valid;
+
+    },
+
     canUpdate: function(user, self) {
 
       // copy the base functionality
@@ -703,9 +722,30 @@ module.exports = function (db, sequelize, DataTypes) {
 
       // extra: isOwner through user on different site
       valid = valid || ( self.externalUserId && self.externalUserId == user.externalUserId );
+
+      // extra: geen acties op users met meer rechten dan je zelf hebt
+      valid = valid && userHasRole(user, self.role);
+
       return valid;
 
-    }
+    },
+
+    canDelete: function(user, self) {
+
+      // copy the base functionality
+      self = self || this;
+
+      if (!user) user = self.auth && self.auth.user;
+      if (!user || !user.role) user = { role: 'all' };
+
+      let valid = userHasRole(user, self.auth && self.auth.updateableBy, self.id);
+
+      // extra: geen acties op users met meer rechten dan je zelf hebt
+      valid = valid && userHasRole(user, self.role);
+
+      return valid;
+
+    },
 
   }
 

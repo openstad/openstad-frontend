@@ -433,11 +433,13 @@ router.route('/:userId(\\d+)')
 
 // delete user
 // -----------
-  .delete(auth.can('User', 'delete'))
+  .delete(auth.useReqUser)
   .delete(async function (req, res, next) {
 
     const user = req.results;
-    
+
+    if (!(user && user.can && user.can('delete'))) return next(new Error('You cannot delete this User'));
+
     /**
      * An oauth user can have multiple users in the api, every site has it's own user and right
      * In case for this oauth user there is only one site user in the API we also delete the oAuth user
