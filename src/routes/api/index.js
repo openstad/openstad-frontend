@@ -10,7 +10,6 @@ const router = express.Router({mergeParams: true});
 //router.use( bruteForce.globalMiddleware );
 //router.post( '*', bruteForce.postMiddleware );
 
-
 // dbQuery middleware
 router.use(dbQuery);
 router.use(sorting);
@@ -37,6 +36,7 @@ router.use( '/site/:siteId(\\d+)/tag', require('./tag') );
 
 // users
 router.use( '/site/:siteId(\\d+)/user', require('./user') );
+router.use( '/site/:siteId(\\d+)/user/:userId(\\d+)/activity', require('./user-activity') );
 
 // submissions
 router.use( '/site/:siteId(\\d+)/submission', require('./submission') );
