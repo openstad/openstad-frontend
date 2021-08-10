@@ -12,7 +12,7 @@
  window.addEventListener('load', function(e) {
    let config = {{data.widget.config | safe}};
    let element = document.querySelector('.openstad-component-previous-next-button-block');
-   OpenStadComponents['previous-next-button-block'].renderElement(element, config);
+   OpenStadComponents['previous-next-button-block'].PreviousNextButtonBlock.renderElement(element, config);
  });
 </script>
 <div id="{{data.widget.containerId}}" class="osc-component">
