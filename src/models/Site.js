@@ -69,6 +69,43 @@ module.exports = function (db, sequelize, DataTypes) {
 
     hooks: {
 
+      beforeValidate: async function (instance, options) {
+
+        try {
+          // ik zou verwachten dat je dit met _previousDataValues kunt doen, maar die bevat al de nieuwe waarde
+          let current = await db.Site.findOne({ where: { id: instance.id } });
+
+          // on update of projectHasEnded also update isActive of all the parts
+          if (current && typeof current.config.projectHasEnded != 'undefined' && current.config.projectHasEnded !== instance.config.projectHasEnded) {
+            let config = merge.recursive(true, instance.config);
+            if (instance.config.projectHasEnded) {
+              config.votes.isActive = false;
+              config.ideas.canAddNewIdeas = false;
+              config.articles.canAddNewArticles = false;
+              config.arguments.isClosed = true;
+              config.polls.canAddPolls = false;
+              config.users.canCreateNewUsers = false;
+            } else {
+              config.votes.isActive = true;
+              config.ideas.canAddNewIdeas = true;
+              config.articles.canAddNewArticles = true;
+              config.arguments.isClosed = false;
+              config.polls.canAddPolls = true;
+              config.users.canCreateNewUsers = true;
+            }
+            instance.set('config', config);
+          }
+
+          
+        } catch (err) {
+          console.log(err);
+          throw err;
+        }
+
+
+
+      },
+
       beforeCreate: function (instance, options) {
         return beforeUpdateOrCreate(instance, options);
       },
@@ -122,6 +159,10 @@ module.exports = function (db, sequelize, DataTypes) {
     // todo: formaat gelijktrekken met sequelize defs
     // todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
     return {
+      projectHasEnded: { // prelimanary, this will be handled by the status field later
+        type: 'boolean',
+        default: false,
+      },
       allowedDomains: {
         type: 'arrayOfStrings',
         default: [

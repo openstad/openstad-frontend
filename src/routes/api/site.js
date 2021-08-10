@@ -193,7 +193,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			});
 	})
 	// call the site, to let the site know a refresh of the siteConfig is needed
-	.put(refreshSiteConfigMw)
+//	.put(refreshSiteConfigMw)
 	.put(function (req, res, next) {
 		// when succesfull return site JSON
 		res.json(req.results);

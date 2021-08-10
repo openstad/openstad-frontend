@@ -2,7 +2,8 @@
 
 ## UNRELEASED
 * Add automatic update of idea status after a given number of days
-
+* Add 'Project has ended' to site configuration
+* Add endpoints /api/site/:id/(do|will)-anonymize-all-users
 
 ## v0.16.0
 * Add endpoint /user/:id/activity
