@@ -1,6 +1,7 @@
 const merge = require('merge');
 const moment = require('moment');
 const OAuthApi = require('../services/oauth-api');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function (db, sequelize, DataTypes) {
 
@@ -159,57 +160,12 @@ module.exports = function (db, sequelize, DataTypes) {
     // todo: formaat gelijktrekken met sequelize defs
     // todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
     return {
-      projectHasEnded: { // prelimanary, this will be handled by the status field later
-        type: 'boolean',
-        default: false,
-      },
       allowedDomains: {
         type: 'arrayOfStrings',
         default: [
           'openstad-api.amsterdam.nl'
         ]
       },
-      basicAuth: {
-        type: 'object',
-        subset: {
-          active: {
-            type: 'boolean',
-            default: false,
-          },
-          user: {
-            type: 'string',
-            default: 'openstad',
-          },
-          password: {
-            type: 'string',
-            default: 'LqKNcKC7',
-          },
-        }
-
-  });
-
-  Site.scopes = function scopes() {
-    return {
-      defaultScope: {},
-
-      withArea: {
-        include: [{
-          model: db.Area
-        }]
-      }
-    };
-  }
-
-  Site.associate = function (models) {
-    this.hasMany(models.Idea);
-    this.belongsTo(models.Area);
-  }
-
-  Site.configOptions = function () {
-    // definition of possible config values
-    // todo: formaat gelijktrekken met sequelize defs
-    // todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
-    return {
       allowedDomains: {
         type: 'arrayOfStrings',
         default: [
@@ -608,138 +564,6 @@ module.exports = function (db, sequelize, DataTypes) {
             }
           },
 
-          descriptionMinLength: {
-            type: 'int',
-            default: 30,
-          },
-
-          descriptionMaxLength: {
-            type: 'int',
-            default: 500,
-          },
-
-          isClosed: {
-            type: 'boolean',
-            default: false,
-          },
-
-          closedText: {
-            type: 'string',
-            default: 'De reactiemogelijkheid is gesloten, u kunt niet meer reageren',
-          },
-
-        }
-      },
-      users: {
-        type: 'object',
-        subset: {
-          extraDataMustBeDefined: {
-            type: 'boolean',
-            default: false,
-          },
-          extraData: {
-            type: 'object',
-          },
-          canCreateNewUsers: {
-            type: 'boolean',
-            default: true,
-          },
-        },
-      },
-      votes: {
-        type: 'object',
-        subset: {
-
-          isViewable: {
-            type: 'boolean',
-            default: false,
-          },
-
-          isActive: {
-            type: 'boolean',
-            default: null,
-          },
-
-          isActiveFrom: {
-            type: 'string',
-            default: undefined,
-          },
-
-          isActiveTo: {
-            type: 'string',
-            default: undefined,
-          },
-
-          requiredUserRole: {
-            type: 'string',
-            default: 'member',
-          },
-
-          mustConfirm: {
-            type: 'boolean',
-            default: false,
-          },
-
-          withExisting: {
-            type: 'enum',
-            values: ['error', 'replace', 'merge'],
-            default: 'error',
-          },
-
-          voteType: {
-            type: 'enum',
-            values: ['likes', 'count', 'budgeting', 'count-per-theme', 'budgeting-per-theme'],
-            default: 'likes',
-          },
-
-          voteValues: {
-            type: 'arrayOfObjects',
-            default: [
-              {
-                label: 'voor',
-                value: 'yes'
-              },
-              {
-                label: 'tegen',
-                value: 'no'
-              },
-            ],
-          },
-
-          maxIdeas: {
-            type: 'int',
-            default: 100,
-          },
-
-          minIdeas: {
-            type: 'int',
-            default: 1,
-          },
-
-          minBudget: {
-            type: 'int',
-            default: undefined,
-          },
-
-          maxBudget: {
-            type: 'int',
-            default: undefined,
-          },
-
-          themes: {
-            type: 'objectList',
-            elementSubset: {
-              minBudget: {
-                type: 'int',
-                default: undefined,
-              },
-              maxBudget: {
-                type: 'int',
-                default: undefined,
-              },
-            }
-          },
-
         },
       },
 
@@ -980,6 +804,62 @@ module.exports = function (db, sequelize, DataTypes) {
 
   }
 
+  Site.prototype.willAnonymizeAllUsers = async function () {
+
+    let self = this;
+    let result = {};
+
+    try {
+
+      if (!self.id) throw Error('Site not found');
+      if (!self.config.projectHasEnded) throw Error('Cannot anonymize users on an active site - first set the project-has-ended parameter');
+
+      let users = await db.User.findAll({ where: { siteId: self.id } });
+
+      // do not anonymize admins
+      result.admins = users.filter( user => userHasRole(user, 'admin') );
+      result.users  = users.filter( user => !userHasRole(user, 'admin') );
+
+      // extract externalUserIds
+      result.externalUserIds = result.users.filter( user => user.externalUserId ).map( user => user.externalUserId );
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+
+    return result;
+    
+  }
+
+  Site.prototype.doAnonymizeAllUsers = async function () {
+
+    // anonymize all users for this site
+    let self = this;
+    let result;
+
+    try {
+
+      result = await self.willAnonymizeAllUsers();
+
+      let users = [ ...result.users ]
+
+      // anonymize users
+      for (const user of users) {
+        user.site = self;
+        let res = await user.doAnonymize();
+      }
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+
+    result.message = 'Ok';
+    return result;
+
+  }
+
   Site.prototype.isVoteActive = function () {
     let self = this;
     let voteIsActive = self.config.votes.isActive;
@@ -995,6 +875,14 @@ module.exports = function (db, sequelize, DataTypes) {
     createableBy: 'admin',
     updateableBy: 'admin',
     deleteableBy: 'admin',
+    canAnonimizeAllUsers : function(user, self) {
+      self = self || this;
+      if (!user) user = self.auth && self.auth.user;
+      if (!user || !user.role) user = { role: 'all' };
+      let isValid = userHasRole(user, 'admin', self.id);
+      return isValid;
+    }
+
   }
 
   return Site;

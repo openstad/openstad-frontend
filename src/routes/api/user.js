@@ -273,6 +273,7 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
   .put(async function (req, res, next) {
     if (req.params.willOrDo != 'do') return next();
     if ( !(req.params.all || !req.linkedUsers || req.linkedUsers.length == 0) ) return next();
+
     // no api users left for this oauth user, so remove the oauth user
     let which = req.query.useOauth || 'default';
     let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
