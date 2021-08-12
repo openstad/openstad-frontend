@@ -87,12 +87,13 @@ module.exports = function (db, sequelize, DataTypes) {
               config.polls.canAddPolls = false;
               config.users.canCreateNewUsers = false;
             } else {
-              config.votes.isActive = true;
-              config.ideas.canAddNewIdeas = true;
-              config.articles.canAddNewArticles = true;
-              config.arguments.isClosed = false;
-              config.polls.canAddPolls = true;
-              config.users.canCreateNewUsers = true;
+              // commented: do not update these params on unsetting
+              // config.votes.isActive = true;
+              // config.ideas.canAddNewIdeas = true;
+              // config.articles.canAddNewArticles = true;
+              // config.arguments.isClosed = false;
+              // config.polls.canAddPolls = true;
+              // config.users.canCreateNewUsers = true;
             }
             instance.set('config', config);
           }
