@@ -591,21 +591,25 @@ if (votingContainer !== null) {
           function createOverview(selection, initialAvailableBudget, availableBudgetAmount, title) {
 			      var overviewHtml = ''
 			      selection.forEach(function(id) {
-				      var element = sortedElements.find( function(el) { return el.ideaId == id } );
-				      var imageEl = element.querySelector('.idea-image-mask').cloneNode(true);//.innerHTML;
-				      var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
+							var element = sortedElements.find(function (el) {
+								return el.ideaId == id
+							});
 
-				      imageEl.setAttribute('data-idea-id', id);
-				      imageEl.className += ' idea-' + id;
-				      imageEl = imageEl.innerHTML;
+							if (element) {
+								var imageEl = element.querySelector('.idea-image-mask').cloneNode(true);//.innerHTML;
+								var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
 
-				      overviewHtml = overviewHtml + '<tr><td>'+imageEl + '</td><td>'+ titleEl +'</td>';
-				      if ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) {
-					      var budgetEl = element.querySelector('.budget') && element.querySelector('.budget').cloneNode(true).innerHTML;
-					      overviewHtml += '<td class="text-align-right primary-color">' +budgetEl+ '</td>'
-				      }
-				      overviewHtml += '</tr>';
+								imageEl.setAttribute('data-idea-id', id);
+								imageEl.className += ' idea-' + id;
+								imageEl = imageEl.innerHTML;
 
+								overviewHtml = overviewHtml + '<tr><td>' + imageEl + '</td><td>' + titleEl + '</td>';
+								if (votingType === 'budgeting' || votingType === 'budgeting-per-theme') {
+									var budgetEl = element.querySelector('.budget') && element.querySelector('.budget').cloneNode(true).innerHTML;
+									overviewHtml += '<td class="text-align-right primary-color">' + budgetEl + '</td>'
+								}
+								overviewHtml += '</tr>';
+							}
 			      });
 
 			      if ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) {
