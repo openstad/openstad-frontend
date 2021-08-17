@@ -358,7 +358,17 @@ module.exports = function (db, sequelize, DataTypes) {
               "Initialavailablebudget": {type: 'int', default: 0},
               "minimalBudgetSpent": {type: 'int', default: 0},
             }
-          }
+          },
+          automaticallyUpdateStatus: {
+            isActive: {
+              type: 'boolean',
+              default: false,
+            },
+            afterXDays: {
+              type: 'int',
+              default: 90,
+            },
+          },
         }
       },
       arguments: {

@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+* Add automatic update of idea status after a given number of days
+
+
 ## v0.16.0
 * Add endpoint /user/:id/activity
 * Add endpoints /user/:id/(do|will)-anonymize(all?)
