@@ -604,7 +604,6 @@ module.exports = [
     name: 'siteId',
     label: 'Site ID',
   },
-
 ].concat(
   ideaStates.map((state) => {
     return {

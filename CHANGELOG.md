@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add automatic update of idea status after a given number of days
+
 ## v0.19.0 (2021-08-17)
 * Better settings for closed reactions on idea-on-map
 * Don't show pagination if only one page
