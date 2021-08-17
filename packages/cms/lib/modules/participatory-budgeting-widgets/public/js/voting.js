@@ -91,7 +91,6 @@ if (votingContainer !== null) {
 	  }
     if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
       data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
-      console.log(data.budgetVote);
     }
 
   }
@@ -118,7 +117,6 @@ if (votingContainer !== null) {
 	  }
     if (votingType == 'budgeting-per-theme' || votingType == 'count-per-theme') {
       data.budgetVote = themes.reduce( function(result, theme) { return result.concat( theme.currentSelection ) }, []);
-      console.log(data.budgetVote);
     }
 
   }
@@ -291,7 +289,6 @@ if (votingContainer !== null) {
             errorMessage = 'Je moet ' + ( minIdeas != maxIdeas ? 'minimaal ' + minIdeas : minIdeas ) + ' plannen selecteren.'
           }
           if (votingType === 'budgeting') {
-            console.log(initialAvailableBudget - availableBudgetAmount <= minimalBudgetSpent, initialAvailableBudget, availableBudgetAmount, minimalBudgetSpent);
             if (initialAvailableBudget - availableBudgetAmount < minimalBudgetSpent) {
 				      errorMessage = 'Je hebt nog niet voor ' + formatEuros(minimalBudgetSpent) + ' aan plannen geselecteerd.';
             } else {
@@ -591,11 +588,9 @@ if (votingContainer !== null) {
           function createOverview(selection, initialAvailableBudget, availableBudgetAmount, title) {
 			      var overviewHtml = ''
 			      selection.forEach(function(id) {
-							var element = sortedElements.find(function (el) {
-								return el.ideaId == id
-							});
+				      var element = sortedElements.find( function(el) { return el.ideaId == id } );
 
-							if (element) {
+				      if (element) {
 								var imageEl = element.querySelector('.idea-image-mask').cloneNode(true);//.innerHTML;
 								var titleEl = element.querySelector('.title').cloneNode(true).innerHTML;
 
@@ -610,6 +605,7 @@ if (votingContainer !== null) {
 								}
 								overviewHtml += '</tr>';
 							}
+
 			      });
 
 			      if ( votingType === 'budgeting' || votingType === 'budgeting-per-theme' ) {

@@ -23,6 +23,22 @@
     }
 }
 
+.section {
+
+  min-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  // full screen is fixed, so without proper min height controls of widget overlap with parent container
+  &.display-type-full-screen {
+    min-height: 150px;
+  }
+
+  @media screen and (max-width: @screen-sm) {
+
+  }
+}
+
 .container {
   position: relative;
 }

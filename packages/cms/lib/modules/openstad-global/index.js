@@ -55,6 +55,7 @@ module.exports = {
 
       req.data.global.siteConfig = {
         ideas: siteConfig.ideas,
+        articles: siteConfig.articles,
         polls: siteConfig.polls,
         votes: siteConfig.votes,
         area: siteConfig.area,

@@ -1,7 +1,14 @@
 # Changelog
 
-## UNRELEASED
-* Autosubmit vote in resource overview after return from oauth
+## v0.19.0 (2021-08-17)
+* Better settings for closed reactions on idea-on-map
+* Don't show pagination if only one page
+* Add larger minimum height to prevent overlapping controls on the map application
+* Make sure default logo's width is correct
+* Add user account features: active user in resource form, user activity & sites logged in resource representation, type account page
+
+## v0.18.0
+* Autosubmit vote in resource overview after ret2urn from oauth
 * Autosubmit vote in participatory budgeting after returning from oauth
 * Set default noOfQuestionsToShow to 100
 * Add components cdn and version automation - OPENSTAD_COMPONENTS_URL in .env is now optional, and renamed to OPENSTAD_COMPONENTS_CDN
@@ -14,6 +21,9 @@
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
+
+## v0.17.1 (2021-07-14)
+* Add user authorization to image upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

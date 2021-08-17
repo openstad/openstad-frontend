@@ -328,7 +328,7 @@ module.exports = [
 			{
 				label: 'Ja',
 				value: true,
-        showFields: ['reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds'],
+        showFields: ['reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'reactionsClosed'],
 			},
 			{
 				label: 'Nee',
@@ -365,11 +365,45 @@ module.exports = [
 		required: false
 	},
 
+  {
+    name: 'reactionsClosed',
+    type: 'select',
+    label: 'Reactiemogelijkheid is...',
+    help: 'Deze wijzigingen zijn pas zichbaar na een commit',
+    default: false,
+    choices: [
+      {
+        value: false,
+        label: "...open voor alle ideeën",
+      },
+      {
+        value: true,
+        label: "...gesloten voor alle ideeën",
+        showFields: ['reactionsClosedText'],
+      },
+      {
+        value: '',
+        label: "...gesloten voor sommige ideeën",
+        showFields: ['closeReactionsForIdeaIds', 'reactionsClosedText'],
+      },
+    ],
+    def: false,
+  },
+
 	{
 		name: 'closeReactionsForIdeaIds',
 		type: 'string',
 		label: 'Ids van Ideas waarvoor reacties gesloten zijn',
 		required: false
+	},
+
+	{
+		name: 'reactionsClosedText',
+		type: 'string',
+		label: 'Tekst boven gesloten reacties blok',
+    help: 'Deze wijzigingen zijn pas zichbaar na een commit',
+    default: "De reactiemogelijkheid is gesloten, u kunt niet meer reageren",
+		required: false,
 	},
 
   {
