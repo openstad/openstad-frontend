@@ -10,6 +10,20 @@
       {% if item.actionText %}
       {{item.actionText}}
       {% endif %}
+
+      {% if item.links %}
+      <ul class="link-list agenda-link-list">
+        {% for link in item.links %}
+        {% if link.url %}
+        <li>
+          <a href="{{ link.url | safeRelativeUrl}}" title="{{ link.title }}" {% if link.openInNewWindow %} target="_blank" {% endif %}>
+            {{ link.title }}
+          </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+      {% endif %}
     </div>
   </div>
 {% endfor %}

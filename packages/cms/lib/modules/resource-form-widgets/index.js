@@ -12,6 +12,7 @@ const request       = require('request');
 const pick          = require('lodash/pick')
 const eventEmitter  = require('../../../events').emitter;
 
+
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
 
@@ -25,6 +26,7 @@ const toSqlDatetime = (inputDate) => {
 }
 
 const fields = require('./lib/fields.js');
+const userFormFields = require('./lib/userFormFields.js');
 
 module.exports = {
   extend: 'map-widgets',
@@ -134,6 +136,8 @@ module.exports = {
     self.load = function(req, widgets, next) {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
+
+        req.data.userFormFields = userFormFields;
 
 	      widgets.forEach((widget) => {
             const resourceType = widget.resource ?  widget.resource : false;

@@ -27,7 +27,9 @@
   name="extraData[{{field.fieldKey}}]"
   {% endif %}
   value="{{fieldValue}}"
-
+  {% if field.disabled %}
+  disabled
+  {% endif %}
   {% if field.fieldRequired %}required{% endif %}
 />
 <div id="charsLeft{{field.fieldKey}}" class="charsLeft">

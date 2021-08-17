@@ -289,7 +289,7 @@ module.exports = [
 	{
 		name: 'ideaName',
 		type: 'string',
-		label: 'Naam voor idea',
+		label: 'Naam voor ideas',
 		def: 'Inzending',
 		required: false
 	},
@@ -328,7 +328,7 @@ module.exports = [
 			{
 				label: 'Ja',
 				value: true,
-        showFields: ['reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds'],
+        showFields: ['reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'reactionsClosed'],
 			},
 			{
 				label: 'Nee',
@@ -365,11 +365,45 @@ module.exports = [
 		required: false
 	},
 
+  {
+    name: 'reactionsClosed',
+    type: 'select',
+    label: 'Reactiemogelijkheid is...',
+    help: 'Deze wijzigingen zijn pas zichbaar na een commit',
+    default: false,
+    choices: [
+      {
+        value: false,
+        label: "...open voor alle ideeën",
+      },
+      {
+        value: true,
+        label: "...gesloten voor alle ideeën",
+        showFields: ['reactionsClosedText'],
+      },
+      {
+        value: '',
+        label: "...gesloten voor sommige ideeën",
+        showFields: ['closeReactionsForIdeaIds', 'reactionsClosedText'],
+      },
+    ],
+    def: false,
+  },
+
 	{
 		name: 'closeReactionsForIdeaIds',
 		type: 'string',
 		label: 'Ids van Ideas waarvoor reacties gesloten zijn',
 		required: false
+	},
+
+	{
+		name: 'reactionsClosedText',
+		type: 'string',
+		label: 'Tekst boven gesloten reacties blok',
+    help: 'Deze wijzigingen zijn pas zichbaar na een commit',
+    default: "De reactiemogelijkheid is gesloten, u kunt niet meer reageren",
+		required: false,
 	},
 
   {
@@ -384,6 +418,49 @@ module.exports = [
     label: 'Select the default sorting',
     choices: sortingOptions
   },
+
+  {
+    name: 'imageAllowMultipleImages',
+    type: 'boolean',
+    label: 'Meerdere afbeeldingen bij een idee',
+    choices: [
+      {
+        value: true,
+        label: "Yes",
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: false
+  },
+
+  {
+    name: 'imagePlaceholderImageSrc',
+    type: 'attachment',
+    svgImages: true,
+    label: 'Default afbeelding',
+    apiSyncField: 'styling.logo',
+    trash: true
+  },
+
+	{
+		name: 'imageAspectRatio',
+		type: 'select',
+		label: 'Aspect ratio',
+		choices: [
+			{
+				label: '16:9',
+				value: '16x9'
+			},
+			{
+				label: '1:1',
+				value: '1x1'
+			}
+		],
+    def: '16x9',
+	},
 
   { 
     name: 'metaDataTemplate',

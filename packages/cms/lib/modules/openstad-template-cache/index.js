@@ -33,6 +33,7 @@ module.exports = {
             // middleware).
             when: 'afterRequired',
             middleware: (req, res, next) => {
+
                 const cacheKey = self.formatCacheKey(req);
                 const cachedResponse = cache.get(cacheKey);
 

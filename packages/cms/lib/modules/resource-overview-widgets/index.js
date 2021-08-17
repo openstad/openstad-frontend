@@ -267,6 +267,9 @@ module.exports = {
                     }
                 }
 
+
+
+
                 // if cache is set then render from cache, otherwise
                 if (response) {
                     // pass query obj without reference
@@ -294,6 +297,7 @@ module.exports = {
                         })
                     }(req, self));
                 }
+
             });
 
             if (promises.length > 0) {
@@ -302,6 +306,7 @@ module.exports = {
                         return superLoad(req, widgets, next);
                     })
                     .catch(function (err) {
+                        console.log('errrr', err)
                         return superLoad(req, widgets, next);
                     });
             } else {
@@ -319,7 +324,8 @@ module.exports = {
                 }))}`);
             }
 
-            return urls;
+            // in case only one url, return empty array, pagination is not necessary for one page.
+            return urls.length < 2 ? false : urls;
         }
 
         //selection means it is set to url, so it will be used to query the api

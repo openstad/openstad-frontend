@@ -1,0 +1,12 @@
+
+{% if data.activeResource.sites and data.activeResource.sites.length > 0  %}
+<ul>
+    {% for site in data.activeResource.sites %}
+    <li>
+        <a href="{{site.domain}}" target="_blank">
+            {{site.title}} | {{site.domain}}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif%}
