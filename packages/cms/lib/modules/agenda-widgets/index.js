@@ -41,6 +41,29 @@ module.exports = {
             },
           ]
         },
+        {
+          name: 'links',
+          type: 'array',
+          titleField: 'title',
+          schema: [
+            {
+              name: 'title',
+              label: 'Link title',
+              type: 'string',
+            },
+            {
+              name: 'url',
+              label: 'Link URL',
+              type: 'string',
+            },
+            {
+              name: 'openInNewWindow',
+              type: 'boolean',
+              label: 'Open in new window?',
+            },
+
+          ]
+        }
       ]
     },
     styleSchema.definition('containerStyles', 'Styles for the container')
