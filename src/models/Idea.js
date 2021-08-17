@@ -391,7 +391,7 @@ module.exports = function (db, sequelize, DataTypes) {
 
     hooks: {
 
-      // onderstaand is een workaround: bij een delete wordt wel de vvalidatehook aangeroepen, maar niet de beforeValidate hook. Dat lijkt een bug.
+      // onderstaand is een workaround: bij een delete wordt wel de validatehook aangeroepen, maar niet de beforeValidate hook. Dat lijkt een bug.
       beforeValidate: beforeValidateHook,
       beforeDestroy: beforeValidateHook,
 

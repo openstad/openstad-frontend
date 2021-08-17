@@ -1,6 +1,7 @@
 const Promise 				= require('bluebird');
 const express 				= require('express');
 const config 					= require('config');
+const fetch           = require('node-fetch');
 const db      				= require('../../db');
 const auth 						= require('../../middleware/sequelize-authorization-middleware');
 const pagination 			= require('../../middleware/pagination');
@@ -143,20 +144,29 @@ router.route('/:siteIdOrDomain') //(\\d+)
 	// update certain parts of config to the oauth client
 	// mainly styling settings are synched so in line with the CMS
 	.put(function (req, res, next) {
+
+    // todo: gebruik de oauth-api service
 		const authServerUrl = config.authorization['auth-server-url'];
 		const updates = [];
 
 		req.siteOAuthClients.forEach((oauthClient, i) => {
 			 const authUpdateUrl = authServerUrl + '/api/admin/client/' + oauthClient.id;
-			 const configKeysToSync = ['styling', 'ideas'];
+			const configKeysToSync = ['users', 'styling', 'ideas'];
+
+      // todo: gebruik de oauth-api service
+      // todo: specifieker selecteren van sync velden (user.canCreateNewUsers)
+      // todo: ik denk dat dit in het model moet    
 
 			 oauthClient.config = oauthClient.config ? oauthClient.config : {};
 
 			 configKeysToSync.forEach(field => {
 				 oauthClient.config[field] = req.site.config[field];
 			 });
+       oauthClient.config['users'] = { canCreateNewUsers: req.site.config.users.canCreateNewUsers }
 
-			 const apiCredentials = {
+
+			// todo: use the oauth-api service
+      const apiCredentials = {
 				 client_id: oauthClient.clientId,
 				 client_secret: oauthClient.clientSecret,
 			 }

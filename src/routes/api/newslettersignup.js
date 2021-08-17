@@ -136,7 +136,7 @@ router.route('/$')
       .then((result) => {
         res.json(result);
         if (!result.confirmed) {
-          mail.sendNewsletterSignupConfirmationMail(data, req.user); // todo: optional met config?
+          mail.sendNewsletterSignupConfirmationMail(data, req.site, req.user); // todo: optional met config?
         }
       })
       .catch(next);

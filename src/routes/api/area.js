@@ -100,8 +100,11 @@ router.route('/:areaId(\\d+)')
 
     next();
   })
+  .put(auth.useReqUser)
   .put(function(req, res, next) {
-    var area = req.results;
+    const area = req.results;
+
+    if (!( area && area.can && area.can('update') )) return next( new Error('You cannot update this area') );
 
     area
       .authorizeData(area, 'update')
@@ -137,7 +140,12 @@ router.route('/:areaId(\\d+)')
   // delete area
   // ---------
   // .delete(auth.can('area', 'delete'))
+  .delete(auth.useReqUser)
   .delete(function(req, res, next) {
+    const result = req.results;
+
+    if (!(result && result.can && result.can('delete'))) return next(new Error('You cannot delete this area'));
+
     req.results
       .destroy()
       .then(() => {

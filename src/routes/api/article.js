@@ -19,7 +19,7 @@ const userhasModeratorRights = (user) => {
 router
 	.all('*', function(req, res, next) {
 
-		req.scope = ['api'];
+		req.scope = ['api', 'includeSite'];
 
 		var sort = (req.query.sort || '').replace(/[^a-z_]+/i, '') || (req.cookies['article_sort'] && req.cookies['article_sort'].replace(/[^a-z_]+/i, ''));
 		if (sort) {
@@ -165,7 +165,7 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 		res.json(req.results);
-		mail.sendThankYouMail(req.results, 'articles', req.user) // todo: optional met config?
+		mail.sendThankYouMail(req.results, 'articles', req.site, req.user) // todo: optional met config?
 	})
 
 // one article

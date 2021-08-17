@@ -2,7 +2,7 @@ var express = require('express');
 var config  = require('config');
 var log     = require('debug')('app:http')
 var db      = require('../db');
-var mail    = require('../lib/mail');
+// var mail    = require('../lib/mail');
 
 module.exports = function( app ) {
 	if( !config.get('debug') ) {
@@ -101,64 +101,65 @@ module.exports = function( app ) {
 			}
 		});
 
-	router.get('/email/:page', function( req, res, next ) {
-		var fs       = require('fs');
-		var nunjucks = require('nunjucks');
-
-		var data     = {
-			complete : 'complete' in req.query,
-			date     : new Date(),
-			token    : 'temp',
-			userId   : req.user.id,
-			ref      : req.query.ref,
-			assets   : {
-				arg: [{
-					instance: {
-						user        : {nickName: 'Daan Mortier'},
-						updatedAt   : new Date(),
-						label       : 'A',
-						description :
-							`Dit is een test argument.`
-					}
-				}, {
-					instance: {
-						user        : {nickName: 'Michael de Paikel'},
-						updatedAt   : new Date(),
-						label       : 'B',
-						description :
-							`En dit is nogmaals een test argument met iets meer
-							inhoud dan het vorige bericht. Op deze manier is beter
-							te zien hoe de layout zich om de tekst vormt.`
-					}
-				}]
-			}
-		};
-		var content  = nunjucks.render('email/'+req.params.page+'.njk', data);
-
-		if( 'send' in req.query ) {
-			mail.sendMail({
-				to          : 'tjoekbezoer@gmail.com',
-				subject     : 'Bedankt voor je voorstel',
-				html        : content,
-				// text        : nunjucks.render('email/login_link_text.njk', data),
-				attachments : [{
-					filename : 'logo@2x.png',
-					path     : 'img/email/logo@2x.png',
-					cid      : 'logo'
-				}, {
-					filename : 'map@2x.png',
-					path     : 'img/email/map@2x.png',
-					cid      : 'map'
-				}, {
-					filename : 'steps@2x.png',
-					path     : 'img/email/steps@2x.png',
-					cid      : 'steps'
-				}]
-			});
-		}
-
-		res.send(content);
-	});
+	// is er iemand die dit gebruikt? dan moet het herschreven naar een nieuwe manier van werken
+	// router.get('/email/:page', function( req, res, next ) {
+	//   var fs       = require('fs');
+	//   var nunjucks = require('nunjucks');
+  //  
+	//   var data     = {
+	//   	complete : 'complete' in req.query,
+	//   	date     : new Date(),
+	//   	token    : 'temp',
+	//   	userId   : req.user.id,
+	//   	ref      : req.query.ref,
+	//   	assets   : {
+	//   		arg: [{
+	//   			instance: {
+	//   				user        : {nickName: 'Daan Mortier'},
+	//   				updatedAt   : new Date(),
+	//   				label       : 'A',
+	//   				description :
+	//   					`Dit is een test argument.`
+	//   			}
+	//   		}, {
+	//   			instance: {
+	//   				user        : {nickName: 'Michael de Paikel'},
+	//   				updatedAt   : new Date(),
+	//   				label       : 'B',
+	//   				description :
+	//   					`En dit is nogmaals een test argument met iets meer
+	//   					inhoud dan het vorige bericht. Op deze manier is beter
+	//   					te zien hoe de layout zich om de tekst vormt.`
+	//   			}
+	//   		}]
+	//   	}
+	//   };
+	//   var content  = nunjucks.render('email/'+req.params.page+'.njk', data);
+  //  
+	//   if( 'send' in req.query ) {
+	//   	mail.sendMail({
+	//   		to          : 'tjoekbezoer@gmail.com',
+	//   		subject     : 'Bedankt voor je voorstel',
+	//   		html        : content,
+	//   		// text        : nunjucks.render('email/login_link_text.njk', data),
+	//   		attachments : [{
+	//   			filename : 'logo@2x.png',
+	//   			path     : 'img/email/logo@2x.png',
+	//   			cid      : 'logo'
+	//   		}, {
+	//   			filename : 'map@2x.png',
+	//   			path     : 'img/email/map@2x.png',
+	//   			cid      : 'map'
+	//   		}, {
+	//   			filename : 'steps@2x.png',
+	//   			path     : 'img/email/steps@2x.png',
+	//   			cid      : 'steps'
+	//   		}]
+	//   	});
+	//   }
+  //  
+	//   res.send(content);
+	// });
 
 	// old
 	 //router.get('/send_notifications', function( req, res, next ) {

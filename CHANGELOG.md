@@ -1,7 +1,12 @@
 # Changelog
 
-
 ## v0.16.0
+* Add endpoint /user/:id/activity
+* Add endpoints /user/:id/(do|will)-anonymize(all?)
+* Areas only create, edit, delete by admin
+* User email no longer editable by owner
+* Fix extraData returning for Article by adding includeSite to the scope
+* Fix users can create/update/delete users with a higher role
 * Statuscode for error 'Already voted' was 500 and is now 403
 
 ## v0.15.1 (2020-07-14)

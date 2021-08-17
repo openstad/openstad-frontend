@@ -105,8 +105,12 @@ router.route('/:actionId(\\d+)')
 
     // delete action
     // ---------------
-    .delete(auth.can('Action', 'delete'))
-    .delete(function(req, res, next) {
+  .delete(auth.useReqUser)
+  .delete(function(req, res, next) {
+    const result = req.results;
+    if (!(result && result.can && result.can('delete'))) return next(new Error('You cannot delete this action'));
+
+
         req.results
             .destroy()
             .then(() => {
