@@ -49,3 +49,8 @@
 {% else %}
   <textarea name="description" id="description-textarea" {% if data.widget.requiredDescription %}required{% endif %}>{{activeResource.description}}</textarea>
 {% endif %}
+
+<div id="charsLeftDescription" class="charsLeft">
+  <div class="min">Nog minimaal <span>0</span> tekens</div>
+  <div class="max">Je hebt nog <span>0</span> tekens over.</div>
+</div>

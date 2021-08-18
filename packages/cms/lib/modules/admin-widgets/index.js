@@ -17,7 +17,11 @@ module.exports = {
 
       // self.sendPage is what will actually return the page and render the template 'profile.html' in your views folder.
       // You can change 'profile' to the name of your template minus '.html' - e.g. 'page.html' would just be 'page'
-      return self.sendPage(req, '/page', {});
+      let openstadReactAdminCdn = self.apos.settings.getOption(
+        req,
+        'siteConfig'
+      ).openstadReactAdminCdn;
+      return self.sendPage(req, '/page', { openstadReactAdminCdn });
     });
   },
 };
