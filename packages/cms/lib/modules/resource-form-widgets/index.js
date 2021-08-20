@@ -211,7 +211,7 @@ module.exports = {
             self.pushAsset('stylesheet', 'form', {when: 'always'});
             self.pushAsset('stylesheet', 'main', {when: 'always'});
         //    self.pushAsset('script', 'map', {when: 'always'});
-            self.pushAsset('script', 'editor', {when: 'always'});
+            self.pushAsset('script', 'editor2', {when: 'always'});
 
 
             self.pushAsset('script', 'main', {when: 'always'});
