@@ -8,7 +8,7 @@
     <div>
       <h3> {{item.title | sanitize | safe}} </h3>
       {% if item.actionText %}
-      {{item.actionText}}
+      {{item.actionText | sanitize | safe}}
       {% endif %}
     </div>
   </div>
