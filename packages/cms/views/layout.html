@@ -84,6 +84,7 @@
   var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
   var openstadUserRole = '{{data.openstadUser.role}}';
   var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
+  var loggedIn = {{'true' if data.loggedIn else 'false'}};
 
   var currentPath = '{{data.currentPath}}';
   var currentPathname = '{{data.currentPathname}}';

@@ -89,13 +89,17 @@ module.exports = async function (self, options) {
         rp(options)
             .then(function (response) {
                 res.setHeader('Content-Type', 'application/json');
+                console.log('response',response )
                 res.end(JSON.stringify(response));
             })
             .catch(function (err) {
-               // console.log('err', err);
+                console.log('err', err.message);
+                console.log('err.status', err.statusCode);
 
                 res.setHeader('Content-Type', 'application/json');
-                res.status(500).end(JSON.stringify({
+
+                res.status(err.statusCode).end(JSON.stringify({
+                    status: err.statusCode,
                     msg: err.message
                 }));
             });

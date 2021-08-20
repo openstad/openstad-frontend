@@ -1,12 +1,23 @@
 {% if activeResource %}
 {% if field.isConfigKey %}
+
+{% if field.configSubKey %}
+{% set fieldValue = activeResource.config[field.configKey][field.fieldKey][field.configSubKey] %}
+{% set fieldKey = 'config[' + field.configKey + '][' + field.fieldKey + '][' + field.configSubKey + ']'  %}
+{% else %}
 {% set fieldValue = activeResource.config[field.configKey][field.fieldKey] %}
+{% set fieldKey = 'config[' + field.configKey + '][' + field.fieldKey + ']'  %}
+{% endif %}
+
 {% elseif field.notExtraDataKey %}
 {% set fieldValue = activeResource[field.fieldKey] %}
+
 {% else %}
 {% set fieldValue = activeResource.extraData[field.fieldKey] %}
 {% endif %}
 {% endif %}
+
+
 
 {% if not fieldValue %}
   {% if data.query[field.fieldKey] %}
@@ -24,7 +35,7 @@
   minlength="{{field.fieldMin if field.fieldMin else 2}}"
   maxlength="{{field.fieldMax if field.fieldMax else 140}}"
   {% if field.isConfigKey %}
-  name="config[{{field.configKey}}][{{field.fieldKey}}]"
+  name="{{fieldKey}}"
   {% elseif field.notExtraDataKey %}
   name="{{field.fieldKey}}"
   {% else %}

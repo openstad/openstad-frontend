@@ -421,8 +421,13 @@ function bindResourceFormValidation(resourceForm) {
                         $(form).removeClass('submitting');
                         $(form).addClass('error-submit');
 
-                        // "this" the object you passed
-                        alert(response.responseJSON.msg);
+                        if (response.status === 401 && !window.loggedIn) {
+                            $(form).find('.login-message').show();
+                        } else {
+                            // "this" the object you passed
+                            alert(response.responseJSON.msg);  
+                        }
+
                         $(form).find('input[type="submit"]').val('Opslaan');
                         $(form).find('input[type="submit"]').attr('disabled', false);
                     },

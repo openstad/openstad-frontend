@@ -787,5 +787,22 @@
 	"What key to save the key under": "What key to save the key under",
 	"Redirect user when not a moderator": "Redirect user when not a moderator",
 	"Redirect to page if user doesnt exists or has no email": "Redirect to page if user doesnt exists or has no email",
-	"Value": "Value"
+	"Value": "Value",
+	"Edit Icon section": "Edit Icon section",
+	"Edit Agenda": "Edit Agenda",
+	"Warning to adminstrator: participatory budgeting is turned on but the vote count is public!": "Warning to adminstrator: participatory budgeting is turned on but the vote count is public!",
+	"Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting": "Warning to adminstrator: participatory budgeting is turned on but the site setting is not set to vote type budgeting",
+	"Thema:": "Thema:",
+	"Gebied:": "Gebied:",
+	"Druk op enter om dit plan toe te voegen.": "Druk op enter om dit plan toe te voegen.",
+	"Plan is toegevoegd, druk op enter om dit plan te verwijderen.": "Plan is toegevoegd, druk op enter om dit plan te verwijderen.",
+	"Edit Resource representation": "Edit Resource representation",
+	"Edit Recource image": "Edit Recource image",
+	"Delen via": "Delen via",
+	"Edit Arguments form": "Edit Arguments form",
+	"Edit Arguments": "Edit Arguments",
+	"Save Iframe": "Save Iframe",
+	"Styles for the iFrame": "Styles for the iFrame",
+	"What key to save the config under": "What key to save the config under",
+	"What sub key to save the config under": "What sub key to save the config under"
 }

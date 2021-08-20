@@ -89,12 +89,20 @@ module.exports = {
                 req.data.dontAddAposCSS = true;
             }
 
+            if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.extraData && req.data.openstadUser.extraData.isActiveSubscriber) {
+                if (!hasAdminRights) return req.res.redirect(pageData.userHasActiveSubscriptionRedirect);
+            }
+
             if (pageData && pageData.notLoggedInRedirect && !req.data.loggedIn) {
                 return req.res.redirect(pageData.notLoggedInRedirect);
             }
 
             if (pageData && pageData.notModeratorRedirect && !req.data.hasModeratorRights) {
-                return req.res.redirect(pageData.notModeratorRedirect);
+                if (!hasAdminRights) return req.res.redirect(pageData.notModeratorRedirect);
+            }
+
+            if (pageData && pageData.moderatorRedirect && req.data.hasModeratorRights) {
+                if (!hasAdminRights) return req.res.redirect(pageData.moderatorRedirect);
             }
 
             if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
@@ -139,9 +147,7 @@ module.exports = {
                 console.log('pageData.req.data.openstadUser', req.data.openstadUser);
             }
 
-            if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.extraData && req.data.openstadUser.extraData.isActiveSubscriber) {
-                if (!hasAdminRights) return req.res.redirect(pageData.userHasActiveSubscriptionRedirect);
-            }
+
 
             self.setActiveIdeaId(req);
 

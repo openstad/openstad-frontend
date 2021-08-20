@@ -367,7 +367,12 @@ const fields = [
                     },
                     {
                         name: 'configKey',
-                        label: 'What key to save the key under',
+                        label: 'What key to save the config under',
+                        type: 'string',
+                    },
+                    {
+                        name: 'configSubKey',
+                        label: 'What sub key to save the config under',
                         type: 'string',
                     },
                     {
