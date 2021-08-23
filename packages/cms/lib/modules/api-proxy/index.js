@@ -152,5 +152,23 @@ module.exports = {
           }
       }));
 
+    self.apos.app.use('/api-eda', proxy({
+      target: 'https://api.edamam.com/api/food-database/v2/parser',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api-eda':'' //remove /service/api
+      },
+     /* onProxyReq: (proxyReq, req, res) => {
+        // add custom header to request
+        proxyReq.setHeader("X-Auth-Key", process.env.VIDEO_API_KEY);
+        proxyReq.setHeader("X-Auth-Email",process.env.VIDEO_API_EMAIL);
+      },*/
+      onError: function (err) {
+        //console.log('errerrerr newBody', err);
+      }
+    }));
+
+
+
   }
 };
