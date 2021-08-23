@@ -184,14 +184,17 @@ function serveSite(req, res, siteConfig, forceRestart) {
 }
 
 async function run(id, siteData, options, callback) {
-    const site = {_id: id}
+  const site = { _id: id };
 
-    let openstadComponentsCdn = await cdns.contructComponentsCdn();
-    let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
+  let openstadComponentsCdn = await cdns.contructComponentsCdn();
+  let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
 
-    const config = _.merge(siteData, options, { openstadComponentsCdn, openstadReactAdminCdn });
+  const config = _.merge(siteData, options, {
+    openstadComponentsCdn,
+    openstadReactAdminCdn,
+  });
 
-    let assetsIdentifier;
+  let assetsIdentifier;
 
   // for dev sites grab the assetsIdentifier from the first site in order to share assets
 
@@ -221,77 +224,19 @@ module.exports.getApostropheApp = () => {
 };
 
 module.exports.getMultiSiteApp = (options) => {
-
-    /**
-     * First fetch the data of all sites
-     */
-    app.use(async function (req, res, next) {
-        if (Object.keys(sites).length === 0) {
-            console.log('Fetching config for all sites');
-            await fetchAllSites(req, res);
-        }
-
-        if (Object.keys(sites).length === 0) {
-            console.log('No config for sites found');
-            res.status(500).json({error: 'No sites found'});
-        }
-
-        // add custom openstad configuration to ApostrhopheCMS
-        req.options = options;
-
-        //format domain to our specification
-        let domain = req.headers['x-forwarded-host'] || req.get('host');
-        domain = domain.replace(['http://', 'https://'], ['']);
-        domain = domain.replace(['www'], ['']);
-
-        req.openstadDomain = domain;
-
-        next()
-    });
-
-    const resetConfigMw = async (req, res, next) => {
-        let host = req.headers['x-forwarded-host'] || req.get('host');
-        host = host.replace(['http://', 'https://'], ['']);
-        await fetchAllSites(req, res);
-        req.forceRestart = true;
-        next();
+  /**
+   * First fetch the data of all sites
+   */
+  app.use(async function (req, res, next) {
+    if (Object.keys(sites).length === 0) {
+      console.log('Fetching config for all sites');
+      await fetchAllSites(req, res);
     }
 
-    /**
-     * Route for resetting the config of the server
-     * Necessary when making changes in the site config
-     * Currently simple fetches all config again, and then stops the express server
-     */
-    app.use('/config-reset', resetConfigMw);
-    app.use('/:firstPath/config-reset', resetConfigMw);
-
-    /**
-     * Check if a site is running under the first path
-     *
-     * So for instance, following should work:
-     *  openstad.org/site2
-     *  openstad.org/site3
-     *
-     * If not existing openstad.org will handle the above examples as pages,
-     * if openstad.org exists of course.
-     */
-    app.use('/:sitePrefix', function (req, res, next) {
-        const domainAndPath = req.openstadDomain + '/' + req.params.sitePrefix;
-
-        const site = sites[domainAndPath] ? sites[domainAndPath] : false;
-
-        if (site) {
-            site.sitePrefix = req.params.sitePrefix;
-            req.sitePrefix = req.params.sitePrefix;
-            req.site = site;
-
-            return express.static('public')(req, res, next);
-            // try to run static from subsite
-        } else {
-            next();
-        }
-    });
-
+    if (Object.keys(sites).length === 0) {
+      console.log('No config for sites found');
+      res.status(500).json({ error: 'No sites found' });
+    }
 
     // add custom openstad configuration to ApostrhopheCMS
     req.options = options;
@@ -304,12 +249,11 @@ module.exports.getMultiSiteApp = (options) => {
     req.openstadDomain = domain;
 
     next();
-  };
+  });
 
   const resetConfigMw = async (req, res, next) => {
     let host = req.headers['x-forwarded-host'] || req.get('host');
     host = host.replace(['http://', 'https://'], ['']);
-    console.log('reset host', host);
     await fetchAllSites(req, res);
     req.forceRestart = true;
     next();
@@ -340,7 +284,6 @@ module.exports.getMultiSiteApp = (options) => {
 
     if (site) {
       site.sitePrefix = req.params.sitePrefix;
-      console.log();
       req.sitePrefix = req.params.sitePrefix;
       req.site = site;
 
