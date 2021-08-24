@@ -1,6 +1,7 @@
 # Changelog
 
 ## UNRELEASED
+* Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
 
 ## v0.19.0 (2021-08-17)
