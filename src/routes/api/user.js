@@ -162,10 +162,9 @@ router.route('/')
     const data = {
       ...req.body,
       siteId: req.site.id,
-      role: req.body.role ? req.body.role : 'member',
+      role: req.oAuthUser.role || 'member',
       externalUserId: req.oAuthUser.id
     };
-
     db.User
       .authorizeData(data, 'create', req.user)
       .create(data)
