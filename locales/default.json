@@ -804,5 +804,6 @@
 	"Save Iframe": "Save Iframe",
 	"Styles for the iFrame": "Styles for the iFrame",
 	"What key to save the config under": "What key to save the config under",
-	"What sub key to save the config under": "What sub key to save the config under"
+	"What sub key to save the config under": "What sub key to save the config under",
+	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page."
 }
