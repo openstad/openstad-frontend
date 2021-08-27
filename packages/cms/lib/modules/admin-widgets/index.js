@@ -10,15 +10,18 @@ module.exports = {
   addFields: [
     //  styleSchema.definition('containerStyles', 'Styles for the container')
   ],
-  construct: function(self, options) {
-    self.apos.app.get('/admin', function(req, res) {
+  construct: function (self, options) {
+    self.apos.app.get('/admin', function (req, res) {
       // Place any data you need to access in your template here:
       //    req.data = {};
 
       // self.sendPage is what will actually return the page and render the template 'profile.html' in your views folder.
       // You can change 'profile' to the name of your template minus '.html' - e.g. 'page.html' would just be 'page'
-      let openstadReactAdminCdn = self.apos.settings.getOption(req, 'siteConfig').openstadReactAdminCdn;
-      return self.sendPage(req, '/page', {openstadReactAdminCdn});
+      let openstadReactAdminCdn = self.apos.settings.getOption(
+        req,
+        'siteConfig'
+      ).openstadReactAdminCdn;
+      return self.sendPage(req, '/page', { openstadReactAdminCdn });
     });
-  }
+  },
 };
