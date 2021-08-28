@@ -79,8 +79,9 @@ module.exports = {
               '/api/site/167/newslettersignup',
               '/api/site/*/newslettersignup',
               '/api/site/*/tour/*',
-                '/api/site/19/tour/*',
-              '/api/site/19/tour/1'
+              '/api/site/19/tour/*',
+              '/api/site/19/tour/1',
+              '/api/site/*/tour/*/publish',
 
               //     '/api/site/*/vote/*/toggle',
 
