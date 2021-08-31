@@ -20,7 +20,33 @@ module.exports = {
           name: 'removableItems',
           type: 'boolean',
           label: 'Allow items to be removed?'
-
+      },
+      {
+        type: 'select',
+        name: 'currency',
+        label: 'Currency SIGN',
+        choices: [
+          {
+            value: '€',
+            label: "Euro (€)",
+          },
+          {
+            value: '$',
+            label: "Dollar ($)",
+          },
+          {
+            value: 'R',
+            label: "ZAR (R)",
+          },
+          {
+            value: '£',
+            label: "Pound (£)",
+          },
+          {
+            value: 'R',
+            label: "ZAR (£)",
+          }
+        ]
       },
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],

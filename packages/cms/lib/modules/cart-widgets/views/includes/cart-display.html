@@ -11,7 +11,7 @@
               </div>
               <div class="{{'col-xs-2' if data.widget.displayQuantity else 'col-xs-3'}} text-right">
                   <small><b> Price </b></small><br/>
-                  {{ item.price | currency}}
+                  {{ item.price | currency(data.widget.currency)}}
               </div>
               {% if data.widget.displayQuantity %}
               <div class="col-xs-4 text-right product-change">
@@ -34,7 +34,7 @@
               {% endif %}
               <div class="{{'col-xs-2' if data.widget.displayQuantity else 'col-xs-3'}} text-right">
                   <small><b> Total </b></small><br/>
-                  {{ (item.price * item.qty)  | currency}}
+                  {{ (item.price * item.qty)  | currency(data.widget.currency)}}
               </div>
               {% if data.widget.removableItems %}
               <div class="col-xs-2 text-right">
@@ -57,7 +57,7 @@
 
                 </div>
               <div class="col-xs-2 text-right">
-                  {{ orderFee.price | currency}}
+                  {{ orderFee.price | currency(data.widget.currency)}}
               </div>
               <div class="col-xs-2 text-right">
 
@@ -79,7 +79,7 @@
   {% if data.cart and data.cart.items and data.totalOrder %}
   <div class="text-right">
       <br />
-      <strong>Total: {{ data.totalOrder.toFixed(2) | currency }}</strong>
+      <strong>Total: {{ data.totalOrder.toFixed(2) | currency(data.widget.currency) }}</strong>
   </div>
   {% endif %}
 

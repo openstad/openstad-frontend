@@ -96,7 +96,7 @@
       <div class="row">
         <div class="col-xs-6">
         	<h3 class="title">{{idea.name}}</h3>
-          <p class="price"> {{idea.price | currency}}</p>
+          <p class="price"> {{idea.price | currency(data.widget.currency)}}</p>
         </div>
 
         {% if idea.extraData.soldOut %}
