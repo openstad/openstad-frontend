@@ -27,7 +27,7 @@ let parseConfig = function(siteConfig) {
     config = merge.recursive(config, siteConfig.users.extraData)
   }
 
-  config.id = siteConfig.id;
+  config.id = siteConfig ? siteConfig.id : '';
 
   return config;
   
