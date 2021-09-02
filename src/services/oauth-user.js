@@ -23,11 +23,11 @@ let parseConfig = function(siteConfig) {
   });
 
   // merge with site config
-  if (siteConfig.users && siteConfig.users.extraData) {
+  if (siteConfig && siteConfig.users && siteConfig.users.extraData) {
     config = merge.recursive(config, siteConfig.users.extraData)
   }
 
-  config.id = siteConfig.id;
+  config.id = siteConfig ? siteConfig.id : '';
 
   return config;
   

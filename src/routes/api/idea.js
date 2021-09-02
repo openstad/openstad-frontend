@@ -180,10 +180,13 @@ router.route('/')
       req.body.location = null;
     }
 
+    let userId = req.user.id;
+    if (req.user.role == 'admin' && req.body.userId) userId = req.body.userId;
+
     const data = {
       ...req.body,
       siteId: req.params.siteId,
-      userId: req.user.id,
+      userId,
       startDate: new Date(),
     };
 
@@ -249,7 +252,7 @@ router.route('/')
   })
   .post(function(req, res, next) {
     res.json(req.results);
-    mail.sendThankYouMail(req.results, 'ideas', req.site, req.user); // todo: optional met config?
+    if (!req.query.nomail) mail.sendThankYouMail(req.results, 'ideas', req.site, req.user); // todo: optional met config?
   });
 
 // one idea
