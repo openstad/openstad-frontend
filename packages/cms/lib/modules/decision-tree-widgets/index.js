@@ -4,7 +4,8 @@ function createDecisionSchema(depth) {
       {
         type: 'string',
         name: 'title',
-        label: 'Titel'
+        label: 'Titel',
+        required: true,
       },
       {
         type: 'select',
@@ -22,7 +23,7 @@ function createDecisionSchema(depth) {
             label: 'URL',
             value: 'referer',
             showFields: [
-              'url'
+              'url', 'explainer'
             ]
           },
           {
@@ -38,12 +39,14 @@ function createDecisionSchema(depth) {
         type: 'url',
         name: 'url',
         label: 'URL',
-        help: 'Opent in nieuw tabblad'
+        help: 'Opent in nieuw tabblad',
+        required: true,
       },
       {
         name: 'explainer',
         label: 'Uitleg',
-        type: 'string'
+        type: 'string',
+        required: true,
       },
       {
         name: 'decisions',
@@ -59,7 +62,8 @@ function createDecisionSchema(depth) {
     {
       type: 'string',
       name: 'title',
-      label: 'Titel'
+      label: 'Titel',
+      required: true,
     },
     {
       type: 'select',
@@ -70,7 +74,7 @@ function createDecisionSchema(depth) {
           label: 'URL',
           value: 'referer',
           showFields: [
-            'url'
+            'url', 'explainer'
           ]
         },
         {
@@ -86,12 +90,14 @@ function createDecisionSchema(depth) {
       type: 'url',
       name: 'url',
       label: 'URL',
-      help: 'Opent in nieuw tabblad'
+      help: 'Opent in nieuw tabblad',
+      required: true,
     },
     {
       name: 'explainer',
       label: 'Uitleg',
-      type: 'string'
+      type: 'string',
+      required: true,
     }
   ]
 }
@@ -103,75 +109,22 @@ module.exports = {
       {
         type: 'string',
         name: 'title',
-        label: 'Titel'
+        label: 'Titel',
+        required: true,
       },
       {
         name: 'decisions',
         label: 'Choices',
         type: 'array',
         titleField: 'title',
-        schema: [
-          {
-            type: 'string',
-            name: 'title',
-            label: 'Titel'
-          },
-          {
-            type: 'select',
-            name: 'type',
-            label: 'Type',
-            choices: [
-              {
-                label: 'Beslissing',
-                value: 'decision',
-                showFields: [
-                  'decisions'
-                ]
-              },
-              {
-                label: 'URL',
-                value: 'referer',
-                showFields: [
-                  'url'
-                ]
-              },
-              {
-                label: 'Uitleg',
-                value: 'explainer',
-                showFields: [
-                  'explainer'
-                ]
-              }
-            ]
-          },
-          {
-            type: 'url',
-            name: 'url',
-            label: 'URL',
-            help: 'Opent in nieuw tabblad'
-          },
-          {
-            name: 'explainer',
-            label: 'Uitleg',
-            type: 'string'
-          },
-          {
-            name: 'decisions',
-            label: 'Choices',
-            type: 'array',
-            titleField: 'title',
-            schema: createDecisionSchema(4)
-          },
-        ]
+        schema: createDecisionSchema(5)
       },
       {
         type: 'boolean',
         name: 'devDebug',
         label: 'Enable debug',
         def: false,
-      },
-
-
+      }
     ],
     arrangeFields: [
       {
