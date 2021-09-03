@@ -228,6 +228,7 @@ module.exports = {
         'info-bar-widgets': {},
 
         'vimeo-upload': {},
+        'decision-tree-widgets': {}
       },
     };
 
