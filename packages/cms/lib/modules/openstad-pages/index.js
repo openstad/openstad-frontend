@@ -90,7 +90,7 @@ module.exports = {
                 req.data.dontAddExternalCSS = true;
             }
 
-            if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.extraData && req.data.openstadUser.extraData.isActiveSubscriber) {
+            if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.access && req.data.openstadUser.access.active) {
                 if (!hasAdminRights) return req.res.redirect(pageData.userHasActiveSubscriptionRedirect);
             }
 
