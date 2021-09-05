@@ -382,6 +382,12 @@ const fields = [
                         def: false
                     },
                     {
+                        name: 'storageKey',
+                        label: 'Storage key, what key to save under',
+                        type: 'string',
+                        def: false
+                    },
+                    {
                         name: 'configKey',
                         label: 'What key to save the config under',
                         type: 'string',
@@ -391,6 +397,7 @@ const fields = [
                         label: 'What sub key to save the config under',
                         type: 'string',
                     },
+
                     {
                         name: 'notExtraDataKey',
                         label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',

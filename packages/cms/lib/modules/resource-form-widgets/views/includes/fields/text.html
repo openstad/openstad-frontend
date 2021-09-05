@@ -8,15 +8,15 @@
 {% set fieldValue = activeResource.config[field.configKey][field.fieldKey] %}
 {% set fieldKey = 'config[' + field.configKey + '][' + field.fieldKey + ']'  %}
 {% endif %}
-
+{% elseif field.storageKey %}
+{% set fieldValue = activeResource[field.storageKey][field.fieldKey] %}
+{% set fieldKey = 'config[' + field.storageKey + '][' + field.fieldKey + ']'  %}
 {% elseif field.notExtraDataKey %}
 {% set fieldValue = activeResource[field.fieldKey] %}
-
 {% else %}
 {% set fieldValue = activeResource.extraData[field.fieldKey] %}
 {% endif %}
 {% endif %}
-
 
 
 {% if not fieldValue %}
