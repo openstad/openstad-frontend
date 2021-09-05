@@ -107,6 +107,22 @@ const fields = [
         def: false
     },
     {
+        name: 'autoSubmitForm',
+        label: 'Auto submit form?',
+        type: 'boolean',
+        choices: [
+            {
+                label: 'Yes',
+                value: true,
+            },
+            {
+                label: 'No',
+                value: false,
+            }
+        ],
+        def: false
+    },
+    {
         name: 'displayUserInfoAtTop',
         label: 'Display user info at the top?',
         type: 'boolean',

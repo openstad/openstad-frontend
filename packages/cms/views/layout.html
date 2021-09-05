@@ -47,7 +47,7 @@
 {% endfor %}
 {% endif %}
 
-{% if data.global.stylesheets and not data.dontAddAposCSS %}
+{% if data.global.stylesheets and not data.dontAddExternalCSS %}
 {% for stylesheet in data.global.stylesheets %}
 <link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
 {% endfor %}

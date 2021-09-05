@@ -31,8 +31,10 @@ apos.define('resource-form-widgets', {
                 initUploadField(form);
                 bindResourceFormValidation(form);
 
-
-                if ($(form).hasClass('auto-submit-form-container')) {
+                // in case of a checkout form with order items, redirect, otherwise will cause problems
+                if ($(form).hasClass('checkout-form') && $(form).hasClass('cart-is-empty')) {
+                    window.location.href = window.siteUrl;
+                } else if ($(form).hasClass('auto-submit-form-container')) {
                     if (!window.hasModeratorRights) {
                         $(form).submit();
                     }

@@ -5,7 +5,7 @@
     {% endblock %}
     {{ apos.templates.prepended('head') }}
     <title>{% block title %}{% endblock %}</title>
-    {% if not data.dontAddAposCSS %}
+    {% if not data.dontAddAposCSS   %}
     {{ apos.assets.stylesheets(data.when) }}
     {% else %}
     <style>

@@ -77,9 +77,7 @@ module.exports = {
               const redirectUrl = Url.parse(req.originalUrl);
               const pathName = redirectUrl ? redirectUrl.pathname : '/';
               const redirect = cmsUrl + pathName + '?'+ qs.stringify(queryParams);
-              console.log('queryParams', redirectUrl)
-              console.log('pathName', pathName)
-              console.log('redirect', redirect)
+
 
               res.redirect(redirect);
             });
@@ -102,6 +100,7 @@ module.exports = {
           req.data.totalOrderFees = totalOrderFees;
           req.data.totalOrder =  totalOrderFees + cartTotals;
           req.data.cart = cart;
+          req.data.cartIsEmpty = cart;
           next();
         }
       };

@@ -83,10 +83,11 @@ module.exports = {
             const fullUrl = siteUrl + req.originalUrl;
             const parsedUrl = url.parse(fullUrl, true);
 
-            if (pageData && pageData.noCSS && !req.user) {
+            if (pageData && pageData.noCSS) {
                 // the when parameter is used by Apos to determine which assets is loaded
                 // by forcing it to none will not find a used one
-                req.data.dontAddAposCSS = true;
+                req.data.dontAddAposCSS = !req.user ;
+                req.data.dontAddExternalCSS = true;
             }
 
             if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.extraData && req.data.openstadUser.extraData.isActiveSubscriber) {
