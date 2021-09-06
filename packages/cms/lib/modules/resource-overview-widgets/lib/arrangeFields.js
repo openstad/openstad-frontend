@@ -57,6 +57,11 @@ module.exports = (self, options) => {
             label: 'Tags',
             fields: ['displayTagFilters']
         },
+        {
+            name: 'targetAudience',
+            label: 'Doelgroepen',
+            fields: ['displayTargetAudienceFilters']
+        },
 
         {
             name: 'include_exclude',

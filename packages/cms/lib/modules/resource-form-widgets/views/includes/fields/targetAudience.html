@@ -1,0 +1,17 @@
+<div class="checkbox-container">
+  {% for tag in data.openstadTargetAudience %}
+  <div class="checkbox">
+    <input
+      type="checkbox"
+      name="targetAudiences[]"
+      value="{{tag.id}}"
+      id="audience-{{loop.index}}-{{option.value}}"
+      {% if field.fieldRequired %}required{% endif %}
+      {% if field.idea.tags %}checked{% endif %}
+    />
+    <label for="audience-{{loop.index}}-{{option.value}}" class="checkbox-label">
+       {{tag.name}}
+    </label>
+  </div>
+  {% endfor %}
+</div>

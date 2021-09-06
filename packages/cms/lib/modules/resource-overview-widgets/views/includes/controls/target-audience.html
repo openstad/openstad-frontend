@@ -1,0 +1,39 @@
+{% if data.widget.displayTargetAudienceFilters %}
+<div class="resource-filter-row">
+  <a href="#filter-target-audiences-modal" class="default-select visible-xs">
+    Filter op doelgroep
+  </a>
+</div>
+<div class="resource-overview-tags-container hidden-xs">
+  {% for tag in data.widget.openstadTargetAudiences %}
+  {% if data.widget.isTargetAudienceSelected(tag, data.query) %}
+  <a href="{{data.widget.formatTargetAudienceRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
+  {% else %}
+  <a href="{{data.widget.formatTargetAudienceSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
+  {% endif %}
+  {% endfor %}
+</div>
+<div id="filter-target-audiences-modal" class="content-modal content-modal--l">
+  <div class="content-modal-content">
+    <div class="content-modal-body">
+      <h3 class="filter-target-audiences-modal-title "> Filter op doelgroep </h3>
+      <a href="#closed" class="content-modal-close">
+        <img src="{{data.siteUrl}}/modules/openstad-assets/img/close.svg" width="13" height="13">
+      </a>
+      {% for tag in data.widget.openstadTargetAudiences %}
+      {% if data.widget.isTargetAudienceSelected(tag, data.query) %}
+      <a href="{{data.widget.formatTargetAudienceRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
+      {% else %}
+      <a href="{{data.widget.formatTargetAudienceSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
+      {% endif %}
+      {% endfor %}
+      <br />
+      <div>
+        <a href="#closed" class="filled-button stretch">
+          Toon resultaten
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

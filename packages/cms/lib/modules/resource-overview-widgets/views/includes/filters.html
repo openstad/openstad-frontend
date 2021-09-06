@@ -22,12 +22,15 @@
   <div>
     {% include 'includes/controls/tags.html' %}
   </div>
+  <div>
+    {% include 'includes/controls/target-audience.html' %}
+  </div>
   <div class="resource-filter-row">
     {% if data.widget.itemsInTopFilterBar > 1 %}
     {% include 'includes/controls/sort.html' %}
     {% endif %}
 
-    {% if data.query.oTags or data.query.theme or data.query.area or data.query.search  %}
+    {% if data.query.oTags or data.query.theme or data.query.area or data.query.search or data.query.oTargetAudiences  %}
     <a href="{{data.currentPathname}}" class="resource-filter-erase openstad-ajax-refresh-link">
       <img src="{{data.siteUrl}}/modules/openstad-assets/img/eye.svg" width="23" height="16" />
       Laat alles zien

@@ -84,6 +84,9 @@ module.exports = {
                 widget.formatTagSelectUrl = self.formatTagSelectUrl;
                 widget.formatTagRemoveUrl = self.formatTagRemoveUrl;
                 widget.isTagSelected = self.isTagSelected;
+                widget.formatTargetAudienceSelectUrl = self.formatTargetAudienceSelectUrl;
+                widget.formatTargetAudienceRemoveUrl = self.formatTargetAudienceRemoveUrl;
+                widget.isTargetAudienceSelected = self.isTargetAudienceSelected;
                 widget.parseDateToTime = (date) => {
                     return new Date(date).getTime();
                 }
@@ -191,6 +194,7 @@ module.exports = {
                     includeArgsCount: 1,
                     sort: queryObject.sort ? queryObject.sort : defaultSort,
                     tags: queryObject.oTags ? queryObject.oTags : '',
+                    targetAudiences: queryObject.oTargetAudiences ? queryObject.oTargetAudiences : '',
                     filters: {
                         theme: queryObject.theme ? queryObject.theme : '',
                         area: queryObject.area ? queryObject.area : '',
@@ -250,6 +254,8 @@ module.exports = {
                 widget.openstadTags = req.data.openstadTags ? req.data.openstadTags.map((tag) => {
                     return Object.assign({}, tag);
                 }) : [];
+
+                widget.openstadTargetAudiences = req.data.openstadTargetAudience ? req.data.openstadTargetAudience : []
 
                 let response;
 
@@ -375,6 +381,54 @@ module.exports = {
             }
 
             return params && Array.isArray(params.oTags) && params.oTags.includes(tag.id);
+        }
+
+        //selection means it is set to url, so it will be used to query the api
+        self.formatTargetAudienceSelectUrl = (tag, defaultParams) => {
+            let getParams = defaultParams ? Object.assign({}, defaultParams) : {};
+
+            defaultParams.page = 0;
+
+            // make sure tags is an array
+            getParams.oTargetAudiences = Array.isArray(getParams.oTargetAudiences) ? getParams.oTargetAudiences : [];
+
+            // if not oTargetAudiences queryparams add it, so a click will "select" this link
+            getParams.oTargetAudiences = self.isTargetAudienceSelected(tag, defaultParams) ? getParams.oTargetAudiences : [...getParams.oTargetAudiences, tag.id];
+
+            return `?${qs.stringify(getParams)}`;
+        }
+
+        self.formatTargetAudienceRemoveUrl = (tag, defaultParams) => {
+            let getParams = defaultParams ? Object.assign({}, defaultParams) : {};
+
+            defaultParams.page = 0;
+
+            // make sure we have an array
+            getParams.oTargetAudiences = Array.isArray(getParams.oTargetAudiences) ? getParams.oTargetAudiences : [];
+
+            //make sure the ids are integers, get parameters from url are returned as a string
+            if (Array.isArray(getParams.oTargetAudiences)) {
+                getParams.oTargetAudiences = getParams.oTargetAudiences.map((tag) => {
+                    return parseInt(tag, 10);
+                });
+            }
+
+            // if not in queryparams add it, so a click will "select" this link
+            getParams.oTargetAudiences = self.isTargetAudienceSelected(tag, defaultParams) ? getParams.oTargetAudiences.filter(tagId => tagId !== tag.id) : getParams.oTargetAudiences;
+            return `?${qs.stringify(getParams)}`;
+        }
+
+        self.isTargetAudienceSelected = (tag, defaultParams) => {
+            let params = defaultParams ? defaultParams : {};
+
+            //make sure the ids are integers, get parameters from url are returned as a string
+            if (Array.isArray(params.oTargetAudiences)) {
+                params.oTargetAudiences = params.oTargetAudiences.map((tag) => {
+                    return parseInt(tag, 10);
+                });
+            }
+
+            return params && Array.isArray(params.oTargetAudiences) && params.oTargetAudiences.includes(tag.id);
         }
 
         self.formatWidgetResponse = (widget, response, queryParams, pathname) => {

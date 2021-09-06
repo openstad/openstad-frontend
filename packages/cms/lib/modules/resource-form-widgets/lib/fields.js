@@ -99,6 +99,11 @@ const fields = [
                       showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
                   },
                   {
+                      value: 'targetAudience',
+                      label: "Doelgroep (currently only works for ideas)",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                  },
+                  {
                       value: 'raw',
                       label: "Raw",
                       showFields: ['rawInput']
