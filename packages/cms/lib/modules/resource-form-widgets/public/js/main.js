@@ -423,7 +423,7 @@ function bindResourceFormValidation(resourceForm) {
                         $(form).removeClass('submitting');
                         $(form).addClass('error-submit');
 
-                        if (response.status === 401 && !window.loggedIn) {
+                        if (response.status === 401) {
                             $(form).find('.login-message').show();
                         } else {
                             // "this" the object you passed
