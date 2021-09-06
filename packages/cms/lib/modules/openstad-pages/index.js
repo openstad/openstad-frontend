@@ -1,8 +1,9 @@
 // This configures the apostrophe-pages module to add a "home" page type to the
 // pages menu
 
-const loadIdeas       = require('./lib/load-ideas');
-const loadTags        = require('./lib/load-tags');
+const loadIdeas           = require('./lib/load-ideas');
+const loadTags            = require('./lib/load-tags');
+const loadTargetAudiences = require('./lib/load-target-audience');
 
 module.exports = {
     improve: 'apostrophe-pages',
@@ -59,6 +60,7 @@ module.exports = {
       // they are cached
       self.apos.app.use((req, res, next) => { loadIdeas(req, res, next); });
       self.apos.app.use((req, res, next) => { loadTags(req, res, next);  });
+      self.apos.app.use((req, res, next) => { loadTargetAudiences(req, res, next);  });
 
       const superPageBeforeSend = self.pageBeforeSend;
       self.pageBeforeSend = (req, callback) => {
