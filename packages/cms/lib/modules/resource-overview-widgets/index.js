@@ -224,11 +224,14 @@ module.exports = {
                     params.search = {
                         "criteria": [
                             {
-                                "title": queryObject.search
+                                "title": queryObject.search,
+                            },
+                            {
+                                "description": queryObject.search,
                             },
                         ],
                         "options": {
-                            "andOr": "and"
+                            "andOr": "or"
                         }
                     };
                 }
