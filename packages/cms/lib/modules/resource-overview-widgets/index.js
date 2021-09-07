@@ -23,6 +23,7 @@ const fields = require('./lib/fields');
 const sortingOptions = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+const loadGrants = require('../resource-form-widgets/lib/load-grants')
 
 const MAX_PAGE_SIZE = 100;
 
@@ -34,6 +35,8 @@ module.exports = {
     construct: function (self, options) {
 
         require('./lib/arrangeFields.js')(self, options);
+        
+        self.apos.app.use(loadGrants);
 
         const superPushAssets = self.pushAssets;
 
@@ -87,6 +90,9 @@ module.exports = {
                 widget.formatTargetAudienceSelectUrl = self.formatTargetAudienceSelectUrl;
                 widget.formatTargetAudienceRemoveUrl = self.formatTargetAudienceRemoveUrl;
                 widget.isTargetAudienceSelected = self.isTargetAudienceSelected;
+                widget.formatGrantSelectUrl = self.formatGrantSelectUrl;
+                widget.formatGrantRemoveUrl = self.formatGrantRemoveUrl;
+                widget.isGrantSelected = self.isGrantSelected;
                 widget.parseDateToTime = (date) => {
                     return new Date(date).getTime();
                 }
@@ -195,6 +201,7 @@ module.exports = {
                     sort: queryObject.sort ? queryObject.sort : defaultSort,
                     tags: queryObject.oTags ? queryObject.oTags : '',
                     targetAudiences: queryObject.oTargetAudiences ? queryObject.oTargetAudiences : '',
+                    grants: queryObject.oGrants ? queryObject.oGrants : '',
                     filters: {
                         theme: queryObject.theme ? queryObject.theme : '',
                         area: queryObject.area ? queryObject.area : '',
@@ -217,11 +224,14 @@ module.exports = {
                     params.search = {
                         "criteria": [
                             {
-                                "title": queryObject.search
+                                "title": queryObject.search,
+                            },
+                            {
+                                "description": queryObject.search,
                             },
                         ],
                         "options": {
-                            "andOr": "and"
+                            "andOr": "or"
                         }
                     };
                 }
@@ -256,6 +266,7 @@ module.exports = {
                 }) : [];
 
                 widget.openstadTargetAudiences = req.data.openstadTargetAudience ? req.data.openstadTargetAudience : []
+                widget.openstadGrants = req.data.openstadGrants ? req.data.openstadGrants : []
 
                 let response;
 
@@ -429,6 +440,54 @@ module.exports = {
             }
 
             return params && Array.isArray(params.oTargetAudiences) && params.oTargetAudiences.includes(tag.id);
+        }
+        
+        //selection means it is set to url, so it will be used to query the api
+        self.formatGrantSelectUrl = (grant, defaultParams) => {
+            let getParams = defaultParams ? Object.assign({}, defaultParams) : {};
+
+            defaultParams.page = 0;
+
+            // make sure tags is an array
+            getParams.oGrants = Array.isArray(getParams.oGrants) ? getParams.oGrants : [];
+
+            // if not oGrants queryparams add it, so a click will "select" this link
+            getParams.oGrants = self.isGrantSelected(grant, defaultParams) ? getParams.oGrants : [...getParams.oGrants, grant.id];
+
+            return `?${qs.stringify(getParams)}`;
+        }
+
+        self.formatGrantRemoveUrl = (grant, defaultParams) => {
+            let getParams = defaultParams ? Object.assign({}, defaultParams) : {};
+
+            defaultParams.page = 0;
+
+            // make sure we have an array
+            getParams.oGrants = Array.isArray(getParams.oGrants) ? getParams.oGrants : [];
+
+            //make sure the ids are integers, get parameters from url are returned as a string
+            if (Array.isArray(getParams.oGrants)) {
+                getParams.oGrants = getParams.oGrants.map((grant) => {
+                    return parseInt(grant, 10);
+                });
+            }
+
+            // if not in queryparams add it, so a click will "select" this link
+            getParams.oGrants = self.isGrantSelected(grant, defaultParams) ? getParams.oGrants.filter(grantId => grantId !== grant.id) : getParams.oGrants;
+            return `?${qs.stringify(getParams)}`;
+        }
+
+        self.isGrantSelected = (grant, defaultParams) => {
+            let params = defaultParams ? defaultParams : {};
+
+            //make sure the ids are integers, get parameters from url are returned as a string
+            if (Array.isArray(params.oGrants)) {
+                params.oGrants = params.oGrants.map((grant) => {
+                    return parseInt(grant, 10);
+                });
+            }
+
+            return params && Array.isArray(params.oGrants) && params.oGrants.includes(grant.id);
         }
 
         self.formatWidgetResponse = (widget, response, queryParams, pathname) => {

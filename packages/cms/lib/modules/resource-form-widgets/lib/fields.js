@@ -104,6 +104,11 @@ const fields = [
                       showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
                   },
                   {
+                      value: 'grants',
+                      label: "Subsidies (currently only works for ideas)",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                  },
+                  {
                       value: 'raw',
                       label: "Raw",
                       showFields: ['rawInput']

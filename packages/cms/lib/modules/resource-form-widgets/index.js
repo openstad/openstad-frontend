@@ -27,6 +27,7 @@ const toSqlDatetime = (inputDate) => {
 
 const fields = require('./lib/fields.js');
 const userFormFields = require('./lib/userFormFields.js');
+const loadGrants = require('./lib/load-grants');
 
 module.exports = {
   extend: 'map-widgets',
@@ -127,6 +128,8 @@ module.exports = {
      }
 
    ]);
+
+   self.apos.app.use((req, res, next) => { loadGrants(req, res, next);  });
 
    require('./lib/submit.js')(self, options);
 
