@@ -1,6 +1,10 @@
 # Changelog
 
 ## UNRELEASED
+* Replace arguments widgets bij openstad-components widgets
+* Add automatic update of idea status after a given number of days
+
+## v0.19.0 (2021-08-17)
 * Better settings for closed reactions on idea-on-map
 * Don't show pagination if only one page
 * Add larger minimum height to prevent overlapping controls on the map application

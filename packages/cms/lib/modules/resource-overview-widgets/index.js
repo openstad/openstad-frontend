@@ -209,6 +209,8 @@ module.exports = {
                     }
                 }
 
+                widget.countdownPeriod = siteConfig[`${resource}s`].automaticallyUpdateStatus && siteConfig[`${resource}s`].automaticallyUpdateStatus.afterXDays || 0;
+
                 if (queryObject.search) {
                     params.search = {
                         "criteria": [
@@ -364,10 +366,10 @@ module.exports = {
         }
 
         self.isTagSelected = (tag, defaultParams) => {
-            //console.log('isTagSelected', params);
+            // console.log('isTagSelected', params);
             let params = defaultParams ? defaultParams : {};
 
-            //make sure the ids are integers, get parameters from url are returned as a string
+            // make sure the ids are integers, get parameters from url are returned as a string
             if (Array.isArray(params.oTags)) {
                 params.oTags = params.oTags.map((tag) => {
                     return parseInt(tag, 10);
@@ -385,8 +387,10 @@ module.exports = {
             widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
             widget.activeResources = response.records ? response.records.map((record) => {
                 // delete because they are added to the data-attr and will get very big
-                //  delete record.description;
-                return record;
+              //  delete record.description;
+              let daysOld = parseInt( ( Date.now() - new Date(record.startDate).getTime() ) / ( 24 * 60 * 60 * 1000 ) );
+              record.countdown = widget.countdownPeriod - daysOld;
+              return record;
             }) : [];
 
             return widget;
