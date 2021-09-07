@@ -1,0 +1,17 @@
+<div class="checkbox-container">
+  {% for grant in data.openstadGrants %}
+  <div class="checkbox">
+    <input
+      type="checkbox"
+      name="grants[]"
+      value="{{grant.id}}"
+      id="grant-{{loop.index}}-{{option.value}}"
+      {% if field.fieldRequired %}required{% endif %}
+      {% if field.idea.grants %}checked{% endif %}
+    />
+    <label for="grant-{{loop.index}}-{{option.value}}" class="checkbox-label">
+       {{grant.name}}
+    </label>
+  </div>
+  {% endfor %}
+</div>

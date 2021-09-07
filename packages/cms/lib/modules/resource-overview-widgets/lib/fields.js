@@ -621,6 +621,22 @@ module.exports = [
     ],
   },
 
+  {
+    name: 'displayGrantFilters',
+    label: 'Display grant filters?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+
 ].concat(
   ideaStates.map((state) => {
     return {

@@ -62,6 +62,11 @@ module.exports = (self, options) => {
             label: 'Doelgroepen',
             fields: ['displayTargetAudienceFilters']
         },
+        {
+            name: 'grants',
+            label: 'Subsidies',
+            fields: ['displayGrantFilters']
+        },
 
         {
             name: 'include_exclude',
