@@ -7,6 +7,7 @@
 * Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
 * Allow button & links to only be visible for moderators
+* Fix stats for subdirs
 
 ## v0.19.0 (2021-08-17)
 * Better settings for closed reactions on idea-on-map
