@@ -1,5 +1,8 @@
 # Changelog
 
+## URELEASED 2
+* Make embedded auth forms label en button text configurable in widget
+
 ## UNRELEASED
 * Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
