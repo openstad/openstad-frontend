@@ -71,7 +71,7 @@ module.exports = (self, options) => {
         {
             name: 'include_exclude',
             label: 'Include & Exclude items',
-            fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources']
+            fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources', 'filterArchive']
         },
         styleSchema.definition('containerStyles', 'Styles for the container')
     ]);

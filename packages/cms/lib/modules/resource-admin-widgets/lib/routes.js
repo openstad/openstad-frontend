@@ -58,6 +58,11 @@ module.exports = async function(self, options) {
          data.modBreakDate = req.body.modBreakDate ? req.body.modBreakDate : toSqlDatetime();
        }
 
+      if (req.body.archivedAt === 'now') {
+        data.archivedAt = new Date()
+      } else if (req.body.archivedAt === 'null') {
+        data.archivedAt = null
+      }
 
        const options = {
            method: 'PUT',
