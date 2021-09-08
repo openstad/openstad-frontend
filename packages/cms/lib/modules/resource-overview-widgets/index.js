@@ -142,6 +142,10 @@ module.exports = {
                     return moment(date, PARSE_DATE_FORMAT).isAfter(dateTimeAgo);
                 };
 
+                widget.isArchiveFilterChecked = () => {
+                    return !!req.query.showArchive
+                }
+
                 //    widget.selectedTheme = req.data.query.theme ? req.data.query.theme : (widget.defaultTheme ? widget.defaultTheme : '');
                 //    widget.selectedArea = req.data.query.area ? req.data.query.area : (widget.defaultArea ? widget.defaultArea : '');
 
@@ -234,6 +238,10 @@ module.exports = {
                             "andOr": "or"
                         }
                     };
+                }
+
+                if (queryObject.showArchive) {
+                    params.showArchive = 1
                 }
 
                 const siteId = widget.siteId ? widget.siteId : req.data.global.siteId;

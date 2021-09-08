@@ -456,6 +456,22 @@ module.exports = [
     help: 'Warning: This currently doesn\'t work with sorting, filters and pagination. So set the pagination limit too highest possible. For multiple resource id\'s, comma seperated'
   },
   {
+    name: 'filterArchive',
+    label: 'Let user make archived ideas visible (Only works for ideas)',
+    help: 'A button will be shown to the user to also show archived ideas in the overview',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
     type: 'string',
     name: 'pageSize',
     label: 'Amount of items per page',

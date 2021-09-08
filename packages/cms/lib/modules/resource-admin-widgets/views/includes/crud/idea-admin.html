@@ -33,7 +33,27 @@
 {% include 'includes/modal-extra-info.html' %}
 {% endif %}
 
-
+{% if not data.widget.activeResource.archivedAt %}
+<form method="POST" class="idea-status-form ajax-form" action="{{data.siteUrl}}/modules/resource-admin-widgets/update">
+  <input type="hidden" name="archivedAt" value="now" />
+  <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
+  <input type="hidden" name="_method" value="PUT">
+  <button type="submit" class="edit-button delete">
+    Archiveren
+  </button>
+</form>
+{% else %}
+<form method="POST" class="idea-status-form ajax-form" action="{{data.siteUrl}}/modules/resource-admin-widgets/update">
+  <input type="hidden" name="archivedAt" value="null" />
+  <input type="hidden" name="resourceId" value="{{data.activeResourceId}}" />
+  <input type="hidden" name="resourceType" value="{{data.activeResourceType}}" />
+  <input type="hidden" name="_method" value="PUT">
+  <button type="submit" class="edit-button delete">
+    Terugzetten uit archief
+  </button>
+</form>
+{% endif %}
 
 {% include 'includes/modal-modbreak.html' %}
 {% include 'includes/modal-vote-overview.html' %}
