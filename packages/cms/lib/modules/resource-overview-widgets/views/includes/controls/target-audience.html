@@ -5,6 +5,7 @@
   </a>
 </div>
 <div class="resource-overview-tags-container hidden-xs">
+  <h3>Filter op doelgroep</h3>
   {% for tag in data.widget.openstadTargetAudiences %}
   {% if data.widget.isTargetAudienceSelected(tag, data.query) %}
   <a href="{{data.widget.formatTargetAudienceRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>

@@ -5,6 +5,7 @@
   </a>
 </div>
 <div class="resource-overview-tags-container hidden-xs">
+  <h3>Filter of subsidie</h3>
   {% for tag in data.widget.openstadGrants %}
   {% if data.widget.isGrantSelected(tag, data.query) %}
   <a href="{{data.widget.formatGrantRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
