@@ -85,11 +85,13 @@ module.exports = {
 
         const statsUrl = options.sitePrefix ? options.sitePrefix + '/stats' : '/stats'
 
+
+
         /*
         * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
         */
         self.apos.app.use('/stats', proxy({
-            target: apiUrl,
+            target: statsUrl,
             changeOrigin: true,
             pathRewrite: {['^' + statsUrl]: '/stats'},
             onProxyReq: (proxyReq, req, res) => {
