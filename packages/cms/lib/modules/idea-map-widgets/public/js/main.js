@@ -2,10 +2,7 @@ apos.define('idea-map-widgets', {
     extend: 'map-widgets',
     construct: function(self, options) {
         self.playAfterlibsLoaded = function($widget, data, options) {
-            var mapConfig = data.mapConfig;
-            if (!mapConfig) {
-                mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
-            }
+            var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : data.mapConfig;
 
             if (mapConfig) {
                 var map = self.createMap(mapConfig);
