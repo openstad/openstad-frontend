@@ -1,4 +1,6 @@
 # Changelog
+## Unreleased
+* Make autoCenter configurable in idea-map-widgets
 
 ## v0.16.0 (2020-04-26)
 * Add cookie consent for video widget
