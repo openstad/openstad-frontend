@@ -11,7 +11,9 @@ apos.define('idea-map-widgets', {
                 var markers = self.addMarkers(mapConfig);
                 self.addOverviewEventListeners(map);
 
-                self.center();
+                if(mapConfig.defaultSettings && mapConfig.defaultSettings.autoCenter) {
+                    self.center();
+                }
             }
 
             /**
