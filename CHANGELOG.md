@@ -1,4 +1,6 @@
 # Changelog
+## Unreleased
+* Make autoCenter configurable in idea-map-widgets
 
 ## v0.19.0 (2021-08-17)
 * Better settings for closed reactions on idea-on-map
