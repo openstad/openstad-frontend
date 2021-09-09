@@ -145,7 +145,7 @@ module.exports = class MapConfigBuilder {
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
             googleMapsApiKey: settings.googleMapsApiKey || '',
-            autoCenter: settings.autoCenter || true
+            autoCenter: settings.autoCenter === false || settings.autoCenter == 'false' ? false : true
         };
 
         return this;
@@ -157,7 +157,7 @@ module.exports = class MapConfigBuilder {
     setMarker() {
         return this;
     }
-    
+
     setMarkersByResources(resources) {
         const markers = [];
         resources ? resources.forEach((idea) => {

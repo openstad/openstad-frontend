@@ -188,7 +188,7 @@ module.exports = {
               styles: styles,
               useMarkerLinks: widget.useMarkerLinks,
               googleMapsApiKey: googleMapsApiKey,
-              autoCenter: typeof widget.autoCenter !== "undefined" ? widget.autoCenter : true
+              autoCenter: widget.autoCenter
             })
             .setPolygon(globalData.mapPolygons)
             .setMarkersByResources(widget.ideas)
