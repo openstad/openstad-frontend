@@ -84,7 +84,7 @@ OAuthAPI.fetchUser = async function({ siteConfig, which = 'default', email, user
 
   let path = '';
   if ( userId ) path = `/api/admin/user/${userId}`;
-  if ( email  ) path = `/api/admin/users?email=${email}`;
+  if ( email  ) path = `/api/admin/users?email=${encodeURIComponent(email)}`;
   if ( token ) path = `/api/userinfo`;
 
   if (!path) throw new Error('no Find By arguments found')
