@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-* Make image size configable for the image widget
+* Make image size configurable for the image widget
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
