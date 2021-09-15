@@ -54,6 +54,7 @@ module.exports = async function(self, options) {
    */
   self.addOrUpdateNotification = async (item, type) => {
     const formName = `${type}-${item.formName}`;
+    console.log('item', item);
 
     const { ruleset, template, recipient } = await self.getNotificationByFormName(formName);
 
@@ -67,7 +68,7 @@ module.exports = async function(self, options) {
     if (template) {
       templateData.id = template.id
     }
-
+    console.log('template data', templateData);
     const updatedTemplate = await self.apos.openstadApi.addOrUpdateNotificationTemplate(templateData);
     const ruleSetData = {
       notificationTemplateId: updatedTemplate.id,
@@ -78,6 +79,8 @@ module.exports = async function(self, options) {
     if (ruleset) {
       ruleSetData.id = ruleset.id
     }
+
+    console.log('ruleset data', ruleSetData);
 
     const updatedRuleSet = await self.apos.openstadApi.addOrUpdateNotificationRuleSet(ruleSetData);
     const recipientData = {
