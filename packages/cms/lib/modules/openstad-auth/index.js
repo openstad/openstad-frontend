@@ -152,7 +152,7 @@ module.exports = {
                         });
                     }
 
-                    const THIRTY_SECONDS = 30 * 1000;
+                    const THIRTY_SECONDS = 100; //30 * 1000;
                     const date = new Date();
                     const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
@@ -163,6 +163,7 @@ module.exports = {
                     } else {
                         rp(options)
                             .then(function (user) {
+                                console.log('Fetched usersssss', user)
                                 if (user && Object.keys(user).length > 0 && user.id) {
                                     req.session.openstadUser = user;
                                     req.session.lastJWTCheck = new Date().toISOString();
