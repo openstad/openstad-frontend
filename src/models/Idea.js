@@ -96,6 +96,9 @@ module.exports = function (db, sequelize, DataTypes) {
         var date = this.getDataValue('endDate');
         if (this.site && this.site.config && this.site.config.votes && this.site.config.votes.isActiveTo) {
           return this.site.config.votes.isActiveTo;
+        } else if (this.site && this.site.config && this.site.config.ideas && this.site.config.ideas.automaticallyUpdateStatus && this.site.config.ideas.automaticallyUpdateStatus.isActive) {
+          let days = this.site.config.ideas.automaticallyUpdateStatus.afterXDays || 0;
+          return moment(this.createdAt).add(days, 'days');
         } else {
           return date;
         }
@@ -1459,6 +1462,9 @@ module.exports = function (db, sequelize, DataTypes) {
             // Automatically determine `endDate`
             if (instance.changed('startDate')) {
               var duration = (instance.config && instance.config.ideas && instance.config.ideas.duration) || 90;
+              if (this.site && this.site.config && this.site.config.ideas && this.site.config.ideas.automaticallyUpdateStatus && this.site.config.ideas.automaticallyUpdateStatus.isActive) {
+                duration = this.site.config.ideas.automaticallyUpdateStatus.afterXDays || 0;
+              }
               var endDate = moment(instance.startDate).add(duration, 'days').toDate();
               instance.setDataValue('endDate', endDate);
             }

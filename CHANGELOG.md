@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.17.0
+* Add option to anonymize only selected users at /api/site/:SITE_ID/user/:USER_ID/do-anonymizeall
+* Add automatic update of idea status after a given number of days
+* Add 'Project has ended' to site configuration
+* Add endpoints /api/site/:id/(do|will)-anonymize-all-users
+
 ## v0.16.0
 * Add endpoint /user/:id/activity
 * Add endpoints /user/:id/(do|will)-anonymize(all?)

@@ -162,10 +162,9 @@ router.route('/')
     const data = {
       ...req.body,
       siteId: req.site.id,
-      role: req.body.role ? req.body.role : 'member',
+      role: req.oAuthUser.role || 'member',
       externalUserId: req.oAuthUser.id
     };
-
     db.User
       .authorizeData(data, 'create', req.user)
       .create(data)
@@ -228,8 +227,32 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
       .catch(next);
   })
   .put(async function (req, res, next) {
-   let result;
+    // if body contains user ids then anonimize only those
+    try {
+      let ids = req.body && req.body.onlyUserIds;
+      if (!ids) return next();
+      if (!Array.isArray(ids)) ids = [ids];
+      ids = ids.map(id => parseInt(id)).filter(id => typeof id == 'number');
+      if (ids.length) req.onlyIds = ids;
+    } catch (err) {
+      return next(err);
+    }
+    return next();
+  })
+  .put(async function (req, res, next) {
+    let result;
     if (!(req.targetUser && req.targetUser.can && req.targetUser.can('update', req.user))) return next(new Error('You cannot update this User'));
+    if (req.onlyIds && !req.onlyIds.includes(req.targetUser.id)) {
+      req.results = {
+        "ideas": [],
+        "articles": [],
+        "arguments": [],
+        "votes": [],
+        "users": [],
+        "sites": [],
+      }
+      return next();
+    }
     try {
       if (req.params.willOrDo == 'do') {
         result = await req.targetUser.doAnonymize();
@@ -248,30 +271,51 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
   })
   .put(async function (req, res, next) {
     if ( !(req.params.all) ) return next();
+    if ( !(req.linkedUsers) ) return next();
     try {
       for (const user of req.linkedUsers) {
-        let result;
-        if (!(user && user.can && user.can('update', req.user))) return next(new Error('You cannot update this User'));
-        if (req.params.willOrDo == 'do') {
-          result = await user.doAnonymize();
-        } else {
-          result = await user.willAnonymize();
+        if (!req.onlyIds ||req.onlyIds.includes(user.id)) {
+          let result;
+          if (!(user && user.can && user.can('update', req.user))) return next(new Error('You cannot update this User'));
+          if (req.params.willOrDo == 'do') {
+            result = await user.doAnonymize();
+          } else {
+            result = await user.willAnonymize();
+          }
+          req.results.users.push(result.user);
+          req.results.sites.push(result.site);
+          req.results.ideas = req.results.ideas.concat(result.ideas || []);
+          req.results.articles = req.results.articles.concat(result.articles || []);
+          req.results.arguments = req.results.arguments.concat(result.arguments || []);
+          req.results.votes = req.results.votes.concat(result.votes || []);
         }
-        req.results.users.push(result.user);
-        req.results.sites.push(result.site);
-        req.results.ideas = req.results.ideas.concat(result.ideas || []);
-        req.results.articles = req.results.articles.concat(result.articles || []);
-        req.results.arguments = req.results.arguments.concat(result.arguments || []);
-        req.results.votes = req.results.votes.concat(result.votes || []);
       }
     } catch (err) {
       return next(err);
     }
     return next();
   })
+  .put(function (req, res, next) {
+    if (!req.externalUserId) return next();
+    // refresh: this user including other sites
+    let where = { externalUserId: req.externalUserId };
+    db.User
+      .scope(...req.scope)
+      .findAll({
+        where,
+      })
+      .then(found => {
+        if (!found) return next();
+        req.remainingUsers = found;
+        next();
+        return null;
+      })
+      .catch(next);
+  })
   .put(async function (req, res, next) {
     if (req.params.willOrDo != 'do') return next();
-    if ( !(req.params.all || !req.linkedUsers || req.linkedUsers.length == 0) ) return next();
+    if ( !req.remainingUsers || req.remainingUsers.length > 0 ) return next();
+
     // no api users left for this oauth user, so remove the oauth user
     let which = req.query.useOauth || 'default';
     let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
@@ -282,9 +326,9 @@ router.route('/:userId(\\d+)/:willOrDo(will|do)-anonymize(:all(all)?)')
     }
     return next();
   })
-  .get(function (req, res, next) {
+  .put(function (req, res, next) {
     // customized version of auth.useReqUser
-    req.results.forEach(which => {
+    Object.keys(req.results).forEach(which => {
       req.results[which] && req.results[which].forEach( result => {
         result.auth = result.auth || {};
         result.auth.user = req.user;

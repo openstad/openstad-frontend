@@ -1,6 +1,7 @@
 const merge = require('merge');
 const moment = require('moment');
 const OAuthApi = require('../services/oauth-api');
+const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 
 module.exports = function (db, sequelize, DataTypes) {
 
@@ -69,6 +70,43 @@ module.exports = function (db, sequelize, DataTypes) {
 
     hooks: {
 
+      beforeValidate: async function (instance, options) {
+
+        try {
+          // ik zou verwachten dat je dit met _previousDataValues kunt doen, maar die bevat al de nieuwe waarde
+          let current = await db.Site.findOne({ where: { id: instance.id } });
+
+          // on update of projectHasEnded also update isActive of all the parts
+          if (current && typeof instance.config.projectHasEnded != 'undefined' && current.config.projectHasEnded !== instance.config.projectHasEnded) {
+            let config = merge.recursive(true, instance.config);
+            if (instance.config.projectHasEnded) {
+              config.votes.isActive = false;
+              config.ideas.canAddNewIdeas = false;
+              // config.articles.canAddNewArticles = false;
+              config.arguments.isClosed = true;
+              // config.polls.canAddPolls = false;
+              // config.users.canCreateNewUsers = false;
+            } else {
+              // commented: do not update these params on unsetting
+              // config.votes.isActive = true;
+              // config.ideas.canAddNewIdeas = true;
+              // config.articles.canAddNewArticles = true;
+              // config.arguments.isClosed = false;
+              // config.polls.canAddPolls = true;
+              // config.users.canCreateNewUsers = true;
+            }
+            instance.set('config', config);
+          }
+          
+        } catch (err) {
+          console.log(err);
+          throw err;
+        }
+
+
+
+      },
+
       beforeCreate: function (instance, options) {
         return beforeUpdateOrCreate(instance, options);
       },
@@ -84,6 +122,7 @@ module.exports = function (db, sequelize, DataTypes) {
   async function beforeUpdateOrCreate(instance, options) {
     try {
 
+      // TODO: dit gebeurd nu in de route maar moet denk ik naar hier
 //      // canCreateNewUsers must be updated on the clients
 //      if (instance.config.users && typeof instance.config.users.canCreateNewUsers != 'undefined' ) {
 //        let config = { users: { canCreateNewUsers: instance.config.users.canCreateNewUsers } }
@@ -121,6 +160,12 @@ module.exports = function (db, sequelize, DataTypes) {
     // todo: formaat gelijktrekken met sequelize defs
     // todo: je zou ook opties kunnen hebben die wel een default hebbe maar niet editable zijn? apiUrl bijv. Of misschien is die afgeleid
     return {
+      allowedDomains: {
+        type: 'arrayOfStrings',
+        default: [
+          'openstad-api.amsterdam.nl'
+        ]
+      },
       allowedDomains: {
         type: 'arrayOfStrings',
         default: [
@@ -358,7 +403,17 @@ module.exports = function (db, sequelize, DataTypes) {
               "Initialavailablebudget": {type: 'int', default: 0},
               "minimalBudgetSpent": {type: 'int', default: 0},
             }
-          }
+          },
+          automaticallyUpdateStatus: {
+            isActive: {
+              type: 'boolean',
+              default: false,
+            },
+            afterXDays: {
+              type: 'int',
+              default: 90,
+            },
+          },
         }
       },
       arguments: {
@@ -749,6 +804,62 @@ module.exports = function (db, sequelize, DataTypes) {
 
   }
 
+  Site.prototype.willAnonymizeAllUsers = async function () {
+
+    let self = this;
+    let result = {};
+
+    try {
+
+      if (!self.id) throw Error('Site not found');
+      if (!self.config.projectHasEnded) throw Error('Cannot anonymize users on an active site - first set the project-has-ended parameter');
+
+      let users = await db.User.findAll({ where: { siteId: self.id } });
+
+      // do not anonymize admins
+      result.admins = users.filter( user => userHasRole(user, 'admin') );
+      result.users  = users.filter( user => !userHasRole(user, 'admin') );
+
+      // extract externalUserIds
+      result.externalUserIds = result.users.filter( user => user.externalUserId ).map( user => user.externalUserId );
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+
+    return result;
+    
+  }
+
+  Site.prototype.doAnonymizeAllUsers = async function () {
+
+    // anonymize all users for this site
+    let self = this;
+    let result;
+
+    try {
+
+      result = await self.willAnonymizeAllUsers();
+
+      let users = [ ...result.users ]
+
+      // anonymize users
+      for (const user of users) {
+        user.site = self;
+        let res = await user.doAnonymize();
+      }
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+
+    result.message = 'Ok';
+    return result;
+
+  }
+
   Site.prototype.isVoteActive = function () {
     let self = this;
     let voteIsActive = self.config.votes.isActive;
@@ -764,6 +875,14 @@ module.exports = function (db, sequelize, DataTypes) {
     createableBy: 'admin',
     updateableBy: 'admin',
     deleteableBy: 'admin',
+    canAnonimizeAllUsers : function(user, self) {
+      self = self || this;
+      if (!user) user = self.auth && self.auth.user;
+      if (!user || !user.role) user = { role: 'all' };
+      let isValid = userHasRole(user, 'admin', self.id);
+      return isValid;
+    }
+
   }
 
   return Site;

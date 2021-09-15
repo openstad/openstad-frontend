@@ -2,12 +2,14 @@ const Promise 				= require('bluebird');
 const express 				= require('express');
 const config 					= require('config');
 const fetch           = require('node-fetch');
+const merge           = require('merge');
 const db      				= require('../../db');
 const auth 						= require('../../middleware/sequelize-authorization-middleware');
 const pagination 			= require('../../middleware/pagination');
 const searchResults 	= require('../../middleware/search-results-user');
 const oauthClients 		= require('../../middleware/oauth-clients');
 const checkHostStatus = require('../../services/checkHostStatus')
+const OAuthApi        = require('../../services/oauth-api');
 
 let router = express.Router({mergeParams: true});
 
@@ -134,10 +136,12 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			})
 			.then(() => {
 				next();
+        return null;
 			})
-			.catch((e) => {
-				console.log('eee',e);
+			.catch((err) => {
+				console.log('ERROR',err);
 				next();
+        return null;
 			});
 	})
 
@@ -150,7 +154,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 		const updates = [];
 
 		req.siteOAuthClients.forEach((oauthClient, i) => {
-			 const authUpdateUrl = authServerUrl + '/api/admin/client/' + oauthClient.id;
+			const authUpdateUrl = authServerUrl + '/api/admin/client/' + oauthClient.id;
 			const configKeysToSync = ['users', 'styling', 'ideas'];
 
       // todo: gebruik de oauth-api service
@@ -165,7 +169,6 @@ router.route('/:siteIdOrDomain') //(\\d+)
        oauthClient.config['users'] = { canCreateNewUsers: req.site.config.users.canCreateNewUsers }
 
 
-			// todo: use the oauth-api service
       const apiCredentials = {
 				 client_id: oauthClient.clientId,
 				 client_secret: oauthClient.clientSecret,
@@ -192,7 +195,7 @@ router.route('/:siteIdOrDomain') //(\\d+)
 				next(e)
 			});
 	})
-	// call the site, to let the site know a refresh of the siteConfig is needed
+  // call the site, to let the site know a refresh of the siteConfig is needed
 	.put(refreshSiteConfigMw)
 	.put(function (req, res, next) {
 		// when succesfull return site JSON
@@ -209,5 +212,74 @@ router.route('/:siteIdOrDomain') //(\\d+)
 			})
 			.catch(next);
 	})
+
+// anonymize all users
+// -------------------
+router.route('/:siteId(\\d+)/:willOrDo(will|do)-anonymize-all-users')
+	.put(auth.can('Site', 'anonimizeAllUsers'))
+	.put(function(req, res, next) {
+    // the site
+		let where = { id: parseInt(req.params.siteId) };
+		db.Site
+			.findOne({ where })
+			.then(found => {
+				if ( !found ) throw new Error('Site not found');
+				req.results = found;
+				req.site = req.results; // middleware expects this to exist
+        next();
+				return null;
+			})
+			.catch(next);
+	})
+  .put(async function (req, res, next) {
+    try {
+      if (req.params.willOrDo == 'do') {
+        req.results = await req.site.doAnonymizeAllUsers();
+      } else {
+        req.results = await req.site.willAnonymizeAllUsers();
+      }
+      next();
+			return null;
+    } catch (err) {
+      return next(err);
+    }
+  })
+  .put(async function (req, res, next) {
+    try {
+      if (req.results.externalUserIds.length == 0) return next();
+      for (let externalUserId of req.results.externalUserIds) {
+        let users = await db.User.findAll({ where: { externalUserId } });
+        if (users.length == 0) {
+          // no api users left for this oauth user, so remove the oauth user
+          let which = req.query.useOauth || 'default';
+          let siteConfig = req.site && merge({}, req.site.config, { id: req.site.id });
+          if (req.params.willOrDo == 'do') {
+            let result = await OAuthApi.deleteUser({ siteConfig, which, userData: { id: externalUserId }})
+          }
+        }
+      }
+      next();
+			return null;
+    } catch (err) {
+      return next(err);
+    }
+  })
+  .put(function (req, res, next) {
+    // customized version of auth.useReqUser
+    delete req.results.externalUserIds
+		Object.keys(req.results).forEach(which => {
+			req.results[which] && req.results[which].forEach && req.results[which].forEach( result => {
+				if (typeof result == 'object') {
+					result.auth = result.auth || {};
+					result.auth.user = req.user;
+				}
+			});
+		});
+    return next();
+  })
+  .put(function (req, res, next) {
+    res.json(req.results);
+  })
+
 
 module.exports = router;
