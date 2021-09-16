@@ -209,7 +209,8 @@ module.exports = {
                     filters: {
                         theme: queryObject.theme ? queryObject.theme : '',
                         area: queryObject.area ? queryObject.area : '',
-                    }
+                    },
+                    showArchive: 0
                 };
 
                 if (widget.excludeThemes) {
