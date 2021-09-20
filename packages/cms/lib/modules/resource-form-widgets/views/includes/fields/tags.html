@@ -7,7 +7,7 @@
       value="{{tag.id}}"
       id="checkbox-{{loop.index}}-{{option.value}}"
       {% if field.fieldRequired %}required{% endif %}
-      {% if field.idea.tags %}checked{% endif %}
+      {% if data.widget.isChecked('tags', tag.id) %}checked{% endif %}
     />
     <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">
        {{tag.name}}
