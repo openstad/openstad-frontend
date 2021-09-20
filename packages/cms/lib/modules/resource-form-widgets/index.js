@@ -11,7 +11,7 @@ const url           = require('url');
 const request       = require('request');
 const pick          = require('lodash/pick')
 const eventEmitter  = require('../../../events').emitter;
-
+const get           = require('lodash/get')
 
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
@@ -189,6 +189,14 @@ module.exports = {
     				const resources = activeResource ? [activeResource] : [];
             const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
+
+            widget.isChecked = function(resourceName, resourceId) {
+              if (!resourceName || !resourceId) {
+                return false
+              }
+              const items = get(activeResource, resourceName, [])
+              return items.some(res => res.id === resourceId)
+            }
 
             widget.mapConfig = self.getMapConfigBuilder(globalData)
                 .setDefaultSettings({

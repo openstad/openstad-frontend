@@ -7,7 +7,7 @@
       value="{{grant.id}}"
       id="grant-{{loop.index}}-{{option.value}}"
       {% if field.fieldRequired %}required{% endif %}
-      {% if field.idea.grants %}checked{% endif %}
+      {% if data.widget.isChecked('grants', grant.id) %}checked{% endif %}
     />
     <label for="grant-{{loop.index}}-{{option.value}}" class="checkbox-label">
        {{grant.name}}
