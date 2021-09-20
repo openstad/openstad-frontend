@@ -88,6 +88,10 @@ module.exports = {
           label: 'Full screen (vertical & horizontal)',
           value: 'full-screen',
         },
+        {
+          label: 'Tabs',
+          value: 'tabs',
+        },
 
 
       /*  {
@@ -218,6 +222,24 @@ module.exports = {
         },
       ]
     },
+    {
+      name: 'tabs',
+      label: 'Tabs',
+      type: 'array',
+      titleField: 'title',
+      schema: [
+        {
+          type: 'string',
+          name: 'title',
+          label: 'Title'
+        },
+        {
+          type: 'string',
+          name: 'uniqueId',
+          label: 'uniqueId'
+        }
+      ]
+    },
   ],
 
 
@@ -242,6 +264,11 @@ module.exports = {
         name: 'advanced',
         label: 'Advanced',
         fields: ['containerId', 'marginType', 'htmlId', 'htmlClass']
+      },
+      {
+        name: 'tabs',
+        label: 'Tabs',
+        fields: ['tabs']
       }
     ]);
 
@@ -249,6 +276,7 @@ module.exports = {
     self.pushAssets = function () {
       superPushAssets();
       self.pushAsset('stylesheet', 'main', { when: 'always' });
+      self.pushAsset('script', 'main', { when: 'always' });
     };
 
     const superLoad = self.load;
@@ -278,6 +306,7 @@ module.exports = {
     }
 
     const superOutput = self.output;
+
     self.output = (widget, options) => {
       Object.keys(widget.contentWidgets).forEach((widgetKey) => {
 

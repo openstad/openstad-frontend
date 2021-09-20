@@ -1,0 +1,27 @@
+<style>
+    {{data.widget.formattedContainerStyles}}
+</style>
+<div id="{{data.widget.containerId}}">
+    <div class="row">
+        <div class="col-xs-4">
+            {% for tab  in data.widget.tabs %}
+            <ul>
+                <li>
+                    <a class="tab-link" href="#tab-{{tab.uniqueId}}"> {{tab.title}} </a>
+                </li>
+            </ul>
+            {% endfor %}
+        </div>
+        <div class="col-xs-8">
+            {% for tab in data.widget.tabs %}
+            <div id="tab-{{tab.uniqueId}}" class="tab-container">
+                {{
+                    apos.area(data.widget, tab.uniqueId, {
+                        widgets: data.widget.contentWidgets
+                    })
+                }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
