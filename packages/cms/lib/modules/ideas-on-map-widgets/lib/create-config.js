@@ -1,4 +1,5 @@
-const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
+const sortingOptions = require('../../../../config/sorting.js').ideasOnMapOptions;
+const ideaForm = require('./idea-form');
 
 module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
 
@@ -20,14 +21,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
   let allowMultipleImages = typeof widget.imageAllowMultipleImages != 'undefined' ? widget.imageAllowMultipleImages : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.allowMultipleImages != 'undefined' ) ? data.global.siteConfig.ideas.allowMultipleImages : false );
   let placeholderImageSrc = typeof widget.imagePlaceholderImageSrc != 'undefined' ? apos.attachments.url(widget.imagePlaceholderImageSrc) : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.placeholderImageSrc != 'undefined' ) ? data.global.siteConfig.ideas.placeholderImageSrc : undefined );
   
-  // formfields
-  let formFields = [ ...widget.formFields ];
-  formFields.forEach((formField) => {
-    if ( formField.inputType ==  "image-upload" ) {
-      formField.allowMultiple = allowMultipleImages; // todo: ik dnek dat deze niet meer nodig is
-    }
-  });
-
   let themeTypes;
   try {
     themeTypes = data.global.themes || [];
@@ -128,7 +121,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 			descriptionMinLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
 			allowMultipleImages,
-      fields: formFields,
+      fields: ideaForm.getWidgetFormFields(widget),
       shareChannelsSelection: widget.showShareButtons ? widget.shareChannelsSelection : [],
       metaDataTemplate: widget.metaDataTemplate,
 		},
