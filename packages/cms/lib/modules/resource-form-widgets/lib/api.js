@@ -101,7 +101,7 @@ module.exports = async (self, options) => {
       await self.apos.openstadApi.addOrUpdateNotificationRuleSet({
         id: ruleset.id,
         label: ruleset.label,
-        body: ruleset.body
+        body: ruleset.body,
         active: 0
       });
     }
