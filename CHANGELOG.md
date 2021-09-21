@@ -2,6 +2,7 @@
 
 ## URELEASED 2
 * Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
 
 ## PRE-RELEASE
 * Replace arguments widgets bij openstad-components widgets
