@@ -163,7 +163,6 @@ module.exports = {
                     } else {
                         rp(options)
                             .then(function (user) {
-                                console.log('Fetched usersssss', user)
                                 if (user && Object.keys(user).length > 0 && user.id) {
                                     req.session.openstadUser = user;
                                     req.session.lastJWTCheck = new Date().toISOString();
