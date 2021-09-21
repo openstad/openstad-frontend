@@ -1,4 +1,4 @@
-module.exports = async function(self, options) {
+module.exports = async (self, options) => {
   /**
    * Sync data with api when user saves or commit
    * @param req
@@ -96,11 +96,15 @@ module.exports = async function(self, options) {
 
   self.disableNotificationRuleSet = async (formName) => {
     const { ruleset } = await self.getNotificationByFormName(formName);
-
-    await self.apos.openstadApi.addOrUpdateNotificationRuleSet({
-      id: ruleset.id,
-      active: 0
-    });
+    if (ruleset && ruleset.id) {
+      console.log('disable ruleset', ruleset.id);
+      await self.apos.openstadApi.addOrUpdateNotificationRuleSet({
+        id: ruleset.id,
+        label: ruleset.label,
+        body: ruleset.body
+        active: 0
+      });
+    }
   }
 
   /**
