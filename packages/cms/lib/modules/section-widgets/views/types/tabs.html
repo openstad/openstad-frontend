@@ -4,23 +4,25 @@
 <div id="{{data.widget.containerId}}">
     <div class="row">
         <div class="col-xs-4">
-            {% for tab  in data.widget.tabs %}
+            {% for tab in data.widget.tabs %}
             <ul>
                 <li>
-                    <a class="tab-link" href="#tab-{{tab.uniqueId}}"> {{tab.title}} </a>
+                    <a class="tab-link" href="#tab-{{loop.index}}"> {{tab.title}} </a>
                 </li>
             </ul>
             {% endfor %}
         </div>
         <div class="col-xs-8">
             {% for tab in data.widget.tabs %}
-            <div id="tab-{{tab.uniqueId}}" class="tab-container">
+            {% if tab.areaName %}
+            <div id="tab-{{loop.index}}" class="tab-container">
                 {{
-                    apos.area(data.widget, tab.uniqueId, {
+                    apos.area(data.widget, tab.areaName, {
                         widgets: data.widget.contentWidgets
                     })
                 }}
             </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
