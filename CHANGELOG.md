@@ -3,6 +3,7 @@
 ## URELEASED 2
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
+* Fix HTML injection in search form in the resource overview widget
 
 ## PRE-RELEASE
 * Replace arguments widgets bij openstad-components widgets
