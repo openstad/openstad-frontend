@@ -1,5 +1,10 @@
 # Changelog
 
+## URELEASED 2
+* Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
+* Fix HTML injection in search form in the resource overview widget
+
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
 
