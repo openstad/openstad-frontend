@@ -160,7 +160,10 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
       isActive: data.global.siteConfig.votes.isActive,
       isActiveFrom: data.global.siteConfig.votes.isActiveFrom,
       isActiveTo: data.global.siteConfig.votes.isActiveTo,
+      requiredUserRole: data.global.siteConfig.votes.requiredUserRole,
+      voteType: data.global.siteConfig.votes.voteType,
       voteValues: data.global.siteConfig.votes.voteValues,
+
     },
 
   }
