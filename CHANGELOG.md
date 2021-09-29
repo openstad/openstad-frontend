@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.20.2
+* Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
+
+## v0.20.1
+* Version made for build fixes in travis
+
 ## v0.20.0
 * Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
