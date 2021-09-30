@@ -144,7 +144,6 @@ router.route('/')
 			let vote = {
 				id: entry.id,
 				ideaId: entry.ideaId,
-				userId: entry.userId,
 				confirmed: entry.confirmed,
 				opinion: entry.opinion,
 				createdAt: entry.createdAt
@@ -155,6 +154,7 @@ router.route('/')
 				vote.createdAt = entry.createdAt;
 				vote.checked =  entry.checked;
 				vote.user = entry.user;
+				vote.userId = entry.userId;
 			}
       records[i] = vote
 		});

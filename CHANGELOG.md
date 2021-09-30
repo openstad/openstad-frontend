@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Remove userId from votes endpoint when user does not have moderator rights
+
 ## v0.17.0
 * Add option to anonymize only selected users at /api/site/:SITE_ID/user/:USER_ID/do-anonymizeall
 * Add automatic update of idea status after a given number of days
