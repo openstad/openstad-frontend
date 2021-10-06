@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Add a new text style to select in the rich text editor.
+
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
 
