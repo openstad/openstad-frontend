@@ -42,9 +42,16 @@ module.exports = async function (self, options) {
 
             // format images
             images = images ? images.map(function (image) {
-                image = JSON.parse(image);
+                console.log('images', image)
+                try {
+                    image = JSON.parse(image);
+                } catch (e) {
+                    console.log('e', e)
+                    image = '';
+                }
                 return image ? image.url : '';
             }) : [];
+
 
             // add the formatedd images
             data.extraData.images = images;

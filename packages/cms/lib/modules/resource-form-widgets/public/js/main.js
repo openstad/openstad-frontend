@@ -11,7 +11,7 @@ apos.define('resource-form-widgets', {
         self.playAfterlibsLoaded = function($widget, data, options) {
             var mapConfig = typeof resourceMapConfig !== 'undefined' && resourceMapConfig ? resourceMapConfig : {};
 
-            console.log('mapConfig', mapConfig);
+            self.registerFilePondPlugins();
 
             if (mapConfig && Object.keys(mapConfig).length > 0) {
                 self.createMap(mapConfig);
@@ -214,58 +214,115 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
 function initUploadField(resourceForm) {
     var $resourceForm = $(resourceForm);
     // Init form validation
-    var fieldsetElement = $resourceForm.find('.filepondFieldset');
+    var $fieldsetElement = $resourceForm.find('.filepondFieldset');
 
-    if (fieldsetElement && fieldsetElement.length > 0) {
+    console.log('fieldsetElement', $fieldsetElement, $fieldsetElement.length)
 
-        var filePondSettings = {
-            // set allowed file types with mime types
-            acceptedFileTypes: ['image/*'],
-            allowFileSizeValidation: true,
-            maxFileSize: '8mb',
-            name: 'image',
-            maxFiles: 5,
-            allowBrowse: true,
-            files: uploadedFiles, //Fixme: remove this global var?
-            server: {
-                process: '/image',
-                fetch: '/fetch-image?img=',
-                revert: null
-            },
-            labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>klik hier</span>",
-            labelInvalidField: "Field contains invalid files",
-            labelFileWaitingForSize: "Wachtend op grootte",
-            labelFileSizeNotAvailable: "Grootte niet beschikbaar",
-            labelFileCountSingular: "Bestand in lijst",
-            labelFileCountPlural: "Bestanden in lijst",
-            labelFileLoading: "Laden",
-            labelFileAdded: "Toegevoegd", // assistive only
-            labelFileLoadError: "Fout bij het uploaden",
-            labelFileRemoved: "Verwijderd", // assistive only
-            labelFileRemoveError: "Fout bij het verwijderen",
-            labelFileProcessing: "Laden",
-            labelFileProcessingComplete: "Afbeelding geladen",
-            labelFileProcessingAborted: "Upload cancelled",
-            labelFileProcessingError: "Error during upload",
-            labelFileProcessingRevertError: "Error during revert",
-            labelTapToCancel: "tap to cancel",
-            labelTapToRetry: "tap to retry",
-            labelTapToUndo: "tap to undo",
-            labelButtonRemoveItem: "Verwijderen",
-            labelButtonAbortItemLoad: "Abort",
-            labelButtonRetryItemLoad: "Retry",
-            labelButtonAbortItemProcessing: "Verwijder",
-            labelButtonUndoItemProcessing: "Undo",
-            labelButtonRetryItemProcessing: "Retry",
-            labelButtonProcessItem: "Upload"
-        };
+    if ($fieldsetElement && $fieldsetElement.length > 0) {
+        console.log('fieldsetElement start', $fieldsetElement)
+
+        $fieldsetElement.each(function(i) {
+            console.log('fieldsetElement 2222')
+
+            var $el = $(this);
+            console.log('$el.siblings 122', $el.closest('.image-upload-container').find('.image-input'));
+            console.log('$el.siblings 222', $el.closest('.image-upload-container'));
+            console.log('$el.siblings333', $el);
+
+            var $input = $el.closest('.image-upload-container').find('.image-input');
+
+            var image = $input.val();
+
+            var uploadedFiles = image ? [{
+                source: {"url":image},
+                options : {
+                    type: 'local',
+                    // mock file information
+                    file: {
+                        name: image,
+                        //		 size: 3001025,
+                        //	 type: 'image/png'
+                    },
+                    metadata: {
+                        poster: image,
+                    }
+                }
+            }] : [];
+
+            var filePondSettings = {
+                // set allowed file types with mime types
+                acceptedFileTypes: ['image/*'],
+                allowFileSizeValidation: true,
+                maxFileSize: '8mb',
+                name: 'image', // $(this).attr('data-name'),
+                maxFiles: 5,
+                allowBrowse: true,
+                files: uploadedFiles, //Fixme: remove this global var?
+                server: {
+                    process: {
+                        url: '/image',
+                        method: 'POST',
+                        withCredentials: false,
+                        headers: {},
+                        timeout: 7000,
+                        onload: function(response){
+                            response = response ? JSON.parse(response) : {};
+                            console.log('$input$input', $input);
+
+                            $input.val(response.url);
+                        },
+                       // onerror: null,
+                      //  ondata: null,
+                    },
+                    fetch: '/fetch-image?img=',
+                    revert: null
+                },
+                labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>klik hier</span>",
+                labelInvalidField: "Field contains invalid files",
+                labelFileWaitingForSize: "Wachtend op grootte",
+                labelFileSizeNotAvailable: "Grootte niet beschikbaar",
+                labelFileCountSingular: "Bestand in lijst",
+                labelFileCountPlural: "Bestanden in lijst",
+                labelFileLoading: "Laden",
+                labelFileAdded: "Toegevoegd", // assistive only
+                labelFileLoadError: "Fout bij het uploaden",
+                labelFileRemoved: "Verwijderd", // assistive only
+                labelFileRemoveError: "Fout bij het verwijderen",
+                labelFileProcessing: "Laden",
+                labelFileProcessingComplete: "Afbeelding geladen",
+                labelFileProcessingAborted: "Upload cancelled",
+                labelFileProcessingError: "Error during upload",
+                labelFileProcessingRevertError: "Error during revert",
+                labelTapToCancel: "tap to cancel",
+                labelTapToRetry: "tap to retry",
+                labelTapToUndo: "tap to undo",
+                labelButtonRemoveItem: "Verwijderen",
+                labelButtonAbortItemLoad: "Abort",
+                labelButtonRetryItemLoad: "Retry",
+                labelButtonAbortItemProcessing: "Verwijder",
+                labelButtonUndoItemProcessing: "Undo",
+                labelButtonRetryItemProcessing: "Retry",
+                labelButtonProcessItem: "Upload"
+            };
+
+            var pond = FilePond.create($(this).get(0), filePondSettings);
+
+            var sortableInstance;
+
+            var pondEl = $resourceForm.find('.filepond--root')[i];
 
 
-        var pond = FilePond.create(fieldsetElement[0], filePondSettings);
-        var sortableInstance;
-        var pondEl = $resourceForm.find('.filepond--root')[0];
+            pondEl.addEventListener('FilePond:processfile', function (e) {
+            //    validator.element($('input[name=validateImages]'))
+            });
 
+            pondEl.addEventListener('FilePond:removefile', function (e) {
+                //    validator.element($('input[name=validateImages]'))
+                $input.val('');
+            });
 
+        });
+/*
         // check if files are being uploaded
         $.validator.addMethod("validateFilePondProcessing", function (val, el, param) {
             var files = pond ? pond.getFiles() : [];
@@ -294,21 +351,7 @@ function initUploadField(resourceForm) {
 
         }, "Eén of meerdere plaatjes zijn verplicht.");
 
-
-        pondEl.addEventListener('FilePond:addfile', function (e) {
-            if (sortableInstance) {
-                $resourceForm.find("ul.filepond--list").sortable('refresh');
-            } else {
-                sortableInstance = true;
-                $resourceForm.find("ul.filepond--list").sortable();
-            }
-
-            //  validator.element($('input[name=validateImages]'))
-        });
-
-        pondEl.addEventListener('FilePond:processfile', function (e) {
-            validator.element($('input[name=validateImages]'))
-        });
+ */
     }
 
 }
@@ -316,12 +359,17 @@ function initUploadField(resourceForm) {
 function bindResourceFormValidation(resourceForm) {
     var ideaForm = $(resourceForm);
 
+
+
     //todo fix
     $.validator.addMethod("minLengthWithoutHTML", function (val, el, params) {
         var mainEditor = document.getElementById('js-editor');
         var lengthOfChars = stripHTML(mainEditor.innerHTML).length;
         return lengthOfChars >= params;
     }, "Minimaal {0} tekens.");
+
+
+    console.log(' $(resourceForm)',  $(resourceForm))
 
     var validator = $(resourceForm).validate({
         ignore: '',
@@ -344,10 +392,10 @@ function bindResourceFormValidation(resourceForm) {
                 minlength: descriptionMinLength,
                 maxlength: descriptionMaxLength,
             },
-            validateImages: {
+           /* validateImages: {
                 validateFilePond: true,
                 validateFilePondProcessing: true
-            },
+            },*/
             /*    description: {
                   minLengthWithoutHTML: 140
                 }*/

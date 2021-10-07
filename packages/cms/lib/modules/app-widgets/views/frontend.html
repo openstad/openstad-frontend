@@ -13,7 +13,7 @@
         var settings = AppEditor.settings.{{data.widget.editorType if data.widget.editorType  else 'workout'}};
 
         var appProps = {
-             appId: {{data.widget.appId if data.widget.appId else 0}},
+             appId: {{data.widget.appId if data.widget.appId else data.global.activeAppId}},
              jwt: '{{data.jwt}}',
              defaultResources: settings.defaultResources,
              apiBase: '/api/site/{{data.global.siteId}}',

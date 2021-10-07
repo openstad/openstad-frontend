@@ -77,7 +77,10 @@ module.exports = (self, options) => {
         req.data.global.siteId = siteConfig.id;
       }
 
-      // empty
+        req.data.global.activeAppId = siteConfig.app && siteConfig.app.id ? siteConfig.app.id  : false;
+        req.data.global.app = siteConfig.app;
+
+        // empty
     //  req.data.global.siteTitle = '';
 
     //  req.data.global.siteConfig = siteConfig;

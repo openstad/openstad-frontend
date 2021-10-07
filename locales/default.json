@@ -805,5 +805,15 @@
 	"Styles for the iFrame": "Styles for the iFrame",
 	"What key to save the config under": "What key to save the config under",
 	"What sub key to save the config under": "What sub key to save the config under",
-	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page."
+	"Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.": "Warning to adminstrator: a resource representation widget won't work untill the page type is set to resource and a type of resource is selected, this can be fixed in page settings on the bottom of the page.",
+	"No changes to display.": "No changes to display.",
+	"made changes on": "made changes on",
+	"MM/DD/YY[ at ]h:mma": "MM/DD/YY[ at ]h:mma",
+	"See Changes": "See Changes",
+	"Current": "Current",
+	"Revert to": "Revert to",
+	"Area Structure": "Area Structure",
+	"Done": "Done",
+	"Storage key, what key to save under": "Storage key, what key to save under",
+	"Dynamic image": "Dynamic image"
 }

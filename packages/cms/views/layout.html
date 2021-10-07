@@ -53,6 +53,19 @@
 {% endfor %}
 {% endif %}
 
+{% if data.global.stylesheets and not data.dontAddExternalCSS %}
+{% for stylesheet in data.global.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
+{% endfor %}
+{% endif %}
+
+
+{% if data.global.styling.stylesheets and not data.dontAddExternalCSS %}
+{% for stylesheet in data.global.styling.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
+{% endfor %}
+{% endif %}
+
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
@@ -153,7 +166,9 @@
                 Gemeente<br>Amsterdam
               </div>
             </a>
-            {% else %}
+            {% elseif data.global.styling.logo %}
+            <img src="{{data.global.styling.logo}}" alt="logo" id="logo-image">
+              {% else %}
               {# in case logo is inMenu for mobile now still show above menu untill mobile menu structure is changed/improved #}
             <a href="{{logoLink}}/" class="logo-uploaded logo-main-container {{ 'visible-xs' if data.global.logoPlacement === 'inMenu' }}">
             <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">

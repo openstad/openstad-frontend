@@ -1,0 +1,39 @@
+{% if field.isConfigKey %}
+{% if field.configSubKey %}
+{% set fieldValue = activeResource.config[field.configKey][field.fieldKey][field.configSubKey] %}
+{% set fieldKey = 'config[' + field.configKey + '][' + field.fieldKey + '][' + field.configSubKey + ']'  %}
+{% else %}
+{% set fieldValue = activeResource.config[field.configKey][field.fieldKey] %}
+{% set fieldKey = 'config[' + field.configKey + '][' + field.fieldKey + ']'  %}
+{% endif %}
+{% elseif field.storageKey %}
+{% set fieldValue = activeResource[field.storageKey][field.fieldKey] %}
+{% set fieldKey = 'config[' + field.storageKey + '][' + field.fieldKey + ']'  %}
+{% elseif field.notExtraDataKey %}
+{% set fieldValue = activeResource[field.fieldKey] %}
+{% set fieldKey = field.fieldKey  %}
+{% else %}
+{% set fieldKey = 'extraData['+field.fieldKey+']'  %}
+{% set fieldValue = activeResource.extraData[field.fieldKey] %}
+{% endif %}
+
+
+{% if not fieldValue %}
+{% if data.query[field.fieldKey] %}
+{% set fieldValue = data.query[field.fieldKey] %}
+{% else %}
+{% set fieldValue = field.fieldValue %}
+{% endif %}
+{% endif %}
+
+
+
+<div class="image-upload-container">
+<fieldset class="filepondFieldset" data-name="{{fieldKey}}">
+    <!-- a list of already uploaded files -->
+    <input type="file" name="image" class="imageUploader filepond" {% if data.widget.uploadMultiple %} multiple {% endif %} {% if data.widget.requiredImages %}required{% endif %} />
+
+</fieldset>
+<input type="hidden" name="{{fieldKey}}" value="{{fieldValue}}" class="image-input"  />
+<input type="hidden" name="validateImages" multiple />
+</div>
