@@ -13,16 +13,21 @@ router.route('/')
 // --------------
 	.get(auth.can('Submission', 'list'))
 	.get(pagination.init)
-	.get(function(req, res, next) {
+	.get(function (req, res, next) {
 		let where = {};
 		req.scope = ['defaultScope'];
+		
+		if (req.query.filter || req.query.exclude) {
+			req.scope.push({method: ['filter', JSON.parse(req.query.filter), req.query.exclude]});
+		}
+		
 		db.Submission
 			.scope(...req.scope)
-			.findAndCountAll({ where, offset: req.dbQuery.offset, limit: req.dbQuery.limit })
-			.then(function( result ) {
-        req.results = result.rows;
-        req.dbQuery.count = result.count;
-        return next();
+			.findAndCountAll({where, offset: req.dbQuery.offset, limit: req.dbQuery.limit, order: req.dbQuery.order})
+			.then(function (result) {
+				req.results       = result.rows;
+				req.dbQuery.count = result.count;
+				return next();
 			})
 			.catch(next);
 	})
@@ -64,8 +69,9 @@ router.route('/')
 
 			db.Submission
 				.scope(...req.scope)
-		//		.find({ where })
-        .find()
+				.findOne({
+				    where: {id: submissionId, siteId: req.params.siteId}
+				})
 				.then(found => {
 					if ( !found ) throw new Error('Submission not found');
 					req.results = found;
