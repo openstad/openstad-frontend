@@ -277,7 +277,7 @@ function initUploadField(resourceForm) {
                     fetch: '/fetch-image?img=',
                     revert: null
                 },
-                labelIdle: "Sleep afbeelding(en) naar deze plek of <span class='filepond--label-action'>klik hier</span>",
+                labelIdle: "Drag & drop images or <span class='filepond--label-action'>click here</span>",
                 labelInvalidField: "Field contains invalid files",
                 labelFileWaitingForSize: "Wachtend op grootte",
                 labelFileSizeNotAvailable: "Grootte niet beschikbaar",
