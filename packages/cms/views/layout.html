@@ -123,6 +123,62 @@
 </style>
 {% endif %}
 
+
+{% if data.global.styling.accentColor %}
+<style>
+#mainMenu .menu-cta-button { background-color: {{data.global.styling.accentColor}}; }
+#mainMenu .menu-cta-button { border-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag { background-color: {{data.global.styling.accentColor}}; }
+.filled-button { background-color: {{data.global.styling.accentColor}}; }
+.btn-primary { background-color: {{data.global.styling.accentColor}}; }
+.btn--blue { background-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget { background-color: {{data.global.styling.accentColor}}; }
+#map-with-buttons-container .no-of-locations-content { background-color: {{data.global.styling.accentColor}}; }
+.no-of-locations-content { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-for-content { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-against-content { background-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag { border-color: {{data.global.styling.accentColor}}; }.filled-button { border-color: {{data.global.styling.accentColor}}; }
+.btn-primary { border-color: {{data.global.styling.accentColor}}; }.btn--blue { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget { border-color: {{data.global.styling.accentColor}}; }
+#map-with-buttons-container .no-of-locations-content { border-color: {{data.global.styling.accentColor}}; }
+.no-of-locations-content { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-for-content { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-against-content { border-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag:hover { background-color: {{data.global.styling.accentColor}}; }
+.filled-button:hover { background-color: {{data.global.styling.accentColor}}; }
+.btn-primary:hover { background-color: {{data.global.styling.accentColor}}; }
+.btn--blue:hover { background-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget:hover { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button:hover { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled:hover { background-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag:hover { border-color: {{data.global.styling.accentColor}}; }
+.filled-button:hover { border-color: {{data.global.styling.accentColor}}; }
+.btn-primary:hover { border-color: {{data.global.styling.accentColor}}; }
+.btn--blue:hover { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget:hover { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button:hover { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button { color: {{data.global.styling.accentColor}}; }
+.outlined-button:hover { color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { color: {{data.global.styling.accentColor}}; }
+.outlined-button { border-color: {{data.global.styling.accentColor}}; }.outlined-button:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button { outline-color: {{data.global.styling.accentColor}}; }
+.outlined-button:hover { outline-color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { outline-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { outline-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { outline-color: {{data.global.styling.accentColor}}; }
+</style>
+{% endif %}
+
 {% if data.global.inlineCss %}
 <style>
  {{data.global.inlineCss | safe}}
