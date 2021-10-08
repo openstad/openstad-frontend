@@ -12,6 +12,11 @@ module.exports = function( db, sequelize, DataTypes ) {
 			type         : DataTypes.INTEGER,
 			allowNull    : true
 		},
+		
+		formId: {
+			type         : DataTypes.TEXT,
+			allowNull    : true
+		},
 
 		status: {
 			type         : DataTypes.ENUM('approved','pending','unapproved'),
