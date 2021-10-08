@@ -302,7 +302,7 @@ module.exports = {
 
 
                 //We explicitly don't add JWT since results are cached, only if includeUser is set
-                if (widget.includeUserId && req.session.jwt) {
+                if (req.session.jwt) {
                     options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
                 }
 
