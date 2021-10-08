@@ -214,7 +214,8 @@ a.page-button-flag:hover { border-color: {{data.global.styling.accentColor}}; }
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-          {% if data.global.siteLogo %}
+        {% if data.global.logoPlacement !== 'inMenu' %}
+        {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
               <img src="/modules/openstad-assets/img/andreas.svg" alt="logo">
@@ -235,7 +236,8 @@ a.page-button-flag:hover { border-color: {{data.global.styling.accentColor}}; }
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
           </a>
           {% endif %}
-        <div class="header-side-container">
+          {% endif %}
+         <div class="header-side-container">
           <div class="row">
             <div class="col-sm-7 col-md-6 col-xs-12">
               {% if not data.global.hideSiteTitle %}
@@ -325,7 +327,10 @@ a.page-button-flag:hover { border-color: {{data.global.styling.accentColor}}; }
 
       {% if data.global.logoPlacement === 'inMenu' %}
       <a href="{{logoLink}}/" class="logo-main-container logo-uploaded hidden-xs">
-        {% if data.global.siteLogo %}
+
+        {% if data.global.styling.logo %}
+        <img src="{{data.global.styling.logo}}" alt="logo" id="logo-image">
+        {% elseif data.global.siteLogo %}
         <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
         {% else %}
         <h2> {{data.global.siteTitle}} </h2>
