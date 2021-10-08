@@ -279,7 +279,7 @@ function initUploadField(resourceForm) {
                 },
                 labelIdle: "Drag & drop images or <span class='filepond--label-action'>click here</span>",
                 labelInvalidField: "Field contains invalid files",
-                labelFileWaitingForSize: "Wachtend op grootte",
+              /*  labelFileWaitingForSize: "Wachtend op grootte",
                 labelFileSizeNotAvailable: "Grootte niet beschikbaar",
                 labelFileCountSingular: "Bestand in lijst",
                 labelFileCountPlural: "Bestanden in lijst",
@@ -302,7 +302,7 @@ function initUploadField(resourceForm) {
                 labelButtonAbortItemProcessing: "Verwijder",
                 labelButtonUndoItemProcessing: "Undo",
                 labelButtonRetryItemProcessing: "Retry",
-                labelButtonProcessItem: "Upload"
+                labelButtonProcessItem: "Upload"*/
             };
 
             var pond = FilePond.create($(this).get(0), filePondSettings);
