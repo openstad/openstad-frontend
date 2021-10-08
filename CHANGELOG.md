@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Make submissions listable & viewable, and allow them to be filtered by formId
+
 ## v0.17.0
 * Add option to anonymize only selected users at /api/site/:SITE_ID/user/:USER_ID/do-anonymizeall
 * Add automatic update of idea status after a given number of days
