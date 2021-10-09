@@ -76,13 +76,15 @@ module.exports = {
               '/vimeo-upload',
               '/attachment-upload',
               '/fetch-image',
+              '/api/site/*/*',
               '/api/site/167/newslettersignup',
               '/api/site/*/newslettersignup',
               '/api/site/*/tour/*',
               '/api/site/19/tour/*',
               '/api/site/19/tour/1',
               '/api/site/*/tour/*/publish',
-
+              '/api/site/*/user/*',
+              '/api/site/*/user',
               //     '/api/site/*/vote/*/toggle',
 
               //     '/vote',
