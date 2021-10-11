@@ -5,48 +5,44 @@ module.exports = (filterKeys, filtersInclude, sequelize, filtersExclude) => {
         [Sequelize.Op.and]: []
     };
     
-    filterKeys.forEach((filter, i) => {
+    filterKeys.forEach((filter) => {
         //first add include filters
-        if (filtersInclude) {
+        if (filtersInclude && filtersInclude[filter.key]) {
             let filterValue = filtersInclude[filter.key];
             
-            if (filtersInclude[filter.key]) {
-                if (filter.extraData) {
-                    filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
-                    
-                    const escapedKey = sequelize.escape(`$.${filter.key}`);
-                    filterValue.forEach((value, key) => {
-                        const escapedValue = sequelize.escape(value);
-                        conditions[Sequelize.Op.and].push({
-                            [Sequelize.Op.and]: sequelize.literal(`extraData->${escapedKey}=${escapedValue}`)
-                        });
-                    });
-                    
-                } else {
-                    conditions[Sequelize.Op.and].push({
-                        [filter.key]: filterValue
-                    });
-                }
+            if (!filter.extraData) {
+                return conditions[Sequelize.Op.and].push({
+                    [filter.key]: filterValue
+                });
             }
+            
+            filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
+            
+            const escapedKey = sequelize.escape(`$.${filter.key}`);
+            filterValue.forEach((value) => {
+                const escapedValue = sequelize.escape(value);
+                conditions[Sequelize.Op.and].push({
+                    [Sequelize.Op.and]: sequelize.literal(`extraData->${escapedKey}=${escapedValue}`)
+                });
+            });
+            
         }
         
         //add exclude filters
-        if (filtersExclude) {
+        if (filtersExclude && filtersExclude[filter.key]) {
             let excludeFilterValue = filtersExclude[filter.key];
             
-            if (excludeFilterValue) {
-                if (filter.extraData) {
-                    excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
-                    
-                    //filter out multiple conditions
-                    const escapedKey = sequelize.escape(`$.${filter.key}`);
-                    excludeFilterValue.forEach((value, key) => {
-                        const escapedValue = sequelize.escape(value);
-                        conditions[Sequelize.Op.and].push({
-                            [Sequelize.Op.and]: sequelize.literal(`extraData->${escapedKey}!=${escapedValue}`)
-                        });
-                    })
-                }
+            if (filter.extraData) {
+                excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
+                
+                //filter out multiple conditions
+                const escapedKey = sequelize.escape(`$.${filter.key}`);
+                excludeFilterValue.forEach((value) => {
+                    const escapedValue = sequelize.escape(value);
+                    conditions[Sequelize.Op.and].push({
+                        [Sequelize.Op.and]: sequelize.literal(`extraData->${escapedKey}!=${escapedValue}`)
+                    });
+                })
             }
         }
     });
