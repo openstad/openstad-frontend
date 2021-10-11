@@ -111,5 +111,10 @@
 	"amsterdam": "amsterdam",
 	"tst": "tst",
 	"Nieuw polygons": "Nieuw polygons",
-	"Groot Midden Amsterdams": "Groot Midden Amsterdams"
+	"Groot Midden Amsterdams": "Groot Midden Amsterdams",
+	"Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown": "Warning to adminstrator: resource page type is set but no active resource is found, probably because there is no id in the url. For users who are not logged in a 404 - not found page will be shown",
+	"App widgets": "App widgets",
+	"Cart": "Cart",
+	"Global raw widget": "Global raw widget",
+	"Pricing table": "Pricing table"
 }

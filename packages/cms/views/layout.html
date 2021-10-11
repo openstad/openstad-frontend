@@ -53,6 +53,19 @@
 {% endfor %}
 {% endif %}
 
+{% if data.global.stylesheets and not data.dontAddExternalCSS %}
+{% for stylesheet in data.global.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
+{% endfor %}
+{% endif %}
+
+
+{% if data.global.styling.stylesheets and not data.dontAddExternalCSS %}
+{% for stylesheet in data.global.styling.stylesheets %}
+<link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
+{% endfor %}
+{% endif %}
+
 {% if data.global.favicon %}
 <link rel="icon" href="{{apos.attachments.url(data.global.favicon)}}">
 {% endif %}
@@ -110,6 +123,62 @@
 </style>
 {% endif %}
 
+
+{% if data.global.styling.accentColor %}
+<style>
+#mainMenu .menu-cta-button { background-color: {{data.global.styling.accentColor}}; }
+#mainMenu .menu-cta-button { border-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag { background-color: {{data.global.styling.accentColor}}; }
+.filled-button { background-color: {{data.global.styling.accentColor}}; }
+.btn-primary { background-color: {{data.global.styling.accentColor}}; }
+.btn--blue { background-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget { background-color: {{data.global.styling.accentColor}}; }
+#map-with-buttons-container .no-of-locations-content { background-color: {{data.global.styling.accentColor}}; }
+.no-of-locations-content { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-for-content { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-against-content { background-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag { border-color: {{data.global.styling.accentColor}}; }.filled-button { border-color: {{data.global.styling.accentColor}}; }
+.btn-primary { border-color: {{data.global.styling.accentColor}}; }.btn--blue { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget { border-color: {{data.global.styling.accentColor}}; }
+#map-with-buttons-container .no-of-locations-content { border-color: {{data.global.styling.accentColor}}; }
+.no-of-locations-content { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-for-content { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .no-of-votes-against-content { border-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag:hover { background-color: {{data.global.styling.accentColor}}; }
+.filled-button:hover { background-color: {{data.global.styling.accentColor}}; }
+.btn-primary:hover { background-color: {{data.global.styling.accentColor}}; }
+.btn--blue:hover { background-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget:hover { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button:hover { background-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled:hover { background-color: {{data.global.styling.accentColor}}; }
+a.page-button-flag:hover { border-color: {{data.global.styling.accentColor}}; }
+.filled-button:hover { border-color: {{data.global.styling.accentColor}}; }
+.btn-primary:hover { border-color: {{data.global.styling.accentColor}}; }
+.btn--blue:hover { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget:hover { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button:hover { border-color: {{data.global.styling.accentColor}}; }
+#title .secondary .controls .vote button.idea-status-OPEN:disabled:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button { color: {{data.global.styling.accentColor}}; }
+.outlined-button:hover { color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { color: {{data.global.styling.accentColor}}; }
+.outlined-button { border-color: {{data.global.styling.accentColor}}; }.outlined-button:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { border-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { border-color: {{data.global.styling.accentColor}}; }
+.outlined-button { outline-color: {{data.global.styling.accentColor}}; }
+.outlined-button:hover { outline-color: {{data.global.styling.accentColor}}; }
+.outlined-button:visited { outline-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added { outline-color: {{data.global.styling.accentColor}}; }
+.begroot-container .button-add-idea-to-budget.added:hover { outline-color: {{data.global.styling.accentColor}}; }
+</style>
+{% endif %}
+
 {% if data.global.inlineCss %}
 <style>
  {{data.global.inlineCss | safe}}
@@ -145,7 +214,8 @@
   <div class="container relative">
     <div class="row">
       <div class="col-xs-12">
-          {% if data.global.siteLogo %}
+        {% if data.global.logoPlacement !== 'inMenu' %}
+        {% if data.global.siteLogo %}
             {% if data.global.siteLogo === 'amsterdam' %}
             <a href="{{logoLink}}/" class="logo-container">
               <img src="/modules/openstad-assets/img/andreas.svg" alt="logo">
@@ -153,7 +223,9 @@
                 Gemeente<br>Amsterdam
               </div>
             </a>
-            {% else %}
+            {% elseif data.global.styling.logo %}
+            <img src="{{data.global.styling.logo}}" alt="logo" id="logo-image">
+              {% else %}
               {# in case logo is inMenu for mobile now still show above menu untill mobile menu structure is changed/improved #}
             <a href="{{logoLink}}/" class="logo-uploaded logo-main-container {{ 'visible-xs' if data.global.logoPlacement === 'inMenu' }}">
             <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
@@ -164,7 +236,8 @@
           <img class="default"src="/modules/openstad-assets/img/logo-openstad.png" alt="logo">
           </a>
           {% endif %}
-        <div class="header-side-container">
+          {% endif %}
+         <div class="header-side-container">
           <div class="row">
             <div class="col-sm-7 col-md-6 col-xs-12">
               {% if not data.global.hideSiteTitle %}
@@ -254,7 +327,10 @@
 
       {% if data.global.logoPlacement === 'inMenu' %}
       <a href="{{logoLink}}/" class="logo-main-container logo-uploaded hidden-xs">
-        {% if data.global.siteLogo %}
+
+        {% if data.global.styling.logo %}
+        <img src="{{data.global.styling.logo}}" alt="logo" id="logo-image">
+        {% elseif data.global.siteLogo %}
         <img src="{{apos.attachments.url(data.global.siteLogo)}}" alt="logo" id="logo-image">
         {% else %}
         <h2> {{data.global.siteTitle}} </h2>

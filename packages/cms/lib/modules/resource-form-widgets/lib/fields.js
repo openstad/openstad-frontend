@@ -200,6 +200,11 @@ const fields = [
                                 showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey', 'isConfigKey']
                             },
                             {
+                                value: 'dynamic-image',
+                                label: "Dynamic image",
+                                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey', 'isConfigKey']
+                            },
+                            {
                                 value: 'textarea',
                                 label: "Textarea",
                                 showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey', 'isConfigKey']
