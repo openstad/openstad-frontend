@@ -1,17 +1,17 @@
-var Sequelize = require('sequelize');
-var co = require('co')
+const Sequelize = require('sequelize');
+const getSequelizeConditionsForFilters = require('./../util/getSequelizeConditionsForFilters');
+const co = require('co')
 , config = require('config')
 , moment = require('moment-timezone')
 , pick = require('lodash/pick')
 , Promise = require('bluebird');
 
-var sanitize = require('../util/sanitize');
-// var ImageOptim    = require('../ImageOptim');
-var notifications = require('../notifications');
+const sanitize = require('../util/sanitize');
+const notifications = require('../notifications');
 
 const merge = require('merge');
 
-var argVoteThreshold = config.ideas && config.ideas.argumentVoteThreshold;
+const argVoteThreshold = config.ideas && config.ideas.argumentVoteThreshold;
 const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
 const roles = require('../lib/sequelize-authorization/lib/roles');
 const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
@@ -653,10 +653,6 @@ module.exports = function (db, sequelize, DataTypes) {
       },
 
       filter: function (filtersInclude, filtersExclude) {
-        let conditions = {
-          [Sequelize.Op.and]:[]
-        };
-
         const filterKeys = [
           {
             'key': 'id'
@@ -677,67 +673,8 @@ module.exports = function (db, sequelize, DataTypes) {
             'extraData': true
           },
         ];
-
-        filterKeys.forEach((filter, i) => {
-          //first add include filters
-          if (filtersInclude) {
-            let filterValue = filtersInclude[filter.key];
-
-            if (filtersInclude[filter.key]) {
-              if (filter.extraData) {
-                filterValue = Array.isArray(filterValue) ? filterValue : [filterValue];
-
-                const escapedKey = sequelize.escape(`$.${filter.key}`);
-                filterValue.forEach((value, key)=>{
-                  const escapedValue = sequelize.escape(value);
-                  conditions[Sequelize.Op.and].push({
-                    [Sequelize.Op.and] : sequelize.literal(`extraData->${escapedKey}=${escapedValue}`)
-                  });
-                });
-
-              } else {
-                conditions[Sequelize.Op.and].push({
-                  [filter.key] : filterValue
-                });
-              }
-            }
-          }
-
-          //add exclude filters
-          if (filtersExclude) {
-            let excludeFilterValue = filtersExclude[filter.key];
-
-            if (excludeFilterValue) {
-              if (filter.extraData) {
-                excludeFilterValue = Array.isArray(excludeFilterValue) ? excludeFilterValue : [excludeFilterValue];
-
-                //filter out multiple conditions
-                const escapedKey = sequelize.escape(`$.${filter.key}`);
-                excludeFilterValue.forEach((value, key)=>{
-                  const escapedValue = sequelize.escape(value);
-                  conditions[Sequelize.Op.and].push({
-                    [Sequelize.Op.and] : sequelize.literal(`extraData->${escapedKey}!=${escapedValue}`)
-                  });
-
-
-                })
-
-              } else {
-                /*
-                TODO
-                conditions[Sequelize.Op.and].push({
-                  [filter.key] : filterValue
-                });
-                */
-              }
-            }
-          }
-        });
-
-        return {
-          where: sequelize.and(conditions)
-          //where: sequelize.and(conditions)
-        }
+        
+        return getSequelizeConditionsForFilters(filterKeys, filtersInclude, sequelize, filtersExclude);
       },
 
       // vergelijk getRunning()
