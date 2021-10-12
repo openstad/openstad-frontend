@@ -85,6 +85,8 @@ module.exports = {
               '/api/site/*/tour/*/publish',
               '/api/site/*/user/*',
               '/api/site/*/user',
+              '/api-oauth/site/*/me',
+
               //     '/api/site/*/vote/*/toggle',
 
               //     '/vote',
