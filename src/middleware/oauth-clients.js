@@ -58,7 +58,7 @@ exports.withAllForSite = (req, res, next) => {
       return OAuthApi
         .fetchClient({ siteConfig, which })
         .then((client) => {
-          req.siteOAuthClients.push(client);
+          if (client && client.id) req.siteOAuthClients.push(client);
           resolve();
         })
         .catch((err) => {
