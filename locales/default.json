@@ -648,5 +648,17 @@
 	"Image upload": "Image upload",
 	"Locatie picker": "Locatie picker",
 	"Keuzes (enkel voor multiple choice of select)": "Keuzes (enkel voor multiple choice of select)",
-	"Is verplicht": "Is verplicht"
+	"Is verplicht": "Is verplicht",
+	"Counter": "Counter",
+	"Save Counter": "Save Counter",
+	"Url": "Url",
+	"Select dynamic counter": "Select dynamic counter",
+	"Idea count": "Idea count",
+	"Vote count": "Vote count",
+	"Voted user count": "Voted user count",
+	"Static count": "Static count",
+	"opinion": "opinion",
+	"Alles": "Alles",
+	"Ja/Voor": "Ja/Voor",
+	"Nee/tegen": "Nee/tegen"
 }

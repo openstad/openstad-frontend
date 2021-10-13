@@ -103,11 +103,12 @@ module.exports = {
           widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
           widget.siteId = req.data.global.siteId;
-
-          if (widget.url) {
-            let match = widget.url.match(/^http/);
+          
+          widget.parsedUrl = widget.url;
+          if (widget.parsedUrl) {
+            let match = widget.parsedUrl.match(/^http/);
             if (!match) {
-              widget.url = req.data.siteUrl + widget.url;
+              widget.parsedUrl = req.data.siteUrl + widget.parsedUrl;
             }
           }
 
