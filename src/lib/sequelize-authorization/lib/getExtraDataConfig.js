@@ -65,7 +65,7 @@ module.exports = function (dataTypeJSON,  siteConfigKey) {
       fillValue(oldValue, value);
 
       // ensure images is always an array
-      if (value.images && typeof value.images === 'string') {
+      if (value && value.images && typeof value.images === 'string') {
         value.images = [value.images];
       }
 
