@@ -53,7 +53,7 @@ module.exports = [
     {
         name: 'newsletter',
         label: 'Newsletter',
-        fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel', 'captchaRefreshText']
+        fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'useCaptchaForNewsletter', 'captchaLabel', 'captchaRefreshText']
     },
     {
         name: 'themes-areas',

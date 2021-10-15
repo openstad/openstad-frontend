@@ -2,6 +2,7 @@
 
 ## Unreleased
 * Make image size configurable for the image widget
+* Add global option to disable newsletter captcha
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
