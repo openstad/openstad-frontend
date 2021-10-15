@@ -7,6 +7,7 @@
 * Fix counter button urls in subdir sites
 * Fix HTML injection in search form in the resource overview widget
 * Add a new text style to select in the rich text editor.
+* Allow counter-widgets to display the argument count for a specific idea
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
