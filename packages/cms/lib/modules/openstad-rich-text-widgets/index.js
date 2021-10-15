@@ -6,5 +6,18 @@
 
 
 module.exports = {
+    styles: [
+        { element: 'p', name: 'Paragraph' },
+        {
+            element: 'p',
+            name: 'Introduction text',
+            attributes: { class: 'introduction-text' }
+        }
+    ],
+    sanitizeHtml: {
+        allowedClasses: {
+            'p': [ 'introduction-text' ]
+        }
+    },
     improve: 'apostrophe-rich-text-widgets',
 };
