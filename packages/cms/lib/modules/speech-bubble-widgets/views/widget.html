@@ -6,7 +6,7 @@
   class="speech-bubble"
   id="{{data.widget.containerId}}"
   style="
-    {% if data.widget.borderColor %}border-color: {{data.widget.borderColor}}; {% endif %}
+    {% if data.widget.borderColor %}border-color: {{data.widget.borderColor if data.widget.borderColor else '#004699'}}; {% endif %}
     {% if data.widget.backgroundColor %}background-color: {{data.widget.backgroundColor}}; {% endif %}
   "
 >
