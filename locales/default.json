@@ -668,5 +668,11 @@
 	"Explanation texts": "Explanation texts",
 	"Authentication": "Authentication",
 	"Labels": "Labels",
-	"Display Original Idea Url": "Display Original Idea Url"
+	"Display Original Idea Url": "Display Original Idea Url",
+	"Label for status: ACCEPTED": "Label for status: ACCEPTED",
+	"Label for status: DENIED": "Label for status: DENIED",
+	"Label for status: OPEN": "Label for status: OPEN",
+	"Label for status: CLOSED": "Label for status: CLOSED",
+	"Label for status: BUSY": "Label for status: BUSY",
+	"Label for status: DONE": "Label for status: DONE"
 }

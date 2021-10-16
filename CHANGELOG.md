@@ -4,6 +4,8 @@
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
 * Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined

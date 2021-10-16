@@ -134,6 +134,7 @@ const fields = [
     name: 'originalIdeaUrl',
     type: 'string',
     label: 'Url where orginal urls are found (ideaId is attached to the end)',
+    required: true
   },
   {
     name: 'contentArea',
