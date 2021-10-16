@@ -33,13 +33,13 @@ const fields = [
     name: 'imageHeight',
     type: 'string',
     label: 'Image Height (used for resizing dynamic image and map, not default, for performance reasons)',
-    required: false,
+    required: true,
   },
   {
     name: 'imageWidth',
     type: 'string',
     label: 'Image Width (used for resizing dynamic image and map, not default, for performance reasons)',
-    required: false,
+    required: true,
   },
   styleSchema.definition('containerStyles', 'Styles for the container')
 ]
