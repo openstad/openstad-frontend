@@ -18,7 +18,6 @@ module.exports = {
   construct: function(self, options) {
 
     options.arrangeFields = (options.arrangeFields || []).concat([
-
       {
         name: 'general',
         label: 'Algemeen',

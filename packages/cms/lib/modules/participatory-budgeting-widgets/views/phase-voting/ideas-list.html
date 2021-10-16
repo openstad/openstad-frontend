@@ -23,8 +23,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
 	data-createdtime="{{idea.createdTime}}"
 	data-likes="{{idea.yes}}"
 	data-budget="{{idea.budget}}"
-  data-ideaid="{{idea.id}}"
-	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 10000}}"
+  	data-ideaid="{{idea.id}}"
+	data-ranking="{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.displayRanking) else 10000}}"
 	data-theme="{{idea.extraData.theme}}"
 	data-area="{{idea.extraData.area}}"
 	role="article"
@@ -83,7 +83,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 				</div>
 			</div>
 			<div class="budget-value"><span class="sr-only">{{ __('Kosten:') }}</span>{{idea.budget}}</div>{# used by sort #}
-			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.showRanking) else 0}}</div>
+			<div class="ranking-value">{{idea.extraData.ranking if (idea.extraData.ranking and data.widget.displayRanking) else 0}}</div>
 		</div>
 
 		{# extra info for gridder-show #}
@@ -160,7 +160,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 					</table>
 					{% endif %}
 					<br />
-					{% if data.widget.originalIdeaUrl and not idea.extraData.hideOriginalLink %}
+					{% if data.widget.displayOriginalIdeaUrl and data.widget.originalIdeaUrl and not idea.extraData.hideOriginalLink %}
 					{% set originalId = idea.extraData.originalId if idea.extraData.originalId else idea.id %}
 					<div class="margin-hor-10">
 						<a href="{{data.widget.originalIdeaUrl | safeRelativeUrl}}/{{originalId}}" class="link-original link-caret--blue" target="_blank">Bekijk het originele voorstel</a>
