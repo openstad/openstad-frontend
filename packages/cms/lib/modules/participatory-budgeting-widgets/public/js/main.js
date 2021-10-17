@@ -75,9 +75,6 @@ apos.define('participatory-budgeting-widgets', {
                                 ol.proj.fromLonLat([markerData.position.lng, markerData.position.lat])
                             ),
                         });
-                        console.log('Add marker', ol.proj.fromLonLat([markerData.position.lng, markerData.position.lat]))
-
-                        console.log('Add marker', marker)
 
                         marker.setStyle(new ol.style.Style({
                             image: new ol.style.Icon(({
@@ -92,8 +89,6 @@ apos.define('participatory-budgeting-widgets', {
                         var vectorSource = new ol.source.Vector({
                             features: [marker]
                         });
-
-                        console.log('Add marker vectorSource', vectorSource)
 
 
                         var vectorLayer = new ol.layer.Vector({

@@ -1,6 +1,5 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const fs = require('fs');
-const openstadComponentsUrl = process.env.OPENSTAD_COMPONENTS_URL || '/openstad-components';
 const imageApiUrl   = process.env.IMAGE_API_URL;
 const imageApiToken = process.env.IMAGE_API_ACCESS_TOKEN;
 const rp = require('request-promise');
@@ -55,7 +54,7 @@ module.exports = {
       {
         name: 'reactions',
         label: 'Reacties',
-        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'closeReactionsForIdeaIds', ]
+        fields: ['showReactions', 'reactionsTitle', 'reactionsPlaceholder', 'reactionsFormIntro', 'ignoreReactionsForIdeaIds', 'reactionsClosed', 'reactionsClosedText', 'closeReactionsForIdeaIds', ]
       },
       {
         name: 'idea-form',
@@ -72,15 +71,19 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 
+      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      let imageProxy = siteUrl + '/image';
+
 			widgets.forEach((widget) => {
 
-			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), self.apos ));
-        widget.openstadComponentsUrl = openstadComponentsUrl;
+			  let config = createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?{returnTo}', imageProxy, self.apos );
+			  widget.config = JSON.stringify(config);
+        widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
-              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
-              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 
       });
       

@@ -1,7 +1,6 @@
 <style>
 {{data.widget.formattedContainerStyles}}
 </style>
-
 <div
   {% if data.widget.htmlId %}
   id="{{data.widget.htmlId}}"
@@ -17,6 +16,7 @@
   {{data.widget.htmlClass}}
   {% if data.widget.marginType === 'up' %} margin-up {% endif %}
   {{data.widget.cssHelperClassesString}}
+  display-type-{{data.widget.displayType}}
   "
 
   style="

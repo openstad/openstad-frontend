@@ -215,10 +215,20 @@ function selectIdea(newIdeaId, doNotOpen) {
   return false;
 }
 
-
 function setLoginUrlWithIdeaId(ideaId) {
-  var url =  window.siteUrl + loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
-  $('.validate-auth-button').attr('href', url);
+  var $form = $('#auth-form');
+
+  if ($form.length > 0) {
+    var action = $form.attr('action');
+    $form.attr('action', action + encodeURIComponent('?' + returnFromKey + '=' + ideaId))
+  }
+
+  var $validateAuthButton =  $('.validate-auth-button');
+
+  if ($validateAuthButton.length > 0) {
+    var url =  window.siteUrl + loginUrl + '?' + returnToKey + '=' + currentPathname + '?' + returnFromKey + '=' + ideaId;
+    $validateAuthButton.attr('href', url);
+  }
 }
 
 function unSelectIdea(event) {
@@ -266,7 +276,7 @@ function ideaOverviewClickPreview(event) {
   if (!ideaId) {
      overviewScrollToIdeas();
   } else {
-    // let previewElement = target.querySelector('.preview');
+    // var previewElement = target.querySelector('.preview');
     // previewElement.innerHTML = {
     //
     // };
@@ -366,10 +376,11 @@ function sendVote() {
   $.ajax({
     method: 'POST',
   //  url: "/api/site/"+siteId+"/idea/" + ideaId + "/vote",
-    url: "/vote",
+    url: window.siteUrl + "/vote",
     data: { opinion: 'yes', ideaId: ideaId },
     json: true,
-    error: function() {
+    error: function(error) {
+
       hideWaitLayer();
       hideStep(steps[currentStep]);
 
@@ -377,8 +388,15 @@ function sendVote() {
         barId: 'steps-bar-3',
         contentId: 'steps-content-error',
         doBeforeShow: function() {
-        //  document.querySelector('#showZipCodeError').innerHTML = document.querySelector('input[name=zipCode]').value;
-        //  document.querySelector('#showEmailError').innerHTML = document.querySelector('input[name=email]').value;
+          var message = 'Er is iets misgegaan bij het opslaan van je stem.<br/>Probeer het later nog eens of neem contact op met de site beheerder.';
+          
+          if (error && error.responseJSON && error.responseText) {
+            try {
+              var errorObj = JSON.parse(error.responseText);
+              message = 'Foutmelding:<br/>' + errorObj.error.message;
+            } catch (err) {}
+          }
+          document.querySelector('#steps-content-error .info-block').innerHTML = message;
         }
       });
 
@@ -493,6 +511,11 @@ var returnedFromVerification =  !!returnFromId;
       //  setHasVoted();
         selectIdea(parseInt(returnFromId,10));
         setVerified();
+
+        // This used to be done by the user manually
+        setTimeout(function () {
+          votingNextStep();
+        }, 250);
       }
     }
 

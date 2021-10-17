@@ -1,0 +1,31 @@
+
+
+
+<form
+        id="auth-form"
+        method="post"
+        class="openstad-form form-fill-external-csrf"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/phonenumber/login?&clientId={{data.oAuthClientId}}&redirect_uri={{data.oAuthRedirectUrl}}"
+>
+    <div class="form-group">
+        <label>
+            {{data.widget.authFormSmslabel if data.widget.authFormSmslabel else 'Telefoonnummer' }}
+
+        </label>
+
+        <div {% if (messages.error) %} class="side-error" {% endif%}>
+
+            <input
+                    type="text"
+                    value=""
+                    name="phoneNumber"
+                    class="form-input"
+                    required
+                    autocomplete="off"
+            />
+        </div>
+    </div>
+
+    <br />
+    <input type="submit" value="{{ data.widget.authFormSmsButtonText if data.widget.authFormSmsButtonText else 'Verstuur' }}" class="btn btn-primary">
+</form>

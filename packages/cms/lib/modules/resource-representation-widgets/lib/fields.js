@@ -9,7 +9,7 @@ const fields = [
     name: 'displayType',
     label: 'Representation',
     type: 'select',
-    choices: [             
+    choices: [
 
       {
         'label': 'Idea Page (only for idea resource)',
@@ -39,6 +39,15 @@ const fields = [
       {
         'label': 'Help needed',
         'value': 'help-needed',
+      },
+      {
+        'label': 'User activity',
+        'value': 'user-activity',
+        showFields: ['ideaPageUrl']
+      },
+      {
+        'label': 'User active sites',
+        'value': 'user-sites-active',
       }
     ]
   },
@@ -76,6 +85,11 @@ const fields = [
     ],
     def: false
   },
+   {
+    type: 'string',
+    name: 'ideaPageUrl',
+    label: 'Url for the idea page'
+   },
   {
     name: 'defaultImage',
     type: 'attachment',
@@ -104,6 +118,59 @@ const fields = [
             label: "Whatsapp"
         },
     ]
+  },
+  {
+      name: 'hideUserLastName',
+      type: 'boolean',
+      label: 'Hide last name of the user who sent in the idea?',
+      choices: [
+          {
+              value: true,
+              label: "Yes",
+          },
+          {
+              value: false,
+              label: "No"
+          },
+      ],
+      def: false
+  },
+  {
+      name: 'hideVotes',
+      type: 'boolean',
+      label: 'Hide votes in controls?',
+      choices: [
+          {
+              value: true,
+              label: "Yes",
+          },
+          {
+              value: false,
+              label: "No"
+          },
+      ],
+      def: false
+  },
+  {
+      name: 'hideStatus',
+      type: 'boolean',
+      label: 'Hide status in controls?',
+      choices: [
+          {
+              value: true,
+              label: "Yes",
+          },
+          {
+              value: false,
+              label: "No"
+          },
+      ],
+      def: false
+  },
+  {
+    name: 'shareTitle',
+    type: 'string',
+    label: 'Title above share buttons (default: Deel dit voorstel)'
   }
 ].concat(
     ideaStates.map((state) => {

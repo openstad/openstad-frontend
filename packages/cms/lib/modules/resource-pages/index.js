@@ -18,7 +18,7 @@ module.exports = {
       when: 'afterRequired',
       middleware: (req, res, next) => {
         // allow for setting the query and resource Id through the query params
-        // in case it's set through resource page type it will be overwritten, before attempat to load the data
+        // in case it's set through resource page type it will be overwritten, before attempting to load the data
         if (req.query.resourceId && req.query.resourceType) {
           req.data.activeResourceId = req.query.resourceId;
           req.data.activeResourceType = req.query.resourceType;
@@ -76,10 +76,27 @@ module.exports = {
               return callback(null);
             })
             .catch((e) => {
-              console.log('e', e);
-
               return callback(null);
             });
+          } else if (req.data.activeResourceType === 'activeUser') {
+            return rp({
+              uri: `${apiUrl}/api/site/${req.data.global.siteId}/user/${req.data.activeResourceId}/activity`,
+              headers: headers,
+              json: true // Automatically parses the JSON string in the response
+            })
+              .then(function (result) {
+                const activeResource = req.data.activeResource;
+                activeResource.ideas = result && result.ideas ? result.ideas : false;
+                activeResource.votes = result && result.votes ? result.votes : false;
+                activeResource.arguments = result && result.arguments ? result.arguments : false;
+                activeResource.sites = result && result.sites ? result.sites : false;
+
+                req.data.activeResource = activeResource;
+                return callback(null);
+              })
+              .catch((e) => {
+                return callback(null);
+              });
           } else {
             callback(null);
           }
@@ -100,7 +117,8 @@ module.exports = {
     }
 
     self.dispatch('/', (req, callback) => {
-      req.data.activeResourceType = req.data.page.resource;
+
+      req.data.activeResourceType = req.data.page.type === 'account' ? 'activeUser' : req.data.page.resource;
 
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying

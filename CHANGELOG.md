@@ -2,6 +2,49 @@
 
 ## UNRELEASED
 * Add global option to disable newsletter captcha
+* Add options to hide votes / status / last name in resource-representation-widgets
+* Allow title above share buttons to be changed in resource-representation-widgets
+* Allow counter-widgets to display the argument count for a specific idea
+* Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
+* Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
+
+## v0.20.2
+* Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
+
+## v0.20.1
+* Version made for build fixes in travis
+
+## v0.20.0
+* Replace arguments widgets bij openstad-components widgets
+* Add automatic update of idea status after a given number of days
+* Allow button & links to only be visible for moderators
+* Make embedded auth forms label en button text configurable in widget
+* Fix stats for subdirs
+
+## v0.19.0 (2021-08-17)
+* Better settings for closed reactions on idea-on-map
+* Don't show pagination if only one page
+* Add larger minimum height to prevent overlapping controls on the map application
+* Make sure default logo's width is correct
+* Add user account features: active user in resource form, user activity & sites logged in resource representation, type account page
+
+## v0.18.0
+* Autosubmit vote in resource overview after ret2urn from oauth
+* Autosubmit vote in participatory budgeting after returning from oauth
+* Set default noOfQuestionsToShow to 100
+* Add components cdn and version automation - OPENSTAD_COMPONENTS_URL in .env is now optional, and renamed to OPENSTAD_COMPONENTS_CDN
+* Add react-admin cdn and version automation - OPENSTAD_REACT_ADMIN_URL in .env is now optional, and renamed to OPENSTAD_REACT_ADMIN_CDN
+* Make sure that basic auth is handled before anything else
+* Resource-overview: show api error on failed vote
+* Show API status code on error (was always 500)
+* Make the vote button in resource-overview editable
+* Fix location picker if no polygon
+
+## v0.17.1 (2021-07-14)
+* Add user authorization to imgage upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

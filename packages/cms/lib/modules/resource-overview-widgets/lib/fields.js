@@ -1,6 +1,7 @@
 const ideaStates      = require('../../../../config/idea.js').states;
 const sortingOptions  = require('../../../../config/sorting.js').apiOptions;
 let resources  = require('../../../../config/resources.js').schemaFormat;
+const authFormFields = require('../../../../config/authForm.js').fields;
 
 resources = resources.map((resource) => {
   if ('idea' === resource.value) {
@@ -95,12 +96,6 @@ module.exports = [
         label: 'Grey card',
       }
     ]
-  },
-  {
-    name: 'displayPagination',
-    label: 'Display pagination',
-    type: 'boolean',
-    def: true
   },
   {
     name: 'displayVoteCaption',
@@ -357,6 +352,34 @@ module.exports = [
     def: 'Vul je e-mailadres in'
   },
   {
+    name: 'authEmbeddedForm',
+    label: 'Auth form embedded',
+    type: 'select',
+    choices: [
+      {
+        value: false,
+        //  label: 'Newest first',
+        label: 'No'
+      },
+      {
+        value: 'url',
+        //  label: 'Newest first',
+        label: 'Email login url'
+      },
+      {
+        value: 'uniqueCode',
+        //  label: 'Newest first',
+        label: 'Voting code'
+      },
+      {
+        value: 'sms',
+        //  label: 'Newest first',
+        label: 'Sms'
+      },
+
+     ]
+  },
+  {
     name: 'placeholder_empty_item',
     label: 'Placeholder when no item is selected',
     type: 'string',
@@ -399,12 +422,16 @@ module.exports = [
     type: 'string'
   },
   {
+    name: 'gridder_open_text_vote_button',
+    label: 'Text in vote button in open ideas',
+    type: 'string',
+  },
+  {
     name: 'gridder_tile_image_aspect_ratio',
     label: 'Aspect ratio of images in tiles',
     type: 'string',
     def: '1:1',
   },
-
   {
     name: 'gridder_use_field_as_title',
     label: 'Which field should be used as title for an idea',
@@ -578,13 +605,13 @@ module.exports = [
     name: 'siteId',
     label: 'Site ID',
   },
-
+  ...authFormFields,
 ].concat(
   ideaStates.map((state) => {
     return {
       type: 'string',
       name: 'label' +  state.value,
-      label: 'Label for: ' + state.value,
+      label: 'Label for status: ' + state.value,
     }
   })
 );

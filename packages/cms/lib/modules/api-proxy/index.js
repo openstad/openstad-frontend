@@ -10,6 +10,8 @@ module.exports = {
 
         const apiPath = options.sitePrefix ? options.sitePrefix + '/api' : '/api';
 
+
+
         /*
          * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
          */
@@ -82,7 +84,9 @@ module.exports = {
             }
         }));
 
-        const statsUrl = options.sitePrefix ? options.sitePrefix + '/stats' : '/stats'
+        const statsPath = options.sitePrefix ? options.sitePrefix + '/stats' : '/stats'
+
+
 
         /*
         * Create api route for proxying api so we don't have cross origin errors when making AJAX requests
@@ -90,7 +94,7 @@ module.exports = {
         self.apos.app.use('/stats', proxy({
             target: apiUrl,
             changeOrigin: true,
-            pathRewrite: {['^' + statsUrl]: '/stats'},
+            pathRewrite: {['^' + statsPath]: '/stats'},
             onProxyReq: (proxyReq, req, res) => {
 
                 // add custom header to request
@@ -105,6 +109,9 @@ module.exports = {
                 //console.log('errerrerr newBody', err);
             }
         }));
+
+
+
 
     }
 };
