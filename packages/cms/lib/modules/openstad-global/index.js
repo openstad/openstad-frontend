@@ -33,28 +33,8 @@ module.exports = {
     options.arrangeFields = arrangeFields.concat(options.arrangeFields || []);
 
     self.apos.app.use((req, res, next) => {
-
       req.data.global = req.data.global ? req.data.global : {};
-
-      const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
-
-      /**
-       * Run basic-auth middleware.
-       * TODO: move to it's own lib modules
-       */
-      let ignore_paths = ['/attachment-upload']; // TODO: configurable
-      if (siteConfig.basicAuth && siteConfig.basicAuth.active && !ignore_paths.includes(req.path)) {
-        var user = auth(req);
-
-        if (!user || !compare(user.name, siteConfig.basicAuth.user) || ! compare(user.pass, siteConfig.basicAuth.password)) {
-          unauthorized(req, res);
-        } else {
-          next();
-        }
-
-      } else {
-        next();
-      }
+      return next();
     });
 
     self.apos.app.use((req, res, next) => {
@@ -75,6 +55,7 @@ module.exports = {
 
       req.data.global.siteConfig = {
         ideas: siteConfig.ideas,
+        articles: siteConfig.articles,
         polls: siteConfig.polls,
         votes: siteConfig.votes,
         area: siteConfig.area,
@@ -84,6 +65,20 @@ module.exports = {
 
       req.data.originalUrl = req.originalUrl;
 
+      // use defaults from env vars
+      let cmsDefaults = process.env.CMS_DEFAULTS;
+      try {
+        if (typeof cmsDefaults == 'string') cmsDefaults = JSON.parse(cmsDefaults);
+      } catch(err) {
+      }
+      req.data.global.cmsDefaults = cmsDefaults
+      if (typeof req.data.global.analyticsType === 'undefined' || req.data.global.analyticsType === '' ) {
+        req.data.global.analyticsType = cmsDefaults && cmsDefaults.analyticsType;
+      }
+      if (typeof req.data.global.analyticsCodeBlock === 'undefined' || req.data.global.analyticsCodeBlock === '' ) {
+        req.data.global.analyticsCodeBlock = cmsDefaults && cmsDefaults.analyticsCodeBlock;
+      }
+      
       // backwards compatibility for analytics
       // TODO: is there a way to use the value of an old field as default for a new field?
       if (typeof req.data.global.analyticsType == 'undefined' || ( req.data.global.analyticsType == 'google-analytics-old-style' && req.data.global.analyticsIdentifier == '' && req.data.global.analytics ) ) {

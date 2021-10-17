@@ -60,6 +60,19 @@ module.exports = {
                 return self.apos.permissions.can(req, permission);
             };
 
+
+            /**
+             * Add oAuth defaults to data object so it can be reused in the application
+             */
+            const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+            const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
+            const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
+            const returnTo = fullUrl;
+            const redirectUrl = encodeURIComponent(apiUrl + '/oauth/site/' + req.site.id + '/digest-login?useOauth=default&returnTo=' + returnTo);
+
+            req.data.oAuthRedirectUrl = redirectUrl;
+            req.data.oAuthClientId = oauthClientId;
+
             if (req.query.jwt) {
                 const thisHost = req.headers['x-forwarded-host'] || req.get('host');
                 const protocol = req.headers['x-forwarded-proto'] || req.protocol;
@@ -139,7 +152,7 @@ module.exports = {
                         });
                     }
 
-                    const THIRTY_SECONDS = 30 * 1000;
+                    const THIRTY_SECONDS = 100; //30 * 1000;
                     const date = new Date();
                     const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
@@ -222,6 +235,62 @@ module.exports = {
             });
         });
 
+        self.apos.app.get('/oauth-csrf', (req, res, next) => {
+            //only allow AJAX requests, from trusted domains, otherwise there is no point to CSRF token
+            if (!req.xhr) {
+                return;
+            }
+
+            //auth-client-secret
+            const oAuthUrl = self.apos.settings.getOption(req, 'oAuthUrl');
+            const oauthConfig = self.apos.settings.getOption(req, 'oAuthConfig');
+            const oauthClientId = oauthConfig.default &&  oauthConfig.default["auth-client-id"] ? oauthConfig.default["auth-client-id"] : false;
+            const oauthClientSecret = oauthConfig.default && oauthConfig.default["auth-client-secret"] ? oauthConfig.default["auth-client-secret"] : false;
+
+            if (oauthClientId && oauthClientSecret) {
+                const authHeaders = JSON.stringify({
+                    client_id: oauthClientId,
+                    client_secret: oauthClientSecret
+                });
+
+                /**
+                 * We are posting directly email, sms, code to the oAuth server.
+                 * This means CSRF validation fails.
+                 * In order for CSRF to work we fetch a token as admin an pass it to the request.
+                 * Theoretically one can argue that since oAuth redirects are only allowed
+                 * to restricted domains, it will be impossible to execute a CSRF login anyway.
+                 * Most of the time pentesters will flag you for it anyway, because CSRF is a check on the list.
+                 * Their argument for it not being needed is it CSRF might not be needed, if the redirect check fails
+                 * or has a bug, then at least csrf is working.
+                 *
+                 * So this might not be necessary. For now we leave it in and consult with Security expert.
+                 */
+
+                rp({
+                    url: `${oAuthUrl}/api/admin/csrf-session-token`,
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    body: authHeaders
+                })
+                .then((response) => {
+                    if (response) {
+                        response = JSON.parse(response);
+                    }
+
+                    res.json({
+                        token: response.token
+                    })
+                })
+                .catch((err) => {
+                    console.log('oauth err', err)
+                    next(err)
+                })
+            }
+        });
+
         // nice route for admin login
         self.apos.app.get('/admin/login', (req, res, next) => {
             // empty openstadUser, this doesn't logout user
@@ -250,12 +319,11 @@ module.exports = {
                 if (req.query.returnTo && typeof req.query.returnTo === 'string') {
                     //only get the pathname to prevent external redirects
                     let pathToReturnTo = Url.parse(req.query.returnTo, true);
-                    pathToReturnTo = pathToReturnTo.path;
+                    pathToReturnTo = pathToReturnTo.path + pathToReturnTo.hash;
                     returnUrl = returnUrl + pathToReturnTo;
                 }
 
-                let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${returnUrl}`;
-
+                let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${encodeURIComponent(returnUrl)}`;
 
                 url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
                 url = req.query.loginPriviliged ? url + '&loginPriviliged=1' : url + '&forceNewLogin=1';

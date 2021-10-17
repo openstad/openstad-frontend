@@ -16,6 +16,11 @@ const fields = [
               label: "Static (default)"
             },
             {
+                value: 'staticWithDynamicFieldsAppended',
+                label: "Static with dynamic fields appended",
+                showFields: ['dynamicFormSections']
+            },
+            {
               value: 'dynamic',
               label: "Dynamic",
               showFields: ['dynamicFormSections']

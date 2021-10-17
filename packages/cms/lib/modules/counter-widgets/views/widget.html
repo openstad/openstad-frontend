@@ -8,8 +8,8 @@
 </div>
 {% endif %}
 
-{% if data.widget.url %}
-<a href="{{data.widget.url}}"
+{% if data.widget.parsedUrl %}
+<a href="{{data.widget.parsedUrl}}"
 {% else %}
   <span
   {% endif %}
@@ -25,12 +25,11 @@
         </span>
       </span>
 	  </span>
-    {% if data.widget.url %}
+    {% if data.widget.parsedUrl %}
 </a>
 {% else %}
   </span>
   {% endif %}
-
 
   <script>
    function setNumberPlates{{data.widget.containerId}}(count) {
@@ -46,7 +45,6 @@
    }
    setNumberPlates{{data.widget.containerId}}('{{data.widget.count}}' || 0)
   </script>
-
 
   {% if data.widget.statsUrl %}
   <script>
@@ -66,7 +64,6 @@
          setNumberPlates{{data.widget.containerId}}(count);
 		   },
 		   error: function(error) {
-		     console.log('Niet goed');
 		     console.log(err);
 		   }
 	   });

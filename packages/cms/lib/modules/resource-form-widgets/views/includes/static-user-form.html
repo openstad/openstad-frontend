@@ -1,0 +1,24 @@
+{% include 'includes/form-header.html' %}
+<div class="form-group">
+    {% for field in data.userFormFields %}
+
+    <div class="form-field-container">
+        {% if field.title %}
+        <h2>
+            {{ field.title }}
+        </h2>
+        {% endif %}
+
+        {% if field.info %}
+        <div class="form-info">
+            {{ field.info  | nlbr | sanitize | safe }}
+        </div>
+        {% endif %}
+
+        {% include 'includes/fields/' + field.type + '.html' ignore missing %}
+    </div>
+    <br />
+    {% endfor %}
+    <br />
+</div>
+{% include 'includes/form-footer.html' %}

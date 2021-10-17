@@ -1,0 +1,30 @@
+<form
+        method="post"
+        class="openstad-form form-fill-external-csrf"
+        id="auth-form"
+        action="{{apos.settings.getOption('oAuthUrl')}}/auth/code/login?&clientId={{data.oAuthClientId}}&redirect_uri={{data.oAuthRedirectUrl}}"
+>
+    <div class="form-group">
+        <label>
+            {{data.widget.authFormUniqueCodelabel if data.widget.authFormUniqueCodelabel else 'Code:' }}
+        </label>
+        <div {% if (messages.error) %} class="side-error" {% endif%}>
+            {% if (messages.error)  %}
+            {% for error in messages.error %}
+            <span class="error-label"> {{ error.msg }} </span>
+            {% endfor %}
+            {% endif %}
+
+            <input
+                    type="text"
+                    value=""
+                    name="unique_code"
+                    class="form-input"
+                    required
+                    autocomplete="off"
+            />
+        </div>
+    </div>
+    <br />
+    <input type="submit" value="{{ data.widget.authFormUniqueCodeButtonText if data.widget.authFormUniqueCodeButtonText else 'Verstuur' }}" class="btn btn-primary">
+</form>

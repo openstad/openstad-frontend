@@ -12,6 +12,7 @@ const request       = require('request');
 const pick          = require('lodash/pick')
 const eventEmitter  = require('../../../events').emitter;
 
+
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
 
@@ -25,6 +26,7 @@ const toSqlDatetime = (inputDate) => {
 }
 
 const fields = require('./lib/fields.js');
+const userFormFields = require('./lib/userFormFields.js');
 
 module.exports = {
   extend: 'map-widgets',
@@ -135,6 +137,8 @@ module.exports = {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
 
+        req.data.userFormFields = userFormFields;
+
 	      widgets.forEach((widget) => {
             const resourceType = widget.resource ?  widget.resource : false;
             const resourceInfo = resourceType  ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
@@ -217,6 +221,7 @@ module.exports = {
      self.pushAsset('stylesheet', 'trix', { when: 'always' });
      self.pushAsset('stylesheet', 'form', { when: 'always' });
      self.pushAsset('stylesheet', 'main', { when: 'always' });
+
      self.pushAsset('script', 'map', { when: 'always' });
      self.pushAsset('script', 'editor', { when: 'always' });
 
