@@ -121,9 +121,16 @@ module.exports = {
           widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
           widget.siteId = req.data.global.siteId;
+          
+          widget.parsedUrl = widget.url;
+          if (widget.parsedUrl) {
+            let match = widget.parsedUrl.match(/^http/);
+            if (!match) {
+              widget.parsedUrl = req.data.siteUrl + widget.parsedUrl;
+            }
+          }
+
         });
-
-
 
         return superLoad(req, widgets, function (err) {
             if (err) {
@@ -185,6 +192,7 @@ module.exports = {
 
       var result = superOutput(widget, options);
       return result;
+
     };
 
     const superPushAssets = self.pushAssets;

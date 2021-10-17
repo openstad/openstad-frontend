@@ -156,7 +156,6 @@ module.exports = [
     type: 'select',
     name: 'analyticsType',
     label: 'Analytics type',
-    def: 'google-analytics-old-style',
     choices: [
       {
         value: 'none',

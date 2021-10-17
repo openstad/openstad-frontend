@@ -65,6 +65,20 @@ module.exports = {
 
       req.data.originalUrl = req.originalUrl;
 
+      // use defaults from env vars
+      let cmsDefaults = process.env.CMS_DEFAULTS;
+      try {
+        if (typeof cmsDefaults == 'string') cmsDefaults = JSON.parse(cmsDefaults);
+      } catch(err) {
+      }
+      req.data.global.cmsDefaults = cmsDefaults
+      if (typeof req.data.global.analyticsType === 'undefined' || req.data.global.analyticsType === '' ) {
+        req.data.global.analyticsType = cmsDefaults && cmsDefaults.analyticsType;
+      }
+      if (typeof req.data.global.analyticsCodeBlock === 'undefined' || req.data.global.analyticsCodeBlock === '' ) {
+        req.data.global.analyticsCodeBlock = cmsDefaults && cmsDefaults.analyticsCodeBlock;
+      }
+      
       // backwards compatibility for analytics
       // TODO: is there a way to use the value of an old field as default for a new field?
       if (typeof req.data.global.analyticsType == 'undefined' || ( req.data.global.analyticsType == 'google-analytics-old-style' && req.data.global.analyticsIdentifier == '' && req.data.global.analytics ) ) {

@@ -2,6 +2,17 @@
 
 ## UNRELEASED
 * Allow counter-widgets to display the argument count for a specific idea
+* Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
+* Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
+
+## v0.20.2
+* Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
+
+## v0.20.1
+* Version made for build fixes in travis
 
 ## v0.20.0
 * Replace arguments widgets bij openstad-components widgets
