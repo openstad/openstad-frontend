@@ -1,6 +1,7 @@
 # Changelog
 
-## URELEASED 
+## UNRELEASED
+* Allow counter-widgets to display the argument count for a specific idea
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
 * Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
