@@ -1,6 +1,7 @@
 # Changelog
 
 ## UNRELEASED
+* Add global option to disable newsletter captcha
 * Add options to hide votes / status / last name in resource-representation-widgets
 * Allow title above share buttons to be changed in resource-representation-widgets
 * Allow counter-widgets to display the argument count for a specific idea
