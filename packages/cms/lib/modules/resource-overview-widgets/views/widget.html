@@ -22,7 +22,7 @@
 
 			{% if data.widget.formattedSearchText %}
 			<div class="resource-overview-counter-text ">
-				{{ data.widget.formattedSearchText }}
+				{{data.widget.formattedSearchText | sanitize | safe}}
 			</div>
 			{% endif %}
 
