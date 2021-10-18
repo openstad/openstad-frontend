@@ -1,5 +1,6 @@
 const ideaStates = require('../../../../config/idea.js').states;
 const sortingOptions  = require('../../../../config/sorting.js').options;
+const authFormFields = require('../../../../config/authForm.js').fields;
 
 const fields = [
   {
@@ -249,6 +250,7 @@ const fields = [
     label: 'Text on the newsletter button',
     type: 'string'
   },
+  ...authFormFields
 ].concat(
     ideaStates.map((state) => {
       return {

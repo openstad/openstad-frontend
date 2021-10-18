@@ -1,6 +1,7 @@
 const ideaStates      = require('../../../../config/idea.js').states;
 const sortingOptions  = require('../../../../config/sorting.js').apiOptions;
 let resources  = require('../../../../config/resources.js').schemaFormat;
+const authFormFields = require('../../../../config/authForm.js').fields;
 
 resources = resources.map((resource) => {
   if ('idea' === resource.value) {
@@ -652,6 +653,8 @@ module.exports = [
       }
     ],
   },
+
+  ...authFormFields,
 
 ].concat(
   ideaStates.map((state) => {

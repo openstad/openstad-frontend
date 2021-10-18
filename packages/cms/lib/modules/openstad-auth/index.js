@@ -319,12 +319,11 @@ module.exports = {
                 if (req.query.returnTo && typeof req.query.returnTo === 'string') {
                     //only get the pathname to prevent external redirects
                     let pathToReturnTo = Url.parse(req.query.returnTo, true);
-                    pathToReturnTo = pathToReturnTo.path;
+                    pathToReturnTo = pathToReturnTo.path + pathToReturnTo.hash;
                     returnUrl = returnUrl + pathToReturnTo;
                 }
 
-                let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${returnUrl}`;
-
+                let url = `${apiUrl}/oauth/site/${req.data.global.siteId}/login?redirectUrl=${encodeURIComponent(returnUrl)}`;
 
                 url = req.query.useOauth ? url + '&useOauth=' + req.query.useOauth : url;
                 url = req.query.loginPriviliged ? url + '&loginPriviliged=1' : url + '&forceNewLogin=1';
