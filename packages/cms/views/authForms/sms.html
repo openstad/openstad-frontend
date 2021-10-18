@@ -1,4 +1,6 @@
 
+
+
 <form
         id="auth-form"
         method="post"
@@ -7,7 +9,8 @@
 >
     <div class="form-group">
         <label>
-            {{label if label else 'Telefoonnummer' }}
+            {{data.widget.authFormSmslabel if data.widget.authFormSmslabel else 'Telefoonnummer' }}
+
         </label>
 
         <div {% if (messages.error) %} class="side-error" {% endif%}>
@@ -24,5 +27,5 @@
     </div>
 
     <br />
-    <input type="submit" value="{{ buttonText if buttonText else 'Verstuur' }}" class="btn btn-primary">
+    <input type="submit" value="{{ data.widget.authFormSmsButtonText if data.widget.authFormSmsButtonText else 'Verstuur' }}" class="btn btn-primary">
 </form>

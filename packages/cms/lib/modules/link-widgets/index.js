@@ -42,6 +42,22 @@ module.exports = {
       label: 'Open in new window',
     },
     {
+      name: 'onlyForModerator',
+      label: 'Only show to moderators',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: false
+    },
+    {
       name: 'style',
       type: 'select',
       choices: [
@@ -110,7 +126,7 @@ module.exports = {
       {
         name: 'advancedGroup',
         label: 'Advanced',
-        fields: ['targetBlank', 'classNameCustom', 'addTelephoneProtocol']
+        fields: ['targetBlank', 'classNameCustom', 'addTelephoneProtocol', 'onlyForModerator']
       }
     ]);
 

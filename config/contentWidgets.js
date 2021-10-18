@@ -11,13 +11,18 @@ const contentWidgets = {
   'resource-representation': {
     adminOnly: true,
   },
-  agenda: {},
-  accordeon: {},
-  arguments: {
-    adminOnly: true,
+  'agenda': {},
+  'accordeon': {},
+  'arguments-block': {
+    adminOnly: true
   },
   'arguments-form': {
     adminOnly: true,
+    deprecated: true
+  },
+  'arguments': {
+    adminOnly: true,
+    deprecated: true
   },
   section: {
     addLabel: 'Columns',

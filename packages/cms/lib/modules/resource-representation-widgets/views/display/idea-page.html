@@ -121,7 +121,7 @@
 							<h4>Status</h4>
 							<div class="duration">
 								{% if data.widget['labelTime' + idea.status] %}
-									{{data.widget['labelTime' + idea.status]}}
+								{{ data.widget['labelTime' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace("1 dagen", "1 dag") }}
 								{% elseif  idea.status === 'OPEN' %}
 								<div id="nog-xxx-om-te-stemmen"></div>
 								<script>

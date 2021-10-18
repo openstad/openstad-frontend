@@ -6,7 +6,7 @@
 >
     <div class="form-group">
         <label>
-            {{label if label else 'Code:' }}
+            {{data.widget.authFormUniqueCodelabel if data.widget.authFormUniqueCodelabel else 'Code:' }}
         </label>
         <div {% if (messages.error) %} class="side-error" {% endif%}>
             {% if (messages.error)  %}
@@ -26,5 +26,5 @@
         </div>
     </div>
     <br />
-    <input type="submit" value="{{ buttonText if buttonText else 'Verstuur' }}" class="btn btn-primary">
+    <input type="submit" value="{{ data.widget.authFormUniqueCodeButtonText if data.widget.authFormUniqueCodeButtonText else 'Verstuur' }}" class="btn btn-primary">
 </form>

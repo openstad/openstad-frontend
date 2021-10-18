@@ -5,13 +5,18 @@
 // all shared within one multisite installation
 
 const contentWidgets = {
-  agenda: {},
-  accordeon: {},
-  arguments: {
-    adminOnly: true,
+  'agenda': {},
+  'accordeon': {},
+  'arguments-block': {
+    adminOnly: true
   },
   'arguments-form': {
     adminOnly: true,
+    deprecated: true
+  },
+  'arguments': {
+    adminOnly: true,
+    deprecated: true
   },
   section: {
     addLabel: 'Columns',
