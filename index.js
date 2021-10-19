@@ -16,7 +16,8 @@ var apos = openstadCms.site({
     'apostrophe-forms': {
       // Best practice: set to first or last so that inputs are nested in labels
       // and easier to style
-      optionLabelPosition: 'last'
+      optionLabelPosition: 'last',
+      classPrefix: 'os-form',
     },
     'apostrophe-forms-widgets': {},
     // Enable only the field widgets that your application needs to make it
