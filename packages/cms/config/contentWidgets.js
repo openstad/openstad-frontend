@@ -171,7 +171,8 @@ const contentWidgets = {
   },
   'decision-tree': {
     adminOnly: true,
-  }
+  },
+  'apostrophe-forms': {}
 };
 
 exports.getAdminWidgets = (displaySettings) => {
