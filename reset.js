@@ -1,18 +1,26 @@
-var config  = require('config');
-
+const config  = require('config');
 process.env.DEBUG = config.logging;
 
-var datafile = process.env.NODE_ENV || 'development';
+const datafile = process.env.NODE_ENV || 'development';
+const db = require('./src/db');
 
-var db = require('./src/db');
+async function doReset() {
 
-db.sequelize.sync({force: true}).then(function() {
-	
-	return require(`./fixtures/${datafile}`)(db);
-})
-.catch(function( e ) {
-	throw e;
-})
-.finally(function() {
-	db.sequelize.close();
-});
+  try {
+
+    console.log('Syncing...');
+
+    await db.sequelize.sync({force: true})
+
+    console.log('Adding default data...');
+	  await require(`./fixtures/${datafile}`)(db);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+	  db.sequelize.close();
+  }
+  
+}
+
+doReset();
