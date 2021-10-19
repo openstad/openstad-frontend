@@ -27,9 +27,10 @@ if (dbConfig.mysqlSTGeoMode || process.env.MYSQL_ST_GEO_MODE === 'on') {
 var sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
 	dialect        : dbConfig.dialect,
 	host           : dbConfig.host,
-	port					: dbConfig.port || 3306,
+	port           : dbConfig.port || 3306,
 	dialectOptions : {
-		charset            : 'utf8_unicode_ci',
+		collation          : 'utf8_unicode_ci',
+		charset            : 'utf8',
 		multipleStatements : dbConfig.multipleStatements,
 		socketPath         : dbConfig.socketPath
 	},
