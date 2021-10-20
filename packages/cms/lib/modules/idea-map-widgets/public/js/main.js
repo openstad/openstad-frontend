@@ -11,6 +11,8 @@ apos.define('idea-map-widgets', {
                 var markers = self.addMarkers(mapConfig);
                 self.addOverviewEventListeners(map);
 
+                // If autoCenter is set use the the center functionality to automatically center the map based on the markers and polygon.
+                // Otherwise it will use the default/global settings to set the center and zoom level of the map.
                 if(mapConfig.defaultSettings && mapConfig.defaultSettings.autoCenter) {
                     self.center();
                 }

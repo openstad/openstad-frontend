@@ -82,7 +82,7 @@ module.exports = {
     {
       type: 'boolean',
       name: 'autoCenter',
-      label: 'Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon',
+      label: 'Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)',
     },
     {
       type: 'string',
