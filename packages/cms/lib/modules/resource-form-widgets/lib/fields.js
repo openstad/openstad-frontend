@@ -845,7 +845,7 @@ const fields = [
         {
           value: 1,
           label: "Yes",
-          showFields: ['confirmationTemplateNameUser', 'confirmationSubjectUser', 'confirmationEmailFieldUser', 'confirmationTemplateUser', 'confirmationEmailContentUser']
+          showFields: ['confirmationTemplateNameUser', 'confirmationSubjectUser', 'confirmationEmailFieldUser', 'confirmationTemplateNameUser', 'confirmationEmailContentUser']
         },
         {
           value: 0,
@@ -893,7 +893,7 @@ const fields = [
         {
           value: 1,
           label: "Yes",
-          showFields: ['confirmationTemplateNameAdmin', 'confirmationSubjectAdmin', 'confirmationEmailFieldAdmin', 'confirmationTemplateAdmin', 'confirmationEmailContentAdmin']
+          showFields: ['confirmationTemplateNameAdmin', 'confirmationSubjectAdmin', 'confirmationEmailFieldAdmin', 'confirmationTemplateNameAdmin', 'confirmationEmailContentAdmin']
         },
         {
           value: 0,
