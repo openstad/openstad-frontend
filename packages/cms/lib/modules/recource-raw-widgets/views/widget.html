@@ -2,6 +2,6 @@
   {{data.widget.formattedContainerStyles}}
 </style>
 
-<div id="{{data.widget.containerId}}">
+<div class="{{data.widget.containerId}} {{data.widget.cssHelperClassesString}}">
 	{{data.widget.renderString(data) | safe}}
 </div>

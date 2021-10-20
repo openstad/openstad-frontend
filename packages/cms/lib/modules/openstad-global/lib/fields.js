@@ -318,6 +318,7 @@ module.exports = [
     type: 'string',
     label: 'Openstreet Maps ServerUrl (not implemented yet)',
   },
+
   {
     name: 'themes',
     type: 'array',
@@ -395,6 +396,63 @@ module.exports = [
       },
     ]
   },
+
+  {
+    type: 'array',
+    name: 'ideaTypes',
+    label: 'Typen ideeën',
+    apiSyncField: 'ideas.types',
+    help: 'Wordt momenteel alleen gebruikt in \'Ideeen op een kaart\' widget',
+    schema: [
+      {
+        name: 'name',
+        type: 'string',
+        label: 'Naam',
+      },
+      {
+        name: 'id',
+        type: 'string',
+        label: 'Waarde',
+      },
+      {
+        name: 'label',
+        type: 'string',
+        label: 'Label op detail pagina',
+      },
+      {
+        name: 'textColor',
+        type: 'string',
+        label: 'Tekst kleur, onder meer voor labels',
+      },
+      {
+        name: 'backgroundColor',
+        type: 'string',
+        label: 'Achtergrondkleur, onder meer voor labels',
+      },
+      {
+        name: 'mapicon',
+        type: 'string',
+        label: 'Icon op de kaart',
+      },
+      {
+        name: 'listicon',
+        type: 'string',
+        label: 'Icon in ideeën overzicht',
+      },
+      {
+        name: 'buttonicon',
+        type: 'string',
+        label: 'Icon op buttons',
+      },
+      {
+        name: 'buttonLabel',
+        type: 'string',
+        label: 'Tekst op buttons',
+      },
+
+    ]
+  },
+
   {
     name: 'areas',
     type: 'array',

@@ -9,13 +9,20 @@ module.exports = {
     label: 'Image proxy',
     construct: function(self, options) {
 
-        const imagePath = options.sitePrefix ? ('/' + options.sitePrefix + '/image' ) : '/image'
-        const imagesPath = options.sitePrefix ? ('/' + options.sitePrefix + '/images') : '/images'
+        let imagePath = options.sitePrefix ? (options.sitePrefix + '/image' ) : '/image';
+        let imagesPath = options.sitePrefix ? (options.sitePrefix + '/images') : '/images';
+
+        // console.log('options.sitePrefix on image proxy', options.sitePrefix);
+
+        function checkUserMiddlware(req, res, next) {
+            if (!req.data.loggedIn) return next(new Error('No user found'));  // loggedIn is created in the openstad-auth module and checked against requiredRoles = ['member', 'moderator', 'admin', 'editor'];
+            return next();
+        }
 
         /**
          * Create route for proxying one image to image server, add api token in header
          */
-        self.apos.app.use('/image', proxy({
+        self.apos.app.use('/image', checkUserMiddlware, proxy({
             target: imageApiUrl,
             changeOrigin: true,
             pathRewrite: {['^' + imagePath] : '/image'},
@@ -28,7 +35,7 @@ module.exports = {
         /**
          * Create route for proxying multiples images to image server, add api token in header
          */
-        self.apos.app.use('/images', proxy({
+        self.apos.app.use('/images', checkUserMiddlware, proxy({
             target: imageApiUrl,
             pathRewrite: {['^' + imagesPath] : '/images'},
             changeOrigin: true,

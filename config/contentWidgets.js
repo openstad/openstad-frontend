@@ -13,11 +13,16 @@ const contentWidgets = {
   },
   'agenda': {},
   'accordeon': {},
-  'arguments': {
+  'arguments-block': {
     adminOnly: true
   },
   'arguments-form': {
-    adminOnly: true
+    adminOnly: true,
+    deprecated: true
+  },
+  'arguments': {
+    adminOnly: true,
+    deprecated: true
   },
   'section': {
     addLabel: 'Columns',

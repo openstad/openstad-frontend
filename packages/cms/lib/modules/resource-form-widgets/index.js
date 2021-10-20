@@ -9,6 +9,7 @@ const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
 
 const fields = require('./lib/fields.js');
+const userFormFields = require('./lib/userFormFields.js');
 
 module.exports = {
   extend: 'map-widgets',
@@ -137,6 +138,9 @@ module.exports = {
     self.load = function (req, widgets, next) {
       const styles = openstadMap.defaults.styles;
       const globalData = req.data.global;
+
+      req.data.userFormFields = userFormFields;
+
       widgets.forEach(async (widget) => {
         const resourceType = widget.resource ? widget.resource : false;
         const resourceInfo = resourceType ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
@@ -228,7 +232,6 @@ module.exports = {
       superLoad(req, widgets, next);
     }
 
-
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
       superPushAssets();
@@ -259,5 +262,4 @@ module.exports = {
     });
 
   }
-
 };

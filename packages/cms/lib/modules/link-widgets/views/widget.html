@@ -6,9 +6,11 @@
 {% if data.widget.addTelephoneProtocol %}
 {% set href = 'tel:' %}
 {% endif %}
+
+{% if not data.widget.onlyForModerator or (data.widget.onlyForModerator and data.hasModeratorRights) %}
 <a
   id="{{data.widget.containerId}}"
-  href="{{ href | safeRelativeUrl }} "
+  href="{{ href | safeRelativeUrl }}"
   class="
     {{data.widget.style}}
     scroll-link margin-bottom-sm
@@ -32,3 +34,4 @@
   <span class="sr-only">{{ data.widget.screenReaderInfo }}</span>
   {% endif %}
 </a>
+{% endif %}

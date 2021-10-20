@@ -110,7 +110,7 @@ module.exports = {
                 widget.themes = req.data.global.themes;
                 widget.areas = req.data.global.areas;
 
-                const containerId = widget._id;
+                const containerId = self.apos.utils.generateId();
                 widget.containerId = containerId;
 
                 widget.parseDateToTime = (date) => {
@@ -161,6 +161,9 @@ module.exports = {
                     widget.themes = includeThemes.length > 0 ? widget.themes.filter(theme => includeThemes.indexOf(theme.value) > -1) : widget.themes;
                 }
 
+                widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
+
                 if (widget.containerStyles) {
                     widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
                 }
@@ -205,6 +208,9 @@ module.exports = {
                         theme: widget.includeThemes
                     }
                 }
+
+                const resourceSiteConfigKey = `${resource}s`;
+                widget.countdownPeriod = siteConfig[resourceSiteConfigKey] && siteConfig[resourceSiteConfigKey].automaticallyUpdateStatus && siteConfig[resourceSiteConfigKey].automaticallyUpdateStatus
 
                 if (queryObject.search) {
                     params.search = {
@@ -264,6 +270,9 @@ module.exports = {
                     }
                 }
 
+
+
+
                 // if cache is set then render from cache, otherwise
                 if (response) {
                     // pass query obj without reference
@@ -291,6 +300,7 @@ module.exports = {
                         })
                     }(req, self));
                 }
+
             });
 
             if (promises.length > 0) {
@@ -299,6 +309,7 @@ module.exports = {
                         return superLoad(req, widgets, next);
                     })
                     .catch(function (err) {
+                        console.log('errrr', err)
                         return superLoad(req, widgets, next);
                     });
             } else {
@@ -316,7 +327,8 @@ module.exports = {
                 }))}`);
             }
 
-            return urls;
+            // in case only one url, return empty array, pagination is not necessary for one page.
+            return urls.length < 2 ? false : urls;
         }
 
         //selection means it is set to url, so it will be used to query the api
@@ -355,10 +367,10 @@ module.exports = {
         }
 
         self.isTagSelected = (tag, defaultParams) => {
-            //console.log('isTagSelected', params);
+            // console.log('isTagSelected', params);
             let params = defaultParams ? defaultParams : {};
 
-            //make sure the ids are integers, get parameters from url are returned as a string
+            // make sure the ids are integers, get parameters from url are returned as a string
             if (Array.isArray(params.oTags)) {
                 params.oTags = params.oTags.map((tag) => {
                     return parseInt(tag, 10);
@@ -376,8 +388,10 @@ module.exports = {
             widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
             widget.activeResources = response.records ? response.records.map((record) => {
                 // delete because they are added to the data-attr and will get very big
-                //  delete record.description;
-                return record;
+              //  delete record.description;
+              let daysOld = parseInt( ( Date.now() - new Date(record.startDate).getTime() ) / ( 24 * 60 * 60 * 1000 ) );
+              record.countdown = widget.countdownPeriod - daysOld;
+              return record;
             }) : [];
 
             return widget;

@@ -7,11 +7,16 @@
 const contentWidgets = {
   'agenda': {},
   'accordeon': {},
-  'arguments': {
+  'arguments-block': {
     adminOnly: true
   },
   'arguments-form': {
-    adminOnly: true
+    adminOnly: true,
+    deprecated: true
+  },
+  'arguments': {
+    adminOnly: true,
+    deprecated: true
   },
   'section': {
     addLabel: 'Columns',
@@ -140,8 +145,8 @@ const contentWidgets = {
   'local-video': {
     addLabel: 'Video (upload)',
   },
-  'apostrophe-video': {
-    addLabel: 'Video (3d party, youtube, vimeo, etc.)',
+  'openstad-video': {
+    addLabel: 'Video Openstad (3d party, youtube, vimeo, etc.)',
   },
   'location': {
     adminOnly: true

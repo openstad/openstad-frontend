@@ -18,7 +18,7 @@
 			{% if data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}
 			{% else %}
-			{% include 'includes/static-form.html' %}
+			{% include 'includes/static-'+ data.widget.resource + '-form.html' ignore missing %}
 			{% endif %}
 		</div>
 	 {% endif %}

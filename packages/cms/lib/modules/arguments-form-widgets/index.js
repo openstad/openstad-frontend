@@ -7,14 +7,15 @@ const eventEmitter  = require('../../../events').emitter;
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Arguments form',
+  label: 'Arguments form old',
   adminOnly: true,
   addFields: [
+      /*
     {
       name: 'ideaId',
       type: 'string',
       label: 'Idea ID (if empty it will try to fetch the ideaId from the URL)',
-    },
+    },*/
     {
       name: 'placeholder',
       type: 'string',

@@ -27,6 +27,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logo
     },
     choicesGuideId: widget.choicesGuideId,
     questionGroupId: widget.questionGroupId,
+    startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
     choices: {
       type: widget.choicesType,
       title: {
@@ -34,7 +35,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logo
         inBetween: widget.choicesInBetweenPreferenceTitle,
       },
       barColor: { min: widget.choicesPreferenceMinColor || null, max: widget.choicesPreferenceMaxColor || null },
-      startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
       minLabel: widget.choicesMinLabel,
       maxLabel: widget.choicesMaxLabel,
       withPercentage: widget.choicesWithPercentage,

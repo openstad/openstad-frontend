@@ -1,3 +1,4 @@
+{% if data.widget.paginationUrls %}
 <ul class="pagination">
   {% for url in data.widget.paginationUrls %}
   <li class="{{ 'active' if loop.index === data.widget.paginationIndex else '' }}">
@@ -5,3 +6,4 @@
   </li>
   {% endfor %}
 </ul>
+{% endif %}

@@ -11,6 +11,7 @@ module.exports = (self, options) => {
   self.syncApiFields = (item, apiSyncFields, siteConfig, workflowLocale, body) => {
     if (apiSyncFields) {
       apiSyncFields.forEach(field => {
+
         let value = self.getApiConfigValue(siteConfig, field.apiSyncField);
 
         if (workflowLocale && workflowLocale === 'default-draft') {

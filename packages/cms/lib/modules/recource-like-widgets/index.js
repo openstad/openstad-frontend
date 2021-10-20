@@ -47,11 +47,14 @@ module.exports = {
       self.load = function (req, widgets, next) {
         widgets.forEach((widget) => {
             if (widget.containerStyles) {
-              const containerId = widget._id;
+              const containerId = self.apos.utils.generateId();
               widget.containerId = containerId;
-              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+                widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
             }
-         });
+
+            widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
+        });
 
         return superLoad(req, widgets, next);
       }

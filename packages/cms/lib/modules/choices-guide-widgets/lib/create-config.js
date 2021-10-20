@@ -15,9 +15,10 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 		},
     choicesGuideId: widget.choicesGuideId,
     noOfQuestionsToShow: widget.noOfQuestionsToShow,
+    startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
+    startWithAllQuestionsAnsweredAndConfirmed: widget.startWithAllQuestionsAnsweredAndConfirmed,
     choices: {
       type: widget.choicesType,
-      startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
       sticky: {
         offsetTop: 10,
       },
@@ -30,9 +31,14 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     },
     beforeUrl: widget.beforeUrl && data.siteUrl + widget.beforeUrl,
     afterUrl: widget.afterUrl && data.siteUrl + widget.afterUrl,
-    imageserver: {
-			process: '/image',
-			fetch: '/image',
+    image: {
+      server: {
+				process: '/image',
+				fetch: '/image',
+        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
+      },
+      aspectRatio: widget.imageAspectRatio || '16x9',
+      allowMultipleImages: false,
     },
   }
 

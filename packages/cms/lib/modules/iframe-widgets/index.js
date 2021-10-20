@@ -32,8 +32,22 @@ module.exports = {
     const superLoad = self.load;
     self.load = function (req, widgets, callback) {
         widgets.forEach((widget) => {
+
+          // tijdelijke noodoplossing voor responten-polis: doorgeven query params - vraag Niels als je meer wilt weten
+          if (req.host.match('belangrijkvoorwest.cms.openstad.amsterdam')) {
+            let keys = req.query && Object.keys(req.query);
+            if (keys && keys.length) {
+              let url = widget.url;
+              url += url.match(/\?/) ? '&' : '?';
+              keys.map(key => {
+                url += `${key}=${req.query[key]}&`
+              })
+              widget.url = url;
+            }
+          }
+
           if (widget.iframeStyles) {
-            const containerId = widget._id;
+            const containerId = self.apos.utils.generateId();
             widget.iframeId = containerId;
             widget.formattedIframeStyles = styleSchema.format(containerId, widget.iframeStyles);
           }

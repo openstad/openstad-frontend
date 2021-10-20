@@ -1,15 +1,15 @@
 <style>
-  {{data.widget.formattedIframeStyles}}
+ {{data.widget.formattedIframeStyles}}
 </style>
-{% if data.cookieConsent %}
+{% if not data.global.useCookieWarning or data.cookieConsent %}
 <iframe
-  id="{{data.widget.iframeId}}"
-  src="{{ data.widget.url }}"
-   width="560"
-   height="315"
-  frameborder="0"
-  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen
+id="{{data.widget.iframeId}}"
+src="{{ data.widget.url }}"
+width="560"
+height="315"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen
 ></iframe>
 {% else %}
 {% include "partials/placeholder-no-cookie-general.html" ignore missing %}

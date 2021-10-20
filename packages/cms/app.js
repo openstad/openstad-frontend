@@ -25,6 +25,7 @@ const path = require('path');
 const morgan = require('morgan')
 
 //internal code
+const cdns = require('./services/cdns');
 const dbExists = require('./services/mongo').dbExists;
 const openstadMap = require('./config/map').default;
 const openstadMapPolygons = require('./config/map').polygons;
@@ -165,10 +166,14 @@ function serveSite(req, res, siteConfig, forceRestart) {
         });
 }
 
-function run(id, siteData, options, callback) {
+async function run(id, siteData, options, callback) {
     const site = {_id: id}
 
-    const config = _.merge(siteData, options);
+    let openstadComponentsCdn = await cdns.contructComponentsCdn();
+    let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
+
+    const config = _.merge(siteData, options, { openstadComponentsCdn, openstadReactAdminCdn });
+
     let assetsIdentifier;
 
     // for dev sites grab the assetsIdentifier from the first site in order to share assets
@@ -232,7 +237,6 @@ module.exports.getMultiSiteApp = (options) => {
     const resetConfigMw = async (req, res, next) => {
         let host = req.headers['x-forwarded-host'] || req.get('host');
         host = host.replace(['http://', 'https://'], ['']);
-        console.log('reset host', host)
         await fetchAllSites(req, res);
         req.forceRestart = true;
         next();

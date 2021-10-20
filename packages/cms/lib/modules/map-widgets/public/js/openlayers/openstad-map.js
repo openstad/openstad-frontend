@@ -75,26 +75,30 @@ var OpenlayersMap = {
     setIdeaMarker: function (marker) {
         //Add marker if present
         if (marker && marker.position) {
+
             var coordinate = [marker.position.lng, marker.position.lat];
+
             this.addMarker(coordinate, marker.icon);
         }
     },
     createMap: function (settings) {
-        var center = settings.center && settings.center ? {
+
+        var center = settings && settings.center && settings.center ? {
             latitude: settings.center.lat,
             longitude: settings.center.lng
-        } : {longitude: 4.2322689, latitude: 52.04946};
+        } : {longitude: 4.899431, latitude: 52.379189};
 
-        var settings = {
-            zoom: settings.zoom || 15.3,
-            minZoom: settings.minZoom,
-            maxZoom: settings.maxZoom,
-            center: ol.proj.fromLonLat([center.longitude, center.latitude])
+        settings = {
+            zoom: settings && settings.zoom ?  settings.zoom : 15,
+            minZoom: settings && settings.minZoom ?  settings.minZoom : 15,
+            maxZoom:  settings && settings.maxZoom ?  settings.maxZoom : 5,
+            center: ol.proj.fromLonLat([center.longitude, center.latitude]),
+            target: settings ? settings.target : null
         }
 
         var defaultSettings = {
             view: new ol.View(settings),
-            target: 'nlmaps-holder',
+            target: settings && settings.target ? settings.target :  'nlmaps-holder',
             search: false
         };
 
@@ -147,8 +151,8 @@ var OpenlayersMap = {
 
             const iconStyling = {
                 crossOrigin: 'anonymous',
-                anchorOrigin: 'bottom-left',
-                anchor: [0, 0],
+               // anchorOrigin: 'top-left',
+                anchor: [4, 21],
                 size: marker.icon.size,
                 anchorXUnits: 'pixels',
                 anchorYUnits: 'pixels',
@@ -191,27 +195,64 @@ var OpenlayersMap = {
                 ol.proj.fromLonLat(latLong)
             ),
         });
+
         marker.setStyle(new ol.style.Style({
             image: new ol.style.Icon(({
                 crossOrigin: 'anonymous',
                 src: icon.url,
-                anchor: [0, 0],
+                anchor: [4, 21],
+                anchorXUnits: 'pixels',
+                anchorYUnits: 'pixels',
                 size: icon.size
             }))
         }));
+
         var vectorSource = new VectorSource({
             features: [marker]
         });
+
         var vectorLayer = new VectorLayer({
             source: vectorSource
         });
 
         this.marker = vectorLayer;
+        this.markerFeature = marker; // tsja, sorry, het is al een puinhoop en dat ga ik nu niet fixen; hopelijk kan dit binnenkort gewoon weg
 
         this.map.addLayer(vectorLayer);
+        return marker;
+    },
+    setEditorLocation: function(latLong, editorInputElementId) {
+
+      var self = this;
+      var editorInputElement = document.getElementById(editorInputElementId);
+
+      if (latLong) {
+        var coordinate = {
+          latitude: latLong[1],
+          longitude: latLong[0]
+        };
+        let marker = self.addMarker(
+          latLong,
+          {
+            url: '/modules/openstad-assets/img/idea/flag-blue.png',
+            size: [22, 24],
+          });
+
+        var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
+
+        editorInputElement.value = JSON.stringify(point);
+
+      } else {
+        self.removeMarkers();
+        editorInputElement.value = '';
+      }
+
     },
     addEventListener: function (polygonLngLat, editorInputElement) {
-        var editorInputElement = document.getElementById(editorInputElement);
+
+      // WTF: 1.addEventListener is een gestandaardiseerde term lijkt me, waarbij de eerste param een eventnaam is.
+      // 2. De functionaliteit hier is: voeg een marker toe en update het input veld; ik heb eea verplaatst neer een functie setEditorLocation heet (doe er gek)
+      // 3. En als je editorInputElement als id doorgeeft noem hem dan editorInputElementId
 
         var inside = function (point, vs) {
             if (vs && vs.length > 0) {
@@ -254,31 +295,28 @@ var OpenlayersMap = {
         // and pass the lat and lng to the form on which the location picker is included
         this.map.on('click', function (event) {
 
-            var pickerCoords = {
-                latitude: event.coordinate[1],
-                longitude: event.coordinate[0]
-            };
+          var feature = self.map.forEachFeatureAtPixel(event.pixel,
+                                                  function(feature) {
+                                                    return feature;
+                                                  });
+            if (self.markerFeature && feature === self.markerFeature) {
 
-            var picker = [pickerCoords.longitude, pickerCoords.latitude];
+                self.setEditorLocation(null, editorInputElement)
 
-                console.log('click in')
-
-            if (inside(picker, polygonCoords)) {
-                var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
-                var coordinate = {
-                    latitude: latLong[1],
-                    longitude: latLong[0]
+            } else {
+          
+                var pickerCoords = {
+                    latitude: event.coordinate[1],
+                    longitude: event.coordinate[0]
                 };
+     
+                var picker = [pickerCoords.longitude, pickerCoords.latitude];
+     
+                if (inside(picker, polygonCoords)) {
+                  var latLong = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
+                  self.setEditorLocation(latLong, editorInputElement)
+                }
 
-                self.addMarker(latLong,
-                    {
-                        url: '/modules/openstad-assets/img/idea/flag-blue.png',
-                        size: [22, 24]
-                    });
-
-                var point = {type: 'Point', coordinates: [coordinate.latitude, coordinate.longitude]};
-
-                editorInputElement.value = JSON.stringify(point);
             }
 
         }, 'click');

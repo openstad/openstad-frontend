@@ -39,6 +39,15 @@ const fields = [
       {
         'label': 'Help needed',
         'value': 'help-needed',
+      },
+      {
+        'label': 'User activity',
+        'value': 'user-activity',
+        showFields: ['ideaPageUrl']
+      },
+      {
+        'label': 'User active sites',
+        'value': 'user-sites-active',
       }
     ]
   },
@@ -76,6 +85,11 @@ const fields = [
     ],
     def: false
   },
+   {
+    type: 'string',
+    name: 'ideaPageUrl',
+    label: 'Url for the idea page'
+   },
   {
     name: 'defaultImage',
     type: 'attachment',

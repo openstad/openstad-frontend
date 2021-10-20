@@ -15,7 +15,7 @@ module.exports = (self, options) => {
         {
             name: 'displaySettings',
             label: 'Display settings',
-            fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea', 'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator']
+            fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea', 'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator', 'editUrl', 'displayVoteCaption', 'voteCaption']
         },
         {
             name: 'gridder',

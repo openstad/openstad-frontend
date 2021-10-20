@@ -1,6 +1,6 @@
 const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
 
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
+module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -16,12 +16,15 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
   if (widget.mobilePreviewNotLoggedInHTML) contentConfig.mobilePreviewNotLoggedInHTML = widget.mobilePreviewNotLoggedInHTML;
   contentConfig.showNoSelectionOnMobile = widget.showNoSelectionOnMobile;
 
-  // allowMultipleImages to formfields
+  // image settings; todo: deze moeten syncen naar de api en dan moet de voorwaardelijkheid omgedraaid
+  let allowMultipleImages = typeof widget.imageAllowMultipleImages != 'undefined' ? widget.imageAllowMultipleImages : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.allowMultipleImages != 'undefined' ) ? data.global.siteConfig.ideas.allowMultipleImages : false );
+  let placeholderImageSrc = typeof widget.imagePlaceholderImageSrc != 'undefined' ? apos.attachments.url(widget.imagePlaceholderImageSrc) : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.placeholderImageSrc != 'undefined' ) ? data.global.siteConfig.ideas.placeholderImageSrc : undefined );
+  
+  // formfields
   let formFields = [ ...widget.formFields ];
-  let allowMultipleImages = ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.allowMultipleImages ) || false;
   formFields.forEach((formField) => {
     if ( formField.inputType ==  "image-upload" ) {
-      formField.allowMultiple = allowMultipleImages;
+      formField.allowMultiple = allowMultipleImages; // todo: ik dnek dat deze niet meer nodig is
     }
   });
 
@@ -36,7 +39,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
     }})
   } catch (err) {}
   let ideaTypes = data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.types != 'undefined' ? data.global.siteConfig.ideas.types : undefined;
-  let typeField = widget.typeField|| 'typeId';
+  let typeField = widget.typeField || 'typeId';
   let types = typeField == 'typeId' ? ideaTypes : themeTypes;
 
   let mapLocationIcon = widget.mapLocationIcon;
@@ -69,6 +72,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     canSelectLocation: widget.canSelectLocation,
+    onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
@@ -101,6 +105,17 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       defaultValue: widget.defaultSorting,
     },
 
+    image: {
+      server: {
+				process: imageProxy,
+				fetch: imageProxy,
+        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
+      },
+      aspectRatio: widget.imageAspectRatio || '16x9',
+      allowMultipleImages,
+      placeholderImageSrc,
+    },
+    
 		idea: {
       formUrl: widget.formUrl && data.siteUrl + widget.formUrl,
       showVoteButtons: data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.showVoteButtons != 'undefined' ? data.global.siteConfig.ideas.showVoteButtons : true,
@@ -113,11 +128,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 			descriptionMinLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
 			allowMultipleImages,
-      imageserver: {
-        // TODO: hij staat nu zonder /image in de .env van de frontend, maar daar zou natuurlijk de hele url moeten staan
-				process: '/image',
-				fetch: '/image',
-      },
       fields: formFields,
       shareChannelsSelection: widget.showShareButtons ? widget.shareChannelsSelection : [],
       metaDataTemplate: widget.metaDataTemplate,
@@ -127,18 +137,20 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
     argument: {
       isActive: widget.showReactions,
-      isClosed: data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.isClosed != 'undefined' ? data.global.siteConfig.arguments.isClosed : false,
-      closedText: data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.closedText != 'undefined' ? data.global.siteConfig.arguments.closedText : true,
       title: widget.reactionsTitle,
       formIntro: widget.reactionsFormIntro,
       placeholder: widget.reactionsPlaceholder,
 			descriptionMinLength: ( data.global.siteConfig && data.global.siteConfig.arguments && data.global.siteConfig.arguments.descriptionMinLength ) || 30,
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.arguments && data.global.siteConfig.arguments.descriptionMaxLength ) || 100,
-      closeReactionsForIdeaIds: widget.closeReactionsForIdeaIds,
+      isClosed: typeof widget.reactionsClosed != 'undefined' ? !!widget.reactionsClosed : (data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.isClosed != 'undefined' ? data.global.siteConfig.arguments.isClosed : false),
+      closedText: typeof widget.reactionsClosedText != 'undefined' ? widget.reactionsClosedText : (data.global.siteConfig && data.global.siteConfig.arguments && typeof data.global.siteConfig.arguments.closedText != 'undefined' ? data.global.siteConfig.arguments.closedText : true),
+      closeReactionsForIdeaIds: widget.reactionsClosed === '' && widget.closeReactionsForIdeaIds || '',
 		},
 
     map: {
       variant: widget.mapVariant,
+      mapTilesUrl: widget.mapTilesUrl,
+      mapTilesSubdomains: widget.mapTilesSubdomains,
       zoom: 16,
       clustering: {
         isActive: true, // widget.mapClustering,
@@ -146,7 +158,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
       },
       locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
-      polygon: ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
+      polygon: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
 		},
 

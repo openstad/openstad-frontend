@@ -15,7 +15,36 @@ $(function () {
     initAjaxRefresh();
     initFormSubmit();
     initTrapFocusInOpenModal();
+    initFillExternalCsrfToken();
+    initValidateAuthForms();
 });
+
+function initFillExternalCsrfToken () {
+    var $form = $('.form-fill-external-csrf');
+
+    if ($form && $form.length > 0) {
+        $form.css({
+            opacity: 0.4,
+            'pointer-events': 'none'
+        });
+
+        $.ajax({
+            url: '/oauth-csrf',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $form.append('<input type="hidden" name="externalCSRF" value="'+response.token+'" />');
+                $form.css({
+                    opacity: 1,
+                    'pointer-events': 'all'
+                });
+            },
+            error: function() {
+                alert('Something is wrong, try refreshing the page')
+            }
+        })
+    }
+}
 
 function initLogoutMijnOpenstad() {
     $('.logout-button').click(function (ev) {
@@ -227,6 +256,14 @@ function initAjaxForms($e) {
     });
 }
 
+function initValidateAuthForms () {
+    var $form = $('#auth-form');
+
+    if ($form.length > 0) {
+        $form.validate();
+    }
+}
+
 /**
  * Take care of newsletter submitting logic: validation, error & success feedback & ajax submission
  */
@@ -334,7 +371,7 @@ function initRoleRequired() {
             ev.preventDefault();
             var loginUrl = '/oauth/login?useOauth=anonymous';
             loginUrl = $(this).attr('data-return-to') ? loginUrl + '&returnTo=' + encodeURIComponent($(this).attr('data-return-to')) : loginUrl;
-            window.location.href = loginUrl;
+            window.location.href = getSiteUrl() + loginUrl;
         }
     });
 
@@ -380,6 +417,11 @@ function initTrashPageWarning() {
 // this version is a bit less efficient since we get back almost whole the page
 // the control elements should be refreshed server side otherwise it's values will not be corrrect
 //
+
+function getSiteUrl () {
+    return  window.siteUrl ?  window.siteUrl : '';
+}
+
 function initAjaxRefresh() {
 
     $('body').on('click', '.openstad-ajax-refresh-link', function (ev) {

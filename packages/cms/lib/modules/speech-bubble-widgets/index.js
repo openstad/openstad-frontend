@@ -108,8 +108,10 @@ module.exports = {
     const superLoad = self.load;
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
         if (widget.containerStyles) {
-          const containerId = widget._id;
+          const containerId = self.apos.utils.generateId();
           widget.containerId = containerId;
           widget.contentWidgets = contentWidgets;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);

@@ -9,6 +9,12 @@
 	{{ __('Loading...') }}
 </div>
 
+{% if data.widget.mapConfig %}
+<script>
+	var resourceMapConfig = {{data.widget.mapConfig | json}}
+</script>
+{% endif %}
+
 <div id="westbegroot-voting" class="begroot-container opacity-0-for-load">
 
 	{% if data.widget.voting %}

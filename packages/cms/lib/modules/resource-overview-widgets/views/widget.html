@@ -27,7 +27,7 @@
 			{% endif %}
 
 	    <br />
-			<div id="ideas-anchor"></div>
+		<div id="ideas-anchor"></div>
 
 	    <div id="ideas" class="primary">
 	      {% if not data.widget.activeResources or data.widget.activeResources.length === 0 %}
@@ -54,9 +54,7 @@
 						{% endif %}
 					{% endif %}
 
-					{% if data.widget.displayPagination %}
 					{% include 'includes/pagination.html' %}
-					{% endif %}
 				{% endif %}
 	    </div>
 	  </div>

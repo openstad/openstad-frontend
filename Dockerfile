@@ -31,7 +31,6 @@ ENV NODE_ENV="production"
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 
-
 # Set the working directory to the root of the container
 WORKDIR /home/app
 

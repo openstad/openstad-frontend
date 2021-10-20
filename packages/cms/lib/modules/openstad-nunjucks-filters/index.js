@@ -15,14 +15,14 @@ module.exports = {
         if( attrs.href && remoteURL.test(attrs.href) ) {
           attrs.target = '_blank';
           attrs.rel    = 'noreferrer noopener';
-        } else if (siteUrl)  {
-          attrs.href =  attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
+        } else if (attrs && attrs.href && siteUrl)  {
+          attrs.href =  attrs.href && attrs.href.startsWith('/') ?  siteUrl + attrs.href : attrs.href;
         }
 
         return {tagName: tagName, attribs: attrs};
       };
 
-      return s ? sanitize(s, sanitizeConfig, options.siteUrl) : '';
+      return s ? sanitize(s, sanitizeConfig) : '';
     });
 
     self.apos.templates.addFilter('ensureHttp', function (s) {
@@ -34,7 +34,7 @@ module.exports = {
       // this way /page also works for subdirectory sites
       // for example domain.com/site1 has a link to /page1, this wil turn that into  domain.com/site1/page1
       const siteUrl = options.siteUrl;
-      return s.startsWith('/') ? siteUrl +  s : s;
+      return s && s.startsWith('/') ? siteUrl +  s : s;
     });
 
     self.apos.templates.addFilter('date', function (s, format) {

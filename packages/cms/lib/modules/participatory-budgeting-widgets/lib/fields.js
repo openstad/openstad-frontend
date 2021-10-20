@@ -1,5 +1,6 @@
 const ideaStates = require('../../../../config/idea.js').states;
 const sortingOptions  = require('../../../../config/sorting.js').options;
+const authFormFields = require('../../../../config/authForm.js').fields;
 
 const fields = [
   {
@@ -217,10 +218,39 @@ const fields = [
     ]
   },
   {
+    name: 'authEmbeddedForm',
+    label: 'Auth form embedded',
+    type: 'select',
+    choices: [
+      {
+        value: false,
+        //  label: 'Newest first',
+        label: 'No'
+      },
+      {
+        value: 'url',
+        //  label: 'Newest first',
+        label: 'Email login url'
+      },
+      {
+        value: 'uniqueCode',
+        //  label: 'Newest first',
+        label: 'Voting code'
+      },
+      {
+        value: 'sms',
+        //  label: 'Newest first',
+        label: 'Sms'
+      },
+
+    ]
+  },
+  {
     name: 'newsletterButtonText',
     label: 'Text on the newsletter button',
     type: 'string'
   },
+  ...authFormFields
 ].concat(
     ideaStates.map((state) => {
       return {

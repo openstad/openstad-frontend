@@ -41,6 +41,29 @@ module.exports = {
             },
           ]
         },
+        {
+          name: 'links',
+          type: 'array',
+          titleField: 'title',
+          schema: [
+            {
+              name: 'title',
+              label: 'Link title',
+              type: 'string',
+            },
+            {
+              name: 'url',
+              label: 'Link URL',
+              type: 'string',
+            },
+            {
+              name: 'openInNewWindow',
+              type: 'boolean',
+              label: 'Open in new window?',
+            },
+
+          ]
+        }
       ]
     },
     styleSchema.definition('containerStyles', 'Styles for the container')
@@ -64,10 +87,13 @@ module.exports = {
     self.load = (req, widgets, callback) => {
       widgets.forEach((widget) => {
         if (widget.containerStyles) {
-          const containerId = widget._id;
+          const containerId = self.apos.utils.generateId();
           widget.containerId = containerId;
           widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         }
+
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+
       });
 
       return superLoad(req, widgets, callback);

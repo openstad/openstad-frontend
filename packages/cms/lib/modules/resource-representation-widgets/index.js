@@ -38,14 +38,18 @@ module.exports = {
           widgets.forEach((widget) => {
               // render string with variables. Add active recource
               if (widget.containerStyles) {
-                const containerId = widget._id;
+                const containerId = self.apos.utils.generateId();
                 widget.containerId = containerId;
-                widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+                  widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
               }
+
+              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
               widget.mapCenterLat = globalData.mapCenterLat;
               widget.mapCenterLng = globalData.mapCenterLng;
               widget.mapPolygons = globalData.mapPolygons;
+
+              widget.countdownPeriod = siteConfig.ideas.automaticallyUpdateStatus && siteConfig.ideas.automaticallyUpdateStatus.afterXDays || 0;
 
               widget.siteConfig = {
                   minimumYesVotes: (siteConfig && siteConfig.ideas && siteConfig.ideas.minimumYesVotes),
@@ -75,6 +79,9 @@ module.exports = {
           const openStadMap =  widget.siteConfig && widget.siteConfig.openStadMap ? widget.siteConfig.openStadMap : {};
           const markerStyle = widget.siteConfig && widget.siteConfig.openStadMap && widget.siteConfig.openStadMap.markerStyle ? widget.siteConfig.openStadMap.markerStyle : null;
           const idea = widget.activeResource;
+
+          let daysOld = parseInt( ( Date.now() - new Date(idea.startDate).getTime() ) / ( 24 * 60 * 60 * 1000 ) );
+          idea.countdown = widget.countdownPeriod - daysOld;
 
           //map expects array
           const ideas = widget.activeResource ? [widget.activeResource] : [];
