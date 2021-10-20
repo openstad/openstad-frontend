@@ -13,6 +13,9 @@ router.use( '/site/:siteId(\\d+)/vote', require('./vote') );
 // idea
 router.use( '/site/:siteId(\\d+)/idea', require('./idea') );
 
+// argument
+router.use( '/site/:siteId(\\d+)/argument', require('./argument') );
+
 // get overview of stats
 router.use( '/site/:siteId(\\d+)/overview', require('./overview') );
 
