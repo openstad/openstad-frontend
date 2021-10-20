@@ -48,9 +48,12 @@
 
   {% if data.widget.statsUrl %}
   <script>
+
+   // todo: upddate on events like osc-new-reaction-stored''
+
    function fetchStats{{data.widget.containerId}}() {
 
-     let url = '{{data.widget.statsUrl}}';
+     let url = '{{data.widget.statsUrl | safe}}';
 	   $.ajax({
 		   url: url,
 		   dataType: "json",
