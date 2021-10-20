@@ -1,6 +1,4 @@
 # Changelog
-## Unreleased
-* Make autoCenter configurable in idea-map-widgets
 
 ## Unreleased
 * Make image size configurable for the image widget
@@ -12,6 +10,8 @@
 * Allow counter-widgets to display the argument count for a specific idea
 * Add options to hide votes / status / last name in resource-representation-widgets
 * Allow title above share buttons to be changed in resource-representation-widgets
+* Make autoCenter configurable in idea-map-widgets
+* Add submission to resource form with configurable confirmation settings
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
