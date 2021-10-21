@@ -21,7 +21,7 @@
     "@openstad/cms": "file:packages/cms",
     "@savvycodes/openstad-event-browser-widgets": "0.0.4-alpha.46",
     "@savvycodes/openstad-event-planner-widgets": "0.0.4-alpha.46",
-    "@savvycodes/openstad-event-favorites-widgets": "0.0.4-alpha.45",
+    "@savvycodes/openstad-event-favorites-widgets": "0.0.4-alpha.47",
     "apostrophe": "2.113.0",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
