@@ -169,6 +169,9 @@ const contentWidgets = {
   '@savvycodes/openstad-event-browser': {
     adminOnly: true,
   },
+  '@savvycodes/openstad-event-favorites': {
+    adminOnly: true,
+  },
   'decision-tree': {
     adminOnly: true,
   },

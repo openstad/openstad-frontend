@@ -10,6 +10,7 @@ module.exports.default = {
   modules: {
     '@savvycodes/openstad-event-planner-widgets': {},
     '@savvycodes/openstad-event-browser-widgets': {},
+    '@savvycodes/openstad-event-favorites-widgets': {},
     'apostrophe-forms': {
       // Best practice: set to first or last so that inputs are nested in labels
       // and easier to style
