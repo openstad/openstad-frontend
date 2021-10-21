@@ -156,6 +156,7 @@ module.exports = [
     type: 'select',
     name: 'analyticsType',
     label: 'Analytics type',
+    def: 'none',
     choices: [
       {
         value: 'none',
@@ -175,7 +176,11 @@ module.exports = [
         value: 'custom',
         label: "Custom: use a custom codeblock",
         showFields: ['analyticsCodeBlock']
-      }
+      },
+      {
+        value: 'serverdefault',
+        label: "Use the server default settings",
+      },
     ]
   },
 
