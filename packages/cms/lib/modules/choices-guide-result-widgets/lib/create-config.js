@@ -12,6 +12,22 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logo
   if (widget.requireLoginNotYetLoggedInError) requireLoginSettings.notYetLoggedInError = widget.requireLoginNotYetLoggedInError;
   if (widget.requireLoginAlreadySubmittedMessage) requireLoginSettings.alreadySubmittedMessage = widget.requireLoginAlreadySubmittedMessage;
 
+  if (widget.formFields) {
+    widget.formFields.map(function (formField) {
+      
+      let validation = {};
+      validation.required = formField.required ? 'true' : 'false';
+      if (['text-with-counter', 'textarea-with-counter'].includes(formField.inputType)) {
+        validation.minLength = String(formField.minLength).length > 0 ? formField.minLength : '';
+        validation.maxLength = String(formField.maxLength).length > 0 ? formField.maxLength : '';
+      }
+      
+      formField.validation = validation;
+      
+      return formField;
+    });
+  }
+  
   let config = {
     // data.isAdmin
     divId: 'choices-guide-result',

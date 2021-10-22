@@ -215,10 +215,25 @@ module.exports = [
             label: 'Textarea',
             value: 'textarea',
           },
+            {
+            label: 'Text met teller',
+            value: 'text-with-counter',
+            showFields: ['minLength', 'maxLength'],
+          },
+          {
+            label: 'Textarea met teller',
+            value: 'textarea-with-counter',
+            showFields: ['minLength', 'maxLength'],
+          },
           {
             label: 'Radio buttons',
             value: 'radios',
             showFields: ['choices'],
+          },
+          {
+            label: 'Checkboxes (multiple choice)',
+            value: 'multiple-choice',
+            showFields: ['choices', 'showOther'],
           },
           {
             label: 'Selection (dropdown)',
@@ -256,22 +271,48 @@ module.exports = [
           }
         ]
       },
-		  {
-			  type: 'select',
-			  name: 'required',
-			  label: 'Is verplicht',
-        def: true,
-			  choices: [
-				  {
-					  label: 'Ja',
-					  value: true,
-				  },
-				  {
-					  label: 'Nee',
-					  value: false
-				  },
-			  ]
-		  },
+        {
+            type:    'select',
+            name:    'showOther',
+            label:   'Toon veld "Anders, namelijk:"',
+            def:     true,
+            choices: [
+                {
+                    label: 'Ja',
+                    value: true,
+                },
+                {
+                    label: 'Nee',
+                    value: false
+                },
+            ]
+        },
+        {
+            type:    'select',
+            name:    'required',
+            label:   'Is verplicht',
+            def:     true,
+            choices: [
+                {
+                    label: 'Ja',
+                    value: true,
+                },
+                {
+                    label: 'Nee',
+                    value: false
+                },
+            ]
+        },
+        {
+            label: 'Minimum length',
+            name: 'minLength',
+            type: 'string',
+          },
+        {
+            label: 'Maximum length',
+            name: 'maxLength',
+            type: 'string',
+          },
     ]
   },
   // einde uit user-form
