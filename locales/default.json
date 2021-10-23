@@ -674,5 +674,13 @@
 	"Label for status: OPEN": "Label for status: OPEN",
 	"Label for status: CLOSED": "Label for status: CLOSED",
 	"Label for status: BUSY": "Label for status: BUSY",
-	"Label for status: DONE": "Label for status: DONE"
+	"Label for status: DONE": "Label for status: DONE",
+	"Argument count": "Argument count",
+	"idea ID - leave empty to fetch total arguments": "idea ID - leave empty to fetch total arguments",
+	"Arguemnt idea ID - leave empty to fetch total arguments": "Arguemnt idea ID - leave empty to fetch total arguments",
+	"Argument sentiment": "Argument sentiment",
+	"Both": "Both",
+	"Use the server default settings": "Use the server default settings",
+	"Use a captcha as protection?": "Use a captcha as protection?",
+	"The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.": "The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form."
 }
