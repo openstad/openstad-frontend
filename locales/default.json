@@ -682,5 +682,19 @@
 	"Both": "Both",
 	"Use the server default settings": "Use the server default settings",
 	"Use a captcha as protection?": "Use a captcha as protection?",
-	"The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.": "The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form."
+	"The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.": "The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.",
+	"Save Speech Bubble": "Save Speech Bubble",
+	"General styling": "General styling",
+	"Advanced styling": "Advanced styling",
+	"Border color": "Border color",
+	"Styles for the speech bubble": "Styles for the speech bubble",
+	"Save Title": "Save Title",
+	"Title ": "Title ",
+	"Select appearance modus for title": "Select appearance modus for title",
+	"Heading 1": "Heading 1",
+	"Heading 2": "Heading 2",
+	"Heading 3": "Heading 3",
+	"Heading 4": "Heading 4",
+	"Select HTML styling class": "Select HTML styling class",
+	"Heavy bold": "Heavy bold"
 }

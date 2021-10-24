@@ -10,11 +10,19 @@ const fields = [
     label: 'Representation',
     type: 'select',
     choices: [
-
       {
         'label': 'Idea Page (only for idea resource)',
         'value': 'idea-page',
-        'showFields' : ['showShareButtons', 'displayRanking', 'shareChannelsSelection', 'defaultImage'].concat(labels).concat(timeLabels)
+        'showFields' : [
+          'showShareButtons',
+          'displayRanking',
+          'shareChannelsSelection',
+          'defaultImage',
+          'hideUserLastName',
+          'hideVotes',
+          'hideStatus',
+          'shareTitle'
+        ].concat(labels).concat(timeLabels)
       },
       {
         'label': 'Title',
