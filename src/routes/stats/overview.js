@@ -141,7 +141,7 @@ router.route('/')
             {
                 key: 'userVoteTotal',
                 description: 'Amount of users that voted',
-                sql: "SELECT count(DISTINCT votes.userId) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                sql: "SELECT count(DISTINCT votes.userId) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND (votes.checked IS NULL OR votes.checked = 1) AND ideas.deletedAt IS NULL AND ideas.siteId=?",
                 variables: [req.params.siteId],
                 resultType: 'count',
                 // will be filled after running the query
@@ -149,21 +149,21 @@ router.route('/')
             {
                 key: 'ideaVotesCountTotal',
                 description: 'Amount of votes on ideas',
-                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?",
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND (votes.checked IS NULL OR votes.checked = 1) AND ideas.deletedAt IS NULL AND ideas.siteId=?",
                 variables: [req.params.siteId],
                 resultType: 'count',
             },
             {
                 key: 'ideaVotesCountForTotal',
                 description: 'Amount of votes for an idea',
-                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND (votes.checked IS NULL OR votes.checked = 1) AND ideas.deletedAt IS NULL AND ideas.siteId=? AND votes.opinion = 'yes'",
                 variables: [req.params.siteId],
                 resultType: 'count',
             },
             {
                 key: 'ideaVotesCountAgainstTotal',
                 description: 'Amount of votes against an idea',
-                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
+                sql: "SELECT count(votes.id) AS counted FROM votes LEFT JOIN ideas ON votes.ideaId = ideas.id WHERE votes.deletedAt IS NULL AND (votes.checked IS NULL OR votes.checked = 1) AND ideas.deletedAt IS NULL AND ideas.siteId=?  AND votes.opinion = 'no'",
                 variables: [req.params.siteId],
                 resultType: 'count',
             },
@@ -172,9 +172,10 @@ router.route('/')
                 description: 'Amount of users that voted per day.',
                 help: 'This is not the same as total votes per days, since a user can often vote on more then one idea.',
                 sql: `SELECT count(DISTINCT votes.userId) AS counted, DATE_FORMAT(votes.createdAt, '%Y-%m-%d') as date
-                    FROM votes 
+                    FROM votes  
                     LEFT JOIN ideas ON votes.ideaId = ideas.id 
                     WHERE votes.deletedAt IS NULL 
+                    AND (votes.checked IS NULL OR votes.checked = 1)
                     AND ideas.deletedAt IS NULL AND ideas.siteId=?
                     GROUP BY date
                     ORDER BY date ASC`,
@@ -188,6 +189,7 @@ router.route('/')
                     FROM votes 
                     LEFT JOIN ideas ON votes.ideaId = ideas.id 
                     WHERE votes.deletedAt IS NULL 
+                    AND (votes.checked IS NULL OR votes.checked = 1)
                     AND ideas.deletedAt IS NULL AND ideas.siteId=?
                     GROUP BY date
                     ORDER BY date ASC`,
