@@ -85,6 +85,8 @@ module.exports = {
               '/api/site/*/tour/*/publish',
               '/api/site/*/user/*',
               '/api/site/*/user',
+              '/api/site/148/user/8',
+              '/api/site/*/support-chat/*'
               //     '/api/site/*/vote/*/toggle',
 
               //     '/vote',

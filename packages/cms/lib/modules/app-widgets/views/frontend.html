@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
 <div id="{{data.widget.containerId}}" class="osc-component" style="width:100%; height:100%">
-    <div id="admin-root"></div>
+    <div id="admin-root" style="min-height: 400px; overflow: hidden"></div>
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
@@ -21,7 +21,10 @@
              checkoutUrl: '{{data.siteUrl}}/cart/set',
              urlPrefix: '{{data.currentPath}}',
              startState: '{{data.widget.startState}}',
-             loginUrl: '/oauth/login?returnTo={{data.currentPath}}'
+             loginUrl: '/oauth/login?returnTo={{data.currentPath}}',
+             singleScreen: {{true if data.widget.singleScreen else false}},
+             userId: {{ data.activeResource.id if data.activeResourceType === 'user' else false}},
+             moderatorUser: {{data.openstadUser | json if data.hasModeratorRights else false}},
     };
 
         ReactDOM.render(React.createElement(AppEditor.FrontendApp, appProps), document.getElementById('admin-root'));

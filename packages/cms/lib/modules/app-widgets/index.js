@@ -50,6 +50,11 @@ module.exports = {
       label: 'Run full app',
     },
     {
+      name: 'singleScreen',
+      type: 'boolean',
+      label: 'Run single screen',
+    },
+    {
       name: 'startState',
       type: 'select',
       label: 'Start state',
@@ -65,7 +70,15 @@ module.exports = {
         {
           label: 'subscription',
           value: 'subscription'
-        }
+        },
+        {
+          label: 'Chat',
+          value: 'Chat'
+        },
+        {
+          label: 'Profile',
+          value: 'Profile'
+        },
       ]
     },
 

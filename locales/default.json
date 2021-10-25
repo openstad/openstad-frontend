@@ -817,5 +817,12 @@
 	"Storage key, what key to save under": "Storage key, what key to save under",
 	"Dynamic image": "Dynamic image",
 	"Add User": "Add User",
-	"Search Users...": "Search Users..."
+	"Search Users...": "Search Users...",
+	"Widget deleted": "Widget deleted",
+	"Run single page": "Run single page",
+	"chat": "chat",
+	"profile": "profile",
+	"Run single screen": "Run single screen",
+	"Chat": "Chat",
+	"Profile": "Profile"
 }

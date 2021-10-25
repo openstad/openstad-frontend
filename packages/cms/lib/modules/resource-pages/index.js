@@ -131,6 +131,7 @@ module.exports = {
       req.data.activeResourceId = req.params.resourceId;
       req.data.activeResourceType = req.data.page.resource;
 
+
       if (req.data.isAdmin && req.data.activeResourceType === 'idea') {
         req.data.ideaVotes = req.data.votes ? req.data.votes.filter(vote => vote.ideaId === parseInt(req.data.activeResourceId,10)) : [];
       }
