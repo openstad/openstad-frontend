@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.20.3
+* Make sure ideas are existing on the page in Participatory budgetting
+
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
 
