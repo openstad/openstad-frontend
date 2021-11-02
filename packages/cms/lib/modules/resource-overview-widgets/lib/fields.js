@@ -611,7 +611,7 @@ module.exports = [
     return {
       type: 'string',
       name: 'label' +  state.value,
-      label: 'Label for: ' + state.value,
+      label: 'Label for status: ' + state.value,
     }
   })
 );

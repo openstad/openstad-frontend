@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.21.0
+* Add global option to disable newsletter captcha
+* Add options to hide votes / status / last name in resource-representation-widgets
+* Allow title above share buttons to be changed in resource-representation-widgets
+* Allow counter-widgets to display the argument count for a specific idea
+* Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
+* Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
+
 ## v0.20.3
 * Make sure ideas are existing on the page in Participatory budgetting
 
@@ -37,9 +48,6 @@
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
-
-## v0.17.1 (2021-07-14)
-* Add user authorization to image upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

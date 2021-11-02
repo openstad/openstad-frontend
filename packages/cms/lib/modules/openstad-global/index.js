@@ -45,9 +45,8 @@ module.exports = {
         req.data.envStyleSheets = sheets;
       }
 
-      //for legacy purposes, remove to better solutions at some point
-      //Amsterdam
-      //
+      // for legacy purposes, remove to better solutions at some point
+      // Amsterdam
       if (!req.data.global.siteLogo && process.env.LOGO_AMSTERDAM && process.env.LOGO_AMSTERDAM === 'yes') {
         //make sure we
         req.data.global.siteLogo = 'amsterdam';
@@ -64,6 +63,22 @@ module.exports = {
       };
 
       req.data.originalUrl = req.originalUrl;
+
+      // use defaults from env vars
+      let cmsDefaults = process.env.CMS_DEFAULTS;
+      try {
+        if (typeof cmsDefaults == 'string') cmsDefaults = JSON.parse(cmsDefaults);
+      } catch(err) {
+      }
+      req.data.global.cmsDefaults = cmsDefaults
+      if (typeof req.data.global.analyticsType === 'undefined' || req.data.global.analyticsType === '' ) {
+        req.data.global.analyticsType = ( cmsDefaults && cmsDefaults.analyticsType ) || 'none';
+      }
+      if (req.data.global.analyticsType === 'serverdefault' ) {
+        req.data.global.analyticsType = ( cmsDefaults && cmsDefaults.analyticsType ) || 'none';
+        req.data.global.analyticsCodeBlock = cmsDefaults && cmsDefaults.analyticsCodeBlock;
+        req.data.global.analyticsIdentifier = cmsDefaults && cmsDefaults.analyticsIdentifier;
+      }
 
       // backwards compatibility for analytics
       // TODO: is there a way to use the value of an old field as default for a new field?

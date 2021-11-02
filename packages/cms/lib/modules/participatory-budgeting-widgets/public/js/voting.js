@@ -253,7 +253,7 @@ if (votingContainer !== null) {
     }
 
 	  if (currentStep == 3) {
-		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn && !userHasVoted ) {
 			  // user is al ingelogd
 			  currentStep = 2;
 		  }
@@ -358,7 +358,7 @@ if (votingContainer !== null) {
     }
 
 	  if (currentStep == 3) {
-		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn && !userHasVoted ) {
 			  // user is al ingelogd en kan gaan stemmen
 			  currentStep = 4;
 		  }
@@ -1793,7 +1793,6 @@ if (votingContainer !== null) {
 		  if (userHasVoted) {
 			  currentStep = 3;
 		  } else {
-
 			  currentStep = 4;
 
 			  /**
@@ -1805,9 +1804,7 @@ if (votingContainer !== null) {
 			   */
 			  setTimeout(function () {
 				  nextStep();
-			  },500)
-
-
+			  },500);
 		  }
 	  }
 

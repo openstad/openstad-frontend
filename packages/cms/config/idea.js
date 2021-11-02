@@ -1,15 +1,15 @@
 exports.states = [
   {
-    value: 'ACCEPTED'
-  },
-  {
-    value: 'DENIED'
-  },
-  {
     value: 'OPEN'
   },
   {
     value: 'CLOSED'
+  },
+  {
+    value: 'ACCEPTED'
+  },
+  {
+    value: 'DENIED'
   },
   {
     value: 'BUSY'

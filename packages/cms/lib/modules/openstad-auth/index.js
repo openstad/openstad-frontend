@@ -152,7 +152,7 @@ module.exports = {
                         });
                     }
 
-                    const THIRTY_SECONDS = 30 * 1000;
+                    const THIRTY_SECONDS = 100; //30 * 1000;
                     const date = new Date();
                     const dateToCheck = req.session.lastJWTCheck ? new Date(req.session.lastJWTCheck) : new Date;
 
