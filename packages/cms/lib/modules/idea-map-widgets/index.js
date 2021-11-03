@@ -159,6 +159,7 @@ module.exports = {
     self.load = (req, widgets, callback) => {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
+        globalData.siteUrl = req.data.siteUrl;
         const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
 

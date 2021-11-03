@@ -163,9 +163,10 @@ module.exports = class MapConfigBuilder {
 
           if (idea.location && idea.location.coordinates) {
               //should move ideaslug away from globaldata
-                markers.push(
-                  new Marker(idea.location.coordinates, idea.status, getHref(this.globalData.ideaSlug, idea.id), idea.endDate, idea.extraData.theme, this.globalData.themes)
-                );
+              let ideaSlug = this.globalData.siteUrl + getHref(this.globalData.ideaSlug, idea.id);
+              markers.push(
+                new Marker(idea.location.coordinates, idea.status, ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
+              );
           }
         }) : [];
 
