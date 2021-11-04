@@ -26,7 +26,9 @@ const morgan = require('morgan')
 
 //internal code
 const cdns = require('./services/cdns');
+
 const dbExists = require('./services/mongo').dbExists;
+
 const openstadMap = require('./config/map').default;
 const openstadMapPolygons = require('./config/map').polygons;
 const defaultSiteConfig = require('./config/siteConfig');
@@ -114,7 +116,21 @@ function serveSite(req, res, siteConfig, forceRestart) {
     const domain = siteConfig.domain;
 
     // check if the mongodb database exist. The name for databse
-    return dbExists(dbName).then((exists) => {
+    return new Promise((resolve, reject) => {
+        if (aposServer[domain]) {
+            console.log('No need to check', !!aposServer[domain])
+            resolve(true);
+        } else {
+         //   console.log('I need to check')
+        }
+
+        dbExists(dbName)
+          .then((isExisting) => {
+              resolve(isExisting);
+          }).catch((err) => {
+            reject(err);
+          })
+    }).then((exists) => {
         // if default DB is set
         if (exists || dbName === process.env.DEFAULT_DB) {
 
@@ -131,12 +147,17 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
                 aposStartingUp[domain] = true;
 
-                runner(dbName, config, req.options).then(function (apos) {
+                runner(dbName, config, req.options)
+                  .then(function (apos) {
                     aposStartingUp[domain] = false;
                     aposServer[domain] = apos;
                     aposServer[domain].app.set('trust proxy', true);
                     aposServer[domain].app(req, res);
-                });
+                  })
+                  .catch((err) => {
+                      console.log('Err starting up site: ', domain,  err)
+                      res.status(500).json({error: 'An error occured running site ' , domain});
+                  })
             } else {
                 const startServer = (server, req, res) => {
                     server.app(req, res);
