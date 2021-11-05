@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased
-# Fix countdown in resource-overview
+* Fix countdown in resource-overview
+* Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
 
 ## v0.21.0
 * Add global option to disable newsletter captcha
