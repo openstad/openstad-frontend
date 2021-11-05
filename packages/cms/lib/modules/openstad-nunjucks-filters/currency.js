@@ -42,7 +42,7 @@ module.exports = function (input, signOrCurrency) {
 
   const currency = currencies.find(curr => curr.short === signOrCurrency);
 
-  let sign = currency && currency.symbol ? currency.symbol : sign;
+  let sign = currency && currency.symbol ? currency.symbol : signOrCurrency;
 
 
   if (input == null || !isFinite(input)) {
