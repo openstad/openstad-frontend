@@ -11,7 +11,8 @@
               </div>
               <div class="{{'col-xs-2' if data.widget.displayQuantity else 'col-xs-3'}} text-right">
                   <small><b> Price </b></small><br/>
-                  {{ item.price | currency(item.product && item.product.currency ? item.product.currency : data.widget.currency)}}
+
+                  {{ item.price | currency(item.product.currency)}}
               </div>
               {% if data.widget.displayQuantity %}
               <div class="col-xs-4 text-right product-change">
