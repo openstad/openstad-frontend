@@ -42,6 +42,7 @@ class Cart {
           let prod = {
             id: product.id,
             name: product.name,
+              currency: product.currency,
             product: product,
             price: product.price,
             qty: qty,
@@ -113,9 +114,10 @@ class Cart {
 
         cart.totals = 0.00;
         cart.items.forEach(item => {
+            cart.currency = item.currency;
+
             let price = item.price;
             let qty = item.qty;
-            console.log('item', item)
 
             let amount = price * qty;
 
