@@ -14,8 +14,8 @@ function showIdeaArgumentReactions(idea, argumentId) {
 			if (argument.hasUserVoted) infoblock.querySelector('.votes').className += ' hasvoted';
 			infoblock.querySelector('.argument').id = 'argument-' + argument.id;
 			infoblock.querySelector('.description').innerHTML = argument.description;
-			infoblock.querySelector('.username').innerHTML = argument.user.nickName || ( argument.user.firstName || '' ) + ' ' + ( argument.user.lastName || '' );
-			infoblock.querySelector('.user-and-date').querySelector('.username').innerHTML = argument.user.nickName || ( argument.user.firstName || '' ) + ' ' + ( argument.user.lastName || '' );
+			infoblock.querySelector('.username').innerHTML = argument.user.displayName;
+			infoblock.querySelector('.user-and-date').querySelector('.username').innerHTML = argument.user.displayName;
 			infoblock.querySelector('.date').innerHTML = argument.createDateHumanized;
 			infoblock.querySelector('.no-of-votes').innerHTML = argument.yes || 0;
 
@@ -24,7 +24,7 @@ function showIdeaArgumentReactions(idea, argumentId) {
 				argument.reactions.forEach(function(argument) {
 					var div = template.cloneNode(true);
 					div.querySelector('.description').innerHTML = argument.description;
-					div.querySelector('.username').innerHTML = argument.user.nickName || ( argument.user.firstName || '' ) + ' ' + ( argument.user.lastName || '' );
+					div.querySelector('.username').innerHTML = argument.user.displayName;
 					div.querySelector('.date').innerHTML = argument.createDateHumanized;
 					document.querySelector('.argument-reactions').appendChild(div);
 				});

@@ -41,7 +41,7 @@ function showIdeaDetails() {
 		infoblock.querySelector('.idea-details .extra-data .right').style.display = 'none';
 	}
 
-	infoblock.querySelector('.idea-details #username').innerHTML = currentIdea && currentIdea.user && ( ( currentIdea.user.firstName || '' ) + ' ' + ( currentIdea.user.lastName || '' ) );
+	infoblock.querySelector('.idea-details #username').innerHTML = currentIdea && currentIdea.user && currentIdea.user.displayName;
 	infoblock.querySelector('.idea-details #date').innerHTML = currentIdea  && currentIdea.startDateHumanized;
 
 	if ( currentIdea.address ) {
