@@ -11,7 +11,7 @@ apos.define('section-widgets', {
 function initTabs ($parent) {
   var $tabContainers = $parent.find('.tab-container');
 
-  console.log('$tabContainers', $tabContainers)
+  // console.log('$tabContainers', $tabContainers)
 
   if ($tabContainers.length > 0) {
     $tabContainers.hide();
