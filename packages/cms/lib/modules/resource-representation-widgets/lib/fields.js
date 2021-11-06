@@ -18,7 +18,6 @@ const fields = [
           'displayRanking',
           'shareChannelsSelection',
           'defaultImage',
-          'hideUserLastName',
           'hideVotes',
           'hideStatus',
           'shareTitle'
@@ -126,22 +125,6 @@ const fields = [
             label: "Whatsapp"
         },
     ]
-  },
-  {
-      name: 'hideUserLastName',
-      type: 'boolean',
-      label: 'Hide last name of the user who sent in the idea?',
-      choices: [
-          {
-              value: true,
-              label: "Yes",
-          },
-          {
-              value: false,
-              label: "No"
-          },
-      ],
-      def: false
   },
   {
       name: 'hideVotes',

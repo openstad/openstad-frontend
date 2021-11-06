@@ -51,7 +51,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
     },
     user: {
       role:  data.openstadUser && data.openstadUser.role,
-      fullName:  data.openstadUser && (data.openstadUser.fullName || data.openstadUser.firstName + ' ' + data.openstadUser.lastName)
+      displayName:  data.openstadUser && data.openstadUser.displayName,
     },
 
 		display: {

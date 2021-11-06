@@ -159,7 +159,7 @@
 			<h1>{{idea.title}}</h1>
 
 			<div id="author">
-				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName if data.widget.hideUserLastName !== true}}</strong><br>
+				<strong>Door: {{idea.user.displayName}}</strong><br>
 				{{idea.startDate | date('LL')}}
 			</div>
 			{% include 'includes/modbreak.html' %}
