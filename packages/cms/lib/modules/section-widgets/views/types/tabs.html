@@ -1,18 +1,16 @@
 <style>
     {{data.widget.formattedContainerStyles}}
 </style>
-<div id="{{data.widget.containerId}}">
+<div id="{{data.widget.containerId}}" class="section-tabs">
     <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-12">
+            <ul class="nav nav-tabs">
             {% for tab in data.widget.tabs %}
-            <ul>
-                <li>
-                    <a class="tab-link" href="#tab-{{loop.index}}"> {{tab.title}} </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab-{{loop.index}}"> {{tab.title}} </a>
                 </li>
-            </ul>
             {% endfor %}
-        </div>
-        <div class="col-xs-8">
+            </ul>
             {% for tab in data.widget.tabs %}
             {% if tab.areaName %}
             <div id="tab-{{loop.index}}" class="tab-container">
