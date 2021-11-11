@@ -1,102 +1,185 @@
 .numberplate-container {
-  .vote {
+    .vote {
 
-    button {
-      .appearance(none);
+        overflow: visible;
 
-      background: #004699;
-      background-repeat: no-repeat;
-      background-size: auto 28px;
-      background-position: center left 8px;
-      border: 0;
-      box-sizing: border-box;
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      display: block;
-      float: left;
-      height: 43px;
-      line-height: 43px;
-      margin: 0;
-      overflow: visible;
-      padding: 0 0 0 42px;
-      position: relative;
-      text-align: center;
-      width: calc(100% - 92px);
+        button {
+            .appearance(none);
 
-      &:hover {
-        background-color: #003066;
-      }
+            background: #004699;
+            background-repeat: no-repeat;
+            background-size: auto 28px;
+            background-position: center left 8px;
+            border: 0;
+            box-sizing: border-box;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            display: block;
+            float: left;
+            height: 43px;
+            line-height: 43px;
+            margin: 0;
+            overflow: visible;
+            padding: 0 0 0 42px;
+            position: relative;
+            text-align: center;
+            width: calc(100% - 92px);
 
-      &::before {
-        content: none;
-      }
+            &:hover {
+                background-color: #003066;
+            }
 
-      &[value="yes"] {
-        background-image: url('/modules/openstad-assets/img/thumbsup_white.svg');
-      }
-      &[value="no"] {
-        background-image: url('/modules/openstad-assets/img/thumbsdown_white.svg');
-      }
-      &:disabled::before {
-        content: none;
-      }
+            &:focus {
+                background-color: #003066;
+                outline: 3px solid #2b9ad6;
+            }
+
+            &::before {
+                content: none;
+            }
+
+            &[value="yes"] {
+                background-image: url('/modules/openstad-assets/img/thumbsup_white.svg');
+            }
+
+            &[value="no"] {
+                background-image: url('/modules/openstad-assets/img/thumbsdown_white.svg');
+            }
+
+            &:disabled::before {
+                content: none;
+            }
 
 
-      &:disabled {
-        background-color: #bebebe;
-        cursor: default;
-        &:hover {
-          background-color: #bebebe;
+            &:disabled {
+                background-color: #bebebe;
+                color: white;
+
+                cursor: default;
+
+                &:hover {
+                    background-color: #bebebe;
+                    color: white;
+
+                }
+            }
+
+            &.selected[value="yes"] {
+                background-color: #bdd131;
+
+                &:disabled, &:disabled:hover {
+                    background-color: #bebebe;
+                    color: white;
+                }
+            }
+
+            &.selected[value="no"] {
+                background-color: #ea1d25;
+
+                &:disabled, &:disabled:hover {
+                    background-color: #bebebe;
+                    color: white;
+                }
+            }
+
+            &.idea-status-OPEN {
+                &:disabled {
+                    background-color: #004699;
+                    opacity: 0.5;
+                }
+
+                &.selected[value="yes"] {
+                    &:disabled {
+                        opacity: 0.5;
+                        background-color: #bdd131;
+                    }
+                }
+
+                &.selected[value="no"] {
+                    &:disabled {
+                        opacity: 0.5;
+                        background-color: #ea1d25;
+                    }
+                }
+            }
+
+
         }
-      }
 
-      &.selected[value="yes"] {
-        background-color: #bdd131;
-        &:disabled {
-          background-color: #bebebe;
-        }
-      }
-      &.selected[value="no"] {
-        background-color: #ea1d25;
-        &:disabled {
-          background-color: #bebebe;
-        }
-      }
-
-      &.idea-status-OPEN {
-        &:disabled {
-          background-color: #004699;
-          opacity: 0.5;
-        }
-
-        &.selected[value="yes"] {
-          &:disabled {
-            opacity: 0.5;
-            background-color: #bdd131;
-          }
-        }
-
-        &.selected[value="no"] {
-          &:disabled {
-            opacity: 0.5;
-            background-color: #ea1d25;
-          }
-        }
-      }
     }
-  }
+
+    .no-of-votes-for,
+    .no-of-votes-against {
+        box-sizing: border-box;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 20px;
+        height: 43px;
+        float: left;
+        margin-bottom: 4px;
+    }
+
+    .no-of-votes-for-content,
+    .no-of-votes-against-content {
+        box-sizing: border-box;
+        width: 90px;
+        padding: 7px 6px 7px 10px;
+        background: #004699;
+        font-size: 18px;
+        font-weight: 600;
+        color: #fff;
+        display: block;
+        text-decoration: none;
+        height: 43px;
+        margin-right: 2px;
+    }
+
+    .no-of-votes-for-caption,
+    .no-of-votes-against-caption {
+        display: none;
+    }
+
+    .disabled .no-of-votes-for-content,
+    .disabled .no-of-votes-against-content {
+        background-color: #bebebe;
+    }
+
+    .no-of-votes-for-content .number-plates,
+    .no-of-votes-against-content .number-plates {
+        font-size: 0px;
+        margin-right: 0px;
+    }
+
+    .no-of-votes-for-content .number-plate,
+    .no-of-votes-against-content .number-plate {
+        margin-right: 4px;
+        display: inline-block;
+        font-size: 18px;
+        background: #e8e8e8;
+        background: linear-gradient(#e8e8e8 50%, #ffffff 50%);
+        padding: 0;
+        display: inline-block;
+        height: 29px;
+        line-height: 31px;
+        width: 20px;
+        text-align: center;
+        color: black;
+        border-radius: 3px;
+        font-weight: 800;
+        vertical-align: middle;
+    }
 }
 
 .claps-container {
-  button {
-    -webkit-appearance: none;
-    -moz-appearance:    none;
-    appearance:         none;
-    border: 0;
-    text-align: left;
-    background: transparent;
-  }
+    button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: 0;
+        text-align: left;
+        background: transparent;
+    }
 
 }
