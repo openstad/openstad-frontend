@@ -26,6 +26,8 @@ module.exports = {
         self.pushAsset('stylesheet', 'main', { when: 'always' });
         self.pushAsset('stylesheet', 'secondary', { when: 'always' });
         self.pushAsset('stylesheet', 'activity-list', { when: 'always' });
+        self.pushAsset('stylesheet', 'user-sites-active-list', { when: 'always' });
+
         self.pushAsset('script', 'main', { when: 'always' });
         self.pushAsset('script', 'modal', { when: 'always' });
       };

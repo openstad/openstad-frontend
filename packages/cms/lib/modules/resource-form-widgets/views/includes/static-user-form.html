@@ -19,6 +19,21 @@
     </div>
     <br />
     {% endfor %}
+
+    {% if data.global.siteConfig.users.allowUseOfNicknames %}
+    <div class="form-field-container">
+        <h2>
+            Schermnnaam
+        </h2>
+
+        <div class="form-info">
+             Wilt u dat uw naam niet gepubliceerd wordt?
+            Vul dan hier een schernaam in.
+        </div>
+
+        {% include 'includes/fields/nickName.html' ignore missing %}
+    </div>
+    {% endif %}
     <br />
 </div>
 {% include 'includes/form-footer.html' %}

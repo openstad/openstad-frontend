@@ -3,6 +3,9 @@
 ## Unreleased
 * Fix countdown in resource-overview
 * Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
+* Add alias to user form (nickname)
+* Styling user activity list
+* New tab layout and styling according to Asmterdam design system
 
 ## v0.21.0
 * Add global option to disable newsletter captcha

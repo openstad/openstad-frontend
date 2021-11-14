@@ -664,5 +664,14 @@
 	"Text for button to submit": "Text for button to submit",
 	"Text for button to save": "Text for button to save",
 	"Display budget for moderators?": "Display budget for moderators?",
-	"Hide admin after first public action? (not yet connected to the API)": "Hide admin after first public action? (not yet connected to the API)"
+	"Hide admin after first public action? (not yet connected to the API)": "Hide admin after first public action? (not yet connected to the API)",
+	"Save Title": "Save Title",
+	"Title ": "Title ",
+	"Select appearance modus for title": "Select appearance modus for title",
+	"Heading 1": "Heading 1",
+	"Heading 2": "Heading 2",
+	"Heading 3": "Heading 3",
+	"Heading 4": "Heading 4",
+	"Select HTML styling class": "Select HTML styling class",
+	"Heavy bold": "Heavy bold"
 }
