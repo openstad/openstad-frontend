@@ -1,28 +1,32 @@
-{% if data.widget.ideaUrl %}
-{% set ideaUrl = data.widget.ideaPageUrl' %}
+{% if data.widget.ideaPageUrl %}
+{% set ideaUrl = data.widget.ideaPageUrl %}
 {% else %}
 {% set ideaUrl = '/plan' %}
 {% endif %}
 
+
 <div class="user-activity-box">
-    {% if data.activeResource.activity %}
     <ul class="user-activity-list">
+    {% if data.activeResource.activity %}
     {% for activity in data.activeResource.activity %}
-        <li><p><b><a href="{{ideaUrl}}/{{activity.idea.id}}" target="_blank">
+        <li><p><b><a class="link-caret--black" href="{{ideaUrl}}/{{activity.idea.id}}" target="_blank">
                 {{activity.idea.title}}
             </a></b></p>
             {% if activity.description %}
-            <p>{{activity.description}} </p>
+            <p>"{{activity.description | sanitize | truncate(80) }}"</p>
             {% endif %}
-            <div class="flex">
-                <div class="label label-{activity.type.slug}}">{{activity.type.label}} </div>
+            <div class="user-activity-detail-row">
+                <div class="stamp stamp-{{activity.type.slug}}">{{activity.type.label}} </div>
                 <p>{{activity.createdAt  | date( 'D MMM YYYY, HH:mm')}} </p>
             </div>
         </li>
     {% endfor %}
-    </ul>
     {% else %}
-    <em>Nog geen activiteit</em>
+        <li>
+            Nog geen activiteit
+        </li>
     {% endif %}
+    </ul>
+
 </div>
 

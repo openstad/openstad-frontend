@@ -88,7 +88,7 @@ var OpenlayersMap = {
             longitude: settings.center.lng
         } : {longitude: 4.899431, latitude: 52.379189};
 
-        this.useMarkerLinks = typeof settings.useMarkerLinks == 'undefined' ? true : settings.useMarkerLinks;
+        this.useMarkerLinks = settings && settings.useMarkerLinks ? settings.useMarkerLinks : true;
       
         settings = {
             zoom: settings && settings.zoom ?  settings.zoom : 15,
@@ -149,7 +149,7 @@ var OpenlayersMap = {
                 geometry: new ol.geom.Point(
                     ol.proj.fromLonLat([marker.position.lng, marker.position.lat])
                 ),
-                href: self.useMarkerLinks ? marker.href : null,
+                href: self && self.useMarkerLinks ? marker.href : null,
                 name: marker.name,
                 category: marker.category
             });
