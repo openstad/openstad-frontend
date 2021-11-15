@@ -18,34 +18,34 @@ module.exports = function(self, options) {
      self.route('post', 'delete', async (req, res) => {
 
        try {
-         console.log('req.body.sites', req.body.sites)
-
          eventEmitter.emit('resourceCrud');
          const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+         const siteId = req.data.global.siteId;
 
-         for (const siteId of req.body.sites) {
-           const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/will-anonymize`;
-           const data = {};
+         const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/do-anonymize`;
 
-           console.log('postUrl', postUrl)
+         // pass along siteIds user selected to also be removed
+         const data = {
+           onlySiteIds: req.body.sites
+         };
 
+         const options = {
+           method: 'PUT',
+           uri: postUrl,
+           headers: self.formatApiHeaders(req.session.jwt),
+           body: data,
+           json: true // Automatically parses the JSON string in the response
+         };
 
-           const options = {
-             method: 'PUT',
-             uri: postUrl,
-             headers: self.formatApiHeaders(req.session.jwt),
-             body: data,
-             json: true // Automatically parses the JSON string in the response
-           };
+         const result = await rp(options);
 
-           const result = await rp(options);
+         console.log('result', result)
 
-           res.setHeader('Content-Type', 'application/json');
+         res.setHeader('Content-Type', 'application/json');
 
-           res.end(JSON.stringify({
-             'status': 'success'
-           }));
-         }
+         res.end(JSON.stringify({
+           'status': 'success'
+         }));
 
        } catch (e) {
          res.setHeader('Content-Type', 'application/json');
