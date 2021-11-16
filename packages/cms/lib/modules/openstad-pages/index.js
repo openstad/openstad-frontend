@@ -90,6 +90,10 @@ module.exports = {
                 req.data.dontAddExternalCSS = true;
             }
 
+            if (pageData && pageData.moderatorRedirect && req.data.hasModeratorRights) {
+                if (!hasAdminRights) return req.res.redirect(pageData.moderatorRedirect);
+            }
+
             if (pageData && pageData.userHasActiveSubscriptionRedirect && req.data.openstadUser && req.data.openstadUser.access && req.data.openstadUser.access.active) {
                 if (!hasAdminRights) return req.res.redirect(pageData.userHasActiveSubscriptionRedirect);
             }
@@ -102,9 +106,6 @@ module.exports = {
                 if (!hasAdminRights) return req.res.redirect(pageData.notModeratorRedirect);
             }
 
-            if (pageData && pageData.moderatorRedirect && req.data.hasModeratorRights) {
-                if (!hasAdminRights) return req.res.redirect(pageData.moderatorRedirect);
-            }
 
             if (pageData && pageData.anonymousUserRequired && !req.data.openstadUser) {
                 if (!hasAdminRights) return req.res.redirect('/oauth/login?useOauth=anonymous&returnTo=' + encodeURIComponent(parsedUrl.path));
