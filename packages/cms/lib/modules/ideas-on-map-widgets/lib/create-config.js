@@ -124,9 +124,11 @@ module.exports = function createConfig({ widget, data, apos }) {
 
     map: {
       variant: widget.mapVariant || '',
-      mapTilesUrl: widget.mapTilesUrl,
-      mapTilesSubdomains: widget.mapTilesSubdomains || '',
-      mapTilesAttribution: widget.mapTilesAttribution || '',
+      mapTiles: {
+        url: widget.mapTilesUrl,
+        subdomains: widget.mapTilesSubdomains,
+        attribution: widget.mapTilesAttribution,
+      },
       zoom: 16,
       clustering: {
         isActive: widget.mapClustering,
