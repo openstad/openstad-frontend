@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* resource-form-widgets: Make login text configurable
+
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
 

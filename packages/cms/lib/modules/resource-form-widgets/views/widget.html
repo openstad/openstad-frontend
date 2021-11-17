@@ -24,7 +24,7 @@
 <div class="pageContent newactiveResource" id="content">
 	{% if not showForm %}
 	<div class="box-grey">
-		<h1>Om een plan in te dienen moet je ingelogd zijn.</h1>
+		<h1>{% if data.widget.loginText %} {{ data.widget.loginText | sanitize | safe }} {% else %} Om een plan in te dienen moet je ingelogd zijn.{% endif %}</h1>
 		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
 	</div>
 	{% elseif showForm %}

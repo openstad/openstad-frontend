@@ -28,6 +28,11 @@ const fields = [
         ]
     },
     {
+      name: 'loginText',
+      type: 'string',
+      label: 'Login text'
+    },
+    {
       name: 'hideAdminAfterPublicAction',
       label: 'Hide admin after first public action? (not yet connected to the API)',
       type: 'boolean',
