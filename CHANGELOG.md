@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Make My account button text configurable
+
 ## v0.21.0
 * Add global option to disable newsletter captcha
 * Add options to hide votes / status / last name in resource-representation-widgets

@@ -352,7 +352,7 @@ header-side-container{% if data.idea %}
       				<a href="{{data.siteUrl}}/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 <img src="/modules/openstad-assets/img/avatar.svg" />
-                {{ __('Mijn account') }}
+                {% if data.global.myAccountButtonText %} {{ data.global.myAccountButtonText | safe }} {% else %} {{ __('Mijn Account') }} {% endif %}
               </a>
         			{% endif %}
               {% endif %}
