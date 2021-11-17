@@ -187,9 +187,9 @@ module.exports = {
         const resources = activeResource ? [activeResource] : [];
         const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
-        const isOwner = activeResource ? req.data.openstadUser.id === activeResource.userId : false;
+        const isOwner = activeResource ? req.data.openstadUser && req.data.openstadUser.id === activeResource.userId : false;
         const isReactedTo = activeResource ? (activeResource.yes > 0 || activeResource.no > 0 || activeResource.argumentCount > 0) : false;
-        const isOwnerOrAdmin = (!isReactedTo || !widget.hactiveResourcedminAfterPublicAction && isOwner) || req.data.hasModeratorRights;
+        const isOwnerOrAdmin = ((!isReactedTo || !widget.hideAdminAfterPublicAction) && isOwner) || req.data.hasModeratorRights;
 
         widget.mapConfig = self.getMapConfigBuilder(globalData)
           .setDefaultSettings({
