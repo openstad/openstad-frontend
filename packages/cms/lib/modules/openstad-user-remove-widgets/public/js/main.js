@@ -12,7 +12,7 @@ apos.define('openstad-user-remove-widgets', {
         var confirmationCheck = function(){
           var confirmationSentence = $('.confirmation-sentence').text().trim().toLowerCase();
 
-          if (confirmationSentence === $(this).val().trim().toLowerCase()) {
+          if (confirmationSentence === $widget.find('.confirmation-input').val().trim().toLowerCase()) {
             $widget.find('button[type="submit"]').attr('disabled', false)
           } else {
             $widget.find('button[type="submit"]').attr('disabled', true)
