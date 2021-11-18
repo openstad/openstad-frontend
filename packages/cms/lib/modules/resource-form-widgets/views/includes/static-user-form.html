@@ -11,7 +11,7 @@
 
         {% if field.info %}
         <div class="form-info">
-            {{ field.info  | nlbr | sanitize | safe }}
+            {{ field.info  | sanitize | safe | nlbr }}
         </div>
         {% endif %}
 

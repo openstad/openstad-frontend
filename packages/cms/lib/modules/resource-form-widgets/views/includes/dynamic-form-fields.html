@@ -16,7 +16,7 @@
 
         {% if formSection.info %}
         <div class="form-info">
-            {{ formSection.info  | nlbr | sanitize | safe }}
+            {{ formSection.info  | sanitize | safe | nlbr }}
         </div>
         {% endif %}
 

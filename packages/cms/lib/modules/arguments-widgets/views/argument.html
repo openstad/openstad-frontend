@@ -16,7 +16,7 @@
     {% endif %}
   </div>
 
-  <p class="argument-content">{{arg.description | urlize | nlbr | sanitize | safe}}</p>
+  <p class="argument-content">{{arg.description | urlize | sanitize | safe | nlbr}}</p>
 
   {% if mayEdit %}
   <form class="action argument-form argument-edit-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">
