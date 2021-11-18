@@ -6,6 +6,7 @@
 
 var fieldsetElement = document.querySelector('.filepondFieldset');
 
+
 if (fieldsetElement) {
   FilePond.registerPlugin(FilePondPluginImagePreview);
   FilePond.registerPlugin(FilePondPluginFileValidateSize);
@@ -86,6 +87,8 @@ $(document).ready(function () {
 
   if (ideaForm && pondEl) {
 
+
+
     // check if files are being uploaded
     $.validator.addMethod("validateFilePondProcessing", function() {
         var files = pond ? pond.getFiles() : [];
@@ -98,21 +101,7 @@ $(document).ready(function () {
         return processingFiles.length === 0;
     }, "Plaatjes zijn nog aan het uploaden.");
 
-    $.validator.addMethod("validateFilePond", function() {
-      if ($('.filepond').prop('required')) {
-        var files = pond ? pond.getFiles() : [];
-        var pondFileStates =  FilePond.FileStatus;
 
-        files = files.filter(function (file) {
-          return file.status === pondFileStates.PROCESSING_COMPLETE;
-        });
-
-        return files && files.length > 0;
-      } else {
-        return true;
-      }
-
-    }, "Eén of meerdere plaatjes zijn verplicht.");
 
     $.validator.addMethod("minLengthWithoutHTML", function(val, el, params) {
       var mainEditor  = document.getElementById('js-editor');
@@ -136,7 +125,13 @@ $(document).ready(function () {
     });
   }
 
+  $.validator.addMethod("postcodeNL", function(value, element, val) {
+    var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
+    return rege.test(value);
+  }, "Postcode niet correct");
+
   if (ideaForm) {
+    console.log('ideaForm', ideaForm);
 
 
     initLeavePageWarningForForm();
@@ -170,16 +165,30 @@ $(document).ready(function () {
           validateFilePond: true,
           validateFilePondProcessing: true
         },
+        firstName: {
+          required: true
+        },
+        lastName: {
+          required: true,
+        },
+        postcode: {
+          required: false,
+          minlength: 1,  // <- here
+          postcodeNL: true
+        },
     /*    description: {
           minLengthWithoutHTML: 140
         }*/
       },
       submitHandler: function(form) {
 
+
+
         $(form).find('input[type="submit"]').val('Verzenden...');
         $(form).find('input[type="submit"]').attr('disabled', true);
       //  console.log('X-CSRF-TOKEN');
       //  console.log('asdasdasdasd',$(form).serialize());
+        console.log('submitHandler')
 
        $.ajax({
           url: $(form).attr('action'),
@@ -191,11 +200,14 @@ $(document).ready(function () {
               formHasChanged = false;
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
-              //use href to simulate a link click! Not replace, that doesn't allow for back button to work
+
+            //use href to simulate a link click! Not replace, that doesn't allow for back button to work
               window.location.href = window.siteUrl + redirect;
           },
           error:function(response) {
-              // "this" the object you passed
+            console.log('erererre', response)
+
+            // "this" the object you passed
               alert(response.responseJSON.msg);
               $(form).find('input[type="submit"]').val('Opslaan');
               $(form).find('input[type="submit"]').attr('disabled', false);
@@ -230,7 +242,21 @@ $(document).ready(function () {
       }
     });
 
+    $.validator.addMethod("validateFilePond", function() {
+      if ($('.filepond').prop('required')) {
+        var files = pond ? pond.getFiles() : [];
+        var pondFileStates =  FilePond.FileStatus;
 
+        files = files.filter(function (file) {
+          return file.status === pondFileStates.PROCESSING_COMPLETE;
+        });
+
+        return files && files.length > 0;
+      } else {
+        return true;
+      }
+
+    }, "Eén of meerdere plaatjes zijn verplicht.");
 
 
     $('#locationField').on('change', function () {
