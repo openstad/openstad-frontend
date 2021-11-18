@@ -2,16 +2,24 @@
 
 ## Unreleased
 * Make image size configurable for the image widget
-* Add global option to disable newsletter captcha
-* Make embedded auth forms label en button text configurable in widget
-* Fix counter button urls in subdir sites
 * Fix HTML injection in search form in the resource overview widget
 * Add a new text style to select in the rich text editor.
-* Allow counter-widgets to display the argument count for a specific idea
-* Add options to hide votes / status / last name in resource-representation-widgets
-* Allow title above share buttons to be changed in resource-representation-widgets
 * Make autoCenter configurable in idea-map-widgets
 * Add submission to resource form with configurable confirmation settings
+
+## v0.21.0
+* Add global option to disable newsletter captcha
+* Add options to hide votes / status / last name in resource-representation-widgets
+* Allow title above share buttons to be changed in resource-representation-widgets
+* Allow counter-widgets to display the argument count for a specific idea
+* Make embedded auth forms label en button text configurable in widget
+* Fix counter button urls in subdir sites
+* Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
+
+## v0.20.3
+* Make sure ideas are existing on the page in Participatory budgetting
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
@@ -48,9 +56,12 @@
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
 
+<<<<<<< HEAD
 ## v0.17.1 (2021-07-14)
 * Add user authorization to image upload
 
+=======
+>>>>>>> amsterdam/master
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes

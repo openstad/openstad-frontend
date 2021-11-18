@@ -6,7 +6,7 @@ const rp = require('request-promise');
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Arguments',
+  label: 'Arguments old',
   alias: 'arguments',
   adminOnly: true,
   addFields: [

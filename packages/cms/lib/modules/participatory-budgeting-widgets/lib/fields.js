@@ -34,8 +34,9 @@ const fields = [
     ],
     def: false
   },
+  /*
   {
-    name: 'showRanking',
+    name: 'displayRanking',
     label: 'Show ranking?',
     type: 'boolean',
     choices: [
@@ -50,6 +51,8 @@ const fields = [
     ],
     def: true
   },
+ 
+   */
   {
     name: 'votingType',
     type: 'select',
@@ -112,9 +115,26 @@ const fields = [
     def: true
   },
   {
+    name: 'displayOriginalIdeaUrl',
+    type: 'select',
+    def: false,
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+        showFields: ['originalIdeaUrl']
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ]
+  },
+  {
     name: 'originalIdeaUrl',
     type: 'string',
     label: 'Url where orginal urls are found (ideaId is attached to the end)',
+    required: true
   },
   {
     name: 'contentArea',
@@ -230,17 +250,20 @@ const fields = [
       {
         value: 'url',
         //  label: 'Newest first',
-        label: 'Email login url'
+        label: 'Email login url',
+        showFields: ['authFormUrllabel', 'authFormUrlButtonText']
       },
       {
         value: 'uniqueCode',
         //  label: 'Newest first',
-        label: 'Voting code'
+        label: 'Voting code',
+        showFields: ['authFormUniqueCodelabel', 'authFormUniqueCodeButtonText']
       },
       {
         value: 'sms',
         //  label: 'Newest first',
-        label: 'Sms'
+        label: 'Sms',
+        showFields: ['authFormSmslabel' , 'authFormSmsButtonText']
       },
 
     ]
