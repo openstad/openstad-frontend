@@ -45,7 +45,7 @@ apos.define('openstad-user-remove-widgets', {
               data:     $(form).serialize(),
               dataType: 'json',
               success:  function (response) {
-                confirmationCheck();
+                //confirmationCheck();
                 window.location.reload(); // = response.url;
               },
               error:    function (response) {
@@ -61,7 +61,7 @@ apos.define('openstad-user-remove-widgets', {
             $(element).closest(".form-group").addClass('error').append(error);
           },
           success:        function (label) {
-            confirmationCheck();
+           // confirmationCheck();
             $form.find(".form-group").removeClass('error');
           }
         });
