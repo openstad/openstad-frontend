@@ -127,12 +127,10 @@ $(document).ready(function () {
 
   $.validator.addMethod("postcodeNL", function(value, element, val) {
     var rege = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i;
-    return rege.test(value);
+    return !value || rege.test(value);
   }, "Postcode niet correct");
 
   if (ideaForm) {
-    console.log('ideaForm', ideaForm);
-
 
     initLeavePageWarningForForm();
 
