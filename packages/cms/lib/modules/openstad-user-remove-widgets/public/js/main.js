@@ -40,7 +40,7 @@ apos.define('openstad-user-remove-widgets', {
             $(form).find('button[type="submit"]').attr('disabled', true);
 
             $.ajax({
-              url:      $(form).attr('action') + '/test',
+              url:      $(form).attr('action'),
               type:     'POST',
               data:     $(form).serialize(),
               dataType: 'json',
