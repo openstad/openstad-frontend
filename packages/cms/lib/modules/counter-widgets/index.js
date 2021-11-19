@@ -55,6 +55,13 @@ module.exports = {
             'argumentIdeaId', 'argumentSentiment'
           ]
         },
+        {
+          label: 'Choices guide count',
+          value: 'choicesGuide',
+          showFields: [
+            'choicesGuideId'
+          ]
+        },
       ]
     },
     {
@@ -108,6 +115,11 @@ module.exports = {
           value: '',
         },
       ]
+    },
+    {
+      name: 'choicesGuideId',
+      label: 'Choices guide id',
+      type: 'string'
     },
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
@@ -200,6 +212,11 @@ module.exports = {
           if (widget.argumentIdeaId) queryparams.push( "ideaId=" + widget.argumentIdeaId );
           if (widget.argumentSentiment) queryparams.push( "sentiment=" + widget.argumentSentiment );
           if (queryparams) widget.statsUrl += '?' + queryparams.join('&');
+          break;
+
+        case 'choicesGuide':
+          count = 0;
+          widget.statsUrl = `/api/site/${widget.siteId}/choicesguide/${widget.choicesGuideId}/result?count=true`
           break;
 
         default:
