@@ -680,5 +680,18 @@
 	"Active tab color": "Active tab color",
 	"Save Accordeon": "Save Accordeon",
 	"Items": "Items",
-	"Edit Accordeon": "Edit Accordeon"
+	"Edit Accordeon": "Edit Accordeon",
+	"Save Ideas map": "Save Ideas map",
+	"Call-To-Action button": "Call-To-Action button",
+	"Counter": "Counter",
+	"Content": "Content",
+	"Flags link to details page": "Flags link to details page",
+	"Display CTA button": "Display CTA button",
+	"CTA url": "CTA url",
+	"CTA text": "CTA text",
+	"Display counter": "Display counter",
+	"Counter text": "Counter text",
+	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
+	"Exclude ideas with this theme: (theme names, comma seperated)": "Exclude ideas with this theme: (theme names, comma seperated)",
+	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)"
 }

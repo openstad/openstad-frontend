@@ -88,7 +88,7 @@ var OpenlayersMap = {
             longitude: settings.center.lng
         } : {longitude: 4.899431, latitude: 52.379189};
 
-        this.useMarkerLinks = settings && settings.useMarkerLinks ? settings.useMarkerLinks : true;
+        this.useMarkerLinks = settings && typeof(settings.useMarkerLinks) == 'boolean' ? settings.useMarkerLinks : true;
       
         settings = {
             zoom: settings && settings.zoom ?  settings.zoom : 15,
