@@ -216,7 +216,10 @@ module.exports = {
 
         case 'choicesGuide':
           count = 0;
-          widget.statsUrl = `/api/site/${widget.siteId}/choicesguide/${widget.choicesGuideId}/result?count=true`
+          widget.statsUrl = `/stats/site/${widget.siteId}/choicesguides/total`;
+          if (widget.choicesGuideId) {
+            widget.statsUrl += `?choicesGuideId=${widget.choicesGuideId}`;
+          }
           break;
 
         default:
