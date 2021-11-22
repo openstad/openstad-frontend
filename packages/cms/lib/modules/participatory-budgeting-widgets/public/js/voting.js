@@ -31,8 +31,22 @@ if (votingContainer !== null) {
 
   // vars
   var availableBudgetAmount = initialAvailableBudget;
-  var currentSelection = openstadGetStorage('currentSelection') || [];
-  currentSelection = currentSelection ? currentSelection : []
+  var storageSelection = openstadGetStorage('currentSelection') || [];
+  //
+  var currentSelection = [];
+
+  // make sure to only add items from storage that have id's present on this site
+	// either old sites or multiple sites on one domain
+  for (var i = 0; i <= storageSelection.length; i++) {
+  	var storageItemId = storageSelection[i];
+
+  	// see if present on page
+		var selector = '[data-ideaid="'+storageItemId+'"]';
+
+  	if ($(selector).length > 0) {
+			currentSelection.push(storageItemId);
+		}
+	}
 
   var currentStep = votingType === 'budgeting-per-theme' || votingType === 'count-per-theme' ? 0 : 1;
 
@@ -239,7 +253,7 @@ if (votingContainer !== null) {
     }
 
 	  if (currentStep == 3) {
-		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn && !userHasVoted ) {
 			  // user is al ingelogd
 			  currentStep = 2;
 		  }
@@ -344,7 +358,7 @@ if (votingContainer !== null) {
     }
 
 	  if (currentStep == 3) {
-		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn &&!userHasVoted ) {
+		  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn && !userHasVoted ) {
 			  // user is al ingelogd en kan gaan stemmen
 			  currentStep = 4;
 		  }
@@ -1779,7 +1793,6 @@ if (votingContainer !== null) {
 		  if (userHasVoted) {
 			  currentStep = 3;
 		  } else {
-
 			  currentStep = 4;
 
 			  /**
@@ -1791,9 +1804,7 @@ if (votingContainer !== null) {
 			   */
 			  setTimeout(function () {
 				  nextStep();
-			  },500)
-
-
+			  },500);
 		  }
 	  }
 

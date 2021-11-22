@@ -2,10 +2,7 @@ const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptio
 
 module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
 
-  let userNameFields;
-  try {
-    userNameFields = JSON.parse(widget.userNameFields);
-  } catch(err) {}
+  let userNameFields = ["displayName"];
 
   let config = {
 

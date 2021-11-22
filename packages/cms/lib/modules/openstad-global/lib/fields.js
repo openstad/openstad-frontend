@@ -156,7 +156,7 @@ module.exports = [
     type: 'select',
     name: 'analyticsType',
     label: 'Analytics type',
-    def: 'google-analytics-old-style',
+    def: 'none',
     choices: [
       {
         value: 'none',
@@ -176,7 +176,11 @@ module.exports = [
         value: 'custom',
         label: "Custom: use a custom codeblock",
         showFields: ['analyticsCodeBlock']
-      }
+      },
+      {
+        value: 'serverdefault',
+        label: "Use the server default settings",
+      },
     ]
   },
 
@@ -595,6 +599,27 @@ module.exports = [
     def: 'Submit'
   },
   {
+    type: 'boolean',
+    name: 'useCaptchaForNewsletter',
+    label: 'Use a captcha as protection?',
+    help: 'The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.',
+    def: true,
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+        showFields: [
+          'captchaLabel',
+          'captchaRefreshText'
+        ]
+      },
+      {
+        label: 'No',
+        value: false
+      }
+    ]
+  },
+  {
     name: 'captchaLabel',
     type: 'string',
     label: 'Captcha Label',
@@ -620,7 +645,7 @@ module.exports = [
         type:  'string',
         name:  'name',
         label: 'Fieldname',
-        help: 'Name of this field in the API: email, firstName, lastName or extraData.xxx',
+        help: 'Name of this field in the API: email, firstName, lastName, displayName or extraData.xxx',
       },
       {
         type:  'string',

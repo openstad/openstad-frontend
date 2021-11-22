@@ -1,7 +1,9 @@
 <form method="post" id="js-form" action="{{data.siteUrl}}/modules/resource-form-widgets/submit" class="add-warning-when-leaving-page resource-form">
+  {% if data.widget.resource === 'idea' %}
   <div class="form-group">
     <h2>Naam</h2>
     <p>
-      {{data.openstadUser.firstName}} {{data.openstadUser.lastName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
+      {{data.openstadUser.displayName}} <em>(je emailadres wordt nooit gepubliceerd)</em>
     </p>
   </div>
+  {% endif %}

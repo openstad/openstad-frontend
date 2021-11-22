@@ -2,6 +2,14 @@
 
 ## Unreleased
 * resource-form-widgets: Make login text configurable
+* Fix countdown in resource-overview
+* Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
+* Add alias to user form (nickname)
+* Styling user activity list
+* New tab layout and styling according to Asmterdam design system
+
+## v0.20.3
+* Make sure ideas are existing on the page in Participatory budgetting
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
@@ -37,9 +45,6 @@
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
-
-## v0.17.1 (2021-07-14)
-* Add user authorization to image upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

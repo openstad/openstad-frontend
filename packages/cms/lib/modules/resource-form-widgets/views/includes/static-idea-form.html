@@ -8,7 +8,7 @@
           {{ data.widget.labelTitle if data.widget.labelTitle else 'Titel plan' }}
         </h2>
         <div class="form-info">
-          {{ data.widget.infoTitle | nlbr | sanitize | safe if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
+          {{ data.widget.infoTitle | sanitize | safe | nlbr if data.widget.infoTitle else 'Geef je voorstel een duidelijke titel, zodat anderen jouw inzending makkelijk kunnen vinden en direct snappen waar het over gaat.' }}
         </div>
 
         {% include 'includes/fields/title.html' %}
@@ -21,7 +21,7 @@
           {{ data.widget.labelSummary if data.widget.labelSummary else 'Samenvatting' }}
         </h2>
         <div class="form-info">
-          {{ data.widget.infoSummary  | nlbr | sanitize | safe  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.activeResources.summaryMaxLength+' tekens iets meer over je plan.' }}
+          {{ data.widget.infoSummary  | sanitize | safe | nlbr  if data.widget.infoSummary else 'Vertel in maximaal '+data.widget.siteConfig.activeResources.summaryMaxLength+' tekens iets meer over je plan.' }}
         </div>
 
         {% include 'includes/fields/summary.html' %}
@@ -37,7 +37,7 @@
         {{ data.widget.labelAreas if data.widget.labelAreas else 'Gebied' }}
       </h2>
       <div class="form-info">
-        {{ data.widget.infoAreas  | nlbr | sanitize | safe  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
+        {{ data.widget.infoAreas  | sanitize | safe | nlbr  if data.widget.infoAreas else 'Selecteer het gebied waarop jouw plan betrekking heeft. Gaat het niet over een specifiek gebied? Kies dan voor algemeen.' }}
       </div>
       {% include 'includes/fields/neighborhood.html' %}
 
@@ -50,7 +50,7 @@
         {{ data.widget.labelThemes if data.widget.labelThemes else 'Thema' }}
       </h2>
       <div class="form-info">
-        {{ data.widget.infoThemes  | nlbr | sanitize | safe  if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
+        {{ data.widget.infoThemes  | sanitize | safe | nlbr  if data.widget.infoThemes else 'Selecteer het thema waarop jouw plan betrekking heeft.' }}
       </div>
 
 
@@ -65,7 +65,7 @@
           {{ data.widget.labelImages if data.widget.labelImages else 'Plaatjes' }}
         </h2>
         <div class="form-info">
-         {{ data.widget.infoImages | nlbr | sanitize | safe if data.widget.infoImages else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
+         {{ data.widget.infoImages | sanitize | safe | nlbr if data.widget.infoImages else 'Let op: Stuur alleen een foto mee die je zelf gemaakt hebt! Foto\'s van anderen kunnen auteursrechtelijk beschermd zijn. Je hebt toestemming nodig van de fotograaf om die foto te uploaden.' }}
         </div>
 
         {% include 'includes/fields/image.html' %}
@@ -77,7 +77,7 @@
           {{ data.widget.labelDescription if data.widget.labelDescription else 'Beschrijving' }}
         </h2>
         <div class="form-info">
-          {{ data.widget.infoDescription | nlbr | sanitize | safe if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
+          {{ data.widget.infoDescription | sanitize | safe | nlbr if data.widget.infoDescription else 'Gebruik de ruimte hieronder om je voorstel verder uit te leggen.' }}
         </div>
 
         {% include 'includes/fields/description.html' %}
@@ -93,7 +93,7 @@
           {{ data.widget.labelLocation if data.widget.labelLocation else 'Locatie' }}
         </h2>
         <div class="form-info" style="height: auto;">
-          {{ data.widget.infoLocation | nlbr | sanitize | safe if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
+          {{ data.widget.infoLocation | sanitize | safe | nlbr if data.widget.infoLocation else 'Heeft jouw plan betrekking op een specifieke plek? Klik dan op de juiste locatie in de kaart om een vlaggetje te plaatsen. Verwijder het vlaggetje door hem nogmaals aan te klikken.' }}
         </div>
 
         {% include 'includes/fields/map.html' %}
@@ -106,7 +106,7 @@
     <h2>{{ data.widget.labelEstimate if data.widget.labelEstimate else 'Inschatting kosten' }}</h2>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoEstimate %}
-      {{ data.widget.infoEstimate | nlbr | sanitize | safe }}
+      {{ data.widget.infoEstimate | sanitize | safe | nlbr }}
       {% else %}
         Geef een inschatting van wat jouw plan kost. Vind je dit moeilijk,
         dan kun je ook het <a href="mailto:statenkwartierbegroot@denhaag.nl">stadsdeel</a>
@@ -125,7 +125,7 @@
     <h2>{{ data.widget.labelRole if data.widget.labelRole else 'Welke rol ga je zelf vervullen bij de uitvoering?' }}</h2>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoRole %}
-      {{ data.widget.infoRole | nlbr | sanitize | safe}}
+      {{ data.widget.infoRole | sanitize | safe | nlbr}}
       {% else %}
       Bewoners kunnen zelf of samen met de gemeente of een andere organisatie een plan uitvoeren.
       Geef aan welke rol je hierin wilt en kunt vervullen.
@@ -155,7 +155,7 @@
     <h2>{{ data.widget.labelPhone if data.widget.labelPhone else 'Telefoonnummer (optioneel)' }}</h2>
     <div class="form-info" style="height: auto;">
       {% if data.widget.infoPhone %}
-      {{ data.widget.infoPhone | nlbr | sanitize | safe}}
+      {{ data.widget.infoPhone | sanitize | safe | nlbr}}
       {% else %}
       Vul hier (optioneel) je telefoonnummer in, zodat we snel contact met je kunnen opnemen over je plan.
       {% endif %}

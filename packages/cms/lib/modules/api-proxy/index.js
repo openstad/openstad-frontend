@@ -27,8 +27,9 @@ module.exports = {
                 if (req.body && req.body.areYouABot) {
                     const captchData = req.session.captcha;
                     const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
-
-                    if (!isCaptchaValid) {
+                    const shouldCheckCaptcha = req.data && req.data.global && req.data.global.useCaptchaForNewsletter !== false;
+                    
+                    if (shouldCheckCaptcha && !isCaptchaValid) {
                         return res.status(403).json({
                             'message' : self.apos.i18n.__('The captcha code is not correct, try again or refresh the captcha.')
                         });

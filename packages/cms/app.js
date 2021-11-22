@@ -113,6 +113,12 @@ function serveSite(req, res, siteConfig, forceRestart) {
     const dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
     const domain = siteConfig.domain;
 
+    // check if this site needs to redirect. We can then skip the rest.
+    let redirectURI = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.redirectURI;
+    if (redirectURI) {
+      return res.redirect(redirectURI);
+    }
+  
     // check if the mongodb database exist. The name for databse
     return dbExists(dbName).then((exists) => {
         // if default DB is set
