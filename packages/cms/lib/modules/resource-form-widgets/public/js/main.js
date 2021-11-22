@@ -198,10 +198,18 @@ $(document).ready(function () {
               formHasChanged = false;
               var redirect = $(form).find('.form-redirect-uri').val();
               redirect = redirect.replace(':id', response.id);
+              redirect = window.siteUrl + redirect;
+
+              // in case its the same page a reload is necessary
+              // otherwise when there hashtags used the page wont be reloaded
+              if (redirect ===  window.location.href) {
+                window.location.reload();
+              } else {
+                window.location.href = redirect;
+              }
 
             //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-              window.location.href = window.siteUrl + redirect;
-          },
+x          },
           error:function(response) {
             console.log('erererre', response)
 
