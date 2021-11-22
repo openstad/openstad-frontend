@@ -17,12 +17,22 @@ module.exports = function(self, options) {
      // In future form can probably talk directly with api proxy,
      self.route('post', 'delete', async (req, res) => {
 
+       // if no sites are selected, but call is made API no deletes user from this site
+       // not much fun :), so return an error here
+       if (!req.body.sites || req.body.sites.length === 0) {
+         res.status(500).end(JSON.stringify({
+           msg: 'No site is selected'
+         }));
+
+         return;
+       }
+
        try {
          eventEmitter.emit('resourceCrud');
          const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
          const siteId = req.data.global.siteId;
 
-         const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/do-anonymize`;
+         const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/do-anonymizeall`;
 
          // pass along siteIds user selected to also be removed
          const data = {
@@ -38,8 +48,6 @@ module.exports = function(self, options) {
          };
 
          const result = await rp(options);
-
-         console.log('result', result)
 
          res.setHeader('Content-Type', 'application/json');
 
