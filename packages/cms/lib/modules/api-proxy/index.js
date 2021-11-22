@@ -155,17 +155,46 @@ module.exports = {
     self.apos.app.use('/api-eda', proxy({
       target: 'https://api.edamam.com/api/food-database/v2/parser',
       changeOrigin: true,
-      pathRewrite: {
+     /* pathRewrite: {
         '^/api-eda':'' //remove /service/api
-      },
-     /* onProxyReq: (proxyReq, req, res) => {
-        // add custom header to request
-        proxyReq.setHeader("X-Auth-Key", process.env.VIDEO_API_KEY);
-        proxyReq.setHeader("X-Auth-Email",process.env.VIDEO_API_EMAIL);
       },*/
-      onError: function (err) {
-        //console.log('errerrerr newBody', err);
+      pathRewrite: (path, req) => {
+        console.log(' path s before', path)
+
+        let newPath = path.replace('api-eda/', '');
+
+        console.log('new path should be empty or / ', newPath)
+
+        // Strip query parameter _csrf
+        if (req.method === 'GET') {
+          const newQuery = { ...req.query }; // copy object
+
+          console.log('Found api key ', newQuery.app_id)
+
+          newQuery.app_id = process.env.EDA_API_ID ? process.env.EDA_API_ID : newQuery.app_id;
+          newQuery.app_key = process.env.EDA_API_KEY ? process.env.EDA_API_KEY : newQuery.app_key;s
+          newQuery.app_test = 'making-sure';
+
+          console.log('After SET api key  newQuery',newQuery);
+
+
+          if (Object.keys(newQuery).length) {
+            // There were more query parameters than just _csrf
+            newPath = `${newPath.split('?')[0]}?${querystring.stringify(newQuery)}`;
+          } else {
+            // _csrf was the only query parameter
+            newPath = `${newPath.split('?')[0]}`;
+          }
+        }
+
+        console.log('newPath returned', newPath);
+
+        return newPath;
+      },
+      onError: function(err) {
+        console.log('errerrerr newBody', err);
       }
+
     }));
 
 
