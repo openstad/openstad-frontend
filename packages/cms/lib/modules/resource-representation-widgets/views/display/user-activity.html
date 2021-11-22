@@ -9,7 +9,7 @@
     <ul class="user-activity-list">
     {% if data.activeResource.activity %}
     {% for activity in data.activeResource.activity %}
-        <li><p><b><a class="link-caret--black" href="{{ideaUrl}}/{{activity.idea.id}}" target="_blank">
+        <li><p><b><a class="link-caret--black" href="{{ideaUrl}}/{{activity.idea.id}}">
                 {{activity.idea.title}}
             </a></b></p>
             {% if activity.description %}
