@@ -5,7 +5,7 @@ const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
 const videoApiUrl = process.env.VIDEO_API_URL ? process.env.VIDEO_API_URL : '/video';
 const eventEmitter  = require('../../../events').emitter;
-const queryString = require('query-string');
+const querystring = require('query-string');
 
 module.exports = {
   construct: function(self, options) {
@@ -160,23 +160,15 @@ module.exports = {
         '^/api-eda':'' //remove /service/api
       },*/
       pathRewrite: (path, req) => {
-        console.log(' path s before', path)
-
         let newPath = path.replace('api-eda', '');
-
-        console.log('new path should be empty or / ', newPath)
 
         // Strip query parameter _csrf
         if (req.method === 'GET') {
           const newQuery = { ...req.query }; // copy object
 
-          console.log('Found api key ', newQuery.app_id)
-
           newQuery.app_id = process.env.EDA_API_ID ? process.env.EDA_API_ID : newQuery.app_id;
           newQuery.app_key = process.env.EDA_API_KEY ? process.env.EDA_API_KEY : newQuery.app_key;
           newQuery.app_test = 'making-sure';
-
-          console.log('After SET api key  newQuery',newQuery);
 
 
           if (Object.keys(newQuery).length) {
