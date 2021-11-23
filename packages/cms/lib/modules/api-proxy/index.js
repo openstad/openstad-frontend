@@ -161,6 +161,7 @@ module.exports = {
       },*/
       pathRewrite: (path, req) => {
         let newPath = path.replace('api-eda', '');
+        newPath = newPath.replace('\/', '');
 
         // Strip query parameter _csrf
         if (req.method === 'GET') {
