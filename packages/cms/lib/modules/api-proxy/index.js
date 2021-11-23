@@ -5,6 +5,7 @@ const proxy = require('http-proxy-middleware');
 const apiUrl = process.env.API;
 const videoApiUrl = process.env.VIDEO_API_URL ? process.env.VIDEO_API_URL : '/video';
 const eventEmitter  = require('../../../events').emitter;
+const queryString = require('query-string');
 
 module.exports = {
   construct: function(self, options) {
