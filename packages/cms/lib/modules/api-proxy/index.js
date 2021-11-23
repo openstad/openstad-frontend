@@ -161,7 +161,7 @@ module.exports = {
       pathRewrite: (path, req) => {
         console.log(' path s before', path)
 
-        let newPath = path.replace('api-eda/', '');
+        let newPath = path.replace('api-eda', '');
 
         console.log('new path should be empty or / ', newPath)
 
@@ -172,7 +172,7 @@ module.exports = {
           console.log('Found api key ', newQuery.app_id)
 
           newQuery.app_id = process.env.EDA_API_ID ? process.env.EDA_API_ID : newQuery.app_id;
-          newQuery.app_key = process.env.EDA_API_KEY ? process.env.EDA_API_KEY : newQuery.app_key;s
+          newQuery.app_key = process.env.EDA_API_KEY ? process.env.EDA_API_KEY : newQuery.app_key;
           newQuery.app_test = 'making-sure';
 
           console.log('After SET api key  newQuery',newQuery);
