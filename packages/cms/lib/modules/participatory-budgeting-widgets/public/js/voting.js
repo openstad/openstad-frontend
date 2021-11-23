@@ -31,8 +31,22 @@ if (votingContainer !== null) {
 
   // vars
   var availableBudgetAmount = initialAvailableBudget;
-  var currentSelection = openstadGetStorage('currentSelection') || [];
-  currentSelection = currentSelection ? currentSelection : []
+  var storageSelection = openstadGetStorage('currentSelection') || [];
+  //
+  var currentSelection = [];
+
+  // make sure to only add items from storage that have id's present on this site
+	// either old sites or multiple sites on one domain
+  for (var i = 0; i <= storageSelection.length; i++) {
+  	var storageItemId = storageSelection[i];
+
+  	// see if present on page
+		var selector = '[data-ideaid="'+storageItemId+'"]';
+
+  	if ($(selector).length > 0) {
+			currentSelection.push(storageItemId);
+		}
+	}
 
   var currentStep = votingType === 'budgeting-per-theme' || votingType === 'count-per-theme' ? 0 : 1;
 

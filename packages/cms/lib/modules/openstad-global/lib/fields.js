@@ -624,7 +624,7 @@ module.exports = [
         type:  'string',
         name:  'name',
         label: 'Fieldname',
-        help: 'Name of this field in the API: email, firstName, lastName or extraData.xxx',
+        help: 'Name of this field in the API: email, firstName, lastName, displayName or extraData.xxx',
       },
       {
         type:  'string',

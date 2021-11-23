@@ -194,6 +194,7 @@ module.exports = {
         'arguments-widgets': {},
         'gebiedsontwikkeling-tool-widgets': {},
         'user-form-widgets': {},
+        'openstad-user-remove-widgets' : {},
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},
         'begroot-widgets': {},

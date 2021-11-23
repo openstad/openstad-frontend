@@ -1,0 +1,50 @@
+<form method="post"
+      action="{{data.siteUrl}}/modules/openstad-user-remove-widgets/delete"
+      class="user-remove-form resource-form">
+
+    <div class="form-group">
+        <div class="checkbox-container">
+            {% for site in data.activeResource.sites %}
+            <div class="checkbox">
+                <input
+                    type="checkbox"
+                    name="sites[]"
+                    class="sites"
+                    value="{{site.id}}"
+                    id="checkbox-{{loop.index}}-{{site.id}}"
+                />
+                <label for="checkbox-{{loop.index}}-{{site.id}}" class="checkbox-label">
+                    {{site.title}}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br />
+
+    <p>
+        Bevestig dat u de bovenstaande waarschuwingen heeft gelezen en begrijpt wat de
+        gevolgen zijn voor door de volgende zin over te schrijven in het tekstvlak eronder:
+    </p>
+    <br />
+    <p><em class="confirmation-sentence">Ik wil mijn gegevens verwijderen</em></p>
+
+    <input
+        type="text"
+        class="confirmation-input max-width-input"
+        name="confirmation-input"
+        autocomplete="off"
+        required
+    />
+    <br />
+    <br />
+
+    {% if data.activeResource %}
+    <input type="hidden" name="resourceUserId" value="{{data.activeResource.id}}">
+    <input type="hidden" name="id" value="{{data.activeResource.id}}" />
+    {% endif %}
+
+    <input class="form-redirect-uri" type="hidden" name="redirect" value="{{data.widget.redirect}}" />
+
+    <button type="submit" class="btn btn-primary" disabled>Verwijder</button>
+</form>

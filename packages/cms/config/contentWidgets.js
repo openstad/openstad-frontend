@@ -136,6 +136,7 @@ const contentWidgets = {
 
     }
   },
+  'openstad-user-remove' : {},
   'user-form': {
     addLabel: 'Contact form (beta)',
     adminOnly: true,

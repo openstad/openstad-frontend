@@ -1,6 +1,13 @@
 # Changelog
 
-## UNRELEASED
+## Unreleased
+* Fix countdown in resource-overview
+* Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
+* Add alias to user form (nickname)
+* Styling user activity list
+* New tab layout and styling according to Asmterdam design system
+
+## v0.21.0
 * Add global option to disable newsletter captcha
 * Add options to hide votes / status / last name in resource-representation-widgets
 * Allow title above share buttons to be changed in resource-representation-widgets
@@ -10,6 +17,9 @@
 * Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
 * Reorganise Participatory Budget fields in widget
 * Reorganise Status Label fields in Resource Overview widget
+
+## v0.20.3
+* Make sure ideas are existing on the page in Participatory budgetting
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined

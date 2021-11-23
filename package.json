@@ -1,6 +1,6 @@
 {
   "name": "openstad-frontend",
-  "version": "0.20.0",
+  "version": "0.22.0",
   "description": "Openstad frontent project including openstad frontend packages\"",
   "main": "index.js",
   "scripts": {
@@ -19,11 +19,11 @@
   "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
   "dependencies": {
     "@openstad/cms": "file:packages/cms",
-    "apostrophe": "2.113.0",
+    "apostrophe": "2.220.7",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.30",
-    "apostrophe-workflow": "2.38.2",
+    "apostrophe-workflow": "2.39.5",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
     "morgan": "^1.10.0",

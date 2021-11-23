@@ -73,23 +73,6 @@ module.exports = [
       required: true,
       def: 'Nog geen reacties geplaatst'
     },
-    {
-      name: 'userNameFields',
-      type: 'select',
-      label: 'Show username as',
-      choices: [
-        {
-          label: 'First name + last name',
-          value: '["firstName", "lastName"]'
-        },
-        {
-          label: 'First name only',
-          value: '["firstName"]'
-        },
-      ],
-      def: '["firstName", "lastName"]'
-    },
-
 
   // form
     {
