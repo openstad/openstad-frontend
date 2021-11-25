@@ -26,7 +26,7 @@ module.exports = {
       {
         name: 'list',
         label: 'Lijst',
-        fields: ['title', 'emptyListText', 'userNameFields']
+        fields: ['title', 'emptyListText']
       },
       {
         name: 'form',

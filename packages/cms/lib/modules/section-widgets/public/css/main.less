@@ -154,3 +154,46 @@
 
   }
 }
+
+/**
+   Tabs styling specific for this section widget
+   Based upon bootstrap tabs, but additions made to fit Amsterdam design system
+   Default colors however are blue, and not red for Amsterdam, so other instances don't have funky colors
+ */
+.section-tabs {
+  .nav-tabs {
+    border-bottom: 2px solid #e6e6e6;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    margin-bottom: 25px;
+
+    display:block!important;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    >li {
+      display: inline-block;
+      float: none;
+    }
+  }
+
+  .nav-tabs>li>a {
+    margin-right: 30px;
+    padding: 6px 0;
+    border: none;
+    border-bottom: 6px solid transparent;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+
+    &:hover {
+      border-color: #000000;
+      background: transparent;
+    }
+
+    &.active {
+      border-color: #004699;
+      color: #004699;
+    }
+  }
+}

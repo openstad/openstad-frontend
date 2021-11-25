@@ -1789,10 +1789,11 @@ if (votingContainer !== null) {
 
   if (isSelectionValid()) {
 
-	  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn ) {
+	  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn) {
 		  if (userHasVoted) {
 			  currentStep = 3;
-		  } else {
+
+		  } else if (  typeof freshLogIn != 'undefined' && freshLogIn) {
 			  currentStep = 4;
 
 			  /**

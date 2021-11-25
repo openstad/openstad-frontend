@@ -53,7 +53,7 @@ function showIdeaArguments() {
 			div.id = 'argument-' + argument.id;
 			if (argument.hasUserVoted) div.querySelector('.votes').className += ' hasvoted';
 			div.querySelector('.description').innerHTML = argument.description;
-			div.querySelector('.username').innerHTML = argument.user.nickName || ( argument.user.firstName || '' ) + ' ' + ( argument.user.lastName || '' );
+			div.querySelector('.username').innerHTML = argument.user.displayName;
 			div.querySelector('.date').innerHTML = argument.createDateHumanized;
 			div.querySelector('.no-of-votes').innerHTML = argument.yes || 0;
 			div.querySelector('.no-of-reactions').innerHTML = ( argument.reactions && argument.reactions.length ) || 0;

@@ -171,6 +171,13 @@ exports.fields = [
     property: ['color', 'border-color', 'outline-color'],
   },
   {
+    name: 'activeTabColor',
+    label: 'Active tab color',
+    type: 'color',
+    selector: ['.section-tabs .nav-tabs>li>a.active'],
+    property: ['color', 'border-color'],
+  },
+  {
     name: 'linkColor',
     label: 'Color of link (in text)',
     type: 'color',
@@ -213,7 +220,7 @@ exports.arrangeFields = [
   {
     name: 'buttons',
     label: 'Buttons & links',
-    fields: ['buttonColor', 'buttonFontColor', 'buttonHoverBgColor', 'buttonHoverFontBgColor', 'buttonBorderRadius','buttonOutlinedColor', 'linkColor', 'linkVisitedColor']
+    fields: ['buttonColor', 'buttonFontColor', 'buttonHoverBgColor', 'buttonHoverFontBgColor', 'buttonBorderRadius','buttonOutlinedColor', 'linkColor', 'linkVisitedColor', 'activeTabColor']
   },
   {
     name: 'footer',
