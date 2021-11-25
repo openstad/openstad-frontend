@@ -287,7 +287,7 @@ module.exports = {
     }
 
 
-
+    console.log('Add process.env.S3_ENDPOINT', process.env.S3_ENDPOINT)
 
     if (process.env.S3_ENDPOINT){
       siteConfig.modules['apostrophe-attachments'] = {
@@ -305,9 +305,9 @@ module.exports = {
           region: 'external-1',
         }
       };
+
+      console.log('Add process.env.siteConfig.modules[\'apostrophe-attachments\']', siteConfig.modules['apostrophe-attachments']);
     }
-
-
 
     return siteConfig;
   }
