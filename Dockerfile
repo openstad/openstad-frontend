@@ -28,6 +28,12 @@ ENV DEFAULT_DB=""
 ENV APOS_BUNDLE="assets"
 ENV NODE_ENV="production"
 
+ENV S3_ENDPOINT=""
+ENV S3_KEY=""
+ENV S3_SECRET=""
+ENV S3_BUCKET=""
+
+
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
 

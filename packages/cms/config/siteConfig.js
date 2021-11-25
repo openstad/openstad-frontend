@@ -48,6 +48,7 @@ module.exports = {
           siteConfig: siteData,
           contentWidgets: contentWidgets
         },
+
         'apostrophe-db': {
           host: process.env.DB_HOST || 'localhost',
           port: process.env.DB_PORT || 27017,
@@ -284,6 +285,29 @@ module.exports = {
     if (process.env.APOS_PROFILER === 'per-request'){
       siteConfig.modules['apostrophe-profiler'] = {};
     }
+
+
+
+
+    if (process.env.S3_ENDPOINT){
+      siteConfig.modules['apostrophe-attachments'] = {
+        uploadfs: {
+          storage: 's3',
+          // Add an arbitrary S3 compatible endpoint
+          endpoint: process.env.S3_ENDPOINT,
+          // Get your credentials at aws.amazon.com
+          secret: process.env.S3_SECRET,
+          key: process.env.S3_KEY,
+          // You need to create your bucket first before using it here
+          // Go to aws.amazon.com
+          bucket: process.env.S3_BUCKET,
+
+          region: 'external-1',
+        }
+      };
+    }
+
+
 
     return siteConfig;
   }
