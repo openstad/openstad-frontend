@@ -302,7 +302,7 @@ module.exports = {
           // Go to aws.amazon.com
           bucket: process.env.S3_BUCKET,
 
-          region: 'external-1',
+        //  region: 'external-1',
         }
       };
 
