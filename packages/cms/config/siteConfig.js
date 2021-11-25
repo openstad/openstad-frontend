@@ -287,26 +287,26 @@ module.exports = {
     }
 
 
-    console.log('Add process.env.S3_ENDPOINT', process.env.S3_ENDPOINT)
-
     if (process.env.S3_ENDPOINT){
-      siteConfig.modules['apostrophe-attachments'] = {
-        uploadfs: {
-          storage: 's3',
-          // Add an arbitrary S3 compatible endpoint
-          endpoint: process.env.S3_ENDPOINT,
-          // Get your credentials at aws.amazon.com
-          secret: process.env.S3_SECRET,
-          key: process.env.S3_KEY,
-          // You need to create your bucket first before using it here
-          // Go to aws.amazon.com
-          bucket: process.env.S3_BUCKET,
-
+      const s3Config = {
+        storage: 's3',
+        // Add an arbitrary S3 compatible endpoint
+        endpoint: process.env.S3_ENDPOINT,
+        // Get your credentials at aws.amazon.com/digitalocean
+        secret: process.env.S3_SECRET,
+        key: process.env.S3_KEY,
+        // You need to create your bucket first before using it here
+        bucket: process.env.S3_BUCKET,
         //  region: 'external-1',
-        }
-      };
+      }
 
-      console.log('Add process.env.siteConfig.modules[\'apostrophe-attachments\']', siteConfig.modules['apostrophe-attachments']);
+      if (process.env.S3_REGION) {
+        s3Config.region = process.env.S3_REGION;
+      }
+
+      siteConfig.modules['apostrophe-attachments'] = {
+        uploadfs: s3Config
+      };
     }
 
     return siteConfig;
