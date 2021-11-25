@@ -6,6 +6,7 @@
 * Add alias to user form (nickname)
 * Styling user activity list
 * New tab layout and styling according to Asmterdam design system
+* Make sure only freshly returned users autosubmit voting
 
 ## v0.21.0
 * Add global option to disable newsletter captcha

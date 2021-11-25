@@ -693,5 +693,19 @@
 	"Counter text": "Counter text",
 	"Show only following ideas: (idea id's, comma seperated)": "Show only following ideas: (idea id's, comma seperated)",
 	"Exclude ideas with this theme: (theme names, comma seperated)": "Exclude ideas with this theme: (theme names, comma seperated)",
-	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)"
+	"Only show idea including this theme: (theme names, comma seperated)": "Only show idea including this theme: (theme names, comma seperated)",
+	"Video": "Video",
+	"Save Video": "Save Video",
+	"Video URL": "Video URL",
+	"This supports Vimeo, YouTube, and many other services listed <a href=\"https://apostrophecms.org/video-options\" target=\"_blank\">in the widget documentation</a>.": "This supports Vimeo, YouTube, and many other services listed <a href=\"https://apostrophecms.org/video-options\" target=\"_blank\">in the widget documentation</a>.",
+	"Embedding is not allowed for this video.": "Embedding is not allowed for this video.",
+	"That video was not found. Paste a URL to the video's page.": "That video was not found. Paste a URL to the video's page.",
+	"Voting options": "Voting options",
+	"Display options": "Display options",
+	"Sorting options": "Sorting options",
+	"Explanation texts": "Explanation texts",
+	"Authentication": "Authentication",
+	"Display Original Idea Url": "Display Original Idea Url",
+	"Manage Tags": "Manage Tags",
+	"Find or add a tag...": "Find or add a tag..."
 }

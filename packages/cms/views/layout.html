@@ -1,4 +1,4 @@
-header-side-container{% if data.idea %}
+{% if data.idea %}
 {% set activeResource = data.idea %}
 {% else %}
 {% set activeResource = data.activeResource %}
@@ -90,6 +90,8 @@ header-side-container{% if data.idea %}
  {% endif %}
  {# will be defined later, but will cause errors otherwise #}
  var doShowImage;
+ var userIsLoggedIn = {{true if data.loggedIn else false}};
+ var freshLogIn = {{true if data.query.freshLogIn else false}};
 </script>
 
 {% if data.global.siteConfig.ideas.minimumYesVotes %}
