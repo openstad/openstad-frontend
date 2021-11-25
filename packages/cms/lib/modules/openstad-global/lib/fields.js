@@ -239,7 +239,7 @@ module.exports = [
     type: 'attachment',
     svgImages: true,
     label: 'Logo',
-    apiSyncField: 'styling.logo',
+  //  apiSyncField: 'styling.logo',
     trash: true
   },
   {
@@ -250,7 +250,7 @@ module.exports = [
       const siteUrl = apos.settings.getOption(req, 'siteUrl');
       return  doc.siteLogo ? siteUrl + apos.attachments.url(doc.siteLogo) : '';
     },
-    apiSyncField: 'styling.logo',
+  //  apiSyncField: 'styling.logo',
   },
   {
     name: 'formattedPaletteCSS',
@@ -303,7 +303,7 @@ module.exports = [
 
       return rules.join('');
     },
-    apiSyncField: 'styling.inlineCSS',
+    //apiSyncField: 'styling.inlineCSS',
   },
 
   {
