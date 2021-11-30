@@ -142,9 +142,11 @@ module.exports = {
                         const user = req.session.openstadUser;
                         req.data.loggedIn = user && user.role && requiredRoles.includes(user.role);
                         req.data.openstadUser = user;
+                        // todo: een admin is ook moderaor en editor,  en een editor is ook moderator, maar ik kan de consequenties zo snel niet overzien dus dat nmoet later een keer
                         req.data.isAdmin = user.role === 'admin'; // user;
                         req.data.isEditor = user.role === 'editor'; // user;
                         req.data.isModerator = user.role === 'moderator'; // user;
+
                         req.data.jwt = jwt;
 
                         if (req.data.isAdmin || req.data.isEditor || req.data.isModerator) {
