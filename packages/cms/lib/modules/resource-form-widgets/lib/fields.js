@@ -211,7 +211,7 @@ const fields = [
             {
               name: 'fieldKey',
               type: 'string',
-              label: 'Key (for storing, must be unique, no spaces and special characters)',
+              label: 'Key (one word) for example: ‘summary’ (for storing, must be unique, no spaces and special characters)',
             },
             {
               name: 'fieldInfo',
