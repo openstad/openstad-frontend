@@ -58,7 +58,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
           {% if data.widget.displayVoteProgressBar %}
           <div class="ideaProgress">
-            <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
+            <div class="progress">
+          <div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
+            <span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
+          </div>
+        </div>
           </div>
           {% endif %}
           <div class="ideaStats">
@@ -79,7 +83,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
                     </button>
                   </form>
                   {% elseif (data.widget.displayVoteForCount) %}
-                  <div class="count yes">{{idea.yes}}</div>
+                  <div class="count yes"><span class="sr-only">Stemmen voor: </span>{{idea.yes}}<span class="sr-only">. </span></div>
                   {% endif %}
                 </td>
 
@@ -99,7 +103,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
                     </button>
                   </form>
                   {% elseif (data.widget.displayVoteForCount) %}
-                  <div class="count no">{{idea.no}}</div>
+                  <div class="count no"><span class="sr-only">Stemmen tegen: </span>{{idea.no}}</div>
                   {% endif %}
                 </td>
                 {% endif %}

@@ -1,6 +1,7 @@
 {% if data.widget.displaySearch %}
 <div class="search-wrapper">
-  <input type="text" placeholder="Zoeken" name="search" value="{{data.query.search}}" class="search openstad-ajax-refresh-input" onkeyup="console.log(this); $(this).siblings('button').addClass('active'); $(this).siblings('.search-reset').removeClass('active');">
+  <label for="resource-overview-search" class="sr-only">Zoeken naar: </label>
+  <input type="text" placeholder="Zoeken" name="search" value="{{data.query.search}}" id="resource-overview-search" class="search openstad-ajax-refresh-input" onkeyup="console.log(this); $(this).siblings('button').addClass('active'); $(this).siblings('.search-reset').removeClass('active');">
 
   <a type="submit" class="search-reset openstad-ajax-refresh-click {{'active' if data.query.search}}" data-reset-search="1">
     <img src="{{appUrl}}/modules/openstad-assets/img/close.svg" width="16" height="16" />

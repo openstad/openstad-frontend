@@ -1,11 +1,20 @@
 # Changelog
 
 ## Unreleased
-<<<<<<< HEAD
 * Remove gebiedsontwikkelings tool widget
 * Add choices guide option to counter widget
 * resource-form-widgets: Make login text configurable
 * Make My account button text configurable
+* Add first batch of accessibility fixes from retest
+  * Add an accessible location field to the resource form
+  * Add screen reader labels to the filter input fields above the resource overview. Also an autocomplete attribute was added to the resource overview filter.
+  * Add a focus indicator to the thumbs up button inside an argument form
+  * Update the red amsterdam variable and changed old hex codes to the @amsterdam-red variable
+  * Change the html order of the menu so that the focus goes directly into the submenu.
+  * Add the aria-current attribute to the current page menu item
+  * Add a screen reader only text to the voting progress bar at a single idea page and in the ideas in the resource overview.
+  * Add a focus psuedo element to the delete button in the participatory budgeting widget.
+  * Change the javascript so that the message for the characters in a form is accessible and audible.
 
 ## v0.22.0
 * Fix countdown in resource-overview

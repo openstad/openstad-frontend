@@ -1,5 +1,6 @@
 {% if data.widget.displayAreaFilter %}
-<select class="default-select openstad-ajax-refresh-input" name="area" data-reset-pagination="1">
+<label for="resource-overview-area" class="sr-only">Selecteer een gebied: </label>
+<select id="resource-overview-area" class="default-select openstad-ajax-refresh-input" name="area" data-reset-pagination="1">
   <option value="">Alle gebieden</option>
   {% for area in data.widget.areas %}
   <option value="{{area.value}}" {% if area.value === data.query.area %} selected {% endif %}>{{area.value}}</option>
