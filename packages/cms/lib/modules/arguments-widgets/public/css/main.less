@@ -192,6 +192,13 @@ form.newArgument {
     float: left;
     padding: 5px 0;
 
+		&:focus-within {
+			outline: 2px dotted #000 !important;
+			outline-offset: -2px !important;
+			-webkit-box-shadow: inset 0 0 0 2px #fff !important;
+			box-shadow: inset 0 0 0 2px #fff !important;
+		}
+
 		button {
 			cursor: pointer;
 	    outline: none;

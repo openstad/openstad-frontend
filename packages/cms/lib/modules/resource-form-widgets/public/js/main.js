@@ -330,8 +330,21 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
 
 		msg[enable].className  = enable + ' ' + ( ok ? 'ok' : 'error' ) + ' visible';
 		msg[disable].className = disable;
-		span[enable].innerHTML = chars;
-	}
+		//span[enable].innerHTML = chars;
+
+		msg[enable].setAttribute("aria-live", "polite");
+		msg[disable].removeAttribute("aria-live");
+
+		var innerHTML = msg[enable].innerHTML;
+		chars = chars - 1;
+
+      var output = innerHTML.replace("<span>", "").replace("</span>", "");
+      output = output.replace(/nog \d* tekens/g, 'nog ' + chars + ' tekens');
+      output = output.replace(/minimaal \d* tekens/g, 'minimaal ' + chars + ' tekens');
+
+      msg[enable].innerHTML = '';
+        msg[enable].innerHTML = output;
+    }
 
 }
 
