@@ -74,6 +74,7 @@ module.exports = {
             req.data.oAuthClientId = oauthClientId;
 
             if (req.query.jwt) {
+
                 const thisHost = req.headers['x-forwarded-host'] || req.get('host');
                 const protocol = req.headers['x-forwarded-proto'] || req.protocol;
                 const fullUrl = protocol + '://' + thisHost + req.originalUrl;
@@ -106,14 +107,14 @@ module.exports = {
                 // used in some cases like auto voting
                 returnTo = returnTo.includes('?') ? returnTo + '&freshLogIn=1' : returnTo + '?freshLogIn=1';
 
-                // set the JWT to session and redirect without it so it doens't get save to the browser history
-                req.session.jwt = req.query.jwt;
-                req.session.returnTo = null;
+                req.session.regenerate(function(err) { // work with a clean session
+                  // set the JWT to session and redirect without it so it doens't get save to the browser history
+                  req.session.jwt = req.query.jwt;
 
-
-                req.session.save(() => {
+                  req.session.save(() => {
                     res.redirect(returnTo);
                     return;
+                  });
                 });
 
             } else {
