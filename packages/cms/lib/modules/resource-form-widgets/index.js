@@ -52,7 +52,7 @@ module.exports = {
      {
        name: 'general',
        label: 'Algemeen',
-       fields: ['resource', 'redirect', 'formType', 'dynamicFormSections']
+       fields: ['resource', 'redirect', 'loginText', 'formType', 'dynamicFormSections']
      },
      {
        name: 'title',
