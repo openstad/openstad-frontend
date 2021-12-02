@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Remove gebiedsontwikkelings tool widget
+
 ## v0.22.0
 * Fix countdown in resource-overview
 * Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
