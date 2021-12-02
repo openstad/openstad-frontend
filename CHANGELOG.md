@@ -2,6 +2,7 @@
 
 ## Unreleased
 * Remove gebiedsontwikkelings tool widget
+* Add choices guide option to counter widget
 
 ## v0.22.0
 * Fix countdown in resource-overview
