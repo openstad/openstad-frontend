@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.22.0
 * Fix countdown in resource-overview
 * Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
 * Add alias to user form (nickname)
