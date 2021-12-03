@@ -22,6 +22,14 @@
     font-weight: inherit;
 }
 
+.resource-filter-erase, .resource-overview-counter-text {
+    color: #cccbcf;
+}
+
+.resource-overview-counter-text {
+    color: #cccbcf;
+}
+
 .hip-label.hip-active label.hip, .hip-label :focus+label.hip {
     color: #6f34fe;
     top: 3px;
