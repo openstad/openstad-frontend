@@ -1,42 +1,43 @@
 exports.options = [
   {
     value: 'createdtime,desc',
-  //  label: 'Newest first',
-    label: 'Nieuwste eerst'
+    label: 'Newest',
+  //  label: 'Nieuwste eerst'
   },
   {
     value: 'createdtime,asc',
-//    label: 'Oldest first',
-    label: 'Oudste eerst'
+   label: 'Latest',
+//    label: 'Oudste eerst'
   },
   {
     value: 'random',
-//    label: 'Random',
-    label: 'Willekeurig'
+    label: 'Random',
+//    label: 'Willekeurig'
   },
   {
     value: 'likes,desc',
-    //label: 'Most liked',
-    label: 'Meeste likes'
+    label: 'Most popular',
+    //label: 'Meeste likes'
   },
   {
     value: 'likes,asc',
-  //  label: 'Least liked',
-    label: 'Minste likes'
+    label: 'Least liked',
+  //  label: 'Minste likes'
   },
   {
     value: 'ranking,asc',
-    label: 'Ranglijst'
+    label: 'Ranking',
+    //  label: 'Ranglijst'
   },
   {
     value: 'budget,desc',
-//    label: 'Highest amount',
-    label: 'Hoogste bedrag'
+    label: 'Highest amount',
+ //   label: 'Hoogste bedrag'
   },
   {
     value: 'budget,asc',
-//    label: 'Lowest amount',
-    label: 'Laagste bedrag'
+    label: 'Lowest amount',
+//    label: 'Laagste bedrag'
   },
 ];
 
