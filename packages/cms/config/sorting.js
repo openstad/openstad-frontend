@@ -47,28 +47,28 @@ exports.options = [
 exports.apiOptions = [
   {
     value: 'createdate_desc',
-  //  label: 'Newest first',
-    label: 'Nieuwste eerst'
+    label: 'Newest',
+
   },
   {
     value: 'createdate_asc',
-//    label: 'Oldest first',
-    label: 'Oudste eerst'
+    label: 'Latest',
+
   },
   {
     value: 'random',
-//    label: 'Random',
-    label: 'Willekeurig'
+    label: 'Random',
+
   },
   {
     value: 'votes_desc',
-    //label: 'Most liked',
-    label: 'Meeste likes'
+    label: 'Most popular',
+
   },
   {
     value: 'votes_asc',
-  //  label: 'Least liked',
-    label: 'Minste likes'
+    label: 'Least popular',
+
   },
 /*  {
     value: 'ranking,asc',
