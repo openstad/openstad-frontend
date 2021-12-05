@@ -1,55 +1,42 @@
-{% if data.widget.ideaUrl %}
-{% set ideaUrl = data.widget.ideaPageUrl' %}
+{% if data.widget.ideaPageUrl %}
+{% set ideaUrl = data.widget.ideaPageUrl %}
 {% else %}
 {% set ideaUrl = '/plan' %}
 {% endif %}
 
+
 <div class="user-activity-box">
-    <h3> Plannen ingestuurd </h3>
-    {% if data.activeResource.ideas %}
-    <ul>
-    {% for idea in data.activeResource.ideas %}
+    <ul class="user-activity-list">
+    {% if data.activeResource.activity %}
+    {% for activity in data.activeResource.activity %}
         <li>
-            <a href="{{ideaUrl}}/{{idea.id}}" target="_blank">
-                {{idea.title}}
-            </a>
+            <p>
+                <b>
+                    {#
+                    <a class="link-caret--black" href="{{ideaUrl}}/{{activity.idea.id}}">
+                        {{activity.idea.title}}
+                    </a>
+                    #}
+                    <span class="aalink-caret--black">
+                        {{activity.idea.title}}
+                    </span>
+                </b>
+            </p>
+            {% if activity.description %}
+            <p>"{{activity.description | sanitize | truncate(80) }}"</p>
+            {% endif %}
+            <div class="user-activity-detail-row">
+                <div class="stamp stamp-{{activity.type.slug}}">{{activity.type.label}} </div>
+                <p>{{activity.createdAt  | date( 'D MMM YYYY, HH:mm')}} </p>
+            </div>
         </li>
     {% endfor %}
-    </ul>
     {% else %}
-    <em>Nog geen plannen</em>
-    {% endif %}
-
-    <h3> Argumenten geplaatst </h3>
-    {% if data.activeResource.arguments and data.activeResource.arguments.length > 0 %}
-
-    {% for argument in data.activeResource.arguments %}
-    <ul>
         <li>
-            <a href="{{ideaUrl}}/{{idea.id}}#arg{{argument.id}}">
-                {{argument.description | truncate(30)}}
-            </a>
+            Nog geen activiteit
         </li>
-    {% endfor %}
+    {% endif %}
     </ul>
 
-    {% else %}
-    <em>Nog geen argument geplaatst</em>
-    {% endif %}
-
-    <h3> Stemmen geplaatst op </h3>
-    {% if data.activeResource.votes and data.activeResource.votes.length > 0  %}
-    <ul>
-    {% for vote in data.activeResource.votes %}
-        <li>
-            <a href="{{ideaUrl}}/{{vote.ideaId}}">
-                {{vote.ideaId}}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
-    {% else %}
-    <em>Nog niet gestemd</em>
-    {% endif %}
 </div>
 

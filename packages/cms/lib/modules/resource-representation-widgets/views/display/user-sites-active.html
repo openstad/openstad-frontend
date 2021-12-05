@@ -1,10 +1,9 @@
-
 {% if data.activeResource.sites and data.activeResource.sites.length > 0  %}
-<ul>
+<ul class="user-sites-active-list list-unstyled">
     {% for site in data.activeResource.sites %}
-    <li>
-        <a href="{{site.domain}}" target="_blank">
-            {{site.title}} | {{site.domain}}
+    <li >
+        <a href="https://{{site.domain}}" target="_blank" class="link-caret--black">
+            {{site.title}}
         </a>
     </li>
     {% endfor %}

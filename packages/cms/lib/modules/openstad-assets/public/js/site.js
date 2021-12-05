@@ -17,7 +17,35 @@ $(function () {
     initTrapFocusInOpenModal();
     initFillExternalCsrfToken();
     initValidateAuthForms();
+    initRemoveFreshLogin();
 });
+
+function removeParamFromUrl(parameter)
+{
+    var url=document.location.href;
+    var urlparts= url.split('?');
+
+    if (urlparts.length>=2)
+    {
+        var urlBase=urlparts.shift();
+        var queryString=urlparts.join("?");
+
+        var prefix = encodeURIComponent(parameter)+'=';
+        var pars = queryString.split(/[&;]/g);
+        for (var i= pars.length; i-->0;)
+            if (pars[i].lastIndexOf(prefix, 0)!==-1)
+                pars.splice(i, 1);
+        url = urlBase+'?'+pars.join('&');
+        window.history.pushState('',document.title,url); // added this line to push the new url directly to url bar .
+
+    }
+    return url;
+}
+
+
+function initRemoveFreshLogin() {
+   removeParamFromUrl('freshLogIn');
+}
 
 function initFillExternalCsrfToken () {
     var $form = $('.form-fill-external-csrf');
@@ -125,12 +153,15 @@ function initToggleMenuVisibility() {
         if ($target.is(':visible')) {
             $('.body-background').hide();
             $('.visibility-toggle').removeClass('active');
+            $('.visibility-toggle').attr('aria-expanded', 'false');
             $('.toggle-menu').removeClass('active').hide();
         } else {
             $('.visibility-toggle').removeClass('active');
+            $('.visibility-toggle').attr('aria-expanded', 'false');
             $('.toggle-menu').removeClass('active').hide();
             $('.body-background').show();
             $button.addClass('active');
+            $button.attr('aria-expanded', 'true');
             $target.addClass('active').show();
         }
     });
@@ -138,6 +169,7 @@ function initToggleMenuVisibility() {
     $('.body-background').click(function (e) {
         $('.body-background').hide();
         $('.visibility-toggle').removeClass('active');
+        $('.visibility-toggle').attr('aria-expanded', 'false');
         $('.toggle-menu').removeClass('active').hide();
     });
 }

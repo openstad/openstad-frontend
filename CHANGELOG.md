@@ -1,14 +1,55 @@
 # Changelog
 
-## URELEASED 2
+## Unreleased
+* Remove gebiedsontwikkelings tool widget
+* Add choices guide option to counter widget
+* resource-form-widgets: Make login text configurable
+* Make My account button text configurable
+* Add first batch of accessibility fixes from retest
+  * Add an accessible location field to the resource form
+  * Add screen reader labels to the filter input fields above the resource overview. Also an autocomplete attribute was added to the resource overview filter.
+  * Add a focus indicator to the thumbs up button inside an argument form
+  * Update the red amsterdam variable and changed old hex codes to the @amsterdam-red variable
+  * Change the html order of the menu so that the focus goes directly into the submenu.
+  * Add the aria-current attribute to the current page menu item
+  * Add a screen reader only text to the voting progress bar at a single idea page and in the ideas in the resource overview.
+  * Add a focus psuedo element to the delete button in the participatory budgeting widget.
+  * Change the javascript so that the message for the characters in a form is accessible and audible.
+
+## v0.22.0
+* Fix countdown in resource-overview
+* Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
+* Add alias to user form (nickname)
+* Styling user activity list
+* New tab layout and styling according to Asmterdam design system
+* Make sure only freshly returned users autosubmit voting
+
+## v0.21.0
+* Add global option to disable newsletter captcha
+* Add options to hide votes / status / last name in resource-representation-widgets
+* Allow title above share buttons to be changed in resource-representation-widgets
+* Allow counter-widgets to display the argument count for a specific idea
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
 * Fix HTML injection in search form in the resource overview widget
+* Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
+* Reorganise Participatory Budget fields in widget
+* Reorganise Status Label fields in Resource Overview widget
 
-## PRE-RELEASE
+## v0.20.3
+* Make sure ideas are existing on the page in Participatory budgetting
+
+## v0.20.2
+* Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
+
+## v0.20.1
+* Version made for build fixes in travis
+
+## v0.20.0
 * Replace arguments widgets bij openstad-components widgets
 * Add automatic update of idea status after a given number of days
 * Allow button & links to only be visible for moderators
+* Make embedded auth forms label en button text configurable in widget
 * Fix stats for subdirs
 
 ## v0.19.0 (2021-08-17)
@@ -32,9 +73,6 @@
 
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
-
-## v0.17.1 (2021-07-14)
-* Add user authorization to image upload
 
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple

@@ -210,7 +210,8 @@ module.exports = {
                     }
                 }
 
-                widget.countdownPeriod = siteConfig[`${resource}s`].automaticallyUpdateStatus && siteConfig[`${resource}s`].automaticallyUpdateStatus.afterXDays || 0;
+                const resourceSiteConfigKey = `${resource}s`;
+                widget.countdownPeriod = siteConfig[resourceSiteConfigKey] && siteConfig[resourceSiteConfigKey].automaticallyUpdateStatus && siteConfig.ideas.automaticallyUpdateStatus.afterXDays || 0;
 
                 if (queryObject.search) {
                     params.search = {
@@ -398,6 +399,7 @@ module.exports = {
               //  delete record.description;
               let daysOld = parseInt( ( Date.now() - new Date(record.startDate).getTime() ) / ( 24 * 60 * 60 * 1000 ) );
               record.countdown = widget.countdownPeriod - daysOld;
+              console.log('??', record.startDate, widget.countdownPeriod, daysOld);
               return record;
             }) : [];
 

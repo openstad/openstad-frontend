@@ -75,12 +75,6 @@ const contentWidgets = {
     hideByDefault: true,
     deprecated: true
   },
-  'gebiedsontwikkeling-tool': {
-    addLabel: 'Map for area development  (beta)',
-    adminOnly: true,
-    hideByDefault: true,
-    beta: true
-  },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
     adminOnly: true
@@ -136,6 +130,7 @@ const contentWidgets = {
 
     }
   },
+  'openstad-user-remove' : {},
   'user-form': {
     addLabel: 'Contact form (beta)',
     adminOnly: true,

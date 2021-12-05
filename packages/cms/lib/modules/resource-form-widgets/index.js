@@ -26,7 +26,6 @@ const toSqlDatetime = (inputDate) => {
 }
 
 const fields = require('./lib/fields.js');
-const userFormFields = require('./lib/userFormFields.js');
 
 module.exports = {
   extend: 'map-widgets',
@@ -53,7 +52,7 @@ module.exports = {
      {
        name: 'general',
        label: 'Algemeen',
-       fields: ['resource', 'redirect', 'formType', 'dynamicFormSections']
+       fields: ['resource', 'redirect', 'loginText', 'formType', 'dynamicFormSections']
      },
      {
        name: 'title',
@@ -137,7 +136,7 @@ module.exports = {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
 
-        req.data.userFormFields = userFormFields;
+        //req.data.userFormFields = userFormFields;
 
 	      widgets.forEach((widget) => {
             const resourceType = widget.resource ?  widget.resource : false;

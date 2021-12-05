@@ -47,7 +47,7 @@
 
   <div class="container u-small-dropdowns">
     {% if data.widget.displayType %}
-    {% include 'types/' + data.widget.displayType + '.html'%}
+    {% include 'types/' + data.widget.displayType + '.html' ignore missing %}
     {% endif %}
   </div>
 {% endif %}

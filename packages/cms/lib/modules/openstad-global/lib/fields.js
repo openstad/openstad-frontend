@@ -156,7 +156,7 @@ module.exports = [
     type: 'select',
     name: 'analyticsType',
     label: 'Analytics type',
-    def: 'google-analytics-old-style',
+    def: 'none',
     choices: [
       {
         value: 'none',
@@ -176,7 +176,11 @@ module.exports = [
         value: 'custom',
         label: "Custom: use a custom codeblock",
         showFields: ['analyticsCodeBlock']
-      }
+      },
+      {
+        value: 'serverdefault',
+        label: "Use the server default settings",
+      },
     ]
   },
 
@@ -569,6 +573,11 @@ module.exports = [
     label: 'Display my account in main menu?'
   },
   {
+    name: 'myAccountButtonText',
+    type: 'string',
+    label: 'My account button text'
+  },
+  {
     name: 'cacheIdeas',
     type: 'boolean',
     label: 'Cache ideas? This optimises performance for sites, only works for sites where ideas are static, most voting sits'
@@ -620,7 +629,7 @@ module.exports = [
         type:  'string',
         name:  'name',
         label: 'Fieldname',
-        help: 'Name of this field in the API: email, firstName, lastName or extraData.xxx',
+        help: 'Name of this field in the API: email, firstName, lastName, displayName or extraData.xxx',
       },
       {
         type:  'string',
