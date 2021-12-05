@@ -148,7 +148,8 @@ module.exports = class MapConfigBuilder {
             useMarkerLinks: settings && settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
-            googleMapsApiKey: settings.googleMapsApiKey || ''
+            googleMapsApiKey: settings.googleMapsApiKey || '',
+            autoCenter: settings.autoCenter === false || settings.autoCenter == 'false' ? false : true,
         };
 
     console.log(this.config.defaultSettings.useMarkerLinks);

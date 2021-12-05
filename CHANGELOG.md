@@ -1,4 +1,6 @@
 # Changelog
+## Unreleased
+* Make autoCenter configurable in idea-map-widgets
 
 ## Unreleased
 * Remove gebiedsontwikkelings tool widget
