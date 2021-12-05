@@ -33,6 +33,7 @@
 * Allow counter-widgets to display the argument count for a specific idea
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
+* Fix HTML injection in search form in the resource overview widget
 * Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
 * Reorganise Participatory Budget fields in widget
 * Reorganise Status Label fields in Resource Overview widget

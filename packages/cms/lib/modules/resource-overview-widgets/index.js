@@ -23,6 +23,7 @@ const fields = require('./lib/fields');
 const sortingOptions = require('../../../config/sorting.js').apiOptions;
 const PARSE_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+const sanitize = require('sanitize-html');
 
 const MAX_PAGE_SIZE = 100;
 
@@ -381,11 +382,18 @@ module.exports = {
         }
 
         self.formatWidgetResponse = (widget, response, queryParams, pathname) => {
+            
+            // Remove all tags & attributes from the search query param
+            const sanitizedSearch = queryParams.search && sanitize(queryParams.search, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
+            
             widget.paginationIndex = response.metadata.page + 1;
             widget.totalItems = response.metadata.totalCount;
             widget.paginationUrls = self.formatPaginationUrls(response.metadata.pageCount, pathname, queryParams);
             widget.formattedResultCountText = widget.resultCountText ? widget.resultCountText.replace('[visibleCount]', response.records.length).replace('[totalCount]', response.metadata.totalCount) : '';
-            widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', queryParams.search) : '';
+            widget.formattedSearchText = widget.searchText && queryParams.search ? widget.searchText.replace('[searchTerm]', sanitizedSearch) : '';
             widget.activeResources = response.records ? response.records.map((record) => {
                 // delete because they are added to the data-attr and will get very big
               //  delete record.description;
