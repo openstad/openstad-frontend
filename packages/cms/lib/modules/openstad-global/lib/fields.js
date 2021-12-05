@@ -573,6 +573,11 @@ module.exports = [
     label: 'Display my account in main menu?'
   },
   {
+    name: 'myAccountButtonText',
+    type: 'string',
+    label: 'My account button text'
+  },
+  {
     name: 'cacheIdeas',
     type: 'boolean',
     label: 'Cache ideas? This optimises performance for sites, only works for sites where ideas are static, most voting sits'

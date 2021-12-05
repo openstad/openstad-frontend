@@ -196,6 +196,7 @@
                   href="{{topLink.url | safeRelativeUrl}}"
                   {% if topLink.targetBlank %} target="_blank" {% endif %}
                   class="link-caret--black"
+                  {% if data.currentPath.startsWith(topLink.url) %}  aria-current="page" {% endif %}
                   >
                     {{topLink.label}}
                   </a>
@@ -226,7 +227,7 @@
 
   <nav id="navbar" class="navbar navbar-static-top">
     <div class="container">
-      <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu">
+      <button type="button" class="navbar-toggle visibility-toggle body-backdrop-toggle" data-target=".navbar-menu" aria-expanded="false" aria-controls="mainMenu">
         <span class="sr-only">Toggle navigation</span>
         <div class="visible-active">
           <span class="icon-bar"></span>
@@ -238,34 +239,6 @@
           <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
         </div>
       </button>
-      {% if data.global.displayMyAcount %}
-      <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu">
-        <div class="visible-active">
-          <img src="/modules/openstad-assets/img/avatar.svg" />
-        </div>
-        <div class="hidden-active">
-          <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
-        </div>
-      </a>
-      <div class="account-menu toggle-menu">
-        <nav  class="" role="navigation">
-          <div>
-            {% if data.loggedIn %}
-            <a href="{{data.siteUrl}}/oauth/logout" class="logout-button" role="button">
-              <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
-              <img src="/modules/openstad-assets/img/avatar.svg" />
-              {{ __('Uitloggen') }}
-            </a>
-            {% else %}
-            <a href="{{data.siteUrl}}/oauth/login"  role="button">
-              <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-              {{ __('Mijn account') }}
-            </a>
-            {% endif %}
-          </div>
-        </nav>
-      </div>
-      {% endif %}
       <div class="navbar-menu toggle-menu">
         <nav id="mainMenu" class="navbar navbar-expand-lg navbar-light " role="menubar">
           <ul class="nav navbar-left">
@@ -274,7 +247,7 @@
             {% for item in data.global.mainMenuItems %}
             <li class="nav-item">
               <a
-              class="
+                      class="
               nav-link
               {% if item.mainMenuUrl === '\/' %}
               {% if data.currentPath === '\/' %}  active {% endif %}
@@ -283,9 +256,15 @@
               {% endif %}
 
               "
-              href="{{ item.mainMenuUrl | safeRelativeUrl }}"
-              {% if item.mainMenuTarget %} target="_blank" {% endif %}
-              role="menuitem"
+                      href="{{ item.mainMenuUrl | safeRelativeUrl }}"
+                      {% if item.mainMenuTarget %} target="_blank" {% endif %}
+                      role="menuitem"
+
+                      {% if item.mainMenuUrl === '\/' %}
+              {% if data.currentPath === '\/' %}  aria-current="page" {% endif %}
+              {% else %}
+              {% if data.currentPath.startsWith(item.mainMenuUrl) %} aria-current="page" {% endif %}
+              {% endif %}
               >
                 {{ item.mainMenuLabel }}
               </a>
@@ -294,11 +273,15 @@
 
             {% else %}
             <li class="nav-item">
-              <a href="{{ data.home._url  }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem">{{ data.home.title }}</a>
+              <a href="{{ data.home._url  }}" class="nav-link {% if data.originalUrl === '/' %} active {% endif %}" role="menuitem"
+                 {% if data.originalUrl === '/' %}  aria-current="page" {% endif %}>
+                {{ data.home.title }}
+              </a>
             </li>
             {% for tab in data.home._children %}
             <li class="nav-item">
-              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem">
+              <a class="nav-link {% if data.currentPath.startsWith(tab._url) %} active {% endif %}" href="{{ tab._url }}" role="menuitem"
+                 {% if data.currentPath.startsWith(tab._url) %}  aria-current="page" {% endif %}>
                 {{ tab.title }}
               </a>
             </li>
@@ -311,9 +294,9 @@
             {% for topLink in data.global.topLinks.reverse() %}
             <li class="visible-xs">
               <a
-              href="{{topLink.url | safeRelativeUrl}}"
-              {% if link.targetBlank %} target="_blank" {% endif %}
-              class="nav-link "
+                      href="{{topLink.url | safeRelativeUrl}}"
+                      {% if link.targetBlank %} target="_blank" {% endif %}
+                      class="nav-link "
               >
                 <b> {{topLink.label}} </b>
               </a>
@@ -339,29 +322,60 @@
             {% endif %}
           </ul>
 
-        	<nav id="subMenu" class="" role="navigation">
-        		<div>
+          <nav id="subMenu" class="" role="navigation">
+            <div>
               {% if data.global.ctaButtonText %}
-              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button">{{data.global.ctaButtonText}}</a>
+              <a href="{{data.global.ctaButtonUrl | safeRelativeUrl}}" class="menu-cta-button" role="button"
+                 {% if data.currentPath.startsWith(data.global.ctaButtonUrl) %}  aria-current="page" {% endif %}>
+                {{data.global.ctaButtonText}}
+              </a>
               {% endif %}
               {% if data.global.displayMyAcount %}
-        			{% if data.loggedIn %}
-      				<a href="{{data.siteUrl}}/oauth/logout" class="account logout-button" role="button">
+              {% if data.loggedIn %}
+              <a href="{{data.siteUrl}}/oauth/logout" class="account logout-button" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
                 {{ __('Uitloggen') }}
               </a>
-        			{% else %}
-      				<a href="{{data.siteUrl}}/oauth/login" class="account" role="button">
+              {% else %}
+              <a href="{{data.siteUrl}}/oauth/login" class="account" role="button">
                 <!-- <span class="glyphicon glyphicon-user"></span>  !-->
                 <img src="/modules/openstad-assets/img/avatar.svg" />
-                {{ __('Mijn account') }}
+                {% if data.global.myAccountButtonText %} {{ data.global.myAccountButtonText | safe }} {% else %} {{ __('Mijn Account') }} {% endif %}
               </a>
-        			{% endif %}
               {% endif %}
-        		</div>
-        	</nav>
+              {% endif %}
+            </div>
+          </nav>
         </nav>
       </div>
+      {% if data.global.displayMyAcount %}
+      <a href="#" class="account-menu-toggle visibility-toggle body-backdrop-toggle" data-target=".account-menu" aria-expanded="false" aria-controls="accountMenu" role="button">
+        <div class="visible-active">
+          <img src="/modules/openstad-assets/img/avatar.svg" />
+        </div>
+        <div class="hidden-active">
+          <img src="/modules/openstad-assets/img/close-icon.svg" width="14" />
+        </div>
+      </a>
+      <div id="accountMenu" class="account-menu toggle-menu">
+        <nav  class="" role="navigation">
+          <div>
+            {% if data.loggedIn %}
+            <a href="{{data.siteUrl}}/oauth/logout" class="logout-button" role="button">
+              <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
+              <img src="/modules/openstad-assets/img/avatar.svg" />
+              {{ __('Uitloggen') }}
+            </a>
+            {% else %}
+            <a href="{{data.siteUrl}}/oauth/login"  role="button">
+              <!-- <span class="glyphicon glyphicon-user"></span>  !-->
+              {{ __('Mijn account') }}
+            </a>
+            {% endif %}
+          </div>
+        </nav>
+      </div>
+      {% endif %}
     </div>
   </nav>
   {% endif %}

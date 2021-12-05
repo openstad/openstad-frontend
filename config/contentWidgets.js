@@ -70,10 +70,6 @@ const contentWidgets = {
     adminOnly: true,
     readOnly: true,
   },
-  'gebiedsontwikkeling-tool': {
-    addLabel: 'Map for area development',
-    adminOnly: true
-  },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
     adminOnly: true
