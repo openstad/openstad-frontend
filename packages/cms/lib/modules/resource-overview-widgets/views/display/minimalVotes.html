@@ -34,7 +34,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
         {% if data.widget.displayLabel %}
         <div class="duration">
-          {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace("1 dagen", "1 dag") }}
+          {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace(" 1 dagen", " 1 dag") }}
         </div>
         {% endif %}
 
