@@ -78,7 +78,20 @@ const resources = [
     //config is used in API config
     configKey: 'newslettersignup'
   },
-
+  {
+    label: 'Event',
+    value: 'event',
+    resourceEndPoint: 'event',
+    //config is used in API config
+    configKey: 'event'
+  },
+  {
+    label: 'Statistics',
+    value: 'statistics',
+    resourceEndPoint: 'statistics',
+    //config is used in API config
+    configKey: 'statistics'
+  },
 
 ]
 
