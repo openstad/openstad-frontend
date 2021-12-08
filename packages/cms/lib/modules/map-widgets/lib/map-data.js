@@ -135,9 +135,6 @@ module.exports = class MapConfigBuilder {
     }
 
   setDefaultSettings(settings) {
-
-    console.log('++++++++++++++++++++');
-    console.log(settings.useMarkerLinks);
     
         this.config.defaultSettings = {
             center: (settings.mapCenterLat && settings.mapCenterLng) ? {lat: settings.mapCenterLat, lng: settings.mapCenterLng} : null,
@@ -151,8 +148,6 @@ module.exports = class MapConfigBuilder {
             googleMapsApiKey: settings.googleMapsApiKey || '',
             autoCenter: settings.autoCenter === false || settings.autoCenter == 'false' ? false : true,
         };
-
-    console.log(this.config.defaultSettings.useMarkerLinks);
 
         return this;
     }
