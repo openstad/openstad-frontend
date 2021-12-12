@@ -8,14 +8,11 @@ const contentWidgets = {
   'agenda': {},
   'accordeon': {},
   'arguments-block': {
-    adminOnly: true
   },
   'arguments-form': {
-    adminOnly: true,
     deprecated: true
   },
   'arguments': {
-    adminOnly: true,
     deprecated: true
   },
   'section': {
@@ -56,13 +53,11 @@ const contentWidgets = {
   },
   'ideas-on-map': {
     addLabel: 'Ideeen op een kaart',
-    adminOnly: true
   },
   'previous-next-button-block': {
     addLabel: 'Vorige volgende knoppen',
   },
   'iframe': {
-    adminOnly: true
   },
   'image': {},
   'info-bar': {},
@@ -77,7 +72,6 @@ const contentWidgets = {
   },
   'participatory-budgeting': {
     addLabel: 'Participatory budgetting',
-    adminOnly: true
   },
   'choices-guide': {
     addLabel: 'Keuzewijzer',
@@ -97,25 +91,18 @@ const contentWidgets = {
     }
   },
   'resource-admin': {
-    adminOnly: true
   },
   'resource-overview': {
-    adminOnly: true,
   },
   'resource-form': {
-    adminOnly: true,
   },
   'resource-representation': {
-    adminOnly: true,
   },
   'recource-raw': {
-    adminOnly: true
   },
   'recource-image': {
-    adminOnly: true
   },
   'recource-like': {
-    adminOnly: true
   },
   'speech-bubble': {
     controls: {
@@ -144,10 +131,8 @@ const contentWidgets = {
     addLabel: 'Video Openstad (3d party, youtube, vimeo, etc.)',
   },
   'location': {
-    adminOnly: true
   },
   'share': {
-    adminOnly: true
   }
 };
 
