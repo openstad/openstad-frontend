@@ -124,7 +124,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
     // check if the mongodb database exist. The name for databse
     return new Promise((resolve, reject) => {
         if (aposServer[domain]) {
-            console.log('No need to check', !!aposServer[domain])
+            //console.log('No need to check', !!aposServer[domain])
             resolve(true);
         } else {
          //   console.log('I need to check')
