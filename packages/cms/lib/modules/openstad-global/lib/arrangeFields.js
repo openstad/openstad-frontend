@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemene instellingen',
-        fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
+        fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor'],
     },
     {
         name: 'analytics',
