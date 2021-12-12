@@ -18,6 +18,7 @@ module.exports = {
     {
       title: 'editor',
       permissions: [
+         'admin-global',
         'edit',
         'private-locales',
         'edit-apostrophe-file',
