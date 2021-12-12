@@ -7,7 +7,7 @@
 
 <div class="user-activity-box">
     <ul class="user-activity-list">
-    {% if data.activeResource.activity %}
+    {% if false and data.activeResource.activity %}
     {% for activity in data.activeResource.activity %}
         <li>
             <p>
@@ -32,7 +32,7 @@
         </li>
     {% endfor %}
     {% else %}
-        <li>
+        <li class="empty-results-container">
             Nog geen activiteit
         </li>
     {% endif %}
