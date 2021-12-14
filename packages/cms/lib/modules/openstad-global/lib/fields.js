@@ -92,21 +92,21 @@ module.exports = [
   {
     name: 'ideaSlug',
     type: 'string',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Slug van idee pagina',
     required: false
   },
   {
     name: 'ideaOverviewSlug',
     type: 'string',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Slug van overzichts pagina',
     required: false
   },
   {
     name: 'editIdeaUrl',
     type: 'string',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Url van de bewerk pagina',
     required: false
   },
@@ -158,7 +158,7 @@ module.exports = [
   {
     type: 'select',
     name: 'analyticsType',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Analytics type',
     def: 'none',
     choices: [
@@ -191,7 +191,7 @@ module.exports = [
   {
     type: 'string',
     name: 'analyticsCodeBlock',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Custom code',
     textarea: true,
   },
@@ -199,14 +199,14 @@ module.exports = [
   {
     type: 'string',
     name: 'analyticsIdentifier',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Google Analytics Property ID (like UA-xxxxx or G-xxxxx)'
   },
 
   {
     type: 'string',
     name: 'tagmanager',
-    permissions: 'admin',
+    permission: 'admin',
     label: 'Google Tag Manager Property ID (like GTM-xxxxx)'
   },
   {
@@ -219,7 +219,7 @@ module.exports = [
   },
   {
     name: 'formattedLogo',
-    permissions: 'admin',
+    permission: 'admin',
     type: 'string',
     label: 'Formatted Logo',
     formatField: function (value, apos, doc, req) {
@@ -230,7 +230,7 @@ module.exports = [
   },
   {
     name: 'formattedPaletteCSS',
-    permissions: 'admin',
+    permission: 'admin',
     type: 'string',
     label: 'Formatted CSS',
     formatField: function (value, apos, doc) {
@@ -588,7 +588,7 @@ module.exports = [
   },
   {
     name: 'cacheIdeas',
-    permissions: 'admin',
+    permission: 'admin',
     type: 'boolean',
     label: 'Cache ideas? This optimises performance for sites, only works for sites where ideas are static, most voting sits'
   },
@@ -732,7 +732,7 @@ module.exports = [
   },
   {
     name: 'roleToLike',
-    permissions: 'admin',
+    permission: 'admin',
     type: 'select',
     label: 'What role is necessary to like an idea?',
     choices: rightsChoices,
