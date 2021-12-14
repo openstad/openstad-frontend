@@ -39,7 +39,6 @@ const contentWidgets = {
     deprecated: true
   },
   'idea-map': {
-    adminOnly: true
   },
   'idea-overview': {
     hideByDefault: true,
