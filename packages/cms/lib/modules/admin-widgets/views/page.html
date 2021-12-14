@@ -81,7 +81,7 @@
            active: true
          },
          area: {
-           active: {{true if (data.isAdmin) else false}}
+           active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          site: {
            active: {{true if (data.isAdmin) else false}}
