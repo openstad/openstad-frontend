@@ -80,7 +80,7 @@ module.exports = (self, options) => {
       // empty
     //  req.data.global.siteTitle = '';
 
-      req.data.global.siteConfigTitle = '';
+      req.data.global.siteConfigTitle = siteConfig.title;
 
     //  req.data.global.siteConfig = siteConfig;
       req.data.originalUrl = req.originalUrl;
