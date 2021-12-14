@@ -399,7 +399,6 @@ module.exports = {
               //  delete record.description;
               let daysOld = parseInt( ( Date.now() - new Date(record.startDate).getTime() ) / ( 24 * 60 * 60 * 1000 ) );
               record.countdown = widget.countdownPeriod - daysOld;
-              console.log('??', record.startDate, widget.countdownPeriod, daysOld);
               return record;
             }) : [];
 
