@@ -1,8 +1,7 @@
 # Changelog
-## Unreleased
-* Make autoCenter configurable in idea-map-widgets
 
-## Unreleased
+## v0.23.0
+* Make autoCenter configurable in idea-map-widgets
 * Remove gebiedsontwikkelings tool widget
 * Add choices guide option to counter widget
 * resource-form-widgets: Make login text configurable
