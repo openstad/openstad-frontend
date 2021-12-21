@@ -88,7 +88,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
       label: '',
       showFilter: true,
       fieldName: typeField,
-      filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
+      filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types && types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
       defaultValue: '',
     }],
 
@@ -156,14 +156,13 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		},
 
     vote: {
-      isViewable: data.global.siteConfig.votes.isViewable,
-      isActive: data.global.siteConfig.votes.isActive,
-      isActiveFrom: data.global.siteConfig.votes.isActiveFrom,
-      isActiveTo: data.global.siteConfig.votes.isActiveTo,
-      requiredUserRole: data.global.siteConfig.votes.requiredUserRole,
-      voteType: data.global.siteConfig.votes.voteType,
-      voteValues: data.global.siteConfig.votes.voteValues,
-
+      isViewable: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isViewable,
+      isActive: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActive,
+      isActiveFrom: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActiveFrom,
+      isActiveTo: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActiveTo,
+      requiredUserRole: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.requiredUserRole || 'admin',
+      voteType: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.voteType,
+      voteValues: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.voteValues,
     },
 
   }
