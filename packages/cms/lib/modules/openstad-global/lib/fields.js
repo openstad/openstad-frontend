@@ -614,6 +614,27 @@ module.exports = [
     def: 'Submit'
   },
   {
+    type: 'boolean',
+    name: 'useCaptchaForNewsletter',
+    label: 'Use a captcha as protection?',
+    help: 'The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.',
+    def: true,
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+        showFields: [
+          'captchaLabel',
+          'captchaRefreshText'
+        ]
+      },
+      {
+        label: 'No',
+        value: false
+      }
+    ]
+  },
+  {
     name: 'captchaLabel',
     type: 'string',
     label: 'Captcha Label',
