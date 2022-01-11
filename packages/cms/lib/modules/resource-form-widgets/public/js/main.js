@@ -338,13 +338,16 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
 		var innerHTML = msg[enable].innerHTML;
 		chars = chars - 1;
 
-      var output = innerHTML.replace("<span>", "").replace("</span>", "");
-      output = output.replace(/nog \d* tekens/g, 'nog ' + chars + ' tekens');
-      output = output.replace(/minimaal \d* tekens/g, 'minimaal ' + chars + ' tekens');
+    var output = innerHTML.replace("<span>", "").replace("</span>", "");
+    output = output.replace(/nog -?\d* tekens/g, 'nog ' + chars + ' tekens');
+    output = output.replace(/minimaal \d* tekens/g, 'minimaal ' + chars + ' tekens');
 
-      msg[enable].innerHTML = '';
-        msg[enable].innerHTML = output;
-    }
+    console.log('++', chars, ok, output);
+
+    msg[enable].innerHTML = '';
+    msg[enable].innerHTML = output;
+
+  }
 
 }
 
