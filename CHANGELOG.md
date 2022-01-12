@@ -1,6 +1,8 @@
 # Changelog
+
 ## Unreleased
 * Make autoCenter configurable in idea-map-widgets
+* Let idea-page like buttons use the site config
 
 ## Unreleased
 * Remove gebiedsontwikkelings tool widget
