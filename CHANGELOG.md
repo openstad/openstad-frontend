@@ -4,7 +4,7 @@
 * Make autoCenter configurable in idea-map-widgets
 * Let idea-page like buttons use the site config
 
-## Unreleased
+## v0.23.0
 * Remove gebiedsontwikkelings tool widget
 * Add choices guide option to counter widget
 * resource-form-widgets: Make login text configurable
