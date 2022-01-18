@@ -342,8 +342,6 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
     output = output.replace(/nog -?\d* tekens/g, 'nog ' + chars + ' tekens');
     output = output.replace(/minimaal \d* tekens/g, 'minimaal ' + chars + ' tekens');
 
-    console.log('++', chars, ok, output);
-
     msg[enable].innerHTML = '';
     msg[enable].innerHTML = output;
 
