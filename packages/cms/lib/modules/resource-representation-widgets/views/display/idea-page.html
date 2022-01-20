@@ -36,7 +36,7 @@
 
 			<div class="secondary">
 				<div class="controls">
-					{% if data.widget.hideVotes !== true and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
+					{% if data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
 					<h4>Stemmen</h4>
 					{% if (idea.status === 'OPEN') %}
 					<div class="vote">
@@ -84,7 +84,7 @@
 					{% endif %}
 					{% endif %}
 
-	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.hideVotes !== true and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
+	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
 					<div class="ideaProgress">
 						<div class="progress">
 							<div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
