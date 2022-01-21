@@ -59,8 +59,9 @@ before_install:
   - sleep 15
   - mongo default --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
   - echo 'start'
-  - echo ${TRAVIS_PULL_REQUEST_BRANCH:-TRAVIS_BRANCH}
-  - echo ${TRAVIS_PULL_REQUEST_BRANCH:-TRAVIS_BRANCH} > branch.txt
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+  - echo "$BRANCH" > branch.txt
   - npm install --production
   - npm run test -- --coverage
   - mkdir assets
