@@ -7,6 +7,14 @@
 * Make autoCenter configurable in idea-map-widgets
 * Add submission to resource form with configurable confirmation settings
 
+## v0.22.0
+* Fix countdown in resource-overview
+* Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
+* Add alias to user form (nickname)
+* Styling user activity list
+* New tab layout and styling according to Asmterdam design system
+* Make sure only freshly returned users autosubmit voting
+
 ## v0.21.0
 * Add global option to disable newsletter captcha
 * Add options to hide votes / status / last name in resource-representation-widgets
@@ -56,12 +64,6 @@
 ## v0.17.1 (2021-07-14)
 * Add user authorization to imgage upload
 
-<<<<<<< HEAD
-## v0.17.1 (2021-07-14)
-* Add user authorization to image upload
-
-=======
->>>>>>> amsterdam/master
 ## v0.17.0 (2021-06-08)
 * Add config options to openstad components: default image, aspect ratio, allow multiple
 * Fix cookie warning in iframes

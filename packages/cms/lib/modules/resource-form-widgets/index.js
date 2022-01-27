@@ -9,7 +9,6 @@ const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 const openstadMap = require('../../../config/map').default;
 
 const fields = require('./lib/fields.js');
-const userFormFields = require('./lib/userFormFields.js');
 
 module.exports = {
   extend: 'map-widgets',

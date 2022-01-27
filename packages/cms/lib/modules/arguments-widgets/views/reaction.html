@@ -1,8 +1,6 @@
 <div class="reaction argument-variant-{{arg.label}}" id="arg{{reaction.id}}">
   <div class="user {{'admin' if (reaction.user.role === 'moderator') or (reaction.user.role === 'admin') }}">
-    <strong>{{reaction.user.firstName}}
-      {{ apos.arguments.showLastName('reactions', data.widget, reaction.user) }}
-    </strong> | {{reaction.createdAt | date('LLL')}}
+    <strong>{{reaction.user.displayName}}</strong> | {{reaction.createdAt | date('LLL')}}
 
     {% if mayEdit %}
     <a href="#" type="submit" class="default reaction-edit edit" value="bewerken" title="Argument bewerken">&nbsp;</a>

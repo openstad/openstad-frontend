@@ -198,16 +198,16 @@
       <h3 class="desktop">{{data.widget.getTitleText(idea, data.widget.gridder_use_field_as_title)}}</h3>
 
       {% if data.widget.displaySummary and idea.summary %}
-      <div class="summary">{{idea.summary | nlbr | sanitize | safe}}</div>
+      <div class="summary">{{idea.summary | sanitize | safe | nlbr}}</div>
       {% endif %}
 
       {% if data.widget.displayDescription and idea.description %}
-      <div class="description">{{idea.description | nlbr | sanitize | safe }}</div>
+      <div class="description">{{idea.description | sanitize | safe | nlbr }}</div>
       {% endif %}
 
       {% if idea.extraData.advice %}
       <b> Tip </b>
-      <div class="tip description">{{idea.extraData.advice | nlbr | sanitize | safe}}</div>
+      <div class="tip description">{{idea.extraData.advice | sanitize | safe | nlbr}}</div>
       {% endif %}
 
       {% include 'includes/modbreak.html' %}

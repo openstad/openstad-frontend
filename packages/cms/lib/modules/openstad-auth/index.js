@@ -102,9 +102,14 @@ module.exports = {
                 // always attach cmsUrl so no external redirects are possible and subdir is working
                 returnTo = cmsUrl + returnTo;
 
+                // add params so modules now it's a first time return from login
+                // used in some cases like auto voting
+                returnTo = returnTo.includes('?') ? returnTo + '&freshLogIn=1' : returnTo + '?freshLogIn=1';
+
                 // set the JWT to session and redirect without it so it doens't get save to the browser history
                 req.session.jwt = req.query.jwt;
                 req.session.returnTo = null;
+
 
                 req.session.save(() => {
                     res.redirect(returnTo);
