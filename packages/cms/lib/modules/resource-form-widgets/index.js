@@ -137,9 +137,7 @@ module.exports = {
     self.load = function (req, widgets, next) {
       const styles = openstadMap.defaults.styles;
       const globalData = req.data.global;
-
-      req.data.userFormFields = userFormFields;
-
+      
       widgets.forEach(async (widget) => {
         const resourceType = widget.resource ? widget.resource : false;
         const resourceInfo = resourceType ? resourcesSchema.find((resourceInfo) => resourceInfo.value === resourceType) : false;
