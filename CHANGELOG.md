@@ -5,6 +5,13 @@
 * Let idea-page like buttons use the site config
 * Fixed: remove freshLogin param also removed #hashpart from an url
 * Remove progressbar on idea-page when no like buttons are available
+* Fix login email links
+* Fix: add an iconSectionId field which can be used to link via URL
+* Fix weird tab behaviour
+* Fix resource form input counter
+* Remove hideVotes option from resource representation
+* Move docker builds from travis to github actions
+
 
 ## v0.23.0
 * Remove gebiedsontwikkelings tool widget
