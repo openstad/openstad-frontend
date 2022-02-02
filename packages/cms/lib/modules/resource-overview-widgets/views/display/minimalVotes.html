@@ -22,6 +22,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
     {% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
     {% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
+    {% elseif data.widget.pathForResource and data.widget.pathForResource.includes('\{ideaId\}') %}
+    {% set ideaUrl = data.widget.pathForResource.replace('\{ideaId\}', idea.id) %}
     {% else %}
     {% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
     {% endif %}
