@@ -72,8 +72,8 @@ module.exports =  function (req, res, next) {
           */
          ideas = ideas.map((idea) => {
            let createdData = new Date(idea.createdAt);
-           idea.fullUrl = `${siteUrl}/${ideaSlug}/${idea.id}`;
-           idea.overviewUrl = `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
+           idea.fullUrl = ideaSlug && ideaSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaSlug}/${idea.id}`;
+           idea.overviewUrl = ideaOverviewSlug && ideaOverviewSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaOverviewSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
            idea.createdTime = createdData.getTime();
 
            if (idea.location && idea.location.coordinates[0] && idea.location.coordinates[1]) {

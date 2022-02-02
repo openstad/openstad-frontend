@@ -94,6 +94,7 @@ module.exports = [
     type: 'string',
     permission: 'admin',
     label: 'Slug van idee pagina',
+    apiSyncField: 'cms.ideaSlug',
     required: false
   },
   {
@@ -101,6 +102,7 @@ module.exports = [
     type: 'string',
     permission: 'admin',
     label: 'Slug van overzichts pagina',
+    apiSyncField: 'cms.ideaOverviewSlug',
     required: false
   },
   {

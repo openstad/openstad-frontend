@@ -11,6 +11,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
     {% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
     {% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
+    {% elseif data.widget.pathForResource and data.widget.pathForResource.includes('\{ideaId\}') %}
+    {% set ideaUrl = data.widget.pathForResource.replace('\{ideaId\}', idea.id) %}
     {% else %}
     {% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
     {% endif %}
@@ -59,10 +61,10 @@ data-default-sort="{{data.widget.defaultSorting}}"
           {% if data.widget.displayVoteProgressBar %}
           <div class="ideaProgress">
             <div class="progress">
-          <div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
-            <span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
-          </div>
-        </div>
+              <div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
+                <span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
+              </div>
+            </div>
           </div>
           {% endif %}
           <div class="ideaStats">

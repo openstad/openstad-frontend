@@ -1,21 +1,17 @@
-{% if data.widget.ideaPageUrl %}
-{% set ideaUrl = data.widget.ideaPageUrl %}
-{% else %}
-{% set ideaUrl = '/plan' %}
-{% endif %}
-
 {% set counterThisSite = 0 %}
 {% set counterOtherSites = 0 %}
 
 <div class="user-activity-box">
-    <h4> Activiteit op deze website</h4>
-    <ul class="user-activity-list">
-    {% if data.activeResource.activity %}
-    {% for activity in data.activeResource.activity %}
-        {% if data.global.siteId === activity.site.id %}
-            {% set counterThisSite = counterThisSite + 1 %}
+  <h4> Activiteit op deze website     {{data.nielsisgek}}
+  </h4>
+  <ul class="user-activity-list">
 
-        {% include 'display/user-activity-item.html' %}
+    {% if data.widget.activeResource.activity %}
+    {% for activity in data.widget.activeResource.activity %}
+    {% if data.global.siteId === activity.site.id %}
+    {% set counterThisSite = counterThisSite + 1 %}
+
+    {% include 'display/user-activity-item.html' %}
         {% endif %}
     {% endfor %}
     {% endif %}
@@ -29,8 +25,8 @@
     <br />
     <h4> Activiteit op andere websites</h4>
     <ul class="user-activity-list">
-        {% if data.activeResource.activity %}
-        {% for activity in data.activeResource.activity %}
+        {% if data.widget.activeResource.activity %}
+        {% for activity in data.widget.activeResource.activity %}
         {% if data.global.siteId !== activity.site.id %}
         {% set counterOtherSites = counterOtherSites + 1 %}
 
