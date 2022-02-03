@@ -88,7 +88,8 @@ jobs:
 
       - name: Build
         run: |
-          docker build -t openstad/frontend:${{ steps.get_version.outputs.VERSION }}
+          ls -l
+          docker build . -t openstad/frontend:${{ steps.get_version.outputs.VERSION }}
           docker push openstad/frontend:${{ steps.get_version.outputs.VERSION }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
