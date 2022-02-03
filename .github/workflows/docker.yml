@@ -87,10 +87,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build
-        run: |
-          ls -l
-          docker build . -t openstad/frontend:${{ steps.get_version.outputs.VERSION }}
-          docker push openstad/frontend:${{ steps.get_version.outputs.VERSION }}
+        run: docker buildx build . -t openstad/frontend:${{ steps.get_version.outputs.VERSION }} -o type=registry
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
