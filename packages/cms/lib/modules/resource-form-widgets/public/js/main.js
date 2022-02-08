@@ -318,7 +318,8 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
       value = tmp.textContent || tmp.innerText || "";
     }
 
-		var num_newlines = value.split(/\r\n|\r|\n/).length - 1;
+    let match = value.match(/\r\n|\r|\n/);
+		var num_newlines = match ? match.length : 0;
 		var len = value.length + num_newlines;
 
 		var enable  = len < minLen ? 'min' : 'max';
@@ -330,13 +331,11 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
 
 		msg[enable].className  = enable + ' ' + ( ok ? 'ok' : 'error' ) + ' visible';
 		msg[disable].className = disable;
-		//span[enable].innerHTML = chars;
 
 		msg[enable].setAttribute("aria-live", "polite");
 		msg[disable].removeAttribute("aria-live");
 
 		var innerHTML = msg[enable].innerHTML;
-		chars = chars - 1;
 
     var output = innerHTML.replace("<span>", "").replace("</span>", "");
     output = output.replace(/nog -?\d* tekens/g, 'nog ' + chars + ' tekens');
