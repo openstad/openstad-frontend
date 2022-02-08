@@ -871,5 +871,6 @@
 	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie",
 	"Form fields": "Form fields",
 	"Enter the location manually": "Enter the location manually",
-	"Login text": "Login text"
+	"Login text": "Login text",
+	"Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)": "Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)"
 }

@@ -251,6 +251,15 @@ module.exports = {
                 widget.isVotingActive = siteConfig && siteConfig.votes && siteConfig.votes.isActive ? siteConfig.votes.isActive : false;
                 widget.voteType = siteConfig && siteConfig.votes && siteConfig.votes.voteType ? siteConfig.votes.voteType : '';
 
+                widget.siteConfig = { // TODO: bovenstaande waaarden moeten ook hier in gezet worden
+                  minimumYesVotes: (siteConfig && siteConfig.ideas && siteConfig.ideas.minimumYesVotes),
+                  voteValues: (siteConfig && siteConfig.votes && siteConfig.votes.voteValues) || [{
+                    label: 'voor',
+                    value: 'yes',
+                    screenReaderAddition: 'dit plan stemmen'
+                  }, {label: 'tegen', value: 'no', screenReaderAddition: 'dit plan stemmen'}],
+                }
+              
                 widget.openstadTags = req.data.openstadTags ? req.data.openstadTags.map((tag) => {
                     return Object.assign({}, tag);
                 }) : [];
