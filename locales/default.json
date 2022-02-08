@@ -871,5 +871,6 @@
 	"dit overschrijft de onderstaande formulier definitie": "dit overschrijft de onderstaande formulier definitie",
 	"Form fields": "Form fields",
 	"Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)": "Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)",
-	"Set the options for a new page.": "Set the options for a new page."
+	"Set the options for a new page.": "Set the options for a new page.",
+	"Slug van de ideepagina. Let op: dit wordt in het gebruikersaccount gebruikt om gebruikers naar hun plan te verwijzen. Geef de locatie op van het plan, met daarin {ideaId} voor het plan-Id. Bijvoorbeeld: /plan/{ideaId} of /stemmen#ideaId-{ideaId}": "Slug van de ideepagina. Let op: dit wordt in het gebruikersaccount gebruikt om gebruikers naar hun plan te verwijzen. Geef de locatie op van het plan, met daarin {ideaId} voor het plan-Id. Bijvoorbeeld: /plan/{ideaId} of /stemmen#ideaId-{ideaId}"
 }
