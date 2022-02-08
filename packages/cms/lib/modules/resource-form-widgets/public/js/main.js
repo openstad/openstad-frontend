@@ -318,7 +318,7 @@ function initCharsLeftInfo(target, contentDiv, minLen, maxLen, isHTML) {
       value = tmp.textContent || tmp.innerText || "";
     }
 
-    let match = value.match(/\r\n|\r|\n/);
+    var match = value.match(/\r\n|\r|\n/);
 		var num_newlines = match ? match.length : 0;
 		var len = value.length + num_newlines;
 
