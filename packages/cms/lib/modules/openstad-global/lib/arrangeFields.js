@@ -38,7 +38,7 @@ module.exports = [
     {
         name: 'map',
         label: 'Map',
-        fields: ['mapCenterLat', 'mapCenterLng', 'mapZoomLevel', 'openstreetmapsServerUrl', 'mapPolygonsKey', 'mapImageFlag', 'mapUploadedFlag', 'mapFlagWidth', 'mapFlagHeight']
+        fields: ['mapCenterLat', 'mapCenterLng', 'mapZoomLevel', 'openstreetmapsServerUrl', 'mapPolygonsKey', 'mapUploadedFlag', 'mapFlagWidth', 'mapFlagHeight']
     },
     {
         name: 'mainMenu',

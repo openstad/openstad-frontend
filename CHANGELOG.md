@@ -13,6 +13,7 @@
 * Fix resource form input counter
 * Remove hideVotes option from resource representation
 * Move docker builds from travis to github actions
+* Remove global option mapImageFlag
 
 
 ## v0.23.0

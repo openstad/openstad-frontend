@@ -320,13 +320,6 @@ module.exports = [
     label: 'Display login and logout link in top links?'
   },
   {
-    name: 'mapImageFlag',
-    type: 'select',
-    label: 'Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?',
-    choices: flagChoices,
-    def: 'red'
-  },
-  {
     name: 'openstreetmapsServerUrl',
     type: 'string',
     label: 'Openstreet Maps ServerUrl (not implemented yet)',
