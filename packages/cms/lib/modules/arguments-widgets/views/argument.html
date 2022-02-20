@@ -1,8 +1,7 @@
 <div class="argument argument-variant-{{arg.label}} argument-action-form " data-id="{{arg.id}}" id="arg{{arg.id}}">
   <div class="user {{'admin' if (arg.user.role === 'moderator') or (arg.user.role === 'admin') }}">
     <strong>
-      {{ arg.user.firstName }}
-      {{ apos.arguments.showLastName('arguments', data.widget, arg.user) }}
+      {{ arg.user.displayName }}
     </strong> | {{ arg.createdAt | date('LLL') }}
 
     {% if mayEdit %}
@@ -17,7 +16,7 @@
     {% endif %}
   </div>
 
-  <p class="argument-content">{{arg.description | urlize | nlbr | sanitize | safe}}</p>
+  <p class="argument-content">{{arg.description | urlize | sanitize | safe | nlbr}}</p>
 
   {% if mayEdit %}
   <form class="action argument-form argument-edit-form ajax-refresh-after-submit" method="POST" action="{{apiArgumentUrl}}/{{arg.id}}" class="editForm">

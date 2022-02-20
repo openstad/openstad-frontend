@@ -52,7 +52,7 @@ module.exports = {
               if (err) {
                 return callback(err);
               }
-
+              
               // throw error if group is not found, should be defined in siteConfig
               if (!group) {
                 return callback(`${groupName} group for logging in user not found`);

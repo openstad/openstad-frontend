@@ -96,7 +96,9 @@ function ideaListClick(event) {
 }
 
 function scrollToIdeas() {
-  scrollToResolver(document.getElementById('ideas-anchor'));
+	// Find first matching element for ideas list
+    var el = document.querySelectorAll('#ideasList, #ideas-anchor, #ideaList').item(0);
+    scrollToResolver(el);
 }
 
 function scrollToResolver(elem) {

@@ -370,7 +370,7 @@
 							<div class="checkmark-block-green">
 								<h4>Gelukt, je hebt gestemd!</h4>
 								<br/>
-								{{data.widget.thankyou_message | nlbr | sanitize | safe}}
+								{{data.widget.thankyou_message | sanitize | safe | nlbr}}
 								{% if data.widget.showNewsletterButton and data.widget.showNewsletterButton == 'yes' %}
 								<br />
 								<br />

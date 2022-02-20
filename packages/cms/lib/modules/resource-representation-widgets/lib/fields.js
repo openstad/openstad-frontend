@@ -9,12 +9,18 @@ const fields = [
     name: 'displayType',
     label: 'Representation',
     type: 'select',
-    choices: [             
-
+    choices: [
       {
         'label': 'Idea Page (only for idea resource)',
         'value': 'idea-page',
-        'showFields' : ['showShareButtons', 'displayRanking', 'shareChannelsSelection', 'defaultImage'].concat(labels).concat(timeLabels)
+        'showFields' : [
+          'showShareButtons',
+          'displayRanking',
+          'shareChannelsSelection',
+          'defaultImage',
+          'hideStatus',
+          'shareTitle'
+        ].concat(labels).concat(timeLabels)
       },
       {
         'label': 'Title',
@@ -118,6 +124,27 @@ const fields = [
             label: "Whatsapp"
         },
     ]
+  },
+  {
+      name: 'hideStatus',
+      type: 'boolean',
+      label: 'Hide status in controls?',
+      choices: [
+          {
+              value: true,
+              label: "Yes",
+          },
+          {
+              value: false,
+              label: "No"
+          },
+      ],
+      def: false
+  },
+  {
+    name: 'shareTitle',
+    type: 'string',
+    label: 'Title above share buttons (default: Deel dit voorstel)'
   }
 ].concat(
     ideaStates.map((state) => {

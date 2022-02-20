@@ -28,16 +28,23 @@ ENV DEFAULT_DB=""
 ENV APOS_BUNDLE="assets"
 ENV NODE_ENV="production"
 
+ENV S3_ENDPOINT=""
+ENV S3_KEY=""
+ENV S3_SECRET=""
+ENV S3_BUCKET=""
+
+
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python musl-dev git bash
+
 
 # Set the working directory to the root of the container
 WORKDIR /home/app
 
 # Bundle app source
-COPY . /home/app
+COPY --chown=node:node . /home/app
 
-RUN cp -r ./packages/cms/test test
+#RUN cp -r ./packages/cms/test test
 
 RUN mkdir ~/.ssh ; echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
@@ -49,6 +56,7 @@ RUN npm install -g nodemon
 # Remove unused packages only used for building.
 RUN apk del openssl g++ make python && rm -rf /var/cache/apk/*
 
+RUN mkdir -p /home/app/public
 RUN mkdir -p /home/app/public
 RUN mkdir -p /home/app/public/modules
 RUN mkdir -p /home/app/public/css
@@ -63,7 +71,11 @@ VOLUME /home/app/public/uploads
 RUN mkdir -p /home/app/public/uploads/assets
 
 # Set node ownership to/home/app
-RUN chown -R node:node /home/app
+# only run CHOWN on dirs just created
+# the copy command created the proper rights
+# otherwise takes very long
+RUN chown -R node:node /home/app/public
+RUN chown -R node:node /home/app/data
 USER node
 
 # Exposed ports for application

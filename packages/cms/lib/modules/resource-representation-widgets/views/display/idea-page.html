@@ -1,8 +1,8 @@
 {% if data.page.resource !== 'idea' and data.hasModeratorRights  %}
 <br />
-  <div class="alert alert-warning">
-    {{ __('Warning to adminstrator: this template will only work properly with idea resource') }}
-  </div>
+<div class="alert alert-warning">
+  {{ __('Warning to adminstrator: this template will only work properly with idea resource') }}
+</div>
 {% else  %}
 
 {% set idea = data.widget.activeResource %}
@@ -13,180 +13,159 @@
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
 
-	<div class="pageContent idea openstad-ajax-refresh" id="single-idea-container">
-		<div id="title">
-			<div>
-				<div class="primary">
-					{% if idea.extraData.images[0] %}
-					<div class="image" style="background-image: url('{{idea.extraData.images[0]}}');"></div>
-					{% elif data.widget.defaultImage %}
-          <div class="image"  style="background-image: url('{{apos.attachments.url(data.widget.defaultImage)}}')"></div>
-          {% else %}
-					<div class="image"></div>
-					{% endif %}
+<div class="pageContent idea openstad-ajax-refresh" id="single-idea-container">
+	<div id="title">
+		<div>
+			<div class="primary">
+				{% if idea.extraData.images[0] %}
+				<div class="image" style="background-image: url('{{idea.extraData.images[0]}}');"></div>
+				{% elif data.widget.defaultImage %}
+        <div class="image"  style="background-image: url('{{apos.attachments.url(data.widget.defaultImage)}}')"></div>
+        {% else %}
+				<div class="image"></div>
+				{% endif %}
 
-					{% if data.widget['label' + idea.status] %}
-					<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
-					{% endif %}
+				{% if data.widget['label' + idea.status] %}
+				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
+				{% endif %}
 
-					{% if data.widget.displayRanking and idea.ranking %}
-					<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
-					{% endif %}
-				</div>
+				{% if data.widget.displayRanking and idea.ranking %}
+				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
+				{% endif %}
+			</div>
 
-				<div class="secondary">
-					<div class="controls">
-						<h4>Stemmen</h4>
-						{% if (idea.status === 'OPEN') %}
-						<div class="vote">
-							<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
-								laden...
-							</div>
-							<form id="idea-vote-form-yes" method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
-								<input type="hidden" name="ideaId" value="{{idea.id}}" />
-								<input type="hidden" name="opinion" value="yes" />
-								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
-
-								{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
-								<button
-									class="
-										{{'selected' if idea.userVote.opinion == 'yes'}}
-										role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}
-										idea-status-{{idea.status}}
-										ajax-form
-
-									"
-									data-modal-text="Log in om een plan te liken."
-                  data-return-to="{{data.currentPathname}}?voteOpinion=yes&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
-									type="submit" name="opinion" value="yes" data-count="{{idea.yes}}"
-								>
-	                {{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
-									<span class="sr-only">{{ data.widget.siteConfig.voteValues[0].screenReaderAddition if data.widget.siteConfig.voteValues[0].screenReaderAddition else 'dit plan stemmen' }}</span>
-								</button>
-							</form>
-
-							<div style="clear: both;"></div>
-	            {% if data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
-							<form id="idea-vote-form-no" method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
-								<input type="hidden" name="ideaId" value="{{idea.id}}" />
-								<input type="hidden" name="opinion" value="no"/>
-								<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
-
-								{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-								<button
-									class="
-									{{'selected' if idea.userVote.opinion == 'no'}}
-									role-required-{{data.global.roleToLike}}
-									idea-status-{{idea.status}}
-									ajax-form
-									"
-                  data-return-to="{{data.currentPathname}}?voteOpinion=no&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
-									type="submit"
-									name="opinion"
-									value="no"
-									data-count="{{idea.no}}"
-								>
-	                {{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[1].label else 'tegen' }}
-									<span class="sr-only">{{ data.widget.siteConfig.voteValues[1].screenReaderAddition if data.widget.siteConfig.voteValues[1].screenReaderAddition else 'dit plan stemmen' }}</span>
-								</button>
-								<div style="clear: both;"></div>
-							</form>
-	  			    {% endif %}
+			<div class="secondary">
+				<div class="controls">
+					{% if data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
+					<h4>Stemmen</h4>
+					{% if (idea.status === 'OPEN') %}
+					<div class="vote">
+						<div class="hide-when-loaded" style="padding-top: 30px;text-align: center;">
+							laden...
 						</div>
-						{% else %}
-						<div class="vote disabled">
-							{{numberPlateButton.numberPlateButton('no-of-votes-for', '', idea.yes)}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'yes'}} idea-status-{{idea.status}}" type="button" name="opinion" value="yes" data-count="{{idea.yes}}">
-	              {{ data.widget.siteConfig.voteValues[0].label if data.widget.siteConfig.voteValues[0].label else 'voor' }}
+            {% for voteValue in data.widget.siteConfig.voteValues %}
+            {% set forOrAgainst = 'for' if voteValue.value == 'yes' else 'against' %}
+            <form id="idea-vote-form-{{voteValue.value}}" method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote" class="idea-vote-form ajax-form ajax-refresh-after-submit {{ 'logged-in' if data.loggedIn else 'not-logged-in' }} vote">
+							<input type="hidden" name="ideaId" value="{{idea.id}}" />
+							<input type="hidden" name="opinion" value="{{voteValue.value}}" />
+							<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
+							{{numberPlateButton.numberPlateButton('no-of-votes-' + forOrAgainst, '', idea[voteValue.value])}}
+							<button
+							class="
+							{{'selected' if idea.userVote.opinion == voteValue.value}}
+							role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}
+							idea-status-{{idea.status}}
+							ajax-form
+							"
+							data-modal-text="Log in om een plan te liken."
+							data-return-to="{{data.currentPathname}}?voteOpinion={{voteValue.value}}&ideaId={{idea.id}}&redirectUrl={{data.currentPathname}}"
+							type="submit" name="opinion" value="{{voteValue.value}}" data-count="{{idea[voteValue.value]}}"
+							>
+								<div class="elipsis">
+                  {{ voteValue.label if voteValue.label else 'stem' }}
+								  <span class="sr-only">{{ voteValue.screenReaderAddition if voteValue.screenReaderAddition else 'dit plan stemmen' }}</span>
+                </div>
 							</button>
-							<div style="clear: both;"></div>
-	            {% if data.widget.siteConfig.voteValues.length > 1 %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
-							{{numberPlateButton.numberPlateButton('no-of-votes-against', '', idea.no)}}
-							<button disabled="true" class="{{'selected' if userVote.opinion == 'no'}} idea-status-{{idea.status}}" type="button" name="opinion" value="no" data-count="{{idea.no}}">
-	              {{ data.widget.siteConfig.voteValues[1].label if data.widget.siteConfig.voteValues[0].label else 'tegen' }}
-							</button>
-							<div style="clear: both;"></div>
-	  			    {% endif %}
-						</div>
-	  			  {% endif %}
-
-	          {% if data.widget.siteConfig.minimumYesVotes %}
-						<div class="ideaProgress">
-							<div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
-						</div>
-	          {% endif %}
-
-
-						<div class="ideaDuration {{idea.status}}">
-							<h4>Status</h4>
-							<div class="duration">
-								{% if data.widget['labelTime' + idea.status] %}
-								{{ data.widget['labelTime' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace("1 dagen", "1 dag") }}
-								{% elseif  idea.status === 'OPEN' %}
-								<div id="nog-xxx-om-te-stemmen"></div>
-								<script>
-								 var endDate2 = new Date('{{idea.endDate}}');
-								 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
-								 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = 'Nog ' + daysLeft2 + ' dagen om te liken';
-								</script>
-								{% endif %}
-							</div>
-						</div>
-
-						{% if data.widget.showShareButtons !== false %}
-						<div class="share">
-							<h4>Deel dit voorstel</h4>
-							<ul>
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Facebook</a></li>{% endif %}
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Twitter</a></li>{% endif %}
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}"><span class="sr-only">{{ __('Delen via') }}</span>Email</a></li>{% endif %}
-								{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('whatsapp') > -1 or data.widget.shareChannelsSelection.length === 0 %}
-								<li class="desktop"><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{data.currentUrl | urlencode}}&source=&data="><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
-								<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share"><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
-								{% endif %}
-							</ul>
-						</div>
-						{% endif %}
+						</form>
+						<div style="clear: both;"></div>
+            {% endfor %}
+				  </div>
+				  {% else %}
+				  <div class="vote disabled">
+            {% for voteValue in data.widget.siteConfig.voteValues %}
+            {% set forOrAgainst = 'for' if voteValue.value == 'yes' else 'against' %}
+					  {{numberPlateButton.numberPlateButton('no-of-votes-' + forOrAgainst, '', idea[voteValue.value])}}
+					  <button disabled="true" class="{{'selected' if userVote.opinion == voteValue.value}} idea-status-{{idea.status}}" type="button" name="opinion" value="{{voteValue.value}}" data-count="{{idea[voteValue.value]}}">
+						  <div class="elipsis">{{ voteValue.label if voteValue.label else 'stem' }}</div>
+					  </button>
+					  <div style="clear: both;"></div>
+            {% endfor %}
 					</div>
+					{% endif %}
+					{% endif %}
+
+	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
+					<div class="ideaProgress">
+						<div class="progress">
+							<div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
+								<span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
+							</div>
+						</div>
+          </div>
+	        {% endif %}
+
+					{% if data.widget.hideStatus !== true %}
+					<div class="ideaDuration {{idea.status}}">
+						<h4>Status</h4>
+						<div class="duration">
+              {% if data.widget['labelTime' + idea.status] %}
+              {{ data.widget['labelTime' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace(" 1 dagen", " 1 dag") }}
+              {% elseif  idea.status === 'OPEN' %}
+							<div id="nog-xxx-om-te-stemmen"></div>
+							<script>
+							 var endDate2 = new Date('{{idea.endDate}}');
+							 var daysLeft2 = parseInt( ( endDate2.getTime() - Date.now() ) / ( 24 * 60 * 60 * 1000) ) + 1;
+							 document.getElementById('nog-xxx-om-te-stemmen').innerHTML = 'Nog ' + daysLeft2 + ' dagen om te liken';
+							</script>
+							{% endif %}
+						</div>
+					</div>
+					{% endif %}
+
+					{% if data.widget.showShareButtons !== false %}
+					<div class="share">
+						<h4>{{ data.widget.shareTitle if data.widget.shareTitle else 'Deel dit voorstel' }}</h4>
+						<ul>
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('facebook') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Facebook</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('twitter') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="twitter"  target="_blank" href="https://twitter.com/intent/tweet?text={{data.currentUrl}}"><span class="sr-only">{{ __('Delen via') }}</span>Twitter</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('mail') > -1 or data.widget.shareChannelsSelection.length === 0 %}<li><a class="email"    target="_blank" href="mailto:?subject={{data.global.siteTitle +': '+idea.title | urlencode}}&body={{data.currentUrl | urlencode}}"><span class="sr-only">{{ __('Delen via') }}</span>Email</a></li>{% endif %}
+							{% if not data.widget.shareChannelsSelection or data.widget.shareChannelsSelection.indexOf('whatsapp') > -1 or data.widget.shareChannelsSelection.length === 0 %}
+							<li class="desktop"><a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone=&text={{data.currentUrl | urlencode}}&source=&data="><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
+							<li class="mobile"><a class="whatsapp" href="whatsapp://send?text={{data.currentUrl | urlencode}}" data-action="share/whatsapp/share"><span class="sr-only">{{ __('Delen via') }}</span>WhatsApp</a></li>
+							{% endif %}
+						</ul>
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="pageContent idea clearfix">
-		<div class="primary">
-			<h1>{{idea.title}}</h1>
+</div>
+<div class="pageContent idea clearfix">
+	<div class="primary">
+		<h1>{{idea.title}}</h1>
 
-			<div id="author">
-				<strong>Door: {{idea.user.firstName}} {{idea.user.lastName}}</strong><br>
-				{{idea.startDate | date('LL')}}
-			</div>
-			{% include 'includes/modbreak.html' %}
-			<div class="userContent">
-				{% if idea.summary %}
-				<p class="summary">
-					<strong>{{(idea.summary or '') | nlbr | sanitize | safe }}</strong>
-				</p>
-				{% endif %}
-				{% if idea.description %}
-				{{(idea.description or '') | nlbr | sanitize | safe}}
-				{% endif %}
-			</div>
-			{% if idea.location %}
-			<br/><br/>
-			<div id="mapcontainer">
-				{% include 'includes/openstad-map.html' %}
-			</div>
-			{% endif %}
-		</div> <!-- #primary -->
-
-		<div class="secondary">
-			{# <h2>Volgen</h2>
-
-			<form action="{{data.siteUrl}}/plan/{{idea.id}}/notify">
-			  <input type="submit" value="Mail updates">
-			</form> #}
-
-
+		<div id="author">
+			<strong>Door: {{idea.user.displayName}}</strong><br>
+			{{idea.startDate | date('LL')}}
 		</div>
+		{% include 'includes/modbreak.html' %}
+		<div class="userContent">
+			{% if idea.summary %}
+			<p class="summary">
+				<strong>{{(idea.summary or '') | sanitize | safe | nlbr }}</strong>
+			</p>
+			{% endif %}
+			{% if idea.description %}
+			{{(idea.description or '') | sanitize | safe | nlbr}}
+			{% endif %}
+		</div>
+		{% if idea.location %}
+		<br/><br/>
+		<div id="mapcontainer">
+			{% include 'includes/openstad-map.html' %}
+		</div>
+		{% endif %}
+	</div> <!-- #primary -->
+
+	<div class="secondary">
+		{# <h2>Volgen</h2>
+
+		<form action="{{data.siteUrl}}/plan/{{idea.id}}/notify">
+			<input type="submit" value="Mail updates">
+		</form> #}
+
+
 	</div>
-  {% endif %}
+</div>
+{% endif %}

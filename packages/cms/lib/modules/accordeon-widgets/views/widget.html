@@ -6,12 +6,12 @@
 {% for item in data.widget.items %}
     <div class="accordeon-item closed">
         <a href="#" class="title">
-            {{item.title | nlbr | sanitize | safe}}
+            {{item.title | sanitize | safe | nlbr}}
         </a>
         <div class="description">
             {% if item.actionText %}
                 <p>
-                    {{item.actionText | nlbr | sanitize | safe}}
+                    {{item.actionText | sanitize | safe | nlbr}}
                 </p>
             {% endif %}
         </div>

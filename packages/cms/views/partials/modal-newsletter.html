@@ -120,30 +120,32 @@
         </div>
         {% endif %}
 
-        <div class="form-field">
+        {% if data.global.useCaptchaForNewsletter !== false %}
+          <div class="form-field">
 
-          <img loading="lazy" src="{{data.siteUrl}}/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
-          <br />
-          <a href="#" class="captcha-refresh">
-            <small class="underline">
-            {% if data.global.captchaLabel %}
-               {{data.global.captchaRefreshText}}
-            {% else %}
-              refresh
-            {% endif %}
-            </small>
-          </a>
-          <br />
-          <label>
-           {% if data.global.captchaLabel %}
-              {{data.global.captchaLabel}}
-           {% else %}
-             {{ __('Please enter the words you see into the field below ') }}
-           {% endif %}
-          </label>
-          <br />
-          <input type="text" class="input-field" required name="areYouABot" />
-        </div>
+            <img loading="lazy" src="{{data.siteUrl}}/modules/openstad-captcha/captcha" class="captcha-img" width="200" />
+            <br />
+            <a href="#" class="captcha-refresh">
+              <small class="underline">
+              {% if data.global.captchaLabel %}
+                 {{data.global.captchaRefreshText}}
+              {% else %}
+                refresh
+              {% endif %}
+              </small>
+            </a>
+            <br />
+            <label>
+             {% if data.global.captchaLabel %}
+                {{data.global.captchaLabel}}
+             {% else %}
+               {{ __('Please enter the words you see into the field below ') }}
+             {% endif %}
+            </label>
+            <br />
+            <input type="text" class="input-field" required name="areYouABot" />
+          </div>
+        {% endif %}
 
 
         <div class="error-message error-block" style="display: none;"> </div>

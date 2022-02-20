@@ -2,7 +2,7 @@ module.exports = [
     {
         name: 'general',
         label: 'Algemene instellingen',
-        fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor']
+        fields: ['siteTitle', 'hideSiteTitle', 'showAdminBar', 'fbImage', 'favicon', 'modbreakAuthor'],
     },
     {
         name: 'analytics',
@@ -43,7 +43,7 @@ module.exports = [
     {
         name: 'mainMenu',
         label: 'Hoofdmenu',
-        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount']
+        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', "myAccountButtonText"]
     },
     {
         name: 'userRights',
@@ -53,7 +53,7 @@ module.exports = [
     {
         name: 'newsletter',
         label: 'Newsletter',
-        fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'captchaLabel', 'captchaRefreshText']
+        fields: ['newsletterModalTitle', 'newsletterModalDescription', 'newsletterModalFormFields', 'newsletterModalSubmit', 'newsletterModalCancel', 'useCaptchaForNewsletter', 'captchaLabel', 'captchaRefreshText']
     },
     {
         name: 'themes-areas',

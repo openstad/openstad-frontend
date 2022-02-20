@@ -134,17 +134,19 @@ module.exports = class MapConfigBuilder {
         return this.config;
     }
 
-    setDefaultSettings(settings) {
+  setDefaultSettings(settings) {
+    
         this.config.defaultSettings = {
             center: (settings.mapCenterLat && settings.mapCenterLng) ? {lat: settings.mapCenterLat, lng: settings.mapCenterLng} : null,
             zoom: settings.mapZoomLevel || 13,
             zoomControl: settings.zoomControl || true,
             minZoom: settings.minZoom || 10,
             maxZoom: settings.maxZoom || 16,
-            useMarkerLinks: settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
+            useMarkerLinks: settings && settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
-            googleMapsApiKey: settings.googleMapsApiKey || ''
+            googleMapsApiKey: settings.googleMapsApiKey || '',
+            autoCenter: settings.autoCenter === false || settings.autoCenter == 'false' ? false : true,
         };
 
         return this;
@@ -163,9 +165,10 @@ module.exports = class MapConfigBuilder {
 
           if (idea.location && idea.location.coordinates) {
               //should move ideaslug away from globaldata
-                markers.push(
-                  new Marker(idea.location.coordinates, idea.status, getHref(this.globalData.ideaSlug, idea.id), idea.endDate, idea.extraData.theme, this.globalData.themes)
-                );
+              let ideaSlug = this.globalData.siteUrl + getHref(this.globalData.ideaSlug, idea.id);
+              markers.push(
+                new Marker(idea.location.coordinates, idea.status, ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
+              );
           }
         }) : [];
 

@@ -11,7 +11,7 @@
 
 {% if data.widget.mapConfig %}
 <script>
-	var resourceMapConfig = {{data.widget.mapConfig | json}}
+ var resourceMapConfig = {{data.widget.mapConfig | json}}
 </script>
 {% endif %}
 
@@ -24,6 +24,9 @@
 	<script>
 	 var userHasVoted = {{data.widget.userHasVoted}};
 	 var userIsLoggedIn = {{true if data.loggedIn else false}};
+   var userIsAdmin = {{true if data.isAdmin else false}};
+   var userIsEditor = {{true if data.isEditor else false}};
+   var userIsModerator = {{true if data.isModerator else false}};
 	 var authServerLogoutUrl = '{{authServerLogoutUrl}}';
 	 var defaultSort = 'random';
 	 var siteId = '{{data.global.siteId}}';

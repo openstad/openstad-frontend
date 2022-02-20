@@ -29,7 +29,7 @@ module.exports = {
       {
         name: 'content',
         label: 'Content',
-        fields: ['linkToUserPageUrl', 'noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'noSelectionHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'noSelectionHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'sort',
@@ -44,7 +44,7 @@ module.exports = {
       {
         name: 'idea-details',
         label: 'Idee details',
-        fields: ['metaDataTemplate', 'showShareButtons', 'shareChannelsSelection']
+        fields: ['metaDataTemplate', 'linkToUserPageUrl', 'showShareButtons', 'shareChannelsSelection']
       },
       {
         name: 'filters',
@@ -76,13 +76,14 @@ module.exports = {
 
 			widgets.forEach((widget) => {
 
-			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url), imageProxy, self.apos ));
+			  let config = createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?{returnTo}', imageProxy, self.apos );
+			  widget.config = JSON.stringify(config);
         widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
-              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
-              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 
       });
       
