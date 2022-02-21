@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.40.0
+* Update version number
+
 ## v0.24.0
 * Make autoCenter configurable in idea-map-widgets
 * Let idea-page like buttons use the site config
