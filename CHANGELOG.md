@@ -1,4 +1,6 @@
 # Changelog
+## Unreleased
+* Add submission to resource form with configurable confirmation settings
 
 ## Unreleased
 * Make autoCenter configurable in idea-map-widgets

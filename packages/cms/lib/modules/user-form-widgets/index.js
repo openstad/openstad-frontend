@@ -8,7 +8,7 @@ const mapFormValidations = require('./mapFormValidations');
 
 module.exports = {
     extend:    'apostrophe-widgets',
-    label:     'Form',
+    label:     'Form (deprecated)',
     addFields: [
         {
             type: 'string',

@@ -1,5 +1,5 @@
 <form method="post" id="js-form" action="{{data.siteUrl}}/modules/resource-form-widgets/submit" class="add-warning-when-leaving-page resource-form">
-  {% if data.widget.resource === 'idea' %}
+  {% if data.widget.resource === 'idea' and data.openstadUser and data.widget.shouldDisplayUserName !== false %}
   <div class="form-group">
     <h2>Naam</h2>
     <p>
