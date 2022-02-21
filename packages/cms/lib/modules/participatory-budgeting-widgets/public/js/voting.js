@@ -1790,23 +1790,28 @@ if (votingContainer !== null) {
   if (isSelectionValid()) {
 
 	  if (typeof userIsLoggedIn != 'undefined' && userIsLoggedIn) {
+
 		  if (userHasVoted) {
 			  currentStep = 3;
+		  } else {
 
-		  } else if (  typeof freshLogIn != 'undefined' && freshLogIn) {
 			  currentStep = 4;
+        if (  typeof freshLogIn != 'undefined' && freshLogIn && !(userIsAdmin || userIsEditor || userIsModerator)) {
 
-			  /**
-			   * in this case user returns from oauth server, we automatically submit,
-			   * other cases we still allow user to click through it themselves
-			   *
-			   * it needs setTimeout, otherwise ajax call will not be ready with CSRF header.
-			   * in refactor, this has to be done pretty
-			   */
-			  setTimeout(function () {
-				  nextStep();
-			  },500);
+			    /**
+			     * in this case user returns from oauth server, we automatically submit,
+			     * other cases we still allow user to click through it themselves
+			     *
+			     * it needs setTimeout, otherwise ajax call will not be ready with CSRF header.
+			     * in refactor, this has to be done pretty
+			     */
+			    setTimeout(function () {
+				    nextStep();
+			    },500);
+		    }
+
 		  }
+
 	  }
 
   }

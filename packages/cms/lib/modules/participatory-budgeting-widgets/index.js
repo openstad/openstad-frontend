@@ -100,7 +100,6 @@ module.exports = {
             widget.userHasVoted = false;
             widget.userIsLoggedIn = false;
 
-
             // in case the it's empty set to true
             // for backwards compatibility
             if (widget.displayOriginalIdeaUrl !== false) {

@@ -52,6 +52,8 @@ module.exports = {
         req.data.global.siteLogo = 'amsterdam';
       }
 
+
+
       // WARNING!!!! ApostrhopeCMS exposes global values in HTML often, so DONT add senstive info in global
       req.data.global.siteConfig = {
         ideas: siteConfig.ideas,
@@ -62,7 +64,7 @@ module.exports = {
         arguments:siteConfig.arguments,
         openstadMap:siteConfig.openstadMap,
         users: {
-          allowUseOfNicknames: siteConfig.users && siteConfig.users.allowUseOfNicknames ? siteConfig.users.allowUseOfNicknames : ''
+          allowUseOfNicknames: siteConfig.users && siteConfig.users.allowUseOfNicknames ? siteConfig.users.allowUseOfNicknames : false
         }
       };
 

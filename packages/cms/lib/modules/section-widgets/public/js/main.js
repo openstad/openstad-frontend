@@ -35,7 +35,7 @@ function setContainerForHash($parent) {
     $parent.find('.tab-container').hide();
     $parent.find('.nav-link').removeClass('active')
     var selector = 'a[href*="'+hash+'"]';
-    console.log('selector', selector, $parent.find(selector))
+    // console.log('selector', selector, $parent.find(selector))
     $parent.find(selector).addClass('active')
     $(hash).show();
   }

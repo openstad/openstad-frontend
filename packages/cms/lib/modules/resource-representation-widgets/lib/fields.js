@@ -18,7 +18,6 @@ const fields = [
           'displayRanking',
           'shareChannelsSelection',
           'defaultImage',
-          'hideVotes',
           'hideStatus',
           'shareTitle'
         ].concat(labels).concat(timeLabels)
@@ -125,22 +124,6 @@ const fields = [
             label: "Whatsapp"
         },
     ]
-  },
-  {
-      name: 'hideVotes',
-      type: 'boolean',
-      label: 'Hide votes in controls?',
-      choices: [
-          {
-              value: true,
-              label: "Yes",
-          },
-          {
-              value: false,
-              label: "No"
-          },
-      ],
-      def: false
   },
   {
       name: 'hideStatus',

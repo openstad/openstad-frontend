@@ -7,7 +7,7 @@
             <ul class="nav nav-tabs">
             {% for tab in data.widget.tabs %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{data.currentUrl}}#tab-{{loop.index}}" tabindex="{{loop.index + 1}}"> {{tab.title}} </a>
+                    <a class="nav-link" href="#tab-{{loop.index}}" tabindex="{{loop.index + 1}}"> {{tab.title}} </a>
                 </li>
             {% endfor %}
             </ul>

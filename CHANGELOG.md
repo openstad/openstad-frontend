@@ -1,5 +1,34 @@
 # Changelog
 
+## Unreleased
+* Make autoCenter configurable in idea-map-widgets
+* Let idea-page like buttons use the site config
+* Fixed: remove freshLogin param also removed #hashpart from an url
+* Remove progressbar on idea-page when no like buttons are available
+* Fix login email links
+* Fix: add an iconSectionId field which can be used to link via URL
+* Fix weird tab behaviour
+* Fix resource form input counter
+* Remove hideVotes option from resource representation
+* Move docker builds from travis to github actions
+
+
+## v0.23.0
+* Remove gebiedsontwikkelings tool widget
+* Add choices guide option to counter widget
+* resource-form-widgets: Make login text configurable
+* Make My account button text configurable
+* Add first batch of accessibility fixes from retest
+  * Add an accessible location field to the resource form
+  * Add screen reader labels to the filter input fields above the resource overview. Also an autocomplete attribute was added to the resource overview filter.
+  * Add a focus indicator to the thumbs up button inside an argument form
+  * Update the red amsterdam variable and changed old hex codes to the @amsterdam-red variable
+  * Change the html order of the menu so that the focus goes directly into the submenu.
+  * Add the aria-current attribute to the current page menu item
+  * Add a screen reader only text to the voting progress bar at a single idea page and in the ideas in the resource overview.
+  * Add a focus psuedo element to the delete button in the participatory budgeting widget.
+  * Change the javascript so that the message for the characters in a form is accessible and audible.
+
 ## v0.22.0
 * Fix countdown in resource-overview
 * Use User.displayName instead of first/lastName. Remove hideUserLastName, userNameFields, showLastName.
@@ -15,12 +44,16 @@
 * Allow counter-widgets to display the argument count for a specific idea
 * Make embedded auth forms label en button text configurable in widget
 * Fix counter button urls in subdir sites
+* Fix HTML injection in search form in the resource overview widget
 * Add CMS_DEFAULTS to environment vars; specifically analyticsType and analyticsCodeBlock
 * Reorganise Participatory Budget fields in widget
 * Reorganise Status Label fields in Resource Overview widget
 
 ## v0.20.3
 * Make sure ideas are existing on the page in Participatory budgetting
+
+## Unreleased
+* Add a new text style to select in the rich text editor.
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined

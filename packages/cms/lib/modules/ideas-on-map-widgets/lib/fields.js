@@ -585,7 +585,7 @@ module.exports = [
       {
         type:  'string',
         name:  'name',
-        label: 'Name of the database field',
+        label: "Database title: use one word, for example: 'summary' (must be unique, don't use spaces or special characters like - _ , . etc.)",
 			  required: true,
       },
       {

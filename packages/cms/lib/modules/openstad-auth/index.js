@@ -74,6 +74,7 @@ module.exports = {
             req.data.oAuthClientId = oauthClientId;
 
             if (req.query.jwt) {
+
                 const thisHost = req.headers['x-forwarded-host'] || req.get('host');
                 const protocol = req.headers['x-forwarded-proto'] || req.protocol;
                 const fullUrl = protocol + '://' + thisHost + req.originalUrl;
@@ -106,14 +107,14 @@ module.exports = {
                 // used in some cases like auto voting
                 returnTo = returnTo.includes('?') ? returnTo + '&freshLogIn=1' : returnTo + '?freshLogIn=1';
 
-                // set the JWT to session and redirect without it so it doens't get save to the browser history
-                req.session.jwt = req.query.jwt;
-                req.session.returnTo = null;
+                req.session.regenerate(function(err) { // work with a clean session
+                  // set the JWT to session and redirect without it so it doens't get save to the browser history
+                  req.session.jwt = req.query.jwt;
 
-
-                req.session.save(() => {
+                  req.session.save(() => {
                     res.redirect(returnTo);
                     return;
+                  });
                 });
 
             } else {
@@ -142,9 +143,11 @@ module.exports = {
                         const user = req.session.openstadUser;
                         req.data.loggedIn = user && user.role && requiredRoles.includes(user.role);
                         req.data.openstadUser = user;
+                        // todo: een admin is ook moderaor en editor,  en een editor is ook moderator, maar ik kan de consequenties zo snel niet overzien dus dat nmoet later een keer
                         req.data.isAdmin = user.role === 'admin'; // user;
                         req.data.isEditor = user.role === 'editor'; // user;
                         req.data.isModerator = user.role === 'moderator'; // user;
+
                         req.data.jwt = jwt;
 
                         if (req.data.isAdmin || req.data.isEditor || req.data.isModerator) {
@@ -324,7 +327,7 @@ module.exports = {
                 if (req.query.returnTo && typeof req.query.returnTo === 'string') {
                     //only get the pathname to prevent external redirects
                     let pathToReturnTo = Url.parse(req.query.returnTo, true);
-                    pathToReturnTo = pathToReturnTo.path + pathToReturnTo.hash;
+                    pathToReturnTo = pathToReturnTo.path + ( pathToReturnTo.hash ? pathToReturnTo.hash : '' );
                     returnUrl = returnUrl + pathToReturnTo;
                 }
 
