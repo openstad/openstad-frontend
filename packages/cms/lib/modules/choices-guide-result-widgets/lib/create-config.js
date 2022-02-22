@@ -1,4 +1,4 @@
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logoutUrl) {
+module.exports = function createConfig({ widget, data, logoutUrl }) {
 
   let requireLoginSettings;
   requireLoginSettings = {};
@@ -13,18 +13,9 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logo
   if (widget.requireLoginAlreadySubmittedMessage) requireLoginSettings.alreadySubmittedMessage = widget.requireLoginAlreadySubmittedMessage;
 
   let config = {
-    // data.isAdmin
-    divId: 'choices-guide-result',
-    siteId: data.global.siteId,
-    api: {
-      url: apiUrl,
-      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : {},
-      isUserLoggedIn: data.loggedIn,
-    },
-    user: {
-      role:  data.openstadUser && data.openstadUser.role,
-      displayName:  data.openstadUser && data.openstadUser.displayName,
-    },
+
+    divId: 'osc-choices-guide-result',
+
     choicesGuideId: widget.choicesGuideId,
     questionGroupId: widget.questionGroupId,
     startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
@@ -39,7 +30,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, logo
       maxLabel: widget.choicesMaxLabel,
       withPercentage: widget.choicesWithPercentage,
     },
-    loginUrl,
     logoutUrl,
     moreInfoUrl: widget.moreInfoUrl && data.siteUrl + widget.moreInfoUrl,
     moreInfoLabel: widget.moreInfoLabel,

@@ -14,13 +14,6 @@
  }
 </style>
 
-<script>
- window.addEventListener('load', function(e) {
-   let config = {{data.widget.config | safe}};
-   let element = document.querySelector('.{{data.widget.divId}}');
-   OpenStadComponents['reactions'].Reactions.renderElement(element, config);
- });
-</script>
 <div id="{{data.widget.containerId}}" class="osc-component" style="width: 100%; height: 100%;">
 	<div class="{{data.widget.divId}}" style="width: 100%; height: 100%;"></div>
 </div>

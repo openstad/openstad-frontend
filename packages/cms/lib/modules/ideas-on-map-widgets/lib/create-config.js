@@ -1,7 +1,7 @@
 const sortingOptions = require('../../../../config/sorting.js').ideasOnMapOptions;
 const ideaForm = require('./idea-form');
 
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
+module.exports = function createConfig({ widget, data, apos }) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -41,7 +41,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
   } catch (err) {}
   
   let config = {
-    // data.isAdmin
+
     divId: 'ideeen-op-de-kaart',
     siteId: data.global.siteId,
     api: {
@@ -61,14 +61,11 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		  height: widget.displayHeight,
     },
 
-    loginUrl,
-
-		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
-
     canSelectLocation: widget.canSelectLocation,
     onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
+		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
 
     search: {
@@ -100,11 +97,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
     },
 
     image: {
-      server: {
-				process: imageProxy,
-				fetch: process.env.IMAGE_API_URL,
-        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
-      },
       aspectRatio: widget.imageAspectRatio || '16x9',
       allowMultipleImages,
       placeholderImageSrc,
@@ -142,12 +134,13 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		},
 
     map: {
-      variant: widget.mapVariant,
+      variant: widget.mapVariant || '',
       mapTilesUrl: widget.mapTilesUrl,
-      mapTilesSubdomains: widget.mapTilesSubdomains,
+      mapTilesSubdomains: widget.mapTilesSubdomains || '',
+      mapTilesAttribution: widget.mapTilesAttribution || '',
       zoom: 16,
       clustering: {
-        isActive: true, // widget.mapClustering,
+        isActive: widget.mapClustering,
         maxClusterRadius: widget.mapMaxClusterRadius,
       },
       locationIcon: mapLocationIcon,
