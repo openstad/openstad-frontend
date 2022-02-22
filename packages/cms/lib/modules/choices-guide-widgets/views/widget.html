@@ -14,13 +14,7 @@
 <script src="{{data.widget.openstadComponentsCdn}}/choices-guide.js"></script>
 
 <script>
-
- window.addEventListener('load', function(e) {
-   let config = {{data.widget.config | safe}};
-   let element = document.querySelector('.openstad-component-choices-guide');
-   OpenStadComponents['choices-guide'].ChoicesGuide.renderElement(element, config);
- });
-
+ 
  // sticky
  document.addEventListener('osc-choices-guide-is-ready', function(event) {
    setupStickyChoices()

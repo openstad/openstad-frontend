@@ -1,25 +1,11 @@
-const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
-
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl) {
+module.exports = function createConfig({ widget, data, apos }) {
 
   let userNameFields = ["displayName"];
 
   let config = {
 
     divId: 'openstad-component-reactions-' + parseInt(Math.random() * 1000000).toString(),
-    siteId: data.global.siteId,
-    ideaId: 6729,
-
-    api: {
-      url: apiUrl,
-      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : [],
-      isUserLoggedIn: data.loggedIn,
-    },
-    user: {
-      role:  data.openstadUser && data.openstadUser.role,
-    },
-
-    loginUrl,
+    ideaId: 0,
 
     sentiment: widget.sentiment,
     isReplyingEnabled: widget.isReplyingEnabled,
