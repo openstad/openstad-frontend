@@ -16,6 +16,8 @@ module.exports = {
   construct: function(self, options) {
      let classIdeaId;
 
+    // Add mapConfig to playerData so it can be used in javascript
+    options.playerData = ['mapConfig']
 
      const superPushAssets = self.pushAssets;
      self.pushAssets = function () {

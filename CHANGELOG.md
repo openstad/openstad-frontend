@@ -2,7 +2,10 @@
 ## Unreleased
 * Add submission to resource form with configurable confirmation settings
 
-## Unreleased
+## v0.40.0
+* Update version number
+
+## v0.24.0
 * Make autoCenter configurable in idea-map-widgets
 * Let idea-page like buttons use the site config
 * Fixed: remove freshLogin param also removed #hashpart from an url
@@ -13,7 +16,6 @@
 * Fix resource form input counter
 * Remove hideVotes option from resource representation
 * Move docker builds from travis to github actions
-
 
 ## v0.23.0
 * Remove gebiedsontwikkelings tool widget
