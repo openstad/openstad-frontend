@@ -51,8 +51,7 @@ module.exports = {
               widget.mapCenterLat = globalData.mapCenterLat;
               widget.mapCenterLng = globalData.mapCenterLng;
               widget.mapPolygons = globalData.mapPolygons;
-              widget.allSites = req.allSites;
-           
+
               widget.countdownPeriod = siteConfig.ideas.automaticallyUpdateStatus && siteConfig.ideas.automaticallyUpdateStatus.afterXDays || 0;
 
               widget.siteConfig = {
@@ -67,8 +66,6 @@ module.exports = {
 
               if (widget.siteConfig.minimumYesVotes == null || typeof widget.siteConfig.minimumYesVotes == 'undefined') widget.siteConfig.minimumYesVotes = 100;
           });
-
-
           return superLoad(req, widgets, next);
       }
 
@@ -105,26 +102,6 @@ module.exports = {
               .setMarkerStyle(markerStyle)
               .setPolygon(widget.mapPolygons || null)
               .getConfig();
-        }
-
-        if (widget.activeResourceType === 'activeUser' && widget.displayType === 'user-activity') {
-
-          const activities = widget.activeResource.activity;
-          activities.forEach(activity => {
-            let idea = activity.idea || {};
-            let site = activity.site
-            if (site) {
-              let siteConfig = widget.allSites && widget.allSites[site.id] && widget.allSites[site.id].config;
-              let ideaSlug = siteConfig && siteConfig.cms && siteConfig.cms.ideaSlug || 'plan';
-              if (!ideaSlug.match(/^\//)) ideaSlug = '/' + ideaSlug;
-              ideaSlug = ideaSlug.match(/\{ideaId\}/i) ? ideaSlug.replace(/\{ideaId\}/ig, idea.id) : `${ideaSlug}/${idea.id}`;
-              let cmsUrl = siteConfig && siteConfig.cms && siteConfig.cms.url;
-              if (cmsUrl) {
-                activity.cmsUrl = cmsUrl + ideaSlug;
-              }
-            }
-          });
-
         }
 
         return superOutput(widget, options);

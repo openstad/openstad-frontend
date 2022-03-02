@@ -1,6 +1,5 @@
 # Changelog
-
-## UNRELEASED
+## Unreleased
 * Add submission to resource form with configurable confirmation settings
 
 ## v0.40.0
@@ -212,6 +211,7 @@
 * Feature: Better explanations in global newsletter settings
 * Add admin warning to vote counter if vote count is not publicly available
 * Allow public profile status (viewablebyRole) to be edited by the user
+
 
 ## v0.8.3 (2020-11-06)
 * Fix: api/area needs to be called without authentication header
