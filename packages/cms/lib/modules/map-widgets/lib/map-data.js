@@ -78,7 +78,7 @@ const getMarkerUrlBasedOnTheme = function(idea, flag) {
 }
 
 function getHref(ideaSlug, id) {
-    return '/' + ideaSlug + '/' + id;
+  return ideaSlug && ideaSlug.match(/\{ideaId\}/i)?  `/${ideaSlug.replace(/\{ideaId\}/ig, id)}` : `/${ideaSlug}/${id}`;
 }
 
 // Todo: refactor this method
