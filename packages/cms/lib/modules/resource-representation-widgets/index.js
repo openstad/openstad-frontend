@@ -10,7 +10,6 @@ const extraFields =  require('../../../config/extraFields.js').fields;
 const openstadMap = require('../../../config/map').default;
 const styleSchema = require('../../../config/styleSchema.js').default;
 
-
 module.exports = {
   //extend: 'openstad-widgets',
   extend: 'map-widgets',
@@ -111,8 +110,8 @@ module.exports = {
 
           const activities = widget.activeResource.activity;
           activities.forEach(activity => {
-            let idea = activity.idea || {};
-            let site = activity.site
+            const idea = activity.idea || {};
+            const site = activity.site
             if (site) {
               let siteConfig = widget.allSites && widget.allSites[site.id] && widget.allSites[site.id].config;
               let ideaSlug = siteConfig && siteConfig.cms && siteConfig.cms.ideaSlug || 'plan';
