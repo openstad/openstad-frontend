@@ -136,7 +136,7 @@ module.exports = function createConfig({ widget, data, apos }) {
       },
       locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
-      polygon: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
+      area: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
 		},
 
