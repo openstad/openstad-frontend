@@ -1,8 +1,26 @@
-const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
+module.exports = {
 
-module.exports = [
+  arrangeFields: [
+    {
+      name: 'general',
+      label: 'Algemeen',
+      fields: ['sentiment', 'isReplyingEnabled', 'isVotingEnabled']
+    },
+    {
+      name: 'list',
+      label: 'Lijst',
+      fields: ['title', 'emptyListText']
+    },
+    {
+      name: 'form',
+      label: 'Formulier',
+      fields: ['formIntro', 'placeholder']
+    },
+  ],
 
-  // general
+  fields: [
+
+    // general
     {
       name: 'sentiment',
       type: 'select',
@@ -29,14 +47,14 @@ module.exports = [
       label: 'Is replying to reactions allowed?',
       def: true,
       choices: [
-          {
-              value: true,
-              label: "Yes"
-          },
-          {
-              value: false,
-              label: "No"
-          },
+        {
+          value: true,
+          label: "Yes"
+        },
+        {
+          value: false,
+          label: "No"
+        },
       ]
     },
     {
@@ -45,20 +63,18 @@ module.exports = [
       label: 'Is voting for reactions allowed?',
       def: true,
       choices: [
-          {
-              value: true,
-              label: "Yes"
-          },
-          {
-              value: false,
-              label: "No"
-          },
+        {
+          value: true,
+          label: "Yes"
+        },
+        {
+          value: false,
+          label: "No"
+        },
       ]
     },
-  
-  
 
-  // list
+    // list
     {
       name: 'title',
       type: 'string',
@@ -74,7 +90,7 @@ module.exports = [
       def: 'Nog geen reacties geplaatst'
     },
 
-  // form
+    // form
     {
       name: 'formIntro',
       type: 'string',
@@ -90,4 +106,6 @@ module.exports = [
       def: 'Type hier uw reactie'
     },
 
-]
+  ]
+
+}
