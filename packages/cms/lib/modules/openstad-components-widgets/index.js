@@ -12,7 +12,7 @@ let styleSchemaDefinition = styleSchema.definition('containerStyles', 'Styles fo
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'OpenStad componenys Base widget',
+  label: 'OpenStad Components Base widget',
   addFields: fields.concat(styleSchemaDefinition),
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
@@ -43,7 +43,6 @@ module.exports = {
           apiUrl: self.apos.settings.getOption(req, 'apiUrl'),
           loginUrl: req.data.siteUrl + '/oauth/login?{returnTo}',
           imageProxy: imageProxy,
-          apos: self.apos,
         });
 			  widget.config = merge.recursive(config, widget.config);
 			  widget.config = JSON.stringify(config);

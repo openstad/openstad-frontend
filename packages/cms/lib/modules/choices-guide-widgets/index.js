@@ -15,6 +15,7 @@ module.exports = {
 
     require('./lib/api')(self, options);
 
+    // waarom is dit?
     self.expressMiddleware = {
       when: 'beforeRequired',
       middleware: (req, res, next) => {

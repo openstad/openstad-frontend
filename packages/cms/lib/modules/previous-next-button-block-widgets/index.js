@@ -25,7 +25,6 @@ module.exports = {
 		self.load = function(req, widgets, next) {
 
 			widgets.forEach((widget) => {
-
 			  let config = createConfig({
           widget: widget,
           data: req.data,

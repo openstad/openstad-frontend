@@ -31,7 +31,6 @@ module.exports = {
 			  let config = createConfig({
           widget: widget,
           data: req.data,
-          apos: self.apos,
         });
 			  widget.config = merge.recursive(config, widget.config);
         widget.divId = widget.config.divId;
@@ -40,6 +39,7 @@ module.exports = {
 			return superLoad(req, widgets, next);
 		}
 
+    self.optionsPlayerData =  ['activeResourceId'];
     const superFilterOptionsForDataAttribute = self.filterOptionsForDataAttribute;
     self.filterOptionsForDataAttribute = function(options) {
       options.activeResourceId = options.activeResource ?  options.activeResource.id : false;

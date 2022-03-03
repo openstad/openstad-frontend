@@ -17,6 +17,6 @@ apos.define('arguments-block-widgets', {
         data,
       })
     }
-    
+
   }
 });

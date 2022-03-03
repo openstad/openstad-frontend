@@ -1,4 +1,4 @@
-module.exports = function createConfig({ widget, data, jwt, apiUrl, loginUrl, imageProxy, apos }) {
+module.exports = function createConfig({ widget, data, jwt, apiUrl, loginUrl, imageProxy }) {
 
   let config = {
 
@@ -16,19 +16,19 @@ module.exports = function createConfig({ widget, data, jwt, apiUrl, loginUrl, im
     },
 
     loginUrl,
+    logoutUrl: apiUrl + '/oauth/logout',
 
-		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
+    linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
 
     image: {
       server: {
-				process: imageProxy,
-				fetch: imageProxy,
+        process: imageProxy,
+        fetch: imageProxy,
         srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
       },
       aspectRatio: widget.imageAspectRatio || '16x9',
       allowMultipleImages: false,
     },
-    
 
   }
 

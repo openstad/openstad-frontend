@@ -15,6 +15,7 @@ module.exports = {
 
     require('./lib/api')(self, options);
 
+    // waarom is dit?
     self.expressMiddleware = {
       when: 'beforeRequired',
       middleware: (req, res, next) => {
@@ -47,7 +48,7 @@ module.exports = {
         });
 			  widget.config = merge.recursive(config, widget.config);
         widget.divId = widget.config.divId;
-			});
+      });
 
 			return superLoad(req, widgets, next);
 			next();

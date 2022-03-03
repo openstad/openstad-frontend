@@ -1,4 +1,4 @@
-module.exports = function createConfig({ widget, data, apos }) {
+module.exports = function createConfig({ widget, data }) {
 
   let userNameFields = ["displayName"];
 
