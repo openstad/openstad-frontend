@@ -184,5 +184,11 @@
 	"Set Custom classname": "Set Custom classname",
 	"Add telephone protocol to link (tel:)": "Add telephone protocol to link (tel:)",
 	"Only show to moderators": "Only show to moderators",
-	"Screen reader info (will be added after the label)": "Screen reader info (will be added after the label)"
+	"Screen reader info (will be added after the label)": "Screen reader info (will be added after the label)",
+	"Auth form: Unique code label": "Auth form: Unique code label",
+	"Auth form: Unique code button text": "Auth form: Unique code button text",
+	"Auth form: SMS label": "Auth form: SMS label",
+	"Auth form: SMS button text": "Auth form: SMS button text",
+	"Auth form: E-mail label": "Auth form: E-mail label",
+	"Auth form: E-mail button text": "Auth form: E-mail button text"
 }

@@ -273,7 +273,7 @@ const fields = [
     label: 'Text on the newsletter button',
     type: 'string'
   },
-//   ...authFormFields
+  ...authFormFields
 ].concat(
     ideaStates.map((state) => {
       return {
