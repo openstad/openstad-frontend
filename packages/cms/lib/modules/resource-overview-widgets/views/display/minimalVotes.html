@@ -67,6 +67,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
           <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
           {% endif %}
 
+          {% if data.widget.resource === 'idea' %}
+
 	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
           <div class="ideaProgress">
             <div class="progress">
@@ -128,6 +130,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
               </tr>
             </table>
           </div>
+          {% endif %}
         </div>
       </a>
     </div>
