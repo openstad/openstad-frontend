@@ -4,9 +4,6 @@ const port = process.env.MONGODB_PORT_27017_TCP_PORT || 27017;
 const url = 'mongodb://' + host + ':' + port;
 
 exports.copyMongoDb = (oldDbName, newDbName) => {
-
-  console.log('COPYDB');
-
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, function(err, db) {
       if (err) {
@@ -35,9 +32,6 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
 
 exports.dbExists = (dbName) => {
   return new Promise((resolve, reject) => {
-
-    console.log('DBEXISTS');
-    
     MongoClient.connect(url, (err, db) => {
       if (err) {
         reject(err);
