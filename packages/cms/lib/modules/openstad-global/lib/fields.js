@@ -54,7 +54,7 @@ module.exports = [
   {
     type: 'string',
     name: 'siteTitle',
-    label: 'Site title'
+    label: 'Site title',
   },
   {
     name: 'fbImage',
@@ -92,18 +92,21 @@ module.exports = [
   {
     name: 'ideaSlug',
     type: 'string',
+    permission: 'admin',
     label: 'Slug van idee pagina',
     required: false
   },
   {
     name: 'ideaOverviewSlug',
     type: 'string',
+    permission: 'admin',
     label: 'Slug van overzichts pagina',
     required: false
   },
   {
     name: 'editIdeaUrl',
     type: 'string',
+    permission: 'admin',
     label: 'Url van de bewerk pagina',
     required: false
   },
@@ -155,6 +158,7 @@ module.exports = [
   {
     type: 'select',
     name: 'analyticsType',
+    permission: 'admin',
     label: 'Analytics type',
     def: 'none',
     choices: [
@@ -187,6 +191,7 @@ module.exports = [
   {
     type: 'string',
     name: 'analyticsCodeBlock',
+    permission: 'admin',
     label: 'Custom code',
     textarea: true,
   },
@@ -194,12 +199,14 @@ module.exports = [
   {
     type: 'string',
     name: 'analyticsIdentifier',
+    permission: 'admin',
     label: 'Google Analytics Property ID (like UA-xxxxx or G-xxxxx)'
   },
 
   {
     type: 'string',
     name: 'tagmanager',
+    permission: 'admin',
     label: 'Google Tag Manager Property ID (like GTM-xxxxx)'
   },
   {
@@ -212,6 +219,7 @@ module.exports = [
   },
   {
     name: 'formattedLogo',
+    permission: 'admin',
     type: 'string',
     label: 'Formatted Logo',
     formatField: function (value, apos, doc, req) {
@@ -222,6 +230,7 @@ module.exports = [
   },
   {
     name: 'formattedPaletteCSS',
+    permission: 'admin',
     type: 'string',
     label: 'Formatted CSS',
     formatField: function (value, apos, doc) {
@@ -573,7 +582,13 @@ module.exports = [
     label: 'Display my account in main menu?'
   },
   {
+    name: 'myAccountButtonText',
+    type: 'string',
+    label: 'My account button text'
+  },
+  {
     name: 'cacheIdeas',
+    permission: 'admin',
     type: 'boolean',
     label: 'Cache ideas? This optimises performance for sites, only works for sites where ideas are static, most voting sits'
   },
@@ -597,6 +612,27 @@ module.exports = [
     label: 'Submit button',
     textarea: true,
     def: 'Submit'
+  },
+  {
+    type: 'boolean',
+    name: 'useCaptchaForNewsletter',
+    label: 'Use a captcha as protection?',
+    help: 'The captcha prevents bots from (repeatedly) subscribing to the newsletter, but makes it harder for legitimate users to submit the form.',
+    def: true,
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+        showFields: [
+          'captchaLabel',
+          'captchaRefreshText'
+        ]
+      },
+      {
+        label: 'No',
+        value: false
+      }
+    ]
   },
   {
     name: 'captchaLabel',
@@ -717,6 +753,7 @@ module.exports = [
   },
   {
     name: 'roleToLike',
+    permission: 'admin',
     type: 'select',
     label: 'What role is necessary to like an idea?',
     choices: rightsChoices,

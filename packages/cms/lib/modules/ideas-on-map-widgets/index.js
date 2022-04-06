@@ -29,7 +29,7 @@ module.exports = {
       {
         name: 'content',
         label: 'Content',
-        fields: ['linkToUserPageUrl', 'noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'noSelectionHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
+        fields: ['noSelectionLoggedInHTML', 'noSelectionNotLoggedInHTML', 'noSelectionHTML', 'showNoSelectionOnMobile', 'selectionActiveLoggedInHTML', 'selectionInactiveLoggedInHTML', 'mobilePreviewLoggedInHTML', 'selectionActiveNotLoggedInHTML', 'selectionInactiveNotLoggedInHTML', 'mobilePreviewNotLoggedInHTML']
       },
       {
         name: 'sort',
@@ -44,7 +44,7 @@ module.exports = {
       {
         name: 'idea-details',
         label: 'Idee details',
-        fields: ['metaDataTemplate', 'showShareButtons', 'shareChannelsSelection']
+        fields: ['metaDataTemplate', 'linkToUserPageUrl', 'showShareButtons', 'shareChannelsSelection']
       },
       {
         name: 'filters',

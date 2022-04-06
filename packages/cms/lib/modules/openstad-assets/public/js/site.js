@@ -20,26 +20,31 @@ $(function () {
     initRemoveFreshLogin();
 });
 
-function removeParamFromUrl(parameter)
-{
-    var url=document.location.href;
-    var urlparts= url.split('?');
+function removeParamFromUrl(parameter) {
+  var url=document.location.href;
 
-    if (urlparts.length>=2)
-    {
-        var urlBase=urlparts.shift();
-        var queryString=urlparts.join("?");
+  var urlhash = ''
+  var match = url.match(/(#[a-z0-9_-]+)$/i);
+  if (match) {
+    urlhash = match[1];
+    url = url.replace(urlhash, '');
+  }
 
-        var prefix = encodeURIComponent(parameter)+'=';
-        var pars = queryString.split(/[&;]/g);
-        for (var i= pars.length; i-->0;)
-            if (pars[i].lastIndexOf(prefix, 0)!==-1)
-                pars.splice(i, 1);
-        url = urlBase+'?'+pars.join('&');
-        window.history.pushState('',document.title,url); // added this line to push the new url directly to url bar .
+  var urlparts= url.split('?');
+  if (urlparts.length>=2) {
+    var urlBase=urlparts.shift();
+    var queryString=urlparts.join("?");
 
-    }
-    return url;
+    var prefix = encodeURIComponent(parameter)+'=';
+    var pars = queryString.split(/[&;]/g);
+    for (var i= pars.length; i-->0;)
+      if (pars[i].lastIndexOf(prefix, 0)!==-1)
+        pars.splice(i, 1);
+    url = urlBase + '?' + pars.join('&') + urlhash;
+    window.history.pushState('',document.title,url); // added this line to push the new url directly to url bar .
+
+  }
+  return url;
 }
 
 
@@ -153,12 +158,15 @@ function initToggleMenuVisibility() {
         if ($target.is(':visible')) {
             $('.body-background').hide();
             $('.visibility-toggle').removeClass('active');
+            $('.visibility-toggle').attr('aria-expanded', 'false');
             $('.toggle-menu').removeClass('active').hide();
         } else {
             $('.visibility-toggle').removeClass('active');
+            $('.visibility-toggle').attr('aria-expanded', 'false');
             $('.toggle-menu').removeClass('active').hide();
             $('.body-background').show();
             $button.addClass('active');
+            $button.attr('aria-expanded', 'true');
             $target.addClass('active').show();
         }
     });
@@ -166,6 +174,7 @@ function initToggleMenuVisibility() {
     $('.body-background').click(function (e) {
         $('.body-background').hide();
         $('.visibility-toggle').removeClass('active');
+        $('.visibility-toggle').attr('aria-expanded', 'false');
         $('.toggle-menu').removeClass('active').hide();
     });
 }

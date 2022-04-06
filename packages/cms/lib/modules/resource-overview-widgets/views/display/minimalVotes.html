@@ -7,6 +7,17 @@ data-default-sort="{{data.widget.defaultSorting}}"
 {% endif %}
 >
   <div class="flex-col flex-col-{{columns}}">
+
+    {% set displayVoteForCount = false  %}
+    {% set displayVoteAgainstCount = false  %}
+    {% for voteValue in data.widget.siteConfig.voteValues %}
+    {% if voteValue.value == 'yes' %}
+    {% set displayVoteForCount = true  %}
+    {% else %}
+    {% set displayVoteAgainstCount = true  %}
+    {% endif %}
+    {% endfor %}
+
     {% for idea in data.widget.activeResources %}
 
     {% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
@@ -34,7 +45,7 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
         {% if data.widget.displayLabel %}
         <div class="duration">
-          {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace("1 dagen", "1 dag") }}
+          {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace(" 1 dagen", " 1 dag") }}
         </div>
         {% endif %}
 
@@ -56,15 +67,21 @@ data-default-sort="{{data.widget.defaultSorting}}"
           <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
           {% endif %}
 
-          {% if data.widget.displayVoteProgressBar %}
+	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
           <div class="ideaProgress">
-            <div class="progress"><div class="bar {{idea.status}}" style="width: {{idea.progress}}%;"></div></div>
+            <div class="progress">
+              <div class="bar {{idea.status}}" style="width: {{idea.progress}}%;">
+                <span class="sr-only">Aantal stemmen voor het plan: {{idea.yes}} van de {{data.global.siteConfig.ideas.minimumYesVotes}}.</span>
+              </div>
+            </div>
           </div>
           {% endif %}
+
           <div class="ideaStats">
             <table width="100%" border="0" celpadding="0" cellspacting="0">
               <tr>
                 <td align="left">
+                  {% if displayVoteForCount %}
                   {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
                   <form method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'yes'}}">
                     <input type="hidden" value="{{idea.id}}" name="ideaId" />
@@ -78,12 +95,13 @@ data-default-sort="{{data.widget.defaultSorting}}"
                       {{idea.yes}}
                     </button>
                   </form>
-                  {% elseif (data.widget.displayVoteForCount) %}
-                  <div class="count yes">{{idea.yes}}</div>
+                  {% else %}
+                  <div class="count yes"><span class="sr-only">Stemmen voor: </span>{{idea.yes}}<span class="sr-only">. </span></div>
+                  {% endif %}
                   {% endif %}
                 </td>
 
-                {% if data.widget.displayVoteAgainstCount %}{# TODO: dit moet generieker de waarden uit de api gebruiken #}
+                {% if displayVoteAgainstCount %}
                 <td align="center">
                   {% if (idea.status === 'OPEN' and data.widget.allowVotingInOverview) %}
                   <form method="POST" action="{{data.siteUrl}}/api/site/{{data.global.siteId}}/vote " class="ajax-form ajax-refresh-after-submit {{'voted' if idea.userVote.opinion == 'no'}}">
@@ -98,8 +116,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
                       {{idea.no}}
                     </button>
                   </form>
-                  {% elseif (data.widget.displayVoteForCount) %}
-                  <div class="count no">{{idea.no}}</div>
+                  {% else %}
+                  <div class="count no"><span class="sr-only">Stemmen tegen: </span>{{idea.no}}</div>
                   {% endif %}
                 </td>
                 {% endif %}
