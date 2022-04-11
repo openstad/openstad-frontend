@@ -23,7 +23,7 @@ module.exports = function createConfig({ widget, data, jwt, apiUrl, loginUrl, im
     image: {
       server: {
         process: imageProxy,
-        fetch: imageProxy,
+				fetch: process.env.IMAGE_API_URL,
         srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
       },
       aspectRatio: widget.imageAspectRatio || '16x9',
