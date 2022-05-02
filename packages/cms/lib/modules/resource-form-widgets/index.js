@@ -25,7 +25,6 @@ const toSqlDatetime = (inputDate) => {
 };
 
 const fields = require('./lib/fields.js');
-const userFormFields = require('./lib/userFormFields.js');
 const loadGrants = require('./lib/load-grants');
 
 module.exports = {
