@@ -199,8 +199,8 @@ module.exports = {
         'arguments-block-widgets': {},
         'arguments-form-widgets': {},
         'arguments-widgets': {},
-        'gebiedsontwikkeling-tool-widgets': {},
-        'user-form-widgets': {},
+       'user-form-widgets': {},
+        'openstad-user-remove-widgets' : {},
         'submissions-widgets': {},
         'participatory-budgeting-widgets': {},
         'begroot-widgets': {},
@@ -284,6 +284,28 @@ module.exports = {
 
     if (process.env.APOS_PROFILER === 'per-request') {
       siteConfig.modules['apostrophe-profiler'] = {};
+    }
+
+    if (process.env.S3_ENDPOINT){
+      const s3Config = {
+        storage: 's3',
+        // Add an arbitrary S3 compatible endpoint
+        endpoint: process.env.S3_ENDPOINT,
+        // Get your credentials at aws.amazon.com/digitalocean
+        secret: process.env.S3_SECRET,
+        key: process.env.S3_KEY,
+        // You need to create your bucket first before using it here
+        bucket: process.env.S3_BUCKET,
+        //  region: 'external-1',
+      }
+
+      if (process.env.S3_REGION) {
+        s3Config.region = process.env.S3_REGION;
+      }
+
+      siteConfig.modules['apostrophe-attachments'] = {
+        uploadfs: s3Config
+      };
     }
 
     return siteConfig;

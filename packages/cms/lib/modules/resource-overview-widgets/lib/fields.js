@@ -263,54 +263,54 @@ module.exports = [
     ],
     def: true
   },
-  {
-    name: 'displayVoteProgressBar',
-    label: 'Display voting progressbar',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
-  {
-    name: 'displayVoteForCount',
-    label: 'Display vote for count',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
-  {
-    name: 'displayVoteAgainstCount',
-    label: 'Display vote against count',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
+//  {
+//    name: 'displayVoteProgressBar',
+//    label: 'Display voting progressbar',
+//    type: 'boolean',
+//    choices: [
+//      {
+//        label: 'Yes',
+//        value: true,
+//      },
+//      {
+//        label: 'No',
+//        value: false,
+//      }
+//    ],
+//    def: true
+//  },
+//  {
+//    name: 'displayVoteForCount',
+//    label: 'Display vote for count',
+//    type: 'boolean',
+//    choices: [
+//      {
+//        label: 'Yes',
+//        value: true,
+//      },
+//      {
+//        label: 'No',
+//        value: false,
+//      }
+//    ],
+//    def: true
+//  },
+//  {
+//    name: 'displayVoteAgainstCount',
+//    label: 'Display vote against count',
+//    type: 'boolean',
+//    choices: [
+//      {
+//        label: 'Yes',
+//        value: true,
+//      },
+//      {
+//        label: 'No',
+//        value: false,
+//      }
+//    ],
+//    def: true
+//  },
   {
     name: 'amountCharsSummary',
     label: 'Amount of characters for the summary',
@@ -661,7 +661,7 @@ module.exports = [
     return {
       type: 'string',
       name: 'label' +  state.value,
-      label: 'Label for: ' + state.value,
+      label: 'Label for status: ' + state.value,
     }
   })
 );

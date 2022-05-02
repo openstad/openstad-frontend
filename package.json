@@ -1,6 +1,6 @@
 {
   "name": "openstad-frontend",
-  "version": "0.20.0",
+  "version": "0.24.0",
   "description": "Openstad frontent project including openstad frontend packages\"",
   "main": "index.js",
   "scripts": {
@@ -22,20 +22,20 @@
     "@savvycodes/openstad-event-browser-widgets": "0.0.4-alpha.46",
     "@savvycodes/openstad-event-planner-widgets": "0.0.4-alpha.46",
     "@savvycodes/openstad-event-favorites-widgets": "0.0.4-alpha.47",
-    "apostrophe": "2.113.0",
+    "apostrophe": "2.220.7",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-forms": "^1.10.5",
     "apostrophe-palette": "^2.0.30",
-    "apostrophe-workflow": "2.38.2",
+    "apostrophe-workflow": "2.39.5",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
     "morgan": "^1.10.0",
-    "npm": "^6.14.11",
+    "npm": "^8.0.0",
     "query-string": "^6.13.8",
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
-    "lerna": "^3.21.0"
+    "lerna": "^4.0.0"
   }
 }

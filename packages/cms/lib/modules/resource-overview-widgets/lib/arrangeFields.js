@@ -1,4 +1,4 @@
-const styleSchema = require('../../../../config/styleSchema.js').default;
+const ideaStates      = require('../../../../config/idea.js').states;
 
 module.exports = (self, options) => {
     options.arrangeFields = (options.arrangeFields || []).concat([
@@ -57,6 +57,7 @@ module.exports = (self, options) => {
             label: 'Tags',
             fields: ['displayTagFilters']
         },
+<<<<<<< HEAD
         {
             name: 'targetAudience',
             label: 'Doelgroepen',
@@ -68,11 +69,20 @@ module.exports = (self, options) => {
             fields: ['displayGrantFilters']
         },
 
+=======
+>>>>>>> 3d9e3afb357e08ad568ee742145d4e3636971b3c
         {
             name: 'include_exclude',
             label: 'Include & Exclude items',
             fields: ['filterExcludeThemes', 'filterIncludeThemes', 'filterResources', 'filterArchive']
         },
-        styleSchema.definition('containerStyles', 'Styles for the container')
+        {
+            name: 'status_labels',
+            label: 'Labels',
+            fields: ideaStates.map((state) => {
+                return 'label' +  state.value
+            })
+        },
+
     ]);
 }

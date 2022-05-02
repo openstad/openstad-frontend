@@ -6,7 +6,7 @@ const rp = require('request-promise');
 
 module.exports = {
   extend: 'openstad-widgets',
-  label: 'Arguments',
+  label: 'Arguments old',
   alias: 'arguments',
   adminOnly: true,
   addFields: [
@@ -75,46 +75,6 @@ module.exports = {
         },
       ]
     },
-    {
-      name: 'showLastNameForArguments',
-      type: 'select',
-      label: 'Show last name for arguments?',
-      choices: [
-        {
-          label: 'Yes',
-          value: 'yes'
-        },
-        {
-          label: 'No, only for administrators',
-          value: 'adminonly'
-        },
-        {
-          label: 'No',
-          value: 'no'
-        }
-      ],
-      def: 'yes'
-    },
-    {
-      name: 'showLastNameForReactions',
-      type: 'select',
-      label: 'Show last name for reactions?',
-      choices: [
-        {
-          label: 'Yes',
-          value: 'yes'
-        },
-        {
-          label: 'No, only for administrators',
-          value: 'adminonly'
-        },
-        {
-          label: 'No',
-          value: 'no'
-        }
-      ],
-      def: 'yes'
-    },
   ],
   construct: function(self, options) {
     options.arrangeFields = (options.arrangeFields || []).concat([
@@ -126,7 +86,7 @@ module.exports = {
       {
         name: 'advanced',
         label: 'Advanced',
-        fields: ['replyingEnabled', 'votingEnabled', 'showLastNameForArguments', 'showLastNameForReactions']
+        fields: ['replyingEnabled', 'votingEnabled']
       }
     ]);
 
@@ -148,19 +108,6 @@ module.exports = {
        widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
        return superOutput(widget, options);
      };
-
-     self.addHelpers({
-        showLastName: function (type, widget, user) {
-            if (type == 'reactions' && (widget.showLastNameForReactions == 'yes' || (widget.showLastNameForReactions == 'adminonly' && user.role == 'admin'))) {
-                return user.lastName;
-            } else if (type == 'arguments' && (widget.showLastNameForArguments == 'yes' || (widget.showLastNameForArguments == 'adminonly' && user.role == 'admin'))) {
-                return user.lastName;
-            }
-
-            return '';
-        }
-     });
-
 
    },
 };

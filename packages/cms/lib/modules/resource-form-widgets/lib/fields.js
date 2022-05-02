@@ -28,6 +28,11 @@ const fields = [
         ]
     },
     {
+      name: 'loginText',
+      type: 'string',
+      label: 'Login text'
+    },
+    {
       name: 'hideAdminAfterPublicAction',
       label: 'Hide admin after first public action? (not yet connected to the API)',
       type: 'boolean',
@@ -221,7 +226,7 @@ const fields = [
             {
               name: 'fieldKey',
               type: 'string',
-              label: 'Key (for storing, must be unique, no spaces and special characters)',
+              label: 'Key (one word) for example: ‘summary’ (for storing, must be unique, no spaces and special characters)',
             },
             {
               name: 'fieldInfo',

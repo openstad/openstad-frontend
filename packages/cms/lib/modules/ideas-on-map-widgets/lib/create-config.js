@@ -1,4 +1,5 @@
-const sortingOptions  = require('../../../../config/sorting.js').ideasOnMapOptions;
+const sortingOptions = require('../../../../config/sorting.js').ideasOnMapOptions;
+const ideaForm = require('./idea-form');
 
 module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
 
@@ -20,14 +21,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
   let allowMultipleImages = typeof widget.imageAllowMultipleImages != 'undefined' ? widget.imageAllowMultipleImages : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.allowMultipleImages != 'undefined' ) ? data.global.siteConfig.ideas.allowMultipleImages : false );
   let placeholderImageSrc = typeof widget.imagePlaceholderImageSrc != 'undefined' ? apos.attachments.url(widget.imagePlaceholderImageSrc) : ( ( data.global.siteConfig && data.global.siteConfig.ideas && typeof data.global.siteConfig.ideas.placeholderImageSrc != 'undefined' ) ? data.global.siteConfig.ideas.placeholderImageSrc : undefined );
   
-  // formfields
-  let formFields = [ ...widget.formFields ];
-  formFields.forEach((formField) => {
-    if ( formField.inputType ==  "image-upload" ) {
-      formField.allowMultiple = allowMultipleImages; // todo: ik dnek dat deze niet meer nodig is
-    }
-  });
-
   let themeTypes;
   try {
     themeTypes = data.global.themes || [];
@@ -58,7 +51,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
     },
     user: {
       role:  data.openstadUser && data.openstadUser.role,
-      fullName:  data.openstadUser && (data.openstadUser.fullName || data.openstadUser.firstName + ' ' + data.openstadUser.lastName)
+      displayName:  data.openstadUser && data.openstadUser.displayName,
     },
 
 		display: {
@@ -95,7 +88,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
       label: '',
       showFilter: true,
       fieldName: typeField,
-      filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
+      filterOptions: [{ value: '', label: widget.typesFilterLabel }].concat( types && types.map(function(type) { return { value: type.id, label: type.label || type.name } }) ),
       defaultValue: '',
     }],
 
@@ -128,7 +121,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 			descriptionMinLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMinLength ) || 30,
 			descriptionMaxLength: ( data.global.siteConfig && data.global.siteConfig.ideas && data.global.siteConfig.ideas.descriptionMaxLength ) || 200,
 			allowMultipleImages,
-      fields: formFields,
+      fields: ideaForm.getWidgetFormFields(widget),
       shareChannelsSelection: widget.showShareButtons ? widget.shareChannelsSelection : [],
       metaDataTemplate: widget.metaDataTemplate,
 		},
@@ -163,11 +156,13 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		},
 
     vote: {
-      isViewable: data.global.siteConfig.votes.isViewable,
-      isActive: data.global.siteConfig.votes.isActive,
-      isActiveFrom: data.global.siteConfig.votes.isActiveFrom,
-      isActiveTo: data.global.siteConfig.votes.isActiveTo,
-      voteValues: data.global.siteConfig.votes.voteValues,
+      isViewable: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isViewable,
+      isActive: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActive,
+      isActiveFrom: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActiveFrom,
+      isActiveTo: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.isActiveTo,
+      requiredUserRole: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.requiredUserRole || 'admin',
+      voteType: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.voteType,
+      voteValues: data.global.siteConfig && data.global.siteConfig.votes && data.global.siteConfig.votes.voteValues,
     },
 
   }

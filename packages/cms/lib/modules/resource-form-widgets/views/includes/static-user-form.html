@@ -1,24 +1,66 @@
 {% include 'includes/form-header.html' %}
 <div class="form-group">
-    {% for field in data.userFormFields %}
+    <div class="row">
+        <div class="form-field-container col-xs-12">
+            <div class="flex">
+                <h4>
+                    E-mailadres <small>(niet aanpasbaar)</small>
+                </h4>
+            </div>
+            <p>{{data.activeResource.email}}</p>
+        </div>
+    </div>
 
-    <div class="form-field-container">
-        {% if field.title %}
-        <h2>
-            {{ field.title }}
-        </h2>
-        {% endif %}
+    <div class="row">
+        <div class="form-field-container col-xs-12 col-sm-6">
+            <h4>
+                Voornaam
+            </h4>
+            {% include 'includes/fields/userFirstName.html' ignore missing %}
+        </div>
+        <div class="form-field-container col-xs-12 col-sm-6">
+            <h4>
+                Achternaam
+            </h4>
+            {% include 'includes/fields/userLastName.html' ignore missing %}
+        </div>
+    </div>
 
-        {% if field.info %}
-        <div class="form-info">
-            {{ field.info  | nlbr | sanitize | safe }}
+    <div class="row">
+            <div class="form-field-container col-xs-12 col-sm-6">
+                <h4>
+                    Postcode
+                </h4>
+                {% include 'includes/fields/userPostcode.html' ignore missing %}
+            </div>
+        </div>
+
+        <br/>
+        <br/>
+
+        {% if data.global.siteConfig.users.allowUseOfNicknames %}
+        <div class="form-field-container box-grey padding-full-m">
+            <h3 class="margin-top-0">
+                Mijn gegevens voor deze site
+            </h3>
+            <p>
+                Deze gegevens zijn alleen van toepassing op deze website: <em>{{data.global.siteConfigTitle}}</em>
+            </p>
+            <h4>
+                Schermnaam
+            </h4>
+            <div class="form-info">
+                Wilt u dat uw naam niet gepubliceerd wordt? Vul dan hier een schermnaam in.
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    {% include 'includes/fields/nickName.html' ignore missing %}
+                </div>
+            </div>
+            <br/>
         </div>
         {% endif %}
-
-        {% include 'includes/fields/' + field.type + '.html' ignore missing %}
+        <br/>
     </div>
-    <br />
-    {% endfor %}
-    <br />
-</div>
-{% include 'includes/form-footer.html' %}
+    {% include 'includes/form-footer.html' %}

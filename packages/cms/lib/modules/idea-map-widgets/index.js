@@ -80,6 +80,11 @@ module.exports = {
       ]
     },
     {
+      type: 'boolean',
+      name: 'autoCenter',
+      label: 'Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)',
+    },
+    {
       type: 'string',
       name: 'filterIdeas',
       label: 'Show only following ideas: (idea id\'s, comma seperated)',
@@ -100,7 +105,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Map',
-        fields: ['useMarkerLinks']
+        fields: ['useMarkerLinks', 'autoCenter']
       },
       {
         name: 'ctaButon',
@@ -159,6 +164,7 @@ module.exports = {
     self.load = (req, widgets, callback) => {
         const styles = openstadMap.defaults.styles;
         const globalData = req.data.global;
+        globalData.siteUrl = req.data.siteUrl;
         const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
 
@@ -182,7 +188,8 @@ module.exports = {
               mapZoomLevel: globalData.mapZoomLevel,
               styles: styles,
               useMarkerLinks: widget.useMarkerLinks,
-              googleMapsApiKey: googleMapsApiKey
+              googleMapsApiKey: googleMapsApiKey,
+              autoCenter: widget.autoCenter
             })
             .setPolygon(globalData.mapPolygons)
             .setMarkersByResources(widget.ideas)

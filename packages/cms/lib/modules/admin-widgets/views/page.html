@@ -63,7 +63,7 @@
            active: true
          },
          user: {
-           active: true
+           active: {{true if (data.isAdmin or data.isModerator) else false}}
          },
          product: {
            active: false
@@ -72,7 +72,7 @@
            active: false
          },
          vote: {
-           active: true
+           active: {{true if (data.isAdmin or data.isModerator) else false}}
          },
          article: {
            active: false
@@ -81,22 +81,22 @@
            active: true
          },
          area: {
-           active: true
+           active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          site: {
-           active: true
+           active: {{true if (data.isAdmin) else false}}
          },
          newsletterSignup: {
-           active: true
+           active: {{true if (data.isAdmin or data.isModerator) else false}}
          },
          choicesGuide: {
-           active: true
+           active: {{true if (data.isAdmin) else false}}
          },
          tag: {
            active: true
          },
          action: {
-           active: true
+           active: {{true if (data.isAdmin) else false}}
          },
          targetAudience: {
           active: true

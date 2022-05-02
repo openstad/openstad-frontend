@@ -1,55 +1,49 @@
-{% if data.widget.ideaUrl %}
-{% set ideaUrl = data.widget.ideaPageUrl' %}
+{% if data.widget.ideaPageUrl %}
+{% set ideaUrl = data.widget.ideaPageUrl %}
 {% else %}
 {% set ideaUrl = '/plan' %}
 {% endif %}
 
+{% set counterThisSite = 0 %}
+{% set counterOtherSites = 0 %}
+
 <div class="user-activity-box">
-    <h3> Plannen ingestuurd </h3>
-    {% if data.activeResource.ideas %}
-    <ul>
-    {% for idea in data.activeResource.ideas %}
-        <li>
-            <a href="{{ideaUrl}}/{{idea.id}}" target="_blank">
-                {{idea.title}}
-            </a>
-        </li>
+    <h4> Activiteit op deze website</h4>
+    <ul class="user-activity-list">
+    {% if data.activeResource.activity %}
+    {% for activity in data.activeResource.activity %}
+        {% if data.global.siteId === activity.site.id %}
+            {% set counterThisSite = counterThisSite + 1 %}
+
+        {% include 'display/user-activity-item.html' %}
+        {% endif %}
     {% endfor %}
-    </ul>
-    {% else %}
-    <em>Nog geen plannen</em>
     {% endif %}
-
-    <h3> Argumenten geplaatst </h3>
-    {% if data.activeResource.arguments and data.activeResource.arguments.length > 0 %}
-
-    {% for argument in data.activeResource.arguments %}
-    <ul>
-        <li>
-            <a href="{{ideaUrl}}/{{idea.id}}#arg{{argument.id}}">
-                {{argument.description | truncate(30)}}
-            </a>
+    {% if counterThisSite === 0 %}
+        <li class="empty-results-container">
+            U heeft geen activiteit op deze website
         </li>
-    {% endfor %}
-    </ul>
-
-    {% else %}
-    <em>Nog geen argument geplaatst</em>
     {% endif %}
+    </ul>
+    <br />
+    <br />
+    <h4> Activiteit op andere websites</h4>
+    <ul class="user-activity-list">
+        {% if data.activeResource.activity %}
+        {% for activity in data.activeResource.activity %}
+        {% if data.global.siteId !== activity.site.id %}
+        {% set counterOtherSites = counterOtherSites + 1 %}
 
-    <h3> Stemmen geplaatst op </h3>
-    {% if data.activeResource.votes and data.activeResource.votes.length > 0  %}
-    <ul>
-    {% for vote in data.activeResource.votes %}
-        <li>
-            <a href="{{ideaUrl}}/{{vote.ideaId}}">
-                {{vote.ideaId}}
-            </a>
+        {% include 'display/user-activity-item.html' %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if counterOtherSites === 0 %}
+        <li class="empty-results-container">
+            U heeft geen activiteit op andere websites.
         </li>
-    {% endfor %}
+        {% endif %}
     </ul>
-    {% else %}
-    <em>Nog niet gestemd</em>
-    {% endif %}
+
 </div>
 

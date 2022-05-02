@@ -8,7 +8,6 @@ const compare           = require('tsscmp');
 function unauthorized(req, res) {
   var challengeString = 'Basic realm=Openstad';
   res.set('WWW-Authenticate', challengeString);
-  console.log('??');
   return res.status(401).send('Authentication required.');
 }
 

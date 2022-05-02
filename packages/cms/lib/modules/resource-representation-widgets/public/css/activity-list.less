@@ -1,0 +1,51 @@
+.user-activity-list {
+    padding: 0;
+
+    li {
+        background: #f3f3f3;
+        padding: 25px;
+        list-style: none;
+        margin: 20px 0;
+    }
+}
+
+.stamp {
+    padding: 5px 10px;
+    background-color: #45a842;
+
+    &-idea{
+        background-color: #ffe600;
+    }
+
+    &-vote{
+        background-color: #009dec;
+        color: white;
+    }
+
+    &-argument{
+        background-color: #bed200;
+    }
+}
+
+
+.user-activity-detail-row {
+    display: flex;
+    align-items: baseline;
+    margin-top: 20px;
+
+    > * {
+        margin-right: 15px;
+    }
+
+    > :last-child {
+        margin-right: 0;
+    }
+}
+
+.empty-results-container {
+    background-color: #F6F6F6;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 20px 10px;
+    text-align: center;
+}

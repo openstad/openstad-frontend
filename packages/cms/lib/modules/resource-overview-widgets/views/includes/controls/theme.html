@@ -1,5 +1,6 @@
 {% if data.widget.displayThemeFilter %}
-<select class="default-select openstad-ajax-refresh-input" name="theme" data-reset-pagination="1">
+<label for="resource-theme-filter" class="sr-only">Selecteer een thema: </label>
+<select class="default-select openstad-ajax-refresh-input" id="resource-theme-filter" name="theme" data-reset-pagination="1">
   <option value="">Alle thema's</option>
   {% for theme in data.widget.themes %}
   <option value="{{theme.value}}" {% if theme.value === data.query.theme %} selected {% endif %}>{{theme.value}}</option>

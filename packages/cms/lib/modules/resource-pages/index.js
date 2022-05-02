@@ -90,6 +90,7 @@ module.exports = {
                 activeResource.votes = result && result.votes ? result.votes : false;
                 activeResource.arguments = result && result.arguments ? result.arguments : false;
                 activeResource.sites = result && result.sites ? result.sites : false;
+                activeResource.activity = result && result.activity ? result.activity : false;
 
                 req.data.activeResource = activeResource;
                 return callback(null);

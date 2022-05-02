@@ -2,6 +2,7 @@
  * Widget displays a counter with dynamic count of votes, users voted and ideas submitted
  * Often used to display "120 ideas submitted" "3000 users voted"
  */
+const _ = require('lodash');
 const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
@@ -47,11 +48,20 @@ module.exports = {
 						'staticCount'
 					]
         },
-/*         {
-          label: 'Arguments count',
-          value: 'argumentsCount',
+        {
+          label: 'Argument count',
+          value: 'argumentCount',
+          showFields: [
+            'argumentIdeaId', 'argumentSentiment'
+          ]
         },
-        */
+        {
+          label: 'Choices guide count',
+          value: 'choicesGuide',
+          showFields: [
+            'choicesGuideId'
+          ]
+        },
       ]
     },
     {
@@ -80,6 +90,37 @@ module.exports = {
       ],
       required: false
     },
+    {
+      name: 'argumentIdeaId',
+      type: 'string',
+      label: 'Arguemnt idea ID - leave empty to fetch total arguments',
+      required: false,
+    },
+    {
+      name: 'argumentSentiment',
+      label: 'Argument sentiment',
+      type: 'select',
+      def: '',
+      choices: [
+        {
+          label: 'For',
+          value: 'for',
+        },
+        {
+          label: 'Against',
+          value: 'against',
+        },
+        {
+          label: 'Both',
+          value: '',
+        },
+      ]
+    },
+    {
+      name: 'choicesGuideId',
+      label: 'Choices guide id',
+      type: 'string'
+    },
     styleSchema.definition('containerStyles', 'Styles for the container')
   ],
   construct: function(self, options) {
@@ -89,12 +130,16 @@ module.exports = {
         widgets.forEach((widget) => {
 
           const siteConfig = req.data.global.siteConfig;
-          if (widget.counterType == 'voteCount') {
+          if (widget.counterType === 'voteCount') {
             widget.isCountPublic = siteConfig && siteConfig.votes && siteConfig.votes.isViewable ? siteConfig.votes.isViewable : false;
           } else {
             widget.isCountPublic = true;
           }
 
+          if (widget.counterType === 'argumentCount') {
+            // todo: hij zou in een resourceobverview het dieaid dynamisch moeten ophalen?
+          }
+          
           if (widget.containerStyles) {
             const containerId = self.apos.utils.generateId();
             widget.containerId = containerId;
@@ -103,9 +148,16 @@ module.exports = {
           widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
           widget.siteId = req.data.global.siteId;
+          
+          widget.parsedUrl = widget.url;
+          if (widget.parsedUrl) {
+            let match = widget.parsedUrl.match(/^http/);
+            if (!match) {
+              widget.parsedUrl = req.data.siteUrl + widget.parsedUrl;
+            }
+          }
+
         });
-
-
 
         return superLoad(req, widgets, function (err) {
             if (err) {
@@ -132,8 +184,8 @@ module.exports = {
             count = widget.ideasCount;
           } else {
             count = 0;
-            widget.statsUrl = "/stats/site/" + widget.siteId + "/idea/total"
           }
+          widget.statsUrl = "/stats/site/" + widget.siteId + "/idea/total"
           break;
 
         case 'voteCount':
@@ -153,6 +205,23 @@ module.exports = {
           count = widget.staticCount;
           break;
 
+        case 'argumentCount':
+          count = 0;
+          widget.statsUrl = "/stats/site/" + widget.siteId + "/argument/total"
+          let queryparams = [];
+          if (widget.argumentIdeaId) queryparams.push( "ideaId=" + widget.argumentIdeaId );
+          if (widget.argumentSentiment) queryparams.push( "sentiment=" + widget.argumentSentiment );
+          if (queryparams) widget.statsUrl += '?' + queryparams.join('&');
+          break;
+
+        case 'choicesGuide':
+          count = 0;
+          widget.statsUrl = `/stats/site/${widget.siteId}/choicesguides/total`;
+          if (widget.choicesGuideId) {
+            widget.statsUrl += `?choicesGuideId=${widget.choicesGuideId}`;
+          }
+          break;
+
         default:
           count = 0;
 
@@ -163,6 +232,7 @@ module.exports = {
 
       var result = superOutput(widget, options);
       return result;
+
     };
 
     const superPushAssets = self.pushAssets;

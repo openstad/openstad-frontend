@@ -37,3 +37,9 @@ header {
     padding: 0;
   }
 }
+
+
+.section-tabs .nav-tabs>li>a.active {
+  border-color: #ec0000;
+  color: #ec0000;
+}
