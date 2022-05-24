@@ -93,7 +93,7 @@ module.exports = {
     {
       name: 'argumentIdeaId',
       type: 'string',
-      label: 'Arguemnt idea ID - leave empty to fetch total arguments',
+      label: 'Only for Idea ID - leave empty to fetch total arguments',
       required: false,
     },
     {
