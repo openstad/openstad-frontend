@@ -13,7 +13,6 @@ module.exports = {
   extend: 'apostrophe-custom-pages',
   name: 'resource',
   construct: function(self, options) {
-
     self.expressMiddleware = {
       when: 'afterRequired',
       middleware: (req, res, next) => {
@@ -27,7 +26,7 @@ module.exports = {
         } else {
           next();
         }
-      }
+      },
     };
 
     /*
@@ -39,21 +38,26 @@ module.exports = {
       const appUrl = self.apos.settings.getOption(req, 'appUrl');
 
       const headers = {
-        'Accept': 'application/json',
+        Accept: 'application/json',
       };
 
       if (req.session.jwt) {
-        headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
+        headers['X-Authorization'] = `Bearer ${req.session.jwt}`;
       }
 
-      const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === req.data.activeResourceType);
+      const resourceInfo = resourcesSchema.find(
+        (resourceInfo) => resourceInfo.value === req.data.activeResourceType
+      );
 
-      const activeResourceEndpoint = resourceInfo && resourceInfo.resourceEndPoint ? resourceInfo.resourceEndPoint : false;
+      const activeResourceEndpoint =
+        resourceInfo && resourceInfo.resourceEndPoint
+          ? resourceInfo.resourceEndPoint
+          : false;
 
       var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&includeTargetAudiences=1&includeGrants=1`,
-          headers: headers,
-          json: true // Automatically parses the JSON string in the response
+        uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1&includeTargetAudiences=1&includeGrants=1`,
+        headers: headers,
+        json: true, // Automatically parses the JSON string in the response
       };
 
       /**
@@ -65,32 +69,52 @@ module.exports = {
         .then(function (activeResource) {
           req.data.activeResource = activeResource;
 
-          if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
+          /**
+           * Add support to opengraph meta tags for event resource type
+           */
+          if (req.data.activeResourceType === 'event') {
+            req.data.activeResource.title = req.data.activeResource.name;
+            req.data.activeResource.summary =
+              req.data.activeResource.information;
+            req.data.activeResource.extraData = {
+              images: [req.data.activeResource.image],
+            };
+          }
+
+          if (
+            req.data.activeResourceType === 'idea' &&
+            req.data.hasModeratorRights
+          ) {
             return rp({
-                uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
-                headers: headers,
-                json: true // Automatically parses the JSON string in the response
+              uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
+              headers: headers,
+              json: true, // Automatically parses the JSON string in the response
             })
-            .then(function (votes) {
-              req.data.ideaVotes = votes;
-              return callback(null);
-            })
-            .catch((e) => {
-              return callback(null);
-            });
+              .then(function (votes) {
+                req.data.ideaVotes = votes;
+                return callback(null);
+              })
+              .catch((e) => {
+                return callback(null);
+              });
           } else if (req.data.activeResourceType === 'activeUser') {
             return rp({
               uri: `${apiUrl}/api/site/${req.data.global.siteId}/user/${req.data.activeResourceId}/activity`,
               headers: headers,
-              json: true // Automatically parses the JSON string in the response
+              json: true, // Automatically parses the JSON string in the response
             })
               .then(function (result) {
                 const activeResource = req.data.activeResource;
-                activeResource.ideas = result && result.ideas ? result.ideas : false;
-                activeResource.votes = result && result.votes ? result.votes : false;
-                activeResource.arguments = result && result.arguments ? result.arguments : false;
-                activeResource.sites = result && result.sites ? result.sites : false;
-                activeResource.activity = result && result.activity ? result.activity : false;
+                activeResource.ideas =
+                  result && result.ideas ? result.ideas : false;
+                activeResource.votes =
+                  result && result.votes ? result.votes : false;
+                activeResource.arguments =
+                  result && result.arguments ? result.arguments : false;
+                activeResource.sites =
+                  result && result.sites ? result.sites : false;
+                activeResource.activity =
+                  result && result.activity ? result.activity : false;
 
                 req.data.activeResource = activeResource;
                 return callback(null);
@@ -113,19 +137,23 @@ module.exports = {
           }
 
           callback(null);
-
         });
-    }
+    };
 
     self.dispatch('/', (req, callback) => {
-
-      req.data.activeResourceType = req.data.page.type === 'account' ? 'activeUser' : req.data.page.resource;
+      req.data.activeResourceType =
+        req.data.page.type === 'account'
+          ? 'activeUser'
+          : req.data.page.resource;
 
       // if not logged in user throw a 404 because it needs a url to work
       // for editing that's really annoying
       if (req.data.activeResourceType === 'activeUser') {
-      //  req.data.activeResource = req.data.openstadUser;
-        req.data.activeResourceId = req.data.openstadUser && req.data.openstadUser.id ? req.data.openstadUser.id : false;
+        //  req.data.activeResource = req.data.openstadUser;
+        req.data.activeResourceId =
+          req.data.openstadUser && req.data.openstadUser.id
+            ? req.data.openstadUser.id
+            : false;
         req.data.activeResourceType = req.data.page.resource;
 
         return self.fetchResourceData(req, callback);
@@ -135,30 +163,56 @@ module.exports = {
       } else {
         return callback(null);
       }
-
     });
 
     self.dispatch('/:resourceId', (req, callback) => {
+      console.log({
+        params: req.params,
+      });
       req.data.activeResourceId = req.params.resourceId;
       req.data.activeResourceType = req.data.page.resource;
 
       if (req.data.isAdmin && req.data.activeResourceType === 'idea') {
-        req.data.ideaVotes = req.data.votes ? req.data.votes.filter(vote => vote.ideaId === parseInt(req.data.activeResourceId,10)) : [];
+        req.data.ideaVotes = req.data.votes
+          ? req.data.votes.filter(
+              (vote) => vote.ideaId === parseInt(req.data.activeResourceId, 10)
+            )
+          : [];
       }
 
       self.loadResourceData(req, callback);
     });
 
+    // Added (.*) to make this a catch all route
+    self.dispatch('/:resourceId/(.*)', (req, callback) => {
+      console.log({
+        params: req.params,
+      });
+      req.data.activeResourceId = req.params.resourceId;
+      req.data.activeResourceType = req.data.page.resource;
+
+      if (req.data.isAdmin && req.data.activeResourceType === 'idea') {
+        req.data.ideaVotes = req.data.votes
+          ? req.data.votes.filter(
+              (vote) => vote.ideaId === parseInt(req.data.activeResourceId, 10)
+            )
+          : [];
+      }
+
+      self.loadResourceData(req, callback);
+    });
 
     self.loadResourceData = (req, callback) => {
       /**
        * In case of activeUser we load in the active Openstad user
        */
 
-       const resourceInfo = resourcesSchema.find((resourceInfo) => resourceInfo.value === req.data.activeResourceType);
-       req.data.activeResourceEndpoint = resourceInfo.resourceEndPoint;
+      const resourceInfo = resourcesSchema.find(
+        (resourceInfo) => resourceInfo.value === req.data.activeResourceType
+      );
+      req.data.activeResourceEndpoint = resourceInfo.resourceEndPoint;
 
-       self.fetchResourceData(req, callback);
-    }
+      self.fetchResourceData(req, callback);
+    };
   }
 };
