@@ -11,6 +11,7 @@ var apos = openstadCms.site({
   // configuring user accounts.
 
   modules: {
+    '@savvycodes/openstad-event-global-settings': {},
     '@savvycodes/openstad-event-planner-widgets': {},
     '@savvycodes/openstad-event-browser-widgets': {},
     '@savvycodes/openstad-event-favorites-widgets': {},
@@ -31,6 +32,6 @@ var apos = openstadCms.site({
     },
     settings: {
       contentWidgets: contentWidgets,
-    }
+    },
   },
 });
