@@ -3,6 +3,7 @@ const openstadCms = require('@openstad/cms');
 
 const contentWidgets = require('./config/contentWidgets')
 const smtp = require('./config/smtp')
+const resources = require('./config/resources')
 
 var apos = openstadCms.site({
   bundles: ['@openstad/cms'],
@@ -11,6 +12,18 @@ var apos = openstadCms.site({
   // configuring user accounts.
 
   modules: {
+    'resource-pages': {
+      resources: resources,
+    },
+    'resource-representation-widgets': {
+      resources: resources,
+    },
+    'resource-overview-widgets': {
+      resources: resources,
+    },
+    'resource-form-widgets': {
+      resources: resources,
+    },
     '@savvycodes/openstad-event-global-settings': {},
     '@savvycodes/openstad-event-planner-widgets': {},
     '@savvycodes/openstad-event-browser-widgets': {},

@@ -1,5 +1,6 @@
 const contentWidgets = require('./config/contentWidgets')
 const smtp = require('./config/smtp')
+const resources = require('./config/resources');
 
 module.exports.default = {
   bundles: ['@openstad/cms'],
@@ -8,6 +9,18 @@ module.exports.default = {
   // configuring user accounts.
 
   modules: {
+    'resource-pages': {
+      resources: resources,
+    },
+    'resource-representation-widgets': {
+      resources: resources,
+    },
+    'resource-overview-widgets': {
+      resources: resources,
+    },
+    'resource-form-widgets': {
+      resources: resources,
+    },
     '@savvycodes/openstad-event-global-settings': {},
     '@savvycodes/openstad-event-planner-widgets': {},
     '@savvycodes/openstad-event-browser-widgets': {},
