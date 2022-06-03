@@ -28,14 +28,7 @@ const resources = [
     resourceEndPoint: 'user',
     //config is used in API config
     configKey: 'users'
-  },
-  {
-    label: 'Event',
-    value: 'event',
-    resourceEndPoint: 'event',
-    //config is used in API config
-    configKey: 'events'
-  },
+  }
 ]
 
 exports.schemaFormat = resources;
