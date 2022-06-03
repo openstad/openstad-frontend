@@ -8,6 +8,7 @@ module.exports.default = {
   // configuring user accounts.
 
   modules: {
+    '@savvycodes/openstad-event-global-settings': {},
     '@savvycodes/openstad-event-planner-widgets': {},
     '@savvycodes/openstad-event-browser-widgets': {},
     '@savvycodes/openstad-event-favorites-widgets': {},
@@ -28,6 +29,6 @@ module.exports.default = {
     },
     settings: {
       contentWidgets: contentWidgets,
-    }
+    },
   },
 };
