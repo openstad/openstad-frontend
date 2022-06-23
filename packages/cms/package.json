@@ -44,7 +44,7 @@
     "qs": "^6.9.4",
     "query-string": "^6.12.1",
     "request-promise": "^4.2.2",
-    "shell-quote": "^1.6.1",
+    "shell-quote": "^1.7.3",
     "tsscmp": "^1.0.6",
     "vimeo": "^2.1.1"
   }
