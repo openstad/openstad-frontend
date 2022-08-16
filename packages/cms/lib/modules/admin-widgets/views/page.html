@@ -63,16 +63,10 @@
            active: true
          },
          user: {
-           active: {{true if (data.isAdmin or data.isModerator) else false}}
-         },
-         product: {
-           active: false
-         },
-         order: {
-           active: false
+           active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          vote: {
-           active: {{true if (data.isAdmin or data.isModerator) else false}}
+           active: {{true if (data.isAdmin) else false}}
          },
          article: {
            active: false
@@ -84,16 +78,16 @@
            active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          site: {
-           active: {{true if (data.isAdmin) else false}}
+           active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          newsletterSignup: {
-           active: {{true if (data.isAdmin or data.isModerator) else false}}
+           active: {{true if (data.isAdmin or data.isEditor or data.isModerator) else false}}
          },
          choicesGuide: {
-           active: {{true if (data.isAdmin) else false}}
+           active: {{true if (data.isAdmin or data.isEditor) else false}}
          },
          tag: {
-           active: true
+           active: {{true if (data.isAdmin) else false}}
          },
          action: {
            active: {{true if (data.isAdmin) else false}}
