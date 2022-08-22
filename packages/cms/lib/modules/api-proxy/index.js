@@ -21,6 +21,15 @@ module.exports = {
             pathRewrite: {['^' + apiPath]: '/api'},
             onProxyReq: (proxyReq, req, res) => {
 
+                const siteId = req.data.global.siteId;
+                let path = req.path;
+                let match = path.match(/\/api\/site\/(\d+)\/?/);
+                if (match && match[1] != siteId) {
+                    return res.status(403).json({
+                        'message' : self.apos.i18n.__('The api call is for another site')
+                    });
+                }
+            
                 /**
                  * Validate the request with captcha if send by a form
                  */
