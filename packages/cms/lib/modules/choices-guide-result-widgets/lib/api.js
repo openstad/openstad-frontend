@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = (self, options) => {
 
-  self.lijstje = async function() {
+  self.listOfchoicesGuides = async function() {
 
     // TODO: verplaats dit naar apos.openstadApi
     
