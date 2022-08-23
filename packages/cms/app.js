@@ -26,8 +26,7 @@ const morgan = require('morgan')
 
 //internal code
 const cdns = require('./services/cdns');
-
-const dbExists = require('./services/mongo').dbExists;
+const mongo = require('./services/mongo');
 
 const openstadMap = require('./config/map').default;
 const openstadMapPolygons = require('./config/map').polygons;
@@ -130,7 +129,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
          //   console.log('I need to check')
         }
 
-        dbExists(dbName)
+        mongo.dbExists(dbName)
           .then((isExisting) => {
               resolve(isExisting);
           }).catch((err) => {
@@ -218,10 +217,16 @@ async function run(id, siteData, options, callback) {
             return callback(null, apos);
         }
     };
-
-    const apos = apostrophe(
-        _.merge(siteConfig, siteData)
-    );
+    
+    let aposConfig;
+    
+    if (siteData?.cms?.dbName) {
+        aposConfig = _.merge(siteConfig, siteData, {'modules': {'apostrophe-db': {uri: mongo.getConnectionString(siteData.cms.dbName)}}});
+    } else {
+        aposConfig = _.merge(siteConfig, siteData);
+    }
+    
+    const apos = apostrophe(aposConfig);
 }
 
 module.exports.getDefaultConfig = (options) => {
