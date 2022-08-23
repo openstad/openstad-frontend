@@ -19,15 +19,15 @@
   "homepage": "https://github.com/Amsterdam/openstad-frontend#readme",
   "dependencies": {
     "@openstad/cms": "file:packages/cms",
-    "apostrophe": "2.220.7",
+    "apostrophe": "2.222.0",
     "apostrophe-area-structure": "^1.1.1",
     "apostrophe-blog": "^2.1.2",
     "apostrophe-palette": "^2.0.30",
-    "apostrophe-workflow": "2.39.5",
+    "apostrophe-workflow": "2.40.0",
     "dotenv": "^8.2.0",
     "memory-cache": "^0.2.0",
     "morgan": "^1.10.0",
-    "npm": "^8.0.0",
+    "npm": "^8.16.0",
     "query-string": "^6.13.8",
     "svg-captcha": "^1.4.0"
   },

@@ -237,43 +237,43 @@ const fields = [
       }
     ]
   },
-//   {
-//     name: 'authEmbeddedForm',
-//     label: 'Auth form embedded',
-//     type: 'select',
-//     choices: [
-//       {
-//         value: false,
-//         //  label: 'Newest first',
-//         label: 'No'
-//       },
-//       {
-//         value: 'url',
-//         //  label: 'Newest first',
-//         label: 'Email login url',
-//         showFields: ['authFormUrllabel', 'authFormUrlButtonText']
-//       },
-//       {
-//         value: 'uniqueCode',
-//         //  label: 'Newest first',
-//         label: 'Voting code',
-//         showFields: ['authFormUniqueCodelabel', 'authFormUniqueCodeButtonText']
-//       },
-//       {
-//         value: 'sms',
-//         //  label: 'Newest first',
-//         label: 'Sms',
-//         showFields: ['authFormSmslabel' , 'authFormSmsButtonText']
-//       },
-//  
-//     ]
-//   },
+  {
+    name: 'authEmbeddedForm',
+    label: 'Auth form embedded',
+    type: 'select',
+    choices: [
+      {
+        value: false,
+        //  label: 'Newest first',
+        label: 'No'
+      },
+      {
+        value: 'url',
+        //  label: 'Newest first',
+        label: 'Email login url',
+        showFields: ['authFormUrllabel', 'authFormUrlButtonText']
+      },
+      {
+        value: 'uniqueCode',
+        //  label: 'Newest first',
+        label: 'Voting code',
+        showFields: ['authFormUniqueCodelabel', 'authFormUniqueCodeButtonText']
+      },
+      {
+        value: 'sms',
+        //  label: 'Newest first',
+        label: 'Sms',
+        showFields: ['authFormSmslabel' , 'authFormSmsButtonText']
+      },
+ 
+    ]
+  },
   {
     name: 'newsletterButtonText',
     label: 'Text on the newsletter button',
     type: 'string'
   },
-//   ...authFormFields
+  ...authFormFields
 ].concat(
     ideaStates.map((state) => {
       return {

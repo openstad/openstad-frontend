@@ -38,6 +38,7 @@ const fileExtension = process.env.MINIFY_JS === 'ON' ? [...defaultExtensions, '.
 
 // Storing all site data in the site config
 let sites = {};
+let sitesById = {};
 let sitesResponse = [];
 const aposStartingUp = {};
 const REFRESH_SITES_INTERVAL = 60000 * 5;
@@ -80,13 +81,16 @@ function fetchAllSites(req, res, startSites) {
         .then((response) => {
             sitesResponse = response;
             const newSites = [];
+            const newSitesById = [];
 
             response.forEach((site, i) => {
                 // for convenience and speed we set the domain name as the key
                 newSites[site.domain] = site;
+              newSitesById[site.id] = site
             });
 
             sites = newSites;
+            sitesById = newSitesById;
             cleanUpSites();
 
         }).catch((e) => {
@@ -122,11 +126,9 @@ function serveSite(req, res, siteConfig, forceRestart) {
   
     // check if the mongodb database exist. The name for databse
     return new Promise((resolve, reject) => {
+
         if (aposServer[domain]) {
-            //console.log('No need to check', !!aposServer[domain])
-            resolve(true);
-        } else {
-         //   console.log('I need to check')
+            return resolve(true);
         }
 
         mongo.dbExists(dbName)
@@ -334,6 +336,7 @@ module.exports.getMultiSiteApp = (options) => {
         // if site exists serve it, otherwise give a 404
         if (site) {
             req.site = site;
+            req.allSites = sitesById;
             serveSite(req, res, site, req.forceRestart);
         } else {
             res.status(404).json({error: 'Site not found'});

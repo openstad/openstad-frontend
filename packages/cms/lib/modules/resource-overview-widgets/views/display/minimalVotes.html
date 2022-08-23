@@ -20,8 +20,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
     {% for idea in data.widget.activeResources %}
 
+    {# TODO: this should be moved to the widget load method #}
     {% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
     {% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
+    {% elseif data.widget.pathForResource and data.widget.pathForResource.includes('\{ideaId\}') %}
+    {% set ideaUrl = data.widget.pathForResource.replace('\{ideaId\}', idea.id) %}
     {% else %}
     {% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
     {% endif %}

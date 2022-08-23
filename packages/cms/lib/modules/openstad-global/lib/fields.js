@@ -94,6 +94,8 @@ module.exports = [
     type: 'string',
     permission: 'admin',
     label: 'Slug van idee pagina',
+    help: 'Slug van de ideepagina. Let op: dit wordt in het gebruikersaccount gebruikt om gebruikers naar hun plan te verwijzen. Geef de locatie op van het plan, met daarin {ideaId} voor het plan-Id. Bijvoorbeeld: /plan/{ideaId} of /stemmen#ideaId-{ideaId}',
+    apiSyncField: 'cms.ideaSlug',
     required: false
   },
   {
@@ -101,6 +103,7 @@ module.exports = [
     type: 'string',
     permission: 'admin',
     label: 'Slug van overzichts pagina',
+    apiSyncField: 'cms.ideaOverviewSlug',
     required: false
   },
   {
@@ -318,13 +321,6 @@ module.exports = [
     name: 'displayLoginTopLink',
     type: 'boolean',
     label: 'Display login and logout link in top links?'
-  },
-  {
-    name: 'mapImageFlag',
-    type: 'select',
-    label: 'Welke kleur vlag moet er getoond worden op de plattegrond in het begroten overzicht en op de planpagina?',
-    choices: flagChoices,
-    def: 'red'
   },
   {
     name: 'openstreetmapsServerUrl',

@@ -1,0 +1,22 @@
+{% if activeResource %}
+  {% if field.notExtraDataKey %}
+  {% set fieldValue = activeResource[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = activeResource.extraData[field.fieldKey] %}
+  {% endif %}
+{% endif %}
+
+{% if not fieldValue %}
+  {% if data.query[field.fieldKey] %}
+  {% set fieldValue = data.query[field.fieldKey] %}
+  {% else %}
+  {% set fieldValue = field.fieldValue %}
+  {% endif %}
+{% endif %}
+<div class="select-container">
+  <select name="extraData[{{field.fieldKey}}]" class="default-select" {% if field.fieldRequired %}required{% endif %}>
+  {% for option in field.fieldOptions %}
+    <option value="{{option.value}}" {% if fieldValue === option.value %}selected{% endif %}>{{option.label}}</option>
+  {% endfor %}
+  </select>
+</div>
