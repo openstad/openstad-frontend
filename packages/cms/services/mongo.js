@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 function getConnectionString (database) {
   const host = process.env.MONGO_DB_HOST || 'localhost';
-  const port = process.env.MONGODB_PORT_27017_TCP_PORT || 27017;
+  const port = process.env.MONGODB_PORT_27017_TCP_PORT || process.env.MONGO_DB_PORT || 27017;
   const user = process.env.MONGO_DB_USER || '';
   const password = process.env.MONGO_DB_PASSWORD || '';
   const authSource = process.env.MONGO_DB_AUTHSOURCE || '';
