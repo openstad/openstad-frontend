@@ -39,7 +39,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
   try {
     mapLocationIcon = JSON.parse(mapLocationIcon);
   } catch (err) {}
-
+  
   let config = {
     // data.isAdmin
     divId: 'ideeen-op-de-kaart',
@@ -50,6 +50,7 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
       isUserLoggedIn: data.loggedIn,
     },
     user: {
+      id:  data.openstadUser && data.openstadUser.id,
       role:  data.openstadUser && data.openstadUser.role,
       displayName:  data.openstadUser && data.openstadUser.displayName,
     },
