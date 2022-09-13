@@ -43,17 +43,6 @@ module.exports = function createConfig({ widget, data, apos }) {
   let config = {
 
     divId: 'ideeen-op-de-kaart',
-    siteId: data.global.siteId,
-    api: {
-      url: apiUrl,
-      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : [],
-      isUserLoggedIn: data.loggedIn,
-    },
-    user: {
-      id:  data.openstadUser && data.openstadUser.id,
-      role:  data.openstadUser && data.openstadUser.role,
-      displayName:  data.openstadUser && data.openstadUser.displayName,
-    },
 
 		display: {
       type: widget.displayType,
