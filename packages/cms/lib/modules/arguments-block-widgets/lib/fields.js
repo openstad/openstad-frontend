@@ -19,7 +19,7 @@ module.exports = [
         },
         {
           label: 'No sentiment',
-          value: '',
+          value: 'no sentiment',
         },
       ]
     },
