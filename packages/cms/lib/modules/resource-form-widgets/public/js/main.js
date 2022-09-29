@@ -76,18 +76,7 @@ var formHasChanged = false;
 $(document).ready(function () {
   var ideaForm = document.getElementById('js-form');
 
-
-/*  if (ideaFiles) {
-    ideaFiles.forEach(function (file) {
-      pond.addFile(file).then(function(file){
-      });
-    })
-  }*/
-
-
   if (ideaForm && pondEl) {
-
-
 
     // check if files are being uploaded
     $.validator.addMethod("validateFilePondProcessing", function() {
@@ -134,29 +123,37 @@ $(document).ready(function () {
 
     initLeavePageWarningForForm();
 
-    /*$.validator.addClassRules('filepond', {
-      validateFilePond: true,
-    });*/
+    const conditionalRequired = function(element) {
+      const publishAsConceptInput = $('#publishAsConcept');
+      const shouldBeSavedAsConcept = publishAsConceptInput? publishAsConceptInput.val(): false;
+      return shouldBeSavedAsConcept? false : element.hasAttribute('required');
+    }
+
+    const conditionalLength = function(element, lengthField, lengthValue) {
+      const publishAsConceptInput = $('#publishAsConcept');
+      const shouldBeSavedAsConcept = publishAsConceptInput && publishAsConceptInput.val();
+      const hasLength = element.hasAttribute(lengthField) && element.getAttribute(lengthField);
+      return shouldBeSavedAsConcept? 0 : hasLength? element.getAttribute(lengthField): lengthValue;
+    }
 
     var validator = $(ideaForm).validate({
       ignore: '',
       rules: {
         ignore: [],
-  //      location: {
-  //        required: true
-  //      },
+        
         title : {
           required: true,
-          minlength: titleMinLength,
+          minlength: titleMinLength, 
           maxlength: titleMaxLength,
         },
         summary : {
-          minlength: summaryMinLength,
+          required: function(element){return conditionalRequired(element)},
+          minlength: function(element) { return conditionalLength(element, "minlength", summaryMinLength);},
           maxlength: summaryMaxLength,
         },
         description : {
-          required: true,
-          minlength: descriptionMinLength,
+          required: function(element){return conditionalRequired(element)},
+          minlength: function(element) { return conditionalLength(element, "minlength", descriptionMinLength);},
           maxlength: descriptionMaxLength,
         },
         validateImages: {
@@ -174,20 +171,32 @@ $(document).ready(function () {
           minlength: 1,  // <- here
           postcodeNL: true
         },
-    /*    description: {
-          minLengthWithoutHTML: 140
-        }*/
+        "extraData[phone]":{
+          required: function(element){return conditionalRequired(element)},
+          minlength: function(element) { return conditionalLength(element, "minlength", 10);},
+        },
+        "extraData[area]": {
+          required: function(element){return conditionalRequired(element)},
+        },
+        "extraData[theme]": {
+          required: function(element){return conditionalRequired(element)},
+        }
       },
       submitHandler: function(form) {
+        const publishField = $('#publishAsConcept');
+        const oldButtonValues = [];
 
+        $(form).find('input[type="submit"]').each(function(index, button) {
+          oldButtonValues.push($(this).val());
 
-
-        $(form).find('input[type="submit"]').val('Verzenden...');
-        $(form).find('input[type="submit"]').attr('disabled', true);
-      //  console.log('X-CSRF-TOKEN');
-      //  console.log('asdasdasdasd',$(form).serialize());
-        console.log('submitHandler')
-
+          if(button.id === "btnSaveAsConcept" && publishField.val()) {
+            $(this).val('Verzenden...');
+          } else if(!publishField.val()) {
+            $(this).val('Verzenden...');
+          } 
+          $(this).attr('disabled', 'true')
+        });
+        
        $.ajax({
           url: $(form).attr('action'),
         //  context: document.body,
@@ -209,14 +218,14 @@ $(document).ready(function () {
               }
 
             //use href to simulate a link click! Not replace, that doesn't allow for back button to work
-x          },
+          },
           error:function(response) {
-            console.log('erererre', response)
-
             // "this" the object you passed
-              alert(response.responseJSON.msg);
-              $(form).find('input[type="submit"]').val('Opslaan');
-              $(form).find('input[type="submit"]').attr('disabled', false);
+            $(form).find('input[type="submit"]').each(function(index, button) {
+              $(this).val(oldButtonValues[index]);
+            });
+            alert(response.responseJSON.msg);
+            $(form).find('input[type="submit"]').attr('disabled', false);
           },
 
         });
