@@ -147,12 +147,12 @@ $(document).ready(function () {
           maxlength: titleMaxLength,
         },
         summary : {
-          required: function(element){return conditionalRequired(element)},
+          required: conditionalRequired,
           minlength: function(element) { return conditionalLength(element, "minlength", summaryMinLength);},
           maxlength: summaryMaxLength,
         },
         description : {
-          required: function(element){return conditionalRequired(element)},
+          required: conditionalRequired,
           minlength: function(element) { return conditionalLength(element, "minlength", descriptionMinLength);},
           maxlength: descriptionMaxLength,
         },
@@ -172,14 +172,14 @@ $(document).ready(function () {
           postcodeNL: true
         },
         "extraData[phone]":{
-          required: function(element){return conditionalRequired(element)},
+          required: conditionalRequired,
           minlength: function(element) { return conditionalLength(element, "minlength", 10);},
         },
         "extraData[area]": {
-          required: function(element){return conditionalRequired(element)},
+          required: conditionalRequired,
         },
         "extraData[theme]": {
-          required: function(element){return conditionalRequired(element)},
+          required: conditionalRequired,
         }
       },
       submitHandler: function(form) {
