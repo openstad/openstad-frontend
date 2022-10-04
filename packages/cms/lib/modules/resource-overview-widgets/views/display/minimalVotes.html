@@ -69,8 +69,8 @@ data-default-sort="{{data.widget.defaultSorting}}"
           <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
           {% endif %}
 
-          {% if not idea.publishedDate %}
-          <span class="publishedDate badge">Concept</span>
+          {% if not idea.publishDate %}
+          <span class="publishDate badge">Concept</span>
           {% endif %}
           
 	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}

@@ -19,7 +19,7 @@
 
 {% if activeResource %}
 <input type="submit"  class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}">
-    {% if data.widget.buttonTextConcept and not activeResource.publishedDate %}
+    {% if data.widget.buttonTextConcept and not activeResource.publishDate %}
     <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept if data.widget.buttonTextConcept else 'Opslaan als concept' }}">
     {% endif %}
 {% else %} 
