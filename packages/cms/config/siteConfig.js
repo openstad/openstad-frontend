@@ -169,6 +169,7 @@ module.exports = {
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
+        'translation-widgets': {},
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},
