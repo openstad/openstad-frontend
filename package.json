@@ -32,6 +32,6 @@
     "svg-captcha": "^1.4.0"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^5.5.4"
   }
 }
