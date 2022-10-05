@@ -230,21 +230,18 @@ module.exports = {
 
                 // format string
                 const getUrl = `/api/site/${siteId}/${resource}?${qs.stringify(params)}`;
-                const cacheKey = encodeURIComponent(getUrl);
+                const cacheKey = encodeURIComponent(getUrl) + req.session?.openstadUser?.id;
 
                 const options = {
                     uri: `${apiUrl}${getUrl}`,
                     headers: {'Accept': 'application/json', "Cache-Control": "no-cache"},
                     json: true
                 };
-
-                /*
-                   We explicitly don't add JWT since results are cached
-                  if (req.session.jwt) {
+            
+                if (req.session.jwt) {
                     options.headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
-                  }
-                */
-
+                }
+                
                 const queryParams = Object.assign({}, queryObject);
 
                 widget.pathname = widget.pathname ? widget.pathname : req.data.currentPathname;

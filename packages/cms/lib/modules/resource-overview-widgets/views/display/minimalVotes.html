@@ -45,7 +45,6 @@ data-default-sort="{{data.widget.defaultSorting}}"
         {% endif %}
 
         <div class="image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
-
         {% if data.widget.displayLabel %}
         <div class="duration">
           {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace(" 1 dagen", " 1 dag") }}
@@ -70,6 +69,10 @@ data-default-sort="{{data.widget.defaultSorting}}"
           <p class="summary">{{idea.summary | sanitize | safe | truncate(data.widget.amountCharsSummary) }}</p>
           {% endif %}
 
+          {% if not idea.publishDate %}
+          <span class="publishDate badge">Concept</span>
+          {% endif %}
+          
 	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
           <div class="ideaProgress">
             <div class="progress">

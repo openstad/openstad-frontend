@@ -840,6 +840,11 @@ const fields = [
     label: 'Text for button to save',
   },
   {
+    name: 'buttonTextConcept',
+    type: 'string',
+    label: 'Text for button to save as concept (idea support only)',
+  },
+  {
     name: 'confirmationEnabledUser',
     type: 'boolean',
     label: 'Confirmation to user',
