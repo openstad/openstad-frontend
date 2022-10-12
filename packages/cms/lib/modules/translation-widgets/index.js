@@ -4,7 +4,9 @@ const deepl = require('deepl-node');
 const { response } = require('express');
 const cache = require('../../../services/cache').cache;
 const cacheLifespan = 8 * 60 * 60;   // set lifespan of 8 hours;
-const cacheLanguagesLifespan = 60 * 60 * 60;   // set lifespan of language cache to a high value;
+const cacheLanguagesLifespan = (24 * 60 * 60) * 7;   // set lifespan of language cache to a week;
+const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
+
 
 module.exports = {
     extend: 'openstad-widgets',
@@ -46,13 +48,34 @@ module.exports = {
                     supportedLanguages = cache.get(cacheKeyForLanguages);
                 }
                 else {
-                    const translator = new deepl.Translator(deeplAuthKey);
+                    const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
                     await translator.getTargetLanguages().then(response => {
-                        supportedLanguages = response
-                        cache.set(`${cacheKeyForLanguages}`, response, {
-                            life: cacheLifespan
+                        supportedLanguages = response;
+                    });
+
+                    // convert items to their own language
+                    const languageTranslatedCollection = [];
+
+                    for (const language of supportedLanguages) {
+                        languageTranslatedCollection.push(
+                            translator.translateText(
+                                language.name,
+                                'EN',
+                                language.code
+                            )
+                        );
+                    }
+
+                    await Promise.all(languageTranslatedCollection).then(languages => {
+                        supportedLanguages = languages.map((language, index) => {
+                            language['code'] = supportedLanguages[index].code;
+                            return language;
                         })
-                    })
+
+                        cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
+                            life: cacheLifespan
+                        });
+                    });
                 }
             }
 
@@ -95,7 +118,7 @@ module.exports = {
             }
 
             if (deeplAuthKey) {
-                const translator = new deepl.Translator(deeplAuthKey);
+                const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
                 translator.translateText(
                     content,
                     req.body.sourceLanguageCode,
@@ -112,6 +135,6 @@ module.exports = {
                 res.status(400).send('No valid key provided')
             }
 
-        })
+        });
     }
 };

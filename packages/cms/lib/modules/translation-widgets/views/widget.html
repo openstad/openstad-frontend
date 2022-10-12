@@ -6,15 +6,18 @@
 </style>
 
 
-<section class="translationModuleContainer">
+<div class="translationModuleContainer">
   <label for="translationModule">Taal instellen</label>
-  <select name="translationModule" class="translation-widget-select">
-    {% for language in data.widget.supportedLanguages %}
-      {% if language.code === 'nl' %}
-        <option value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.name}} - {{language.code}} </option>      
-      {% else %}
-        <option value="{{language.code}}" class="translation-widget-select-option">{{language.name}} - {{language.code}} </option>
-      {% endif %}
-    {% endfor %}
-  </select>
-</section>
+  <div class="language-select-container">
+    <select name="translationModule" class="translation-widget-select">
+      {% for language in data.widget.supportedLanguages %}
+        {% if language.code === 'nl' %}
+          <option value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.text}}</option>      
+        {% else %}
+          <option value="{{language.code}}" class="translation-widget-select-option">{{language.text}}  </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  
+</div>

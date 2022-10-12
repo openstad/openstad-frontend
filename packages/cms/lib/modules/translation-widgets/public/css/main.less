@@ -1,15 +1,32 @@
-.translation-widget-select {
-    padding: 1rem 1rem;
-    border: 2px solid #004699;
-}
+
 .translationModuleContainer {
     width: 100%;
 }
-.translation-widget-select {
+
+.language-select-container {
     width: 100%;
+    position: relative;
+}
+
+.language-select-container::before {
+    content: url(language.svg);
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 12px;
+    left: 12px;
+}
+
+.translation-widget-select {
+    padding: 1rem 1rem 1rem 5rem;
+    border: 2px solid #004699;
+    text-overflow: ellipsis;
+    width: 100%;
+
     -moz-appearance:none; /* Firefox */
     -webkit-appearance:none; /* Safari and Chrome */
     appearance:none;
+    background-size: auto;
     background-origin: content-box;
     background-image:url(carrot.svg);
     background-repeat:no-repeat;
