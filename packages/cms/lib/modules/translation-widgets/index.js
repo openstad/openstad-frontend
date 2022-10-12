@@ -1,8 +1,10 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const crypto = require('crypto');
 const deepl = require('deepl-node');
+const { response } = require('express');
 const cache = require('../../../services/cache').cache;
 const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
+const cacheLanguagesLifespan  = 60*60*60;   // set lifespan of language cache to a high value;
 
 module.exports = {
     extend: 'openstad-widgets',
@@ -19,6 +21,7 @@ module.exports = {
     playerData: [],
     construct: function (self, options) {
         let deeplAuthKey = options.deeplKey;        
+        let supportedLanguages = [];
 
         options.arrangeFields = (options.arrangeFields || []).concat([
             {
@@ -34,7 +37,24 @@ module.exports = {
         ]);
 
         const superLoad = self.load;
-        self.load = (req, widgets, callback) => {
+        self.load = async(req, widgets, callback) => {
+
+            if(deeplAuthKey) {
+                const cacheKeyForLanguages = 'translationLanguages'
+                if(cache.get(cacheKeyForLanguages)) {
+                    console.log("Received languages from cache");
+                    supportedLanguages = cache.get(cacheKeyForLanguages);
+                }
+                else {
+                    const translator = new deepl.Translator(deeplAuthKey);
+                    await translator.getTargetLanguages().then(response => {
+                        supportedLanguages = response
+                        cache.set(`${cacheKeyForLanguages}`, response, {
+                            life: cacheLifespan
+                        })
+                    })
+                }
+            }
 
             widgets.forEach((widget) => {
                 if (widget.containerStyles) {
@@ -43,6 +63,7 @@ module.exports = {
                     widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
                 }
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+                widget.supportedLanguages = supportedLanguages;
             });
             
             return superLoad(req, widgets, callback);
@@ -56,6 +77,7 @@ module.exports = {
         var superPushAssets = self.pushAssets;
         self.pushAssets = function () {
             superPushAssets();
+            self.pushAsset('stylesheet', 'main', { when: 'always' });
             self.pushAsset('script', 'always', { when: 'always' });
         };
 
@@ -73,7 +95,6 @@ module.exports = {
             }
 
             // frontend/packages/cms/lib/modules/openstad-custom-pages/index.js added a property to the prototype. This breaks the array overload of the translate function
-            delete Array.prototype.insert;
 
             if(deeplAuthKey) {
                 const translator = new deepl.Translator(deeplAuthKey);

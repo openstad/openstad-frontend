@@ -5,9 +5,16 @@
   }
 </style>
 
-<section>
-  <select class="translation-widget-select">
-    <option value="nl" class="translation-widget-select-option">NL</option>
-    <option value="en-GB" class="translation-widget-select-option">EN</option>
+
+<section class="translationModuleContainer">
+  <label for="translationModule">Taal instellen</label>
+  <select name="translationModule" class="translation-widget-select" sele>
+    {% for language in data.widget.supportedLanguages %}
+      {% if language.code === 'nl' %}
+        <option value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.name}} - {{language.code}} </option>      
+      {% else %}
+        <option value="{{language.code}}" class="translation-widget-select-option">{{language.name}} - {{language.code}} </option>
+      {% endif %}
+    {% endfor %}
   </select>
 </section>

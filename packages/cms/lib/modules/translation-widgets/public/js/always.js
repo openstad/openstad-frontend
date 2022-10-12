@@ -56,7 +56,7 @@ apos.define('translation-widgets', {
                     }
                 } else if (childNodes[i].nodeType == Node.TEXT_NODE) {
                     // Do not translate the translation select option!
-                    if(!childNodes[i].parentElement?.classList.contains('translation-widget-select-option')) {
+                    // if(!childNodes[i].parentElement?.classList.contains('translation-widget-select-option')) {
                         let textContent = childNodes[i].textContent;
                         textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
                         if (textContent) {
@@ -65,7 +65,7 @@ apos.define('translation-widgets', {
                                 orgText: textContent,
                             })
                         }
-                    }
+                    // }
                 }
             }
             return toBeTranslated;
