@@ -3,8 +3,8 @@ const crypto = require('crypto');
 const deepl = require('deepl-node');
 const { response } = require('express');
 const cache = require('../../../services/cache').cache;
-const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
-const cacheLanguagesLifespan  = 60*60*60;   // set lifespan of language cache to a high value;
+const cacheLifespan = 8 * 60 * 60;   // set lifespan of 8 hours;
+const cacheLanguagesLifespan = 60 * 60 * 60;   // set lifespan of language cache to a high value;
 
 module.exports = {
     extend: 'openstad-widgets',
@@ -20,7 +20,7 @@ module.exports = {
     ],
     playerData: [],
     construct: function (self, options) {
-        let deeplAuthKey = options.deeplKey;        
+        let deeplAuthKey = options.deeplKey;
         let supportedLanguages = [];
 
         options.arrangeFields = (options.arrangeFields || []).concat([
@@ -37,11 +37,11 @@ module.exports = {
         ]);
 
         const superLoad = self.load;
-        self.load = async(req, widgets, callback) => {
+        self.load = async (req, widgets, callback) => {
 
-            if(deeplAuthKey) {
+            if (deeplAuthKey) {
                 const cacheKeyForLanguages = 'translationLanguages'
-                if(cache.get(cacheKeyForLanguages)) {
+                if (cache.get(cacheKeyForLanguages)) {
                     console.log("Received languages from cache");
                     supportedLanguages = cache.get(cacheKeyForLanguages);
                 }
@@ -65,7 +65,7 @@ module.exports = {
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
                 widget.supportedLanguages = supportedLanguages;
             });
-            
+
             return superLoad(req, widgets, callback);
         }
 
@@ -81,39 +81,37 @@ module.exports = {
             self.pushAsset('script', 'always', { when: 'always' });
         };
 
-        self.route('post', 'submit', function(req, res) {
+        self.route('post', 'submit', function (req, res) {
             let content = req.body.contents;
             let referer = req.headers.referer;
             const destinationLanguage = req.body.targetLanguageCode;
             const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${referer}`).digest('hex');
-            
+
             let result = cache.get(cacheKey);
 
-            if(result) {
+            if (result) {
                 console.log("Receiving translations from cache");
                 return res.json(result);
             }
 
-            // frontend/packages/cms/lib/modules/openstad-custom-pages/index.js added a property to the prototype. This breaks the array overload of the translate function
-
-            if(deeplAuthKey) {
+            if (deeplAuthKey) {
                 const translator = new deepl.Translator(deeplAuthKey);
                 translator.translateText(
                     content,
                     req.body.sourceLanguageCode,
                     req.body.targetLanguageCode,
                 )
-                .then(response => {
-                    cache.set(`${cacheKey}`, response, {
-                        life: cacheLifespan
+                    .then(response => {
+                        cache.set(`${cacheKey}`, response, {
+                            life: cacheLifespan
+                        })
+                        return res.json(response);
                     })
-                    return res.json(response);
-                })
-                .catch(error => console.log({error}));
+                    .catch(error => console.log({ error }));
             } else {
                 res.status(400).send('No valid key provided')
             }
-            
+
         })
     }
 };
