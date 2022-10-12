@@ -8,7 +8,7 @@
 
 <section class="translationModuleContainer">
   <label for="translationModule">Taal instellen</label>
-  <select name="translationModule" class="translation-widget-select" sele>
+  <select name="translationModule" class="translation-widget-select">
     {% for language in data.widget.supportedLanguages %}
       {% if language.code === 'nl' %}
         <option value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.name}} - {{language.code}} </option>      
