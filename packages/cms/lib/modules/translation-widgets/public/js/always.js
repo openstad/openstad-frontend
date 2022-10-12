@@ -55,17 +55,14 @@ apos.define('translation-widgets', {
                         handleNode(childNodes[i], toBeTranslated);
                     }
                 } else if (childNodes[i].nodeType == Node.TEXT_NODE) {
-                    // Do not translate the translation select option!
-                    // if(!childNodes[i].parentElement?.classList.contains('translation-widget-select-option')) {
-                        let textContent = childNodes[i].textContent;
-                        textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
-                        if (textContent) {
-                            toBeTranslated.push({
-                                node: childNodes[i],
-                                orgText: textContent,
-                            })
-                        }
-                    // }
+                    let textContent = childNodes[i].textContent;
+                    textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
+                    if (textContent) {
+                        toBeTranslated.push({
+                            node: childNodes[i],
+                            orgText: textContent,
+                        })
+                    }
                 }
             }
             return toBeTranslated;
