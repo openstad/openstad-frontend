@@ -33,7 +33,8 @@ apos.define('translation-widgets', {
                     contentType: "application/json",
                     data: JSON.stringify({ contents: nlContents, sourceLanguageCode: 'nl', targetLanguageCode }),
                     success: function (sentences) {
-                        changeTextInNodes(JSON.parse(sentences).map(sentence => sentence.replace("<k0mma>", ',')));
+                        sentences = sentences.map(sentence => sentence.text);
+                        changeTextInNodes(sentences);
                     }
                 })
             }
@@ -48,19 +49,22 @@ apos.define('translation-widgets', {
         handleNode = function (node, toBeTranslated) {
             const childNodes = node.childNodes;
             for (let i = 0; i < childNodes.length; i++) {
-                if (childNodes[i].nodeType == 1) {
+                if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
                     let nodeName = childNodes[i].nodeName.toLowerCase();
                     if (nodeName != 'script' && nodeName != 'style') {
                         handleNode(childNodes[i], toBeTranslated);
                     }
-                } else if (childNodes[i].nodeType == 3) {
-                    let textContent = childNodes[i].textContent;
-                    textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
-                    if (textContent) {
-                        toBeTranslated.push({
-                            node: childNodes[i],
-                            orgText: textContent,
-                        })
+                } else if (childNodes[i].nodeType == Node.TEXT_NODE) {
+                    // Do not translate the translation select option!
+                    if(!childNodes[i].parentElement?.classList.contains('translation-widget-select-option')) {
+                        let textContent = childNodes[i].textContent;
+                        textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
+                        if (textContent) {
+                            toBeTranslated.push({
+                                node: childNodes[i],
+                                orgText: textContent,
+                            })
+                        }
                     }
                 }
             }

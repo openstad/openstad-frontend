@@ -169,7 +169,9 @@ module.exports = {
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
-        'translation-widgets': {},
+        'translation-widgets': {
+          deeplKey: siteData.deeplKey || process.env.TRANSLATION_API_KEY
+        },
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},

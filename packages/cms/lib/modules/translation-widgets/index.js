@@ -1,27 +1,24 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const crypto = require('crypto');
 const deepl = require('deepl-node');
-const { chunk, result } = require('lodash');
-const translationServiceKey = process.env.TRANSLATION_API_KEY;
-const translator = new deepl.Translator(translationServiceKey);
 const cache = require('../../../services/cache').cache;
 const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
-const _ = require('lodash')
 
 module.exports = {
     extend: 'openstad-widgets',
     label: 'Translate',
     addFields: [
         {
-            name: 'translate',
+            name: 'deeplKey',
             type: 'string',
-            label: 'Translate ',
+            label: 'Deepl api key',
         },
         styleSchema.definition('containerStyles', 'Styles for the container'),
         styleSchema.getHelperClassesField(),
     ],
     playerData: [],
     construct: function (self, options) {
+        let deeplAuthKey = options.deeplKey;        
 
         options.arrangeFields = (options.arrangeFields || []).concat([
             {
@@ -53,8 +50,6 @@ module.exports = {
 
         const superOutput = self.output;
         self.output = function (widget, options) {
-            //      widget.count = self.getCount(widget);
-
             return superOutput(widget, options);
         };
 
@@ -68,31 +63,36 @@ module.exports = {
             let content = req.body.contents;
             let referer = req.headers.referer;
             const destinationLanguage = req.body.targetLanguageCode;
-
             const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${referer}`).digest('hex');
             
             let result = cache.get(cacheKey);
+
             if(result) {
-                console.info("Returning translations from cache");
+                console.log("Receiving translations from cache");
                 return res.json(result);
             }
 
+            // frontend/packages/cms/lib/modules/openstad-custom-pages/index.js added a property to the prototype. This breaks the array overload of the translate function
+            delete Array.prototype.insert;
 
-            // There seems to be a bug, when you send a sentence like ", or blablabla" that the translateText function splits on this text, causing an error when running JSON.parse on the translated result, hacky fix
-            const stringifiedContent =  JSON.stringify(content.map(element =>{return element.replace(",", "<k0mma>")}));
-        
-            translator.translateText(
-                stringifiedContent,
-                req.body.sourceLanguageCode,
-                req.body.targetLanguageCode,
-            )
-            .then(response => {
-                cache.set(`${destinationLanguage}${cacheKey}`, response.text, {
-                    life: cacheLifespan
+            if(deeplAuthKey) {
+                const translator = new deepl.Translator(deeplAuthKey);
+                translator.translateText(
+                    content,
+                    req.body.sourceLanguageCode,
+                    req.body.targetLanguageCode,
+                )
+                .then(response => {
+                    cache.set(`${cacheKey}`, response, {
+                        life: cacheLifespan
+                    })
+                    return res.json(response);
                 })
-                return res.json(response.text);
-            })
-            .catch(error => console.log({error}));
+                .catch(error => console.log({error}));
+            } else {
+                res.status(400).send('No valid key provided')
+            }
+            
         })
     }
 };
