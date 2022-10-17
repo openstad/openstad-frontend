@@ -1,12 +1,10 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
 const crypto = require('crypto');
 const deepl = require('deepl-node');
-const { response } = require('express');
 const cache = require('../../../services/cache').cache;
 const cacheLifespan = 8 * 60 * 60;   // set lifespan of 8 hours;
 const cacheLanguagesLifespan = (24 * 60 * 60) * 7;   // set lifespan of language cache to a week;
 const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
-
 
 module.exports = {
     extend: 'openstad-widgets',
@@ -35,22 +33,22 @@ module.exports = {
 
         const superLoad = self.load;
         self.load = async (req, widgets, callback) => {
+            const cacheKeyForLanguages = 'translationLanguages'
 
-            if (deeplAuthKey) {
-                const cacheKeyForLanguages = 'translationLanguages'
-                if (cache.get(cacheKeyForLanguages)) {
-                    console.log("Received languages from cache");
-                    supportedLanguages = cache.get(cacheKeyForLanguages);
-                }
-                else {
+            if (cache.get(cacheKeyForLanguages)) {
+                console.log("Received languages from cache");
+                supportedLanguages = cache.get(cacheKeyForLanguages);
+            }
+            else if (deeplAuthKey) {
+                try {
                     const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
                     await translator.getTargetLanguages().then(response => {
                         supportedLanguages = response;
                     });
-
+    
                     // convert items to their own language
                     const languageTranslatedCollection = [];
-
+    
                     for (const language of supportedLanguages) {
                         languageTranslatedCollection.push(
                             translator.translateText(
@@ -60,17 +58,19 @@ module.exports = {
                             )
                         );
                     }
-
+    
                     await Promise.all(languageTranslatedCollection).then(languages => {
                         supportedLanguages = languages.map((language, index) => {
                             language['code'] = supportedLanguages[index].code;
                             return language;
                         })
-
+    
                         cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
-                            life: cacheLifespan
+                            life: cacheLanguagesLifespan
                         });
                     });
+                } catch(error) {
+                    console.error({translationError: error});
                 }
             }
 
@@ -117,19 +117,23 @@ module.exports = {
             }
 
             if (deeplAuthKey) {
-                const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
-                translator.translateText(
-                    content,
-                    req.body.sourceLanguageCode,
-                    req.body.targetLanguageCode,
-                )
-                    .then(response => {
-                        cache.set(`${cacheKey}`, response, {
-                            life: cacheLifespan
+                try {
+                    const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+                    translator.translateText(
+                        content,
+                        req.body.sourceLanguageCode,
+                        req.body.targetLanguageCode,
+                    )
+                        .then(response => {
+                            cache.set(`${cacheKey}`, response, {
+                                life: cacheLifespan
+                            })
+                            return res.json(response);
                         })
-                        return res.json(response);
-                    })
-                    .catch(error => console.log({ error }));
+                        .catch(error => console.log({ error }));
+                } catch(error) {
+                    console.error({translationError: error});
+                }
             } else {
                 res.status(400).send('No valid key provided')
             }
