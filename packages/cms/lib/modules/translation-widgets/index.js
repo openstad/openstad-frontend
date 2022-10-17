@@ -106,10 +106,14 @@ module.exports = {
 
         self.route('post', 'submit', function (req, res) {
             let content = req.body.contents;
-            let referer = req.headers.referer;
-            const destinationLanguage = req.body.targetLanguageCode;
-            const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${referer}`).digest('hex');
+            let origin =  req.body.origin;
+            
+            if(!origin) {
+                res.status(400).send('Could not determine the page to translate');
+            }
 
+            const destinationLanguage = req.body.targetLanguageCode;
+            const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}`).digest('hex');
             let result = cache.get(cacheKey);
 
             if (result) {

@@ -31,7 +31,12 @@ apos.define('translation-widgets', {
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
                     contentType: "application/json",
-                    data: JSON.stringify({ contents: nlContents, sourceLanguageCode: 'nl', targetLanguageCode }),
+                    data: JSON.stringify({ 
+                        contents: nlContents, 
+                        sourceLanguageCode: 'nl', 
+                        targetLanguageCode,
+                        origin: window.location.href
+                    }),
                     success: function (sentences) {
                         sentences = sentences.map(sentence => sentence.text);
                         changeTextInNodes(sentences);
