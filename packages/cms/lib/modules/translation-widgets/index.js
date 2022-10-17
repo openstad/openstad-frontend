@@ -12,11 +12,6 @@ module.exports = {
     extend: 'openstad-widgets',
     label: 'Translate',
     addFields: [
-        {
-            name: 'deeplKey',
-            type: 'string',
-            label: 'Deepl api key',
-        },
         styleSchema.definition('containerStyles', 'Styles for the container'),
         styleSchema.getHelperClassesField(),
     ],
