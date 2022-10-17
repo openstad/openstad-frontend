@@ -9,12 +9,12 @@
 <div class="translationModuleContainer">
   <label for="translationModule">Taal instellen</label>
   <div class="language-select-container">
-    <select name="translationModule" class="translation-widget-select">
+    <select translate="no" name="translationModule" class="translation-widget-select">
       {% for language in data.widget.supportedLanguages %}
         {% if language.code === 'nl' %}
-          <option value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.text}}</option>      
+          <option translate="no" value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.text}}</option>      
         {% else %}
-          <option value="{{language.code}}" class="translation-widget-select-option">{{language.text}}  </option>
+          <option translate="no" value="{{language.code}}" class="translation-widget-select-option">{{language.text}}  </option>
         {% endif %}
       {% endfor %}
     </select>

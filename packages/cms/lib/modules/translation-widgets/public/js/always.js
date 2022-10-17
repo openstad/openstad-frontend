@@ -31,9 +31,9 @@ apos.define('translation-widgets', {
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
                     contentType: "application/json",
-                    data: JSON.stringify({ 
-                        contents: nlContents, 
-                        sourceLanguageCode: 'nl', 
+                    data: JSON.stringify({
+                        contents: nlContents,
+                        sourceLanguageCode: 'nl',
                         targetLanguageCode,
                         origin: window.location.href
                     }),
@@ -60,13 +60,18 @@ apos.define('translation-widgets', {
                         handleNode(childNodes[i], toBeTranslated);
                     }
                 } else if (childNodes[i].nodeType == Node.TEXT_NODE) {
-                    let textContent = childNodes[i].textContent;
-                    textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
-                    if (textContent) {
-                        toBeTranslated.push({
-                            node: childNodes[i],
-                            orgText: textContent,
-                        })
+                    const parentElement = childNodes[i].parentElement;
+                    const shouldTranslate = parentElement && parentElement.getAttribute('translate') !== 'no';
+
+                    if (shouldTranslate) {
+                        let textContent = childNodes[i].textContent;
+                        textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
+                        if (textContent) {
+                            toBeTranslated.push({
+                                node: childNodes[i],
+                                orgText: textContent,
+                            })
+                        }
                     }
                 }
             }

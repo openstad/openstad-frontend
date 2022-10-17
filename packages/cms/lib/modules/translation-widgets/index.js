@@ -72,6 +72,8 @@ module.exports = {
                 } catch(error) {
                     console.error({translationError: error});
                 }
+            } else {
+                console.error({translationError: "Could not fetch languages for the translation widget: Key not set"});
             }
 
             widgets.forEach((widget) => {
@@ -132,7 +134,7 @@ module.exports = {
                         })
                         .catch(error => console.log({ error }));
                 } catch(error) {
-                    console.error({translationError: error});
+                    console.log({translationError: error});
                 }
             } else {
                 res.status(400).send('No valid key provided')
