@@ -15,6 +15,11 @@
     height: 24px;
     top: 12px;
     left: 12px;
+    display: inline-block;
+}
+
+.languageLoading::before {
+    animation: rotation 2s infinite linear;
 }
 
 .translation-widget-select {
@@ -32,3 +37,16 @@
     background-repeat:no-repeat;
     background-position:right;
 }
+
+.translation-widget-select:disabled {
+    opacity: .5;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }

@@ -10,11 +10,26 @@ apos.define('translation-widgets', {
         let nlContents = [];
         let firstTimeLoading = true;
 
+        const languageSelectContainer = $('.language-select-container');
+
         $('.translation-widget-select')
-            .on('change', (e) => changeLanguage(e.target.value));
+            .on('change', (e) => changeLanguage(e));
 
+        function setSelectDisabled(select) {
+            select.setAttribute('disabled', true);
+            languageSelectContainer.addClass('languageLoading');
+        };
 
-        changeLanguage = function (targetLanguageCode) {
+        function setSelectEnabled(select) {
+            select.removeAttribute('disabled');
+            languageSelectContainer.removeClass('languageLoading');
+        };
+
+        changeLanguage = function (e) {
+            const select = e.target;
+            const targetLanguageCode = select.value;
+            setSelectDisabled(select);
+
             console.log(`translate to ${targetLanguageCode}`);
             let node = document.body;
 
@@ -26,7 +41,9 @@ apos.define('translation-widgets', {
 
             if (targetLanguageCode === 'nl') {
                 changeTextInNodes(nlContents);
+                setSelectEnabled(select);
             } else {
+                
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -40,6 +57,10 @@ apos.define('translation-widgets', {
                     success: function (sentences) {
                         sentences = sentences.map(sentence => sentence.text);
                         changeTextInNodes(sentences);
+                        setSelectEnabled(select);
+                    }, 
+                    error: function() {
+                        setSelectEnabled(select);
                     }
                 })
             }
