@@ -102,44 +102,8 @@ module.exports = {
         };
 
         self.route('post', 'submit', function (req, res) {
-            let content = req.body.contents;
-            let origin =  req.body.origin;
-            
-            if(!origin) {
-                res.status(400).send('Could not determine the page to translate');
-            }
-
-            const destinationLanguage = req.body.targetLanguageCode;
-            const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}`).digest('hex');
-            let result = cache.get(cacheKey);
-
-            if (result) {
-                console.log("Receiving translations from cache");
-                return res.json(result);
-            }
-
-            if (deeplAuthKey) {
-                try {
-                    const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
-                    translator.translateText(
-                        content,
-                        req.body.sourceLanguageCode,
-                        req.body.targetLanguageCode,
-                    )
-                        .then(response => {
-                            cache.set(`${cacheKey}`, response, {
-                                life: cacheLifespan
-                            })
-                            return res.json(response);
-                        })
-                        .catch(error => console.log({ error }));
-                } catch(error) {
-                    console.log({translationError: error});
-                }
-            } else {
-                res.status(400).send('No valid key provided')
-            }
-
+            const translate = options.apos.global.translate;
+            translate(req, res);
         });
     }
 };

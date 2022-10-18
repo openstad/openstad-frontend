@@ -135,7 +135,9 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-pages': {},
-        'openstad-global': {},
+        'openstad-global': {
+          deeplKey: siteData.deeplKey || process.env.TRANSLATION_API_KEY
+        },
         'openstad-attachments': {},
         'attachment-upload': {},
 

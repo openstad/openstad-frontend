@@ -6,10 +6,10 @@
 apos.define('translation-widgets', {
     extend: 'openstad-widgets',
     construct: function (self, options) {
+        let firstTimeLoading = true;
         let nodes = [];
         let nlContents = [];
-        let firstTimeLoading = true;
-
+        
         const languageSelectContainer = $('.language-select-container');
 
         $('.translation-widget-select')
@@ -25,12 +25,22 @@ apos.define('translation-widgets', {
             languageSelectContainer.removeClass('languageLoading');
         };
 
+        function saveLanguagePreference(targetLanguageCode) {
+            try{
+                sessionStorage.setItem("targetLanguageCode", targetLanguageCode);
+                console.log("Saved language preference");
+            } catch(quotaExceededError) {
+                console.log("Could not save the language preference");
+            }
+        }
+
         changeLanguage = function (e) {
             const select = e.target;
             const targetLanguageCode = select.value;
             setSelectDisabled(select);
 
             console.log(`translate to ${targetLanguageCode}`);
+            
             let node = document.body;
 
             if (firstTimeLoading) {
@@ -40,10 +50,10 @@ apos.define('translation-widgets', {
             }
 
             if (targetLanguageCode === 'nl') {
-                changeTextInNodes(nlContents);
+                changeTextInNodes(nlContents, nodes);
                 setSelectEnabled(select);
+                saveLanguagePreference(targetLanguageCode);
             } else {
-                
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -55,8 +65,9 @@ apos.define('translation-widgets', {
                         origin: window.location.href
                     }),
                     success: function (sentences) {
+                        saveLanguagePreference(targetLanguageCode);
                         sentences = sentences.map(sentence => sentence.text);
-                        changeTextInNodes(sentences);
+                        changeTextInNodes(sentences, nodes);
                         setSelectEnabled(select);
                     }, 
                     error: function() {
@@ -64,39 +75,11 @@ apos.define('translation-widgets', {
                     }
                 })
             }
-        }
+        };
+    }
+});
 
-        changeTextInNodes = function (sentences, postFix = '') {
-            sentences.forEach((sentence, index) => {
-                nodes[index].node.textContent = `${sentence}${postFix}`;
-            });
-        }
-
-        handleNode = function (node, toBeTranslated) {
-            const childNodes = node.childNodes;
-            for (let i = 0; i < childNodes.length; i++) {
-                if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
-                    let nodeName = childNodes[i].nodeName.toLowerCase();
-                    if (nodeName != 'script' && nodeName != 'style') {
-                        handleNode(childNodes[i], toBeTranslated);
-                    }
-                } else if (childNodes[i].nodeType == Node.TEXT_NODE) {
-                    const parentElement = childNodes[i].parentElement;
-                    const shouldTranslate = parentElement && parentElement.getAttribute('translate') !== 'no';
-
-                    if (shouldTranslate) {
-                        let textContent = childNodes[i].textContent;
-                        textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
-                        if (textContent) {
-                            toBeTranslated.push({
-                                node: childNodes[i],
-                                orgText: textContent,
-                            })
-                        }
-                    }
-                }
-            }
-            return toBeTranslated;
-        }
-    },
+apos.on('ready', function() {
+    const selectedLanguage = sessionStorage.getItem('targetLanguageCode');
+    $('.translation-widget-select').val(selectedLanguage ? selectedLanguage : 'nl').trigger('change');
 });
