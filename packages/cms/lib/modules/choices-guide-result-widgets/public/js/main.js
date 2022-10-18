@@ -3,12 +3,18 @@ apos.define('choices-guide-result-widgets', {
   construct: function (self, options) {
 
     self.play = function (widget, data, options) {
-      let config = data.config;
-      try {
-        config = JSON.parse(config)
-      } catch (err) {}
-      let element = document.querySelector('.openstad-component-choices-guide-result');
-      OpenStadComponents['choices-guide'].ChoicesGuideResult.renderElement(element, config);
+      loadOpenStadComponents({
+        component: 'choices-guide',
+        onLoad: () => {
+          let config = data.config;
+          try {
+            config = JSON.parse(config)
+          } catch (err) {}
+          let element = document.querySelector('.'+config.divId);
+          OpenStadComponents['choices-guide'].ChoicesGuideResult.renderElement(element, config);
+        },
+        data,
+      })
     }
 
   }

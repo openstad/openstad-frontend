@@ -10,22 +10,10 @@ module.exports = {
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
   },
-  playerData: ['config'],
+  playerData: ['config', 'OpenStadComponentsCdn'],
   construct: function(self, options) {
 
     require('./lib/api')(self, options);
-
-    // waarom is dit?
-    self.expressMiddleware = {
-      when: 'beforeRequired',
-      middleware: (req, res, next) => {
-        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
-        self.apiUrl = apiUrl;
-        const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
-        self.siteId = siteConfig.id;
-        next();
-      }
-    };
 
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
@@ -47,7 +35,7 @@ module.exports = {
           logoutUrl: apiUrl + '/oauth/logout',
         });
 			  widget.config = merge.recursive(config, widget.config);
-
+        widget.divId = widget.config.divId;
 			});
 
 			return superLoad(req, widgets, next);

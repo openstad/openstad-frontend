@@ -4,7 +4,7 @@ module.exports = function createConfig({ widget, data, apos }) {
 
   let config = {
 
-    divId: 'openstad-component-reactions-' + parseInt(Math.random() * 1000000).toString(),
+    divId: 'ocs-component-reactions-' + parseInt(Math.random() * 1000000).toString(),
     ideaId: 0,
 
     sentiment: widget.sentiment,
