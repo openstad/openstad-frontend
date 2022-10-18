@@ -15,6 +15,17 @@ module.exports = {
 
     require('./lib/api')(self, options);
 
+    self.expressMiddleware = {
+      when: 'beforeRequired',
+      middleware: (req, res, next) => {
+        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+        self.apiUrl = apiUrl;
+        const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
+        self.siteId = siteConfig.id;
+        next();
+      }
+    };
+
     const superPushAssets = self.pushAssets;
     self.pushAssets = function () {
       superPushAssets();
