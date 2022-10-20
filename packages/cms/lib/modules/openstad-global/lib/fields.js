@@ -90,6 +90,22 @@ module.exports = [
     trash: true
   },
   {
+    type: 'boolean',
+    name: 'shouldAutoTranslate',
+    label: 'Try to translate each page on entering',
+    def: false,
+    choices: [
+      {
+        label: 'Yes',
+        value: true,
+      },
+      {
+        label: 'No',
+        value: false
+      }
+    ]
+  },
+  {
     name: 'ideaSlug',
     type: 'string',
     permission: 'admin',

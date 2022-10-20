@@ -1,0 +1,23 @@
+<style>
+  {{data.widget.formattedContainerStyles}}
+  .heavyBold {
+    font-weight: 900;
+  }
+</style>
+
+
+<div class="translationModuleContainer">
+  <label for="translationModule">Taal instellen</label>
+  <div class="language-select-container">
+    <select translate="no" name="translationModule" class="translation-widget-select">
+      {% for language in data.widget.supportedLanguages %}
+        {% if language.code === 'nl' %}
+          <option translate="no" value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.text}}</option>      
+        {% else %}
+          <option translate="no" value="{{language.code}}" class="translation-widget-select-option">{{language.text}}  </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  
+</div>

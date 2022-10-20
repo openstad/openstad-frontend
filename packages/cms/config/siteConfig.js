@@ -135,7 +135,9 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-pages': {},
-        'openstad-global': {},
+        'openstad-global': {
+          deeplKey: siteData.deeplKey || process.env.DEEPL_API_KEY
+        },
         'openstad-attachments': {},
         'attachment-upload': {},
 
@@ -169,6 +171,9 @@ module.exports = {
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
+        'translation-widgets': {
+          deeplKey: siteData.deeplKey || process.env.DEEPL_API_KEY
+        },
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},

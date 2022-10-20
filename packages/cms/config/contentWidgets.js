@@ -116,6 +116,7 @@ const contentWidgets = {
 
     }
   },
+  'translation': {},
   'openstad-user-remove' : {},
   'user-form': {
     addLabel: 'Contact form (beta)',
