@@ -22,7 +22,7 @@ module.exports = (self, options) => {
     }
 
     const destinationLanguage = req.body.targetLanguageCode;
-    const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}`).digest('hex');
+    const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
     let result = cache.get(cacheKey);
 
     if (result) {
