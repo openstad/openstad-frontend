@@ -24,9 +24,9 @@ apos.on('ready', function() {
     }
 });
 
-changeTextInNodes = function (sentences, nodes, postFix = '') {
+changeTextInNodes = function (sentences, nodes) {
     sentences.forEach((sentence, index) => {
-        nodes[index].node.textContent = `${sentence}${postFix}`;
+        nodes[index].node.textContent = `${sentence}`;
     });
 }
 
