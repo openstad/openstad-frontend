@@ -10,7 +10,7 @@ module.exports = {
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
   },
-  playerData: ['config'],
+  playerData: ['config', 'OpenStadComponentsCdn'],
   construct: function(self, options) {
 
     const superPushAssets = self.pushAssets;
@@ -31,7 +31,7 @@ module.exports = {
           data: req.data,
         });
 			  widget.config = merge.recursive(config, widget.config);
-
+        widget.divId = widget.config.divId;
 			});
 
 			return superLoad(req, widgets, next);

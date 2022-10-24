@@ -3,14 +3,20 @@ apos.define('arguments-block-widgets', {
   construct: function (self, options) {
 
     self.play = function (widget, data, options) {
-      let config = data.config;
-      try {
-        config = JSON.parse(config)
-        config.ideaId = options.activeResource ? options.activeResource.id : options.activeResourceId;
-      } catch (err) {}
-      let element = document.querySelector('.'+config.divId);
-      OpenStadComponents['reactions'].Reactions.renderElement(element, config);
+      loadOpenStadComponents({
+        component: 'reactions',
+        onLoad: () => {
+          let config = data.config;
+          try {
+            config = JSON.parse(config)
+            config.ideaId = options.activeResourceId || ( options.activeResource && options.activeResource.id ) || false;
+          } catch (err) {}
+          let element = document.querySelector('.'+config.divId);
+          OpenStadComponents['reactions'].Reactions.renderElement(element, config);
+        },
+        data,
+      })
     }
-
+    
   }
 });

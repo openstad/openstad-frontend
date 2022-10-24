@@ -12,7 +12,7 @@ module.exports = {
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
   },
-  playerData: ['config', 'activeResourceId'],
+  playerData: ['config', 'activeResourceId', 'OpenStadComponentsCdn'],
   construct: function(self, options) {
 
     const superPushAssets = self.pushAssets;
@@ -39,7 +39,6 @@ module.exports = {
 			return superLoad(req, widgets, next);
 		}
 
-    self.optionsPlayerData =  ['activeResourceId'];
     const superFilterOptionsForDataAttribute = self.filterOptionsForDataAttribute;
     self.filterOptionsForDataAttribute = function(options) {
       options.activeResourceId = options.activeResource ?  options.activeResource.id : false;

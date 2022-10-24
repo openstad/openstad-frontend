@@ -42,7 +42,7 @@ module.exports = function createConfig({ widget, data, apos }) {
 
   let config = {
 
-    divId: 'ideeen-op-de-kaart',
+    divId: 'ocs-component-ideas-on-map-' + parseInt(Math.random() * 1000000).toString(),
 
 		display: {
       type: widget.displayType,

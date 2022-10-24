@@ -2,7 +2,7 @@ module.exports = function createConfig({ widget, data }) {
 
   let config = {
 
-    divId: 'osc-choices-guide',
+    divId: 'ocs-choices-guide-' + parseInt(Math.random() * 1000000).toString(),
 
     choicesGuideId: widget.choicesGuideId,
 

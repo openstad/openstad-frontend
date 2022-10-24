@@ -15,7 +15,14 @@ module.exports = {
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
   },
+  playerData: ['config', 'OpenStadComponentsCdn', 'activeResourceId'],
   construct: function(self, options) {
+
+    const superPushAssets = self.pushAssets;
+    self.pushAssets = function () {
+      superPushAssets();
+      self.pushAsset('script', 'main', {when: 'always'});
+    };
 
     options.arrangeFields = (options.arrangeFields || []).concat( arrangeFields );
 
@@ -36,9 +43,10 @@ module.exports = {
           imageProxy: imageProxy,
         });
         widget.config = merge.recursive(config, widget.config);
-
+        widget.config = merge.recursive(config, widget.config);
         widget.config = JSON.stringify(config);
-        widget.openstadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+
+        widget.OpenStadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
@@ -49,6 +57,13 @@ module.exports = {
       
       return superLoad(req, widgets, next);
     }
+
+    self.optionsPlayerData =  ['activeResourceId'];
+    const superFilterOptionsForDataAttribute = self.filterOptionsForDataAttribute;
+    self.filterOptionsForDataAttribute = function(options) {
+      options.OpenstadComponentsCdn = self.openstadComponentsCdn;
+      return superFilterOptionsForDataAttribute(options);
+    };
 
     const superOutput = self.output;
     self.output = function(widget, options) {

@@ -3,12 +3,18 @@ apos.define('ideas-on-map-widgets', {
   construct: function (self, options) {
 
     self.play = function (widget, data, options) {
-      let config = data.config;
-      try {
-        config = JSON.parse(config)
-      } catch (err) {}
-      let element = document.querySelector('.openstad-component-ideas-on-map');
-      OpenStadComponents['ideas-on-map'].IdeasOnMap.renderElement(element, config);
+      loadOpenStadComponents({
+        component: 'ideas-on-map',
+        onLoad: () => {
+          let config = data.config;
+          try {
+            config = JSON.parse(config)
+          } catch (err) {}
+          let element = document.querySelector('.'+config.divId);
+          OpenStadComponents['ideas-on-map'].IdeasOnMap.renderElement(element, config);
+        },
+        data,
+      })
     }
 
   }
