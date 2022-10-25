@@ -165,6 +165,7 @@ module.exports = {
         'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'openstad-rich-text-widgets' : {},
         'openstad-logger': {},
+        'openstad-components-widgets': {},
         'idea-pages': {},
         'section-widgets': {},
         'card-widgets': {},

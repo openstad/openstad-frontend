@@ -1,7 +1,7 @@
 const sortingOptions = require('../../../../config/sorting.js').ideasOnMapOptions;
 const ideaForm = require('./idea-form');
 
-module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imageProxy, apos) {
+module.exports = function createConfig({ widget, data, apos }) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -41,19 +41,8 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
   } catch (err) {}
   
   let config = {
-    // data.isAdmin
-    divId: 'ideeen-op-de-kaart',
-    siteId: data.global.siteId,
-    api: {
-      url: apiUrl,
-      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : [],
-      isUserLoggedIn: data.loggedIn,
-    },
-    user: {
-      id:  data.openstadUser && data.openstadUser.id,
-      role:  data.openstadUser && data.openstadUser.role,
-      displayName:  data.openstadUser && data.openstadUser.displayName,
-    },
+
+    divId: 'ocs-component-ideas-on-map-' + parseInt(Math.random() * 1000000).toString(),
 
 		display: {
       type: widget.displayType,
@@ -61,14 +50,11 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		  height: widget.displayHeight,
     },
 
-    loginUrl,
-
-		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
-
     canSelectLocation: widget.canSelectLocation,
     onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
 
+		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
 
     search: {
@@ -100,11 +86,6 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
     },
 
     image: {
-      server: {
-				process: imageProxy,
-				fetch: process.env.IMAGE_API_URL,
-        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
-      },
       aspectRatio: widget.imageAspectRatio || '16x9',
       allowMultipleImages,
       placeholderImageSrc,
@@ -142,17 +123,20 @@ module.exports = function createConfig(widget, data, jwt, apiUrl, loginUrl, imag
 		},
 
     map: {
-      variant: widget.mapVariant,
-      mapTilesUrl: widget.mapTilesUrl,
-      mapTilesSubdomains: widget.mapTilesSubdomains,
+      variant: widget.mapVariant || '',
+      mapTiles: {
+        url: widget.mapTilesUrl,
+        subdomains: widget.mapTilesSubdomains || '',
+        attribution: widget.mapTilesAttribution || '',
+      },
       zoom: 16,
       clustering: {
-        isActive: true, // widget.mapClustering,
+        isActive: widget.mapClustering,
         maxClusterRadius: widget.mapMaxClusterRadius,
       },
       locationIcon: mapLocationIcon,
       autoZoomAndCenter: widget.mapAutoZoomAndCenter,
-      polygon: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
+      area: data.global.mapPolygons || ( data.global.siteConfig && data.global.siteConfig.openstadMap && data.global.siteConfig.openstadMap.polygon ) || undefined,
       showCoverageOnHover: false,
 		},
 

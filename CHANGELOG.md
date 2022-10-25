@@ -2,6 +2,7 @@
 
 ## UNRELEASED
 * Add submission to resource form with configurable confirmation settings
+* Update ideas-on-map config to work with react-leaflet
 
 ## v0.40.0
 * Update version number
