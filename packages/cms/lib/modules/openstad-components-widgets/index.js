@@ -1,8 +1,4 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
-const fs = require('fs');
-const imageApiUrl   = process.env.IMAGE_API_URL;
-const imageApiToken = process.env.IMAGE_API_ACCESS_TOKEN;
-const rp = require('request-promise');
 const merge = require('merge');
 
 const { fields, arrangeFields } = require('./lib/fields');
@@ -17,7 +13,7 @@ module.exports = {
   beforeConstruct: function(self, options) {
     options.addFields = fields.concat(options.addFields || []);
   },
-  playerData: ['config', 'OpenStadComponentsCdn'],
+  playerData: ['config', 'OpenStadComponentsCdn', 'activeResourceId'],
   construct: function(self, options) {
 
     const superPushAssets = self.pushAssets;
@@ -29,14 +25,14 @@ module.exports = {
     options.arrangeFields = (options.arrangeFields || []).concat( arrangeFields );
 
     const superLoad = self.load;
-		self.load = function(req, widgets, next) {
+    self.load = function(req, widgets, next) {
 
       const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
       let imageProxy = siteUrl + '/image';
 
-			widgets.forEach((widget) => {
+      widgets.forEach((widget) => {
 
-			  let config = createConfig({
+        let config = createConfig({
           widget: widget,
           data: req.data,
           jwt: req.session.jwt,
@@ -44,8 +40,9 @@ module.exports = {
           loginUrl: req.data.siteUrl + '/oauth/login?{returnTo}',
           imageProxy: imageProxy,
         });
-			  widget.config = merge.recursive(config, widget.config);
-			  widget.config = JSON.stringify(config);
+        widget.config = merge.recursive(config, widget.config);
+        widget.config = merge.recursive(config, widget.config);
+        widget.config = JSON.stringify(config);
 
         widget.OpenStadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
@@ -56,12 +53,13 @@ module.exports = {
 
       });
       
-			return superLoad(req, widgets, next);
-		}
+      return superLoad(req, widgets, next);
+    }
 
+    self.optionsPlayerData =  ['activeResourceId'];
     const superFilterOptionsForDataAttribute = self.filterOptionsForDataAttribute;
     self.filterOptionsForDataAttribute = function(options) {
-      options.openstadComponentsCdn = self.openstadComponentsCdn;
+      options.OpenstadComponentsCdn = self.openstadComponentsCdn;
       return superFilterOptionsForDataAttribute(options);
     };
 

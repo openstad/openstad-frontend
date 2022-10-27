@@ -25,7 +25,7 @@ module.exports = {
       type: 'select',
 		  label: 'Kies de keuzewijzer',
       apiSyncField: 'choicesGuide.id',
-      choices: 'lijstje',
+      choices: 'listOfchoicesGuides',
 		  required: true
 	  },
     // mutiple questionGroups is not quite ready and is therefore turned of in the interface
