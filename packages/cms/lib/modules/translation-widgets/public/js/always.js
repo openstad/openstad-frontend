@@ -6,14 +6,14 @@
 apos.define('translation-widgets', {
     extend: 'openstad-widgets',
     construct: function (self, options) {
-        let firstTimeLoading = true;
-        let nodes = [];
-        let nlContents = [];
+        var firstTimeLoading = true;
+        var nodes = [];
+        var nlContents = [];
         
         const languageSelectContainer = $('.language-select-container');
 
         $('.translation-widget-select')
-            .on('change', (e) => changeLanguage(e));
+            .on('change', function (e) { return changeLanguage(e) });
 
         function setSelectDisabled(select) {
             select.setAttribute('disabled', true);
@@ -39,13 +39,13 @@ apos.define('translation-widgets', {
             const targetLanguageCode = select.value;
             setSelectDisabled(select);
 
-            console.log(`translate to ${targetLanguageCode}`);
+            console.log('translate to', targetLanguageCode);
             
-            let node = document.body;
+            var node = document.body;
 
             if (firstTimeLoading) {
                 nodes = handleNode(node, nodes);
-                nlContents = nodes.map(itemToTranslate => itemToTranslate.orgText);
+              nlContents = nodes.map(function(itemToTranslate) { return itemToTranslate.orgText });
                 firstTimeLoading = false;
             }
 
@@ -61,12 +61,12 @@ apos.define('translation-widgets', {
                     data: JSON.stringify({
                         contents: nlContents,
                         sourceLanguageCode: 'nl',
-                        targetLanguageCode,
+                        targetLanguageCode: targetLanguageCode,
                         origin: window.location.href
                     }),
                     success: function (sentences) {
                         saveLanguagePreference(targetLanguageCode);
-                        sentences = sentences.map(sentence => sentence.text);
+                        sentences = sentences.map(function(sentence) { return sentence.text });
                         changeTextInNodes(sentences, nodes);
                         setSelectEnabled(select);
                     }, 
