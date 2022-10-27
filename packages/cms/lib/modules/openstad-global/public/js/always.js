@@ -17,7 +17,7 @@ apos.on('ready', function() {
                 origin: window.location.href
             }),
             success: function (sentences) {
-                sentences = sentences.map(function(sentence) { returnsentence.text });
+                sentences = sentences.map(function(sentence) { return sentence.text });
                 changeTextInNodes(sentences, nodes);
             }, 
         });

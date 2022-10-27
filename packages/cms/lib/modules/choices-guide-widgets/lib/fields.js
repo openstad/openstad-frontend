@@ -10,7 +10,7 @@ module.exports = {
       type: 'select',
 		  label: 'Kies de keuzewijzer',
       apiSyncField: 'choicesGuide.id',
-      choices: 'lijstje',
+      choices: 'listOfchoicesGuides',
 		  required: true
 	  },
 	  {
