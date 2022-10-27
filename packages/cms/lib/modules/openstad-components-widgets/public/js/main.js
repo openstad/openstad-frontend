@@ -1,26 +1,26 @@
-let OpenStadComponentFiles = [
+var OpenStadComponentFiles = [
   { src: 'https://unpkg.com/react@16/umd/react.production.min.js' },
   { src: 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js' },
 ];
-let OpenStadComponentFilesLoaded = [];
-let OpenStadComponentFilesLoading = false;
+var OpenStadComponentFilesLoaded = [];
+var OpenStadComponentFilesLoading = false;
 
-function loadOpenStadComponents({ component, onLoad, data }) {
+function loadOpenStadComponents(component, onLoad, data) {
 
-  let filename = `${ data.OpenStadComponentsCdn }/${ component }.js`;
-  let entry = OpenStadComponentFiles.find( file => file.src && file.src.match(filename) );
+  var filename = data.OpenStadComponentsCdn + '/' + component + '.js';
+  var entry = OpenStadComponentFiles.find( function(file) { return file.src && file.src.match(filename) });
   if ( !entry ) {
     // not yet in the stack: add the file to the stack
     OpenStadComponentFiles.push({
       src: filename,
       onLoad: onLoad,
-      component,
-      data,
+      component: component,
+      data: data,
     });
   } else {
     // already on the stack
     if (onLoad) {
-      if ( !OpenStadComponentFilesLoaded.find( file => file.src && file.src.match(filename) ) ) {
+      if ( !OpenStadComponentFilesLoaded.find( function(file) { return file.src && file.src.match(filename) })) {
         // but not yet loaded; add to the onLoad stack
         if (!Array.isArray(entry.onLoad)) entry.onLoad = [ entry.onLoad ]
         entry.onLoad.push( onLoad );
@@ -41,14 +41,14 @@ function LoadNextOpenStadComponentsEntry(onLoad) {
   
   if (onLoad) {
     if (!Array.isArray(onLoad)) onLoad = [ onLoad ]
-    onLoad.forEach(func => {
+    onLoad.forEach(function(func) {
       func();
     });
   }
 
   if (OpenStadComponentFiles.length == 0) return OpenStadComponentFilesLoading = false;
 
-  let entry = OpenStadComponentFiles.shift();
+  var entry = OpenStadComponentFiles.shift();
 
   var script = document.createElement('script');
   script.setAttribute( 'src', entry.src );

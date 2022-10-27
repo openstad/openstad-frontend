@@ -1,10 +1,10 @@
 apos.on('ready', function() {
-    let nodes = [];
+    var nodes = [];
     const selectedLanguage = sessionStorage.getItem("targetLanguageCode");
 
     if(selectedLanguage && selectedLanguage !== 'nl') {
         nodes = handleNode(document.body, nodes);
-        const nlContents = nodes.map(itemToTranslate => itemToTranslate.orgText);
+      const nlContents = nodes.map(function(itemToTranslate) { return itemToTranslate.orgText });
 
         $.ajax({
             url: '/modules/openstad-global/translate',
@@ -17,7 +17,7 @@ apos.on('ready', function() {
                 origin: window.location.href
             }),
             success: function (sentences) {
-                sentences = sentences.map(sentence => sentence.text);
+                sentences = sentences.map(function(sentence) { returnsentence.text });
                 changeTextInNodes(sentences, nodes);
             }, 
         });
@@ -25,16 +25,16 @@ apos.on('ready', function() {
 });
 
 changeTextInNodes = function (sentences, nodes) {
-    sentences.forEach((sentence, index) => {
-        nodes[index].node.textContent = `${sentence}`;
+    sentences.forEach(function(sentence, index) {
+        nodes[index].node.textContent = sentence;
     });
 }
 
 handleNode = function (node, toBeTranslated) {
     const childNodes = node.childNodes;
-    for (let i = 0; i < childNodes.length; i++) {
+    for (var i = 0; i < childNodes.length; i++) {
         if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
-            let nodeName = childNodes[i].nodeName.toLowerCase();
+            var nodeName = childNodes[i].nodeName.toLowerCase();
             if (nodeName != 'script' && nodeName != 'style') {
                 handleNode(childNodes[i], toBeTranslated);
             }
@@ -43,7 +43,7 @@ handleNode = function (node, toBeTranslated) {
             const shouldTranslate = parentElement && parentElement.getAttribute('translate') !== 'no';
 
             if (shouldTranslate) {
-                let textContent = childNodes[i].textContent;
+                var textContent = childNodes[i].textContent;
                 textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
                 if (textContent) {
                     toBeTranslated.push({
