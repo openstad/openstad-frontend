@@ -1,11 +1,17 @@
-apos.on('ready', function() {
+apos.on('ready', function () {
     var nodes = [];
     const selectedLanguage = sessionStorage.getItem("targetLanguageCode");
 
-    if(selectedLanguage && selectedLanguage !== 'nl') {
-        nodes = handleNode(document.body, nodes);
-      const nlContents = nodes.map(function(itemToTranslate) { return itemToTranslate.orgText });
+    /** 
+     * The translate widget if set on the page will trigger an onchange event when it has been loaded
+     * thus triggering the fetching of translations. Then this one should do nothing and let the dedicated 
+     * widget make the call.
+     */    
+    const translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
+    if (!translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+        nodes = handleNode(document.body, nodes);
+        const nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
         $.ajax({
             url: '/modules/openstad-global/translate',
             method: 'post',
@@ -17,15 +23,15 @@ apos.on('ready', function() {
                 origin: window.location.href
             }),
             success: function (sentences) {
-                sentences = sentences.map(function(sentence) { return sentence.text });
+                sentences = sentences.map(function (sentence) { return sentence.text });
                 changeTextInNodes(sentences, nodes);
-            }, 
+            },
         });
     }
 });
 
 changeTextInNodes = function (sentences, nodes) {
-    sentences.forEach(function(sentence, index) {
+    sentences.forEach(function (sentence, index) {
         nodes[index].node.textContent = sentence;
     });
 }

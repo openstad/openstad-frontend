@@ -28,7 +28,6 @@ apos.define('translation-widgets', {
         function saveLanguagePreference(targetLanguageCode) {
             try{
                 sessionStorage.setItem("targetLanguageCode", targetLanguageCode);
-                console.log("Saved language preference");
             } catch(quotaExceededError) {
                 console.log("Could not save the language preference");
             }
@@ -39,7 +38,6 @@ apos.define('translation-widgets', {
             const targetLanguageCode = select.value;
             setSelectDisabled(select);
 
-            console.log('translate to', targetLanguageCode);
             
             var node = document.body;
 
@@ -50,10 +48,12 @@ apos.define('translation-widgets', {
             }
 
             if (targetLanguageCode === 'nl') {
+                console.log(`Language is set to the default: ${targetLanguageCode}. No need to translate`);
                 changeTextInNodes(nlContents, nodes);
                 setSelectEnabled(select);
                 saveLanguagePreference(targetLanguageCode);
             } else {
+                console.log('translating to', targetLanguageCode);
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -79,6 +79,10 @@ apos.define('translation-widgets', {
     }
 });
 
+/**
+ * Makes a call to the backend to translate. This needs to happen to set the initial selection after rendering the page, 
+ * collecting the initial values and if the language is not the default 'nl', fetching the translations
+ */
 apos.on('ready', function() {
     const selectedLanguage = sessionStorage.getItem('targetLanguageCode');
     $('.translation-widget-select').val(selectedLanguage ? selectedLanguage : 'nl').trigger('change');

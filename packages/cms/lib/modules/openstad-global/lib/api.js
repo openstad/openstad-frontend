@@ -13,47 +13,64 @@ const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
 module.exports = (self, options) => {
 
   self.translate = (req, res) => {
-    let deeplAuthKey = options.deeplKey;
-    let content = req.body.contents;
-    let origin = req.body.origin;
+    const deeplAuthKey = options.deeplKey;
+    const content = req.body.contents;
+    const origin = req.body.origin;
+    const sourceLanguageCode = req.body.sourceLanguageCode;
+    const destinationLanguage = req.body.targetLanguageCode;
+
+    const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
 
     if (!origin) {
-      res.status(400).send('Could not determine the page to translate');
+      res.status(400).json({ error: 'Could not determine the page to translate' });
     }
 
-    const destinationLanguage = req.body.targetLanguageCode;
-    const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
-    let result = cache.get(cacheKey);
+    const result = cache.get(cacheKey);
 
     if (result) {
       console.log("Receiving translations from cache");
-      return res.json(result);
+      res.json(result);
     }
 
+    // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
+    if (destinationLanguage === 'nl') {
+      console.log("Target language is dutch, not translating and responding with the dutch sentences received");
+      res.json(content);
+    }
+
+
     if (deeplAuthKey) {
+      let translator = null;
+
       try {
-        const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+        translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+      } catch (error) {
+        console.log({ error });
+        res.status(500).json({ error: 'Could not translate the page at this time' });
+      }
+
+      if (translator) {
         translator.translateText(
           content,
-          req.body.sourceLanguageCode,
-          req.body.targetLanguageCode,
-        )
-          .then(response => {
-            cache.set(`${cacheKey}`, response, {
-              life: cacheLifespan
-            })
-            return res.json(response);
-          })
-          .catch(error => console.log({ error }));
-      } catch (error) {
-        console.log({ translationError: error });
+          sourceLanguageCode,
+          destinationLanguage,
+        ).then(response => {
+          cache.set(`${cacheKey}`, response, {
+            life: cacheLifespan
+          });
+          res.json(response);
+        })
+          .catch(error => {
+            console.error({ error });
+            res.status(500).json({ error: 'Error while translating the page', message: error });
+          });
       }
     } else {
-      res.status(400).send('No valid key provided');
+      res.status(400).json({ error: 'No valid key provided' });
     }
   }
 
-  self.apos.app.post('/modules/openstad-global/translate', function(req, res){
+  self.apos.app.post('/modules/openstad-global/translate', function (req, res) {
     self.translate(req, res);
   });
 
