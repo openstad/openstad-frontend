@@ -1,8 +1,6 @@
 const styleSchema = require('../../../config/styleSchema.js').default;
-const crypto = require('crypto');
 const deepl = require('deepl-node');
 const cache = require('../../../services/cache').cache;
-const cacheLifespan = 8 * 60 * 60;   // set lifespan of 8 hours;
 const cacheLanguagesLifespan = (24 * 60 * 60) * 7;   // set lifespan of language cache to a week;
 const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
 

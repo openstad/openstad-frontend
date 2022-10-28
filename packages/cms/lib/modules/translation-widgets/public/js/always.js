@@ -72,6 +72,7 @@ apos.define('translation-widgets', {
                     }, 
                     error: function() {
                         setSelectEnabled(select);
+                        setSelectedLanguage('nl');
                     }
                 })
             }
@@ -79,11 +80,14 @@ apos.define('translation-widgets', {
     }
 });
 
+function setSelectedLanguage(language) {
+    $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
+}
+
 /**
  * Makes a call to the backend to translate. This needs to happen to set the initial selection after rendering the page, 
  * collecting the initial values and if the language is not the default 'nl', fetching the translations
  */
 apos.on('ready', function() {
-    var selectedLanguage = sessionStorage.getItem('targetLanguageCode');
-    $('.translation-widget-select').val(selectedLanguage ? selectedLanguage : 'nl').trigger('change');
+    setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
 });
