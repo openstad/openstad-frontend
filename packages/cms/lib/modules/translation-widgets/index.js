@@ -38,6 +38,7 @@ module.exports = {
             if (cache.get(cacheKeyForLanguages)) {
                 console.log("Received languages from cache");
                 supportedLanguages = cache.get(cacheKeyForLanguages);
+                console.log(supportedLanguages);
             }
             else if (deeplAuthKey) {
                 try {
@@ -45,6 +46,8 @@ module.exports = {
                     await translator.getTargetLanguages().then(response => {
                         supportedLanguages = response;
                     });
+
+                    console.log({supportedLanguages});
     
                     // convert items to their own language
                     const languageTranslatedCollection = [];
@@ -63,13 +66,17 @@ module.exports = {
                         supportedLanguages = languages.map((language, index) => {
                             language['code'] = supportedLanguages[index].code;
                             return language;
-                        })
+                        });
     
                         cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
                             life: cacheLanguagesLifespan
                         });
                     });
                 } catch(error) {
+                    supportedLanguages = supportedLanguages.map((language, index) => {
+                        language['text'] = supportedLanguages[index].name;
+                        return language;
+                    })
                     console.error({translationError: error});
                 }
             } else {
