@@ -62,7 +62,7 @@ module.exports = (self, options) => {
         })
           .catch(error => {
             console.error({ error });
-            res.status(500).json({ error: 'Error while translating the page', message: error });
+            res.status(500).json({ error: 'Error while translating the page' });
           });
       }
     } else {
