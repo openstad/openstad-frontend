@@ -38,7 +38,6 @@ module.exports = {
             if (cache.get(cacheKeyForLanguages)) {
                 console.log("Received languages from cache");
                 supportedLanguages = cache.get(cacheKeyForLanguages);
-                console.log(supportedLanguages);
             }
             else if (deeplAuthKey) {
                 try {
@@ -46,8 +45,6 @@ module.exports = {
                     await translator.getTargetLanguages().then(response => {
                         supportedLanguages = response;
                     });
-
-                    console.log({supportedLanguages});
     
                     // convert items to their own language
                     const languageTranslatedCollection = [];
