@@ -2,26 +2,26 @@ apos.define('accordeon-widgets', {
   extend:    'map-widgets',
   construct: function (self, options) {
     self.playAfterlibsLoaded = function ($widget, data, options) {
-      $('.accordeon-item .title').on('click', function (e) {
+      $widget.find('.accordeon-item .title').on('click', function (e) {
         e.preventDefault();
         
         var $accordeonItem = $(this).closest('.accordeon-item');
         
         if ($accordeonItem.hasClass('closed')) {
           // Close all open items
-          closeItem($('.accordeon-item:not(.closed)'));
+          closeItem($widget.find('.accordeon-item:not(.closed)'));
           
           // Open the clicked item
           openItem($accordeonItem);
         } else {
           // Close all open items
-          closeItem($('.accordeon-item:not(.closed)'));
+          closeItem($widget.find('.accordeon-item:not(.closed)'));
         }
       });
       
-      $('.accordeon-item .description a').each(function () {
+      $widget.find('.accordeon-item .title').each(function () {
         $(this).attr('tabindex', '-1');
-      })
+      });
     }
   }
 });
@@ -38,7 +38,10 @@ function closeItem($el) {
 
 function openItem($el) {
   // Get height of description and set it as maxheight on the accordeon item
-  var height = $el.find('.description p').outerHeight();
+  var height = $el.find('.description').children().toArray().reduce(function (total, child) {
+    return total + $(child).outerHeight(true);
+  }, 0);
+  
   $el.removeClass('closed').find('.description').css({maxHeight: height});
   
   // Allow focusability of description div and any underlying links and of the description
