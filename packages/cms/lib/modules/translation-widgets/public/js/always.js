@@ -10,7 +10,7 @@ apos.define('translation-widgets', {
         var nodes = [];
         var nlContents = [];
         
-        const languageSelectContainer = $('.language-select-container');
+        var languageSelectContainer = $('.language-select-container');
 
         $('.translation-widget-select')
             .on('change', function (e) { return changeLanguage(e) });
@@ -28,18 +28,16 @@ apos.define('translation-widgets', {
         function saveLanguagePreference(targetLanguageCode) {
             try{
                 sessionStorage.setItem("targetLanguageCode", targetLanguageCode);
-                console.log("Saved language preference");
             } catch(quotaExceededError) {
                 console.log("Could not save the language preference");
             }
         }
 
         changeLanguage = function (e) {
-            const select = e.target;
-            const targetLanguageCode = select.value;
+            var select = e.target;
+            var targetLanguageCode = select.value;
             setSelectDisabled(select);
 
-            console.log('translate to', targetLanguageCode);
             
             var node = document.body;
 
@@ -50,10 +48,12 @@ apos.define('translation-widgets', {
             }
 
             if (targetLanguageCode === 'nl') {
+                console.log("Language is set to the default: " + targetLanguageCode +". No need to translate");
                 changeTextInNodes(nlContents, nodes);
                 setSelectEnabled(select);
                 saveLanguagePreference(targetLanguageCode);
             } else {
+                console.log('translating to', targetLanguageCode);
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -72,6 +72,7 @@ apos.define('translation-widgets', {
                     }, 
                     error: function() {
                         setSelectEnabled(select);
+                        setSelectedLanguage('nl');
                     }
                 })
             }
@@ -79,7 +80,14 @@ apos.define('translation-widgets', {
     }
 });
 
+function setSelectedLanguage(language) {
+    $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
+}
+
+/**
+ * Makes a call to the backend to translate. This needs to happen to set the initial selection after rendering the page, 
+ * collecting the initial values and if the language is not the default 'nl', fetching the translations
+ */
 apos.on('ready', function() {
-    const selectedLanguage = sessionStorage.getItem('targetLanguageCode');
-    $('.translation-widget-select').val(selectedLanguage ? selectedLanguage : 'nl').trigger('change');
+    setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
 });
