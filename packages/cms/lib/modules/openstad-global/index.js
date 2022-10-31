@@ -20,15 +20,23 @@ module.exports = {
   improve: 'apostrophe-global',
   addFields: fields,
   afterConstruct: function(self) {
+    
     self.expressMiddleware.push(self.overrideGlobalDataWithSiteConfig);
   },
   construct: function (self, options) {
     require('./lib/api')(self, options);
-
+    
     self.on('apostrophe:modulesReady', 'setSyncFields');
     self.on('apostrophe-docs:beforeSave', 'formatGlobalFields');
     self.on('apostrophe-docs:afterSave', 'syncApi');
     self.on('apostrophe-docs:afterSave', 'clearCache');
+
+
+    var superPushAssets = self.pushAssets;
+    self.pushAssets = function () {
+        superPushAssets();
+        self.pushAsset('script', 'always', { when: 'always' });
+    };
 
     options.arrangeFields = arrangeFields.concat(options.arrangeFields || []);
 
@@ -100,6 +108,5 @@ module.exports = {
 
       next();
     });
-
   }
 };

@@ -9,6 +9,9 @@ apos.define('section-widgets', {
 
 
 function initTabs ($parent) {
+
+  console.log("init tabs fout");
+  
   var $tabContainers = $parent.find('.tab-container');
 
 

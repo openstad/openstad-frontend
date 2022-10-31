@@ -24,8 +24,11 @@ module.exports = async function(self, options) {
      */
     const httpHeaders = {
         'Accept': 'application/json',
-        "X-Authorization" : `Bearer ${req.session.jwt}`,
     };
+
+    if (req.session.jwt) {
+      httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
+    }
     const data = req.body;
 
     data.extraData = data.extraData ? data.extraData : {};
@@ -42,7 +45,7 @@ module.exports = async function(self, options) {
         return image ? image.url : '';
       }) : [];
 
-      // add the formatedd images
+      // add the formatted images
       data.extraData.images = images;
 
       //clean up data object
@@ -50,6 +53,11 @@ module.exports = async function(self, options) {
    } else {
      data.extraData.images = [];
    }
+
+    if (req.body.resourceType === 'submission') {
+      data.submittedData = data.extraData;
+      delete data.extraData;
+    }
 
     const options = {
         method: req.body.resourceId ? 'PUT' : 'POST',

@@ -1,15 +1,16 @@
 <li>
     <p>
-        <b>
-            {#
-            <a class="link-caret--black" href="{{ideaUrl}}/{{activity.idea.id}}">
-                {{activity.idea.title}}
-            </a>
-            #}
-            <span class="aalink-caret--black">
-               {{activity.idea.title}}
-            </span>
-        </b>
+      <b>
+        {% if activity.cmsUrl %}
+        <a class="link-caret--black" href="{{activity.cmsUrl}}">
+          {{activity.idea.title}}
+        </a>
+        {% else %}
+        <span class="aalink-caret--black">
+          {{activity.idea.title}}
+        </span>
+        {% endif %}
+      </b>
     </p>
 
     <p><em>{{activity.site.title}}</em></p>
@@ -18,7 +19,7 @@
     <p>"{{activity.description | sanitize | truncate(80) }}"</p>
     {% endif %}
     <div class="user-activity-detail-row">
-        <div class="stamp stamp-{{activity.type.slug}}">{{activity.type.label}}</div>
-        <p>{{activity.createdAt | date( 'D MMM YYYY, HH:mm')}} </p>
+      <div class="stamp stamp-{{activity.type.slug}}">{{activity.type.label}}</div>
+      <p>{{activity.createdAt | date( 'D MMM YYYY, HH:mm')}} </p>
     </div>
 </li>

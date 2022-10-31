@@ -1,11 +1,28 @@
 const MongoClient = require('mongodb').MongoClient;
-const host = process.env.MONGO_DB_HOST || 'localhost';
-const port = process.env.MONGODB_PORT_27017_TCP_PORT || 27017;
-const url = 'mongodb://' + host + ':' + port;
+
+function getConnectionString (database) {
+  // Allow the connection string builder to be overridden by an environment variable
+  // We replace '{database}' in this connection string with the database we are looking for
+  if (process.env.MONGO_DB_CONNECTION_STRING) {
+    return process.env.MONGO_DB_CONNECTION_STRING.replace('{database}', database);
+  }
+  
+  const host = process.env.MONGO_DB_HOST || 'localhost';
+  const port = process.env.MONGODB_PORT_27017_TCP_PORT || process.env.MONGO_DB_PORT || 27017;
+  const user = process.env.MONGO_DB_USER || '';
+  const password = process.env.MONGO_DB_PASSWORD || '';
+  const authSource = process.env.MONGO_DB_AUTHSOURCE || '';
+  
+  const useAuth = user && password;
+  
+  return `mongodb://${useAuth ? `${user}:${password}@` : ''}${host}:${port}/${database ? database : ''}${authSource ? `?authSource=${authSource}` : ''}`;
+}
+
+exports.getConnectionString = getConnectionString;
 
 exports.copyMongoDb = (oldDbName, newDbName) => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(getConnectionString(), function(err, db) {
       if (err) {
         reject(err);
       } else {
@@ -32,7 +49,7 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
 
 exports.dbExists = (dbName) => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(url, (err, db) => {
+    MongoClient.connect(getConnectionString(), (err, db) => {
       if (err) {
         reject(err);
       } else {

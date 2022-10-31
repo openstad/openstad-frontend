@@ -135,7 +135,9 @@ module.exports = {
           siteUrl: siteUrl,
         },
         'openstad-pages': {},
-        'openstad-global': {},
+        'openstad-global': {
+          deeplKey: siteData.deeplKey || process.env.DEEPL_API_KEY
+        },
         'openstad-attachments': {},
         'attachment-upload': {},
 
@@ -163,12 +165,16 @@ module.exports = {
         'openstad-templates': {viewsFolderFallback: path.join(__dirname, '../views')},
         'openstad-rich-text-widgets' : {},
         'openstad-logger': {},
+        'openstad-components-widgets': {},
         'idea-pages': {},
         'section-widgets': {},
         'card-widgets': {},
         'iframe-widgets': {},
         'speech-bubble-widgets': {},
         'title-widgets': {},
+        'translation-widgets': {
+          deeplKey: siteData.deeplKey || process.env.DEEPL_API_KEY
+        },
         'list-widgets': {},
         'agenda-widgets': {},
         'admin-widgets': {},

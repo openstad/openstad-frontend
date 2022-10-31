@@ -20,8 +20,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
 
     {% for idea in data.widget.activeResources %}
 
+    {# TODO: this should be moved to the widget load method #}
     {% if data.widget.pathForResource and data.widget.pathForResource.includes(':id') %}
     {% set ideaUrl = data.widget.pathForResource.replace(':id', idea.id) %}
+    {% elseif data.widget.pathForResource and data.widget.pathForResource.includes('\{ideaId\}') %}
+    {% set ideaUrl = data.widget.pathForResource.replace('\{ideaId\}', idea.id) %}
     {% else %}
     {% set ideaUrl = data.widget.pathForResource + '/' + idea.id %}
     {% endif %}
@@ -42,7 +45,6 @@ data-default-sort="{{data.widget.defaultSorting}}"
         {% endif %}
 
         <div class="image" style="background-image: url('{{data.widget.formatImageUrl(idea.extraData.images[0], idea.location, data.widget, 500, 500, true, data.cookieConsent) }}')"></div>
-
         {% if data.widget.displayLabel %}
         <div class="duration">
           {{ data.widget['label' + idea.status] | replace("[countdown]", idea.countdown or "0") | replace(" 1 dagen", " 1 dag") }}
@@ -68,7 +70,11 @@ data-default-sort="{{data.widget.defaultSorting}}"
           {% endif %}
 
           {% if data.widget.resource === 'idea' %}
-
+            {% if not idea.publishDate %}
+            <span class="publishDate badge">Concept</span>
+            {% endif %}
+          {% endif %}
+          
 	        {% if data.widget.siteConfig.minimumYesVotes and data.widget.siteConfig.voteValues and data.widget.siteConfig.voteValues.length >= 1 %}
           <div class="ideaProgress">
             <div class="progress">

@@ -1,5 +1,9 @@
 # Changelog
 
+## UNRELEASED
+* Add submission to resource form with configurable confirmation settings
+* Update ideas-on-map config to work with react-leaflet
+
 ## v0.40.0
 * Update version number
 
@@ -14,6 +18,7 @@
 * Fix resource form input counter
 * Remove hideVotes option from resource representation
 * Move docker builds from travis to github actions
+* Remove global option mapImageFlag
 
 ## v0.23.0
 * Remove gebiedsontwikkelings tool widget
@@ -208,7 +213,6 @@
 * Feature: Better explanations in global newsletter settings
 * Add admin warning to vote counter if vote count is not publicly available
 * Allow public profile status (viewablebyRole) to be edited by the user
-
 
 ## v0.8.3 (2020-11-06)
 * Fix: api/area needs to be called without authentication header

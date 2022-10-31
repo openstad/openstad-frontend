@@ -72,17 +72,9 @@ module.exports =  function (req, res, next) {
           */
          ideas = ideas.map((idea) => {
            let createdData = new Date(idea.createdAt);
-           idea.fullUrl = `${siteUrl}/${ideaSlug}/${idea.id}`;
-           idea.overviewUrl = `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
+           idea.fullUrl = ideaSlug && ideaSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaSlug}/${idea.id}`;
+           idea.overviewUrl = ideaOverviewSlug && ideaOverviewSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaOverviewSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
            idea.createdTime = createdData.getTime();
-
-           if (idea.location && idea.location.coordinates[0] && idea.location.coordinates[1]) {
-              let lat = idea.location.coordinates[0];
-              let lng = idea.location.coordinates[1];
-              let flag = req.data.global.mapImageFlag ? 'flag-' + req.data.global.mapImageFlag : 'flag-red';
-              idea.locationMapImage = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=380x214&maptype=roadmap&markers=icon:${appUrl}/modules/openstad-assets/img/idea/${flag}.png|${lat},${lng}&key=${googleMapsApiKey}`;
-              idea.locationUrl = `https://maps.google.com/?ll=${lat},${lng}`;
-           }
 
            return idea;
          });

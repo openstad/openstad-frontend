@@ -1,19 +1,5 @@
 {% set pageTitle = 'Jouw plan insturen' %}
-{% set showForm = true %}
 {% set activeResource = data.activeResource %}
-{% set isOwner = data.openstadUser.id === activeResource.userId %}
-{% set isReactedTo = (activeResource.yes > 0 or activeResource.no > 0 or activeResource.argumentCount > 0) %}
-{% set notReactedTo =  not isReactedTo %}
-{% set isOwnerOrAdmin = (notReactedTo or not data.widget.hactiveResourcedminAfterPublicAction and isOwner) or data.hasModeratorRights %}
-
-
-{% if activeResource and isOwnerOrAdmin %}
-{% set showForm = true %}
-{% elseif (not activeResource) and data.openstadUser and data.openstadUser.id %}
-{% set showForm = true %}
-{% else %}
-{% set showForm = false %}
-{% endif %}
 
 {% if data.widget.editorDescription %}
 {% set useModernEditor = true %}
@@ -22,12 +8,12 @@
 {% endif %}
 
 <div class="pageContent newactiveResource" id="content">
-	{% if not showForm %}
+	{% if not data.widget.showForm %}
 	<div class="box-grey">
 		<h1>{% if data.widget.loginText %} {{ data.widget.loginText | sanitize | safe }} {% else %} Om een plan in te dienen moet je ingelogd zijn.{% endif %}</h1>
 		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
 	</div>
-	{% elseif showForm %}
+	{% elseif data.widget.showForm %}
 		<div  id="formulier-block">
 			{% if data.widget.formType === 'dynamic' %}
 			{% include 'includes/dynamic-form.html' %}

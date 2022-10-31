@@ -119,7 +119,8 @@ module.exports = {
             const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
             const sitePrefix = '/' + req.sitePrefix;
 
-            let redirectUrl  = req.query.redirectUrl ? req.query.redirectUrl : '/' + req.data.global.ideaSlug + '/' + req.query.ideaId;
+            let ideaSlug = req.data.global.ideaSlug;
+            let redirectUrl  = ideaSlug && req.query.redirectUrl ? req.query.redirectUrl : (ideaSlug.match(/\{ideaId\}/i) ? `/${ideaSlug.replace(/\{ideaId\}/ig, req.query.ideaId)}` : `/${ideaSlug}/${req.query.ideaId}` );
             // incase the site prefix, this happens to be filled for a /subdir, make sure this is removed if it exists, otherwise it will be added double
             redirectUrl = sitePrefix && redirectUrl.startsWith(sitePrefix) ? redirectUrl.replace(sitePrefix, '') : redirectUrl;
             // in case full url is prefixed remove it, otherwise will also cause issues
