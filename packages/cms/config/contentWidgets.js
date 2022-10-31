@@ -209,3 +209,5 @@ const getVisibleContentWidgets = (filteredWidgets, displaySettings) => {
 
   return filteredContentWidgets;
 }
+
+exports.contentWidgets = contentWidgets;
