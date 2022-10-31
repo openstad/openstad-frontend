@@ -13,11 +13,92 @@
 
 {% import 'includes/numberplatebutton.html' as numberPlateButton %}
 
+{% if data.widget.multipleImages and idea.extraData.images and idea.extraData.images.length > 0 %}
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css" />
+	<style>
+		.splide:not( .is-overflow ) .splide__list {
+			justify-content: center;
+		}
+
+		.splide__slide .image {
+			background-size: cover;
+		}
+
+		#mainslider .splide__slide .image {
+			width: 100%;
+			height: 375px;
+		}
+
+		#thumbnailslider {
+			max-width: 700px;
+			margin-top: -45px;
+		}
+
+		#thumbnailslider .splide__slide .image {
+			width: 100%;
+			height: 100%;
+		}
+
+		@media only screen and (max-width: 700px) {
+			#thumbnailslider {
+				display: none;
+			}
+
+			#title .primary {
+				height: 250px;
+			}
+		}
+	</style>
+	<script>
+		document.addEventListener( 'DOMContentLoaded', function() {
+			var main = new Splide( '#mainslider', {
+				type      : 'fade',
+				rewind    : true,
+				pagination: false,
+				arrows    : true,
+				height: '375px',
+				breakpoints : {
+					700: {
+						height : '250px'
+					},
+				},
+  		} );
+
+			var thumbnails = new Splide( '#thumbnailslider', {
+				fixedWidth  : 100,
+				height: '54px',
+				gap         : 10,
+				rewind      : true,
+				pagination  : false,
+				isNavigation: true,
+				arrows: false,
+			} );
+
+			main.sync( thumbnails );
+			main.mount();
+			thumbnails.mount();
+		} );
+	</script>
+{% endif %}
+
 <div class="pageContent idea openstad-ajax-refresh" id="single-idea-container">
 	<div id="title">
 		<div>
 			<div class="primary">
-				{% if idea.extraData.images[0] %}
+				{% if data.widget.multipleImages and idea.extraData.images and idea.extraData.images.length > 0 %}
+				<div id="mainslider" class="splide" role="group" aria-label="{{ idea.title }}">
+					<div class="splide__track">
+						<ul class="splide__list">
+							{% for image in idea.extraData.images %}
+							<li class="splide__slide">
+								<div class="image" style="background-image: url('{{image}}');"></div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				{% elif idea.extraData.images[0] %}
 				<div class="image" style="background-image: url('{{idea.extraData.images[0]}}');"></div>
 				{% elif data.widget.defaultImage %}
         <div class="image"  style="background-image: url('{{apos.attachments.url(data.widget.defaultImage)}}')"></div>
@@ -138,6 +219,19 @@
 			</div>
 		</div>
 	</div>
+	{% if data.widget.multipleImages and idea.extraData.images and idea.extraData.images.length > 0 %}
+		<div id="thumbnailslider" class="splide" role="group" aria-label="{{ idea.title }}">
+			<div class="splide__track">
+				<ul class="splide__list">
+					{% for image in idea.extraData.images %}
+					<li class="splide__slide">
+							<div class="image" style="background-image: url('{{image}}');"></div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	{% endif %}
 </div>
 <div class="pageContent idea clearfix">
 	<div class="primary">
