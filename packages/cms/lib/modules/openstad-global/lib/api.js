@@ -22,20 +22,20 @@ module.exports = (self, options) => {
     const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
 
     if (!origin) {
-      res.status(400).json({ error: 'Could not determine the page to translate' });
+      return res.status(400).json({ error: 'Could not determine the page to translate' });
     }
 
     const result = cache.get(cacheKey);
 
     if (result) {
       console.log("Receiving translations from cache");
-      res.json(result);
+      return res.json(result);
     }
 
     // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
     if (destinationLanguage === 'nl') {
       console.log("Target language is dutch, not translating and responding with the dutch sentences received");
-      res.json(content);
+      return res.json(content);
     }
 
 
@@ -46,7 +46,7 @@ module.exports = (self, options) => {
         translator = new deepl.Translator(deeplAuthKey, translatorConfig);
       } catch (error) {
         console.log({ error });
-        res.status(500).json({ error: 'Could not translate the page at this time' });
+        return res.status(500).json({ error: 'Could not translate the page at this time' });
       }
 
       if (translator) {
@@ -58,15 +58,15 @@ module.exports = (self, options) => {
           cache.set(`${cacheKey}`, response, {
             life: cacheLifespan
           });
-          res.json(response);
+          return res.json(response);
         })
           .catch(error => {
             console.error({ error });
-            res.status(500).json({ error: 'Error while translating the page' });
+            return res.status(500).json({ error: 'Error while translating the page' });
           });
       }
     } else {
-      res.status(400).json({ error: 'No valid key provided' });
+      return res.status(400).json({ error: 'No valid key provided' });
     }
   }
 
