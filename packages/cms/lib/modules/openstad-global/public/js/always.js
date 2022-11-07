@@ -85,7 +85,7 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
         container.appendChild(messageElement);
 
         if(optionalTimeout) {
-            setTimeout(() => {
+            setTimeout(function(){
                 container.removeChild(messageElement);
             }, optionalTimeout);
         }
