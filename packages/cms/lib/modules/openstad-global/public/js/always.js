@@ -9,8 +9,10 @@ apos.on('ready', function () {
      */    
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
-    if (!translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
-        var toastContainer = document.querySelector("#openstad-toast");
+    var isNormalUser = !(self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'); 
+    var toastContainer = document.querySelector("#openstad-toast");
+
+    if (isNormalUser && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
         addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
 
         nodes = handleNode(document.body, nodes);
@@ -28,12 +30,14 @@ apos.on('ready', function () {
             success: function (sentences) {
                 sentences = sentences.map(function (sentence) { return sentence.text });
                 changeTextInNodes(sentences, nodes);
-                addToast(toastContainer, "success", "De pagina is succesvol vertaald", 3000);
+                addToast(toastContainer, "success", "De pagina is succesvol vertaald");
             },
-            error: function(error) {
-                addToast(toastContainer, "error", "De pagina kon niet worden vertaald", 3000);
+            error: function() {
+                addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
             }
         });
+    } else if(!isNormalUser) {
+        addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.");
     }
 });
 
@@ -73,31 +77,37 @@ handleNode = function (node, toBeTranslated) {
 
 function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
     if(container) {
+        var wrapperElement = document.createElement("div");
         var messageElement = document.createElement("p");
+        
         if(typeOfInfoErrorOrSuccess === 'success') {
-            messageElement.setAttribute("class", "toast-success-message");
+            wrapperElement.setAttribute("class", "toast-wrapper toast-success");
         } else if(typeOfInfoErrorOrSuccess === 'info') {
-            messageElement.setAttribute("class", "toast-info-message");
+            wrapperElement.setAttribute("class", "toast-wrapper toast-info");
         } else if(typeOfInfoErrorOrSuccess === 'error') {
-            messageElement.setAttribute("class", "toast-error-message");
+            wrapperElement.setAttribute("class", "toast-wrapper toast-error");
         }
         messageElement.appendChild(document.createTextNode(text));
-        container.appendChild(messageElement);
+        wrapperElement.appendChild(messageElement);
+        
+        if(!optionalTimeout) {
+            var removeButton = document.createElement("button");
+            var removeIcon = document.createElement("span");
+            removeIcon.setAttribute("class", " fa fa-times-circle");
+            removeButton.appendChild(removeIcon);
+    
+            removeButton.onclick = function() {
+                container.removeChild(wrapperElement);
+            };
+            wrapperElement.appendChild(removeButton);
+        }
+     
+        container.appendChild(wrapperElement);
 
         if(optionalTimeout) {
             setTimeout(function(){
-                container.removeChild(messageElement);
+                container.removeChild(wrapperElement);
             }, optionalTimeout);
         }
-    }
-}
-
-function cleanupToasts(container) {
-    if(container) {
-        container.childNodes.forEach(function(pElement){
-            setTimeout(function(){
-                container.removeChild(pElement);
-            }, 3000);
-        });
     }
 }

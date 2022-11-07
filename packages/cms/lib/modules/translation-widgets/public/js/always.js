@@ -73,12 +73,12 @@ apos.define('translation-widgets', {
                         sentences = sentences.map(function(sentence) { return sentence.text });
                         changeTextInNodes(sentences, nodes);
                         setSelectEnabled(select);
-                        addToast(toastContainer, "success", "De pagina is succesvol vertaald", 5000);
+                        addToast(toastContainer, "success", "De pagina is succesvol vertaald");
                     }, 
-                    error: function(e) {
+                    error: function() {
                         setSelectEnabled(select);
                         setSelectedLanguage('nl');
-                        addToast(toastContainer, "error", "De pagina kon niet worden vertaald", 5000);
+                        addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
                     }
                 });
             }
@@ -96,5 +96,12 @@ function setSelectedLanguage(language) {
  * collecting the initial values and if the language is not the default 'nl', fetching the translations
  */
 apos.on('ready', function() {
-    setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
+    var select = document.querySelector('.translation-widget-select');
+
+    var isNormalUser = !(self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'); 
+    if(isNormalUser) {
+        setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
+    } else if(select) {
+        select.setAttribute('disabled', true);
+    }
 });

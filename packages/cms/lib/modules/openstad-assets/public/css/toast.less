@@ -3,25 +3,42 @@
     bottom: 1rem;
     right: 5rem;
     z-index: 2;
-  } 
+  }
 
-.toast-container > p {
-    display: block;
+
+.toast-wrapper {
+    display: flex;
+    gap: 1rem;
     padding: 1rem 1.5rem;
-
-    color: white;
     border: 1px solid lightgrey;
     border-radius: .5rem;
-    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.08)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));}
+    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.08)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));
+}
 
-.toast-container .toast-info-message {
+.toast-wrapper > p {
+    color: white;
+    margin-bottom: 0;
+}
+
+.toast-wrapper > button {
+    size: 24px;
+    margin-bottom: 0;
+    padding: 0rem;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    border: none;
+}
+
+.toast-info {
     background-color: #004699;
 }
 
-.toast-container .toast-error-message {
+.toast-error {
     background-color: red;
 }
 
-.toast-container .toast-error-success {
+.toast-success {
     background-color: green;
 }
+
