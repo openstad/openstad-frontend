@@ -10,6 +10,9 @@ apos.on('ready', function () {
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
     if (!translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+        var toastContainer = document.querySelector("#openstad-toast");
+        addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
+
         nodes = handleNode(document.body, nodes);
         var nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
         $.ajax({
@@ -25,7 +28,11 @@ apos.on('ready', function () {
             success: function (sentences) {
                 sentences = sentences.map(function (sentence) { return sentence.text });
                 changeTextInNodes(sentences, nodes);
+                addToast(toastContainer, "success", "De pagina is succesvol vertaald", 3000);
             },
+            error: function(error) {
+                addToast(toastContainer, "error", "De pagina kon niet worden vertaald", 3000);
+            }
         });
     }
 });
@@ -61,4 +68,36 @@ handleNode = function (node, toBeTranslated) {
         }
     }
     return toBeTranslated;
+}
+
+
+function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
+    if(container) {
+        var messageElement = document.createElement("p");
+        if(typeOfInfoErrorOrSuccess === 'success') {
+            messageElement.setAttribute("class", "toast-success-message");
+        } else if(typeOfInfoErrorOrSuccess === 'info') {
+            messageElement.setAttribute("class", "toast-info-message");
+        } else if(typeOfInfoErrorOrSuccess === 'error') {
+            messageElement.setAttribute("class", "toast-error-message");
+        }
+        messageElement.appendChild(document.createTextNode(text));
+        container.appendChild(messageElement);
+
+        if(optionalTimeout) {
+            setTimeout(() => {
+                container.removeChild(messageElement);
+            }, optionalTimeout);
+        }
+    }
+}
+
+function cleanupToasts(container) {
+    if(container) {
+        container.childNodes.forEach(pElement => {
+            setTimeout(() => {
+                container.removeChild(pElement);
+            }, 3000);
+        });
+    }
 }

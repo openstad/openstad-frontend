@@ -54,6 +54,10 @@ apos.define('translation-widgets', {
                 saveLanguagePreference(targetLanguageCode);
             } else {
                 console.log('translating to', targetLanguageCode);
+
+                var toastContainer = document.querySelector("#openstad-toast");
+                addToast(toastContainer, "info", "De pagina wordt vertaald...", 5000);
+
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -69,16 +73,19 @@ apos.define('translation-widgets', {
                         sentences = sentences.map(function(sentence) { return sentence.text });
                         changeTextInNodes(sentences, nodes);
                         setSelectEnabled(select);
+                        addToast(toastContainer, "success", "De pagina is succesvol vertaald", 5000);
                     }, 
-                    error: function() {
+                    error: function(e) {
                         setSelectEnabled(select);
                         setSelectedLanguage('nl');
+                        addToast(toastContainer, "error", "De pagina kon niet worden vertaald", 5000);
                     }
-                })
+                });
             }
         };
     }
 });
+
 
 function setSelectedLanguage(language) {
     $('.translation-widget-select').val(language ? language : 'nl').trigger('change');

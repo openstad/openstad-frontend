@@ -1,0 +1,28 @@
+.toast-container {
+    position: fixed;
+    bottom: 1rem;
+    right: 5rem;
+
+    z-index: 2;
+  } 
+
+.toast-container > p {
+    display: block;
+    padding: 1rem 1.5rem;
+
+    color: white;
+    border: 1px solid lightgrey;
+    border-radius: .5rem;
+    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.08)) drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.08));}
+
+.toast-container .toast-info-message {
+    background-color: #004699;
+}
+
+.toast-container .toast-error-message {
+    background-color: red;
+}
+
+.toast-container .toast-error-success {
+    background-color: green;
+}
