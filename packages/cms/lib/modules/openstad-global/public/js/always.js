@@ -95,7 +95,7 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
 function cleanupToasts(container) {
     if(container) {
         container.childNodes.forEach(pElement => {
-            setTimeout(() => {
+            setTimeout(function(){
                 container.removeChild(pElement);
             }, 3000);
         });
