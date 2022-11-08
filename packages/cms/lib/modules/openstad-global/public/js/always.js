@@ -9,10 +9,10 @@ apos.on('ready', function () {
      */    
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
-    var isNormalUser = !(self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'); 
+    var userHasSpecialRole = self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'; 
     var toastContainer = document.querySelector("#openstad-toast");
 
-    if (isNormalUser && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+    if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
         addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
 
         nodes = handleNode(document.body, nodes);
@@ -36,7 +36,7 @@ apos.on('ready', function () {
                 addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
             }
         });
-    } else if(!isNormalUser) {
+    } else if(userHasSpecialRole) {
         addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.");
     }
 });
