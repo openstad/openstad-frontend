@@ -2,7 +2,6 @@
  * Widget responsible for the translation of the page
  * 
 */
-
 apos.define('translation-widgets', {
     extend: 'openstad-widgets',
     construct: function (self, options) {
@@ -54,6 +53,10 @@ apos.define('translation-widgets', {
                 saveLanguagePreference(targetLanguageCode);
             } else {
                 console.log('translating to', targetLanguageCode);
+
+                var toastContainer = document.querySelector("#openstad-toast");
+                addToast(toastContainer, "info", "De pagina wordt vertaald...", 5000);
+
                 $.ajax({
                     url: '/modules/translation-widgets/submit',
                     method: 'POST',
@@ -69,16 +72,19 @@ apos.define('translation-widgets', {
                         sentences = sentences.map(function(sentence) { return sentence.text });
                         changeTextInNodes(sentences, nodes);
                         setSelectEnabled(select);
+                        addToast(toastContainer, "success", "De pagina is succesvol vertaald");
                     }, 
                     error: function() {
                         setSelectEnabled(select);
                         setSelectedLanguage('nl');
+                        addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
                     }
-                })
+                });
             }
         };
     }
 });
+
 
 function setSelectedLanguage(language) {
     $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
@@ -89,5 +95,11 @@ function setSelectedLanguage(language) {
  * collecting the initial values and if the language is not the default 'nl', fetching the translations
  */
 apos.on('ready', function() {
-    setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
+    var select = document.querySelector('.translation-widget-select');
+    var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
+    if(isNormalUser) {
+        setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
+    } else if(select) {
+        select.setAttribute('disabled', true);
+    }
 });
