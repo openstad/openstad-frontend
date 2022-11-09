@@ -2,7 +2,6 @@
  * Widget responsible for the translation of the page
  * 
 */
-
 apos.define('translation-widgets', {
     extend: 'openstad-widgets',
     construct: function (self, options) {
@@ -97,8 +96,7 @@ function setSelectedLanguage(language) {
  */
 apos.on('ready', function() {
     var select = document.querySelector('.translation-widget-select');
-
-    var isNormalUser = !(self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'); 
+    var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
     if(isNormalUser) {
         setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
     } else if(select) {

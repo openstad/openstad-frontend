@@ -9,7 +9,7 @@ apos.on('ready', function () {
      */    
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
-    var userHasSpecialRole = self.openstadUserRole === 'admin' || self.openstadUserRole === 'moderator' || self.openstadUserRole === 'editor'; 
+    var userHasSpecialRole = hasModeratorRights; // references global var specified in layout.js'; 
     var toastContainer = document.querySelector("#openstad-toast");
 
     if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
