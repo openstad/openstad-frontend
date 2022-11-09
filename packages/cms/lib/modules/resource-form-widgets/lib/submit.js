@@ -75,11 +75,20 @@ module.exports = async function(self, options) {
        }));
     })
     .catch(function (err) {
-      console.log('err', err);
+      console.error('err', err);
+      let message = '';
+      let statusCode = 500;
+
+      if(err.hasOwnProperty("error") && !Array.isArray(err.error)) {
+        message = err.error.message;
+        statusCode = err.statusCode;
+      } else if(err.hasOwnProperty("error")) {
+        message = err.error[0];
+      }
 
       res.setHeader('Content-Type', 'application/json');
-      res.status(500).end(JSON.stringify({
-        msg: err.error[0]
+      res.status(statusCode).end(JSON.stringify({
+        msg: message
       }));
     });
   });
