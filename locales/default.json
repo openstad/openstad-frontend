@@ -147,5 +147,10 @@
 	"Edit Vorige volgende knoppen": "Edit Vorige volgende knoppen",
 	"Server error, please try again.": "Server error, please try again.",
 	"Inloggen": "Inloggen",
-	"Use the Add Content button to get started.": "Use the Add Content button to get started."
+	"Use the Add Content button to get started.": "Use the Add Content button to get started.",
+	"Loading...": "Loading...",
+	"Nieuwste eerst": "Nieuwste eerst",
+	"Oudste eerst": "Oudste eerst",
+	"Meeste likes": "Meeste likes",
+	"Minste likes": "Minste likes"
 }

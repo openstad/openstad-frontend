@@ -9,7 +9,12 @@ apos.on('ready', function () {
      */    
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
-    if (!translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+    var userHasSpecialRole = hasModeratorRights; // references global var specified in layout.js'; 
+    var toastContainer = document.querySelector("#openstad-toast");
+
+    if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+        addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
+
         nodes = handleNode(document.body, nodes);
         var nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
         $.ajax({
@@ -25,8 +30,14 @@ apos.on('ready', function () {
             success: function (sentences) {
                 sentences = sentences.map(function (sentence) { return sentence.text });
                 changeTextInNodes(sentences, nodes);
+                addToast(toastContainer, "success", "De pagina is succesvol vertaald");
             },
+            error: function() {
+                addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
+            }
         });
+    } else if(userHasSpecialRole) {
+        addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.");
     }
 });
 
@@ -61,4 +72,42 @@ handleNode = function (node, toBeTranslated) {
         }
     }
     return toBeTranslated;
+}
+
+
+function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
+    if(container) {
+        var wrapperElement = document.createElement("div");
+        var messageElement = document.createElement("p");
+        
+        if(typeOfInfoErrorOrSuccess === 'success') {
+            wrapperElement.setAttribute("class", "toast-wrapper toast-success");
+        } else if(typeOfInfoErrorOrSuccess === 'info') {
+            wrapperElement.setAttribute("class", "toast-wrapper toast-info");
+        } else if(typeOfInfoErrorOrSuccess === 'error') {
+            wrapperElement.setAttribute("class", "toast-wrapper toast-error");
+        }
+        messageElement.appendChild(document.createTextNode(text));
+        wrapperElement.appendChild(messageElement);
+        
+        if(!optionalTimeout) {
+            var removeButton = document.createElement("button");
+            var removeIcon = document.createElement("span");
+            removeIcon.setAttribute("class", " fa fa-times-circle");
+            removeButton.appendChild(removeIcon);
+    
+            removeButton.onclick = function() {
+                container.removeChild(wrapperElement);
+            };
+            wrapperElement.appendChild(removeButton);
+        }
+     
+        container.appendChild(wrapperElement);
+
+        if(optionalTimeout) {
+            setTimeout(function(){
+                container.removeChild(wrapperElement);
+            }, optionalTimeout);
+        }
+    }
 }
