@@ -1152,7 +1152,7 @@ if (votingContainer !== null) {
 			  var errorMessage =  error && error.responseJSON && error.responseJSON.error && error.responseJSON.error.message
 
 			  if (errorMessage) {
-				  message = 'Het opslaan van je stemmen is niet gelukt: ' + errorMessage;
+				  message = 'Het stemmen is niet gelukt: ' + errorMessage;
 			  } else {
 				  message = 'Er is iets mis gegaan bij het opslaan van je stem.<br/>Klik op \'Vorige\' en probeer het nog eens.';
 			  }
