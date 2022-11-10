@@ -10,34 +10,41 @@ apos.on('ready', function () {
     var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
 
     var userHasSpecialRole = hasModeratorRights; // references global var specified in layout.js'; 
+    var shouldTranslate = shouldTranslateOnEveryPage; // references global var specified in layout.js'; 
     var toastContainer = document.querySelector("#openstad-toast");
 
-    if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
-        addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
-
-        nodes = handleNode(document.body, nodes);
-        var nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
-        $.ajax({
-            url: '/modules/openstad-global/translate',
-            method: 'post',
-            contentType: "application/json",
-            data: JSON.stringify({
-                contents: nlContents,
-                sourceLanguageCode: 'nl',
-                targetLanguageCode: selectedLanguage,
-                origin: window.location.href
-            }),
-            success: function (sentences) {
-                sentences = sentences.map(function (sentence) { return sentence.text });
-                changeTextInNodes(sentences, nodes);
-                addToast(toastContainer, "success", "De pagina is succesvol vertaald");
-            },
-            error: function() {
-                addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
+    if(shouldTranslate) {
+        if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
+            addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
+    
+            nodes = handleNode(document.body, nodes);
+            var nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
+            $.ajax({
+                url: '/modules/openstad-global/translate',
+                method: 'post',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    contents: nlContents,
+                    sourceLanguageCode: 'nl',
+                    targetLanguageCode: selectedLanguage,
+                    origin: window.location.href
+                }),
+                success: function (sentences) {
+                    sentences = sentences.map(function (sentence) { return sentence.text });
+                    changeTextInNodes(sentences, nodes);
+                    addToast(toastContainer, "success", "De pagina is succesvol vertaald");
+                },
+                error: function() {
+                    addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
+                }
+            });
+        } else if(userHasSpecialRole) {
+            if(!sessionStorage.getItem("cannot-translate-acknowledged")) {
+                addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.", 0, function() {
+                    sessionStorage.setItem("cannot-translate-acknowledged", true);
+                });
             }
-        });
-    } else if(userHasSpecialRole) {
-        addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.");
+        }
     }
 });
 
@@ -75,7 +82,7 @@ handleNode = function (node, toBeTranslated) {
 }
 
 
-function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
+function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
     if(container) {
         var wrapperElement = document.createElement("div");
         var messageElement = document.createElement("p");
@@ -90,7 +97,7 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
         messageElement.appendChild(document.createTextNode(text));
         wrapperElement.appendChild(messageElement);
         
-        if(!optionalTimeout) {
+        if(!timeout || timeout === 0) {
             var removeButton = document.createElement("button");
             var removeIcon = document.createElement("span");
             removeIcon.setAttribute("class", " fa fa-times-circle");
@@ -98,16 +105,17 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, optionalTimeout) {
     
             removeButton.onclick = function() {
                 container.removeChild(wrapperElement);
+                onClick && onClick();
             };
             wrapperElement.appendChild(removeButton);
         }
      
         container.appendChild(wrapperElement);
 
-        if(optionalTimeout) {
+        if(Number.isInteger(timeout) && timeout > 0) {
             setTimeout(function(){
                 container.removeChild(wrapperElement);
-            }, optionalTimeout);
+            }, timeout);
         }
     }
 }
