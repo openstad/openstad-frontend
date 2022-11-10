@@ -80,7 +80,7 @@
  var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
  var openstadUserRole = '{{data.openstadUser.role}}';
  var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
-
+ var shouldTranslateOnEveryPage = '{{data.global.shouldAutoTranslate}}' === 'true';
  var currentPath = '{{data.currentPath}}';
  var siteUrl = '{{data.siteUrl}}';
  var currentPathname = '{{data.currentPathname}}';
@@ -426,7 +426,7 @@
   <div class="body-background" style="display: none;"></div>
 
 
-  <div id="openstad-toast" class="toast-container">
+  <div id="openstad-toast" class="toast-container initial-width">
     
   </div>
 
