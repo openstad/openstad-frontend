@@ -4,7 +4,7 @@ apos.define('arguments-block-widgets', {
 
     self.play = function (widget, data, options) {
 
-      if(options.activeResource.publishDate) {
+      if(options.activeResource && options.activeResource.publishDate) {
         loadOpenStadComponents(
           'reactions',
           function () {
