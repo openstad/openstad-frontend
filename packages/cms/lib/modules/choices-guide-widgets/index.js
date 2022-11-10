@@ -1,5 +1,3 @@
-const merge = require('merge');
-
 const { fields, arrangeFields } = require('./lib/fields');
 const createConfig = require('./lib/create-config');
 
@@ -44,7 +42,7 @@ module.exports = {
           widget: widget,
           data: req.data,
         });
-			  widget.config = merge.recursive(config, widget.config);
+			  widget.config = config;
         widget.divId = widget.config.divId;
       });
 
