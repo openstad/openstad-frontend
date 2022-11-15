@@ -58,8 +58,7 @@
 							<input type="hidden" name="opinion" value="{{voteValue.value}}" />
 							<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
 							{{numberPlateButton.numberPlateButton('no-of-votes-' + forOrAgainst, '', idea[voteValue.value])}}
-							<button
-							disabled="{{idea.publishDate}}"
+							<button {% if not idea.publishDate %} disabled="disabled"{% endif %}
 							class="
 							{{'selected' if idea.userVote.opinion == voteValue.value}}
 							role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}
