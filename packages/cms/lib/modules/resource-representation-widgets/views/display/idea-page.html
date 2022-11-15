@@ -25,9 +25,17 @@
 				<div class="image"></div>
 				{% endif %}
 
-				{% if data.widget['label' + idea.status] %}
-				<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
+
+				{% if idea.publishDate %}
+					{% if data.widget['label' + idea.status] %}
+					<div class="statusbalk {{idea.status}}">{{data.widget['label' + idea.status]}}</div>
+					{% endif %}
 				{% endif %}
+				
+				{% if not idea.publishDate %}
+				<span style="left:1em" class="publishDate badge">Concept</span>
+				{% endif %}
+
 
 				{% if data.widget.displayRanking and idea.ranking %}
 				<div class="ranking {{idea.status}}"><div class="label">{{idea.ranking}}</div></div>
@@ -51,6 +59,7 @@
 							<input type="hidden" class="redirect-url" name="redirectUrl" value="{{data.currentPathname}}" />
 							{{numberPlateButton.numberPlateButton('no-of-votes-' + forOrAgainst, '', idea[voteValue.value])}}
 							<button
+							disabled="{{idea.publishDate}}"
 							class="
 							{{'selected' if idea.userVote.opinion == voteValue.value}}
 							role-required-{{data.global.roleToLike if data.global.roleToLike else 'anonymous'}}

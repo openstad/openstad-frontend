@@ -23,7 +23,6 @@ module.exports = {
 
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
-
 			widgets.forEach((widget) => {
 
 			  let config = createConfig({
@@ -37,12 +36,11 @@ module.exports = {
 			return superLoad(req, widgets, next);
 		}
 
-    self.optionsPlayerData =  ['activeResourceId'];
+    self.optionsPlayerData =  ['activeResourceId', 'activeResource'];
     const superFilterOptionsForDataAttribute = self.filterOptionsForDataAttribute;
     self.filterOptionsForDataAttribute = function(options) {
       options.activeResourceId = options.activeResource ?  options.activeResource.id : false;
       return superFilterOptionsForDataAttribute(options);
     };
-
   }
 };
