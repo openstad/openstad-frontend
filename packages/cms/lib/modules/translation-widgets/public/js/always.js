@@ -26,7 +26,7 @@ apos.define('translation-widgets', {
 
         function saveLanguagePreference(targetLanguageCode) {
             try{
-                sessionStorage.setItem("targetLanguageCode", targetLanguageCode);
+                localStorage.setItem("targetLanguageCode", targetLanguageCode);
             } catch(quotaExceededError) {
                 console.log("Could not save the language preference");
             }
@@ -98,7 +98,7 @@ apos.on('ready', function() {
     var select = document.querySelector('.translation-widget-select');
     var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
     if(isNormalUser) {
-        setSelectedLanguage(sessionStorage.getItem('targetLanguageCode'));
+        setSelectedLanguage(localStorage.getItem('targetLanguageCode'));
     } else if(select) {
         select.setAttribute('disabled', true);
     }
