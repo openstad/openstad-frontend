@@ -1,6 +1,6 @@
 apos.on('ready', function () {
     var nodes = [];
-    var selectedLanguage = sessionStorage.getItem("targetLanguageCode");
+    var selectedLanguage = localStorage.getItem("targetLanguageCode");
 
     /** 
      * The translate widget if set on the page will trigger an onchange event when it has been loaded
