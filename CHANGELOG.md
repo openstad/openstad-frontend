@@ -1,8 +1,21 @@
 # Changelog
 
-## UNRELEASED
+## 1.0.0
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet
+* Refactor openstad-components widgets
+* Migrate base map to leaflet
+* Add translation widget
+* Save idea as concept
+* Remove Mongo 4.2 dependency
+* Block API calls for other sites
+* Upgrade to node 16
+* Performance: less restarts
+* Add Mongo port and authentication
+* Update/cleanup access rights for moderators and editors
+* Turn on inline authentication in participatory budgeting widget
+* Add links to user activity
+* Remove expired config options
 
 ## v0.40.0
 * Update version number
