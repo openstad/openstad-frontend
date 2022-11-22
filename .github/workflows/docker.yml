@@ -22,8 +22,8 @@ env:
   APOS_BUNDLE: assets
   APOS_MINIFY: 1
   APOS_WORKFLOW: ON
-  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@mongo:27017/default"
-  APOS_MONGODB_URI: "mongodb://root:example@mongo:27017/default"
+  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@localhost:27017/default"
+  APOS_MONGODB_URI: "mongodb://root:example@localhost:27017/default"
   NODE_ENV: production
   IMAGE: ${{ secrets.DOCKER_IMAGE || 'openstad/frontend' }}
 
@@ -39,6 +39,8 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+          - 27017:27017
         options: >-
           --health-cmd "mongo --eval 'db.runCommand(\"ping\").ok' localhost:27017/test --quiet"
           --health-interval 10s
