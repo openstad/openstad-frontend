@@ -10,7 +10,6 @@ on:
 
 env:
   FRONTED_PORT: 4444
-  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@mongo:27017/"
   FRONTEND_MINIFY_JS: ON
   COOKIE_SECURE_OFF: yes
   API: "http://localhost:8111"
@@ -23,6 +22,8 @@ env:
   APOS_BUNDLE: assets
   APOS_MINIFY: 1
   APOS_WORKFLOW: ON
+  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@mongo:27017/default"
+  APOS_MONGODB_URI: "mongodb://root:example@mongo:27017/default"
   NODE_ENV: production
   IMAGE: ${{ secrets.DOCKER_IMAGE || 'openstad/frontend' }}
 
