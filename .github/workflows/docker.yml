@@ -22,8 +22,8 @@ env:
   APOS_BUNDLE: assets
   APOS_MINIFY: 1
   APOS_WORKFLOW: ON
-  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@localhost:27017/default"
-  APOS_MONGODB_URI: "mongodb://root:example@localhost:27017/default"
+  MONGO_DB_CONNECTION_STRING: "mongodb://root:example@localhost:27017"
+  APOS_MONGODB_URI: "mongodb://root:example@localhost:27017"
   NODE_ENV: production
   IMAGE: ${{ secrets.DOCKER_IMAGE || 'openstad/frontend' }}
 
