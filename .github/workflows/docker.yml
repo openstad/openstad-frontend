@@ -16,7 +16,7 @@ env:
   IMAGE_API_URL: "http://localhost:3333"
   IMAGE_API_ACCESS_TOKEN: xxxx
   SITE_API_KEY: xxxx
-  DEFAULT_DB: localhost2
+  DEFAULT_DB: default
   DEFAULT_HOST: "localhost:4444"
   APP_URL: "http://localhost:4444"
   APOS_BUNDLE: assets
@@ -39,10 +39,11 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
+          MONGO_INITDB_DATABASE: ${DEFAULT_DB}
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "mongo --eval 'db.runCommand(\"ping\").ok' localhost:27017/test --quiet"
+          --health-cmd "echo 'db.runCommand("ping").ok' | mongosh --quiet"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
