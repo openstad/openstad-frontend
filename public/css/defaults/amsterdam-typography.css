@@ -1,0 +1,71 @@
+@font-face {
+    font-family: amsterdam sans;
+    font-style: normal;
+    font-weight: 300;
+    src: url(../../fonts/AmsterdamSans-Light.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-Light.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-Light.woff2) format("woff2"), url(../../fonts/AmsterdamSans-Light.woff) format("woff")
+}
+
+@font-face {
+    font-family: amsterdam sans;
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../fonts/AmsterdamSans-Regular.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-Regular.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-Regular.woff2) format("woff2"), url(../../fonts/AmsterdamSans-Regular.woff) format("woff")
+}
+
+@font-face {
+    font-family: amsterdam sans;
+    font-style: italic;
+    font-weight: 400;
+    src: url(../../fonts/AmsterdamSans-Italic.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-Italic.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-Italic.woff2) format("woff2"), url(../../fonts/AmsterdamSans-Italic.woff) format("woff")
+}
+
+@font-face {
+    font-family: amsterdam sans;
+    font-style: normal;
+    font-weight: 700;
+    src: url(../../fonts/AmsterdamSans-Bold.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-Bold.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-Bold.woff2) format("woff2"), url(../../fonts/AmsterdamSans-Bold.woff) format("woff")
+}
+
+@font-face {
+    font-family: amsterdam sans;
+    font-style: italic;
+    font-weight: 700;
+    src: url(../../fonts/AmsterdamSans-BoldItalic.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-BoldItalic.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-BoldItalic.woff2) format("woff2"), url(../../fonts/AmsterdamSans-BoldItalic.woff) format("woff")
+}
+
+@font-face {
+    font-family: amsterdam sans;
+    font-style: normal;
+    font-weight: 800;
+    src: url(../../fonts/AmsterdamSans-ExtraBold.eot?#iefix);
+    src: url(../../fonts/AmsterdamSans-ExtraBold.eot?#iefix) format("eot"), url(../../fonts/AmsterdamSans-ExtraBold.woff2) format("woff2"), url(../../fonts/AmsterdamSans-ExtraBold.woff) format("woff")
+}
+
+header a:visited h1,
+h1,
+body,
+.default-select,
+.checkbox .checkbox-label,
+.radio .radio-label,
+.btn-secondary,
+.logo-container #amsterdam,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.btn,
+#amsterdam,
+.radio .radio-label,
+#navbar .nav-link a,
+.logotext.red {
+    font-family: amsterdam sans, arial, sans-serif
+}
