@@ -2,6 +2,7 @@
  * Overview of idea resources on a map
  */
 const openstadMap = require('../../../config/map').default;
+const _ = require('lodash');
 
 module.exports = {
   extend: 'map-widgets',
@@ -64,6 +65,13 @@ module.exports = {
       label: 'Counter text',
     },
     {
+      name: 'counterUrl',
+      type: 'string',
+      label: 'Counter url',
+      def: 'plannen',
+      required: false
+    },
+    {
       name: 'useMarkerLinks',
       type: 'boolean',
       label: 'Flags link to details page',
@@ -115,7 +123,7 @@ module.exports = {
       {
         name: 'counter',
         label: 'Counter',
-        fields: ['displayCounter', 'counterText']
+        fields: ['displayCounter', 'counterText', 'counterUrl']
       },
       {
         name: 'content',
@@ -169,6 +177,7 @@ module.exports = {
 
 
         widgets.forEach((widget) => {
+          widget.counterUrl = _.get(widget, 'counterUrl', 'plannen');
           widget.ideas = req.data.ideas ? req.data.ideas.map((idea) => {
             return {
               location: idea.location,
