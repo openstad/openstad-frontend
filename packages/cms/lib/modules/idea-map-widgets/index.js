@@ -2,7 +2,6 @@
  * Overview of idea resources on a map
  */
 const openstadMap = require('../../../config/map').default;
-const _ = require('lodash');
 
 module.exports = {
   extend: 'map-widgets',
@@ -177,7 +176,7 @@ module.exports = {
 
 
         widgets.forEach((widget) => {
-          widget.counterUrl = _.get(widget, 'counterUrl', 'plannen');
+          widget.counterUrl = widget.counterUrl || 'plannen';
           widget.ideas = req.data.ideas ? req.data.ideas.map((idea) => {
             return {
               location: idea.location,
