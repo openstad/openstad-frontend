@@ -10,10 +10,7 @@ apos.define('section-widgets', {
 
 function initTabs ($parent) {
 
-  console.log("init tabs fout");
-  
   var $tabContainers = $parent.find('.tab-container');
-
 
   if ($tabContainers.length > 0) {
     $tabContainers.hide();
@@ -40,6 +37,6 @@ function setContainerForHash($parent) {
     var selector = 'a[href*="'+hash+'"]';
     // console.log('selector', selector, $parent.find(selector))
     $parent.find(selector).addClass('active')
-    $(hash).show();
+    $(hash+'-container').show();
   }
 }
