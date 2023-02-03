@@ -17,7 +17,7 @@
  });
  function setupStickyChoices() {
    // it is using js, because plain css sticky only works when you scroll the direct container
-   var element = document.getElementById('osc-choices-container-choices-guide')
+   var element = document.getElementById('osc-choices-container-{{data.widget.divId}}')
 
    if ( element ) {
      var elemRect = element.getBoundingClientRect();
@@ -31,12 +31,15 @@
 		 window.addEventListener('scroll', function(event) {
        if (element) {
          let questiongroupdiv = document.querySelector('.osc-question-group');
+
          if (window.pageYOffset >= threshold) {
            if (!element.className.match(/\ ?sticky/)) {
              element.classList += ' sticky';
              if (questiongroupdiv) questiongroupdiv.className += ' sticky-placeholder';
            }
-           element.style.left = absLeft + 'px'
+           if (element.offsetTop != 0) { // not on mobile - todo: better check
+             element.style.left = absLeft + 'px'
+           }
          } else {
            element.className = element.className.replace(/\ ?sticky/, '')
            if (questiongroupdiv) questiongroupdiv.className = questiongroupdiv.className.replace(/ ?sticky-placeholder/, '');
