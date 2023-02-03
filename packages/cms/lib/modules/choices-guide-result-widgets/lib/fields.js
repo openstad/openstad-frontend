@@ -139,29 +139,6 @@ module.exports = {
       def:      false,
       
     },
-	  {
-		  type: 'select',
-		  name: 'submissionType',
-		  label: 'Opsturen van resultaten',
-      def: 'none',
-		  choices: [
-			  {
-				  label: 'Niet',
-				  value: 'none',
-			  },
-			  {
-				  label: 'Automatisch',
-				  value: 'auto'
-			  },
-			  {
-				  label: 'Een formulier met extra gegevens',
-				  value: 'form',
-				  showTab: [
-					  'form', "requireLogin"
-				  ]
-			  }
-		  ]
-	  },
 
 	  {
 		  name: 'moreInfoUrl',

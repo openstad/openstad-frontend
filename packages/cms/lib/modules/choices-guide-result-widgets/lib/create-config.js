@@ -38,13 +38,11 @@ module.exports = function createConfig({ widget, data, logoutUrl }) {
     afterUrl: widget.afterUrl && data.siteUrl + widget.afterUrl,
     afterLabel: widget.afterLabel,
     submission: {
-      type: widget.submissionType,
       form: {
         title: widget.formTitle,
         intro: widget.formIntro,
         fields: widget.formFields,
       },
-      requireLogin: widget.requireLogin,
       requireLoginSettings,
     },
     preferenceTitle: widget.preferenceTitle,
