@@ -15,8 +15,9 @@
 
   {% if data.activeResource and data.activeResource.publishDate %}
 	<div class="{{data.widget.divId}}" style="width: 100%; height: 100%;"></div>
+  {% elif (data.isAdmin or data.isEditor or data.isModerator) and data.activeResourceType !== 'idea'%}
+	<p>Deze widget kan alleen worden gebruikt op pagina`s met een resource waarbij het activeResourceType idea is</p>
   {% else %}
-	<p>Er kunnen geen argumenten worden gegeven op een concept plan</p>
+  <p>Er kunnen geen argumenten worden gegeven op een concept plan</p>
   {% endif %}
-
 </div>
