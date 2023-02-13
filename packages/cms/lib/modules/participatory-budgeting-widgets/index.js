@@ -27,7 +27,7 @@ module.exports = {
             {
                 name: 'explanation-texts',
                 label: 'Explanation texts',
-                fields: ['step_1_intro', 'step_2_intro', 'step_3_intro', 'step_3_succesfull_auth','succesful_voting_title', 'thankyou_message', 'showNewsletterButton', 'newsletterButtonText']
+                fields: ['step_1_intro', 'step_2_intro', 'step_3_intro', 'step_3_succesfull_auth','successful_voting_title', 'thankyou_message', 'showNewsletterButton', 'newsletterButtonText']
             },
             {
                 name: 'authentication',
