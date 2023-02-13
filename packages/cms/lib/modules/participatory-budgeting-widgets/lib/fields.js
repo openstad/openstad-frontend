@@ -200,7 +200,7 @@ const fields = [
   },
   {
     name: 'successful_voting_title',
-    label: 'Message you see when you voted succesfully',
+    label: 'Message you see when you voted successfully',
     type: 'string',
     def: 'Gelukt, je hebt gestemd!'
   },
