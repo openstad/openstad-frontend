@@ -199,7 +199,7 @@ const fields = [
     def: 'Het controleren van je stemcode is gelukt! Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.'
   },
   {
-    name: 'succesfull_voting_title',
+    name: 'succesful_voting_title',
     label: 'Message you see when you voted succesfully',
     type: 'string',
     def: 'Gelukt, je hebt gestemd!'
