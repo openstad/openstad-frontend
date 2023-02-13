@@ -192,7 +192,7 @@ const fields = [
     def: 'Via onderstaande knop kun je op een aparte pagina je persoonlijke stemcode invullen. Wij controleren de stemcode op geldigheid. Als dat gelukt is kom je terug op deze pagina waarna je kunt stemmen. Alle bewoners van Centrum hebben per post een stemcode ontvangen.'
   },
   {
-    name: 'step_3_succesfull_auth',
+    name: 'step_3_successful_auth',
     label: 'Step 3: succesfull auth',
     type: 'string',
     textarea: true,
