@@ -13,6 +13,11 @@
 
 <div id="{{data.widget.containerId}}" class="osc-component" style="width: 100%; height: 100%;">
 
+  {% if data.activeResource and data.widget.isClosedButRoleAllows %}
+  <p>Reageren is gesloten, maar je kunt nog reageren vanwege je rol als {{ data.openstadUser.role }}</p>
+
+
+  {% endif %}
   {% if data.activeResource and data.activeResource.publishDate %}
 	<div class="{{data.widget.divId}}" style="width: 100%; height: 100%;"></div>
   {% elif (data.isAdmin or data.isEditor or data.isModerator) and data.activeResourceType !== 'idea'%}
