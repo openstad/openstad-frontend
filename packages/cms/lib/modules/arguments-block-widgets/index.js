@@ -32,7 +32,7 @@ module.exports = {
         });
 			  widget.config = config;
         widget.divId = widget.config.divId;
-        widget.isClosedButRoleAllowes= config.isClosed && (data.isAdmin || data.isEditor || data.isModerator);
+        widget.isClosedButRoleAllows = config.isClosed && (data.isAdmin || data.isEditor || data.isModerator);
       });
       
 			return superLoad(req, widgets, next);
