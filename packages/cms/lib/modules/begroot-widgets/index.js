@@ -172,6 +172,12 @@ const fields = [
     def: 'Het controleren van je stemcode is gelukt! Je bent bijna klaar. Klik op onderstaande knop om je stem te versturen.'
   },
   {
+    name: 'successful_voting_title',
+    label: 'Message you see when you voted successfully',
+    type: 'string',
+    def: 'Gelukt, je hebt gestemd!'
+  },
+  {
     name: 'thankyou_message',
     label: 'Thank you message',
     type: 'string',
