@@ -24,13 +24,15 @@
   {% for key, tagList in data.groupedOpenstadTags %}
     {% set outer_loop = loop %}
 
+    {% if field.showThemeNames %}
       {% if outer_loop.length > 1 and key !== 'undefined' %}
-      <p>{{key}}</p>
+        <p>{{key}}</p>
       {% endif %}
 
       {% if outer_loop.length > 1 and key == 'undefined' %}
         <p>Overig</p>
       {% endif %}
+    {% endif %}
 
       {% for tag in tagList %}
       <div class="checkbox">

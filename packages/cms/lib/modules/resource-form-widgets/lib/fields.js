@@ -148,7 +148,7 @@ const fields = [
               {
                 value: 'tags',
                 label: "Tags (currently only works for ideas)",
-                showFields: ['fieldKey', 'fieldRequired', 'theme', 'fieldMin', 'fieldMax']
+                showFields: ['fieldKey', 'fieldRequired', 'theme', 'showThemeNames', 'fieldMin', 'fieldMax']
               },
               {
                 value: 'raw',
@@ -300,6 +300,22 @@ const fields = [
             name: 'theme',
             label: 'Themes, Optionally specify the single theme (one word) by which to fetch the tags.',
             type: 'string'
+          },
+          {
+            name: 'showThemeNames',
+            label: 'When the above option is empty, select if the corresponding themes should be shown or not',
+            type: 'boolean',
+            choices: [
+              {
+                label: 'Yes',
+                value: true,
+              },
+              {
+                label: 'No',
+                value: false,
+              }
+            ],
+            def: true
           },
           {
             name: 'notExtraDataKey',
