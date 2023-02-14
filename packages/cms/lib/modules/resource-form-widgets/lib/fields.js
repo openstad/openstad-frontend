@@ -148,7 +148,7 @@ const fields = [
               {
                 value: 'tags',
                 label: "Tags (currently only works for ideas)",
-                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                showFields: ['fieldKey', 'fieldRequired', 'theme', 'fieldMin', 'fieldMax']
               },
               {
                 value: 'raw',
@@ -295,6 +295,11 @@ const fields = [
             label: 'Raw input',
             type: 'string',
             textarea: true
+          },
+          {
+            name: 'theme',
+            label: 'Themes, Optionally specify the single theme (one word) by which to fetch the tags.',
+            type: 'string'
           },
           {
             name: 'notExtraDataKey',

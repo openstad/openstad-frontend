@@ -1,17 +1,50 @@
 <div class="checkbox-container">
-  {% for tag in data.openstadTags %}
-  <div class="checkbox">
-    <input
-      type="checkbox"
-      name="tags[]"
-      value="{{tag.id}}"
-      id="checkbox-{{loop.index}}-{{option.value}}"
-      {% if field.fieldRequired %}required{% endif %}
-      {% if field.idea.tags %}checked{% endif %}
-    />
-    <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">
-       {{tag.name}}
-    </label>
+  {% if field.theme 
+        and data.groupedOpenstadTags[field.theme] 
+        and data.groupedOpenstadTags[field.theme].length %}
+
+    {% for tag in data.groupedOpenstadTags[field.theme] %}
+      <div class="checkbox">
+        <input
+          type="checkbox"
+          name="tags[]"
+          value="{{tag.id}}"
+          id="checkbox-{{loop.index}}-{{option.value}}"
+          {% if field.fieldRequired %}required{% endif %}
+          {% if field.idea.tags %}checked{% endif %}
+        />
+        <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">{{tag.name}}</label>
+      </div>    
+    {% endfor %}
+  {% endif %}
   </div>
+
+
+  {% if field.theme === '' or field.theme === undefined %}
+  {% for key, tagList in data.groupedOpenstadTags %}
+    {% set outer_loop = loop %}
+
+      {% if outer_loop.length > 1 and key !== 'undefined' %}
+      <p>{{key}}</p>
+      {% endif %}
+
+      {% if outer_loop.length > 1 and key == 'undefined' %}
+        <p>Overig</p>
+      {% endif %}
+
+      {% for tag in tagList %}
+      <div class="checkbox">
+        <input
+          type="checkbox"
+          name="tags[]"
+          value="{{tag.id}}"
+          id="checkbox-{{outer_loop.index}}-{{loop.index}}-{{option.value}}"
+          {% if field.fieldRequired %}required{% endif %}
+          {% if field.idea.tags %}checked{% endif %}
+        />
+        <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{option.value}}" class="checkbox-label">{{tag.name}}</label>
+      </div>    
+    {% endfor %}
   {% endfor %}
+{% endif %}
 </div>

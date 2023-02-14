@@ -1,4 +1,5 @@
 const rp              = require('request-promise');
+const _ = require('lodash');
 const moment          = require('moment'); // returns the new locale, in this case 'de'
 const url             = require('url');
 const internalApiUrl  = process.env.INTERNAL_API_URL;
@@ -42,6 +43,7 @@ module.exports =  function (req, res, next) {
           //add tags to to the data object so it's available in templates
           //use openstadTags instead of tags  to prevent colliding with Apos
           req.data.openstadTags = response;
+          req.data.groupedOpenstadTags = _.groupBy(response, function(tag){return tag.extraData.theme});
 
           // set the cache
           if (globalData.cacheIdeas) {
