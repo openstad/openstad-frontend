@@ -542,6 +542,26 @@ module.exports = [
     ],
   },
   {
+    name: 'theme',
+    label: 'If specified only show tags belonging to a certain theme',
+    type: 'string',
+  },
+  {
+    name: 'showThemeLabels',
+    label: 'If no theme is specified, should the theme name be shown per group?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
     name: 'displaySorting',
     label: 'Display sorting',
     type: 'boolean',
