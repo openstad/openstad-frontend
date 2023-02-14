@@ -9,11 +9,11 @@
           type="checkbox"
           name="tags[]"
           value="{{tag.id}}"
-          id="checkbox-{{loop.index}}-{{option.value}}"
+          id="checkbox-{{loop.index}}-{{tag.id}}"
           {% if field.fieldRequired %}required{% endif %}
           {% if field.idea.tags %}checked{% endif %}
         />
-        <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">{{tag.name}}</label>
+        <label for="checkbox-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
       </div>    
     {% endfor %}
   {% endif %}
@@ -38,11 +38,11 @@
           type="checkbox"
           name="tags[]"
           value="{{tag.id}}"
-          id="checkbox-{{outer_loop.index}}-{{loop.index}}-{{option.value}}"
+          id="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}"
           {% if field.fieldRequired %}required{% endif %}
           {% if field.idea.tags %}checked{% endif %}
         />
-        <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{option.value}}" class="checkbox-label">{{tag.name}}</label>
+        <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
       </div>    
     {% endfor %}
   {% endfor %}
