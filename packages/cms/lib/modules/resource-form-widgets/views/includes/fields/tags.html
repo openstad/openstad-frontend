@@ -24,7 +24,7 @@
   {% for key, tagList in data.groupedOpenstadTags %}
     {% set outer_loop = loop %}
 
-    {% if field.showThemeNames %}
+    {% if field.showThemeLabels %}
       {% if outer_loop.length > 1 and key !== 'undefined' %}
         <p>{{key}}</p>
       {% endif %}

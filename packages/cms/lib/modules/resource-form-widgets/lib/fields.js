@@ -148,7 +148,7 @@ const fields = [
               {
                 value: 'tags',
                 label: "Tags (currently only works for ideas)",
-                showFields: ['fieldKey', 'fieldRequired', 'theme', 'showThemeNames', 'fieldMin', 'fieldMax']
+                showFields: ['fieldKey', 'fieldRequired', 'theme', 'showThemeLabels', 'fieldMin', 'fieldMax']
               },
               {
                 value: 'raw',
@@ -302,7 +302,7 @@ const fields = [
             type: 'string'
           },
           {
-            name: 'showThemeNames',
+            name: 'showThemeLabels',
             label: 'When the above option is empty, select if the corresponding themes should be shown or not',
             type: 'boolean',
             choices: [
@@ -315,7 +315,7 @@ const fields = [
                 value: false,
               }
             ],
-            def: true
+            def: false
           },
           {
             name: 'notExtraDataKey',
