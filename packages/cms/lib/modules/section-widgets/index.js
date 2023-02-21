@@ -283,6 +283,11 @@ module.exports = {
         },
       ]
     },
+    {
+      name: 'sectionName',
+      type: 'string',
+      label: 'Name',
+    },
   ],
 
 
@@ -311,7 +316,7 @@ module.exports = {
       {
         name: 'tabs',
         label: 'Tabs',
-        fields: ['tabs']
+        fields: ['sectionName', 'tabs']
       }
     ]);
 

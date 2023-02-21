@@ -7,39 +7,51 @@ apos.define('section-widgets', {
   }
 });
 
+function findMyHash($parent) {
+
+  let hashes = window.location.hash && window.location.hash.match(/#tab-\d+(?:-[^#]+)?/g);
+
+  for (let hash of hashes) {
+    let match = hash.match(/#tab-(\d+)(?:-([^#]+))?/);
+    if (match[2] && $parent.find(`.section-tabs-${match[2]}`).length) return hash;
+  }
+
+  for (let hash of hashes) {
+    let match = hash.match(/#tab-(\d+)(?:-([^#]+))?/);
+    if (!match[2]) return hash;
+  }
+
+}
 
 function initTabs ($parent) {
 
-  console.log("init tabs fout");
-  
   var $tabContainers = $parent.find('.tab-container');
-
 
   if ($tabContainers.length > 0) {
     $tabContainers.hide();
 
-    $(window).on( 'hashchange', function( e ) {
-      setContainerForHash($parent)
+    $(window).on('hashchange', function( e ) {
+      let hash = findMyHash($parent);
+      if (hash) setContainerForHash($parent, hash)
     });
 
-    if (!window.location.hash || window.location.hash.length === 0) {
+    let hash = findMyHash($parent);
+    if (!hash) {
       $parent.find('.nav-link').first().get(0).click();
     } else {
-      setContainerForHash($parent);
+      setContainerForHash($parent, hash);
     }
   }
 }
 
-
-function setContainerForHash($parent) {
-  var hash = window.location.hash;
-
-  if (hash.startsWith('#tab-')) {
-    $parent.find('.tab-container').hide();
-    $parent.find('.nav-link').removeClass('active')
-    var selector = 'a[href*="'+hash+'"]';
-    // console.log('selector', selector, $parent.find(selector))
-    $parent.find(selector).addClass('active')
-    $(hash).show();
-  }
+function setContainerForHash($parent, hash) {
+  let match = hash.match(/#tab-(\d+)(?:-([^#]+))?/);
+  let tabnumber = match[1];
+  let sectionName = match[1][2] || $parent[0].innerHTML.match(/class="section-tabs section-tabs-([^"]*)"/)[1];
+  hash = '#tab-' + tabnumber + (sectionName ? '-'+sectionName: '');
+  $parent.find('.tab-container').hide();
+  $parent.find('.nav-link').removeClass('active')
+  let selector = 'a[href*="'+'#tab-'+tabnumber+'-'+sectionName+'"]';
+  $parent.find(selector).addClass('active')
+  $parent.find('#tab-'+tabnumber+'-container').show();
 }
