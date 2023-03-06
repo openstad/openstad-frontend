@@ -298,12 +298,12 @@ const fields = [
           },
           {
             name: 'theme',
-            label: 'Themes, Optionally specify the single theme (one word) by which to fetch the tags.',
+            label: 'Optionally specify the single type (one word) by which to fetch the tags.',
             type: 'string'
           },
           {
             name: 'showThemeLabels',
-            label: 'When the above option is empty, select if the corresponding themes should be shown or not',
+            label: 'When the above option is empty, select if the corresponding themes (types) should be shown or not',
             type: 'boolean',
             choices: [
               {

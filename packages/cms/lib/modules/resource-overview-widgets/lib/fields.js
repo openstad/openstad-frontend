@@ -543,12 +543,12 @@ module.exports = [
   },
   {
     name: 'theme',
-    label: 'If specified only show tags belonging to a certain theme',
+    label: 'If specified only show tags belonging to a certain theme (type)',
     type: 'string',
   },
   {
     name: 'showThemeLabels',
-    label: 'If no theme is specified, should the theme name be shown per group?',
+    label: 'If no theme is specified, should the theme (type) name be shown per group?',
     type: 'boolean',
     choices: [
       {
