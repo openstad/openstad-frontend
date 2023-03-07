@@ -22,15 +22,15 @@ module.exports =  function (req, res, next) {
     // if cacheIdeas is turned on, get ideas from cache
     // cacheIdeas is old key, should be refactored,
     // preferable we always have caching on
-    // if (globalData.cacheIdeas) {
-    //   let cacheKey = 'tags-' + globalData.siteId;
-    //   tags = cache.get(cacheKey);
-    // }
+    if (globalData.cacheIdeas) {
+      let cacheKey = 'tags-' + globalData.siteId;
+      tags = cache.get(cacheKey);
+    }
 
-    // if (Array.isArray(tags)) {
-    //   req.data.openstadTags = tags;
-    //   next();
-    // } else {
+    if (Array.isArray(tags)) {
+      req.data.openstadTags = tags;
+      next();
+    } else {
 
       var options = {
         uri: `${apiUrl}/api/site/${globalData.siteId}/tag`,
@@ -58,7 +58,7 @@ module.exports =  function (req, res, next) {
           next();
           return null;
         });
-    // }
+    }
   } else {
     next();
   }
