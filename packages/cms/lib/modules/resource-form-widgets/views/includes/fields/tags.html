@@ -1,9 +1,9 @@
 <div class="checkbox-container">
-  {% if field.theme 
-        and data.groupedOpenstadTags[field.theme] 
-        and data.groupedOpenstadTags[field.theme].length %}
+  {% if field.tagType 
+        and data.groupedOpenstadTags[field.tagType] 
+        and data.groupedOpenstadTags[field.tagType].length %}
 
-    {% for tag in data.groupedOpenstadTags[field.theme] %}
+    {% for tag in data.groupedOpenstadTags[field.tagType] %}
       <div class="checkbox">
         <input
           type="checkbox"
@@ -20,11 +20,11 @@
   </div>
 
 
-  {% if field.theme === '' or field.theme === undefined %}
+  {% if field.tagType === '' or field.tagType === undefined %}
   {% for key, tagList in data.groupedOpenstadTags %}
     {% set outer_loop = loop %}
 
-    {% if field.showThemeLabels %}
+    {% if field.showTagTypeLabels %}
       {% if outer_loop.length > 1 and key !== 'undefined' %}
         <p>{{key}}</p>
       {% endif %}

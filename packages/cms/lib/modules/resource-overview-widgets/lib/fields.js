@@ -542,13 +542,13 @@ module.exports = [
     ],
   },
   {
-    name: 'theme',
-    label: 'If specified only show tags belonging to a certain theme (type)',
+    name: 'tagType',
+    label: 'If specified only show tags belonging to a certain type',
     type: 'string',
   },
   {
-    name: 'showThemeLabels',
-    label: 'If no theme is specified, should the theme (type) name be shown per group?',
+    name: 'showTagTypeLabels',
+    label: 'If no tag type is specified, should the type name be shown per group?',
     type: 'boolean',
     choices: [
       {

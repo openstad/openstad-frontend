@@ -6,8 +6,8 @@
 </div>
 <div class="resource-overview-tags-container hidden-xs">
 
-  {% if data.widget.theme and data.widget.groupedOpenstadTags[data.widget.theme] and data.widget.groupedOpenstadTags[data.widget.theme].length %}
-    {% for tag in data.widget.groupedOpenstadTags[data.widget.theme] %}
+  {% if data.widget.tagType and data.widget.groupedOpenstadTags[data.widget.tagType] and data.widget.groupedOpenstadTags[data.widget.tagType].length %}
+    {% for tag in data.widget.groupedOpenstadTags[data.widget.tagType] %}
       {% if data.widget.isTagSelected(tag, data.query) %}
         <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}asdfsaf</a>
         {% else %}
@@ -19,11 +19,11 @@
 
   
 
-  {% if data.widget.theme === '' and data.widget.groupedOpenstadTags %}
+  {% if data.widget.tagType === '' and data.widget.groupedOpenstadTags %}
 
     {% for key, tagList in data.widget.groupedOpenstadTags %}
 
-      {% if data.widget.showThemeLabels %}
+      {% if data.widget.showTagTypeLabels %}
         <div>
            
           <p> {{ "tags" if key === 'undefined' else key }}</p>

@@ -55,7 +55,7 @@ module.exports = (self, options) => {
         {
             name: 'tags',
             label: 'Tags',
-            fields: ['displayTagFilters', 'theme', 'showThemeLabels']
+            fields: ['displayTagFilters', 'tagType', 'showTagTypeLabels']
         },
         {
             name: 'include_exclude',
