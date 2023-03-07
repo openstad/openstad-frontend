@@ -542,6 +542,26 @@ module.exports = [
     ],
   },
   {
+    name: 'tagType',
+    label: 'If specified only show tags belonging to a certain type',
+    type: 'string',
+  },
+  {
+    name: 'showTagTypeLabels',
+    label: 'If no tag type is specified, should the type name be shown per group?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
     name: 'displaySorting',
     label: 'Display sorting',
     type: 'boolean',

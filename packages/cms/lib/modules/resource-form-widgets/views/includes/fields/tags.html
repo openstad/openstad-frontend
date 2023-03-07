@@ -1,17 +1,52 @@
 <div class="checkbox-container">
-  {% for tag in data.openstadTags %}
-  <div class="checkbox">
-    <input
-      type="checkbox"
-      name="tags[]"
-      value="{{tag.id}}"
-      id="checkbox-{{loop.index}}-{{option.value}}"
-      {% if field.fieldRequired %}required{% endif %}
-      {% if field.idea.tags %}checked{% endif %}
-    />
-    <label for="checkbox-{{loop.index}}-{{option.value}}" class="checkbox-label">
-       {{tag.name}}
-    </label>
+  {% if field.tagType 
+        and data.groupedOpenstadTags[field.tagType] 
+        and data.groupedOpenstadTags[field.tagType].length %}
+
+    {% for tag in data.groupedOpenstadTags[field.tagType] %}
+      <div class="checkbox">
+        <input
+          type="checkbox"
+          name="tags[]"
+          value="{{tag.id}}"
+          id="checkbox-{{loop.index}}-{{tag.id}}"
+          {% if field.fieldRequired %}required{% endif %}
+          {% if field.idea.tags %}checked{% endif %}
+        />
+        <label for="checkbox-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
+      </div>    
+    {% endfor %}
+  {% endif %}
   </div>
+
+
+  {% if field.tagType === '' or field.tagType === undefined %}
+  {% for key, tagList in data.groupedOpenstadTags %}
+    {% set outer_loop = loop %}
+
+    {% if field.showTagTypeLabels %}
+      {% if outer_loop.length > 1 and key !== 'undefined' %}
+        <p>{{key}}</p>
+      {% endif %}
+
+      {% if outer_loop.length > 1 and key == 'undefined' %}
+        <p>Overig</p>
+      {% endif %}
+    {% endif %}
+
+      {% for tag in tagList %}
+      <div class="checkbox">
+        <input
+          type="checkbox"
+          name="tags[]"
+          value="{{tag.id}}"
+          id="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}"
+          {% if field.fieldRequired %}required{% endif %}
+          {% if field.idea.tags %}checked{% endif %}
+        />
+        <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
+      </div>    
+    {% endfor %}
   {% endfor %}
+{% endif %}
 </div>
