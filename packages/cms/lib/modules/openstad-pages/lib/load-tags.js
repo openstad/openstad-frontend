@@ -18,17 +18,21 @@ module.exports =  function (req, res, next) {
    */
   if (globalData.siteId) {
     let tags;
-
+    let retrievedEmpty = false;
     // if cacheIdeas is turned on, get ideas from cache
     // cacheIdeas is old key, should be refactored,
     // preferable we always have caching on
     if (globalData.cacheIdeas) {
       let cacheKey = 'tags-' + globalData.siteId;
       tags = cache.get(cacheKey);
+      retrievedEmpty = cache.get('retrieved-tags-empty');
     }
-
+    
     if (Array.isArray(tags)) {
       req.data.openstadTags = tags;
+      next();
+    } else if(retrievedEmpty) {
+      req.data.openstadTags = [];
       next();
     } else {
 
@@ -47,6 +51,10 @@ module.exports =  function (req, res, next) {
 
           // set the cache
           if (globalData.cacheIdeas) {
+            cache.set('retrieved-tags-empty', response.length === 0, {
+              life: cacheLifespan
+            })
+
             cache.set('tags-' +req.data.global.siteId, response, {
               life: cacheLifespan
             });
