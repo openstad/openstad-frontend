@@ -18,8 +18,8 @@
     {% endfor %}
   {% endif %}
   </div>
-
-
+  
+  
   {% if field.tagType === '' or field.tagType === undefined %}
   {% for key, tagList in data.groupedOpenstadTags %}
     {% set outer_loop = loop %}
@@ -42,7 +42,7 @@
           value="{{tag.id}}"
           id="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}"
           {% if field.fieldRequired %}required{% endif %}
-          {% if field.idea.tags %}checked{% endif %}
+          {% if data.widget.isTagSelected(tag.id) %}checked{% endif %}
         />
         <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
       </div>    
