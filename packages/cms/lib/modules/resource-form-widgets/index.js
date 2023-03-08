@@ -187,6 +187,7 @@ module.exports = {
 
 
         widget.isTagSelected = function(tagId) {
+          if(!activeResource || !Array.isArray(activeResource.tags)) return false;
           return activeResource.tags.findIndex(t => t.id === tagId) !== -1;
         }
 
