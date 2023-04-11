@@ -19,17 +19,17 @@ exports.contructComponentsCdn = async function () {
       if (!version) {
         // fallback
         let packageFile =
-          fs.readFileSync(`${__dirname}/package.json`).toString() || '';
+          await fs.readFile(`${__dirname}/../package.json`).toString() || '';
         let match =
           packageFile &&
           packageFile.match(
             /"openstad-components":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/
           );
-        version = (match && match[1]) || null;
+        version = (match && match[1]) || '';
       }
       openstadComponentsCdn = openstadComponentsCdn.replace(
-        '{version}',
-        version
+        '@{version}',
+        version ? `@${version}` : ''
       );
       console.log('Using cdn', openstadComponentsCdn);
     } catch (err) {
@@ -57,17 +57,17 @@ exports.contructReactAdminCdn = async function () {
       if (!version) {
         // fallback
         let packageFile =
-          fs.readFileSync(`${__dirname}/package.json`).toString() || '';
+          await fs.readFile(`${__dirname}/../package.json`).toString() || '';
         let match =
           packageFile &&
           packageFile.match(
             /"openstad-react-openstadComponentsCdn":\s*"(?:[^"\d]*)((?:\d+\.)*\d+)"/
           );
-        version = (match && match[1]) || null;
+        version = (match && match[1]) || '';
       }
       openstadReactAdminCdn = openstadReactAdminCdn.replace(
-        '{version}',
-        version
+        '@{version}',
+        version ? `@${version}` : ''
       );
       console.log('Using cdn', openstadReactAdminCdn);
     } catch (err) {
