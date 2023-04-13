@@ -31,6 +31,8 @@ module.exports =  function (req, res, next) {
     
     if (Array.isArray(tags)) {
       req.data.openstadTags = tags;
+      req.data.groupedOpenstadTags = _.groupBy(tags, function(tag){return tag.type});
+
       next();
     } else if(retrievedEmpty) {
       req.data.openstadTags = [];
