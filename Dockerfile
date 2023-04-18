@@ -33,6 +33,8 @@ ENV S3_KEY=""
 ENV S3_SECRET=""
 ENV S3_BUCKET=""
 
+# CDN distribution tag used to fetch the latest version of the component libraries (openstad-components and react-admin)
+ENV CDN_DIST_TAG="latest"
 
 # Install all base dependencies.
 RUN apk add --no-cache --update openssl g++ make python3 musl-dev git bash
