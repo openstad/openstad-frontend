@@ -24,13 +24,15 @@ module.exports = {
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
 			widgets.forEach((widget) => {
+        const data = req.data;
 
 			  let config = createConfig({
           widget: widget,
-          data: req.data,
+          data,
         });
 			  widget.config = config;
         widget.divId = widget.config.divId;
+        widget.isClosedButRoleAllows = config.isClosed && (data.isAdmin || data.isEditor || data.isModerator);
       });
       
 			return superLoad(req, widgets, next);

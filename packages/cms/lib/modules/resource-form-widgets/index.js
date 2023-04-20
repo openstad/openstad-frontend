@@ -185,6 +185,12 @@ module.exports = {
         const isReactedTo = activeResource ? (activeResource.yes > 0 || activeResource.no > 0 || activeResource.argumentCount > 0) : false;
         const isOwnerOrAdmin = ((!isReactedTo || !widget.hideAdminAfterPublicAction) && isOwner) || req.data.hasModeratorRights;
 
+
+        widget.isTagSelected = function(tagId) {
+          if(!activeResource || !Array.isArray(activeResource.tags)) return false;
+          return activeResource.tags.findIndex(t => t.id === tagId) !== -1;
+        }
+
         widget.mapConfig = self.getMapConfigBuilder(globalData)
           .setDefaultSettings({
             mapCenterLat: (activeResource && activeResource.location && activeResource.location.coordinates && activeResource.location.coordinates[0]) || globalData.mapCenterLat,

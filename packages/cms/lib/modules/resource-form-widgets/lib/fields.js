@@ -148,7 +148,7 @@ const fields = [
               {
                 value: 'tags',
                 label: "Tags (currently only works for ideas)",
-                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                showFields: ['fieldKey', 'fieldRequired', 'tagType', 'showTagTypeLabels', 'fieldMin', 'fieldMax']
               },
               {
                 value: 'raw',
@@ -295,6 +295,27 @@ const fields = [
             label: 'Raw input',
             type: 'string',
             textarea: true
+          },
+          {
+            name: 'tagType',
+            label: 'Optionally specify the single type (one word) by which to fetch the tags.',
+            type: 'string'
+          },
+          {
+            name: 'showTagTypeLabels',
+            label: 'When the above option is empty, select if the corresponding types should be shown or not',
+            type: 'boolean',
+            choices: [
+              {
+                label: 'Yes',
+                value: true,
+              },
+              {
+                label: 'No',
+                value: false,
+              }
+            ],
+            def: false
           },
           {
             name: 'notExtraDataKey',

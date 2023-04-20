@@ -138,7 +138,7 @@
 												<small>Vul een andere stemcode in</small>
 											</a>
 											<div>
-												{{data.widget.step_3_succesfull_auth}}
+												{{data.widget.step_3_successful_auth}}
 											</div>
 										</div>
 
@@ -340,7 +340,7 @@
 									</div>
 								</a>
 								<div class="mobile-accordion-body">
-									{{data.widget.step_3_succesfull_auth}}
+									{{data.widget.step_3_successful_auth}}
 								</div>
 							</div>
 							<br />
@@ -356,7 +356,7 @@
 					<div id="steps-content-6" class="step">
 						<div class="text">
 							<div class="checkmark-block-green">
-								<h4>Gelukt, je hebt gestemd!</h4>
+								<h4>{{data.widget.successful_voting_title or "Gelukt, je hebt gestemd!"}}</h4>
 								<br/>
 								{{data.widget.thankyou_message | sanitize | safe | nlbr}}
 								{% if data.widget.showNewsletterButton and data.widget.showNewsletterButton == 'yes' %}

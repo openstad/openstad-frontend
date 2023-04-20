@@ -188,7 +188,6 @@ $(document).ready(function () {
 
         $(form).find('input[type="submit"]').each(function(index, button) {
           oldButtonValues.push($(this).val());
-
           if(button.id === "btnSaveAsConcept" && publishField.val()) {
             $(this).val('Verzenden...');
           } else if(!publishField.val()) {
@@ -206,6 +205,12 @@ $(document).ready(function () {
           success:function(response) {
               formHasChanged = false;
               var redirect = $(form).find('.form-redirect-uri').val();
+
+              // for some reason when you select the dynamic form then the input field with class .form-redirect-uri is not within the form
+              if(!redirect) {
+                redirect = document.querySelector('.form-redirect-uri').value;
+              }
+
               redirect = redirect.replace(':id', response.id);
               redirect = window.siteUrl + redirect;
 

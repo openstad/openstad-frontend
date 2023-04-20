@@ -261,6 +261,8 @@ module.exports = {
                     return Object.assign({}, tag);
                 }) : [];
 
+                widget.groupedOpenstadTags = req.data.groupedOpenstadTags;
+
                 let response;
 
                 // if cache is turned on, check if current url is available in cache
