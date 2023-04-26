@@ -10,8 +10,12 @@ module.exports = (self, options) => {
   };
 
   self.updateSiteConfig = async (req, siteConfig, item, apiSyncFields) => {
-
     apiSyncFields.forEach(field => {
+      if(field.name === 'ideaSlug') {
+        siteConfig.ideas.feedbackEmail["inzendingPath"] = item.ideaSlug;
+        siteConfig.ideas.conceptEmail["inzendingPath"] = item.ideaSlug;
+        siteConfig.ideas.conceptToPublishedEmail["inzendingPath"] = item.ideaSlug;
+      }
       //item is the inter global config
       const value = self.getFieldValue(item, field);
       self.setApiConfigValue(siteConfig, field.apiSyncField, value);
