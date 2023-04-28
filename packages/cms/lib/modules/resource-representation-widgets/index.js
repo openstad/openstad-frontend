@@ -114,7 +114,7 @@ module.exports = {
           // console.log({widget});
           const activities = widget.activeResource.activity;
 
-          console.log({activities});
+          // console.log({activities});
           // activities.forEach(activity => {
           //   const idea = activity.idea || {};
           //   const site = activity.site
