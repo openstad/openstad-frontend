@@ -106,23 +106,29 @@ module.exports = {
               .getConfig();
         }
 
-        if (widget.activeResourceType === 'activeUser' && widget.displayType === 'user-activity') {
+        // console.log({resource: widget.activeResource});
+        // console.log({resourceType: widget.activeResourceType});
+        // console.log({type: widget.displayType});
 
+        if (widget.displayType === 'user-activity') {
+          // console.log({widget});
           const activities = widget.activeResource.activity;
-          activities.forEach(activity => {
-            const idea = activity.idea || {};
-            const site = activity.site
-            if (site) {
-              let siteConfig = widget.allSites && widget.allSites[site.id] && widget.allSites[site.id].config;
-              let ideaSlug = siteConfig && siteConfig.cms && siteConfig.cms.ideaSlug || 'plan';
-              if (!ideaSlug.match(/^\//)) ideaSlug = '/' + ideaSlug;
-              ideaSlug = ideaSlug.match(/\{ideaId\}/i) ? ideaSlug.replace(/\{ideaId\}/ig, idea.id) : `${ideaSlug}/${idea.id}`;
-              let cmsUrl = siteConfig && siteConfig.cms && siteConfig.cms.url;
-              if (cmsUrl) {
-                activity.cmsUrl = cmsUrl + ideaSlug;
-              }
-            }
-          });
+
+          console.log({activities});
+          // activities.forEach(activity => {
+          //   const idea = activity.idea || {};
+          //   const site = activity.site
+          //   if (site) {
+          //     let siteConfig = widget.allSites && widget.allSites[site.id] && widget.allSites[site.id].config;
+          //     let ideaSlug = siteConfig && siteConfig.cms && siteConfig.cms.ideaSlug || 'plan';
+          //     if (!ideaSlug.match(/^\//)) ideaSlug = '/' + ideaSlug;
+          //     ideaSlug = ideaSlug.match(/\{ideaId\}/i) ? ideaSlug.replace(/\{ideaId\}/ig, idea.id) : `${ideaSlug}/${idea.id}`;
+          //     let cmsUrl = siteConfig && siteConfig.cms && siteConfig.cms.url;
+          //     if (cmsUrl) {
+          //       activity.cmsUrl = cmsUrl + ideaSlug;
+          //     }
+          //   }
+          // });
 
         }
 
