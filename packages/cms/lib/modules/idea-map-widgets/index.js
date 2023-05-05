@@ -64,6 +64,13 @@ module.exports = {
       label: 'Counter text',
     },
     {
+      name: 'counterUrl',
+      type: 'string',
+      label: 'Counter url',
+      def: 'plannen',
+      required: false
+    },
+    {
       name: 'useMarkerLinks',
       type: 'boolean',
       label: 'Flags link to details page',
@@ -115,7 +122,7 @@ module.exports = {
       {
         name: 'counter',
         label: 'Counter',
-        fields: ['displayCounter', 'counterText']
+        fields: ['displayCounter', 'counterText', 'counterUrl']
       },
       {
         name: 'content',
@@ -169,6 +176,7 @@ module.exports = {
 
 
         widgets.forEach((widget) => {
+          widget.counterUrl = widget.counterUrl || 'plannen';
           widget.ideas = req.data.ideas ? req.data.ideas.map((idea) => {
             return {
               location: idea.location,
