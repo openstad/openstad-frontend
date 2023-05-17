@@ -1,6 +1,5 @@
 var assert = require('assert');
 var _ = require('@sailshq/lodash');
-var Promise = require('bluebird');
 
 describe('Card widgets', function() {
 

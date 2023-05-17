@@ -1,11 +1,11 @@
-const rp              = require('request-promise');
+const fetch           = require('node-fetch');
 const moment          = require('moment'); // returns the new locale, in this case 'de'
 const url             = require('url');
 const internalApiUrl  = process.env.INTERNAL_API_URL;
 const cache           = require('../../../../services/cache').cache;
 const cacheLifespan  = 8*60*60;   // set lifespan of 8 hours;
 
-module.exports =  function (req, res, next) {
+module.exports = async function (req, res, next) {
   const globalData = req.data.global;
   const csrf = req.data.csrf;
 
@@ -48,61 +48,60 @@ module.exports =  function (req, res, next) {
     if (ideas && ideas.length > 0) {
       req.data.ideas = ideas;
       req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
-      next();
+      return next();
     } else {
 
       //const globalData = req.data.global;
       const sort = req.query.sort ? req.query.sort : 'createdate_desc';
 
-      var options = {
-           uri: `${apiUrl}/api/site/${globalData.siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeTags=1&includeArgsCount=1`,
-           headers: headers,
-           json: true // Automatically parses the JSON string in the response
-     };
+      try {
+        let response = await fetch(`${apiUrl}/api/site/${globalData.siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeTags=1&includeArgsCount=1`, {
+          headers,
+        })
+        if (!response.ok) {
+          console.log(response);
+          throw new Error('Fetch failed')
+        }
+        let ideas = await response.json();
 
+        const ideaSlug = req.data.global.ideaSlug;
+        const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
+        const siteUrl = req.data.cmsUrl;
 
-     rp(options)
-       .then(function (ideas) {
-         const ideaSlug = req.data.global.ideaSlug;
-         const ideaOverviewSlug = req.data.global.ideaOverviewSlug;
-         const siteUrl = req.data.cmsUrl;
+        /**
+         * Format ideas data
+         */
+        ideas = ideas.map((idea) => {
+          let createdData = new Date(idea.createdAt);
+          idea.fullUrl = ideaSlug && ideaSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaSlug}/${idea.id}`;
+          idea.overviewUrl = ideaOverviewSlug && ideaOverviewSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaOverviewSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
+          idea.createdTime = createdData.getTime();
 
-         /**
-          * Format ideas data
-          */
-         ideas = ideas.map((idea) => {
-           let createdData = new Date(idea.createdAt);
-           idea.fullUrl = ideaSlug && ideaSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaSlug}/${idea.id}`;
-           idea.overviewUrl = ideaOverviewSlug && ideaOverviewSlug.match(/\{ideaId\}/i) ? `${siteUrl}/${ideaOverviewSlug.replace(/\{ideaId\}/ig, idea.id)}` : `${siteUrl}/${ideaOverviewSlug}?ideaId=${idea.id}`;
-           idea.createdTime = createdData.getTime();
+          return idea;
+        });
 
-           return idea;
-         });
+        //add ideas to to the data object so it's available in templates
+        req.data.ideas = ideas;
 
-         //add ideas to to the data object so it's available in templates
-         req.data.ideas = ideas;
+        // filter the ideas the user voted for
+        req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
 
-         // filter the ideas the user voted for
-         req.data.ideasVotedFor = ideas.filter(idea => idea.userVote);
+        // set the cache,
+        if (req.data.global.cacheIdeas) {
+          cache.set('ideas-' +req.data.global.siteId, req.data.ideas, {
+            life: cacheLifespan
+          });
+        }
 
-         // set the cache,
-         if (req.data.global.cacheIdeas) {
-           cache.set('ideas-' +req.data.global.siteId, req.data.ideas, {
-             life: cacheLifespan
-           });
-         }
-
-         next();
-         return null;
-       })
-       .catch((e) => {
-         console.log('eroror again ', e)
-
-         next();
-         return null;
-       });
+        next();
+        return null;
+      } catch(err) {
+        console.log('eroror again ', e)
+        next();
+        return null;
+      };
      }
   } else {
-    next();
+    return next();
   }
 }

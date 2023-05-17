@@ -17,7 +17,7 @@ const http2 = require('http2');
 const apostrophe = require('apostrophe');
 const app = express();
 const _ = require('lodash');
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const Promise = require('bluebird');
 const auth = require('basic-auth');
 const compare = require('tsscmp');
@@ -56,8 +56,9 @@ app.use(express.static('public'));
 
 app.set('trust proxy', true);
 
-function fetchAllSites(req, res, startSites) {
-    const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
+async function fetchAllSites(req, res, startSites) {
+
+  const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
 
     console.log('Fetch all sites')
 
@@ -67,36 +68,38 @@ function fetchAllSites(req, res, startSites) {
         return;
     }
 
-    const siteOptions = {
-        uri: `${apiUrl}/api/site`, //,
-        headers: {
-            'Accept': 'application/json',
-            "Cache-Control": "no-cache",
-            "X-Authorization": process.env.SITE_API_KEY
-        },
-        json: true // Automatically parses the JSON string in the response
-    };
+    try {
+        let response = await fetch(`${apiUrl}/api/site`, {
+            headers: {
+                'Accept': 'application/json',
+                "Cache-Control": "no-cache",
+                "X-Authorization": process.env.SITE_API_KEY
+            },
+            method: 'GET',
+        })
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Fetch failed')
+        }
+        response = await response.json();
 
-    return rp(siteOptions)
-        .then((response) => {
-            sitesResponse = response;
-            const newSites = [];
-            const newSitesById = [];
-
-            response.forEach((site, i) => {
-                // for convenience and speed we set the domain name as the key
-                newSites[site.domain] = site;
-              newSitesById[site.id] = site
-            });
-
-            sites = newSites;
-            sitesById = newSitesById;
-            cleanUpSites();
-
-        }).catch((e) => {
-            console.error('An error occurred fetching the site config:', e);
-            if (res) res.status(500).json({error: 'An error occured fetching the sites data: ' + e});
+        sitesResponse = response;
+        const newSites = [];
+        const newSitesById = [];
+        response.forEach((site, i) => {
+            // for convenience and speed we set the domain name as the key
+            newSites[site.domain] = site;
+            newSitesById[site.id] = site
         });
+        sites = newSites;
+        sitesById = newSitesById;
+        cleanUpSites();
+
+    } catch(err) {
+         console.error('An error occurred fetching the site config:', err);
+         if (res) res.status(500).json({error: 'An error occured fetching the sites data: ' + err});
+    }
+
 }
 
 // run through all sites see if anyone is not active anymore and needs to be shut down
@@ -133,12 +136,12 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
         mongo.dbExists(dbName)
           .then((isExisting) => {
-              resolve(isExisting);
+            resolve(isExisting);
           }).catch((err) => {
             reject(err);
           })
     }).then((exists) => {
-        // if default DB is set
+      // if default DB is set
         if (exists || dbName === process.env.DEFAULT_DB) {
 
             if ((!aposServer[domain] || forceRestart) && !aposStartingUp[domain]) {
@@ -165,6 +168,7 @@ function serveSite(req, res, siteConfig, forceRestart) {
                       console.log('Err starting up site: ', domain,  err)
                       res.status(500).json({error: 'An error occured running site ' , domain});
                   })
+
             } else {
                 const startServer = (server, req, res) => {
                     server.app(req, res);
@@ -196,10 +200,8 @@ function serveSite(req, res, siteConfig, forceRestart) {
 
 async function run(id, siteData, options, callback) {
     const site = {_id: id}
-
     let openstadComponentsCdn = await cdns.contructComponentsCdn();
     let openstadReactAdminCdn = await cdns.contructReactAdminCdn();
-
     const config = _.merge(siteData, options, { openstadComponentsCdn, openstadReactAdminCdn });
 
     let assetsIdentifier;
@@ -227,7 +229,6 @@ async function run(id, siteData, options, callback) {
     } else {
         aposConfig = _.merge(siteConfig, siteData);
     }
-    
     const apos = apostrophe(aposConfig);
 }
 

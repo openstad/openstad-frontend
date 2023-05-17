@@ -3,7 +3,7 @@
  * and if valid fetches the user data
  */
 
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const Url = require('url');
 const apiLogoutUrl = process.env.API_LOGOUT_URL;
 const internalApiUrl = process.env.INTERNAL_API_URL;
@@ -43,7 +43,7 @@ module.exports = {
         };
 
         // You can add routes here
-        self.authenticate = (req, res, next) => {
+        self.authenticate = async (req, res, next) => {
 
             //apostropheCMS for some reasons always sets the scene to user
             //this means it always assumes the user is logged in into the CMS
@@ -125,18 +125,6 @@ module.exports = {
                     next();
                 } else {
 
-                    let url = req.data.global.siteId ? `${apiUrl}/oauth/site/${req.data.global.siteId}/me` : `${apiUrl}/oauth/me`;
-
-                    var options = {
-                        uri: url,
-                        headers: {
-                            'Accept': 'application/json',
-                            "X-Authorization": `Bearer ${jwt}`,
-                            "Cache-Control": "no-cache"
-                        },
-                        json: true // Automatically parses the JSON string in the response
-                    };
-
                     const setUserData = function (req, next) {
 
                         const requiredRoles = ['member', 'moderator', 'admin', 'editor'];
@@ -158,6 +146,7 @@ module.exports = {
                         req.session.save(() => {
                             next();
                         });
+
                     }
 
                     const THIRTY_SECONDS = 100; //30 * 1000;
@@ -169,69 +158,50 @@ module.exports = {
                     if (req.user && req.session.openstadUser && ((date - dateToCheck) < THIRTY_SECONDS)) {
                         setUserData(req, next);
                     } else {
-                        rp(options)
-                            .then(function (user) {
-                                if (user && Object.keys(user).length > 0 && user.id) {
-                                    req.session.openstadUser = user;
-                                    req.session.lastJWTCheck = new Date().toISOString();
 
-                                    setUserData(req, next)
-                                } else {
-                                    // if not valid clear the JWT and redirect
-                                    req.session.destroy(() => {
-                                        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
-                                        res.redirect(siteUrl + '/');
-                                        return;
-                                    });
-                                }
-
+                        let url = req.data.global.siteId ? `${apiUrl}/oauth/site/${req.data.global.siteId}/me` : `${apiUrl}/oauth/me`;
+    
+                        try {
+                            let response = await fetch(url, {
+                                headers: {
+                                    'Accept': 'application/json',
+                                    "X-Authorization": `Bearer ${jwt}`,
+                                    "Cache-Control": "no-cache"
+                                },
+                                method: 'GET',
                             })
-                            .catch((e) => {
-                                console.log('e', e);
+                            if (!response.ok) {
+                                console.log(response);
+                                throw new Error('Fetch failed')
+                            }
+                            let user = await response.json();
+
+                             if (user && Object.keys(user).length > 0 && user.id) {
+                                  req.session.openstadUser = user;
+                                  req.session.lastJWTCheck = new Date().toISOString();
+
+                                  setUserData(req, next)
+                              } else {
+                                  // if not valid clear the JWT and redirect
+                                  req.session.destroy(() => {
+                                      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+                                      res.redirect(siteUrl + '/');
+                                      return;
+                                  });
+                              }
+
+                          } catch(err) {
+                                console.log('e', err);
                                 req.session.destroy(() => {
                                     const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
                                     res.redirect(siteUrl + '/');
                                     return;
                                 })
-                            });
+                          };
                     }
                 }
             }
         };
-
-
-        /**
-         * When the user is admin, load in all the voting data
-         * @type {[type]}
-
-         self.apos.app.use((req, res, next) => {
-      if (req.data.hasModeratorRights) {
-        const apiUrl = internalApiUrl ? internalApiUrl : self.apos.settings.getOption(req, 'apiUrl');
-        const jwt = req.session.jwt;
-
-        rp({
-            uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote`,
-            headers: {
-                'Accept': 'application/json',
-                "X-Authorization" : `Bearer ${jwt}`,
-                "Cache-Control": "no-cache"
-            },
-            json: true // Automatically parses the JSON string in the response
-        })
-        .then(function (votes) {
-          req.data.votes = votes;
-          return next();
-        })
-        .catch((e) => {
-          return next();
-        });
-
-      } else {
-        return next();
-      }
-    });
-         */
-
 
         self.apos.app.get('/oauth/logout', (req, res, next) => {
 
@@ -243,7 +213,7 @@ module.exports = {
             });
         });
 
-        self.apos.app.get('/oauth-csrf', (req, res, next) => {
+        self.apos.app.get('/oauth-csrf', async (req, res, next) => {
             //only allow AJAX requests, from trusted domains, otherwise there is no point to CSRF token
             if (!req.xhr) {
                 return;
@@ -274,28 +244,27 @@ module.exports = {
                  * So this might not be necessary. For now we leave it in and consult with Security expert.
                  */
 
-                rp({
-                    url: `${oAuthUrl}/api/admin/csrf-session-token`,
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    mode: 'cors',
-                    body: authHeaders
-                })
-                .then((response) => {
-                    if (response) {
-                        response = JSON.parse(response);
-                    }
-
-                    res.json({
-                        token: response.token
+                try {
+                    let response = await fetch(`${oAuthUrl}/api/admin/csrf-session-token`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        method: 'POST',
+                        mode: 'cors',
+                        body: authHeaders
                     })
-                })
-                .catch((err) => {
-                    console.log('oauth err', err)
-                    next(err)
-                })
+                    if (!response.ok) {
+                        console.log(response);
+                        throw new Error('Fetch failed')
+                    }
+                    let result = await response.json();
+                    res.json({
+                        token: result.token
+                    })
+                } catch(err) {
+                    console.log(err);
+                    return next(err);
+                }
             }
         });
 

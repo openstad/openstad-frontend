@@ -1,4 +1,4 @@
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const eventEmitter  = require('../../../../events').emitter;
 
 module.exports = async function(self, options) {
@@ -8,7 +8,7 @@ module.exports = async function(self, options) {
   // Server side validation is done by the API
   // In future form can probably talk directly with api proxy,
   // Only images need to be refactored
-  self.route('post', 'submit', function(req, res) {
+  self.route('post', 'submit', async function(req, res) {
     // emit event
     eventEmitter.emit('resourceCrud');
 
@@ -59,22 +59,24 @@ module.exports = async function(self, options) {
       delete data.extraData;
     }
 
-    const options = {
-        method: req.body.resourceId ? 'PUT' : 'POST',
-        uri: req.body.resourceId ? `${postUrl}/${req.body.resourceId}` : postUrl,
+    try {
+      let response = await fetch(req.body.resourceId ? `${postUrl}/${req.body.resourceId}` : postUrl, {
         headers: httpHeaders,
-        body: data,
-        json: true // Automatically parses the JSON string in the response
-    };
+        method: req.body.resourceId ? 'PUT' : 'POST',
+        body: JSON.stringify(data),
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      let result =  await response.json();
 
-    rp(options)
-    .then(function (response) {
-       res.setHeader('Content-Type', 'application/json');
-       res.end(JSON.stringify({
-         id: response.id
-       }));
-    })
-    .catch(function (err) {
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({
+        id: result.id
+      }));
+
+    } catch(err) {
       console.error('err', err);
       let message = '';
       let statusCode = 500;
@@ -90,6 +92,6 @@ module.exports = async function(self, options) {
       res.status(statusCode).end(JSON.stringify({
         msg: message
       }));
-    });
+    };
   });
 }

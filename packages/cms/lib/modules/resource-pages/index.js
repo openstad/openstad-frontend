@@ -6,7 +6,7 @@
  * 2 Through CMS user configured page settings, like so /idea/1
  */
 
-const rp  = require('request-promise');
+const fetch = require('node-fetch');
 const resourcesSchema = require('../../../config/resources.js').schemaFormat;
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
     /*
       Fetch resource data for the
      */
-    self.fetchResourceData = (req, callback) => {
+    self.fetchResourceData = async (req, callback) => {
       const globalData = req.data.global;
       const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
       const appUrl = self.apos.settings.getOption(req, 'appUrl');
@@ -50,71 +50,79 @@ module.exports = {
 
       const activeResourceEndpoint = resourceInfo && resourceInfo.resourceEndPoint ? resourceInfo.resourceEndPoint : false;
 
-      var options = {
-          uri: `${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`,
-          headers: headers,
-          json: true // Automatically parses the JSON string in the response
-      };
-
       /**
        * Add the arguments to the resouce object.
        * The rest of the data is already present
        * Also some data is formatted already so we dont overwrite the whole object
        */
-      rp(options)
-        .then(function (activeResource) {
-          req.data.activeResource = activeResource;
+      try {
 
-          if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
-            return rp({
-                uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`,
-                headers: headers,
-                json: true // Automatically parses the JSON string in the response
-            })
-            .then(function (votes) {
-              req.data.ideaVotes = votes;
-              return callback(null);
-            })
-            .catch((e) => {
-              return callback(null);
-            });
-          } else if (req.data.activeResourceType === 'activeUser') {
-            return rp({
-              uri: `${apiUrl}/api/site/${req.data.global.siteId}/user/${req.data.activeResourceId}/activity`,
-              headers: headers,
-              json: true // Automatically parses the JSON string in the response
-            })
-              .then(function (result) {
-                const activeResource = req.data.activeResource;
-                activeResource.ideas = result && result.ideas ? result.ideas : false;
-                activeResource.votes = result && result.votes ? result.votes : false;
-                activeResource.arguments = result && result.arguments ? result.arguments : false;
-                activeResource.sites = result && result.sites ? result.sites : false;
-                activeResource.activity = result && result.activity ? result.activity : false;
-
-                req.data.activeResource = activeResource;
-                return callback(null);
-              })
-              .catch((e) => {
-                return callback(null);
-              });
-          } else {
-            callback(null);
-          }
+        let response = await fetch(`${apiUrl}/api/site/${globalData.siteId}/${activeResourceEndpoint}/${req.data.activeResourceId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`, {
+          headers,
+          method: 'GET',
         })
-        .catch((e) => {
-          console.log('erroror', e);
+        if (!response.ok) {
+          console.log(response);
+          throw new Error('Fetch failed')
+        }
+        let activeResource = await response.json();
 
-          //if user not logged into CMS in throw 404
-          //for ease of use when someone is logged into CMS it's easier to allow
-          //editing also when no activeResource is present
-          if (!req.user) {
-            req.notFound = true;
+        req.data.activeResource = activeResource;
+
+        if (req.data.activeResourceType === 'idea' && req.data.hasModeratorRights) {
+
+          let response = await fetch(`${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.activeResourceId}`, {
+            headers,
+          })
+          if (!response.ok) {
+            console.log(response);
+            throw new Error('Fetch failed')
           }
+          let votes = await response.json();
 
+          req.data.ideaVotes = votes;
+          return callback(null);
+
+        } else if (req.data.activeResourceType === 'activeUser') {
+
+          let response = await fetch(`${apiUrl}/api/site/${req.data.global.siteId}/user/${req.data.activeResourceId}/activity`, {
+            headers,
+          })
+          if (!response.ok) {
+            console.log(response);
+            throw new Error('Fetch failed')
+          }
+          let result = await response.json();
+
+          const activeResource = req.data.activeResource;
+          activeResource.ideas = result && result.ideas ? result.ideas : false;
+          activeResource.votes = result && result.votes ? result.votes : false;
+          activeResource.arguments = result && result.arguments ? result.arguments : false;
+          activeResource.sites = result && result.sites ? result.sites : false;
+          activeResource.activity = result && result.activity ? result.activity : false;
+
+          req.data.activeResource = activeResource;
+          return callback(null);
+
+        } else {
           callback(null);
+        }
 
-        });
+      } catch(err) {
+
+        console.log('erroror', err);
+
+        //if user not logged into CMS in throw 404
+        //for ease of use when someone is logged into CMS it's easier to allow
+        //editing also when no activeResource is present
+        if (!req.user) {
+          req.notFound = true;
+        }
+
+        callback(null);
+
+      };
+
     }
 
     self.dispatch('/', (req, callback) => {

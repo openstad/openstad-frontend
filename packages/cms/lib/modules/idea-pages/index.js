@@ -20,7 +20,7 @@
  * This type of voting is only being used for liking of ideas where it doesn't all too much influence on the decision making process.
  *
  */
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const Url = require('url');
 const eventEmitter = require('../../../events').emitter;
 
@@ -28,7 +28,7 @@ module.exports = {
     extend: 'apostrophe-custom-pages',
     name: 'idea',
     construct: function (self, options) {
-        self.dispatch('/:ideaId', (req, callback) => {
+        self.dispatch('/:ideaId', async (req, callback) => {
             req.data.ideaId = req.params.ideaId;
             //    req.data.idea = req.data.ideas ? req.data.ideas.find(idea => idea.id === parseInt(req.data.ideaId, 10)) : null;
 
@@ -47,64 +47,66 @@ module.exports = {
                 headers["X-Authorization"] = `Bearer ${req.session.jwt}`;
             }
 
-            var options = {
-                uri: `${apiUrl}/api/site/${globalData.siteId}/idea/${req.data.ideaId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`,
-                headers: headers,
-                json: true // Automatically parses the JSON string in the response
-            };
-
             /**
              * Add the arguments to the idea object.
              * The rest of the data is already present
              * Also some data is formatted already so we dont overwrite the whole object
              */
-            rp(options)
-                .then(function (idea) {
-                    req.data.idea = idea;
-                    // because we now have dynamic resource widgets and urls, the idea is also called
-                    // plan is to phase this module out
-                    req.data.activeResource = idea;
-                    req.data.activeResourceType = 'idea';
-
-                    if (idea.argumentsAgainst) {
-                        req.data.idea.argumentsAgainst = idea.argumentsAgainst;
-                    }
-
-                    if (idea.argumentsFor) {
-                        req.data.idea.argumentsFor = idea.argumentsFor;
-                    }
-
-                    req.data.idea.extraData = idea.extraData;
-                    req.data.idea.user = idea.user;
-
-                    if (req.data.hasModeratorRights) {
-                        rp({
-                            uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.ideaId}`,
-                            headers: headers,
-                            json: true // Automatically parses the JSON string in the response
-                        })
-                            .then(function (votes) {
-                                req.data.ideaVotes = votes;
-                                return callback(null);
-                            })
-                            .catch((e) => {
-                                return callback(null);
-                            });
-                    } else {
-                        callback(null);
-                    }
-
+            try {
+                let response = await fetch(`${apiUrl}/api/site/${globalData.siteId}/idea/${req.data.ideaId}?includeUser=1&includeVoteCount=1&includeUserVote=1&includeArguments=1&includeTags=1`, {
+                    headers,
+                    method: 'GET',
                 })
-                .catch((e) => {
-                    //if user not logged into CMS in throw 404
-                    //for ease of use when someone is logged into CMS it's easier to allow
-                    //editing also when no activeResource is present
-                    if (!req.user) {
-                        req.notFound = true;
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error('Fetch failed')
+                }
+                let idea = await response.json();
+
+                req.data.idea = idea;
+                // because we now have dynamic resource widgets and urls, the idea is also called
+                // plan is to phase this module out
+                req.data.activeResource = idea;
+                req.data.activeResourceType = 'idea';
+                if (idea.argumentsAgainst) {
+                    req.data.idea.argumentsAgainst = idea.argumentsAgainst;
+                }
+                if (idea.argumentsFor) {
+                    req.data.idea.argumentsFor = idea.argumentsFor;
+                }
+                req.data.idea.extraData = idea.extraData;
+                req.data.idea.user = idea.user;
+                if (req.data.hasModeratorRights) {
+
+                    try {
+                        let response = await fetch(`${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${req.data.ideaId}`, {
+                            headers,
+                            method: 'GET',
+                        })
+                        if (!response.ok) {
+                            console.log(response);
+                            throw new Error('Fetch failed')
+                        }
+                        let votes = await response.json();
+                        req.data.ideaVotes = votes;
+                        return callback(null);
+                    } catch(err) {
+                        console.log(err);
+                        return callback(null);
                     }
 
-                    callback(null);
-                });
+                }
+
+            } catch(err) {
+               //if user not logged into CMS in throw 404
+               //for ease of use when someone is logged into CMS it's easier to allow
+               //editing also when no activeResource is present
+               if (!req.user) {
+                   req.notFound = true;
+               }
+               callback(null);
+            }
+
         });
 
         self.apos.app.get('/like', (req, res, next) => {
@@ -156,7 +158,7 @@ module.exports = {
             return self.sendPage(req, 'form-to-submit', {});
         });
 
-        const postVote = (req, res, next) => {
+        const postVote = async (req, res, next) => {
 
             // todo: waaarom gebruikt dit niet de api proxy?
             eventEmitter.emit('voted');
@@ -171,37 +173,41 @@ module.exports = {
                 opinion: req.body.opinion,
             }];
 
-            const options = {
-                method: 'POST',
-                uri: postUrl,
-                headers: {
-                    'x-forwarded-for': ip,
-                    'Accept': 'application/json',
-                    "X-Authorization": `Bearer ${req.session.jwt}`,
-                },
-                body: votes,
-                json: true // Automatically parses the JSON string in the response
-            };
+          console.log(votes);
 
-            rp(options)
-                .then(function (response) {
-                    if (req.redirectUrl) {
-                        var redirectUrl = Url.parse(req.redirectUrl);
-                        redirectUrl = redirectUrl ? redirectUrl.pathname : '/';
-                        res.redirect(redirectUrl);
-                    } else {
-                        res.end(JSON.stringify({
-                            id: response.id
-                        }));
-                    }
+            try {
+                let response = await fetch(postUrl, {
+                    headers: {
+                        'x-forwarded-for': ip,
+                        'Accept': 'application/json',
+                        'Content-type': 'application/json',
+                        "X-Authorization": `Bearer ${req.session.jwt}`,
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(votes),
                 })
-                .catch(function (err) {
-                    console.log(err);
-                    let statusCode = err && err.statusCode || 500
-                    res.status(statusCode).json(err);
-                });
-        }
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error('Fetch failed')
+                }
+                let result = await response.json();
 
+                if (req.redirectUrl) {
+                    var redirectUrl = Url.parse(req.redirectUrl);
+                    redirectUrl = redirectUrl ? redirectUrl.pathname : '/';
+                    res.redirect(redirectUrl);
+                } else {
+                    res.end(JSON.stringify({
+                        id: result.id
+                    }));
+                }
+
+            } catch(err) {
+                  console.log(err);
+                  let statusCode = err && err.statusCode || 500
+                  res.status(statusCode).json(err);
+            }
+        }
 
         self.apos.app.post('/vote', (req, res, next) => {
             postVote(req, res, next);

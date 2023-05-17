@@ -2,7 +2,7 @@
  * GENERIC form submisson widget, developed in Den Haag,
  * Currently not active, not properly tested!!!
  */
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 
 module.exports = {
   extend: 'openstad-widgets',
@@ -44,35 +44,31 @@ module.exports = {
 
     const superLoad = self.load;
 
-     self.load = function(req, widgets, callback) {
+     self.load = async function(req, widgets, callback) {
        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
        const siteId = 1;
 
-       var options = {
-           uri: `${apiUrl}/api/site/${siteId}/submission`,
+       try {
+         let response = await fetch(`${apiUrl}/api/site/${siteId}/submission`, {
            headers: {
-               'Accept': 'application/json',
-    //           "Authorization" : auth
+             'Accept': 'application/json',
            },
-           json: true // Automatically parses the JSON string in the response
+           method: 'GET',
+         })
+         if (!response.ok) {
+           console.log(response);
+           throw new Error('Fetch failed')
+         }
+         let submissions = await response.json();
+         req.data.submissions = submissions;
+         return superLoad(req, widgets, callback);
+
+       } catch(err) {
+         console.log(err);
+         return superLoad(req, widgets, callback);
        };
 
-       rp(options)
-       .then(function (submissions) {
-          req.data.submissions = submissions;
-          // return callback(null);
-      //    callback();
-          return superLoad(req, widgets, callback);
-
-       })
-       .catch(function (err) {
-    //       console.log('Errrorororo', err);
-    //      callback();
-          return superLoad(req, widgets, callback);
-       });
-
      }
-
 
   }
 
