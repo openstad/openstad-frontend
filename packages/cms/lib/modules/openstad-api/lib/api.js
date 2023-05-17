@@ -1,4 +1,4 @@
-const request = require('request-promise');
+const fetch = require('node-fetch');
 
 module.exports = (self, options) => {
 
@@ -51,55 +51,72 @@ module.exports = (self, options) => {
     self.apos.settings.options.siteConfig = config;
   };
 
-  self.getOptions = (additionalOptions) => {
-    return Object.assign({
-      headers: {
-        'Accept': 'application/json',
-      },
-      json: true
-    }, additionalOptions);
-  };
+  
+  self.getSite = async (req, siteId, sort) => {
 
-  self.getOptionsWithAuth = (additionalOptions) => {
-    const headers = {
-      'Accept': 'application/json',
-    };
-
-    if (self.sessionJwt) {
-      headers["X-Authorization"] = `Bearer ${self.sessionJwt}`;
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}`, {
+        headers: {
+          'Accept': 'application/json',
+          "X-Authorization": process.env.SITE_API_KEY
+        },
+        method: 'GET',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
     }
 
-    return self.getOptions(Object.assign({'headers': headers}, additionalOptions));
-  };
-
-  self.getSite = async (req, siteId, sort) => {
-    // FIXME: Create a better way to get the site config or authenticate as a admin
-    const options = self.getOptions({
-      uri: `${self.apiUrl}/api/site/${self.siteId}`,
-      headers: {
-        "X-Authorization": process.env.SITE_API_KEY
-      }
-    });
-
-    return request(options);
   };
 
   self.getAllIdeas = async (req, siteId, sort) => {
-    const options = self.getOptions({
-      uri: `${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeArgsCount=1`,
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${siteId}/idea?sort=${sort}&includeVoteCount=1&includeUserVote=1&includeArgsCount=1`, {
+        headers: {
+          'Accept': 'application/json',
+        },
+        method: 'GET',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   };
 
   self.updateSite = async (data) => {
-    const options = self.getOptionsWithAuth({
-      method: 'PUT',
-      uri: `${self.apiUrl}/api/site/${self.siteId}`,
-      body: data,
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-Authorization": process.env.SITE_API_KEY
+        },
+        method: 'PUT',
+        body: JSON.stringify(data),
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   };
 
   /**
@@ -108,15 +125,23 @@ module.exports = (self, options) => {
    * @returns {Promise<*|null>}
    */
   self.getNotificationRuleSetByName = async (label) => {
-    const options = self.getOptionsWithAuth({
-      method: 'GET',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/?includeTemplate=true&includeRecipients=true&label=${label}`,
 
-    });
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/?includeTemplate=true&includeRecipients=true&label=${label}`, {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-Authorization": self.sessionJwt ?  `Bearer ${self.sessionJwt}` : '',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      let result = await response.json();
+      return result[0] ? result[0] : null;
+    } catch(err) {
+      console.log(err);
+    }
 
-    const result = await request(options);
-
-    return result[0] ? result[0] : null
   };
 
   /**
@@ -126,17 +151,26 @@ module.exports = (self, options) => {
    * @returns {Promise<*>}
    */
   self.addOrUpdateResource = async (data, resourcePath) => {
-    const options = self.getOptionsWithAuth({
-      method: 'POST',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/${resourcePath}`,
-      body: data,
-    });
 
-    if (data.id) {
-      options.method = 'PUT'
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}/${resourcePath}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-Authorization": self.sessionJwt ?  `Bearer ${self.sessionJwt}` : '',
+        },
+        method: data.id ? 'PUT' : 'POST',
+        body: JSON.stringify(data),
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
     }
-
-    return request(options);
   }
 
   self.addOrUpdateNotificationTemplate = async (data) => {
@@ -157,12 +191,26 @@ module.exports = (self, options) => {
    * @returns {Promise<void>}
    */
   self.deleteNotificationRuleSet = async (id) => {
-    const options = self.getOptionsWithAuth({
-      method: 'DELETE',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/${id}`
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}/notification/ruleset/${id}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-Authorization": self.sessionJwt ?  `Bearer ${self.sessionJwt}` : '',
+        },
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   }
 
   /**
@@ -171,12 +219,26 @@ module.exports = (self, options) => {
    * @returns {Promise<void>}
    */
   self.deleteNotificationTemplate = async (id) => {
-    const options = self.getOptionsWithAuth({
-      method: 'DELETE',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/template/${id}`
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}/notification/template/${id}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-Authorization": self.sessionJwt ?  `Bearer ${self.sessionJwt}` : '',
+        },
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   }
 
   /**
@@ -185,20 +247,47 @@ module.exports = (self, options) => {
    * @returns {Promise<void>}
    */
   self.deleteNotificationRecipient = async (id) => {
-    const options = self.getOptionsWithAuth({
-      method: 'DELETE',
-      uri: `${self.apiUrl}/api/site/${self.siteId}/notification/recipient/${id}`
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/site/${self.siteId}/notification/recipient/${id}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-Authorization": self.sessionJwt ?  `Bearer ${self.sessionJwt}` : '',
+        },
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   }
 
   self.getAllPolygons = async () => {
-    const options = self.getOptions({
-      method: 'GET',
-      uri: `${self.apiUrl}/api/area`,
-    });
 
-    return request(options);
+    try {
+      let response = await fetch(`${self.apiUrl}/api/area`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        method: 'GET',
+      })
+      if (!response.ok) {
+        console.log(response);
+        throw new Error('Fetch failed')
+      }
+      return await response.json();
+    } catch(err) {
+      console.log(err);
+      throw err;
+    }
+
   }
 };

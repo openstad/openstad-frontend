@@ -1,4 +1,4 @@
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const eventEmitter  = require('../../../../events').emitter;
 const toSqlDatetime = (inputDate) => {
     const date = new Date()
@@ -27,27 +27,28 @@ module.exports = function(self, options) {
          return;
        }
 
+       eventEmitter.emit('resourceCrud');
+       const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+       const siteId = req.data.global.siteId;
+
+       const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/do-anonymizeall`;
+
+       // pass along siteIds user selected to also be removed
+       const data = {
+         onlySiteIds: req.body.sites
+       };
+
        try {
-         eventEmitter.emit('resourceCrud');
-         const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
-         const siteId = req.data.global.siteId;
-
-         const postUrl = `${apiUrl}/api/site/${siteId}/user/${req.body.resourceUserId}/do-anonymizeall`;
-
-         // pass along siteIds user selected to also be removed
-         const data = {
-           onlySiteIds: req.body.sites
-         };
-
-         const options = {
-           method: 'PUT',
-           uri: postUrl,
+         let response = await fetch(postUrl, {
            headers: self.formatApiHeaders(req.session.jwt),
-           body: data,
-           json: true // Automatically parses the JSON string in the response
-         };
-
-         const result = await rp(options);
+           method: 'PUT',
+           body: JSON.stringify(data, null, 2),
+         })
+         if (!response.ok) {
+           console.log(response);
+           throw new Error('Fetch failed')
+         }
+         let result = await response.json();
 
          res.setHeader('Content-Type', 'application/json');
 
@@ -55,16 +56,17 @@ module.exports = function(self, options) {
            'status': 'success'
          }));
 
-       } catch (e) {
+       } catch(err) {
+
          res.setHeader('Content-Type', 'application/json');
 
-         console.warn('Error anonmyzing sites', e);
+         console.warn('Error anonmyzing sites', err);
 
          res.status(500).end(JSON.stringify({
-           msg: e[0]
+           msg: err[0]
          }));
        }
-    });
+     });
 
    self.formatApiHeaders = (jwt) => {
      return {

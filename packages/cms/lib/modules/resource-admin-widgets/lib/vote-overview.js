@@ -1,5 +1,5 @@
 const { parse } = require('json2csv');
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const moment = require('moment');
 module.exports = {
     generateCsv: (votes) => {
@@ -21,14 +21,24 @@ module.exports = {
     },
     getVotes: async (req, ideaId, apiUrl) => {
         const jwt = req.session.jwt;
-        return rp({
-            uri: `${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${ideaId}&sortBy=id&orderBy=ASC`,
-            headers: {
-                'Accept': 'application/json',
-                "X-Authorization" : `Bearer ${jwt}`,
-                "Cache-Control": "no-cache"
-            },
-            json: true
-        });
+
+        try {
+            let response = await fetch(`${apiUrl}/api/site/${req.data.global.siteId}/vote?ideaId=${ideaId}&sortBy=id&orderBy=ASC`, {
+                headers: {
+                    'Accept': 'application/json',
+                    "X-Authorization" : `Bearer ${jwt}`,
+                    "Cache-Control": "no-cache"
+                },
+                method: 'GET',
+            })
+            if (!response.ok) {
+              console.log(response);
+              throw new Error('Fetch failed')
+            }
+            return await response.json();
+        } catch(err) {
+            console.log(err);
+        }
+
     }
 };

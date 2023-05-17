@@ -1,5 +1,5 @@
 const { generateCsv, getVotes } = require('./vote-overview');
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const eventEmitter  = require('../../../../events').emitter;
 const toSqlDatetime = (inputDate) => {
     const date = new Date()
@@ -41,7 +41,7 @@ module.exports = async function(self, options) {
      // Almost identical  to proxy,
      // Server side validation is done by the API
      // In future form can probably talk directly with api proxy,
-     self.route('post', 'update', (req, res) => {
+     self.route('post', 'update', async (req, res) => {
 
        const postUrl = `${self.formatApiUrl(req)}/${req.body.resourceId}`;
        const data = {};
@@ -58,70 +58,66 @@ module.exports = async function(self, options) {
          data.modBreakDate = req.body.modBreakDate ? req.body.modBreakDate : toSqlDatetime();
        }
 
-
-       const options = {
-           method: 'PUT',
-           uri: postUrl,
+       try {
+         let response = await fetch(postUrl, {
            headers: self.formatApiHeaders(req.session.jwt),
-           body: data,
-           json: true // Automatically parses the JSON string in the response
+           method: 'PUT',
+           body: JSON.stringify(data),
+         })
+         if (!response.ok) {
+           console.log(response);
+           throw new Error('Fetch failed')
+         }
+         let result = await response.json();
+
+         //  req.flash('success', { msg: 'Verwijderd!'});
+         //  res.redirect('/');
+         res.setHeader('Content-Type', 'application/json');
+
+         eventEmitter.emit('apiPost');
+
+         res.end(JSON.stringify({
+           id: result.id
+         }));
+
+       } catch(err) {
+         // req.flash('error', { msg: 'Er ging iets mis met verwijderen'});
+         // return res.redirect(req.header('Referer')  || appUrl);
+         console.log('err', err)
+         res.status(500).json(JSON.stringify(err));
        };
-
-       rp(options)
-       .then(function (response) {
-        //  req.flash('success', { msg: 'Verwijderd!'});
-        //  res.redirect('/');
-          res.setHeader('Content-Type', 'application/json');
-
-          eventEmitter.emit('apiPost');
-
-          res.end(JSON.stringify({
-            id: response.id
-          }));
-       })
-       .catch(function (err) {
-        // req.flash('error', { msg: 'Er ging iets mis met verwijderen'});
-        // return res.redirect(req.header('Referer')  || appUrl);
-        console.log('err', err)
-        res.status(500).json(JSON.stringify(err));
-       });
     });
 
 
    // Almost identical  to proxy,
    // Server side validation is done by the API
    // In future form move to api proxy
-   self.route('post', 'delete', function(req, res) {
+   self.route('post', 'delete', async function(req, res) {
      const postUrl = `${self.formatApiUrl(req)}/${req.body.resourceId}`;
 
      eventEmitter.emit('apiPost');
 
-
-     rp({
-         method: 'DELETE',
-         uri: postUrl,
+     try {
+       let response = await fetch(postUrl, {
          headers: self.formatApiHeaders(req.session.jwt),
-         json: true // Automatically parses the JSON string in the response
-     })
-     .then(function (response) {
-      //  req.flash('success', { msg: 'Verwijderd!'});
-      //  res.redirect('/');
+         method: 'DELETE',
+       })
+       if (!response.ok) {
+         console.log(response);
+         throw new Error('Fetch failed')
+       }
+       let result = await response.json();
         res.setHeader('Content-Type', 'application/json');
-
         eventEmitter.emit('apiPost');
 
-
-
         res.end(JSON.stringify({
-          id: response.id
+          id: result.id
         }));
-     })
-     .catch(function (err) {
+     } catch(err) {
       // req.flash('error', { msg: 'Er ging iets mis met verwijderen'});
       // return res.redirect(req.header('Referer')  || appUrl);
       res.status(500).json(JSON.stringify(err));
-
-     });
+     };
    });
 
    self.formatApiUrl = (req) => {

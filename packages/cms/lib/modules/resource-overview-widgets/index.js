@@ -14,8 +14,7 @@ const cache = require('../../../services/cache').cache;
   SOME ASSETS FILES ARE IN THE IDEA overview
   MAIN ISSUE IS
  */
-const Promise = require("bluebird");
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const moment = require("moment");
 const url = require('url');
 const qs = require('qs');
@@ -289,19 +288,26 @@ module.exports = {
                 } else {
                     promises.push(function (req, self) {
                         return new Promise((resolve, reject) => {
-                            rp(options)
+                            return fetch(options.uri, { ...options })
                                 .then((response) => {
+                                    if (!response.ok) {
+                                        console.log(response);
+                                        throw new Error('Fetch failed')
+                                    }
+                                    return response.json();
+                                })
+                                .then((json) => {
                                     // set the cache by url key, this is perfect unique identifier
                                     if (globalData.cacheIdeas) {
-                                        cache.set(cacheKey, JSON.stringify(response), {
+                                        cache.set(cacheKey, JSON.stringify(json), {
                                             life: cacheLifespan
                                         });
                                     }
 
                                     // pass query obj without reference
-                                    widget = self.formatWidgetResponse(widget, response, Object.assign({}, req.query), req.data.currentPathname);
+                                    widget = self.formatWidgetResponse(widget, json, Object.assign({}, req.query), req.data.currentPathname);
 
-                                    resolve(response);
+                                    resolve(json);
                                 })
                                 .catch((err) => {
                                     reject(err);

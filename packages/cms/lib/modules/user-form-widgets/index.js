@@ -2,7 +2,7 @@
  * GENERIC form contact widget wi, developed in Den Haag,
  * Currently only show if beta widgets are on, not properly tested!!!
  */
-const rp          = require('request-promise');
+const fetch = require('node-fetch');
 const styleSchema = require('../../../config/styleSchema.js').default;
 const mapFormValidations = require('./mapFormValidations');
 
@@ -182,7 +182,7 @@ module.exports = {
             return superOutput(widget, options);
         };
 
-        self.route('get', 'submissions', (req, res) => {
+        self.route('get', 'submissions', async (req, res) => {
             if (!req.query || !req.query.form) {
                 req.status(500).json({message: 'Formulier niet gevonden'});
             }
@@ -191,25 +191,26 @@ module.exports = {
             const apiUrl      = self.apos.settings.getOption(req, 'apiUrl');
             const siteId      = req.data.global.siteId;
 
-            const options = {
-                method:  'GET',
-                uri:     apiUrl + `/api/site/${siteId}/submission/${form}`,
-                headers: {
-                    'Accept': 'application/json',
-                },
-                json:    true // Automatically parses the JSON string in the response
-            };
-
-            rp(options)
-                .then(function (response) {
-                    res.status(200).json(response);
+            try {
+                let response = await fetch(apiUrl + `/api/site/${siteId}/submission/${form}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                    method: 'GET',
                 })
-                .catch(function (err) {
-                    res.status(500).json({message: 'Er ging iets fout bij het ophalen van de inzendingen. Probeer het aub. opnieuw.'});
-                });
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error('Fetch failed')
+                }
+                let result = await response.json();
+                res.status(200).json(result);
+            } catch(err) {
+                console.log(err);
+                res.status(500).json({message: 'Er ging iets fout bij het ophalen van de inzendingen. Probeer het aub. opnieuw.'});
+            }
         });
 
-        self.route('post', 'submit', (req, res) => {
+        self.route('post', 'submit', async (req, res) => {
             const apiUrl      = self.apos.settings.getOption(req, 'apiUrl');
             const appUrl      = self.apos.settings.getOption(req, 'appUrl');
             const redirectUrl = (req.body.redirectUrl ? appUrl + req.body.redirectUrl : req.header('Referer') || appUrl);
@@ -240,27 +241,29 @@ module.exports = {
             body.emailSubjectAdmin = req.body.emailSubjectAdmin;
             body.formId            = req.body.formId;
 
-            const options = {
-                method:  'POST',
-                uri:     apiUrl + `/api/site/${siteId}/submission`,
-                headers: {
-                    'Accept': 'application/json',
-                },
-                body:    body,
-                json:    true // Automatically parses the JSON string in the response
-            };
-
-            rp(options)
-                .then(function (response) {
-                    res.status(200).json({
-                                             url: redirectUrl
-                                         });
+            try {
+                let response = await fetch(apiUrl + `/api/site/${siteId}/submission`, {
+                    headers: {
+                      'Content-type': 'application/json',
+                      'Accept': 'application/json'
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(body),
                 })
-                .catch(function (err) {
-                    res.status(500).json({
-                                             message: err
-                                         });
+                if (!response.ok) {
+                    console.log(response);
+                    throw new Error('Fetch failed')
+                }
+                let result = await response.json();
+                res.status(200).json({
+                    url: redirectUrl
                 });
+            } catch(err) {
+                console.log(err);
+                res.status(500).json({
+                    message: err
+                });
+            }
 
         });
 

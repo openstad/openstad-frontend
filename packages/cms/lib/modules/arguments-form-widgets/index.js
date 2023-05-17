@@ -2,7 +2,7 @@
  * A widget for display an argument form
  * Mostly used on a resource page, that loads in an idea data from the url
  */
-const rp = require('request-promise');
+const fetch = require('node-fetch');
 const eventEmitter  = require('../../../events').emitter;
 
 module.exports = {
@@ -63,7 +63,7 @@ module.exports = {
        self.pushAsset('script', 'main', { when: 'always' });
      };
 
-     self.route('post', 'submit', function(req, res) {
+     self.route('post', 'submit', async function(req, res) {
        eventEmitter.emit('postArgument');
 
        //let auth = `Basic ${new Buffer("openstad:op3nstad#").toString("base64")}`//
@@ -72,27 +72,27 @@ module.exports = {
        const siteId = req.data.global.siteId;
        const ideaId = req.body.ideaId;
 
-       const options = {
-          method: 'POST',
-           uri:  apiUrl + `/api/site/${siteId}/idea/${ideaId}/argument`,
+       try {
+         let response = await fetch(apiUrl + `/api/site/${siteId}/idea/${ideaId}/argument`, {
            headers: {
-               'Accept': 'application/json',
-               "X-Authorization" : ` Bearer ${req.session.jwt}`,
+             'Content-type': 'application/json',
+             'Accept': 'application/json',
+             "X-Authorization" : ` Bearer ${req.session.jwt}`,
            },
-           body: req.body,
-           json: true // Automatically parses the JSON string in the response
-       };
-
-       rp(options)
-         .then(function (response) {
-            res.end(JSON.stringify(response));
+           method: 'POST',
+           body: JSON.stringify(req.body),
          })
-         .catch(function (err) {
-            res.status(500).end(JSON.stringify(err));
-         });
+         if (!response.ok) {
+           console.log(response);
+           throw new Error('Fetch failed')
+         }
+         let result = await response.json();
+         res.end(JSON.stringify(result));
+       } catch(err) {
+         console.log(err);
+         res.status(500).end(JSON.stringify(err));
+       }
 
-      // Access req.body here
-      // Send back an AJAX response with `res.send()` as you normally do with Express
     });
 
     const superOutput = self.output;
