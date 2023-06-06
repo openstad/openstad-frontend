@@ -6,15 +6,12 @@
             <a href="#closed" class="content-modal-close">
                 <img src="{{ data.siteUrl }}/modules/openstad-assets/img/close.svg" width="13" height="13"/>
             </a>
-            <!-- Render specific group -->
             {% if data.widget.tagType %}
                 {% include 'includes/controls/tag-includes/group-variants/single-group.njk' %}
             {% endif %}
-            <!-- Render all tags as one list -->
             {% if not data.widget.showTagTypeLabels and not data.widget.tagType %}
                 {% include 'includes/controls/tag-includes/group-variants/non-grouped.njk' %}
             {% endif %}
-            <!-- If labels should be shown and no tagtype is specified -->
             {% if data.widget.showTagTypeLabels and data.widget.tagType === '' %}
                 {% include 'includes/controls/tag-includes/group-variants/grouped.njk' %}
             {% endif %}

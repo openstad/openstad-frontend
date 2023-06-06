@@ -1,4 +1,4 @@
-<div id="{{ tagGroupPrefix }}tag-group-{{ data.widget.tagType }}">
+<div id="{{ tagGroupPrefix }}tag-group-{{ data.widget.tagType }}" class="{{ tagGroupPrefix }}tag-group">
         {% for tagList in [data.widget.groupedOpenstadTags[data.widget.tagType]] %}
                 {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
         {% endfor %}
