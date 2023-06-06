@@ -3,7 +3,9 @@
         and data.groupedOpenstadTags[field.tagType] 
         and data.groupedOpenstadTags[field.tagType].length %}
 
+        <div id="resource-form-tag-group-{{field.tagType}}" class="form-tag-group">
     {% for tag in data.groupedOpenstadTags[field.tagType] %}
+     
       <div class="checkbox">
         <input
           type="checkbox"
@@ -14,8 +16,10 @@
           {% if field.idea.tags %}checked{% endif %}
         />
         <label for="checkbox-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
-      </div>    
+    </div>
     {% endfor %}
+  </div>    
+
   {% endif %}
   </div>
   
@@ -25,16 +29,18 @@
     {% set outer_loop = loop %}
 
     {% if field.showTagTypeLabels %}
-      {% if outer_loop.length > 1 and key !== 'undefined' %}
+      {% if outer_loop.length > 1 and key !== 'undefined' and key !== 'null'%}
         <p>{{key}}</p>
       {% endif %}
 
-      {% if outer_loop.length > 1 and key == 'undefined' %}
+      {% if outer_loop.length > 1 and key == 'undefined' or key == 'null' %}
         <p>Overig</p>
       {% endif %}
     {% endif %}
 
-      {% for tag in tagList %}
+    <div id="resource-form-tag-group-{{key if key !=='undefined' and key !== 'null' else 'overig'}}" class="form-tag-group">
+
+    {% for tag in tagList %}
       <div class="checkbox">
         <input
           type="checkbox"
@@ -47,6 +53,8 @@
         <label for="checkbox-{{outer_loop.index}}-{{loop.index}}-{{tag.id}}" class="checkbox-label">{{tag.name}}</label>
       </div>    
     {% endfor %}
+  </div>
+
   {% endfor %}
 {% endif %}
 </div>
