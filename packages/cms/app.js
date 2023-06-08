@@ -23,7 +23,7 @@ const auth = require('basic-auth');
 const compare = require('tsscmp');
 const path = require('path');
 const morgan = require('morgan')
-
+const { URL } = require('url')
 //internal code
 const cdns = require('./services/cdns');
 const mongo = require('./services/mongo');
@@ -41,7 +41,7 @@ let sites = {};
 let sitesById = {};
 let sitesResponse = [];
 const aposStartingUp = {};
-const REFRESH_SITES_INTERVAL = 60000 * 5;
+const REFRESH_SITES_INTERVAL =  60000 * 5;
 
 
 if (process.env.REQUEST_LOGGING === 'ON') {
@@ -55,6 +55,25 @@ app.use(express.static('public'));
 
 
 app.set('trust proxy', true);
+
+async function restartAllSites() {
+    const sites = Object.keys(aposServer);
+    const promises = sites.map(site => {
+        const url = new URL('http://' + site);
+        return rp(`http://localhost:${process.env.PORT}${url.pathname}/config-reset`, {
+            headers: {
+                Host: url.hostname
+            }
+        }).catch(err => {
+            if (err.statusCode === 404) {
+                return console.log('Done resetting site ' + site)
+            }
+            console.error(err)
+        })
+    });
+
+    await Promise.allSettled(promises);
+}
 
 function fetchAllSites(req, res, startSites) {
     const apiUrl = process.env.INTERNAL_API_URL ? process.env.INTERNAL_API_URL : process.env.API;
@@ -91,7 +110,12 @@ function fetchAllSites(req, res, startSites) {
 
             sites = newSites;
             sitesById = newSitesById;
+
             cleanUpSites();
+            // if is called via interval, for each site call /config-reset on domain
+
+
+
 
         }).catch((e) => {
             console.error('An error occurred fetching the site config:', e);
@@ -275,6 +299,7 @@ module.exports.getMultiSiteApp = (options) => {
         req.forceRestart = true;
         next();
     }
+    
 
     /**
      * Route for resetting the config of the server
@@ -347,6 +372,6 @@ module.exports.getMultiSiteApp = (options) => {
     /**
      * Update the site config every few minutes
      */
-    setInterval(fetchAllSites, REFRESH_SITES_INTERVAL);
+    setInterval(restartAllSites, REFRESH_SITES_INTERVAL);
     return app;
 };
