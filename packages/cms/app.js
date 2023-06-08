@@ -112,11 +112,6 @@ function fetchAllSites(req, res, startSites) {
             sitesById = newSitesById;
 
             cleanUpSites();
-            // if is called via interval, for each site call /config-reset on domain
-
-
-
-
         }).catch((e) => {
             console.error('An error occurred fetching the site config:', e);
             if (res) res.status(500).json({error: 'An error occured fetching the sites data: ' + e});
