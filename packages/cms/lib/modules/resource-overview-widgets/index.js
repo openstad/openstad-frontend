@@ -192,6 +192,7 @@ module.exports = {
                     includeArgsCount: 1,
                     sort: queryObject.sort ? queryObject.sort : defaultSort,
                     tags: queryObject.oTags ? queryObject.oTags : '',
+                    filterByTagsAnd: widget.requireAllTags,
                     filters: {
                         theme: queryObject.theme ? queryObject.theme : '',
                         area: queryObject.area ? queryObject.area : '',
@@ -227,7 +228,6 @@ module.exports = {
                 }
 
                 const siteId = widget.siteId ? widget.siteId : req.data.global.siteId;
-
                 // format string
                 const getUrl = `/api/site/${siteId}/${resource}?${qs.stringify(params)}`;
                 const cacheKey = encodeURIComponent(getUrl) + req.session?.openstadUser?.id;

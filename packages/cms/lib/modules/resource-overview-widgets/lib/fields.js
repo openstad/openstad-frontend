@@ -542,6 +542,22 @@ module.exports = [
     ],
   },
   {
+      name: 'requireAllTags',
+      label: 'When filtering based on tags, ideas must contain all the selected tags (AND)',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
+  },
+  {
     name: 'tagType',
     label: 'If specified only show tags belonging to a certain type',
     type: 'string',
