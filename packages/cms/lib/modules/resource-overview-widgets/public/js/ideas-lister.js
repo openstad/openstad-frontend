@@ -129,3 +129,8 @@ function scrollToResolver(elem) {
 	  }
 	}
 }
+
+function onTagDropdownClick(dropdown) {
+	let clickedDropdown = dropdown.querySelector(".tag-dropdown-content");
+	clickedDropdown.classList.toggle("open");
+}

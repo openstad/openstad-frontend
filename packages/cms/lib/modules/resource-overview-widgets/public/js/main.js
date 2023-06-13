@@ -75,3 +75,7 @@ $(document).on('openstadAjaxRefresh', function () {
 		}
 	}
 });
+
+function alert (e) {
+	alert(e);
+}

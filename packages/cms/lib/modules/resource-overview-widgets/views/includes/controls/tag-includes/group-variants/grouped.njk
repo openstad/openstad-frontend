@@ -1,8 +1,26 @@
-{% for key, tagList in data.widget.groupedOpenstadTags %}
-    <div class="tag-group-container">
-        <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
-        <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group">
-            {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+{% if data.widget.tagGroupAsDropdown %}
+    {% for key, tagList in data.widget.groupedOpenstadTags %}
+  <div class="tag-group-container inline" onclick="onTagDropdownClick(this)">
+        <div class="tag-dropdown">
+            <div class="tag-dropdown-header">
+                <h3>{{ "Overig" if key === 'undefined' or key === 'null' else key }}</h3>
+                <img src="https://wijamsterdam.nl/modules/openstad-assets/img/arrow_down_black.svg"/> 
+            </div>
+             <div class="tag-dropdown-content open">
+                <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group">
+                    {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+                </div>
+            </div>
         </div>
     </div>
-{% endfor %}
+    {% endfor %}
+{% else %}
+    {% for key, tagList in data.widget.groupedOpenstadTags %}
+        <div class="tag-group-container">
+            <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
+            <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group">
+                {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

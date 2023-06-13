@@ -33,6 +33,12 @@ input.search {
   border-bottom: 1px solid #767676;
   padding: 20px 0;
   margin: 20px 0;
+  &.inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
 }
 
 .resource-filter-row {
@@ -97,6 +103,13 @@ input.search {
   display: block;
   font-weight: bold;
   margin: 15px 0;
+}
+
+
+.tag-group-container {
+  &.inline {
+    display: inline-flex;
+  }
 }
 
 .mobile-tag-group, .tag-group {

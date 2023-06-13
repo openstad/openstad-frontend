@@ -1,5 +1,6 @@
 {% set  tagGroupPrefix = "" %}
-<div class="resource-overview-tags-container hidden-xs">
+
+<div class="resource-overview-tags-container {{ "inline" if data.widget.tagGroupAsDropdown else "" }} hidden-xs">
     {% if data.widget.tagType %}
         {% include 'includes/controls/tag-includes/group-variants/single-group.njk' %}
     {% endif %}
@@ -10,3 +11,4 @@
         {% include 'includes/controls/tag-includes/group-variants/grouped.njk' %}
     {% endif %}
 </div>
+

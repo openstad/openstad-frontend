@@ -523,8 +523,22 @@ module.exports = [
       }
     ],
   },
-
-
+  {
+    name: 'useVerticalLayout',
+    label: 'Put the filters to the left of the list',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+    def: false
+  },
 
   {
     name: 'displayTagFilters',
@@ -549,6 +563,21 @@ module.exports = [
   {
     name: 'showTagTypeLabels',
     label: 'If no tag type is specified, should the type name be shown per group?',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
+    name: 'tagGroupAsDropdown',
+    label: 'Show the groups as dropdown elements',
     type: 'boolean',
     choices: [
       {

@@ -432,3 +432,49 @@
      }
     }
 }
+
+.tag-dropdown {
+	display: inline-flex;
+	flex-direction: column;
+	position: relative;
+	align-items: center;
+	gap: 8px;
+	vertical-align: middle;
+
+
+}
+
+.tag-dropdown-header {
+	display: flex;
+	position: relative;
+	align-items: center;
+	gap: 8px;
+	vertical-align: middle;
+
+	*{
+		margin: 0;
+	}
+}
+
+.tag-dropdown-content {
+	display: none;
+	background-color: #f9f9f9;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	padding: 12px 16px;
+	z-index: 1;
+	position: relative;
+
+	&.open {
+		display: flex;
+		flex-direction: row;
+
+		.tag-group {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
+
+// .tag-dropdown:hover .tag-dropdown-content {
+// 	display: block;
+// }
