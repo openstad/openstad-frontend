@@ -25,6 +25,10 @@ module.exports = (self, options) => {
       return res.status(400).json({ error: 'Could not determine the page to translate' });
     }
 
+    const collection = self.apos.db.collection("deepl-translations");
+    console.log({collection})
+    // collection.insert({cacheKey})
+
     const result = cache.get(cacheKey);
 
     if (result) {
