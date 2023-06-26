@@ -1,4 +1,5 @@
 const request = require('request-promise');
+const queryString = require('query-string');
 
 module.exports = (self, options) => {
 
