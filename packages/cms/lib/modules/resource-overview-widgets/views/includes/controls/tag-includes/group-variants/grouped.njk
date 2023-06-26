@@ -1,5 +1,5 @@
 {% for key, tagList in data.widget.groupedOpenstadTags %}
-    <div class="tag-group-container">
+    <div id="tag-group-container-{{ 'tags' if key === 'undefined' else key }}" class="tag-group-container">
         <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
         <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group">
             {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
