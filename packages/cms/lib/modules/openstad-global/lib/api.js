@@ -12,7 +12,7 @@ const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
 
 module.exports = (self, options) => {
 
-  self.translate = (req, res) => {
+  self.translate = async (req, res) => {
     const deeplAuthKey = options.deeplKey;
     const content = req.body.contents;
     const origin = req.body.origin;
@@ -25,11 +25,11 @@ module.exports = (self, options) => {
       return res.status(400).json({ error: 'Could not determine the page to translate' });
     }
 
-    const result = cache.get(cacheKey);
-
+    const collection = self.apos.db.collection("deepl-translations");
+    const result = await collection.findOne({_id: cacheKey});
     if (result) {
       console.log("Receiving translations from cache");
-      return res.json(result);
+      return res.json(result.translations);
     }
 
     // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
@@ -50,14 +50,17 @@ module.exports = (self, options) => {
       }
 
       if (translator) {
+        console.log("No existing translations found, fetching translations from deepl")
         translator.translateText(
           content,
           sourceLanguageCode,
           destinationLanguage,
         ).then(response => {
-          cache.set(`${cacheKey}`, response, {
-            life: cacheLifespan
-          });
+          collection.findOneAndUpdate(
+            {"_id": cacheKey},
+            { $set: { "translations": response}},
+            {upsert:true}
+          );
           return res.json(response);
         })
           .catch(error => {
