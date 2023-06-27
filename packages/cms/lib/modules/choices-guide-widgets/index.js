@@ -37,17 +37,16 @@ module.exports = {
 		self.load = function(req, widgets, next) {
 
 			widgets.forEach((widget) => {
-
-			  let config = createConfig({
-          widget: widget,
-          data: req.data,
-        });
-			  widget.config = config;
+			  widget.config = JSON.stringify(createConfig(widget, req.data, req.session.jwt, self.apos.settings.getOption(req, 'apiUrl'), req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url) ));
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+        const containerId = self.apos.utils.generateId();
+        widget.containerId = containerId;
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
         widget.divId = widget.config.divId;
-      });
+			});
 
 			return superLoad(req, widgets, next);
-			next();
 		}
 
   }

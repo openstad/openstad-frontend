@@ -1,372 +1,353 @@
 const fields = [
-  {
-    name: 'formName',
-    type: 'string',
-    label: 'Unique form name',
-    help: 'This form id must be unique on this site and must be lowercase with no whitespaces',
-    required: true
-  },
-  {
-    name: 'redirect',
-    type: 'string',
-    label: 'Redirect after submit',
-    help: 'The url to redirect to after form submit, it\'s possible to redirect to newly created item (replace with correct url) /pagename/:id   ',
-    required: true
-  },
-  {
-    name: 'formType',
-    type: 'select',
-    label: 'How do you want to organise the form?',
-    choices: [
-      {
-        value: 'static',
-        label: "Static (default)"
-      },
-      {
-        value: 'staticWithDynamicFieldsAppended',
-        label: "Static with dynamic fields appended",
-        showFields: ['dynamicFormSections']
-      },
-      {
-        value: 'dynamic',
-        label: "Dynamic",
-        showFields: ['dynamicFormSections']
-      },
-    ]
-  },
-  {
-    name: 'formVisibility',
-    type: 'select',
-    label: 'Who can view this form?',
-    choices: [
-      {
-        value: 'user',
-        label: "Only users (and admin users)",
-      },
-      {
-        value: 'always',
-        label: "Everyone"
-      },
-    ],
-    def: 'user'
-  },
-  {
-    name: 'shouldDisplayUserName',
-    type: 'boolean',
-    label: 'Show user name in form header?',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
-  {
-    name: 'loginText',
-    type: 'string',
-    label: 'Login text'
-  },
-  {
-    name: 'hideAdminAfterPublicAction',
-    label: 'Hide admin after first public action? (not yet connected to the API)',
-    type: 'boolean',
-    choices: [
-      {
-        label: 'Yes',
-        value: true,
-      },
-      {
-        label: 'No',
-        value: false,
-      }
-    ],
-    def: true
-  },
-  {
-    name: 'dynamicFormSections',
-    label: 'Form Sections',
-    type: 'array',
-    titleField: 'title',
-    schema: [
-      {
+    {
+      name: 'formName',
+      type: 'string',
+      label: 'Unique form name',
+      help: 'This form id must be unique on this site and must be lowercase with no whitespaces',
+      required: true
+    },
+     {
+        name: 'redirect',
         type: 'string',
-        name: 'title',
-        label: 'Title'
-      },
-      {
-        type: 'string',
-        name: 'info',
-        label: 'Info'
-      },
-      {
-        type: 'array',
-        titleField: 'fieldKey',
-        name: 'fields',
-        label: 'Form fields',
-        schema: [
-          {
-            type: 'select',
-            name: 'type',
-            label: 'Type',
-            required: true,
-            choices: [
-              {
-                value: 'radio',
-                label: "Radio",
-                showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
-              },
-              {
-                value: 'checkbox',
-                label: 'Checkbox',
-                showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
-              },
-              {
-                value: 'select',
-                label: 'Select',
-                showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
-              },
-              {
-                value: 'text',
-                label: "Text",
-                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
-              },
-              {
-                value: 'hidden',
-                label: "Hidden",
-                showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey']
-              },
-              {
-                value: 'textarea',
-                label: "Textarea",
-                showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
-              },
-              {
-                value: 'tags',
-                label: "Tags (currently only works for ideas)",
-                showFields: ['fieldKey', 'fieldRequired', 'tagType', 'showTagTypeLabels', 'fieldMin', 'fieldMax']
-              },
-              {
-                value: 'raw',
-                label: "Raw",
-                showFields: ['rawInput']
-              },
-              {
-                value: 'advice',
-                label: "Advice"
-              },
-              {
-                value: 'neighborhood',
-                label: "Neighborhood"
-              },
-              {
-                value: 'budget',
-                label: "Budget"
-              },
-              {
-                value: 'description',
-                label: "Description"
-              },
-              {
-                value: 'estimate',
-                label: "Estimate"
-              },
-              {
-                value: 'image',
-                label: "Image"
-              },
-              {
-                value: 'map',
-                label: "Map"
-              },
-              {
-                value: 'phone',
-                label: "Idea: Phone"
-              },
-              {
-                value: 'role',
-                label: "Role"
-              },
-              {
-                value: 'summary',
-                label: "Summary"
-              },
-              {
-                value: 'theme',
-                label: "Theme"
-              },
-              {
-                value: 'title',
-                label: "Title"
-              },
-              {
-                value: 'vimeo',
-                label: "Vimeo",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'userFirstName',
-                label: "User: Firstname",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'userLastName',
-                label: "User: Lastname",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'userPostcode',
-                label: "User: Postcode",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'function',
-                label: "User: function",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'expertise',
-                label: "User: expertise",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'userPhone',
-                label: "User: phone",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'bio',
-                label: "User: biography",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'image',
-                label: "User: profile image",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'neighborhood',
-                label: "User: neighborhood",
-                showFields: ['fieldRequired']
-              },
-              {
-                value: 'userIsPublic',
-                label: "User: public status",
-                showFields: ['fieldRequired']
-              },
-            ]
-          },
-          {
-            name: 'fieldKey',
-            type: 'string',
-            label: 'Key (one word) for example: ‘summary’ (for storing, must be unique, no spaces and special characters)',
-          },
-          {
-            name: 'fieldInfo',
-            type: 'string',
-            label: 'Info',
-          },
-          {
-            name: 'fieldValue',
-            type: 'string',
-            label: 'Default value (will be overwritten by url and resource value)',
-          },
-          {
-            name: 'fieldRequired',
-            label: 'Required',
-            type: 'boolean'
-          },
-          {
-            name: 'fieldMin',
-            label: 'Min length',
-            type: 'string',
-          },
-          {
-            name: 'fieldMax',
-            label: 'Max length',
-            type: 'string',
-          },
-          {
-            name: 'rawInput',
-            label: 'Raw input',
-            type: 'string',
-            textarea: true
-          },
-          {
-            name: 'tagType',
-            label: 'Optionally specify the single type (one word) by which to fetch the tags.',
-            type: 'string'
-          },
-          {
-            name: 'showTagTypeLabels',
-            label: 'When the above option is empty, select if the corresponding types should be shown or not',
-            type: 'boolean',
-            choices: [
-              {
-                label: 'Yes',
-                value: true,
-              },
-              {
-                label: 'No',
-                value: false,
-              }
-            ],
-            def: false
-          },
-          {
-            name: 'notExtraDataKey',
-            label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',
-            type: 'boolean',
-            choices: [
-              {
-                label: 'Yes',
-                value: true,
-              },
-              {
-                label: 'No',
-                value: false,
-              }
-            ],
-            def: false
-          },
-          {
-            name: 'onlyForModerator',
-            label: 'Only show to moderators',
-            type: 'boolean',
-            choices: [
-              {
-                label: 'Yes',
-                value: true,
-              },
-              {
-                label: 'No',
-                value: false,
-              }
-            ],
-            def: false
-          },
-          {
-            name: 'fieldOptions',
-            label: 'Field options',
-            titleField: 'label',
-            type: 'array',
-            schema: [
-              {
-                type: 'string',
-                name: 'value',
-                label: 'Value',
-              },
-              {
-                type: 'string',
-                name: 'label',
-                label: 'Label',
-              },
-            ]
-          },
+        label: 'Redirect after submit',
+        help: 'The url to redirect to after form submit, it\'s possible to redirect to newly created item (replace with correct url) /pagename/:id   ',
+        required: true
+    },
+    {
+        name: 'formType',
+        type: 'select',
+        label: 'How do you want to organise the form?',
+        choices: [
+            {
+              value: 'static',
+              label: "Static (default)"
+            },
+            {
+                value: 'staticWithDynamicFieldsAppended',
+                label: "Static with dynamic fields appended",
+                showFields: ['dynamicFormSections']
+            },
+            {
+              value: 'dynamic',
+              label: "Dynamic",
+              showFields: ['dynamicFormSections']
+            },
+        ]
+    },
+    {
+      name: 'formVisibility',
+      type: 'select',
+      label: 'Who can view this form?',
+      choices: [
+        {
+          value: 'user',
+          label: "Only users (and admin users)",
+        },
+        {
+          value: 'always',
+          label: "Everyone"
+        },
+      ],
+      def: 'user'
+    },
+    {
+      name: 'shouldDisplayUserName',
+      type: 'boolean',
+      label: 'Show user name in form header?',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
+    },
+    {
+      name: 'loginText',
+      type: 'string',
+      label: 'Login text'
+    },
+    {
+      name: 'hideAdminAfterPublicAction',
+      label: 'Hide admin after first public action? (not yet connected to the API)',
+      type: 'boolean',
+      choices: [
+        {
+          label: 'Yes',
+          value: true,
+        },
+        {
+          label: 'No',
+          value: false,
+        }
+      ],
+      def: true
+    },
+
+
+    {
+      name: 'dynamicFormSections',
+      label: 'Form Sections',
+      type: 'array',
+      titleField: 'title',
+      schema: [
+        {
+          type: 'string',
+          name: 'title',
+          label: 'Title'
+        },
+        {
+          type: 'string',
+          name: 'info',
+          label: 'Info'
+        },
+        {
+          type: 'array',
+          titleField: 'fieldKey',
+          name: 'fields',
+          label: 'Form fields',
+          schema: [
+            {
+              type: 'select',
+              name: 'type',
+              label: 'Type',
+              required: true,
+              choices: [
+                  {
+                      value: 'radio',
+                      label: "Radio",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'checkbox',
+                      label: 'Checkbox',
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
+                  },
+                  {
+                    value: 'select',
+                    label: 'Select',
+                    showFields: ['fieldKey', 'fieldRequired', 'fieldOptions', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'text',
+                      label: "Text",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'hidden',
+                      label: "Hidden",
+                      showFields: ['fieldKey', 'fieldValue', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'textarea',
+                      label: "Textarea",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax', 'notExtraDataKey']
+                  },
+                  {
+                      value: 'tags',
+                      label: "Tags (currently only works for ideas)",
+                      showFields: ['fieldKey', 'fieldRequired', 'fieldMin', 'fieldMax']
+                  },
+                  {
+                      value: 'raw',
+                      label: "Raw",
+                      showFields: ['rawInput']
+                  },
+                  {
+                      value: 'advice',
+                      label: "Advice"
+                  },
+                  {
+                      value: 'neighborhood',
+                      label: "Neighborhood"
+                  },
+                  {
+                      value: 'budget',
+                      label: "Budget"
+                  },
+                  {
+                      value: 'description',
+                      label: "Description"
+                  },
+                  {
+                      value: 'estimate',
+                      label: "Estimate"
+                  },
+                  {
+                      value: 'image',
+                      label: "Image"
+                  },
+                  {
+                      value: 'map',
+                      label: "Map"
+                  },
+                  {
+                      value: 'phone',
+                      label: "Idea: Phone"
+                  },
+                  {
+                      value: 'role',
+                      label: "Role"
+                  },
+                  {
+                      value: 'summary',
+                      label: "Summary"
+                  },
+                  {
+                      value: 'theme',
+                      label: "Theme"
+                  },
+                  {
+                      value: 'title',
+                      label: "Title"
+                  },
+                  {
+                      value: 'vimeo',
+                      label: "Vimeo",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userFirstName',
+                      label: "User: Firstname",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userLastName',
+                      label: "User: Lastname",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userPostcode',
+                      label: "User: Postcode",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'function',
+                      label: "User: function",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'expertise',
+                      label: "User: expertise",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userPhone',
+                      label: "User: phone",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'bio',
+                      label: "User: biography",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'image',
+                      label: "User: profile image",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'neighborhood',
+                      label: "User: neighborhood",
+                      showFields: ['fieldRequired']
+                  },
+                  {
+                      value: 'userIsPublic',
+                      label: "User: public status",
+                      showFields: ['fieldRequired']
+                  },
+                ]
+            },
+            {
+              name: 'fieldKey',
+              type: 'string',
+              label: 'Key (one word) for example: ‘summary’ (for storing, must be unique, no spaces and special characters)',
+            },
+            {
+              name: 'fieldInfo',
+              type: 'string',
+              label: 'Info',
+            },
+            {
+              name: 'fieldValue',
+              type: 'string',
+              label: 'Default value (will be overwritten by url and resource value)',
+            },
+            {
+              name: 'fieldRequired',
+              label: 'Required',
+              type: 'boolean'
+            },
+            {
+              name: 'fieldMin',
+              label: 'Min length',
+              type: 'string',
+            },
+            {
+              name: 'fieldMax',
+              label: 'Max length',
+              type: 'string',
+            },
+            {
+              name: 'rawInput',
+              label: 'Raw input',
+              type: 'string',
+              textarea: true
+            },
+            {
+              name: 'notExtraDataKey',
+              label: 'Save field in root if data object and not in extraData, will only work if column exists in database)',
+              type: 'boolean',
+              choices: [
+                {
+                  label: 'Yes',
+                  value: true,
+                },
+                {
+                  label: 'No',
+                  value: false,
+                }
+              ],
+              def: false
+            },
+            {
+              name: 'onlyForModerator',
+              label: 'Only show to moderators',
+              type: 'boolean',
+              choices: [
+                {
+                  label: 'Yes',
+                  value: true,
+                },
+                {
+                  label: 'No',
+                  value: false,
+                }
+              ],
+              def: false
+            },
+            {
+              name: 'fieldOptions',
+              label: 'Field options',
+              titleField: 'label',
+              type: 'array',
+              schema: [
+                {
+                  type: 'string',
+                  name: 'value',
+                  label: 'Value',
+                },
+                {
+                  type: 'string',
+                  name: 'label',
+                  label: 'Label',
+                },
+              ]
+            },
 
 
         ]

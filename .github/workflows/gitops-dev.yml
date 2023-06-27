@@ -1,0 +1,98 @@
+name: GitopsDev
+
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+    branches:
+      - master
+      - development
+      - feature/*
+      - release/*
+      - release
+
+jobs:
+  gitops:
+    environment: gitops_dev
+    env:
+      HELM_REPO_NAME: openstad-kubernetes
+      HELM_CHART_FOLDER: k8s/openstad
+      GIT_USER_EMAIL: github@ci.push
+      GIT_USER_NAME: GitHub
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      HELM_REPO: ${{ secrets.HELM_REPO }}
+      HELM_REPO_WITH_TOKEN: ${{ secrets.HELM_REPO_WITH_TOKEN }}
+      GITOPS_RELEASE_BRANCH: ${{ secrets.GITOPS_RELEASE_BRANCH }}
+      FRONTED_PORT: 4444
+      FRONTEND_MONGO_SCHEME: mongodb://mongo
+      FRONTEND_MONGO_DB_HOST: mongo
+      FRONTEND_MONGO_PORT: 27017
+      FRONTEND_MINIFY_JS: ON
+      COOKIE_SECURE_OFF: yes
+      API: http://localhost:8111
+      IMAGE_API_URL: http://localhost:3333
+      IMAGE_API_ACCESS_TOKEN: xxxx
+      SITE_API_KEY: xxxx
+      DEFAULT_DB: localhost2
+      DEFAULT_HOST: localhost:4444
+      APP_URL: http://localhost:4444
+      APOS_BUNDLE: assets
+      APOS_MINIFY: 1
+      NODE_ENV: production
+      BRANCH_REF: ${{ github.ref }}
+      GITOPS_VALUES_FILE: k8s/openstad/environments/dev.values.yaml
+
+    name: gitops commit
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker
+      mongodb:
+        image: mongo:3.4.23
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+
+      - name: Set environment to acc
+        id: acc_values_file
+        shell: bash
+        if: contains(github.ref, 'release')
+        run: echo "GITOPS_VALUES_FILE=k8s/openstad/environments/acc.values.yaml" >> $GITHUB_ENV
+
+      - name: Set environment to production
+        id: prod_values_file
+        shell: bash
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master'
+        run: echo "GITOPS_VALUES_FILE=k8s/openstad/environments/prod.values.yaml" >> $GITHUB_ENV
+
+      - name: Set commit SHA & current branch
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=current_branch::$(git branch --show-current | sed "s/\//-/g")"
+
+      - name: Install yq
+        run: sudo snap install yq --channel=v3/stable
+
+
+      - name: Run build script
+        run: |
+          sudo chmod a+x ./build.sh
+          ./build.sh
+        shell: bash
+        env:
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.current_branch }}-${{ steps.vars.outputs.sha_short }}-${{ github.run_id}}
+
+      - name: Run docker push script
+        run: |
+          sudo chmod a+x ./gitops_push
+          ./gitops_push
+        shell: bash
+        env:
+          IMAGE_TAG: ${{ secrets.DOCKER_PUBLIC_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.vars.outputs.current_branch }}-${{ steps.vars.outputs.sha_short }}-${{ github.run_id}}

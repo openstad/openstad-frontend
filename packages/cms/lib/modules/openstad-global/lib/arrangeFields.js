@@ -12,7 +12,7 @@ module.exports = [
     {
         name: 'api',
         label: 'Url & api instellingen',
-        fields: ['siteId', 'ideaSlug', 'ideaOverviewSlug', 'editIdeaUrl', 'cacheIdeas']
+        fields: ['siteId', 'ideaSlug', 'ideaOverviewSlug', 'editIdeaUrl', 'cacheIdeas', 'openstadComponentsUrl']
     },
 
     {

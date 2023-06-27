@@ -28,6 +28,38 @@ module.exports = {
       label: 'Textual alternative',
       type: 'string'
     },
+    {
+      name: 'displaySize',
+      type: 'select',
+      label: 'Display size',
+      def: 'full',
+      choices: [
+        {
+          value: 'max',
+          label: "Max (1600x1600)"
+        },
+        {
+          value: 'full',
+          label: "Volledig (1140x1140)",
+        },
+        {
+          value: 'two-thirds',
+          label: "Medium-groot (760x760)",
+        },
+        {
+          value: 'one-half',
+          label: "Medium (570x700)",
+        },
+        {
+          value: 'one-third',
+          label: "Medium-klein (380x700)",
+        },
+        {
+          value: 'one-sixth',
+          label: "Klein (190x350)",
+        },
+      ]
+    },
     styleSchema.definition('imageStyles', 'Styles for the image'),
 
   ],
@@ -36,7 +68,7 @@ module.exports = {
       {
         name: 'generalGroup',
         label: 'General',
-        fields: ['uploadedImage']
+        fields: ['uploadedImage', 'displaySize']
       },
       {
         name: 'stylingGroup',
