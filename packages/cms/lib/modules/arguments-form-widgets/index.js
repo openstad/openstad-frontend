@@ -12,7 +12,7 @@ module.exports = {
   addFields: [
       /*
     {
-      name: 'ideaId',
+      name: 'id',
       type: 'string',
       label: 'Idea ID (if empty it will try to fetch the ideaId from the URL)',
     },*/

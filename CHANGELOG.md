@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Allow arguments-widget and arguments-form-widget to be used outside of a resource page by setting the idea ID in the options.
+
 ## 1.0.0
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet

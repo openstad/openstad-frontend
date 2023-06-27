@@ -93,18 +93,16 @@ module.exports = (self, options) => {
     return request(options);
   };
 
-  self.getResource = async (req, siteId, resource, resourceId, params, withAuth) => {
+  self.getResource = async (req, siteId, resource, resourceId, params) => {
     const defaultParams = {
       includeVoteCount: 1,
       includeUserVote: 1,
       includeArgsCount: 1
     };
-    
-    const getOptions = (typeof withAuth !== 'undefined' && withAuth === true) ? self.getOptionsWithAuth : self.getOptions;
 
     resource = resource || 'idea'
     const queryParams = queryString.stringify(Object.assign(defaultParams, params));
-    const options = getOptions({
+    const options = self.getOptions({
       uri: `${self.apiUrl}/api/site/${siteId}/${resource}/${resourceId}?${queryParams}`
     });
 
