@@ -52,7 +52,7 @@ module.exports = (self, options) => {
       const characterCount = content.map(word => word.length).reduce((total, a) => total + a, 0);
 
       if (translator) {
-        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with karaktersize of ${characterCount} and destination language ${destinationLanguage}`)
+        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with charactersize of ${characterCount} and destination language ${destinationLanguage}`)
 
         translator.translateText(
           content,
