@@ -28,13 +28,13 @@ module.exports = (self, options) => {
     const collection = self.apos.db.collection("deepl-translations");
     const result = await collection.findOne({_id: cacheKey});
     if (result) {
-      console.log("Receiving translations from cache");
+      console.log(`Receiving translations from cache for site ${origin}`);
       return res.json(result.translations);
     }
 
     // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
     if (destinationLanguage === 'nl') {
-      console.log("Target language is dutch, not translating and responding with the dutch sentences received");
+      console.log(`Target language is dutch, not translating and responding with the dutch sentences received for site ${origin}`);
       return res.json(content);
     }
 
@@ -50,7 +50,8 @@ module.exports = (self, options) => {
       }
 
       if (translator) {
-        console.log("No existing translations found, fetching translations from deepl")
+        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with karaktersize of ${content.length} and destination language ${destinationLanguage}`)
+
         translator.translateText(
           content,
           sourceLanguageCode,
