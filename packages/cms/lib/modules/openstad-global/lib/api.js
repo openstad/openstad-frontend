@@ -61,7 +61,13 @@ module.exports = (self, options) => {
         ).then(response => {
           collection.findOneAndUpdate(
             {"_id": cacheKey},
-            { $set: { "translations": response}},
+            { $set: { 
+                "origin": origin, 
+                "destinationLanguage": destinationLanguage,
+                "characters": characterCount,
+                "translations": response, 
+              },
+            },
             {upsert:true}
           );
           return res.json(response);
