@@ -49,8 +49,10 @@ module.exports = (self, options) => {
         return res.status(500).json({ error: 'Could not translate the page at this time' });
       }
 
+      const characterCount = content.map(word => word.length).reduce((total, a) => total + a, 0);
+
       if (translator) {
-        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with karaktersize of ${content.length} and destination language ${destinationLanguage}`)
+        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with karaktersize of ${characterCount} and destination language ${destinationLanguage}`)
 
         translator.translateText(
           content,
