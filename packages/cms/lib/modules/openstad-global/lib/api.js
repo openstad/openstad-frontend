@@ -15,9 +15,13 @@ module.exports = (self, options) => {
   self.translate = async (req, res) => {
     const deeplAuthKey = options.deeplKey;
     const content = req.body.contents;
-    const origin = req.body.origin;
+    let origin = req.body.origin;
     const sourceLanguageCode = req.body.sourceLanguageCode;
     const destinationLanguage = req.body.targetLanguageCode;
+
+    if(origin) {
+      origin = origin.split('?')[0];
+    }
 
     const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
 
