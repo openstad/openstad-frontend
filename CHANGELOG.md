@@ -1,6 +1,12 @@
 # Changelog
 
 ## 1.0.0
+
+## Unreleased
+* Make image size configurable for the image widget
+* Fix HTML injection in search form in the resource overview widget
+* Add a new text style to select in the rich text editor.
+* Make autoCenter configurable in idea-map-widgets
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet
 * Refactor openstad-components widgets

@@ -27,6 +27,12 @@ module.exports = {
           widget: widget,
           data: req.data,
         });
+        
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+        const containerId = self.apos.utils.generateId();
+        widget.containerId = containerId;
+                widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+                widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
 			  widget.config = config;
         widget.divId = widget.config.divId;
 			});
