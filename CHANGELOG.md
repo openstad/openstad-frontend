@@ -75,7 +75,6 @@
 
 ## Unreleased
 * Add a new text style to select in the rich text editor.
-## Unreleased
 * Make image size configurable for the image widget
 
 ## v0.20.2
