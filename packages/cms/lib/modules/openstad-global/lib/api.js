@@ -30,7 +30,7 @@ module.exports = (self, options) => {
     }
 
     // setup cache store
-    const collection = self.apos.db.collection("deepl-translations"); // is dit wel per site? want dat was wel het idee...
+    const collection = self.apos.db.collection("deepl-translations");
 
     // setup translate service
     let translator = null;
