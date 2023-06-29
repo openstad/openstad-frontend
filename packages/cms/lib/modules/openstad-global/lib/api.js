@@ -47,13 +47,13 @@ module.exports = (self, options) => {
     let untranslatedElements = [];
     for (let text of content) {
       if (text.match(/[^\d\W]/)) {
-      let cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${text}`).digest('hex');
-      const translated = await collection.findOne({_id: cacheKey});
-      if (translated) {
-        result[text] = translated.translations;
-      } else {
-        untranslatedElements.push( text );
-      }
+        let cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${text}`).digest('hex');
+        const translated = await collection.findOne({_id: cacheKey});
+        if (translated) {
+          result[text] = translated.translations;
+        } else {
+          untranslatedElements.push( text );
+        }
       } else {
         // nothing to translate
         result[text] = { text };
@@ -93,12 +93,12 @@ module.exports = (self, options) => {
           );
         }
 
-    } catch(error) {
-      console.log(error);
-      return res.status(500).json({ error: 'Could not translate the page at this time' });
-    }
-
+      } catch(error) {
+        console.log(error);
+        return res.status(500).json({ error: 'Could not translate the page at this time' });
       }
+
+    }
 
     // transform the result object back to the original array
     result = content.map(text => result[text]);
