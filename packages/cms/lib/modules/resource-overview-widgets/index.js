@@ -68,11 +68,21 @@ module.exports = {
             const promises = [];
             const globalData = req.data.global;
 
+            const openstadTags = req.data.openstadTags ? req.data.openstadTags.map((tag) => {
+                return Object.assign({}, tag);
+            }) : [];
+
+            const groupedOpenstadTags = req.data.groupedOpenstadTags;
+
+
+
             widgets.forEach((widget) => {
                 // Add function for rendering raw string with nunjucks templating engine
                 // Yes this ia a powerful but dangerous feature :), admin only
                 widget.renderString = (data, activeResource) => {
                     data.activeResource = activeResource;
+                    data.activeResource.tags = openstadTags;
+                    data.activeResource.groupedTags = groupedOpenstadTags;
 
                     try {
                         return self.apos.templates.renderStringForModule(req, widget.rawInput, data, self);
@@ -257,12 +267,8 @@ module.exports = {
                   }, {label: 'tegen', value: 'no', screenReaderAddition: 'dit plan stemmen'}],
                 }
               
-                widget.openstadTags = req.data.openstadTags ? req.data.openstadTags.map((tag) => {
-                    return Object.assign({}, tag);
-                }) : [];
-
-                widget.groupedOpenstadTags = req.data.groupedOpenstadTags;
-
+                widget.openstadTags = openstadTags;
+                widget.groupedOpenstadTags = groupedOpenstadTags;          
                 let response;
 
                 // if cache is turned on, check if current url is available in cache
@@ -309,7 +315,6 @@ module.exports = {
                         })
                     }(req, self));
                 }
-
             });
 
             if (promises.length > 0) {
