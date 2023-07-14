@@ -24,6 +24,8 @@ const compare = require('tsscmp');
 const path = require('path');
 const morgan = require('morgan')
 const { URL } = require('url')
+const fetch = require('node-fetch');
+
 //internal code
 const cdns = require('./services/cdns');
 const mongo = require('./services/mongo');
@@ -60,7 +62,23 @@ async function restartAllSites() {
     const sites = Object.keys(aposServer);
     const promises = sites.map(site => {
         const url = new URL('http://' + site);
-        return rp(`http://localhost:${process.env.PORT}${url.pathname}/config-reset`, {
+
+        // return fetch({
+        //     url: fetchingURL.href,
+        //     headers: {
+        //         // Host: url.hostname
+        //     }
+        // }).catch(err => {
+        //     if (err.statusCode === 404) {
+        //         return console.log('Done resetting site ' + site)
+        //     }
+        //     console.error(err)
+        // })
+
+
+
+        
+        return fetch(`http://localhost:${process.env.PORT}${url.pathname}/config-reset`,{
             headers: {
                 Host: url.hostname
             }
@@ -86,36 +104,32 @@ function fetchAllSites(req, res, startSites) {
         return;
     }
 
-    const siteOptions = {
-        uri: `${apiUrl}/api/site`, //,
+    return fetch(`${apiUrl}/api/site`, {
         headers: {
             'Accept': 'application/json',
             "Cache-Control": "no-cache",
             "X-Authorization": process.env.SITE_API_KEY
         },
-        json: true // Automatically parses the JSON string in the response
-    };
+    }).then(async response => {
+        sitesResponse = await response.json();
+        const newSites = [];
+        const newSitesById = [];
 
-    return rp(siteOptions)
-        .then((response) => {
-            sitesResponse = response;
-            const newSites = [];
-            const newSitesById = [];
-
-            response.forEach((site, i) => {
-                // for convenience and speed we set the domain name as the key
-                newSites[site.domain] = site;
-              newSitesById[site.id] = site
-            });
-
-            sites = newSites;
-            sitesById = newSitesById;
-
-            cleanUpSites();
-        }).catch((e) => {
-            console.error('An error occurred fetching the site config:', e);
-            if (res) res.status(500).json({error: 'An error occured fetching the sites data: ' + e});
+        sitesResponse.forEach((site, i) => {
+            // for convenience and speed we set the domain name as the key
+            newSites[site.domain] = site;
+          newSitesById[site.id] = site
+          console.log(site.domain, site.id);
         });
+
+        sites = newSites;
+        sitesById = newSitesById;
+
+        cleanUpSites();
+    }).catch((e) => {
+        console.error('An error occurred fetching the site config:', e);
+        if (res) res.status(500).json({error: 'An error occured fetching the sites data: ' + e});
+    });
 }
 
 // run through all sites see if anyone is not active anymore and needs to be shut down
@@ -367,6 +381,6 @@ module.exports.getMultiSiteApp = (options) => {
     /**
      * Update the site config every few minutes
      */
-    setInterval(restartAllSites, REFRESH_SITES_INTERVAL);
+    setInterval(restartAllSites, 5000);
     return app;
 };
