@@ -61,23 +61,7 @@ app.set('trust proxy', true);
 async function restartAllSites() {
     const sites = Object.keys(aposServer);
     const promises = sites.map(site => {
-        const url = new URL('http://' + site);
-
-        // return fetch({
-        //     url: fetchingURL.href,
-        //     headers: {
-        //         // Host: url.hostname
-        //     }
-        // }).catch(err => {
-        //     if (err.statusCode === 404) {
-        //         return console.log('Done resetting site ' + site)
-        //     }
-        //     console.error(err)
-        // })
-
-
-
-        
+        const url = new URL('http://' + site);        
         return fetch(`http://localhost:${process.env.PORT}${url.pathname}/config-reset`,{
             headers: {
                 Host: url.hostname
@@ -119,7 +103,6 @@ function fetchAllSites(req, res, startSites) {
             // for convenience and speed we set the domain name as the key
             newSites[site.domain] = site;
           newSitesById[site.id] = site
-          console.log(site.domain, site.id);
         });
 
         sites = newSites;
@@ -381,6 +364,6 @@ module.exports.getMultiSiteApp = (options) => {
     /**
      * Update the site config every few minutes
      */
-    setInterval(restartAllSites, 5000);
+    setInterval(restartAllSites, REFRESH_SITES_INTERVAL);
     return app;
 };
