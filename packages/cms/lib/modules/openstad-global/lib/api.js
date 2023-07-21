@@ -58,6 +58,7 @@ module.exports = (self, options) => {
           content,
           sourceLanguageCode,
           destinationLanguage,
+          {tagHandling:'html'}
         ).then(response => {
           collection.findOneAndUpdate(
             {"_id": cacheKey},
