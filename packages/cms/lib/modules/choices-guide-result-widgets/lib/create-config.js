@@ -1,4 +1,4 @@
-module.exports = function createConfig({ widget, data, logoutUrl }) {
+module.exports = function createConfig({ widget, data, logoutUrl, loginUrl, jwt, apiUrl }) {
 
   let requireLoginSettings;
   requireLoginSettings = {};
@@ -16,6 +16,16 @@ module.exports = function createConfig({ widget, data, logoutUrl }) {
 
     divId: 'ocs-choices-guide-result-' + parseInt(Math.random() * 1000000).toString(),
 
+    siteId: data.global.siteId,
+    api: {
+      url: apiUrl,
+      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : {},
+      isUserLoggedIn: data.loggedIn,
+    },
+    user: {
+      role:  data.openstadUser && data.openstadUser.role,
+      displayName:  data.openstadUser && data.openstadUser.displayName,
+    },
     choicesGuideId: widget.choicesGuideId,
     questionGroupId: widget.questionGroupId,
     startWithAllQuestionsAnswered: widget.startWithAllQuestionsAnswered,
@@ -30,6 +40,7 @@ module.exports = function createConfig({ widget, data, logoutUrl }) {
       maxLabel: widget.choicesMaxLabel,
       withPercentage: widget.choicesWithPercentage,
     },
+    loginUrl,
     logoutUrl,
     moreInfoUrl: widget.moreInfoUrl && data.siteUrl + widget.moreInfoUrl,
     moreInfoLabel: widget.moreInfoLabel,

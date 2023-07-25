@@ -41,10 +41,19 @@ module.exports = {
 			  let config = createConfig({
           widget: widget,
           data: req.data,
+          jwt: req.session.jwt,
+          apiUrl: self.apos.settings.getOption(req, 'apiUrl')
         });
 			  widget.config = config;
         widget.divId = widget.config.divId;
-      });
+	
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+        
+        const containerId = self.apos.utils.generateId();
+        widget.containerId = containerId;
+                widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+                widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+			});
 
 			return superLoad(req, widgets, next);
 			next();

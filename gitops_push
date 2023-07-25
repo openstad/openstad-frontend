@@ -6,8 +6,8 @@ echo "DOCKER PUSH TAG"
 echo ${IMAGE_TAG}
 docker push ${IMAGE_TAG}
 
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis CI"
+git config --global user.email ${GIT_USER_EMAIL}
+git config --global user.name ${GIT_USER_NAME}
 
 git clone ${HELM_REPO} && cd ${HELM_REPO_NAME} && \
 

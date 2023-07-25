@@ -21,6 +21,8 @@ module.exports = {
 
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
+      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+      let imageProxy = siteUrl + '/image';
 
 			widgets.forEach((widget) => {
 
@@ -28,9 +30,21 @@ module.exports = {
           widget: widget,
           data: req.data,
           apos: self.apos,
+          jwt: req.session.jwt,
+          apiUrl: self.apos.settings.getOption(req, 'apiUrl'),
+          imageProxy,
+          loginUrl: req.data.siteUrl + '/oauth/login?{returnTo}'
         });
 			  widget.config = config;
         widget.divId = widget.config.divId;
+
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+
+        const containerId = self.apos.utils.generateId();
+        widget.containerId = containerId;
+        widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+        widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+
       });
       
 			return superLoad(req, widgets, next);

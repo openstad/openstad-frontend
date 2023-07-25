@@ -1,7 +1,7 @@
 const sortingOptions = require('../../../../config/sorting.js').ideasOnMapOptions;
 const ideaForm = require('./idea-form');
 
-module.exports = function createConfig({ widget, data, apos }) {
+module.exports = function createConfig({ widget, data, apos, jwt, apiUrl, loginUrl, imageProxy }) {
 
   let contentConfig = {
     ignoreReactionsForIdeaIds: widget.ignoreReactionsForIdeaIds,
@@ -43,7 +43,16 @@ module.exports = function createConfig({ widget, data, apos }) {
   let config = {
 
     divId: 'ocs-component-ideas-on-map-' + parseInt(Math.random() * 1000000).toString(),
-
+    siteId: data.global.siteId,
+    api: {
+      url: apiUrl,
+      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : [],
+      isUserLoggedIn: data.loggedIn,
+    },    
+    user: {
+      role:  data.openstadUser && data.openstadUser.role,
+      displayName:  data.openstadUser && data.openstadUser.displayName,
+    },
 		display: {
       type: widget.displayType,
 		  width: widget.displayWidth,
@@ -53,7 +62,8 @@ module.exports = function createConfig({ widget, data, apos }) {
     canSelectLocation: widget.canSelectLocation,
     onMarkerClickAction: widget.onMarkerClickAction,
     startWithListOpenOnMobile: widget.startWithListOpenOnMobile,
-
+    
+    loginUrl,
 		linkToCompleteUrl: widget.linkToCompleteUrl && data.siteUrl + widget.linkToCompleteUrl,
     linkToUserPageUrl: widget.linkToUserPageUrl && data.siteUrl + widget.linkToUserPageUrl,
 
@@ -84,8 +94,13 @@ module.exports = function createConfig({ widget, data, apos }) {
       showSortButton: widget.selectedSorting && widget.selectedSorting.length ? true : false,
       defaultValue: widget.defaultSorting,
     },
-
+    
     image: {
+      server: {
+				process: imageProxy,
+				fetch: imageProxy,
+        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
+      },
       aspectRatio: widget.imageAspectRatio || '16x9',
       allowMultipleImages,
       placeholderImageSrc,

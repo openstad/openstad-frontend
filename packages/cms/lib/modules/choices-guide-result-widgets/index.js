@@ -35,18 +35,28 @@ module.exports = {
 
     const superLoad = self.load;
 		self.load = function(req, widgets, next) {
+      let apiUrl = self.apos.settings.getOption(req, 'apiUrl')
 
 			widgets.forEach((widget) => {
 
-        let apiUrl = self.apos.settings.getOption(req, 'apiUrl')
 			  let config = createConfig({
           widget: widget,
           data: req.data,
+          jwt: req.session.jwt,
+          apiUrl: apiUrl,
           logoutUrl: apiUrl + '/oauth/logout',
+          loginUrl: req.data.siteUrl + '/oauth/login?returnTo=' + encodeURIComponent(req.url)
         });
 			  widget.config = config;
         widget.divId = widget.config.divId;
-      });
+
+        widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+
+        const containerId = self.apos.utils.generateId();
+        widget.containerId = containerId;
+              widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
+              widget.formattedContainerStyles = styleSchema.format(containerId, widget.containerStyles);
+			});
 
 			return superLoad(req, widgets, next);
 			next();

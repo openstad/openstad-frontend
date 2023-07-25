@@ -1,9 +1,18 @@
-module.exports = function createConfig({ widget, data }) {
+module.exports = function createConfig({ widget, data, jwt, apiUrl }) {
 
   let config = {
 
     divId: 'ocs-choices-guide-' + parseInt(Math.random() * 1000000).toString(),
-
+    siteId: data.global.siteId,
+    api: {
+      url: apiUrl,
+      headers: jwt ? { 'X-Authorization': 'Bearer ' + jwt } : {},
+      isUserLoggedIn: data.loggedIn,
+    },
+    user: {
+      role:  data.openstadUser && data.openstadUser.role,
+      displayName:  data.openstadUser && data.openstadUser.displayName,
+		},
     choicesGuideId: widget.choicesGuideId,
 
     noOfQuestionsToShow: widget.noOfQuestionsToShow,
@@ -24,7 +33,13 @@ module.exports = function createConfig({ widget, data }) {
     beforeUrl: widget.beforeUrl && data.siteUrl + widget.beforeUrl,
     afterUrl: widget.afterUrl && data.siteUrl + widget.afterUrl,
     image: {
+      server: {
+				process: '/image',
+				fetch: '/image',
+        srcExtension: '/:/rs=w:[[width]],h:[[height]];cp=w:[[width]],h:[[height]]',
+      },
       aspectRatio: widget.imageAspectRatio || '16x9',
+      allowMultipleImages: false,
     },
   }
 
