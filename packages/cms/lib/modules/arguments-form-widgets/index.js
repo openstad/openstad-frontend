@@ -4,56 +4,18 @@
  */
 const rp = require('request-promise');
 const eventEmitter  = require('../../../events').emitter;
+const { fields, arrangeFields } = require('./lib/fields');
 
 module.exports = {
   extend: 'openstad-widgets',
   label: 'Arguments form old',
   adminOnly: true,
-  addFields: [
-      /*
-    {
-      name: 'ideaId',
-      type: 'string',
-      label: 'Idea ID (if empty it will try to fetch the ideaId from the URL)',
-    },*/
-    {
-      name: 'placeholder',
-      type: 'string',
-      label: 'Placeholder text',
-      help: `Will be shown in the input field when the user hasn't typed anything yet.`,
-      required: true
-    },
-    {
-      name: 'sentiment',
-      type: 'select',
-      help: `Select the sentiment when the 'in favor' and 'against' arguments are separately listed. Otherwise, choose 'No sentiment'.`,
-      def: '',
-      choices: [
-        {
-          label: 'For',
-          value: 'for',
-        },
-        {
-          label: 'Against',
-          value: 'against',
-        },
-      ]
-    },
-  ],
+  addFields: fields,
+  beforeConstruct: function(self, options) {
+    options.addFields = fields.concat(options.addFields || []);
+  },
   construct: function(self, options) {
-    options.arrangeFields = (options.arrangeFields || []).concat([
-      {
-        name:'general',
-        label: 'General',
-        fields: ['placeholder', 'sentiment']
-      },
-      {
-        name: 'advanced',
-        label: 'Advanced',
-        fields: ['ideaId']
-      }
-    ]);
-
+    options.arrangeFields = (options.arrangeFields || []).concat( arrangeFields );
 
      var superPushAssets = self.pushAssets;
 
