@@ -15,7 +15,7 @@ module.exports = {
   
     fields: [
     {
-        name: 'loginModalMessage',
+        name: 'loginRequiredMessage',
         type: 'string',
         def: 'Log in om een argument te plaatsen, te reageren, of een argument te liken.',
       },
