@@ -4,7 +4,7 @@ module.exports = {
       {
         name: 'general',
         label: 'General',
-        fields: ['loginModalMessage', 'placeholder', 'sentiment']
+        fields: ['loginRequiredMessage', 'placeholder', 'sentiment']
       },
     //   {
     //     name: 'advanced',
