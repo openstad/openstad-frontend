@@ -81,7 +81,7 @@ module.exports = {
       {
         name: 'advanced',
         label: 'Advanced',
-        fields: ['replyingEnabled', 'votingEnabled', 'showLastNameForArguments', 'showLastNameForReactions', 'ideaId']
+        fields: ['replyingEnabled', 'votingEnabled', 'ideaId']
       }
     ]);
 
@@ -124,17 +124,5 @@ module.exports = {
 
        return superOutput(widget, options);
      };
-
-     self.addHelpers({
-        showLastName: function (type, widget, user) {
-            if (type == 'reactions' && (widget.showLastNameForReactions == 'yes' || (widget.showLastNameForReactions == 'adminonly' && user.role == 'admin'))) {
-                return user.lastName;
-            } else if (type == 'arguments' && (widget.showLastNameForArguments == 'yes' || (widget.showLastNameForArguments == 'adminonly' && user.role == 'admin'))) {
-                return user.lastName;
-            }
-
-            return '';
-        }
-     });
-   },
+   }
 };
