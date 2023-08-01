@@ -1,7 +1,9 @@
 # Changelog
 
-## 1.0.0
+## Unreleased
 * Make image size configurable for the image widget
+
+## 1.0.0
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet
 * Refactor openstad-components widgets
@@ -72,10 +74,7 @@
 
 ## v0.20.3
 * Make sure ideas are existing on the page in Participatory budgetting
-
-## Unreleased
 * Add a new text style to select in the rich text editor.
-* Make image size configurable for the image widget
 
 ## v0.20.2
 * Fix resource overview widget error: TypeError: Cannot read property 'automaticallyUpdateStatus' of undefined
