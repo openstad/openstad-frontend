@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Make image size configurable for the image widget
+
 ## 1.0.0
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet
@@ -71,8 +74,6 @@
 
 ## v0.20.3
 * Make sure ideas are existing on the page in Participatory budgetting
-
-## Unreleased
 * Add a new text style to select in the rich text editor.
 
 ## v0.20.2

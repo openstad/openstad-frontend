@@ -47,6 +47,38 @@ module.exports = {
                     label: 'Image'
                 },
                 {
+                    name: 'displaySize',
+                    type: 'select',
+                    label: 'Display size',
+                    def: 'full',
+                    choices: [
+                        {
+                            value: 'max',
+                            label: "Max (1600x1600)"
+                        },
+                        {
+                            value: 'full',
+                            label: "Volledig (1140x1140)",
+                        },
+                        {
+                            value: 'two-thirds',
+                            label: "Medium-groot (760x760)",
+                        },
+                        {
+                            value: 'one-half',
+                            label: "Medium (570x700)",
+                        },
+                        {
+                            value: 'one-third',
+                            label: "Medium-klein (380x700)",
+                        },
+                        {
+                            value: 'one-sixth',
+                            label: "Klein (190x350)",
+                        },
+                    ]
+                },
+                {
                   name: 'linkUrl',
                   type: 'text',
                   label: 'Link URL',
