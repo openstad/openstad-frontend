@@ -1,5 +1,6 @@
 const { fields, arrangeFields } = require('./lib/fields');
 const createConfig = require('./lib/create-config');
+const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
   extend: 'openstad-components-widgets',
@@ -46,7 +47,7 @@ module.exports = {
         widget.divId = widget.config.divId;
 
         widget.openstadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
-        
+
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;
                 widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';

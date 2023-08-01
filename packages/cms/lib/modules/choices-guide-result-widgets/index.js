@@ -1,5 +1,6 @@
 const { fields, arrangeFields } = require('./lib/fields');
 const createConfig = require('./lib/create-config');
+const styleSchema = require('../../../config/styleSchema.js').default;
 
 module.exports = {
   extend: 'openstad-components-widgets',
