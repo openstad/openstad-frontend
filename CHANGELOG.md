@@ -1,5 +1,8 @@
 # Changelog
 
+## UNRELEASED
+* Add rich text editing functionality to the accordion widget
+
 ## 1.0.0
 * Add submission to resource form with configurable confirmation settings
 * Update ideas-on-map config to work with react-leaflet
