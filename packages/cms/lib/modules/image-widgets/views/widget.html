@@ -2,9 +2,18 @@
   {{data.widget.formattedImageStyles}}
 </style>
 
+{% if data.widget.addLink %}
+<a href="{{data.widget.imageUrl}}">
+{% endif %}
+
 <img
   id="{{data.widget.imageId}}"
-  src="{{apos.attachments.url(data.widget.uploadedImage)}}"
+  src="{{apos.attachments.url(data.widget.uploadedImage, {size: data.widget.displaySize})}}"
   title="{{data.widget.uploadedImageTitle}}"
   alt="{{data.widget.uploadedImageAlt}}"
 />
+
+{% if data.widget.addLink %}
+</a>
+{% endif %}
+
