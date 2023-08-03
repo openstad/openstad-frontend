@@ -1,7 +1,7 @@
 apos.define('accordeon-widgets', {
-  extend:    'map-widgets',
+  extend:    'openstad-widgets',
   construct: function (self, options) {
-    self.playAfterlibsLoaded = function ($widget, data, options) {
+    self.play = function ($widget, data, options) {
       $widget.find('.accordeon-item .title').on('click', function (e) {
         e.preventDefault();
         
