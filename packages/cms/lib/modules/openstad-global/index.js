@@ -9,12 +9,70 @@ const fs     = require('fs');
 const fields            = require('./lib/fields');
 const arrangeFields     = require('./lib/arrangeFields');
 
+const deepl = require('deepl-node');
+const cache = require('../../../services/cache').cache;
+const cacheLanguagesLifespan = (24 * 60 * 60) * 7;   // set lifespan of language cache to a week;
+const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
+
 function unauthorized(req, res) {
     var challengeString = 'Basic realm=Openstad';
     res.set('WWW-Authenticate', challengeString);
     return res.status(401).send('Authentication required.');
 }
 
+async function getSupportedLanguages() {
+  const deeplAuthKey = undefined;
+  let supportedLanguages = [];
+  const cacheKeyForLanguages = 'translationLanguages'
+
+  if (cache.get(cacheKeyForLanguages)) {
+      console.log("Received languages from cache");
+      supportedLanguages = cache.get(cacheKeyForLanguages);
+  }
+  else if (deeplAuthKey) {
+    console.log({deeplAuthKey})
+      try {
+          const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+          await translator.getTargetLanguages().then(response => {
+              supportedLanguages = response;
+          });
+
+          // convert items to their own language
+          const languageTranslatedCollection = [];
+
+          for (const language of supportedLanguages) {
+              languageTranslatedCollection.push(
+                  translator.translateText(
+                      language.name,
+                      'EN',
+                      language.code
+                  )
+              );
+          }
+
+          await Promise.all(languageTranslatedCollection).then(languages => {
+              supportedLanguages = languages.map((language, index) => {
+                  language['code'] = supportedLanguages[index].code;
+                  return language;
+              });
+
+              cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
+                  life: cacheLanguagesLifespan
+              });
+          });
+      } catch(error) {
+          supportedLanguages = supportedLanguages.map((language, index) => {
+              language['text'] = supportedLanguages[index].name;
+              return language;
+          })
+          console.error({translationError: error});
+      }
+  } else {
+      console.error({translationError: "Could not fetch languages for the translation widget: Key not set"});
+  }
+  console.log("deeplAuthKey")
+  return supportedLanguages;
+}
 
 module.exports = {
   improve: 'apostrophe-global',
@@ -40,8 +98,13 @@ module.exports = {
 
     options.arrangeFields = arrangeFields.concat(options.arrangeFields || []);
 
-    self.apos.app.use((req, res, next) => {
+    self.apos.app.use(async (req, res, next) => {
       req.data.global = req.data.global ? req.data.global : {};
+
+      
+      
+      req.data.global.languages = await getSupportedLanguages();
+      console.log({global: req.data.global});
       return next();
     });
 

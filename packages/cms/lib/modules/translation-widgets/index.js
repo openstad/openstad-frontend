@@ -31,52 +31,52 @@ module.exports = {
 
         const superLoad = self.load;
         self.load = async (req, widgets, callback) => {
-            const cacheKeyForLanguages = 'translationLanguages'
+            // const cacheKeyForLanguages = 'translationLanguages'
 
-            if (cache.get(cacheKeyForLanguages)) {
-                console.log("Received languages from cache");
-                supportedLanguages = cache.get(cacheKeyForLanguages);
-            }
-            else if (deeplAuthKey) {
-                try {
-                    const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
-                    await translator.getTargetLanguages().then(response => {
-                        supportedLanguages = response;
-                    });
+            // if (cache.get(cacheKeyForLanguages)) {
+            //     console.log("Received languages from cache");
+            //     supportedLanguages = cache.get(cacheKeyForLanguages);
+            // }
+            // else if (deeplAuthKey) {
+            //     try {
+            //         const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+            //         await translator.getTargetLanguages().then(response => {
+            //             supportedLanguages = response;
+            //         });
     
-                    // convert items to their own language
-                    const languageTranslatedCollection = [];
+            //         // convert items to their own language
+            //         const languageTranslatedCollection = [];
     
-                    for (const language of supportedLanguages) {
-                        languageTranslatedCollection.push(
-                            translator.translateText(
-                                language.name,
-                                'EN',
-                                language.code
-                            )
-                        );
-                    }
+            //         for (const language of supportedLanguages) {
+            //             languageTranslatedCollection.push(
+            //                 translator.translateText(
+            //                     language.name,
+            //                     'EN',
+            //                     language.code
+            //                 )
+            //             );
+            //         }
     
-                    await Promise.all(languageTranslatedCollection).then(languages => {
-                        supportedLanguages = languages.map((language, index) => {
-                            language['code'] = supportedLanguages[index].code;
-                            return language;
-                        });
+            //         await Promise.all(languageTranslatedCollection).then(languages => {
+            //             supportedLanguages = languages.map((language, index) => {
+            //                 language['code'] = supportedLanguages[index].code;
+            //                 return language;
+            //             });
     
-                        cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
-                            life: cacheLanguagesLifespan
-                        });
-                    });
-                } catch(error) {
-                    supportedLanguages = supportedLanguages.map((language, index) => {
-                        language['text'] = supportedLanguages[index].name;
-                        return language;
-                    })
-                    console.error({translationError: error});
-                }
-            } else {
-                console.error({translationError: "Could not fetch languages for the translation widget: Key not set"});
-            }
+            //             cache.set(`${cacheKeyForLanguages}`, supportedLanguages, {
+            //                 life: cacheLanguagesLifespan
+            //             });
+            //         });
+            //     } catch(error) {
+            //         supportedLanguages = supportedLanguages.map((language, index) => {
+            //             language['text'] = supportedLanguages[index].name;
+            //             return language;
+            //         })
+            //         console.error({translationError: error});
+            //     }
+            // } else {
+            //     console.error({translationError: "Could not fetch languages for the translation widget: Key not set"});
+            // }
 
             widgets.forEach((widget) => {
                 if (widget.containerStyles) {
