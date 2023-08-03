@@ -17,6 +17,31 @@ module.exports = {
       svgImages: true
     },
     {
+      type: 'boolean',
+      name: 'addLink',
+      default: false,
+      label: 'Add a link to the image?',
+      choices: [
+        {
+          value: true,
+          label: 'Yes',
+          showFields: [
+            'imageUrl'
+          ]
+        },
+        {
+          value: false,
+          label: 'No',
+        },
+      ],
+    },
+    {
+      name: 'imageUrl',
+      type: 'string',
+      label: 'Url',
+      required: true,
+    },
+    {
       name: 'uploadedImageTitle',
       type: 'text',
       label: 'Image title',
@@ -28,6 +53,38 @@ module.exports = {
       label: 'Textual alternative',
       type: 'string'
     },
+    {
+      name: 'displaySize',
+      type: 'select',
+      label: 'Display size',
+      def: 'full',
+      choices: [
+        {
+          value: 'max',
+          label: "Max (1600x1600)"
+        },
+        {
+          value: 'full',
+          label: "Volledig (1140x1140)",
+        },
+        {
+          value: 'two-thirds',
+          label: "Medium-groot (760x760)",
+        },
+        {
+          value: 'one-half',
+          label: "Medium (570x700)",
+        },
+        {
+          value: 'one-third',
+          label: "Medium-klein (380x700)",
+        },
+        {
+          value: 'one-sixth',
+          label: "Klein (190x350)",
+        },
+      ]
+    },
     styleSchema.definition('imageStyles', 'Styles for the image'),
 
   ],
@@ -36,7 +93,7 @@ module.exports = {
       {
         name: 'generalGroup',
         label: 'General',
-        fields: ['uploadedImage']
+        fields: ['uploadedImage', 'displaySize', 'addLink', 'imageUrl']
       },
       {
         name: 'stylingGroup',
