@@ -1,6 +1,7 @@
 # Changelog
 
 ## UNRELEASED
+* Allow arguments-widget and arguments-form-widget to be used outside of a resource page by setting the idea ID in the options.
 * Add functionality to display multiple images as a slider (with thumbnails) on the resource representation widget
 * Make image size configurable for the image widget
 * Add global setting to set openstad components cdn url

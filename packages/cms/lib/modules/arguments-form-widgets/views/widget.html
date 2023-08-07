@@ -33,14 +33,13 @@
 				value="Verzenden"
 				data-modal-text="Log in om een argument te plaatsen, te reageren, of een argument te liken."
 			/>
-
 			<input
 				type="hidden"
 				name="ideaId"
-				{% if not data.widget.ideaId  %}
-				value="{{data.ideaId}}"
-				{% else %}
+				{% if not data.widget.id  %}
 				value="{{data.widget.ideaId}}"
+				{% else %}
+				value="{{data.widget.id}}"
 				{% endif %}
 			/>
 			<input type="hidden" name="_csrf" value="{{csrfToken}}">
