@@ -2,6 +2,7 @@
  * A widget that allows for displaying an accordeon, made with static content
  */
 const styleSchema = require('../../../config/styleSchema.js').default;
+const contentWidgets = require('../../../config/contentWidgets.js').contentWidgets;
 
 module.exports = {
   extend: 'openstad-widgets',
@@ -19,10 +20,12 @@ module.exports = {
           label: 'Title'
         },
         {
-          type: 'string',
-          name: 'actionText',
+          type: 'singleton',
+          name: 'description',
           label: 'Description',
-          textarea: true
+          widgetType: 'apostrophe-rich-text',
+          options: contentWidgets['apostrophe-rich-text'] || {}
+          
         }
       ]
     },
