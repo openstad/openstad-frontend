@@ -19,7 +19,8 @@ const fields = [
           'shareChannelsSelection',
           'defaultImage',
           'hideStatus',
-          'shareTitle'
+          'shareTitle',
+          'multipleImages'
         ].concat(labels).concat(timeLabels)
       },
       {
@@ -145,6 +146,22 @@ const fields = [
     name: 'shareTitle',
     type: 'string',
     label: 'Title above share buttons (default: Deel dit voorstel)'
+  },
+  {
+    name: 'multipleImages',
+    type: 'boolean',
+    label: 'Display multiple images as a slider?',
+    choices: [
+          {
+              value: true,
+              label: "Yes",
+          },
+          {
+              value: false,
+              label: "No"
+          },
+      ],
+      def: false
   }
 ].concat(
     ideaStates.map((state) => {
