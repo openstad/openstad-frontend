@@ -20,8 +20,7 @@ function unauthorized(req, res) {
     return res.status(401).send('Authentication required.');
 }
 
-async function getSupportedLanguages() {
-  const deeplAuthKey = undefined;
+async function getSupportedLanguages(deeplAuthKey) {
   let supportedLanguages = [];
   const cacheKeyForLanguages = 'translationLanguages'
 
@@ -99,12 +98,9 @@ module.exports = {
     options.arrangeFields = arrangeFields.concat(options.arrangeFields || []);
 
     self.apos.app.use(async (req, res, next) => {
+      let deeplAuthKey = options.deeplKey;
       req.data.global = req.data.global ? req.data.global : {};
-
-      
-      
-      req.data.global.languages = await getSupportedLanguages();
-      console.log({global: req.data.global});
+      req.data.global.languages = await getSupportedLanguages(deeplAuthKey);
       return next();
     });
 

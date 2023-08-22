@@ -172,6 +172,20 @@
               </h2>
             </div>
             {% endif %}
+
+            <div class="{{ 'col-xs-12' if data.global.hideSiteTitle else 'col-sm-5 col-md-6' }}  hidden-xs">
+              <ul class="top-links">
+                <select selected="nl">
+                  {% for language in data.global.languages %}
+                  {% if language.code === 'nl' %}
+                    <option translate="no" value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.text}}</option>      
+                  {% else %}
+                    <option translate="no" value="{{language.code}}" class="translation-widget-select-option">{{language.text}}  </option>
+                  {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+
             <div class="{{ 'col-xs-12' if data.global.hideSiteTitle else 'col-sm-5 col-md-6' }}  hidden-xs">
               {% if data.global.topLinks or data.global.displayLoginTopLink %}
               <ul class="top-links">
@@ -308,7 +322,7 @@
             <li class="visible-xs">
               {% if data.loggedIn %}
               <a href="{{data.siteUrl}}/oauth/logout"                       class="nav-link ">
-                {{ __('Uitloggen') }}
+                {{ __('Uitloggen') }}bbbb
               </a>
               {% else %}
               <a href="{{data.siteUrl}}/oauth/login"                       class="nav-link ">
@@ -334,7 +348,7 @@
               {% if data.loggedIn %}
               <a href="{{data.siteUrl}}/oauth/logout" class="account logout-button" role="button">
                 <!-- <span class="glyphicon glyphicon-log-out"></span> !-->
-                {{ __('Uitloggen') }}
+                {{ __('Uitloggen') }}ccccc
               </a>
               {% else %}
               <a href="{{data.siteUrl}}/oauth/login" class="account" role="button">
@@ -364,7 +378,7 @@
             <a href="{{data.siteUrl}}/oauth/logout" class="logout-button" role="button">
               <!--  <span class="glyphicon glyphicon-log-out"></span> !-->
               <img src="/modules/openstad-assets/img/avatar.svg" />
-              {{ __('Uitloggen') }}
+              {{ __('Uitloggen') }}dddddd
             </a>
             {% else %}
             <a href="{{data.siteUrl}}/oauth/login"  role="button">

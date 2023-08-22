@@ -43,15 +43,8 @@ module.exports = [
     {
         name: 'mainMenu',
         label: 'Hoofdmenu',
-        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', "myAccountButtonText", 'shouldAutoTranslate', ]
+        fields: ['arrangeMainMenu', 'displayLoginTopLink', 'mainMenuItems', 'ctaButtonText', 'ctaButtonUrl', 'topLinks', 'displayMyAcount', "myAccountButtonText", 'shouldAutoTranslate']
     },
-    {
-        name: 'translations',
-        label: 'Translating',
-        fields: ['deeplTranslationKey' ]
-    },
-
-    
     {
         name: 'userRights',
         label: 'Roles & Rights',
