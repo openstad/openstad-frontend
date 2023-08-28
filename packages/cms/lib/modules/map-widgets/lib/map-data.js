@@ -143,6 +143,7 @@ module.exports = class MapConfigBuilder {
             minZoom: settings.minZoom || 10,
             maxZoom: settings.maxZoom || 16,
             useMarkerLinks: settings && settings.useMarkerLinks === false || settings.useMarkerLinks == 'false' ? false : true,
+            customMarkerLink: settings.customMarkerLink,
             disableDefaultUI: settings.disableDefaultUI || true,
             styles: settings.styles || null,
             googleMapsApiKey: settings.googleMapsApiKey || '',
@@ -166,8 +167,11 @@ module.exports = class MapConfigBuilder {
           if (idea.location && idea.location.coordinates) {
               //should move ideaslug away from globaldata
               let ideaSlug = this.globalData.siteUrl + getHref(this.globalData.ideaSlug, idea.id);
+
+              const customLink = this.config.defaultSettings.customMarkerLink;
+
               markers.push(
-                new Marker(idea.location.coordinates, idea.status, ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
+                new Marker(idea.location.coordinates, idea.status,  customLink?`${customLink}/${idea.id}`: ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
               );
           }
         }) : [];
