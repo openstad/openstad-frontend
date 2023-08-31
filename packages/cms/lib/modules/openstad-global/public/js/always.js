@@ -47,6 +47,7 @@ apos.on('ready', function () {
             changeTextInNodes(nlContents, nodes);
             setSelectEnabled(select);
             saveLanguagePreference(targetLanguageCode);
+            syncOtherTranslationWidgets(targetLanguageCode);
         } else {
             console.log('translating to', targetLanguageCode);
 
