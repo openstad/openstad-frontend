@@ -105,10 +105,6 @@ module.exports = [
       }
     ]
   },
-
-
-  
-
   {
     name: 'ideaSlug',
     type: 'string',
