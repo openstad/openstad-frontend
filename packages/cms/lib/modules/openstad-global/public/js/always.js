@@ -2,11 +2,7 @@ apos.on('ready', function () {
     var firstTimeLoading = true;
     var nodes = [];
     var nlContents = [];
-
-    // var selectedLanguage = localStorage.getItem("targetLanguageCode");
-    // var toastContainer = document.querySelector("#openstad-toast");
-
-
+    
     var languageSelectContainer = $('.language-select-container');
 
     $('.translation-widget-select')
@@ -30,12 +26,12 @@ apos.on('ready', function () {
         }
     }
 
+
+
     function changeLanguage (e) {
         var select = e.target;
         var targetLanguageCode = select.value;
         setSelectDisabled(select);
-
-        
         var node = document.body;
 
         if (firstTimeLoading) {
@@ -74,7 +70,7 @@ apos.on('ready', function () {
                 }, 
                 error: function() {
                     setSelectEnabled(select);
-                    setSelectedLanguage('nl');
+                    // setSelectedLanguage('nl');
                     addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
                 }
             });
@@ -82,40 +78,13 @@ apos.on('ready', function () {
     };
 
 
-    function setSelectedLanguage(language) {
-        $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
+    var select = document.querySelector('.translation-widget-select');
+    var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
+    if(isNormalUser) {
+        setSelectedLanguage(localStorage.getItem('targetLanguageCode'));
+    } else if(select) {
+        select.setAttribute('disabled', true);
     }
-
-
-
-
-    // var selectedLanguage = localStorage.getItem("targetLanguageCode");
-    // var toastContainer = document.querySelector("#openstad-toast");
-
-    /** 
-     * The translate widget if set on the page will trigger an onchange event when it has been loaded
-     * thus triggering the fetching of translations. Then this one should do nothing and let the dedicated 
-     * widget make the call.
-     */    
-    // var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
-
-    // $('.translation-widget-select').on('change', function (e) { startTranslation(nodes, selectedLanguage, toastContainer)});
-
-
-    // var userHasSpecialRole = hasModeratorRights; // references global var specified in layout.js'; 
-    // var shouldTranslate = false; // references global var specified in layout.js'; 
-
-    // if(shouldTranslate) {
-    //     if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
-    //         startTranslation(nodes, selectedLanguage);
-    //     } else if(userHasSpecialRole) {
-    //         if(!sessionStorage.getItem("cannot-translate-acknowledged")) {
-    //             addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.", 0, function() {
-    //                 sessionStorage.setItem("cannot-translate-acknowledged", true);
-    //             });
-    //         }
-    //     }
-    // }
 });
 
 
@@ -189,4 +158,10 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
             }, timeout);
         }
     }
+
+  
+}
+
+function setSelectedLanguage(language) {
+    $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
 }
