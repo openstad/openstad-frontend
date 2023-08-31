@@ -5,8 +5,10 @@ apos.on('ready', function () {
     
     var languageSelectContainer = $('.language-select-container');
 
-    $('.translation-widget-select')
-        .on('change', function (e) { return changeLanguage(e) });
+    $('#translation-widget-select-global')
+        .on('change', function (e) { 
+            changeLanguage(e);
+        });
 
     function setSelectDisabled(select) {
         select.setAttribute('disabled', true);
@@ -67,6 +69,7 @@ apos.on('ready', function () {
                     changeTextInNodes(sentences, nodes);
                     setSelectEnabled(select);
                     addToast(toastContainer, "success", "De pagina is succesvol vertaald");
+                    syncOtherTranslationWidgets(targetLanguageCode);
                 }, 
                 error: function() {
                     setSelectEnabled(select);
@@ -78,7 +81,7 @@ apos.on('ready', function () {
     };
 
 
-    var select = document.querySelector('.translation-widget-select');
+    var select = document.querySelector('#translation-widget-select-global');
     var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
     if(isNormalUser) {
         setSelectedLanguage(localStorage.getItem('targetLanguageCode'));
@@ -163,5 +166,11 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
 }
 
 function setSelectedLanguage(language) {
-    $('.translation-widget-select').val(language ? language : 'nl').trigger('change');
+    $('#translation-widget-select-global').val(language ? language : 'nl').trigger('change');
+}
+
+function syncOtherTranslationWidgets(language) {
+    document.querySelectorAll("#translation-widget-select").forEach(select => { 
+        select.value = language ? language : 'nl';
+    });
 }
