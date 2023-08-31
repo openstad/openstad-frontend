@@ -171,7 +171,7 @@ function setSelectedLanguage(language) {
 }
 
 function syncOtherTranslationWidgets(language) {
-    document.querySelectorAll("#translation-widget-select").forEach(select => { 
+    document.querySelectorAll("#translation-widget-select").forEach(function(select) { 
         select.value = language ? language : 'nl';
     });
 }
