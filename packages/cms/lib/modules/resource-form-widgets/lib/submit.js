@@ -61,8 +61,6 @@ module.exports = async function(self, options) {
 
     if(req.body && req.body.areYouABot) {
       const captchData = req.session.captcha;
-
-      console.log({captchData});
       const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
       
       if (!isCaptchaValid) {
