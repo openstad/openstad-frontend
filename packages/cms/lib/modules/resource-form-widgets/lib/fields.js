@@ -878,6 +878,21 @@ const fields = [
     def: true
   },
   {
+    name: 'captchaTitle',
+    type: 'string',
+    label: 'Title above the captcha',
+  },
+  {
+    name: 'captchaMessage',
+    type: 'string',
+    label: 'Instruction text for the captcha',
+  },
+  {
+    name: 'captchaRefreshText',
+    type: 'string',
+    label: 'Refresh text',
+  },
+  {
     name: 'buttonTextConcept',
     type: 'string',
     label: 'Text for button to save as concept (idea support only)',
