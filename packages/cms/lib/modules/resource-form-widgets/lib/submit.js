@@ -59,6 +59,22 @@ module.exports = async function(self, options) {
       delete data.extraData;
     }
 
+    if(req.body && req.body.areYouABot) {
+      const captchData = req.session.captcha;
+
+      console.log({captchData});
+      const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
+      
+      if (!isCaptchaValid) {
+          return res.status(403).json({
+              'msg' : 'The captcha code is not correct, try again or refresh the captcha.'
+          });
+      }
+
+      // clean up key before we send it to the api
+      delete req.body.areYouABot;
+    }
+
     const options = {
         method: req.body.resourceId ? 'PUT' : 'POST',
         uri: req.body.resourceId ? `${postUrl}/${req.body.resourceId}` : postUrl,

@@ -165,6 +165,10 @@
   </div>
   {% endif %}
 
+  {% if data.widget.useCaptcha and data.widget.formVisibility == 'always' %}
+    {% include 'includes/fields/captcha.html' %}
+  {% endif %}
+
   {% if data.hasModeratorRights and data.widget.displayBudget %}
   <div id="budget">
     <h2>Budget</h2>

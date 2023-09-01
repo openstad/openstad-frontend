@@ -860,6 +860,23 @@ const fields = [
     type: 'string',
     label: 'Text for button to save',
   },
+
+  {
+    name: 'useCaptcha',
+    type: 'boolean',
+    label: 'Use captcha on resource form when made available to all users (only when viewable by everyone)',
+    choices: [
+      {
+        value: true,
+        label: "Yes"
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: true
+  },
   {
     name: 'buttonTextConcept',
     type: 'string',

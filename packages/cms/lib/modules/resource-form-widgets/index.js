@@ -95,7 +95,7 @@ module.exports = {
      {
        name: 'submitting',
        label: 'Submitting',
-       fields: ['buttonTextSubmit', 'buttonTextSave', 'buttonTextConcept']
+       fields: ['buttonTextSubmit', 'buttonTextSave', 'buttonTextConcept', 'useCaptcha']
      },
      {
        name: 'agreed',
