@@ -180,4 +180,8 @@
   {% include 'includes/dynamic-form-fields.html' %}
   {% endif %}
 
+  {% if data.widget.useCaptcha and data.widget.formVisibility == 'always' %}
+  {% include 'includes/fields/captcha.html' %}
+{% endif %}
+
   {% include 'includes/form-footer.html' %}
