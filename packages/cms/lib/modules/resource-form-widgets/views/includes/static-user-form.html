@@ -35,6 +35,11 @@
             </div>
         </div>
 
+
+    {% if data.widget.useCaptcha and data.widget.formVisibility == 'always' %}
+        {% include 'includes/fields/captcha.html' %}
+    {% endif %}
+
         <br/>
         <br/>
 
