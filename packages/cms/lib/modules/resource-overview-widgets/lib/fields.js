@@ -563,18 +563,19 @@ module.exports = [
   },
   {
     name: 'displayModeColumns',
-    label: 'Display the filters and ideas next to eachother (tags will become checkboxes)',
-    type: 'boolean',
+    label: 'Filter and idea layout',
+    type: 'select',
     choices: [
       {
-        label: 'Yes',
+        label: 'Columns: Kolommen gebruiken, en ook lijstweergave met selectboxes',
         value: true
       },
       {
-        label: 'No',
+        label: 'Full width (default): houden zoals nu de standaard is',
         value: false,
       }
     ],
+    def: false
   },
   {
     name: 'displaySorting',
