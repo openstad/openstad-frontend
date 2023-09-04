@@ -12,7 +12,7 @@ const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
 
 module.exports = (self, options) => {
 
-  self.translate = (req, res) => {
+  self.translate = async (req, res) => {
     const deeplAuthKey = options.deeplKey;
     const content = req.body.contents;
     const origin = req.body.origin;
@@ -25,16 +25,16 @@ module.exports = (self, options) => {
       return res.status(400).json({ error: 'Could not determine the page to translate' });
     }
 
-    const result = cache.get(cacheKey);
-
+    const collection = self.apos.db.collection("deepl-translations");
+    const result = await collection.findOne({_id: cacheKey});
     if (result) {
-      console.log("Receiving translations from cache");
-      return res.json(result);
+      console.log(`Receiving translations from cache for site ${origin}`);
+      return res.json(result.translations);
     }
 
     // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
     if (destinationLanguage === 'nl') {
-      console.log("Target language is dutch, not translating and responding with the dutch sentences received");
+      console.log(`Target language is dutch, not translating and responding with the dutch sentences received for site ${origin}`);
       return res.json(content);
     }
 
@@ -49,15 +49,28 @@ module.exports = (self, options) => {
         return res.status(500).json({ error: 'Could not translate the page at this time' });
       }
 
+      const characterCount = content.map(word => word.length).reduce((total, a) => total + a, 0);
+
       if (translator) {
+        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with charactersize of ${characterCount} and destination language ${destinationLanguage}`)
+
         translator.translateText(
           content,
           sourceLanguageCode,
           destinationLanguage,
+          {tagHandling:'html'}
         ).then(response => {
-          cache.set(`${cacheKey}`, response, {
-            life: cacheLifespan
-          });
+          collection.findOneAndUpdate(
+            {"_id": cacheKey},
+            { $set: { 
+                "origin": origin, 
+                "destinationLanguage": destinationLanguage,
+                "characters": characterCount,
+                "translations": response, 
+              },
+            },
+            {upsert:true}
+          );
           return res.json(response);
         })
           .catch(error => {

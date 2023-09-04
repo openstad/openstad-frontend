@@ -9,7 +9,7 @@
             <li class="slide-item">
                 <div class="image-container">
                     <div class="imgdiv"
-                        style="background-image: url({{ apos.attachments.url(item.image) }})"
+                        style="background-image: url({{ apos.attachments.url(item.image, {size: item.displaySize}) }})"
                     >
                         <img class="button button-left" src="{{data.siteUrl}}/modules/openstad-assets/img/button-arrow-blue.svg" />
                         <img class="button button-right" src="{{data.siteUrl}}/modules/openstad-assets/img/button-arrow-blue.svg" />
