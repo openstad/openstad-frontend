@@ -72,6 +72,12 @@ const fields = [
     label: 'Login text'
   },
   {
+    name: 'noAnonymousAllowedText',
+    type: 'string',
+    label: 'Login text',
+    def: 'Anonieme gebruikers kunnen geen plannen indienen'
+  },
+  {
     name: 'hideAdminAfterPublicAction',
     label: 'Hide admin after first public action? (not yet connected to the API)',
     type: 'boolean',

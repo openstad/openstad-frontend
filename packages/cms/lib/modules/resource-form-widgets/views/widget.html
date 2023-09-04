@@ -8,7 +8,14 @@
 {% endif %}
 
 <div class="pageContent newactiveResource" id="content">
-	{% if not data.widget.showForm %}
+
+	{% if data.openstadUser.role === 'anonymous'%}
+	<div class="box-grey">
+		<h1>{% if data.widget.noAnonymousAllowedText %} {{ data.widget.noAnonymousAllowedText | sanitize | safe }} {% else %} Anonieme gebruikers kunnen geen plannen indienen {% endif %}</h1>
+		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen met een andere gebruiker.</p>
+	</div>
+
+	{% elseif not data.widget.showForm %}
 	<div class="box-grey">
 		<h1>{% if data.widget.loginText %} {{ data.widget.loginText | sanitize | safe }} {% else %} Om een plan in te dienen moet je ingelogd zijn.{% endif %}</h1>
 		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen.</p>
