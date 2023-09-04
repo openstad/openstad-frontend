@@ -1,0 +1,5 @@
+<div id="{{ tagGroupPrefix }}tag-group-none }}" class="{{ tagGroupPrefix }}tag-group">
+    {% for key, tagList in data.widget.groupedOpenstadTags %}
+        {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+    {% endfor %}
+</div>
