@@ -562,6 +562,21 @@ module.exports = [
     ],
   },
   {
+    name: 'displayModeColumns',
+    label: 'Display the filters and ideas next to eachother (tags will become checkboxes)',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
     name: 'displaySorting',
     label: 'Display sorting',
     type: 'boolean',

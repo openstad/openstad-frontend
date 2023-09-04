@@ -1,3 +1,32 @@
+.ideasList.columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+
+  #ideas {
+    flex-grow: 1;
+  }
+
+  .resource-filter-row{
+    width: 100%;
+    display: block;
+    div {
+      margin-bottom: 8px;
+      width: 100% !important;
+      display: block;
+
+      * {
+        width: 100% !important;
+      }
+    }
+  }
+
+  
+}
+
+
+
 .search-wrapper {
   width: 100%;
   position: relative;
@@ -105,6 +134,10 @@ input.search {
   justify-content: start;
   flex-wrap: wrap;
   gap: 8px;
+
+  &.columned {
+    flex-direction: column;
+  }
 }
 .mobile-tag-group a, .tag-group a {
   color: #000;
@@ -155,6 +188,23 @@ input.search {
     } 
   }
 } 
+
+.mobile-tag-group .tag-checkbox, .tag-group .tag-checkbox {
+  display: inline-block;
+  padding: 8px 8px;
+  border: 2px solid #164995;
+
+  &.selected {
+    background: #164995;
+    color: white;
+  }
+}
+
+.tag-checkbox + p {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .mobile-tag-group-title, .tag-group-title {
   margin: 8px 0px;
 }
