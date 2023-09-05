@@ -53,6 +53,12 @@ $(document).ready(function () {
 		showVoteCreator();
 		selectIdea(window.ideaId, true);
 	}
+
+	// Add toggle to the select-groups
+	document.querySelectorAll(".resource-overview-tag-select-group").forEach((node) => {
+		node.addEventListener("click", () => {
+		node.classList.toggle("selected");
+	})});
 	
 	if ($('#ideaList li').length) {
 		// Make sure the gridder-mouse-over is visible when tabbing through the buttons
@@ -74,4 +80,10 @@ $(document).on('openstadAjaxRefresh', function () {
 			selectIdea(ideaId, true);
 		}
 	}
+
+	// Add toggle to the select-groups
+	document.querySelectorAll(".resource-overview-tag-select-group").forEach((node) => {
+		node.addEventListener("click", () => {
+		node.classList.toggle("selected");
+	})});
 });

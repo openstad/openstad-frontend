@@ -1,13 +1,27 @@
 {% for key, tagList in data.widget.groupedOpenstadTags %}
-    <div id="tag-group-container-{{ 'tags' if key === 'undefined' else key }}" class="tag-group-container">
-        <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
-        <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group {{ 'columned' if data.widget.displayModeColumns else '' }}">
 
-            {% if data.widget.displayModeColumns%}
-                {% include 'includes/controls/tag-includes/tag-checkboxes.njk' %}
-            {% else %}
-                {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
-            {% endif%}
+    {% if data.widget.displayModeColumns and data.widget.displayGroupsAsSelectBoxes%}
+
+        <div id="tag-group-container-{{ 'tags' if key === 'undefined' else key }}" class="tag-group-container">
+            <div class="resource-overview-tag-select-group">
+                <p class="{{ tagGroupPrefix }}tag-group-title default-select">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
+                <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group columned }}">
+                    {% include 'includes/controls/tag-includes/tag-group-selects.njk' %}
+                </div>
+            </div>
         </div>
-    </div>
+
+    {% else %}
+        <div id="tag-group-container-{{ 'tags' if key === 'undefined' else key }}" class="tag-group-container">
+            <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
+            <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group {{ 'columned' if data.widget.displayModeColumns else '' }}">
+
+                {% if data.widget.displayModeColumns%}
+                    {% include 'includes/controls/tag-includes/tag-checkboxes.njk' %}
+                {% else %}
+                    {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+                {% endif%}
+            </div>
+        </div>
+    {% endif %}
 {% endfor %}

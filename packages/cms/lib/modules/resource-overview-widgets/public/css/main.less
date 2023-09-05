@@ -4,6 +4,10 @@
   justify-content: space-between;
   gap: 8px;
 
+  @media @phone {
+    flex-direction: column;
+  }
+
   #ideas {
     flex-grow: 1;
   }
@@ -20,6 +24,41 @@
         width: 100% !important;
       }
     }
+  }
+}
+
+.tag-checkbox-container{
+  margin: 0;
+  padding: 0;
+}
+
+.resource-overview-tag-select-group {
+  margin-bottom: 8px;
+  box-shadow: 0 4px 20px 0 rgba(42, 18, 18, 0.12);
+  background-color: #ffffff;
+  border: 0;
+  color: #000;
+  font-weight: 500;
+  
+  >p {
+    text-align: left;
+    margin: 0;
+    border: none;
+  }
+
+  > div {
+    display: none;
+  }
+
+  &.selected >div{
+    display: flex;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    // border-left: #000 1px solid;
+    // border-right: #000 1px solid;
+    // border-bottom: #000 1px solid;
+
   }
 }
 
