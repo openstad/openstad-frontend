@@ -13,7 +13,7 @@
 
     {% else %}
         <div id="tag-group-container-{{ 'tags' if key === 'undefined' else key }}" class="tag-group-container">
-            <p class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</p>
+            <h3 class="{{ tagGroupPrefix }}tag-group-title">{{ "Overig" if key === 'undefined' or key === 'null' else key }}</h3>
             <div id="{{ tagGroupPrefix }}tag-group-{{ 'tags' if key === 'undefined' else key }}" class="{{ tagGroupPrefix }}tag-group {{ 'columned' if data.widget.displayModeColumns else '' }}">
 
                 {% if data.widget.displayModeColumns%}
