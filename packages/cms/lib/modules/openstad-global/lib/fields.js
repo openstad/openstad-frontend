@@ -130,6 +130,25 @@ module.exports = [
     required: false
   },
   {
+    name: 'templateDoc',
+    type: 'attachment',
+    permission: 'admin',
+    svgImages: true,
+    label: 'Plan begroting template',
+    // apiSyncField: 'styling.logo',
+    trash: true
+  },
+ {
+  name: 'formattedTemplateDoc',
+  permission: 'admin',
+  type: 'string',
+  label: 'formattedTemplateDoc',
+  formatField: function (value, apos, doc, req) {
+    return apos.attachments.url(doc.templateDoc);
+  },
+ },
+  
+  {
     name: 'modbreakAuthor',
     type: 'string',
     label: 'Author of the modbreaks',

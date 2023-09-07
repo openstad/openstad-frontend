@@ -258,6 +258,14 @@
 			{% include 'includes/openstad-map.html' %}
 		</div>
 		{% endif %}
+
+		{% if data.global.templateDoc %}
+			<p class="resource-summary">
+				Er is een begroting voorbeeld beschikbaar. Klik 
+				<a href="{{data.global.formattedTemplateDoc}}">hier</a> om het voorbeeld te downloaden
+		  	</p>
+		{% endif %}
+
 	</div> <!-- #primary -->
 
 	<div class="secondary">
