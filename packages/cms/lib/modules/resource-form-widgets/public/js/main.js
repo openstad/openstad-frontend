@@ -67,7 +67,6 @@ if (fieldsetElements) {
           name: 'begrotingen',
           files: [],
           acceptedFileTypes: [
-            '.csv', 
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
             'application/vnd.ms-excel', 
             'application/pdf', 

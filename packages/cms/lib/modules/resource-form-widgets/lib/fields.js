@@ -465,6 +465,7 @@ const fields = [
       },
     ]
   },
+
   {
     name: 'requiredDescription',
     type: 'boolean',
@@ -491,6 +492,71 @@ const fields = [
     label: 'Info for Images',
     textarea: true
   },
+  {
+    name: 'infoBudgets',
+    type: 'string',
+    label: 'Text which tells you to upload your documents',
+    def: 'Upload hier je begrotingen',
+    default: 'Upload hier je begrotingen',
+    placeholder: 'For example: Upload hier je begrotingen',
+  },
+
+  {
+    name: 'uploadBudgetDocsTitle',
+    label: 'Title above the uploader',
+    type: 'string',
+    def: 'Begrotingen',
+  },
+
+  {
+    name: 'hideUploadBudgetDocsTitle',
+
+    type: 'boolean',
+    choices: [
+      {
+        value: true,
+        label: "Yes"
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: true,
+  },
+  {
+    name: 'hideBudgetDocsUploadInstruction',
+    type: 'boolean',
+    label: 'Hide the instruction text for the uploader',
+    choices: [
+      {
+        value: true,
+        label: "Yes"
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: false,
+  },
+  {
+    name: 'hideUploadBudgetDocs',
+    label: 'Hide the uploader, preventing people from uploading budget documents',
+    type: 'boolean',
+    choices: [
+      {
+        value: true,
+        label: "Yes"
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: true,
+  },
+  
   {
     name: 'uploadMultiple',
     type: 'boolean',

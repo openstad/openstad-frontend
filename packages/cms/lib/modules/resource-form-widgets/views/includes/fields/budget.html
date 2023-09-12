@@ -7,46 +7,53 @@
   value="{{activeResource.budget}}"
 />
 
-<div class="form-group">
-  <div id="documentUpload">
-      <h2>
-      {{ data.widget.labelBudgetDocs if data.widget.labelBudgetDocs else 'Begrotingen' }}
-      </h2>
+{% if not data.widget.hideUploadBudgetDocs %}
 
-    {% if data.global.templateDoc %}
-    <p class="resource-summary">
-      Er is een begroting voorbeeld beschikbaar. Klik 
-      <a href="{{data.global.formattedTemplateDoc}}">hier</a> om het voorbeeld te downloaden
-      </p>
+  <div class="form-group">
+    <div id="documentUpload">
+      {% if not data.widget.hideUploadBudgetDocsTitle %}
+        <h2>
+          {{ data.widget.uploadBudgetDocsTitle if data.widget.uploadBudgetDocsTitle else 'Begrotingen' }}
+        </h2>
+      {% endif %}
+
+      {% if data.global.templateDoc %}
+      <p class="resource-summary">
+        Er is een begroting voorbeeld beschikbaar. Klik 
+        <a href="{{data.global.formattedTemplateDoc}}">hier</a> om het voorbeeld te downloaden
+        </p>
+      {% endif %}
+
+      {% if not data.widget.hideBudgetDocsUploadInstruction %}
+        <div class="form-info">
+          {{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Upload hier je begroting(en)' }}
+        </div>
+      {% endif %}
+
+    <fieldset class="filepondFieldset docs">
+      <input 
+        type="file" 
+        name="docFilePond"  
+        class="docFilePond"
+        multiple
+        data-allow-reorder="true"
+        data-max-file-size="3MB"
+        data-max-files="10"/>
+    </fieldset>
+
+    {% if activeResource.extraData.budgetDocuments %}
+      {% for budget in activeResource.extraData.budgetDocuments %}
+        <div class="filepond-uploaded-item">
+          <a href="{{budget.url}}" target="_blank">
+            <p>{{budget.name}}</p>
+          </a>
+          
+          <button type="button" onclick="deleteBudgetDocument('{{budget.name}}', '{{activeResource.id}}', '{{data.siteUrl}}')">  
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik0xOCA2IDYgMTgiLz48cGF0aCBkPSJtNiA2IDEyIDEyIi8+PC9zdmc+"/>        
+          </button>
+        </div>  
+      {% endfor %}
     {% endif %}
-
-    <div class="form-info">
-    {{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Upload hier je begroting(en)' }}
-    </div>
-
-  <fieldset class="filepondFieldset docs">
-    <input 
-      type="file" 
-      name="docFilePond"  
-      class="docFilePond"
-      multiple
-      data-allow-reorder="true"
-      data-max-file-size="3MB"
-      data-max-files="10"/>
-  </fieldset>
-
-  {% if activeResource.extraData.budgetDocuments %}
-    {% for budget in activeResource.extraData.budgetDocuments %}
-      <div class="filepond-uploaded-item">
-        <a href="{{budget.url}}" target="_blank">
-          <p>{{budget.name}}</p>
-        </a>
-        
-        <button type="button" onclick="deleteBudgetDocument('{{budget.name}}', '{{activeResource.id}}', '{{data.siteUrl}}')">  
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik0xOCA2IDYgMTgiLz48cGF0aCBkPSJtNiA2IDEyIDEyIi8+PC9zdmc+"/>        
-        </button>
-      </div>  
-    {% endfor %}
-  {% endif %}
-  <div>
-</div>
+    <div>
+  </div>
+{% endif %}
