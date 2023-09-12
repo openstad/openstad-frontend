@@ -20,13 +20,13 @@
       {% if data.global.templateDoc %}
       <p class="resource-summary">
         Er is een begroting voorbeeld beschikbaar. Klik 
-        <a href="{{data.global.formattedTemplateDoc}}">hier</a> om het voorbeeld te downloaden
+        <a href="{{data.global.formattedTemplateDoc}}" target="_blank">hier</a> om het voorbeeld te downloaden
         </p>
       {% endif %}
 
       {% if not data.widget.hideBudgetDocsUploadInstruction %}
         <div class="form-info">
-          {{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Upload hier je begroting(en)' }}
+          <p>{{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Lever een begroting aan als u die heeft' }}</p>
         </div>
       {% endif %}
 

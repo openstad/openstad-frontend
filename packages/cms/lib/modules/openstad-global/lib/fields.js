@@ -134,7 +134,7 @@ module.exports = [
     type: 'attachment',
     permission: 'admin',
     svgImages: true,
-    label: 'Plan begroting template',
+    label: 'Upload hier een template begroting',
     // apiSyncField: 'styling.logo',
     trash: true
   },
@@ -147,7 +147,6 @@ module.exports = [
     return apos.attachments.url(doc.templateDoc);
   },
  },
-  
   {
     name: 'modbreakAuthor',
     type: 'string',

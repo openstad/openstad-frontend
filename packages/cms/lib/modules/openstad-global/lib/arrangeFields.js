@@ -12,7 +12,7 @@ module.exports = [
     {
         name: 'api',
         label: 'Url & api instellingen',
-        fields: ['siteId', 'ideaSlug', 'ideaOverviewSlug', 'editIdeaUrl', 'cacheIdeas', 'openstadComponentsUrl', 'templateDoc']
+        fields: ['siteId', 'ideaSlug', 'ideaOverviewSlug', 'editIdeaUrl', 'cacheIdeas', 'openstadComponentsUrl']
     },
 
     {
@@ -58,7 +58,7 @@ module.exports = [
     {
         name: 'themes-areas',
         label: 'Themes, areas & idea types',
-        fields: ['themes', 'areas', 'ideaTypes']
+        fields: ['themes', 'areas', 'ideaTypes', 'templateDoc']
     },
 
     // this is a bit of a hack. We hide the section link with CSS
