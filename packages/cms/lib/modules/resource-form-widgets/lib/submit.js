@@ -3,6 +3,7 @@ const eventEmitter  = require('../../../../events').emitter;
 const multer = require('multer');
 const upload = multer();
 const fs = require('fs');
+const fetch = require('node-fetch');
 
 module.exports = async function(self, options) {
 
@@ -23,6 +24,7 @@ module.exports = async function(self, options) {
     const siteId = req.data.global.siteId;
     
     const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
+    const getUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}/${req.body.resourceId}`;
 
     /**
      * Format headerr
@@ -67,14 +69,42 @@ module.exports = async function(self, options) {
       });
 
       const results = await Promise.all(promises);
-      try {
-        const files = results.map(file => 
-          Object.assign({}, {...file, url: file.url.replace("public", siteUrl)}));
+
+
+      const httpHeaders = {
+        'Accept': 'application/json',            
+        'Content-Type': 'application/json',
+      };
+
+      if (req.session.jwt) {
+        httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
+      }
+  
+    const response = await fetch(getUrl, {
+        headers: httpHeaders
+    });
+
+    if(response.ok) {
+        const idea = await response.json();
+        try {
+            let files = results.map(file => 
+              Object.assign({}, {...file, url: file.url.replace("public", siteUrl)}));
+
+            if(idea.extraData && idea.extraData.budgetDocuments) {
+              try {
+                const existingIdeaBudgets = JSON.parse(idea.extraData.budgetDocuments);
+                files = files.concat(existingIdeaBudgets);
+              } catch(e) {
+                
+              }
+            }
+        
         data.extraData.budgetDocuments = JSON.stringify(files);
       }catch(e) {
         console.error("Budget documenten konden niet worden geupload");
       }
-    }
+    } 
+   }
 
     //format image
     if (data.image) {

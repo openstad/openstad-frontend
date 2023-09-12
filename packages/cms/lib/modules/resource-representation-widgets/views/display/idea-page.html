@@ -258,6 +258,24 @@
 			{% include 'includes/openstad-map.html' %}
 		</div>
 		{% endif %}
+
+
+		{% if idea.budget %}
+			<h3>Budget</h3>
+			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
+
+			{% if idea.extraData.budgetDocuments %}
+				{% for budget in idea.extraData.budgetDocuments %}
+					<div class="filepond-uploaded-items">
+						<a href="{{budget.url}}" target="_blank">
+						<p>{{budget.name}}</p>
+						</a>
+					</div>
+				{% endfor %}			
+			{% endif %}			
+		{% endif %}			
+
+
 	</div> <!-- #primary -->
 
 	<div class="secondary">

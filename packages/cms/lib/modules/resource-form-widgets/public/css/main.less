@@ -131,12 +131,13 @@
     }
   }
 
-.filepond-uploaded-items {
+.filepond-uploaded-item {
   display: flex;
   padding: 8px;
   justify-content: center;
   align-items: center;
   background-color: #f1f0ef;
+  margin-bottom: 8px;
 
   a {
     text-align: center;
@@ -147,7 +148,11 @@
   }
 
   button {
-    border-radius: 50%;
+    border: none;
+    opacity: .5;
+  }
+  button:hover {
+    opacity: 1;
   }
 }
 
