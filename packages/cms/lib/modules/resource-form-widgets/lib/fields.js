@@ -556,7 +556,6 @@ const fields = [
     ],
     def: true,
   },
-  
   {
     name: 'uploadMultiple',
     type: 'boolean',
