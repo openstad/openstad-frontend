@@ -6,3 +6,47 @@
   required
   value="{{activeResource.budget}}"
 />
+
+<div class="form-group">
+  <div id="documentUpload">
+      <h2>
+      {{ data.widget.labelBudgetDocs if data.widget.labelBudgetDocs else 'Begrotingen' }}
+      </h2>
+
+    {% if data.global.templateDoc %}
+    <p class="resource-summary">
+      Er is een begroting voorbeeld beschikbaar. Klik 
+      <a href="{{data.global.formattedTemplateDoc}}">hier</a> om het voorbeeld te downloaden
+      </p>
+    {% endif %}
+
+    <div class="form-info">
+    {{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Upload hier je begroting(en)' }}
+    </div>
+
+  <fieldset class="filepondFieldset docs">
+    <input 
+      type="file" 
+      name="docFilePond"  
+      class="docFilePond"
+      multiple
+      data-allow-reorder="true"
+      data-max-file-size="3MB"
+      data-max-files="10"/>
+  </fieldset>
+
+  {% if activeResource.extraData.budgetDocuments %}
+    {% for budget in activeResource.extraData.budgetDocuments %}
+      <div class="filepond-uploaded-items">
+        <a href="{{budget.url}}" target="_blank">
+          <p>{{budget.name}}</p>
+        </a>
+        
+        <button type="button" onclick="deleteBudgetDocument('{{budget.name}}', '{{activeResource.id}}', '{{data.siteUrl}}')">          
+          <span class="glyphicon glyphicon-remove-sign"></span>
+        </button>
+      </div>  
+    {% endfor %}
+  {% endif %}
+  <div>
+</div>

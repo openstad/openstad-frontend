@@ -1,5 +1,8 @@
 const rp = require('request-promise');
 const eventEmitter  = require('../../../../events').emitter;
+const multer = require('multer');
+const upload = multer();
+const fs = require('fs');
 
 module.exports = async function(self, options) {
 
@@ -8,7 +11,7 @@ module.exports = async function(self, options) {
   // Server side validation is done by the API
   // In future form can probably talk directly with api proxy,
   // Only images need to be refactored
-  self.route('post', 'submit', function(req, res) {
+  self.route('post', 'submit', upload.any('docFilePond'), async function(req, res) {
     // emit event
     eventEmitter.emit('resourceCrud');
 
@@ -16,7 +19,9 @@ module.exports = async function(self, options) {
      * Format API Url
      */
     const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+    const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
     const siteId = req.data.global.siteId;
+    
     const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
 
     /**
@@ -30,8 +35,46 @@ module.exports = async function(self, options) {
       httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
     }
     const data = req.body;
-
     data.extraData = data.extraData ? data.extraData : {};
+
+
+    if(req.files) {
+      console.log({files: req.files});
+      const promises = [];
+      req.files.forEach((file, i) => {
+        const attachmentsPath = 'public/uploads/attachments/resource-form-uploads/' + req.body.resourceId;
+        const path = `${attachmentsPath}/${file.originalname}`;
+  
+          if(fs.existsSync(attachmentsPath) === false) {
+              fs.mkdirSync(attachmentsPath, { recursive: true });
+          }
+  
+          promises.push(
+              new Promise( (resolve,reject) => {
+                  const fileCopy = {name: file.originalname, url: path}
+                  // existing files are ignored; it  is more then likely the same file
+                  fs.access(path, fs.constants.F_OK, (err) => {
+                  if (!err) {
+                      return resolve(fileCopy)
+                  };
+                  console.log('Create file', file.originalname);
+                  fs.writeFile(path, file.buffer, err => {
+                      err ? reject(err) : resolve(fileCopy)
+                  });
+                  });
+              })
+          );
+      });
+
+      const results = await Promise.all(promises);
+      try {
+        const files = results.map(file => 
+          Object.assign({}, {...file, url: file.url.replace("public", siteUrl)}));
+        data.extraData.budgetDocuments = JSON.stringify(files);
+      }catch(e) {
+        console.error("Budget documenten konden niet worden geupload");
+      }
+    }
 
     //format image
     if (data.image) {

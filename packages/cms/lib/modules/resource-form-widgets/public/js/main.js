@@ -4,25 +4,20 @@
 // a reference to each uploaded file. This reference list is used
 // by the server to connect the correct image uploads to this idea.
 
-var fieldsetElement = document.querySelector('.filepondFieldset');
+var fieldsetElements = document.querySelectorAll('.filepondFieldset');
 
 
-if (fieldsetElement) {
+if (fieldsetElements) {
   FilePond.registerPlugin(FilePondPluginImagePreview);
   FilePond.registerPlugin(FilePondPluginFileValidateSize);
   FilePond.registerPlugin(FilePondPluginFileValidateType);
   FilePond.registerPlugin(FilePondPluginFilePoster);
   FilePond.registerPlugin(FilePondPluginImageExifOrientation);
 
-/*FilePond.setOptions({
-    server: {
-        process: '/image',
-        fetch: null,
-        revert: null
-     }
-  });*/
 
-  var filePondSettings = {
+  var filePondSettings = function (options={}){
+
+    return Object.assign({},{
     // set allowed file types with mime types
     acceptedFileTypes: ['image/*'],
     allowFileSizeValidation: true,
@@ -62,13 +57,34 @@ if (fieldsetElement) {
     labelButtonUndoItemProcessing: "Undo",
     labelButtonRetryItemProcessing: "Retry",
     labelButtonProcessItem: "Upload"
+  }, options)
+}
+
+  for(var fieldsetElement of fieldsetElements) {
+    if(fieldsetElement.classList.contains("docs")) {
+      var documentPond = FilePond.create(fieldsetElement, filePondSettings(
+        {
+          name: 'begrotingen',
+          files: [],
+          acceptedFileTypes: [
+            '.csv', 
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+            'application/vnd.ms-excel', 
+            'application/pdf', 
+            '.doc'
+          ],
+          server: undefined,
+          labelIdle:"Sleep begrotingen naar deze plek of <span class='filepond--label-action'>klik hier</span>",
+          labelFileProcessingComplete: "Begrotingen geladen"
+        })
+    );
+    }else {
+      var pond  = FilePond.create(fieldsetElement, filePondSettings());
+    }
+    var sortableInstance;
+  
+    var pondEl = document.querySelector('.filepond--root');
   }
-
-  var pond = FilePond.create(fieldsetElement, filePondSettings);
-
-  var sortableInstance;
-
-  var pondEl = document.querySelector('.filepond--root');
 }
 
 var formHasChanged = false;
@@ -89,6 +105,18 @@ $(document).ready(function () {
 
         return processingFiles.length === 0;
     }, "Plaatjes zijn nog aan het uploaden.");
+
+
+    $.validator.addMethod("validateDocFilePondProcessing", function() {
+      var files = documentPond ? documentPond.getFiles() : [];
+      var docPondFileStates =  FilePond.FileStatus;
+
+      var processingDocFiles = files.filter(function (file) {
+        return file.status !== docPondFileStates.PROCESSING_COMPLETE;
+      });
+
+      return processingDocFiles.length === 0;
+  }, "Begrotingen zijn nog aan het uploaden.");
 
 
 
@@ -160,6 +188,10 @@ $(document).ready(function () {
           validateFilePond: true,
           validateFilePondProcessing: true
         },
+        validateBudgetDocs: {
+          validateDocFilePond: true,
+          validateDocFilePondProcessing:true
+        },
         firstName: {
           required: true
         },
@@ -195,13 +227,21 @@ $(document).ready(function () {
           } 
           $(this).attr('disabled', 'true')
         });
+
+
+        const formdata = new FormData(form);
+        const pondFiles = documentPond? documentPond.getFiles() : [];
+        for (var i = 0; i < pondFiles.length; i++) {
+            formdata.append('docFilePond', pondFiles[i].file);
+        }
         
+
        $.ajax({
           url: $(form).attr('action'),
-        //  context: document.body,
           type: 'POST',
-          data: $(form).serialize(),
-          dataType: 'json',
+          data: formdata,
+          processData: false,
+          contentType: false,
           success:function(response) {
               formHasChanged = false;
               var redirect = $(form).find('.form-redirect-uri').val();
@@ -277,7 +317,24 @@ $(document).ready(function () {
       }
 
     }, "Eén of meerdere plaatjes zijn verplicht.");
+    
+    $.validator.addMethod("validateDocFilePond", function() {
+      if ($('.docFilePond').prop('required')) {
+        var files = documentPond ? documentPond.getFiles() : [];
+        var pondFileStates =  FilePond.FileStatus;
 
+        files = files.filter(function (file) {
+          return file.status === pondFileStates.PROCESSING_COMPLETE;
+        });
+
+        return files && files.length > 0;
+      } else {
+        return true;
+      }
+
+    }, "Eén of meerdere begrotingen zijn verplicht.");
+
+    
 
     $('#locationField').on('change', function () {
       validator.element($(this))
@@ -413,6 +470,19 @@ window.addEventListener('load', function() {
 });
 
 // einde characters counters ------------------------------
+
+
+function deleteBudgetDocument(name, id, siteUrl) {
+  console.log(name, id, siteUrl);
+  $.ajax({
+    url: siteUrl + "/modules/resource-form-widgets/budget",
+    type: 'PUT',
+    data: { name, id},
+    success: function(data) {
+        console.log('ok');
+    }        
+  });
+}
 
 function initLeavePageWarningForForm () {
   if ($('.add-warning-when-leaving-page').length > 0) {

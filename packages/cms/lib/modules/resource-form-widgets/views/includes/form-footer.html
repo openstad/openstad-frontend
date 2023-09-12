@@ -23,7 +23,7 @@
     <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept if data.widget.buttonTextConcept else 'Opslaan als concept' }}">
     {% endif %}
 {% else %} 
-<input type="submit" class="btn btn-primary" onclick="document.getElementById('publishAsConcept').setAttribute('value', '')" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">
+<input type="submit" class="btn btn-primary" onclick="document.getElementById('publishAsConcept').setAttribute('value', '0')" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}">
     {% if data.widget.buttonTextConcept %}
     <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept if data.widget.buttonTextConcept else 'Opslaan als concept' }}">
     {% endif %}
