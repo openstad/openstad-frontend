@@ -260,13 +260,13 @@
 		{% endif %}
 
 
-		{% if idea.budget %}
+		{% if data.hasModeratorRights and idea.budget %}
 			<h3>Budget</h3>
 			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
 
 			{% if idea.extraData.budgetDocuments %}
 				{% for budget in idea.extraData.budgetDocuments %}
-					<div class="filepond-uploaded-items">
+					<div class="filepond-uploaded-item">
 						<a href="{{budget.url}}" target="_blank">
 						<p>{{budget.name}}</p>
 						</a>
