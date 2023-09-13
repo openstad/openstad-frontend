@@ -71,8 +71,11 @@ if (fieldsetElements) {
           acceptedFileTypes: [
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
             'application/vnd.ms-excel', 
-            'application/pdf', 
-            '.doc'
+            'application/pdf',
+            'application/msword',
+             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            '.docx',
+            '.doc',
           ],
           server: undefined,
           labelIdle:"Sleep begrotingen naar deze plek of <span class='filepond--label-action'>klik hier</span>",
