@@ -562,6 +562,37 @@ module.exports = [
     ],
   },
   {
+    name: 'displayGroupsAsSelectBoxes',
+    label: 'Display the tag groups as select boxes (only when Filter & Idea layout is set to columns)',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
+    name: 'displayModeColumns',
+    label: 'Filter & idea layout',
+    type: 'select',
+    choices: [
+      {
+        label: 'Columns: Kolommen gebruiken, en ook lijstweergave met selectboxes',
+        value: true
+      },
+      {
+        label: 'Full width (default): houden zoals nu de standaard is',
+        value: false,
+      }
+    ],
+    def: false
+  },
+  {
     name: 'displaySorting',
     label: 'Display sorting',
     type: 'boolean',

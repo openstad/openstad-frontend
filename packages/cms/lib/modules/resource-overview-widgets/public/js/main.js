@@ -53,6 +53,16 @@ $(document).ready(function () {
 		showVoteCreator();
 		selectIdea(window.ideaId, true);
 	}
+
+	var nodes = document.querySelectorAll(".resource-overview-tag-select-group");
+
+	// Add toggle to the select-groups
+	for(var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		node.addEventListener("click", function() {
+			node.classList.toggle("selected");
+		});
+	}
 	
 	if ($('#ideaList li').length) {
 		// Make sure the gridder-mouse-over is visible when tabbing through the buttons
@@ -73,5 +83,16 @@ $(document).on('openstadAjaxRefresh', function () {
 		if (ideaId) {
 			selectIdea(ideaId, true);
 		}
+	}
+
+
+	var nodes = document.querySelectorAll(".resource-overview-tag-select-group");
+
+	// Add toggle to the select-groups
+	for(var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		node.addEventListener("click", function() {
+			node.classList.toggle("selected");
+		});
 	}
 });

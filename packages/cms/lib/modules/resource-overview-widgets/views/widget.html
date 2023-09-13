@@ -10,8 +10,8 @@
 		{% if data.widget.voting %}
 	    {{ voteCreator.showVoteCreator(false, data.widget.ideas, data) }}
 	  {% endif %}
-
-		<div class="ideasList" >
+	  
+		<div class="ideasList {{'columns' if data.widget.displayModeColumns}}" >
 	    {% include 'includes/filters.html' %}
 
 			{% if data.widget.formattedResultCountText %}
