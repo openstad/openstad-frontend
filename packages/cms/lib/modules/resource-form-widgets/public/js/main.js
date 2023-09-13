@@ -60,7 +60,9 @@ if (fieldsetElements) {
   }, options || {})
 }
 
-  for(var fieldsetElement of fieldsetElements) {
+  for(var i = 0; i < fieldsetElements.length; i++) {
+    var fieldsetElement = fieldsetElements[i];
+
     if(fieldsetElement.classList.contains("docs")) {
       var documentPond = FilePond.create(fieldsetElement, filePondSettings(
         {
