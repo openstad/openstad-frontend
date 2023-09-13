@@ -483,6 +483,9 @@ function deleteBudgetDocument(name, date, id, siteUrl) {
     data: { name: name, date:date, id: id},
     success: function(data) {
         location.reload();
+    },
+    error: function(e) {
+      alert(e.responseJSON.msg);
     }
   });
 }

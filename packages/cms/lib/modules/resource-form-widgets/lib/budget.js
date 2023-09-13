@@ -56,12 +56,16 @@ module.exports = async function(self, options) {
 
                 try {
                     if (fs.existsSync(attachmentsPath)) {
-                        console.log("Removing the file")
+                        console.log("Removing the file");
                         fs.rmSync(attachmentsPath, { recursive: true });
                     }
                 }
                 catch(e) {
-                    console.log("The file could not be deleted");
+                    return res.status(500).send(
+                        JSON.stringify({
+                            msg: "Het bestand kon niet verwijderd worden, probeer het nog eens.",
+                        })
+                    );
                 }
             }
             
