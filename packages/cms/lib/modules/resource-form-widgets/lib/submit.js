@@ -4,6 +4,7 @@ const multer = require('multer');
 const upload = multer();
 const fs = require('fs');
 const fetch = require('node-fetch');
+const createHash = require('crypto').createHash;
 
 module.exports = async function(self, options) {
 
@@ -13,6 +14,8 @@ module.exports = async function(self, options) {
   // In future form can probably talk directly with api proxy,
   // Only images need to be refactored
   self.route('post', 'submit', upload.any('docFilePond'), async function(req, res) {
+    const sessionSecret = process.env.SESSION_SECRET;
+
     // emit event
     eventEmitter.emit('resourceCrud');
 
@@ -22,7 +25,9 @@ module.exports = async function(self, options) {
     const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
     const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
     const siteId = req.data.global.siteId;
+
     
+
     const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
     const getUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}/${req.body.resourceId}`;
 
@@ -44,7 +49,11 @@ module.exports = async function(self, options) {
       const promises = [];
       req.files.forEach((file, i) => {
         const attachmentsPath = 'public/uploads/attachments/resource-form-uploads/' + req.body.resourceId;
-        const path = `${attachmentsPath}/${file.originalname}`;
+
+        const nameHash = createHash('sha256')
+          .update(sessionSecret + Date.now().toString(), 'utf8').digest('hex');
+
+        const path = `${attachmentsPath}/${nameHash}`;
   
           if(fs.existsSync(attachmentsPath) === false) {
               fs.mkdirSync(attachmentsPath, { recursive: true });

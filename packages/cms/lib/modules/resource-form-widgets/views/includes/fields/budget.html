@@ -64,7 +64,7 @@
       {% for budget in activeResource.extraData.budgetDocuments %}
         <div  class="row filepond-uploaded-item">
           <div class="col-sm-6">
-            <a href="{{budget.url}}" target="_blank">
+            <a href="{{budget.url}}" download="{{budget.name}}" target="_blank">
               <p class="elipsize">{{budget.name}}</p>
             </a>
           </div>

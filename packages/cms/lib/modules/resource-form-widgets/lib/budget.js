@@ -46,12 +46,6 @@ module.exports = async function(self, options) {
             if(indexToDelete > -1) {
                 ideaBudgets.splice(indexToDelete, 1);
             }
-
-            console.log(JSON.stringify({
-                extraData: {
-                    budgetDocuments: JSON.stringify(ideaBudgets)                
-                },
-            }));
             
             const putResponse = await fetch(postUrl, {
                 method: 'PUT',
