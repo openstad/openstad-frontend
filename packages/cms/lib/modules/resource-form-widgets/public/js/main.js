@@ -15,7 +15,7 @@ if (fieldsetElements) {
   FilePond.registerPlugin(FilePondPluginImageExifOrientation);
 
 
-  var filePondSettings = function (options={}){
+  var filePondSettings = function (options){
 
     return Object.assign({},{
     // set allowed file types with mime types
@@ -57,7 +57,7 @@ if (fieldsetElements) {
     labelButtonUndoItemProcessing: "Undo",
     labelButtonRetryItemProcessing: "Retry",
     labelButtonProcessItem: "Upload"
-  }, options)
+  }, options || {})
 }
 
   for(var fieldsetElement of fieldsetElements) {
