@@ -477,7 +477,7 @@ function deleteBudgetDocument(name, id, siteUrl) {
   $.ajax({
     url: siteUrl + "/modules/resource-form-widgets/budget",
     type: 'PUT',
-    data: { name, id},
+    data: { name: name, id: id},
     success: function(data) {
         location.reload();
     }
