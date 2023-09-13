@@ -476,11 +476,11 @@ window.addEventListener('load', function() {
 // einde characters counters ------------------------------
 
 
-function deleteBudgetDocument(name, id, siteUrl) {
+function deleteBudgetDocument(name, date, id, siteUrl) {
   $.ajax({
     url: siteUrl + "/modules/resource-form-widgets/budget",
     type: 'PUT',
-    data: { name: name, id: id},
+    data: { name: name, date:date, id: id},
     success: function(data) {
         location.reload();
     }
