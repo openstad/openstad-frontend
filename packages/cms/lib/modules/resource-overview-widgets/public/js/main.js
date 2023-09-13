@@ -85,9 +85,14 @@ $(document).on('openstadAjaxRefresh', function () {
 		}
 	}
 
+
+	var nodes = document.querySelectorAll(".resource-overview-tag-select-group");
+
 	// Add toggle to the select-groups
-	document.querySelectorAll(".resource-overview-tag-select-group").forEach((node) => {
-		node.addEventListener("click", () => {
-		node.classList.toggle("selected");
-	})});
+	for(var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		node.addEventListener("click", function() {
+			node.classList.toggle("selected");
+		});
+	}
 });
