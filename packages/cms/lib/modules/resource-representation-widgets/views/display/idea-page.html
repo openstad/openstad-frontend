@@ -266,11 +266,13 @@
 
 			{% if idea.extraData.budgetDocuments %}
 				{% for budget in idea.extraData.budgetDocuments %}
-					<div class="filepond-uploaded-item">
-						<a href="{{budget.url}}" target="_blank">
-						<p>{{budget.name}}</p>
-						</a>
-					</div>
+				<div class="filepond-uploaded-item">
+					<a href="{{budget.url}}" target="_blank">
+					  <p>{{budget.username}}</p>
+					  <p class="elipsize">{{budget.name}}</p>
+					  <p>{{budget.date  | date('YYYY-MM-DD') }} </p>
+					</a>
+				</div>
 				{% endfor %}			
 			{% endif %}			
 		{% endif %}			

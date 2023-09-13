@@ -40,12 +40,15 @@
         data-max-file-size="3MB"
         data-max-files="10"/>
     </fieldset>
+    <input type="hidden" name="username" value="{{data.openstadUser.displayName}}"/>
 
     {% if activeResource.extraData.budgetDocuments %}
       {% for budget in activeResource.extraData.budgetDocuments %}
         <div class="filepond-uploaded-item">
           <a href="{{budget.url}}" target="_blank">
-            <p>{{budget.name}}</p>
+            <p>{{budget.username}}</p>
+            <p class="elipsize">{{budget.name}}</p>
+            <p>{{budget.date  | date('YYYY-MM-DD') }} </p>
           </a>
           
           <button type="button" onclick="deleteBudgetDocument('{{budget.name}}', '{{activeResource.id}}', '{{data.siteUrl}}')">  

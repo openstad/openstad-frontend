@@ -472,14 +472,13 @@ window.addEventListener('load', function() {
 
 
 function deleteBudgetDocument(name, id, siteUrl) {
-  console.log(name, id, siteUrl);
   $.ajax({
     url: siteUrl + "/modules/resource-form-widgets/budget",
     type: 'PUT',
     data: { name, id},
     success: function(data) {
-        console.log('ok');
-    }        
+        location.reload();
+    }
   });
 }
 

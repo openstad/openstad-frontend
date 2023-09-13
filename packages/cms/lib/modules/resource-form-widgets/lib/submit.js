@@ -41,7 +41,6 @@ module.exports = async function(self, options) {
 
 
     if(req.files) {
-      console.log({files: req.files});
       const promises = [];
       req.files.forEach((file, i) => {
         const attachmentsPath = 'public/uploads/attachments/resource-form-uploads/' + req.body.resourceId;
@@ -69,6 +68,14 @@ module.exports = async function(self, options) {
       });
 
       const results = await Promise.all(promises);
+      
+      let files = results.map(file => 
+        Object.assign({}, {
+          ...file, 
+          url: file.url.replace("public", siteUrl),
+          date: Date.now(),
+          username: data.username,
+        }));
 
 
       const httpHeaders = {
@@ -80,31 +87,31 @@ module.exports = async function(self, options) {
         httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
       }
   
-    const response = await fetch(getUrl, {
-        headers: httpHeaders
-    });
 
-    if(response.ok) {
-        const idea = await response.json();
-        try {
-            let files = results.map(file => 
-              Object.assign({}, {...file, url: file.url.replace("public", siteUrl)}));
+      if(req.body.resourceId) {
+        const response = await fetch(getUrl, {
+          headers: httpHeaders
+        });
 
-            if(idea.extraData && idea.extraData.budgetDocuments) {
-              try {
-                const existingIdeaBudgets = JSON.parse(idea.extraData.budgetDocuments);
-                files = files.concat(existingIdeaBudgets);
-              } catch(e) {
-                
-              }
+        if(response.ok) {
+          const idea = await response.json();
+
+          if(idea.extraData && idea.extraData.budgetDocuments) {
+            try {
+              const existingIdeaBudgets = JSON.parse(idea.extraData.budgetDocuments);
+              files = files.concat(existingIdeaBudgets);
+            } catch(e) {
+              
             }
-        
+          }
+        }
+      }
+      try {
         data.extraData.budgetDocuments = JSON.stringify(files);
       }catch(e) {
         console.error("Budget documenten konden niet worden geupload");
       }
     } 
-   }
 
     //format image
     if (data.image) {
