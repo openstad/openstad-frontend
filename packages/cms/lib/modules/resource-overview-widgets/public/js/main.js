@@ -26,6 +26,7 @@ apos.define('resource-overview-widgets', {
         });
       }
 
+	  
       $(document).on('openstadAjaxRefresh', function () {
         if (window.voteBlockIdentifier) {
           var ideaId = openstadGetCookie('ideaId' + voteBlockIdentifier);
@@ -35,8 +36,16 @@ apos.define('resource-overview-widgets', {
             selectIdea(ideaId, true);
           }
         }
+		openSelectedTagGroups($widget);
       });
+
+	  openSelectedTagGroups($widget);
     };
+
+	function openSelectedTagGroups($widget) {
+		var selectedCheckboxes = $widget.find('.tag-checkbox.selected');
+		selectedCheckboxes.closest('.resource-overview-tag-select-group').toggleClass('selected');
+	}
 
     function ideasOverviewDisplayIdeaOnHash() {
       var showIdeaId;
