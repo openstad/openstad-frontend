@@ -14,6 +14,7 @@ module.exports = {
   extend: 'map-widgets',
   label: 'Resource form',
   addFields: fields,
+  playerData: ['siteUrl'],
   beforeConstruct: function (self, options) {
 
     if (options.resources) {
@@ -105,7 +106,7 @@ module.exports = {
      {
        name: 'budget',
        label: 'Budget',
-       fields: ['displayBudget']
+       fields: ['displayBudget', 'infoBudgets', 'hideUploadBudgetDocs', 'uploadBudgetDocsTitle', 'hideUploadBudgetDocsTitle', 'hideBudgetDocsUploadInstruction']
      },
      {
        name: 'confirmation',
@@ -121,6 +122,7 @@ module.exports = {
     require('./lib/helpers.js')(self, options);
     require('./lib/api.js')(self, options);
     require('./lib/submit.js')(self, options);
+    require('./lib/budget.js')(self, options);
 
     self.on('apostrophe-docs:afterSave', 'syncConfirmationFields');
     self.on('apostrophe-docs:afterTrash', 'deleteConfirmationFields');
@@ -178,6 +180,13 @@ module.exports = {
 
         // Todo: refactor this to get resourceId in a different way
         const activeResource = req.data.activeResource;
+        if(activeResource && activeResource.extraData.budgetDocuments) {
+          try {
+            activeResource.extraData.budgetDocuments = JSON.parse(activeResource.extraData.budgetDocuments);
+          } catch (error) {
+            
+          }
+        }
         const resources = activeResource ? [activeResource] : [];
         const googleMapsApiKey = self.apos.settings.getOption(req, 'googleMapsApiKey');
 
@@ -239,7 +248,6 @@ module.exports = {
       self.pushAsset('stylesheet', 'trix', {when: 'always'});
       self.pushAsset('stylesheet', 'form', {when: 'always'});
       self.pushAsset('stylesheet', 'main', {when: 'always'});
-      self.pushAsset('script', 'map', {when: 'always'});
       self.pushAsset('script', 'editor', {when: 'always'});
 
 
