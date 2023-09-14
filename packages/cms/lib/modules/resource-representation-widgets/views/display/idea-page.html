@@ -265,7 +265,7 @@
 			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
 
 
-			{% if idea.extraData.budgetDocuments %}
+			{% if idea.extraData.budgetDocuments and idea.extraData.budgetDocuments.length > 0 %}
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-6">
