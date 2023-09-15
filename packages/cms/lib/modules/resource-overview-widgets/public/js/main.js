@@ -36,11 +36,19 @@ apos.define('resource-overview-widgets', {
             selectIdea(ideaId, true);
           }
         }
+		
 		openSelectedTagGroups($widget);
+		addSelectBoxClickListener($widget);
       });
-
 	  openSelectedTagGroups($widget);
+	  addSelectBoxClickListener($widget);
     };
+
+	function addSelectBoxClickListener($widget) {
+		$widget.find('.resource-overview-tag-select-group').on('click', function(e){
+			$(this).toggleClass('selected')
+		})
+	}
 
 	function openSelectedTagGroups($widget) {
 		var selectedCheckboxes = $widget.find('.tag-checkbox.selected');
@@ -100,11 +108,3 @@ apos.define('resource-overview-widgets', {
     }
   },
 });
-
-// For some strange reason, when a p tag is inside of a div and the div has a click listener, then the p tag will be the target node.
-function onTagSelectboxClick(e) {
-  const parent = e.target.parentNode;
-  if (parent) {
-    parent.classList.toggle('selected');
-  }
-}
