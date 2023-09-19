@@ -19,7 +19,7 @@
 
       {% if not data.widget.hideBudgetDocsUploadInstruction %}
       <div class="form-info">
-        <p>{{ data.widget.infoBudgets | sanitize | safe | nlbr if data.widget.infoBudgets else 'Lever een begroting aan als u die heeft.' }}</p>
+        <p>{{ data.widget.infoBudgetDocs | sanitize | safe | nlbr if data.widget.infoBudgetDocs else 'Lever een begroting aan als u die heeft.' }}</p>
       </div>
     {% endif %}
 
