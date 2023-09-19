@@ -162,7 +162,8 @@ const fields = [
           },
       ],
       def: false
-  }
+  },
+
 ].concat(
     ideaStates.map((state) => {
       return {
@@ -179,6 +180,37 @@ const fields = [
         name: 'labelTime' +  state.value,
         label: 'Labelfor time status: : ' + state.value,
       }
-    }));
+    })).concat(
+      [  
+        {
+          name: 'budgetTitle',
+          label: 'Budget: Titel voor het budget',
+          type: 'string',
+          placeholder: 'Budget',
+          def: 'Budget'
+        },
+        {
+        name: 'budgetFileOverviewFileTitle',
+        label: 'Budget-begrotingen: Naam voor de bestanden kolom',
+        type: 'string',
+        placeholder: 'Bestanden',
+        def: 'Bestanden'
+      },
+      {
+        name: 'budgetFileOverviewNameTitle',
+        label: 'Budget-begrotingen: Naam voor de bestanden kolom',
+        type: 'string',
+        placeholder: 'Naam',
+        def: 'Naam'
+      },
+    
+      {
+        name: 'budgetFileOverviewDateTitle',
+        type: 'string',
+        placeholder: 'Datum',
+        def: 'Datum'
+      },
+    ]
+    );
 
 module.exports = fields;

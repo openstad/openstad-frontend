@@ -261,7 +261,7 @@
 
 
 		{% if data.hasModeratorRights and idea.budget %}
-			<h3>Budget</h3>
+			<h3>{{data.widget.budgetTitle or 'Budget'}}</h3>
 			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
 
 
@@ -269,13 +269,19 @@
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-6">
-							<h4>Begroting</h4>
+							<h4>
+								{{data.widget.budgetFileOverviewFileTitle or 'Bestanden'}}
+							</h4>
 						</div>
 						<div class="col-sm-3">
-							<h4>Naam</h4>
+							<h4>
+								{{data.widget.budgetFileOverviewNameTitle or 'Naam'}}
+							</h4>
 						</div>
 						<div class="col-sm-2">
-							<h4>Datum</h4>
+							<h4>
+							{{data.widget.budgetFileOverviewDateTitle or 'Datum'}}
+							</h4>
 						</div>
 						<div class="col-sm-1">
 						</div>

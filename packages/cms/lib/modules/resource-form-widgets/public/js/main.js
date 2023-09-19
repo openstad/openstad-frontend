@@ -91,7 +91,7 @@ apos.define('resource-form-widgets', {
                 ],
                 server: undefined,
                 labelIdle:
-                  "Sleep begrotingen naar deze plek of <span class='filepond--label-action'>klik hier</span>",
+                  "Sleep bestanden naar deze plek of <span class='filepond--label-action'>klik hier</span>",
                 labelFileProcessingComplete: 'Begrotingen geladen',
               })
             );
