@@ -184,21 +184,21 @@ const fields = [
       [  
         {
           name: 'budgetTitle',
-          label: 'Budget: Titel voor het budget',
+          label: 'Budget: title for the budget header',
           type: 'string',
           placeholder: 'Budget',
           def: 'Budget'
         },
         {
         name: 'budgetFileOverviewFileTitle',
-        label: 'Budget-begrotingen: Naam voor de bestanden kolom',
+        label: 'Budget-documents: alternative title for the "Bestanden" column',
         type: 'string',
         placeholder: 'Bestanden',
         def: 'Bestanden'
       },
       {
         name: 'budgetFileOverviewNameTitle',
-        label: 'Budget-begrotingen: Naam voor de bestanden kolom',
+        label: 'Budget-documents: alternative title for the "Naam" column',
         type: 'string',
         placeholder: 'Naam',
         def: 'Naam'
@@ -206,6 +206,7 @@ const fields = [
     
       {
         name: 'budgetFileOverviewDateTitle',
+        label: 'Budget-documents: alternative title for the "Datum" column',
         type: 'string',
         placeholder: 'Datum',
         def: 'Datum'
