@@ -493,21 +493,35 @@ const fields = [
     textarea: true
   },
   {
-    name: 'infoBudgets',
+    name: 'titleBudget',
     type: 'string',
-    label: 'Text which tells you to upload your documents',
+    label: 'Alternative title for Budget',
+    def: 'Budget',
+    default: 'Budget',
+    placeholder: 'Budget',
+  },
+  {
+    name: 'infoBudget',
+    type: 'string',
+    label: 'Instruction text beneath the budget title',
+    def: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+    default: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+    placeholder: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+  },
+  {
+    name: 'uploadBudgetDocsTitle',
+    label: 'Title above the document uploader',
+    type: 'string',
+    def: 'Begrotingen',
+  },
+  {
+    name: 'infoBudgetDocs',
+    type: 'string',
+    label: 'Instruction text which tells you to upload your documents',
     def: 'Upload hier je begrotingen',
     default: 'Upload hier je begrotingen',
     placeholder: 'For example: Upload hier je begrotingen',
   },
-
-  {
-    name: 'uploadBudgetDocsTitle',
-    label: 'Title above the uploader',
-    type: 'string',
-    def: 'Begrotingen',
-  },
-
   {
     name: 'hideUploadBudgetDocsTitle',
 
