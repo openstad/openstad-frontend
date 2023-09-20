@@ -260,7 +260,7 @@
 		{% endif %}
 
 
-		{% if data.hasModeratorRights and idea.budget %}
+		{% if idea.budget %}
 			<h3>{{data.widget.budgetTitle or 'Budget'}}</h3>
 			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
 
