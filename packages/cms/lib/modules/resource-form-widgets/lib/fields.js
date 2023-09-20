@@ -901,7 +901,7 @@ const fields = [
   {
     name: 'displayBudget',
     type: 'boolean',
-    label: 'Display budget for moderators?',
+    label: "Display budget? Set to yes if you are NOT using budget as a dynamic field",
     def: false
   },
   {
