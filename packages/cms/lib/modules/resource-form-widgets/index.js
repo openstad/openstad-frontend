@@ -106,7 +106,7 @@ module.exports = {
      {
        name: 'budget',
        label: 'Budget',
-       fields: ['displayBudget', 'titleBudget', 'infoBudget','uploadBudgetDocsTitle', 'infoBudgetDocs', 'hideUploadBudgetDocsTitle', 'hideBudgetDocsUploadInstruction', 'hideUploadBudgetDocs']
+       fields: ['displayBudget', 'titleBudget', 'infoBudget', 'requireBudget']
      },
      {
        name: 'confirmation',

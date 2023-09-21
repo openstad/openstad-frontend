@@ -263,9 +263,11 @@
 		{% if idea.budget %}
 			<h3>{{data.widget.budgetTitle or 'Budget'}}</h3>
 			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
+		{% endif %}
 
+		
 
-			{% if idea.extraData.budgetDocuments and idea.extraData.budgetDocuments.length > 0 %}
+			{% if (data.hasModeratorRights or isOwner) and idea.extraData.budgetDocuments and idea.extraData.budgetDocuments.length > 0 %}
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-6">
@@ -305,7 +307,6 @@
 						</div>
 					{% endfor %}			
 				</div>
-			{% endif %}			
 		{% endif %}			
 
 
