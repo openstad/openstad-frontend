@@ -76,6 +76,13 @@ module.exports = async function (self, options) {
                       'application/pdf',
                       'application/msword',
                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                      '.docx',
+                      '.doc',
+                      'application/vnd.ms-powerpoint',
+                      'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                      '.ppt',
+                      '.pptx'
                     ].includes(type.mime);
 
                     if (isAllowed) {

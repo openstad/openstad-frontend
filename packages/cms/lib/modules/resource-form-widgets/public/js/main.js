@@ -88,6 +88,11 @@ apos.define('resource-form-widgets', {
                   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                   '.docx',
                   '.doc',
+                  'application/vnd.ms-powerpoint',
+                  'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                  '.ppt',
+                  '.pptx'
                 ],
                 server: undefined,
                 labelIdle:

@@ -165,7 +165,12 @@ const fields = [
               },
               {
                 value: 'budget',
-                label: "Budget"
+                label: "Budget",
+                showFields: ['fieldRequired']
+              },
+              {
+                value: 'documentuploader',
+                label: "Document uploader"
               },
               {
                 value: 'description',
@@ -509,39 +514,9 @@ const fields = [
     placeholder: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
   },
   {
-    name: 'uploadBudgetDocsTitle',
-    label: 'Title above the document uploader',
-    type: 'string',
-    def: 'Begrotingen',
-  },
-  {
-    name: 'infoBudgetDocs',
-    type: 'string',
-    label: 'Instruction text which tells you to upload your documents',
-    def: 'Upload hier je begrotingen',
-    default: 'Upload hier je begrotingen',
-    placeholder: 'For example: Upload hier je begrotingen',
-  },
-  {
-    name: 'hideUploadBudgetDocsTitle',
-
+    name: 'requireBudget',
     type: 'boolean',
-    choices: [
-      {
-        value: true,
-        label: "Yes"
-      },
-      {
-        value: false,
-        label: "No"
-      },
-    ],
-    def: true,
-  },
-  {
-    name: 'hideBudgetDocsUploadInstruction',
-    type: 'boolean',
-    label: 'Hide the instruction text for the uploader',
+    label: 'This field is required',
     choices: [
       {
         value: true,
@@ -553,22 +528,6 @@ const fields = [
       },
     ],
     def: false,
-  },
-  {
-    name: 'hideUploadBudgetDocs',
-    label: 'Hide the uploader, preventing people from uploading budget documents',
-    type: 'boolean',
-    choices: [
-      {
-        value: true,
-        label: "Yes"
-      },
-      {
-        value: false,
-        label: "No"
-      },
-    ],
-    def: true,
   },
   {
     name: 'uploadMultiple',

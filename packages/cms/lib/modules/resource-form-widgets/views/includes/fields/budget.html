@@ -3,85 +3,8 @@
   id="budget_input"
   min="0"
   name="budget"
-  required
+  {% if field and field.fieldRequired %}required{% endif %}
+  {% if data.widget.displayBudget and data.widget.requireBudget %}required{% endif %}
+
   value="{{activeResource.budget}}"
 />
-
-{% if not data.widget.hideUploadBudgetDocs %}
-
-  <div class="form-group">
-    <div id="documentUpload">
-      {% if not data.widget.hideUploadBudgetDocsTitle %}
-        <h2>
-          {{ data.widget.uploadBudgetDocsTitle if data.widget.uploadBudgetDocsTitle else 'Begrotingen' }}
-        </h2>
-      {% endif %}
-
-      {% if not data.widget.hideBudgetDocsUploadInstruction %}
-      <div class="form-info">
-        <p>{{ data.widget.infoBudgetDocs | sanitize | safe | nlbr if data.widget.infoBudgetDocs else 'Lever een begroting aan als u die heeft.' }}</p>
-      </div>
-    {% endif %}
-
-      {% if data.global.templateDoc %}
-      <p class="resource-summary">
-        U kunt bijvoorbeeld gebruik maken van 
-        <a href="{{data.global.formattedTemplateDoc}}" target="_blank">dit</a> begrotingsformulier.
-        </p>
-      {% endif %}
-
-    
-
-    <fieldset class="filepondFieldset docs">
-      <input 
-        type="file" 
-        name="docFilePond"  
-        class="docFilePond"
-        multiple
-        data-allow-reorder="true"
-        data-max-file-size="3MB"
-        data-max-files="10"/>
-    </fieldset>
-    <input type="hidden" name="username" value="{{data.openstadUser.displayName}}"/>
-
-    {% if activeResource.extraData.budgetDocuments %}
-
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-6">
-          <h4>Begroting</h4>
-        </div>
-        <div class="col-sm-3">
-          <h4>Naam</h4>
-        </div>
-        <div class="col-sm-2">
-          <h4>Datum</h4>
-        </div>
-        <div class="col-sm-1">
-        </div>
-      </div>
-      {% for budget in activeResource.extraData.budgetDocuments %}
-        <div  class="row filepond-uploaded-item">
-          <div class="col-sm-6">
-            <a href="{{budget.url}}" download="{{budget.name}}" target="_blank">
-              <p class="elipsize">{{budget.name}}</p>
-            </a>
-          </div>
-          <div class="col-sm-3">
-            <p>{{budget.username}}</p>
-          </div>
-            <div class="col-sm-2">
-              <p>{{budget.date  | date('YYYY-MM-DD') }} </p>
-            </div>
-            <div class="col-sm-1">
-              <button type="button" onclick="deleteBudgetDocument('{{budget.name}}','{{budget.date}}', '{{activeResource.id}}', '{{data.siteUrl}}')">  
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik0xOCA2IDYgMTgiLz48cGF0aCBkPSJtNiA2IDEyIDEyIi8+PC9zdmc+"/>        
-              </button>
-            </div>
-          </div>
-          {% endfor %}
-    {% endif %}
-    <div>
-  </div>
-{% endif %}
