@@ -860,7 +860,7 @@ const fields = [
   {
     name: 'displayBudget',
     type: 'boolean',
-    label: "Display budget? Set to yes if you are NOT using budget as a dynamic field",
+    label: "Display budget?",
     def: false
   },
   {
