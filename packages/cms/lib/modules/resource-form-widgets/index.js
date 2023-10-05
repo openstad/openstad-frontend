@@ -81,7 +81,7 @@ module.exports = {
      {
          name: 'Role',
          label: 'Role',
-         fields: ['labelRole', 'infoRole', 'displayRole', 'requiredRole', 'typeRole', 'minRole', 'maxRole']
+         fields: ['labelRole', 'infoRole', 'displayRole', 'requiredRole', 'typeRole', 'minRole', 'maxRole', 'noAnonymousAllowedText']
      },
      {
          name: 'Phone',
