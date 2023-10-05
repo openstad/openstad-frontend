@@ -12,7 +12,7 @@
 	{% if data.openstadUser.role === 'anonymous'%}
 	<div class="box-grey">
 		<h1>{% if data.widget.noAnonymousAllowedText %} {{ data.widget.noAnonymousAllowedText | sanitize | safe }} {% else %} Anonieme gebruikers kunnen geen plannen indienen {% endif %}</h1>
-		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen met een andere gebruiker.</p>
+		<p>Klik <a href="{{data.siteUrl}}/oauth/login">hier</a> om in te loggen met een ander account.</p>
 	</div>
 
 	{% elseif not data.widget.showForm %}
