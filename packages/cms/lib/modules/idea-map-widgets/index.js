@@ -87,6 +87,13 @@ module.exports = {
       ]
     },
     {
+      type: 'string',
+      name: 'customMarkerLink',
+      label: 'Use a different link (/id will automatically be appended to the end) if empty will use the slug defined in global (Url & API settings)',
+      placeholder: 'Example: /plannen/plan (without the last /:id)'
+    },
+
+    {
       type: 'boolean',
       name: 'autoCenter',
       label: 'Enable auto center (this option will automatically calculate the center of the map based on the markers and polygon)',
@@ -112,7 +119,7 @@ module.exports = {
       {
         name: 'map',
         label: 'Map',
-        fields: ['useMarkerLinks', 'autoCenter']
+        fields: ['useMarkerLinks', 'customMarkerLink', 'autoCenter']
       },
       {
         name: 'ctaButon',
@@ -196,6 +203,7 @@ module.exports = {
               mapZoomLevel: globalData.mapZoomLevel,
               styles: styles,
               useMarkerLinks: widget.useMarkerLinks,
+              customMarkerLink: widget.customMarkerLink,
               googleMapsApiKey: googleMapsApiKey,
               autoCenter: widget.autoCenter
             })
