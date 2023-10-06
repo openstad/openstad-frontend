@@ -3,6 +3,7 @@
   id="budget_input"
   min="0"
   name="budget"
-  required
+  {% if field and field.fieldRequired %}required{% endif %}
+  {% if data.widget.displayBudget and data.widget.requireBudget %}required{% endif %}
   value="{{activeResource.budget or activeResource.extraData.budget}}"
 />

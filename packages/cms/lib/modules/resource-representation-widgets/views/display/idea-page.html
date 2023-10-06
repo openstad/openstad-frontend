@@ -258,6 +258,58 @@
 			{% include 'includes/openstad-map.html' %}
 		</div>
 		{% endif %}
+
+
+		{% if (data.hasModeratorRights or isOwner) and idea.budget %}
+			<h3>{{data.widget.budgetTitle or 'Budget'}}</h3>
+			<p>€{{(idea.budget or '') | sanitize | safe | nlbr }}</p>
+		{% endif %}
+
+		
+
+			{% if (data.hasModeratorRights or isOwner) and idea.extraData.budgetDocuments and idea.extraData.budgetDocuments.length > 0 %}
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6">
+							<h4>
+								{{data.widget.budgetFileOverviewFileTitle or 'Bestanden'}}
+							</h4>
+						</div>
+						<div class="col-sm-3">
+							<h4>
+								{{data.widget.budgetFileOverviewNameTitle or 'Naam'}}
+							</h4>
+						</div>
+						<div class="col-sm-2">
+							<h4>
+							{{data.widget.budgetFileOverviewDateTitle or 'Datum'}}
+							</h4>
+						</div>
+						<div class="col-sm-1">
+						</div>
+					</div>
+					{% for budget in idea.extraData.budgetDocuments %}
+						<div  class="row filepond-uploaded-item">
+							<div class="col-sm-6">
+								<p class="elipsize">{{budget.name}}</p>
+							</div>
+							<div class="col-sm-3">
+								<p>{{budget.username}}</p>
+							</div>
+							<div class="col-sm-2">
+								<p>{{budget.date  | date('YYYY-MM-DD') }} </p>
+							</div>
+							<div class="col-sm-1">
+								<a href="{{budget.url}}" download="{{budget.name}}" target="_blank">
+									<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWRvd25sb2FkLWNsb3VkIj48cGF0aCBkPSJNNCAxNC44OTlBNyA3IDAgMSAxIDE1LjcxIDhoMS43OWE0LjUgNC41IDAgMCAxIDIuNSA4LjI0MiIvPjxwYXRoIGQ9Ik0xMiAxMnY5Ii8+PHBhdGggZD0ibTggMTcgNCA0IDQtNCIvPjwvc3ZnPg=="/>
+								</a>
+							</div>
+						</div>
+					{% endfor %}			
+				</div>
+		{% endif %}			
+
+
 	</div> <!-- #primary -->
 
 	<div class="secondary">

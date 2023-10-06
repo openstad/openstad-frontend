@@ -77,6 +77,15 @@ module.exports = {
         widget.pageType = options.pageType;
         widget.activeResourceType = options.activeResourceType;
         widget.activeResource = options.activeResource ?  options.activeResource : {};
+
+        if(widget.activeResource && widget.activeResource.extraData && widget.activeResource.extraData.budgetDocuments) {
+          try {
+            widget.activeResource.extraData.budgetDocuments = JSON.parse(widget.activeResource.extraData.budgetDocuments);
+            } catch (error) { 
+          }
+        }
+
+
         widget.activeResourceId =  options.activeResource ?  options.activeResource.id : false;
 
         //Todo, find a nice way of adding functions per display / resource type

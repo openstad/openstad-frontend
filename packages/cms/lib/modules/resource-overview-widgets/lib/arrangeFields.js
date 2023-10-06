@@ -15,7 +15,7 @@ module.exports = (self, options) => {
         {
             name: 'displaySettings',
             label: 'Display settings',
-            fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea', 'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator', 'editUrl', 'displayVoteCaption', 'voteCaption']
+            fields: ['displayTitle', 'displayRanking', 'displayLabel', 'displaySummary', 'displayDescription', 'displayVoteProgressBar', 'displayVoteForCount', 'displayVoteAgainstCount', 'displayArgumentsCount', 'displayTheme', 'displayArea', 'showVoteCounter', 'displayShareButtons', 'displayEditLinkForModerator', 'editUrl', 'displayVoteCaption', 'voteCaption', 'displayModeColumns']
         },
         {
             name: 'gridder',
@@ -55,7 +55,7 @@ module.exports = (self, options) => {
         {
             name: 'tags',
             label: 'Tags',
-            fields: ['displayTagFilters', 'tagType', 'showTagTypeLabels']
+            fields: ['displayTagFilters', 'tagType', 'alternativeSingleTagTypeLabel', 'showTagTypeLabels', 'displayGroupsAsSelectBoxes']
         },
         {
             name: 'include_exclude',

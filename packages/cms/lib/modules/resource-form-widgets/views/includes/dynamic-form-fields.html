@@ -26,10 +26,8 @@
             <p> {{field.fieldInfo}} </p>
             {% include 'includes/fields/' + field.type + '.html' ignore missing %}
         </div>
-        <br />
         {% endif %}
         {% endfor %}
-        <br />
     </div>
     {% endfor %}
 </div>

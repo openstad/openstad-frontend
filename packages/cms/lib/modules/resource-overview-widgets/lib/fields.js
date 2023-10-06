@@ -543,12 +543,18 @@ module.exports = [
   },
   {
     name: 'tagType',
-    label: 'If specified only show tags belonging to a certain type',
+    label: 'Only show tags of a single type',
     type: 'string',
+  },  
+  {
+    name: 'alternativeSingleTagTypeLabel',
+    label: 'Alternative name for when only single tagtype should be shown',
+    type: 'string',
+    placeholder: 'tags',
   },
   {
     name: 'showTagTypeLabels',
-    label: 'If no tag type is specified, should the type name be shown per group?',
+    label: 'Should the name of each tag group be shown? (Only applied when multiple tag groups are not shown as dropdowns)',
     type: 'boolean',
     choices: [
       {
@@ -560,6 +566,37 @@ module.exports = [
         value: false,
       }
     ],
+  },
+  {
+    name: 'displayGroupsAsSelectBoxes',
+    label: 'Display the tag groups as dropdowns (only when Filter & Idea layout is set to columns)',
+    type: 'boolean',
+    choices: [
+      {
+        label: 'Yes',
+        value: true
+      },
+      {
+        label: 'No',
+        value: false,
+      }
+    ],
+  },
+  {
+    name: 'displayModeColumns',
+    label: 'Filter & idea layout',
+    type: 'select',
+    choices: [
+      {
+        label: 'Full width (default): houden zoals nu de standaard is',
+        value: false,
+      },
+      {
+        label: 'Columns: Kolommen gebruiken, en ook lijstweergave met dropdowns',
+        value: true
+      }
+    ],
+    def: false
   },
   {
     name: 'displaySorting',

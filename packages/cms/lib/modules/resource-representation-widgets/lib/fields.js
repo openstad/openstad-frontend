@@ -162,7 +162,8 @@ const fields = [
           },
       ],
       def: false
-  }
+  },
+
 ].concat(
     ideaStates.map((state) => {
       return {
@@ -179,6 +180,38 @@ const fields = [
         name: 'labelTime' +  state.value,
         label: 'Labelfor time status: : ' + state.value,
       }
-    }));
+    })).concat(
+      [  
+        {
+          name: 'budgetTitle',
+          label: 'Budget: title for the budget header',
+          type: 'string',
+          placeholder: 'Budget',
+          def: 'Budget'
+        },
+        {
+        name: 'budgetFileOverviewFileTitle',
+        label: 'Budget-documents: alternative title for the "Bestanden" column',
+        type: 'string',
+        placeholder: 'Bestanden',
+        def: 'Bestanden'
+      },
+      {
+        name: 'budgetFileOverviewNameTitle',
+        label: 'Budget-documents: alternative title for the "Naam" column',
+        type: 'string',
+        placeholder: 'Naam',
+        def: 'Naam'
+      },
+    
+      {
+        name: 'budgetFileOverviewDateTitle',
+        label: 'Budget-documents: alternative title for the "Datum" column',
+        type: 'string',
+        placeholder: 'Datum',
+        def: 'Datum'
+      },
+    ]
+    );
 
 module.exports = fields;

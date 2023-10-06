@@ -165,7 +165,12 @@ const fields = [
               },
               {
                 value: 'budget',
-                label: "Budget"
+                label: "Budget",
+                showFields: ['fieldRequired']
+              },
+              {
+                value: 'documentuploader',
+                label: "Document uploader"
               },
               {
                 value: 'description',
@@ -465,6 +470,7 @@ const fields = [
       },
     ]
   },
+
   {
     name: 'requiredDescription',
     type: 'boolean',
@@ -490,6 +496,38 @@ const fields = [
     type: 'string',
     label: 'Info for Images',
     textarea: true
+  },
+  {
+    name: 'titleBudget',
+    type: 'string',
+    label: 'Alternative title for Budget',
+    def: 'Budget',
+    default: 'Budget',
+    placeholder: 'Budget',
+  },
+  {
+    name: 'infoBudget',
+    type: 'string',
+    label: 'Instruction text beneath the budget title',
+    def: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+    default: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+    placeholder: "Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.",
+  },
+  {
+    name: 'requireBudget',
+    type: 'boolean',
+    label: 'This field is required',
+    choices: [
+      {
+        value: true,
+        label: "Yes"
+      },
+      {
+        value: false,
+        label: "No"
+      },
+    ],
+    def: false,
   },
   {
     name: 'uploadMultiple',
@@ -822,7 +860,7 @@ const fields = [
   {
     name: 'displayBudget',
     type: 'boolean',
-    label: 'Display budget for moderators?',
+    label: "Display budget?",
     def: false
   },
   {
