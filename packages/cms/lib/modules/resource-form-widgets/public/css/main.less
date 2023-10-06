@@ -131,6 +131,41 @@
     }
   }
 
+.filepond-uploaded-item {
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f1f0ef;
+  margin-bottom: 4px;
+
+  p {
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  a {
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    text-decoration:none;
+
+    .elipsize {
+      text-overflow: ellipsis;
+    }
+  }
+
+  button {
+    border: none;
+    opacity: .5;
+  }
+  button:hover {
+    opacity: 1;
+  }
+}
+
 .idea-form {
   .form-info:before, .form-warning:before {
     position: absolute;

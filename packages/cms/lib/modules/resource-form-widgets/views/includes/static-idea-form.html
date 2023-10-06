@@ -169,11 +169,16 @@
     {% include 'includes/fields/captcha.html' %}
   {% endif %}
 
-  {% if data.hasModeratorRights and data.widget.displayBudget %}
+  {% if data.widget.displayBudget %}
   <div id="budget">
-    <h2>Budget</h2>
+    <h2>{{data.widget.titleBudget or 'Budget'}}</h2>
+    
     <div class="form-info" style="height: auto;">
-      Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.
+      {% if data.widget.infoBudget %}
+        {{ data.widget.infoBudget }}
+      {% else %}
+        Enkel zichtbaar voor beheerders: vul hier het budget in euro's in voor de begrootfase. Rond het bedrag af en gebruik enkel cijfers.
+      {% endif %}
     </div>
 
     {% include 'includes/fields/budget.html' %}
