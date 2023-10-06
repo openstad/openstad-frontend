@@ -171,7 +171,7 @@ module.exports = class MapConfigBuilder {
               const customLink = this.config.defaultSettings.customMarkerLink;
 
               markers.push(
-                new Marker(idea.location.coordinates, idea.status,  customLink?`${customLink}/${idea.id}`: ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
+                new Marker(idea.location.coordinates, idea.status,  customLink ? `${customLink}/${idea.id}` : ideaSlug, idea.endDate, idea.extraData.theme, this.globalData.themes)
               );
           }
         }) : [];
