@@ -60,8 +60,8 @@ module.exports = async function(self, options) {
     }
 
     if(req.body && req.body.areYouABot) {
-      const captchData = req.session.captcha;
-      const isCaptchaValid = captchData && captchData.text && captchData.text === req.body.areYouABot;
+      const captchaData = req.session.captcha;
+      const isCaptchaValid = captchaData && captchaData.text && captchaData.text === req.body.areYouABot;
       
       if (!isCaptchaValid) {
           return res.status(403).json({
