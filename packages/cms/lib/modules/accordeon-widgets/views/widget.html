@@ -9,7 +9,9 @@
             {{item.title | sanitize | safe | nlbr}}
         </a>
         <div class="description">
-            {% if item.actionText %}
+            {% if item.description and item.description.items and item.description.items.length > 0 and "content" in item.description.items[0] %}
+                {{ item.description.items[0].content | sanitize | safe }}
+            {% elseif item.actionText %}
                 <p>
                     {{item.actionText | sanitize | safe | nlbr}}
                 </p>
@@ -18,5 +20,3 @@
     </div>
 {% endfor %}
 </div>
-
-

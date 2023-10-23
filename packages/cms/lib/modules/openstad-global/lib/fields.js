@@ -130,6 +130,24 @@ module.exports = [
     required: false
   },
   {
+    name: 'templateDoc',
+    type: 'attachment',
+    permission: 'admin',
+    svgImages: true,
+    label: 'Upload hier een template begroting',
+    // apiSyncField: 'styling.logo',
+    trash: true
+  },
+ {
+  name: 'formattedTemplateDoc',
+  permission: 'admin',
+  type: 'string',
+  label: 'formattedTemplateDoc',
+  formatField: function (value, apos, doc, req) {
+    return apos.attachments.url(doc.templateDoc);
+  },
+ },
+  {
     name: 'modbreakAuthor',
     type: 'string',
     label: 'Author of the modbreaks',
@@ -800,4 +818,12 @@ module.exports = [
         choices: rightsChoices,
         def: 'member'
         },*/
+  
+  {
+    type: 'string',
+    name: 'openstadComponentsUrl',
+    label: 'Openstad Components URL',
+    help: 'Specify the URL where the Openstad Components (choice guide, ideas on map etc.) are loaded from. Leave empty to use the default URL.',
+    def: ''
+  },
 ];

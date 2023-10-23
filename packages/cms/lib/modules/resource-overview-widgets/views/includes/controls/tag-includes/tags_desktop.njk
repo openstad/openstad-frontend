@@ -1,0 +1,12 @@
+{% set  tagGroupPrefix = "" %}
+<div class="resource-overview-tags-container hidden-xs">
+    {% if data.widget.tagType %}
+        {% include 'includes/controls/tag-includes/group-variants/single-group.njk' %}
+    {% endif %}
+    {% if not data.widget.showTagTypeLabels and not data.widget.tagType %}
+        {% include 'includes/controls/tag-includes/group-variants/non-grouped.njk' %}
+    {% endif %}
+    {% if data.widget.showTagTypeLabels and data.widget.tagType === '' %}
+        {% include 'includes/controls/tag-includes/group-variants/grouped.njk' %}
+    {% endif %}
+</div>

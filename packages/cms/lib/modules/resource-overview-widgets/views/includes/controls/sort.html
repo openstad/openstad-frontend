@@ -1,4 +1,6 @@
 {% if data.widget.displaySorting %}
+<div class="sort-wrapper">
+
   <label for="resource-sort-filter" class="sr-only">Sorteren op: </label>
   <select class="default-select ideas-sort-select openstad-ajax-refresh-input" id="resource-sort-filter" name="sort" data-reset-pagination="1">
     {% for selectedSorting in data.widget.selectedSorting %}
@@ -7,4 +9,5 @@
     </option>
     {% endfor %}
   </select>
+  </div>
 {% endif %}

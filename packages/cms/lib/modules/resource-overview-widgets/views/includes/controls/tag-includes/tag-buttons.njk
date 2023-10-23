@@ -1,0 +1,17 @@
+{% for tag in tagList %}
+        {% if data
+                .widget
+                .isTagSelected(tag, data.query) %}
+                <a href="{{ data.widget.formatTagRemoveUrl(tag, data.query) }}" class="openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">
+                        <div class="tag selected">
+                                <p>{{ tag.name }}</p>
+                        </div>
+                </a>
+        {% else %}
+                <a href="{{ data.widget.formatTagSelectUrl(tag, data.query) }}" class="openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">
+                        <div class="tag">
+                                <p>{{ tag.name }}</p>
+                        </div>
+                </a>
+        {% endif %}
+{% endfor %}

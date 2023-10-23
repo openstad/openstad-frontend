@@ -44,7 +44,7 @@ module.exports = {
         widget.config = merge.recursive(config, widget.config);
         widget.config = JSON.stringify(config);
 
-        widget.OpenStadComponentsCdn = self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
+        widget.OpenStadComponentsCdn = (req && req.data && req.data.global && req.data.global.openstadComponentsUrl) || self.apos.settings.getOption(req, 'siteConfig').openstadComponentsCdn;
 
         const containerId = self.apos.utils.generateId();
         widget.containerId = containerId;

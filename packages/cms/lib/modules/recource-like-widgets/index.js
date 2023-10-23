@@ -24,7 +24,16 @@ const fields = [
         label: 'Claps',
         value: 'claps',
       },
+      {
+        label: 'Default likes/dislikes',
+        value: 'numberplate',
+      }
     ]
+  },
+  {
+    type:  'string',
+    name:  'ideaId',
+    label: 'Idea ID (leave empty to fetch from URL)'
   },
   styleSchema.definition('containerStyles', 'Styles for the container')
 ];
@@ -44,7 +53,7 @@ module.exports = {
      };
 
       const superLoad = self.load;
-      self.load = function (req, widgets, next) {
+      self.load = async function (req, widgets, next) {
         widgets.forEach((widget) => {
             if (widget.containerStyles) {
               const containerId = self.apos.utils.generateId();
@@ -55,7 +64,24 @@ module.exports = {
             widget.cssHelperClassesString = widget.cssHelperClasses ? widget.cssHelperClasses.join(' ') : '';
 
         });
-
+  
+        const promises = widgets.map(async (widget) => {
+          let resource = {};
+          if (widget.ideaId) {
+            resource = await self.apos.openstadApi.getResource(req, req.data.global.siteId, 'idea', widget.ideaId, {}, true);
+            widget.ajaxError = null;
+          } else {
+            resource = req.data.activeResource || {};
+          }
+          if (resource) {
+            widget.activeResource     = resource
+            widget.activeResourceType = 'idea';
+            widget.activeResourceId   = resource.id;
+          }
+        });
+  
+        await Promise.all(promises);
+        
         return superLoad(req, widgets, next);
       }
 

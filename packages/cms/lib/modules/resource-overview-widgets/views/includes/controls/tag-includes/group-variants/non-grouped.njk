@@ -1,0 +1,13 @@
+<div id="{{ tagGroupPrefix }}tag-group-none }}" class="{{ tagGroupPrefix }}tag-group {{ 'columned' if data.widget.displayModeColumns else '' }}">
+    {% for key, tagList in data.widget.groupedOpenstadTags %}
+        {% if data.widget.displayModeColumns %}
+            {% if data.widget.displayGroupsAsSelectBoxes %}
+                {% include 'includes/controls/tag-includes/tag-group-selectbox.njk' %}
+            {% else %}
+                {% include 'includes/controls/tag-includes/tag-checkboxes.njk' %}
+            {% endif %}
+        {% else %}
+            {% include 'includes/controls/tag-includes/tag-buttons.njk' %}
+        {% endif %}
+    {% endfor %}
+</div>

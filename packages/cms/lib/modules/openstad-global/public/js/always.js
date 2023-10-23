@@ -68,7 +68,7 @@ handleNode = function (node, toBeTranslated) {
 
             if (shouldTranslate) {
                 var textContent = childNodes[i].textContent;
-                textContent = textContent.replace(/^[\s\r\n]+/, '').replace(/[\s\r\n]+$/, '');
+              
                 if (textContent) {
                     toBeTranslated.push({
                         node: childNodes[i],

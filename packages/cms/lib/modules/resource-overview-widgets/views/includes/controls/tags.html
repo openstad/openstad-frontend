@@ -4,70 +4,7 @@
     Filter op tags
   </a>
 </div>
-<div class="resource-overview-tags-container hidden-xs">
-
-  {% if data.widget.tagType and data.widget.groupedOpenstadTags[data.widget.tagType] and data.widget.groupedOpenstadTags[data.widget.tagType].length %}
-    {% for tag in data.widget.groupedOpenstadTags[data.widget.tagType] %}
-      {% if data.widget.isTagSelected(tag, data.query) %}
-        <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}asdfsaf</a>
-        {% else %}
-        <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}fasfasfds</a>
-      {% endif %}
-    {% endfor %}
-  {% endif %}
-
-
-  
-
-  {% if data.widget.tagType === '' and data.widget.groupedOpenstadTags %}
-
-    {% for key, tagList in data.widget.groupedOpenstadTags %}
-
-      {% if data.widget.showTagTypeLabels %}
-        <div>
-           
-          <p> {{ "tags" if key === 'undefined' else key }}</p>
-            {% for tag in tagList %}
-              {% if data.widget.isTagSelected(tag, data.query) %}
-                <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-                {% else %}
-                <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-              {% endif %}
-            {% endfor %}
-          </div>
-      {% else%}
-      {% for tag in tagList %}
-        {% if data.widget.isTagSelected(tag, data.query) %}
-          <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-          {% else %}
-          <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-        {% endif %}
-      {% endfor %}
-    {% endif%}  
-  {% endfor %}  
-{% endif %}
-</div>
-<div id="filter-tags-modal" class="content-modal content-modal--l">
-  <div class="content-modal-content">
-    <div class="content-modal-body">
-      <h3 class="filter-tags-modal-title "> Filter op tags </h3>
-      <a href="#closed" class="content-modal-close">
-        <img src="{{data.siteUrl}}/modules/openstad-assets/img/close.svg" width="13" height="13">
-      </a>
-      {% for tag in data.widget.openstadTags %}
-      {% if data.widget.isTagSelected(tag, data.query) %}
-      <a href="{{data.widget.formatTagRemoveUrl(tag, data.query)}}" class="resource-tag resource-tag--selected openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-      {% else %}
-      <a href="{{data.widget.formatTagSelectUrl(tag, data.query)}}" class="resource-tag openstad-ajax-refresh-link resource-tag--{{tag.id}}" data-reset-pagination="1" data-reset-hash="1">{{tag.name}}</a>
-      {% endif %}
-      {% endfor %}
-      <br />
-      <div>
-        <a href="#closed" class="filled-button stretch">
-          Toon resultaten
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
+<!-- On desktop screen -->
+{% include 'includes/controls/tag-includes/tags_desktop.njk' %}
+<!-- On mobile screen -->
+{% include 'includes/controls/tag-includes/tags_mobile.njk' %} {% endif %}
