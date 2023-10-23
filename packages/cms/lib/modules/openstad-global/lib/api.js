@@ -6,12 +6,10 @@ const crypto = require('crypto');
 const deepl = require('deepl-node');
 const cache = require('../../../../services/cache').cache;
 
-const cacheLifespan = 8 * 60 * 60;   // set lifespan of 8 hours;
+const cacheLifespan = 8 * 60 * 60; // set lifespan of 8 hours;
 const translatorConfig = { maxRetries: 5, minTimeout: 10000 };
 
-
 module.exports = (self, options) => {
-
   self.translate = async (req, res) => {
     const deeplAuthKey = options.deeplKey;
     const content = req.body.contents;
@@ -19,76 +17,124 @@ module.exports = (self, options) => {
     const sourceLanguageCode = req.body.sourceLanguageCode;
     const destinationLanguage = req.body.targetLanguageCode;
 
-    const cacheKey = crypto.createHash('sha256').update(`${destinationLanguage}${origin}${JSON.stringify(content)}`).digest('hex');
-
-    if (!origin) {
-      return res.status(400).json({ error: 'Could not determine the page to translate' });
-    }
-
-    const collection = self.apos.db.collection("deepl-translations");
-    const result = await collection.findOne({_id: cacheKey});
-    if (result) {
-      console.log(`Receiving translations from cache for site ${origin}`);
-      return res.json(result.translations);
-    }
-
-    // content should always be a collection of dutch terms, translations to other languages are translated from dutch to (for example) english
     if (destinationLanguage === 'nl') {
-      console.log(`Target language is dutch, not translating and responding with the dutch sentences received for site ${origin}`);
+      console.log(
+        `Target language is dutch, not translating and responding with the dutch sentences received for site ${origin}`
+      );
       return res.json(content);
     }
 
+    if (!deeplAuthKey) {
+      console.log(`ERROR: DeepL not configured`);
+      return res
+        .status(500)
+        .json({ error: 'Could not translate the page at this time' });
+    }
 
-    if (deeplAuthKey) {
-      let translator = null;
+    // setup cache store
+    const collection = self.apos.db.collection('deepl-translations');
+
+    // setup translate service
+    let translator = null;
+    try {
+      translator = new deepl.Translator(deeplAuthKey, translatorConfig);
+    } catch (error) {
+      console.log({ error });
+    }
+    if (!translator)
+      return res
+        .status(500)
+        .json({ error: 'Could not translate the page at this time' });
+
+    // find translations and collect missing translations
+    let result = {};
+    let untranslatable = [];
+    let untranslatedElements = [];
+    for (let text of content) {
+      if (text.match(/[^\d\W]/)) {
+        let cacheKey = crypto
+          .createHash('sha256')
+          .update(`${destinationLanguage}${text}`)
+          .digest('hex');
+        const translated = await collection.findOne({ _id: cacheKey });
+        if (translated) {
+          result[text] = translated.translations;
+        } else {
+          untranslatedElements.push(text);
+        }
+      } else {
+        // nothing to translate
+        result[text] = { text };
+        untranslatable.push(text);
+      }
+    }
+
+    // now translate missing translations
+    if (untranslatedElements.length) {
+      const characterCount = untranslatedElements
+        .map((word) => word.length)
+        .reduce((total, a) => total + a, 0);
+      console.log(
+        `Fetch missing translations from DeepL for site: ${origin} with charactersize of ${characterCount} and destination language ${destinationLanguage}`
+      );
 
       try {
-        translator = new deepl.Translator(deeplAuthKey, translatorConfig);
-      } catch (error) {
-        console.log({ error });
-        return res.status(500).json({ error: 'Could not translate the page at this time' });
-      }
-
-      const characterCount = content.map(word => word.length).reduce((total, a) => total + a, 0);
-
-      if (translator) {
-        console.log(`No existing translations found, fetching translations from deepl for site: ${origin} with charactersize of ${characterCount} and destination language ${destinationLanguage}`)
-
-        translator.translateText(
-          content,
+        let translations = await translator.translateText(
+          untranslatedElements,
           sourceLanguageCode,
-          destinationLanguage,
-          {tagHandling:'html'}
-        ).then(response => {
+          destinationLanguage
+        );
+
+        for (let i = 0; i < untranslatedElements.length; i++) {
+          let text = untranslatedElements[i];
+          let cacheKey = crypto
+            .createHash('sha256')
+            .update(`${destinationLanguage}${text}`)
+            .digest('hex');
+          let translatedText = translations[i];
+          result[text] = translatedText;
           collection.findOneAndUpdate(
-            {"_id": cacheKey},
-            { $set: { 
-                "origin": origin, 
-                "destinationLanguage": destinationLanguage,
-                "characters": characterCount,
-                "translations": response, 
+            { _id: cacheKey },
+            {
+              $set: {
+                origin: origin,
+                destinationLanguage: destinationLanguage,
+                translations: translatedText,
               },
             },
-            {upsert:true}
+            { upsert: true } // dit zal toch (bijna?) altijd een insert zijn, lijkt me...
           );
-          return res.json(response);
-        })
-          .catch(error => {
-            console.error({ error });
-            return res.status(500).json({ error: 'Error while translating the page' });
-          });
+        }
+      } catch (error) {
+        console.log(error);
+        return res
+          .status(500)
+          .json({ error: 'Could not translate the page at this time' });
       }
-    } else {
-      return res.status(400).json({ error: 'No valid key provided' });
     }
-  }
+
+    // transform the result object back to the original array
+    result = content.map((text) => result[text]);
+
+    // temp: we need monitoring
+    console.log('Aantal elementen:', content.length);
+    console.log('Aantal niet te vertalen elementen:', untranslatable.length);
+    console.log(
+      'Aantal opnieuw vertaalde elementen:',
+      untranslatedElements.length
+    );
+
+    return res.json(result);
+  };
 
   self.apos.app.post('/modules/openstad-global/translate', function (req, res) {
     self.translate(req, res);
   });
 
   self.setSyncFields = () => {
-    self.apiSyncFields = self.apos.openstadApi.getApiSyncFields(options.addFields);
+    self.apiSyncFields = self.apos.openstadApi.getApiSyncFields(
+      options.addFields
+    );
   };
 
   // Overriding requirePieceEditorView to sync global field values with api.
@@ -99,7 +145,8 @@ module.exports = (self, options) => {
       return self.apiResponse(res, 'forbidden');
     }
 
-    return self.findForEditing(req, { _id: id })
+    return self
+      .findForEditing(req, { _id: id })
       .toObject(function (err, _piece) {
         if (err) {
           return self.apiResponse(res, err);
@@ -110,12 +157,16 @@ module.exports = (self, options) => {
 
         // Todo: deserialize formatting fields to get values from the api?
 
-        req.piece = self.apos.openstadApi.syncApiFields(_piece, self.apiSyncFields, req.data.global.siteConfig, req.data.global.workflowLocale);
+        req.piece = self.apos.openstadApi.syncApiFields(
+          _piece,
+          self.apiSyncFields,
+          req.data.global.siteConfig,
+          req.data.global.workflowLocale
+        );
 
         return next();
       });
   };
-
 
   self.formatGlobalFields = (req, doc, options) => {
     //    console.log('req', req)
@@ -129,19 +180,26 @@ module.exports = (self, options) => {
         //doc is the doc for saving in mongodb, in this case it's the global values
         doc[field.name] = field.formatField(field, self.apos, doc, req);
       }
-
     });
   };
 
   self.syncApi = async (req, doc, options) => {
     // Avoid syncing api when it's a default-draft save from workflow
-    if (doc.type !== 'apostrophe-global' || (doc.workflowLocale && doc.workflowLocale === 'default-draft')) {
+    if (
+      doc.type !== 'apostrophe-global' ||
+      (doc.workflowLocale && doc.workflowLocale === 'default-draft')
+    ) {
       return;
     }
 
     if (req.data.global) {
       try {
-        await self.apos.openstadApi.updateSiteConfig(req, req.data.global.siteConfig, doc, self.apiSyncFields);
+        await self.apos.openstadApi.updateSiteConfig(
+          req,
+          req.data.global.siteConfig,
+          doc,
+          self.apiSyncFields
+        );
       } catch (err) {
         console.error(err);
       }
@@ -150,7 +208,7 @@ module.exports = (self, options) => {
 
   self.clearCache = (req, doc, options) => {
     eventEmitter.emit('clearCache');
-  }
+  };
 
   self.overrideGlobalDataWithSiteConfig = (req, res, next) => {
     const siteConfig = self.apos.settings.getOption(req, 'siteConfig');
@@ -173,7 +231,8 @@ module.exports = (self, options) => {
 
     //
     if (siteConfig && siteConfig.area && siteConfig.area.polygon) {
-      req.data.global.mapPolygons = siteConfig && siteConfig.area && siteConfig.area.polygon || '';
+      req.data.global.mapPolygons =
+        (siteConfig && siteConfig.area && siteConfig.area.polygon) || '';
     }
 
     // Todo: remove this fallback when every site use the areaId from the api.
@@ -190,19 +249,20 @@ module.exports = (self, options) => {
       const areas = await self.apos.openstadApi.getAllPolygons();
 
       if (areas) {
-        return [{ label: 'Geen', value: '' }].concat(areas.map((area) => {
+        return [{ label: 'Geen', value: '' }].concat(
+          areas.map((area) => {
+            const data = {
+              label: area.name,
+              value: area.id,
+            };
 
-          const data = {
-            label: area.name,
-            value: area.id
-          }
+            if (addPolygonData) {
+              data.polygon = area.polygon;
+            }
 
-          if (addPolygonData) {
-            data.polygon = area.polygon;
-          }
-
-          return data;
-        }))
+            return data;
+          })
+        );
       }
       throw new Error('No polygons found');
     } catch (error) {
