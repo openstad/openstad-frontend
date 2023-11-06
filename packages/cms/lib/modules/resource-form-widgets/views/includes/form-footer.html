@@ -16,9 +16,10 @@
 
 <input type="submit" class="btn btn-primary" onclick="document.getElementById('publishAsConcept').setAttribute('value', '')" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}"/>
 
-{% if data.widget.buttonTextConcept and activeResource and not activeResource.publishDate%}
+{% if data.widget.buttonTextConcept and (not activeResource or not activeResource.publishDate )%}
 <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept }}"/>
 {% endif %}
+
 
 <input type="hidden" id="publishAsConcept" name="publishAsConcept" />
 </form>
