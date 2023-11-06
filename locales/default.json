@@ -265,5 +265,7 @@
 	"Only users (and admin users)": "Only users (and admin users)",
 	"Everyone": "Everyone",
 	"Show user name in form header?": "Show user name in form header?",
-	"Login text": "Login text"
+	"Login text": "Login text",
+	"Edit Ideas map": "Edit Ideas map",
+	"Edit Resource overview": "Edit Resource overview"
 }
