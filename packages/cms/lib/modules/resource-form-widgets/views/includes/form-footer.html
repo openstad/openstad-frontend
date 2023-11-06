@@ -13,17 +13,11 @@
 {% include 'includes/fields/agreed-checkbox.html' %}
 {% endif %}
 
-{% if activeResource %}
-    <input type="submit"  class="btn btn-primary" value="{{ data.widget.buttonTextSave if data.widget.buttonTextSave else 'Opslaan' }}" onclick="document.getElementById('publishAsConcept').setAttribute('value', '')"/>
 
-    {% if data.widget.buttonTextConcept and not activeResource.publishDate %}
-    <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept if data.widget.buttonTextConcept else 'Opslaan als concept' }}"/>
-    {% endif %}
-{% else %} 
-    <input type="submit" class="btn btn-primary" onclick="document.getElementById('publishAsConcept').setAttribute('value', '')" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}"/>
-    {% if data.widget.buttonTextConcept %}
-    <input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept if data.widget.buttonTextConcept else 'Opslaan als concept' }}"/>
-    {% endif %}
+<input type="submit" class="btn btn-primary" onclick="document.getElementById('publishAsConcept').setAttribute('value', '')" value="{{ data.widget.buttonTextSubmit if data.widget.buttonTextSubmit else 'Versturen' }}"/>
+
+{% if data.widget.buttonTextConcept and not activeResource.publishDate%}
+<input type="submit" id="btnSaveAsConcept" onclick="document.getElementById('publishAsConcept').setAttribute('value', '1')" class="btn btn-secondary mr-2" value="{{ data.widget.buttonTextConcept }}"/>
 {% endif %}
 
 <input type="hidden" id="publishAsConcept" name="publishAsConcept" />
