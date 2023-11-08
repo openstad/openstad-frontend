@@ -203,7 +203,7 @@ apos.define('resource-form-widgets', {
         };
 
         // Default set of rules
-        let rules = {
+        var rules = {
           ignore: [],
 
           title: {
@@ -255,7 +255,7 @@ apos.define('resource-form-widgets', {
 
         // Get all required fields in the form and make them concept aware - skipping title because that one is always required
         const form = document.querySelector('#formulier-block form');
-        let requiredInputs = Array.from(
+        var requiredInputs = Array.from(
           form ? form.querySelectorAll(':scope *[required]') : []
         ).filter((i) => i.name !== 'title');
 
