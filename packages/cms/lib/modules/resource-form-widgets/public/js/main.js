@@ -265,10 +265,9 @@ apos.define('resource-form-widgets', {
           obj,
           item
         ) {
-          return {
-            ...obj,
+          return Object.assign({}, obj, {
             [item.name]: { required: conditionalRequired },
-          };
+          });
         },
         {});
 
