@@ -271,7 +271,7 @@ apos.define('resource-form-widgets', {
         },
         {});
 
-        for (const [name, rule] of Object.entries(rules)) {
+        for (var [name, rule] of Object.entries(rules)) {
           if (fieldsMadeConceptAware[name]) {
             fieldsMadeConceptAware[name] = Object.assign(
               rule,
