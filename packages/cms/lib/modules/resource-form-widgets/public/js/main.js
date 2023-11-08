@@ -92,7 +92,7 @@ apos.define('resource-form-widgets', {
                   'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
                   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                   '.ppt',
-                  '.pptx'
+                  '.pptx',
                 ],
                 server: undefined,
                 labelIdle:
@@ -202,70 +202,85 @@ apos.define('resource-form-widgets', {
             : lengthValue;
         };
 
-        var validator = $(ideaForm).validate({
-          ignore: '',
-          rules: {
-            ignore: [],
+        // Default set of rules
+        let rules = {
+          ignore: [],
 
-            title: {
-              required: true,
-              minlength: titleMinLength,
-              maxlength: titleMaxLength,
+          title: {
+            required: true,
+            minlength: titleMinLength,
+            maxlength: titleMaxLength,
+          },
+          summary: {
+            minlength: function (element) {
+              return conditionalLength(element, 'minlength', summaryMinLength);
             },
-            summary: {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(
-                  element,
-                  'minlength',
-                  summaryMinLength
-                );
-              },
-              maxlength: summaryMaxLength,
+            maxlength: summaryMaxLength,
+          },
+          description: {
+            minlength: function (element) {
+              return conditionalLength(
+                element,
+                'minlength',
+                descriptionMinLength
+              );
             },
-            description: {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(
-                  element,
-                  'minlength',
-                  descriptionMinLength
-                );
-              },
-              maxlength: descriptionMaxLength,
-            },
-            validateImages: {
-              validateFilePond: true,
-              validateFilePondProcessing: true,
-            },
-            validateBudgetDocs: {
-              validateDocFilePond: true,
-              validateDocFilePondProcessing: true,
-            },
-            firstName: {
-              required: true,
-            },
-            lastName: {
-              required: true,
-            },
-            postcode: {
-              required: false,
-              minlength: 1, // <- here
-              postcodeNL: true,
-            },
-            'extraData[phone]': {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(element, 'minlength', 10);
-              },
-            },
-            'extraData[area]': {
-              required: conditionalRequired,
-            },
-            'extraData[theme]': {
-              required: conditionalRequired,
+            maxlength: descriptionMaxLength,
+          },
+          validateImages: {
+            validateFilePond: true,
+            validateFilePondProcessing: true,
+          },
+          validateBudgetDocs: {
+            validateDocFilePond: true,
+            validateDocFilePondProcessing: true,
+          },
+          firstName: {
+            required: true,
+          },
+          lastName: {
+            required: true,
+          },
+          postcode: {
+            required: false,
+            minlength: 1, // <- here
+            postcodeNL: true,
+          },
+          'extraData[phone]': {
+            minlength: function (element) {
+              return conditionalLength(element, 'minlength', 10);
             },
           },
+        };
+
+        // Get all required fields in the form and make them concept aware - skipping title because that one is always required
+        const form = document.querySelector('#formulier-block form');
+        let requiredInputs = Array.from(
+          form ? form.querySelectorAll(':scope *[required]') : []
+        ).filter((i) => i.name !== 'title');
+
+        const fieldsMadeConceptAware = requiredInputs.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.name]: { required: conditionalRequired },
+          }),
+          {}
+        );
+
+        for (const [name, rule] of Object.entries(rules)) {
+          if (fieldsMadeConceptAware[name]) {
+            fieldsMadeConceptAware[name] = Object.assign(
+              rule,
+              fieldsMadeConceptAware[name]
+            );
+          }
+        }
+        rules = Object.assign(rules, fieldsMadeConceptAware);
+
+        var validator = $(ideaForm).validate({
+          ignore: '',
+          rules: rules,
+
           submitHandler: function (form) {
             const publishField = $('#publishAsConcept');
             const oldButtonValues = [];
