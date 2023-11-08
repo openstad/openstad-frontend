@@ -257,15 +257,20 @@ apos.define('resource-form-widgets', {
         const form = document.querySelector('#formulier-block form');
         var requiredInputs = Array.from(
           form ? form.querySelectorAll(':scope *[required]') : []
-        ).filter((i) => i.name !== 'title');
+        ).filter(function (i) {
+          return i.name !== 'title';
+        });
 
-        const fieldsMadeConceptAware = requiredInputs.reduce(
-          (obj, item) => ({
+        const fieldsMadeConceptAware = requiredInputs.reduce(function (
+          obj,
+          item
+        ) {
+          return {
             ...obj,
             [item.name]: { required: conditionalRequired },
-          }),
-          {}
-        );
+          };
+        },
+        {});
 
         for (const [name, rule] of Object.entries(rules)) {
           if (fieldsMadeConceptAware[name]) {
