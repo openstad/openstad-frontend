@@ -22,6 +22,16 @@ apos.define('resource-form-widgets', {
         FilePond.registerPlugin(FilePondPluginFilePoster);
         FilePond.registerPlugin(FilePondPluginImageExifOrientation);
 
+        // Fix for making sure uploadedfiles are delivered
+        var uploadedFilesInternal;
+
+        try {
+          uploadedFiles;
+          uploadedFilesInternal = uploadedFiles;
+        } catch (e) {
+          uploadedFilesInternal = [];
+        }
+
         var filePondSettings = function (options) {
           return Object.assign(
             {},
@@ -33,7 +43,7 @@ apos.define('resource-form-widgets', {
               name: 'image',
               maxFiles: 5,
               allowBrowse: true,
-              files: uploadedFiles,
+              files: uploadedFilesInternal,
               server: {
                 process: window.siteUrl + '/image',
                 fetch: window.siteUrl + '/fetch-image?img=',

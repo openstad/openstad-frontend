@@ -1,24 +1,29 @@
-
-  <div class="form-group">
-    <div id="documentUpload">
-      {% if data.global.templateDoc %}
-      <p class="resource-summary">
-        U kunt bijvoorbeeld gebruik maken van 
-        <a href="{{data.global.formattedTemplateDoc}}" target="_blank">dit</a> begrotingsformulier.
-        </p>
-      {% endif %}
+<div class="form-group">
+  <div id="documentUpload">
+    {% if data.global.templateDoc %}
+    <p class="resource-summary">
+      U kunt bijvoorbeeld gebruik maken van
+      <a href="{{data.global.formattedTemplateDoc}}" target="_blank">dit</a>
+      begrotingsformulier.
+    </p>
+    {% endif %}
 
     <fieldset class="filepondFieldset docs">
-      <input 
-        type="file" 
-        name="docFilePond"  
+      <input
+        type="file"
+        name="docFilePond"
         class="docFilePond"
         multiple
         data-allow-reorder="true"
         data-max-file-size="3MB"
-        data-max-files="10"/>
+        data-max-files="10"
+      />
     </fieldset>
-    <input type="hidden" name="username" value="{{data.openstadUser.displayName}}"/>
+    <input
+      type="hidden"
+      name="username"
+      value="{{data.openstadUser.displayName}}"
+    />
 
     {% if activeResource.extraData.budgetDocuments %}
     <div class="form-group">
@@ -32,29 +37,34 @@
         <div class="col-sm-2">
           <h4>Datum</h4>
         </div>
-        <div class="col-sm-1">
-        </div>
+        <div class="col-sm-1"></div>
       </div>
       {% for budgetDoc in activeResource.extraData.budgetDocuments %}
-        <div  class="row filepond-uploaded-item">
-          <div class="col-sm-6">
-            <a href="{{budget.url}}" download="{{budget.name}}" target="_blank">
-              <p class="elipsize">{{budgetDoc.name}}</p>
-            </a>
-          </div>
-          <div class="col-sm-3">
-            <p>{{budgetDoc.username}}</p>
-          </div>
-            <div class="col-sm-2">
-              <p>{{budgetDoc.date  | date('YYYY-MM-DD') }} </p>
-            </div>
-            <div class="col-sm-1">
-              <button type="button" onclick="deleteBudgetDocument('{{budgetDoc.name}}','{{budgetDoc.date}}', '{{activeResource.id}}', '{{data.siteUrl}}')">  
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik0xOCA2IDYgMTgiLz48cGF0aCBkPSJtNiA2IDEyIDEyIi8+PC9zdmc+"/>        
-              </button>
-            </div>
-          </div>
-          {% endfor %}
-    {% endif %}
-    <div>
+      <div class="row filepond-uploaded-item">
+        <div class="col-sm-6">
+          <a href="{{budget.url}}" download="{{budget.name}}" target="_blank">
+            <p class="elipsize">{{budgetDoc.name}}</p>
+          </a>
+        </div>
+        <div class="col-sm-3">
+          <p>{{budgetDoc.username}}</p>
+        </div>
+        <div class="col-sm-2">
+          <p>{{budgetDoc.date | date('YYYY-MM-DD') }}</p>
+        </div>
+        <div class="col-sm-1">
+          <button
+            type="button"
+            onclick="deleteBudgetDocument('{{budgetDoc.name}}','{{budgetDoc.date}}', '{{activeResource.id}}', '{{data.siteUrl}}')"
+          >
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXgiPjxwYXRoIGQ9Ik0xOCA2IDYgMTgiLz48cGF0aCBkPSJtNiA2IDEyIDEyIi8+PC9zdmc+"
+            />
+          </button>
+        </div>
+      </div>
+      {% endfor %} {% endif %}
+      <div></div>
+    </div>
   </div>
+</div>
