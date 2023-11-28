@@ -22,6 +22,16 @@ apos.define('resource-form-widgets', {
         FilePond.registerPlugin(FilePondPluginFilePoster);
         FilePond.registerPlugin(FilePondPluginImageExifOrientation);
 
+        // Fix for making sure uploadedfiles are delivered
+        var uploadedFilesInternal;
+
+        try {
+          uploadedFiles;
+          uploadedFilesInternal = uploadedFiles;
+        } catch (e) {
+          uploadedFilesInternal = [];
+        }
+
         var filePondSettings = function (options) {
           return Object.assign(
             {},
@@ -33,7 +43,7 @@ apos.define('resource-form-widgets', {
               name: 'image',
               maxFiles: 5,
               allowBrowse: true,
-              files: uploadedFiles,
+              files: uploadedFilesInternal,
               server: {
                 process: window.siteUrl + '/image',
                 fetch: window.siteUrl + '/fetch-image?img=',
@@ -92,7 +102,7 @@ apos.define('resource-form-widgets', {
                   'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
                   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
                   '.ppt',
-                  '.pptx'
+                  '.pptx',
                 ],
                 server: undefined,
                 labelIdle:
@@ -202,70 +212,92 @@ apos.define('resource-form-widgets', {
             : lengthValue;
         };
 
-        var validator = $(ideaForm).validate({
-          ignore: '',
-          rules: {
-            ignore: [],
+        // Default set of rules
+        var rules = {
+          ignore: [],
 
-            title: {
-              required: true,
-              minlength: titleMinLength,
-              maxlength: titleMaxLength,
+          title: {
+            required: true,
+            minlength: titleMinLength,
+            maxlength: titleMaxLength,
+          },
+          summary: {
+            minlength: function (element) {
+              return conditionalLength(element, 'minlength', summaryMinLength);
             },
-            summary: {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(
-                  element,
-                  'minlength',
-                  summaryMinLength
-                );
-              },
-              maxlength: summaryMaxLength,
+            maxlength: summaryMaxLength,
+          },
+          description: {
+            minlength: function (element) {
+              return conditionalLength(
+                element,
+                'minlength',
+                descriptionMinLength
+              );
             },
-            description: {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(
-                  element,
-                  'minlength',
-                  descriptionMinLength
-                );
-              },
-              maxlength: descriptionMaxLength,
-            },
-            validateImages: {
-              validateFilePond: true,
-              validateFilePondProcessing: true,
-            },
-            validateBudgetDocs: {
-              validateDocFilePond: true,
-              validateDocFilePondProcessing: true,
-            },
-            firstName: {
-              required: true,
-            },
-            lastName: {
-              required: true,
-            },
-            postcode: {
-              required: false,
-              minlength: 1, // <- here
-              postcodeNL: true,
-            },
-            'extraData[phone]': {
-              required: conditionalRequired,
-              minlength: function (element) {
-                return conditionalLength(element, 'minlength', 10);
-              },
-            },
-            'extraData[area]': {
-              required: conditionalRequired,
-            },
-            'extraData[theme]': {
-              required: conditionalRequired,
+            maxlength: descriptionMaxLength,
+          },
+          validateImages: {
+            validateFilePond: true,
+            validateFilePondProcessing: true,
+          },
+          validateBudgetDocs: {
+            validateDocFilePond: true,
+            validateDocFilePondProcessing: true,
+          },
+          firstName: {
+            required: true,
+          },
+          lastName: {
+            required: true,
+          },
+          postcode: {
+            required: false,
+            minlength: 1, // <- here
+            postcodeNL: true,
+          },
+          'extraData[phone]': {
+            minlength: function (element) {
+              return conditionalLength(element, 'minlength', 10);
             },
           },
+        };
+
+        // Get all required fields in the form and make them concept aware - skipping title because that one is always required
+        const form = document.querySelector('#formulier-block form');
+        var requiredInputs = Array.from(
+          form ? form.querySelectorAll(':scope *[required]') : []
+        ).filter(function (i) {
+          return i.name !== 'title';
+        });
+
+        const fieldsMadeConceptAware = requiredInputs.reduce(function (
+          obj,
+          item
+        ) {
+          var extendingObject = {};
+          extendingObject[item.name] = { required: conditionalRequired };
+          return Object.assign({}, obj, extendingObject);
+        },
+        {});
+
+        var keys = Object.keys(rules);
+
+        for (var i = 0; i < keys.length; i++) {
+          var name = keys[i];
+          if (fieldsMadeConceptAware[name]) {
+            fieldsMadeConceptAware[name] = Object.assign(
+              rules[name],
+              fieldsMadeConceptAware[name]
+            );
+          }
+        }
+        rules = Object.assign(rules, fieldsMadeConceptAware);
+
+        var validator = $(ideaForm).validate({
+          ignore: '',
+          rules: rules,
+
           submitHandler: function (form) {
             const publishField = $('#publishAsConcept');
             const oldButtonValues = [];
