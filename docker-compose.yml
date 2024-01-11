@@ -1,0 +1,34 @@
+version: '3.1'
+services:
+  frontend:
+    image: ${REGISTRY:-localhost:5001}/${REPOSITORY:-opdrachten/openstad-frontend}:${VERSION:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4444:4444"
+    networks:
+      - database
+    environment:
+      PORT: "4444"
+      DB_HOST: "mongo"
+      MONGO_DB_HOST: "mongo"
+      DB_PORT: "27017"
+      SITE_API_KEY: "r23y878bt627yn8ru39"
+      API: "http://localhost:8111"
+    restart: unless-stopped
+  
+  mongo:
+    image: 'mongo:latest'
+    volumes:
+      - 'mongo:/data/db'
+    ports:
+      - '27017:27017'
+    networks:
+      - database
+
+volumes:
+  mongo:
+
+networks:
+  database:
