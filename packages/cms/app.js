@@ -55,6 +55,12 @@ const aposServer = {};
 
 app.use(express.static('public'));
 
+app.use(function(req, res, next) {
+    console.log({
+        headers: req.headers
+    })
+    next()
+})
 
 app.set('trust proxy', true);
 
