@@ -43,7 +43,7 @@ let sites = {};
 let sitesById = {};
 let sitesResponse = [];
 const aposStartingUp = {};
-const REFRESH_SITES_INTERVAL =  60000 * 5;
+const REFRESH_SITES_INTERVAL =  60000 * 15;
 
 
 if (process.env.REQUEST_LOGGING === 'ON') {

@@ -21,12 +21,19 @@ module.exports = async function(self, options) {
               await self.addOrUpdateNotification(item, 'User');
             } catch (error) {
               console.error(
-                'something went wrong when update admin confirmation settings to api',
+                'something went wrong when update user confirmation settings to api',
                 error.message
               );
             }
           } else {
-            await self.disableNotificationRuleSet(`User-${item.formName}`);
+            try {
+              await self.disableNotificationRuleSet(`User-${item.formName}`);
+            } catch (error) {
+              console.error(
+                'something went wrong when disabling user confirmation settings to api',
+                error.message
+              );
+            }
           }
 
           if (item.confirmationEnabledAdmin) {
@@ -39,7 +46,14 @@ module.exports = async function(self, options) {
               );
             }
           } else {
-            await self.disableNotificationRuleSet(`Admin-${item.formName}`);
+            try {
+              await self.disableNotificationRuleSet(`Admin-${item.formName}`);
+            } catch (error) {
+              console.error(
+                'something went wrong when disabling admin confirmation settings to api',
+                error.message
+              );
+            }
           }
         }
       })
