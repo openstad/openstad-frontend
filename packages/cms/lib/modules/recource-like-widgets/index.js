@@ -68,8 +68,13 @@ module.exports = {
         const promises = widgets.map(async (widget) => {
           let resource = {};
           if (widget.ideaId) {
-            resource = await self.apos.openstadApi.getResource(req, req.data.global.siteId, 'idea', widget.ideaId, {}, true);
-            widget.ajaxError = null;
+            try {
+              resource = await self.apos.openstadApi.getResource(req, req.data.global.siteId, 'idea', widget.ideaId, {}, true);
+              widget.ajaxError = null;
+            } catch(e) {
+              console.error("Fetching the idea did not work, it could be that the given id did not match any idea")
+            }
+          
           } else {
             resource = req.data.activeResource || {};
           }
