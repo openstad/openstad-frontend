@@ -1,60 +1,104 @@
 apos.on('ready', function () {
+    var firstTimeLoading = true;
     var nodes = [];
-    var selectedLanguage = localStorage.getItem("targetLanguageCode");
-
-    /** 
-     * The translate widget if set on the page will trigger an onchange event when it has been loaded
-     * thus triggering the fetching of translations. Then this one should do nothing and let the dedicated 
-     * widget make the call.
-     */    
-    var translationWidgetOnSamePage = $('.translation-widget-select').length > 0;
-
-    var userHasSpecialRole = hasModeratorRights; // references global var specified in layout.js'; 
-    var shouldTranslate = shouldTranslateOnEveryPage; // references global var specified in layout.js'; 
-    var toastContainer = document.querySelector("#openstad-toast");
-
-    if(shouldTranslate) {
-        if (!userHasSpecialRole && !translationWidgetOnSamePage && selectedLanguage && selectedLanguage !== 'nl') {
-            addToast(toastContainer, "info", "De pagina wordt vertaald...", 3000);
+    var nlContents = [];
     
-            nodes = handleNode(document.body, nodes);
-            var nlContents = nodes.map(function (itemToTranslate) { return itemToTranslate.orgText });
+    var languageSelectContainer = $('.language-select-container');
+
+    $('#translation-widget-select-global')
+        .on('change', function (e) { 
+            changeLanguage(e);
+        });
+
+    function setSelectDisabled(select) {
+        select.setAttribute('disabled', true);
+        languageSelectContainer.addClass('languageLoading');
+    };
+
+    function setSelectEnabled(select) {
+        select.removeAttribute('disabled');
+        languageSelectContainer.removeClass('languageLoading');
+    };
+
+    function saveLanguagePreference(targetLanguageCode) {
+        try{
+            localStorage.setItem("targetLanguageCode", targetLanguageCode);
+        } catch(quotaExceededError) {
+            console.log("Could not save the language preference");
+        }
+    }
+
+
+
+    function changeLanguage (e) {
+        var select = e.target;
+        var targetLanguageCode = select.value;
+        setSelectDisabled(select);
+        var node = document.body;
+
+        if (firstTimeLoading) {
+            nodes = handleNode(node, nodes);
+          nlContents = nodes.map(function(itemToTranslate) { return itemToTranslate.orgText });
+            firstTimeLoading = false;
+        }
+
+        if (targetLanguageCode === 'nl') {
+            console.log("Language is set to the default: " + targetLanguageCode +". No need to translate");
+            changeTextInNodes(nlContents, nodes);
+            setSelectEnabled(select);
+            saveLanguagePreference(targetLanguageCode);
+            syncOtherTranslationWidgets(targetLanguageCode);
+        } else {
+            console.log('translating to', targetLanguageCode);
+
+            var toastContainer = document.querySelector("#openstad-toast");
+            addToast(toastContainer, "info", "De pagina wordt vertaald...", 5000);
+
             $.ajax({
-                url: '/modules/openstad-global/translate',
-                method: 'post',
+                url: '/modules/translation-widgets/submit',
+                method: 'POST',
                 contentType: "application/json",
                 data: JSON.stringify({
                     contents: nlContents,
                     sourceLanguageCode: 'nl',
-                    targetLanguageCode: selectedLanguage,
+                    targetLanguageCode: targetLanguageCode,
                     origin: window.location.href
                 }),
                 success: function (sentences) {
-                    sentences = sentences.map(function (sentence) { return sentence.text });
+                    saveLanguagePreference(targetLanguageCode);
+                    sentences = sentences.map(function(sentence) { return sentence.text });
                     changeTextInNodes(sentences, nodes);
+                    setSelectEnabled(select);
                     addToast(toastContainer, "success", "De pagina is succesvol vertaald");
-                },
+                    syncOtherTranslationWidgets(targetLanguageCode);
+                }, 
                 error: function() {
+                    setSelectEnabled(select);
+                    // setSelectedLanguage('nl');
                     addToast(toastContainer, "error", "De pagina kon niet worden vertaald");
                 }
             });
-        } else if(userHasSpecialRole) {
-            if(!sessionStorage.getItem("cannot-translate-acknowledged")) {
-                addToast(toastContainer, "info", "De vertaalwidget kan niet worden gebruikt tijdens het bewerken van de site.", 0, function() {
-                    sessionStorage.setItem("cannot-translate-acknowledged", true);
-                });
-            }
         }
+    };
+
+
+    var select = document.querySelector('#translation-widget-select-global');
+    var isNormalUser = !hasModeratorRights; // references global var specified in layout.js
+    if(isNormalUser) {
+        setSelectedLanguage(localStorage.getItem('targetLanguageCode'));
+    } else if(select) {
+        select.setAttribute('disabled', true);
     }
 });
 
-changeTextInNodes = function (sentences, nodes) {
+
+function changeTextInNodes (sentences, nodes) {
     sentences.forEach(function (sentence, index) {
         nodes[index].node.textContent = sentence;
     });
 }
 
-handleNode = function (node, toBeTranslated) {
+function handleNode (node, toBeTranslated) {
     var childNodes = node.childNodes;
     for (var i = 0; i < childNodes.length; i++) {
         if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
@@ -118,4 +162,16 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
             }, timeout);
         }
     }
+
+  
+}
+
+function setSelectedLanguage(language) {
+    $('#translation-widget-select-global').val(language ? language : 'nl').trigger('change');
+}
+
+function syncOtherTranslationWidgets(language) {
+    document.querySelectorAll("#translation-widget-select").forEach(function(select) { 
+        select.value = language ? language : 'nl';
+    });
 }

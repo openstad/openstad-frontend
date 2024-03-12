@@ -80,7 +80,6 @@
  var authServerLogoutUrl = '{{apos.settings.getOption('apiLogoutUrl')}}';
  var openstadUserRole = '{{data.openstadUser.role}}';
  var hasModeratorRights = {{'true' if data.hasModeratorRights else  'false'}};
- var shouldTranslateOnEveryPage = '{{data.global.shouldAutoTranslate}}' === 'true';
  var currentPath = '{{data.currentPath}}';
  var siteUrl = '{{data.siteUrl}}';
  var currentPathname = '{{data.currentPathname}}';
@@ -166,13 +165,16 @@
         <div class="header-side-container {{ 'without-site-title' if data.global.hideSiteTitle}}">
           <div class="row">
             {% if not data.global.hideSiteTitle %}
-            <div class="col-sm-7 col-md-6 col-xs-12">
+            <div class="col-sm-6 col-md-6 col-xs-12">
               <h2 class="header-subtitle">
                 {{data.global.siteTitle}}
               </h2>
             </div>
             {% endif %}
-            <div class="{{ 'col-xs-12' if data.global.hideSiteTitle else 'col-sm-5 col-md-6' }}  hidden-xs">
+
+
+
+            <div class="{{ 'col-xs-12' if data.global.hideSiteTitle else 'col-sm-5 col-md-5' }}  hidden-xs">
               {% if data.global.topLinks or data.global.displayLoginTopLink %}
               <ul class="top-links">
                 {% if data.global.displayLoginTopLink %}
@@ -207,6 +209,22 @@
               </ul>
               {% endif %}
             </div>
+
+
+            {% if data.global.translateInMenu %}
+              <div class="{{ 'col-xs-2' if data.global.hideSiteTitle else 'col-sm-1 col-md-1' }}  hidden-xs">
+                <ul class="top-links">
+                  <select translate="no" id="translation-widget-select-global" class="translation-widget-select compact" selected="nl">
+                    {% for language in data.global.languages %}
+                    {% if language.code === 'nl' %}
+                      <option translate="no" value="{{language.code}}" selected='selected' class="translation-widget-select-option">{{language.code}}</option>      
+                    {% else %}
+                      <option translate="no" value="{{language.code}}" class="translation-widget-select-option">{{language.code}}  </option>
+                    {% endif %}
+                  {% endfor %}
+                  </select>
+              </div>
+            {% endif %}
           </div>
         </div>
         {% if data.global.translations and data.global.translations.length > 0 %}
