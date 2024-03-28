@@ -12,6 +12,7 @@ module.exports = {
       shortName: shortName,
       prefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
       modules: {
+        'apostrophe-profiler': {},
         'api-proxy': {
           sitePrefix: siteData.sitePrefix ? '/' + siteData.sitePrefix : false,
         },
