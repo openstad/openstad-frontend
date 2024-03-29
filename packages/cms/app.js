@@ -62,8 +62,8 @@ async function restartAllSites() {
     const sites = Object.keys(aposServer);
     const promises = sites.map(site => {
         const url = new URL('http://' + site);
-        let resetUrl = `http://localhost:${process.env.PORT}${url.pathname}/config-reset`;
-        resetUrl = resetUrl.replace('//', '/');
+        let resetUrl = `http://localhost:${process.env.PORT}`;
+        resetUrl += `${url.pathname}/config-reset`.replace('//', '/');
         return fetch(resetUrl,{
             headers: {
                 Host: url.hostname
