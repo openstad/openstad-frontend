@@ -91,8 +91,8 @@ module.exports = [
   },
   {
     type: 'boolean',
-    name: 'shouldAutoTranslate',
-    label: 'Try to translate each page on entering',
+    name: 'translateInMenu',
+    label: 'The translate widget should be visible in the menubar',
     def: false,
     choices: [
       {
