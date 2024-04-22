@@ -93,7 +93,7 @@ module.exports = [
     type: 'boolean',
     name: 'translateInMenu',
     label: 'The translate widget should be visible in the menubar',
-    def: false,
+    def: true,
     choices: [
       {
         label: 'Yes',
