@@ -23,7 +23,7 @@ apos.on('ready', function () {
   }
 });
 
-function changeLanguage(e, nodes = [], nlContents = []) {
+function changeLanguage(e, nodes, nlContents) {
   var select = e.target;
   var targetLanguageCode = select.value;
   setSelectDisabled(select);
@@ -107,7 +107,11 @@ function changeTextInNodes(sentences, nodes) {
   });
 }
 
-function handleNode(toBeTranslated, node = document.body) {
+function handleNode(toBeTranslated, node) {
+  if (!node) {
+    node = document.body;
+  }
+
   var childNodes = node.childNodes;
   for (var i = 0; i < childNodes.length; i++) {
     if (childNodes[i].nodeType == Node.ELEMENT_NODE) {
@@ -175,24 +179,27 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
 
 // If there is a global select, let it handle managing the state of all translation-selects. If not the translation widget has already done its work, just update the other translation widgets
 function setSelectedLanguage(language) {
-    const globalLangSelect = $('#translation-widget-select-global');
-    if(globalLangSelect.length) {
-        $('#translation-widget-select-global')
-        .val(language ? language : 'nl')
-        .trigger('change');
-    } else {
-        syncOtherTranslationWidgets(language);
+  var globalLangSelect = $('#translation-widget-select-global');
+  if (globalLangSelect.length) {
+    $('#translation-widget-select-global')
+      .val(language ? language : 'nl')
+      .trigger('change');
+  } else {
+    syncOtherTranslationWidgets(language);
+    var lastSelect = $('#translation-widget-select:last');
+    if (lastSelect.length) {
+      lastSelect.val(language ? language : 'nl').trigger('change');
     }
- 
+  }
 }
 
 function syncGlobalTranslationWidgets(language) {
-    document
-      .querySelectorAll('#translation-widget-select-global')
-      .forEach(function (select) {
-        select.value = language ? language : 'nl';
-      });
-  }
+  document
+    .querySelectorAll('#translation-widget-select-global')
+    .forEach(function (select) {
+      select.value = language ? language : 'nl';
+    });
+}
 
 function syncOtherTranslationWidgets(language) {
   document
