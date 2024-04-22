@@ -15,7 +15,9 @@ apos.define('translation-widgets', {
         translatedFirstTimeLoadingGlobal = false;
       }
 
-      if (!$('#translation-widget-select-global')) {
+      var globalSelect = $('#translation-widget-select-global');
+      
+      if (!globalSelect.length) {
         changeLanguage(e, translationNodesGlobal, traslationNlContentsGlobal);
       } else {
         setSelectedLanguage(e.target.value);

@@ -176,7 +176,7 @@ function addToast(container, typeOfInfoErrorOrSuccess, text, timeout, onClick) {
 // If there is a global select, let it handle managing the state of all translation-selects. If not the translation widget has already done its work, just update the other translation widgets
 function setSelectedLanguage(language) {
     const globalLangSelect = $('#translation-widget-select-global');
-    if(globalLangSelect) {
+    if(globalLangSelect.length) {
         $('#translation-widget-select-global')
         .val(language ? language : 'nl')
         .trigger('change');
