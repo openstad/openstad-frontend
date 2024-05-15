@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   frontend:
-    image: ${REGISTRY:-localhost:5001}/${REPOSITORY:-opdrachten/openstad-frontend}:${VERSION:-latest}
+    image: ${REGISTRY:-127.0.0.1:5001}/${REPOSITORY:-opdrachten/openstad-frontend}:${VERSION:-latest}
     build:
       context: .
       dockerfile: Dockerfile
