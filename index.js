@@ -6,8 +6,14 @@ require('dotenv').config();
 
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
   console.log(`Staring Application Insights`)
-  appInsights.setup();
-  appInsights.start();
+  appInsights.setup()
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoDependencyCorrelation(true)
+    .setUseDiskRetryCaching(true)
+    .start();
 }
 
 var apos = openstadCms.site({
