@@ -78,6 +78,10 @@ RUN mkdir -p /home/app/public/uploads/assets
 # otherwise takes very long
 RUN chown -R node:node /home/app/public
 RUN chown -R node:node /home/app/data
+
+# Make the generate-assets script executable
+RUN chmod +x generate_assets_with_static_filenames.sh
+
 USER node
 
 # Exposed ports for application

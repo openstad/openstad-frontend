@@ -49,7 +49,7 @@
 
 {% if data.global.stylesheets %}
 {% for stylesheet in data.global.stylesheets %}
-<link rel="stylesheet" href="{{stylesheet.url}}?{data.assetsGeneration}}">
+<link rel="stylesheet" href="{{stylesheet.url}}?{{data.assetsGeneration}}">
 {% endfor %}
 {% endif %}
 
