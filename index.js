@@ -6,6 +6,7 @@ require('dotenv').config();
 
 if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
   console.log(`Staring Application Insights`)
+  appInsights.setup();
   appInsights.start();
 }
 
