@@ -1,6 +1,13 @@
+let appInsights = require('applicationinsights');
+
 const openstadCms = require('@openstad/cms');
 
 require('dotenv').config();
+
+if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
+  console.log(`Staring Application Insights`)
+  appInsights.start();
+}
 
 var apos = openstadCms.site({
   bundles: ['@openstad/cms'],
