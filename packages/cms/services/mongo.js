@@ -57,16 +57,16 @@ exports.dbExists = async (dbName) => {
           deprecationErrors: true
         }
       })
-      await mongoClient.connect((err, client) => {
+      mongoClient.connect((err, client) => {
         if (err) {
           reject(err);
         } else {
           var adminDb = client.db().admin();
           // List all the available databases
-          adminDb.listDatabases(function(err, dbs) {
+          adminDb.listDatabases(function (_err, dbs) {
             const found = dbs.databases.find(dbObject => dbName === dbObject.name);
             client.close();
-            resolve(!!found)
+            resolve(!!found);
           });
         }
       });
