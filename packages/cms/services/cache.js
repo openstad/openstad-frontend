@@ -1,4 +1,6 @@
-const fileCache = require('node-file-cache').create();  // default configuration
+const fileCache = require('node-file-cache').create({
+  file: "/tmp/node-file-cache"
+});
 const memCache  = require('memory-cache');
 const useFileCache = false;
 // de api van deze cache service is die van node-file-cache, want dat wordt overal gebruikt.

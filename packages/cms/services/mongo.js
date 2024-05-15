@@ -1,4 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 function getConnectionString (database) {
   // Allow the connection string builder to be overridden by an environment variable
@@ -47,24 +47,31 @@ exports.copyMongoDb = (oldDbName, newDbName) => {
   });
 }
 
-exports.dbExists = (dbName) => {
-  return new Promise((resolve, reject) => {
-    MongoClient.connect(getConnectionString(), (err, db) => {
-      if (err) {
-        reject(err);
-      } else {
-        var adminDb = db.admin();
-        // List all the available databases
-        adminDb.listDatabases(function(err, dbs) {
-        /*  console.log('---> err', err);
-          console.log('---> dbs.dbName', dbName);
-          console.log('---> dbs.databases', dbs.databases);
-          */
-          const found = dbs.databases.find(dbObject => dbName === dbObject.name);
-          db.close();
-          resolve(!!found)
-        });
-      }
-    });
-  });
+exports.dbExists = async (dbName) => {
+  return async (resolve, reject) => {
+    try {
+      const mongoClient = new MongoClient(getConnectionString(), {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true
+        }
+      })
+      mongoClient.connect((err, client) => {
+        if (err) {
+          reject(err);
+        } else {
+          var adminDb = client.db().admin();
+          // List all the available databases
+          adminDb.listDatabases(function (_err, dbs) {
+            const found = dbs.databases.find(dbObject => dbName === dbObject.name);
+            client.close();
+            resolve(!!found);
+          });
+        }
+      });
+    } catch (err) {
+      console.log(`==> Error afgevangen: ${err}`)
+    }
+  };
 }

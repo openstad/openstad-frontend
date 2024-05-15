@@ -227,6 +227,9 @@ async function run(id, siteData, options, callback) {
         assetsIdentifier = firstSite.assets.generation;
     }
 
+    // Overwrite assetsIdentifier if env var is set, for a static filename for the minified .css and .js files
+    assetsIdentifier = process.env.STATIC_ASSETS_FILENAME_CONSTANT ? process.env.STATIC_ASSETS_FILENAME_CONSTANT : assetsIdentifier
+
     const siteConfig = defaultSiteConfig.get(site._id, config, assetsIdentifier);
 
     siteConfig.afterListen = function () {
