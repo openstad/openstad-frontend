@@ -25,7 +25,12 @@ module.exports = {
           label: 'Description',
           widgetType: 'apostrophe-rich-text',
           options: contentWidgets['apostrophe-rich-text'] || {}
-          
+        },
+        {
+          type: 'string',
+          name: 'actionText',
+          label: 'Description (legacy, prefer the rich-text field if possible as this option could be removed in future updates)',
+          textarea: true
         }
       ]
     },
