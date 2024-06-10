@@ -10,7 +10,7 @@ if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     .setAutoCollectRequests(true)
     .setAutoCollectPerformance(true)
     .setAutoCollectExceptions(true)
-    .setAutoCollectDependencies(true)
+    .setAutoCollectDependencies(false)
     .setAutoDependencyCorrelation(true)
     .setUseDiskRetryCaching(true)
     .start();
