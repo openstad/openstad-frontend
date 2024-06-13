@@ -387,7 +387,7 @@
             {% else %}
             <a href="{{data.siteUrl}}/oauth/login"  role="button">
               <!-- <span class="glyphicon glyphicon-user"></span>  !-->
-              {{ __('Mijn account') }}
+              {% if data.global.myAccountButtonText %} {{ data.global.myAccountButtonText | safe }} {% else %} {{ __('Mijn Account') }} {% endif %}
             </a>
             {% endif %}
           </div>
