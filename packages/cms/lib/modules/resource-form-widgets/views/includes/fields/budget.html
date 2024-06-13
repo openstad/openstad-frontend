@@ -5,6 +5,5 @@
   name="budget"
   {% if field and field.fieldRequired %}required{% endif %}
   {% if data.widget.displayBudget and data.widget.requireBudget %}required{% endif %}
-
-  value="{{activeResource.budget}}"
+  value="{{activeResource.budget or activeResource.extraData.budget}}"
 />
