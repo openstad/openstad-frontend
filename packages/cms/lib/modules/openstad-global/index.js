@@ -29,7 +29,6 @@ async function getSupportedLanguages(deeplAuthKey) {
       supportedLanguages = cache.get(cacheKeyForLanguages);
   }
   else if (deeplAuthKey) {
-    console.log({deeplAuthKey})
       try {
           const translator = new deepl.Translator(deeplAuthKey, translatorConfig);
           await translator.getTargetLanguages().then(response => {
@@ -69,7 +68,6 @@ async function getSupportedLanguages(deeplAuthKey) {
   } else {
       console.error({translationError: "Could not fetch languages for the translation widget: Key not set"});
   }
-  console.log("deeplAuthKey")
   return supportedLanguages;
 }
 
