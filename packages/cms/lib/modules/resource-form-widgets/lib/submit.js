@@ -8,235 +8,218 @@ const fileType = require('file-type');
 const upload = multer();
 
 module.exports = async function (self, options) {
-  // Almost identical  to proxy,
-  // Server side validation is done by the API
-  // In future form can probably talk directly with api proxy,
-  // Only images need to be refactored
-  self.route(
-    'post',
-    'submit',
-    upload.any('docFilePond'),
-    async function (req, res) {
-      const sessionSecret = process.env.SESSION_SECRET;
-      res.setHeader('Content-Type', 'application/json');
+    // Debounce function to prevent multiple submissions
+    const debounce = (func, wait) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    };
 
-      eventEmitter.emit('resourceCrud');
-      const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
-      const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
-      const siteId = req.data.global.siteId;
+    // Form submission handler
+    const handleSubmit = async (req, res) => {
+        const sessionSecret = process.env.SESSION_SECRET;
+        res.setHeader('Content-Type', 'application/json');
 
-      const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
+        eventEmitter.emit('resourceCrud');
+        const apiUrl = self.apos.settings.getOption(req, 'apiUrl');
+        const siteUrl = self.apos.settings.getOption(req, 'siteUrl');
+        const siteId = req.data.global.siteId;
 
-      /**
-       * Format headerr
-       */
-      const httpHeaders = {
-        Accept: 'application/json',
-      };
+        const postUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}`;
+        const getUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}/${req.body.resourceId}`;
 
-      if (req.session.jwt) {
-        httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
-      }
-      const data = req.body;
-      data.extraData = data.extraData ? data.extraData : {};
+        const httpHeaders = {
+            Accept: 'application/json',
+        };
 
-      const appendFilesToResource = async (resourceId) => {
-        const getUrl = `${apiUrl}/api/site/${siteId}/${req.body.resourceEndPoint}/${resourceId}`;
+        if (req.session.jwt) {
+            httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
+        }
+        const data = req.body;
+        data.extraData = data.extraData ? data.extraData : {};
 
         if (req.files) {
-          const promises = [];
-          req.files.forEach((file, i) => {
-            const attachmentsPath =
-              'public/uploads/attachments/resource-form-uploads/' + resourceId;
-  
-            const nameHash = createHash('sha256')
-              .update(sessionSecret + Date.now().toString(), 'utf8')
-              .digest('hex');
-  
-            const path = `${attachmentsPath}/${nameHash}`;
-  
-            if (fs.existsSync(attachmentsPath) === false) {
-              fs.mkdirSync(attachmentsPath, { recursive: true });
-            }
-  
-            promises.push(
-              new Promise((resolve, reject) => {
-                const fileCopy = { name: file.originalname, url: path };
-                // existing files are ignored; it  is more then likely the same file
-                fs.access(path, fs.constants.F_OK, (err) => {
-                  if (!err) {
-                    return resolve(fileCopy);
-                  }
-  
-                  fileType
-                    .fromBuffer(file.buffer)
-                    .then((type) => {
-                      const isAllowed = [
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'application/vnd.ms-excel',
-                        'application/pdf',
-                        'application/msword',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        '.docx',
-                        '.doc',
-                        'application/vnd.ms-powerpoint',
-                        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                        '.ppt',
-                        '.pptx'
-                      ].includes(type.mime);
-  
-                      if (isAllowed) {
-                        console.log('Create file', file.originalname);
-                        fs.writeFile(path, file.buffer, (err) => {
-                          err ? reject(err) : resolve(fileCopy);
+            const promises = [];
+            req.files.forEach((file, i) => {
+                const attachmentsPath =
+                    'public/uploads/attachments/resource-form-uploads/' +
+                    req.body.resourceId;
+
+                const nameHash = createHash('sha256')
+                    .update(sessionSecret + Date.now().toString(), 'utf8')
+                    .digest('hex');
+
+                const path = `${attachmentsPath}/${nameHash}`;
+
+                if (fs.existsSync(attachmentsPath) === false) {
+                    fs.mkdirSync(attachmentsPath, { recursive: true });
+                }
+
+                promises.push(
+                    new Promise((resolve, reject) => {
+                        const fileCopy = { name: file.originalname, url: path };
+                        fs.access(path, fs.constants.F_OK, (err) => {
+                            if (!err) {
+                                return resolve(fileCopy);
+                            }
+
+                            fileType
+                                .fromBuffer(file.buffer)
+                                .then((type) => {
+                                    const isAllowed = [
+                                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                        'application/vnd.ms-excel',
+                                        'application/pdf',
+                                        'application/msword',
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                        '.docx',
+                                        '.doc',
+                                        'application/vnd.ms-powerpoint',
+                                        'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+                                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                                        '.ppt',
+                                        '.pptx'
+                                    ].includes(type.mime);
+
+                                    if (isAllowed) {
+                                        console.log('Create file', file.originalname);
+                                        fs.writeFile(path, file.buffer, (err) => {
+                                            err ? reject(err) : resolve(fileCopy);
+                                        });
+                                    } else {
+                                        reject(new Error('File type not allowed'));
+                                    }
+                                })
+                                .catch(() => reject(new Error('File type not allowed')));
                         });
-                      } else {
-                        reject(new Error('File type not allowed'));
-                      }
                     })
-                    .catch(() => reject(new Error('File type not allowed')));
-                });
-              })
-            );
-          });
-  
-          try {
-            const results = await Promise.all(promises);
-            let files = results.map((file) =>
-              Object.assign(
-                {},
-                {
-                  ...file,
-                  url: file.url.replace('public', siteUrl),
-                  date: Date.now(),
-                  username: data.username,
-                }
-              )
-            );
-  
-            const httpHeaders = {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            };
-  
-            if (req.session.jwt) {
-              httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
-            }
-  
-            if (resourceId) {
-              const response = await fetch(getUrl, {
-                headers: httpHeaders,
-              });
-  
-              if (response.ok) {
-                const idea = await response.json();
-  
-                if (idea.extraData && idea.extraData.budgetDocuments) {
-                  try {
-                    const existingIdeaBudgets = JSON.parse(
-                      idea.extraData.budgetDocuments
-                    );
-                    files = files.concat(existingIdeaBudgets);
-                  } catch (e) {}
-                }
-              }
-            }
+                );
+            });
+
             try {
-              data.extraData.budgetDocuments = JSON.stringify(files);
-            } catch (e) {
-              console.error('Budget documenten konden niet worden geupload');
+                const results = await Promise.all(promises);
+                let files = results.map((file) =>
+                    Object.assign(
+                        {},
+                        {
+                            ...file,
+                            url: file.url.replace('public', siteUrl),
+                            date: Date.now(),
+                            username: data.username,
+                        }
+                    )
+                );
+
+                const httpHeaders = {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                };
+
+                if (req.session.jwt) {
+                    httpHeaders['X-Authorization'] = `Bearer ${req.session.jwt}`;
+                }
+
+                if (req.body.resourceId) {
+                    const response = await fetch(getUrl, {
+                        headers: httpHeaders,
+                    });
+
+                    if (response.ok) {
+                        const idea = await response.json();
+
+                        if (idea.extraData && idea.extraData.budgetDocuments) {
+                            try {
+                                const existingIdeaBudgets = JSON.parse(
+                                    idea.extraData.budgetDocuments
+                                );
+                                files = files.concat(existingIdeaBudgets);
+                            } catch (e) {}
+                        }
+                    }
+                }
+                try {
+                    data.extraData.budgetDocuments = JSON.stringify(files);
+                } catch (e) {
+                    console.error('Budget documenten konden niet worden geupload');
+                }
+            } catch (error) {
+                return res.status(400).send(
+                    JSON.stringify({
+                        msg: error.message,
+                    })
+                );
             }
-          } catch (error) {
-            return res.status(400).send(
-              JSON.stringify({
-                msg: error.message,
-              })
-            );
-          }
-        }  
-      }
+        }
 
-   
-      //format image
-      if (data.image) {
-        // when only one image filepondjs sadly just returns object, not array with one file,
-        // to make it consistent we turn it into an array
-        let images =
-          data.image && typeof data.image === 'string'
-            ? [data.image]
-            : data.image;
+        if (data.image) {
+            let images =
+                data.image && typeof data.image === 'string'
+                    ? [data.image]
+                    : data.image;
 
-        // format images
-        images = images
-          ? images.map(function (image) {
-              image = JSON.parse(image);
-              return image ? image.url : '';
+            images = images
+                ? images.map(function (image) {
+                    image = JSON.parse(image);
+                    return image ? image.url : '';
+                })
+                : [];
+
+            data.extraData.images = images;
+            delete data.image;
+        } else {
+            data.extraData.images = [];
+        }
+
+        if (req.body.resourceType === 'submission') {
+            data.submittedData = data.extraData;
+            delete data.extraData;
+        }
+
+        const options = {
+            method: req.body.resourceId ? 'PUT' : 'POST',
+            uri: req.body.resourceId
+                ? `${postUrl}/${req.body.resourceId}`
+                : postUrl,
+            headers: httpHeaders,
+            body: data,
+            json: true,
+        };
+
+        rp(options)
+            .then(function (response) {
+                res.end(
+                    JSON.stringify({
+                        id: response.id,
+                    })
+                );
             })
-          : [];
+            .catch(function (err) {
+                console.error('err', err);
+                let message = '';
+                let statusCode = 500;
 
-        // add the formatted images
-        data.extraData.images = images;
+                if (err.hasOwnProperty('error') && !Array.isArray(err.error)) {
+                    message = err.error.message;
+                    statusCode = err.statusCode;
+                } else if (err.hasOwnProperty('error')) {
+                    message = err.error[0];
+                }
 
-        //clean up data object
-        delete data.image;
-      } else {
-        data.extraData.images = [];
-      }
+                res.status(statusCode).end(
+                    JSON.stringify({
+                        msg: message,
+                    })
+                );
+            });
+    };
 
-      if (req.body.resourceType === 'submission') {
-        data.submittedData = data.extraData;
-        delete data.extraData;
-      }
-
-      if(req.body.resourceId) {
-        await appendFilesToResource(req.body.resourceId);
-      }
-
-      const options = (resourceId) => ({
-        method: resourceId ? 'PUT' : 'POST',
-        uri: resourceId
-          ? `${postUrl}/${resourceId}`
-          : postUrl,
-        headers: httpHeaders,
-        body: data,
-        json: true, // Automatically parses the JSON string in the response
-      });
-
-      rp(options(req.body.resourceId))
-        .then(async function (response) {
-          if(!req.body.resourceId) {
-            try {
-              await appendFilesToResource(response.id);
-              rp(options(response.id));
-            } catch (err) {
-              console.log("Something went wrong while uploading the files")
-            }
-          }
-          res.end(
-            JSON.stringify({
-              id: response.id,
-            })
-          );
-        })
-        .catch(function (err) {
-          console.error('err', err);
-          let message = '';
-          let statusCode = 500;
-
-          if (err.hasOwnProperty('error') && !Array.isArray(err.error)) {
-            message = err.error.message;
-            statusCode = err.statusCode;
-          } else if (err.hasOwnProperty('error')) {
-            message = err.error[0];
-          }
-
-          res.status(statusCode).end(
-            JSON.stringify({
-              msg: message,
-            })
-          );
-        });
-    }
-  );
+    // Attach the debounced handler to the route
+    self.route(
+        'post',
+        'submit',
+        upload.any('docFilePond'),
+        debounce(handleSubmit, 300)
+    );
 };
