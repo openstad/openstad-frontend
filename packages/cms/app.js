@@ -131,11 +131,11 @@ function cleanUpSites() {
 
 function serveSite(req, res, siteConfig, forceRestart) {
     const runner = Promise.promisify(run);
-    const dbName = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
+    const dbName = siteConfig && siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.dbName ? siteConfig.config.cms.dbName : '';
     const domain = siteConfig.domain;
 
     // check if this site needs to redirect. We can then skip the rest.
-    let redirectURI = siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.redirectURI;
+    let redirectURI = siteConfig && siteConfig.config && siteConfig.config.cms && siteConfig.config.cms.redirectURI;
     if (redirectURI) {
       return res.redirect(redirectURI);
     }

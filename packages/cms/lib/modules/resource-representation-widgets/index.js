@@ -52,7 +52,7 @@ module.exports = {
               widget.mapPolygons = globalData.mapPolygons;
               widget.allSites = req.allSites;
            
-              widget.countdownPeriod = siteConfig.ideas.automaticallyUpdateStatus && siteConfig.ideas.automaticallyUpdateStatus.afterXDays || 0;
+              widget.countdownPeriod = siteConfig && siteConfig.ideas && siteConfig.ideas.automaticallyUpdateStatus && siteConfig.ideas.automaticallyUpdateStatus.afterXDays || 0;
 
               widget.siteConfig = {
                   minimumYesVotes: (siteConfig && siteConfig.ideas && siteConfig.ideas.minimumYesVotes),

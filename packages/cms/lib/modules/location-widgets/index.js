@@ -50,7 +50,7 @@ module.exports = {
               }
               if (widget.siteConfig.minimumYesVotes == null || typeof widget.siteConfig.minimumYesVotes == 'undefined') widget.siteConfig.minimumYesVotes = 100;
 
-              const markerStyle = siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
+              const markerStyle = siteConfig && siteConfig.openStadMap && siteConfig.openStadMap.markerStyle ? siteConfig.openStadMap.markerStyle : null;
 
               // Todo: refactor this to get ideaId in a different way
               const ideaId = req.url
