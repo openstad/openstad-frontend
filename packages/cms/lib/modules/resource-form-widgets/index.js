@@ -271,7 +271,7 @@ module.exports = {
         };
 
         const markerStyle =
-          siteConfig.openStadMap && siteConfig.openStadMap.markerStyle
+          siteConfig && siteConfig.openStadMap && siteConfig.openStadMap.markerStyle
             ? siteConfig.openStadMap.markerStyle
             : null;
 
