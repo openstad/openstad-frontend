@@ -15,6 +15,10 @@ module.exports = {
         // console.log('options.sitePrefix on image proxy', options.sitePrefix);
 
         function checkUserMiddlware(req, res, next) {
+            console.log( "req.data.loggedIn", req.data.loggedIn );
+            console.log( "req.data", JSON.stringify(req.data) );
+            console.log( "req", JSON.stringify(req) );
+
             if (!req.data.loggedIn) return next(new Error('No user found'));  // loggedIn is created in the openstad-auth module and checked against requiredRoles = ['member', 'moderator', 'admin', 'editor'];
             return next();
         }
